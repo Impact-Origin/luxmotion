@@ -1,0 +1,314 @@
+"use client"
+
+import { CheckoutHeader } from "@/components/checkout/checkout-header"
+import { TrustBanner } from "@/components/checkout/trust-banner"
+import { VehicleCard } from "@/components/checkout/vehicle-card"
+import { TransferInfoStep } from "@/components/checkout/transfer-info-step"
+import { OrderSummarySidebar } from "@/components/checkout/order-summary-sidebar"
+import { OrderSummaryMobile } from "@/components/checkout/order-summary-mobile"
+import { Footer } from "@/components/common/footer"
+import { PassengerInfoForm } from "@/components/checkout/passenger-info-form"
+import { PaymentStep } from "@/components/checkout/payment-step"
+import { ConfirmationModal } from "@/components/checkout/confirmation-modal"
+import { ExperiencesStep } from "@/components/checkout/experiences-step"
+import { CheckoutStepLayout } from "@/components/checkout/shared/checkout-step-layout"
+import { CheckoutProvider, useCheckout, DEV_ALLOW_STEP_SKIP, type Vehicle } from "@/components/checkout/checkout-context"
+import { useVehicles } from "@/hooks/use-vehicles"
+import { useRouteDistance } from "@/hooks/use-route-distance"
+import { useNearbyTours } from "@/hooks/use-nearby-tours"
+import { useEffect, useMemo } from "react"
+import { initOrder, toBackendLocation, formatLocalDateTime } from "@/lib/orders"
+import { useConvex } from "convex/react"
+import { useSearchParams } from "next/navigation"
+import { useTranslations } from "next-intl"
+
+export function CheckoutPage() {
+  return (
+    <CheckoutProvider>
+      <CheckoutPageContent />
+    </CheckoutProvider>
+  )
+}
+
+function CheckoutPageContent() {
+  const convex = useConvex()
+  const searchParams = useSearchParams()
+  const { state, setStep, setSelectedVehicle, setShowTransferForm, setOrder, updateDistance, setUpgradeMode, submitCheckout, setNearbyTours } = useCheckout()
+  const { currentStep, direction, selectedVehicle, showTransferForm, transfer, distance: storedDistance, orderId, upgradeMode, hasNearbyTours, nearbyToursLoaded } = state
+
+  const confirmationStep = hasNearbyTours ? 5 : 4
+  const passengerStep = hasNearbyTours ? 3 : 2
+  const paymentStep = hasNearbyTours ? 4 : 3
+  const experiencesStep = 2
+
+  // Redirect to confirmation when returning from successful payment (error/cancel stay on checkout)
+  useEffect(() => {
+    const success = searchParams?.get("success")
+    if (success === "true" && currentStep !== confirmationStep) {
+      submitCheckout()
+      setStep(confirmationStep)
+    }
+  }, [searchParams, currentStep, setStep, submitCheckout, confirmationStep])
+
+  const { distance: calculatedDistance, duration: calculatedDuration, isCalculating: isCalculatingDistance, error: routeError } = useRouteDistance({
+    from: { lat: transfer.fromLat, lng: transfer.fromLng },
+    to: { lat: transfer.toLat, lng: transfer.toLng },
+    stops: transfer.stops.map(s => ({ lat: s.lat, lng: s.lng })),
+  })
+
+  const distance = calculatedDistance ?? (routeError ? null : storedDistance)
+
+  useEffect(() => {
+    if (
+      calculatedDistance !== null &&
+      (calculatedDistance !== storedDistance || calculatedDuration !== state.routeDuration)
+    ) {
+      updateDistance(calculatedDistance, calculatedDuration)
+    }
+  }, [calculatedDistance, calculatedDuration, storedDistance, state.routeDuration, updateDistance])
+
+  const { tours: nearbyTours, isLoading: nearbyToursLoading } = useNearbyTours({
+    lat: transfer.toLat,
+    lng: transfer.toLng,
+  })
+
+  useEffect(() => {
+    if (!nearbyToursLoading && transfer.toLat != null && transfer.toLng != null) {
+      setNearbyTours(nearbyTours.length > 0)
+    }
+  }, [nearbyTours, nearbyToursLoading, transfer.toLat, transfer.toLng, setNearbyTours])
+
+  useEffect(() => {
+    if (nearbyToursLoaded && !hasNearbyTours && currentStep === experiencesStep) {
+      setStep(passengerStep)
+    }
+  }, [nearbyToursLoaded, hasNearbyTours, currentStep, experiencesStep, passengerStep, setStep])
+
+  const isNight = useMemo(() => {
+    if (!transfer.departureDate) return false
+    const date = new Date(transfer.departureDate)
+    const hour = date.getHours()
+    return hour >= 20 || hour < 8
+  }, [transfer.departureDate])
+
+  const isNightReturn = useMemo(() => {
+    if (!transfer.bookReturn || !transfer.returnDate) return false
+    const date = new Date(transfer.returnDate)
+    const hour = date.getHours()
+    return hour >= 20 || hour < 8
+  }, [transfer.bookReturn, transfer.returnDate])
+  const isRoundTrip = transfer.bookReturn
+
+  const { vehicles, isLoading: vehiclesLoading } = useVehicles({
+    passengers: transfer.passengers,
+    luggage: transfer.luggage,
+    distance: distance ?? undefined,
+    isNight,
+    isNightReturn: transfer.bookReturn ? isNightReturn : undefined,
+    bookReturn: transfer.bookReturn,
+    upgradeMode: upgradeMode,
+    currentVehiclePassengers: selectedVehicle?.passengers ?? 0,
+    currentVehicleLuggage: selectedVehicle?.luggage ?? 0,
+  })
+
+  useEffect(() => {
+    if (selectedVehicle && vehicles.length > 0) {
+      const updatedVehicle = vehicles.find(v => v.id === selectedVehicle.id)
+      if (updatedVehicle && updatedVehicle.price !== selectedVehicle.price) {
+        setSelectedVehicle(updatedVehicle)
+      }
+    }
+  }, [vehicles, selectedVehicle, setSelectedVehicle])
+
+  useEffect(() => {
+    async function ensureOrder() {
+      if (currentStep === confirmationStep) return
+      if (orderId || !transfer.fromLocation || !transfer.toLocation || !transfer.departureDate) return
+
+      try {
+        const departure = toBackendLocation({
+          location: transfer.fromLocation,
+          placeId: transfer.fromPlaceId,
+          lat: transfer.fromLat,
+          lng: transfer.fromLng,
+        })
+        const arrival = toBackendLocation({
+          location: transfer.toLocation,
+          placeId: transfer.toPlaceId,
+          lat: transfer.toLat,
+          lng: transfer.toLng,
+        })
+        const stops = (transfer.stops || []).map((s) =>
+          toBackendLocation({ location: s.text, placeId: s.placeId, lat: s.lat, lng: s.lng })
+        )
+
+        const resp = await initOrder(convex, {
+          departure,
+          arrival,
+          stops,
+          passengers: transfer.passengers,
+          adults: transfer.adults,
+          children: transfer.children,
+          departureDate: formatLocalDateTime(transfer.departureDate, true),
+          isRoundTrip: false,
+          returnDate: undefined,
+        })
+
+        setOrder(resp.order.id, resp.order)
+      } catch (e: unknown) {
+        console.error("Failed to init order:", e)
+      }
+    }
+
+    ensureOrder()
+  }, [orderId, transfer, setOrder, currentStep, confirmationStep])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentStep])
+
+  const handleStepChange = (newStep: number) => {
+    setStep(newStep)
+  }
+
+  const handleVehicleSelect = (vehicle: Vehicle) => {
+    setSelectedVehicle(vehicle)
+    setShowTransferForm(true)
+    setUpgradeMode(false)
+  }
+
+  const handleContinue = () => {
+    setStep(currentStep + 1)
+  }
+
+  const getAnimationClass = () => {
+    if (currentStep === confirmationStep) return ""
+    return "animate-in fade-in slide-in-from-right-4 duration-500"
+  }
+
+  const getAnimationStyle = () => {
+    if (currentStep === confirmationStep) return {}
+    return { animationName: direction === "right" ? "slideInRight" : "slideInLeft" }
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <CheckoutHeader
+        currentStep={currentStep}
+        onStepClick={handleStepChange}
+        allowStepSkip={DEV_ALLOW_STEP_SKIP}
+        hasNearbyTours={hasNearbyTours}
+      />
+
+      <main className="flex-1 bg-[#F5F5F5] overflow-hidden pb-16">
+        <div key={currentStep} className={getAnimationClass()} style={getAnimationStyle()}>
+          {currentStep === 1 && (
+            <VehicleSelectionStep
+              vehicles={vehicles}
+              isLoading={vehiclesLoading || isCalculatingDistance}
+              selectedVehicle={selectedVehicle}
+              showTransferForm={showTransferForm}
+              onVehicleSelect={handleVehicleSelect}
+              onContinue={handleContinue}
+              routeError={routeError}
+              isRoundTrip={isRoundTrip}
+            />
+          )}
+
+          {currentStep === experiencesStep && hasNearbyTours && (
+            <ExperiencesStep onContinue={handleContinue} nearbyTours={nearbyTours} />
+          )}
+
+          {currentStep === passengerStep && (
+            <CheckoutStepLayout>
+              <PassengerInfoForm onContinue={handleContinue} />
+            </CheckoutStepLayout>
+          )}
+
+          {currentStep === paymentStep && (
+            <CheckoutStepLayout>
+              <PaymentStep onContinue={handleContinue} />
+            </CheckoutStepLayout>
+          )}
+
+          {currentStep === confirmationStep && (
+            <ConfirmationModal />
+          )}
+        </div>
+      </main>
+
+      <Footer variant="checkout" />
+    </div>
+  )
+}
+
+interface VehicleSelectionStepProps {
+  vehicles: Vehicle[]
+  isLoading?: boolean
+  selectedVehicle: Vehicle | null
+  showTransferForm: boolean
+  onVehicleSelect: (vehicle: Vehicle) => void
+  onContinue: () => void
+  routeError?: "no_route" | "api_error" | null
+  isRoundTrip: boolean
+}
+
+function VehicleSelectionStep({
+  vehicles,
+  isLoading,
+  selectedVehicle,
+  showTransferForm,
+  onVehicleSelect,
+  onContinue,
+  routeError,
+  isRoundTrip,
+}: VehicleSelectionStepProps) {
+  const t = useTranslations("checkout")
+  return (
+    <>
+      <div className={`mx-auto pt-8 transition-all duration-300 ${showTransferForm && selectedVehicle ? "max-w-[1200px] px-6" : "max-w-[1400px] px-4"}`}>
+        <TrustBanner />
+      </div>
+
+      {showTransferForm && selectedVehicle ? (
+        <div className="max-w-[1200px] mx-auto px-6 py-6 pt-8">
+          <OrderSummaryMobile />
+          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 mt-6 lg:mt-0">
+            <TransferInfoStep onContinue={onContinue} />
+            <div className="hidden lg:block">
+              <OrderSummarySidebar />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-[1400px] mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {isLoading ? (
+              [1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-[285px] bg-white rounded-2xl animate-pulse" />
+              ))
+            ) : routeError === "no_route" ? (
+              <div className="col-span-full py-20 text-center bg-white rounded-2xl border border-dashed border-[#DEDEDE]">
+                <p className="text-[#0E4659] font-medium mb-2">No driving route found between these locations.</p>
+                <p className="text-[#808080] text-sm">Please check if both locations are accessible by car.</p>
+              </div>
+            ) : routeError === "api_error" ? (
+              <div className="col-span-full py-20 text-center bg-white rounded-2xl border border-dashed border-[#DEDEDE]">
+                <p className="text-[#0E4659] font-medium mb-2">Unable to calculate route.</p>
+                <p className="text-[#808080] text-sm">Please try again or contact support.</p>
+              </div>
+            ) : vehicles.length === 0 ? (
+              <div className="col-span-full py-20 text-center bg-white rounded-2xl border border-dashed border-[#DEDEDE]">
+                <p className="text-[#0E4659] font-medium">{t("noVehicles")}</p>
+              </div>
+            ) : (
+              vehicles.map((vehicle) => (
+              <VehicleCard key={vehicle.id} vehicle={vehicle} isRoundTrip={isRoundTrip} onSelect={onVehicleSelect} />
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  )
+}

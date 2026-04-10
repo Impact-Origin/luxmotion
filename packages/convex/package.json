@@ -1,0 +1,26 @@
+{
+  "name": "@workspace/convex",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "convex dev",
+    "setup": "convex dev --until-success",
+    "typecheck": "tsc --noEmit -p convex"
+  },
+  "dependencies": {
+    "convex": "^1.31.2"
+  },
+  "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9.32.0",
+    "typescript": "^5.9.2"
+  },
+  "exports": {
+    "./convex/*": "./convex/*.ts",
+    "./api": "./convex/_generated/api.js",
+    "./server": "./convex/_generated/server.js",
+    "./dataModel": "./convex/_generated/dataModel.d.ts"
+  }
+}

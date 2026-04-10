@@ -1,0 +1,548 @@
+import { v } from "convex/values";
+import { query, mutation } from "./_generated/server";
+import { generateSlug, calculateReadTime } from "./lib/utils";
+
+export const list = query({
+  args: {},
+  handler: async (ctx) => {
+    const blogs = await ctx.db.query("blogs").collect();
+
+    const blogsWithUrls = await Promise.all(
+      blogs.map(async (blog) => {
+        const heroImageUrl = blog.heroImageId
+          ? await ctx.storage.getUrl(blog.heroImageId)
+          : null;
+
+        const translations = await ctx.db
+          .query("blogTranslations")
+          .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
+          .collect();
+
+        return {
+          ...blog,
+          heroImageUrl,
+          availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
+        };
+      })
+    );
+
+    return blogsWithUrls.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
+export const listPublished = query({
+  args: {},
+  handler: async (ctx) => {
+    const blogs = await ctx.db
+      .query("blogs")
+      .withIndex("by_status", (q) => q.eq("status", "published"))
+      .collect();
+
+    const nonServiceBlogs = blogs.filter((b) => !b.isService);
+
+    const blogsWithUrls = await Promise.all(
+      nonServiceBlogs.map(async (blog) => {
+        const heroImageUrl = blog.heroImageId
+          ? await ctx.storage.getUrl(blog.heroImageId)
+          : null;
+
+        const translations = await ctx.db
+          .query("blogTranslations")
+          .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
+          .collect();
+
+        return {
+          ...blog,
+          heroImageUrl,
+          availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
+        };
+      })
+    );
+
+    return blogsWithUrls.sort((a, b) => (b.publishedAt ?? 0) - (a.publishedAt ?? 0));
+  },
+});
+
+export const listFeatured = query({
+  args: {},
+  handler: async (ctx) => {
+    const blogs = await ctx.db
+      .query("blogs")
+      .withIndex("by_featured", (q) => q.eq("isFeatured", true))
+      .collect();
+
+    const publishedFeatured = blogs
+      .filter((b) => b.status === "published" && !b.isService)
+      .slice(0, 3);
+
+    const blogsWithUrls = await Promise.all(
+      publishedFeatured.map(async (blog) => {
+        const heroImageUrl = blog.heroImageId
+          ? await ctx.storage.getUrl(blog.heroImageId)
+          : null;
+
+        const translations = await ctx.db
+          .query("blogTranslations")
+          .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
+          .collect();
+
+        return {
+          ...blog,
+          heroImageUrl,
+          availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
+        };
+      })
+    );
+
+    return blogsWithUrls;
+  },
+});
+
+export const getBySlug = query({
+  args: { slug: v.string() },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db
+      .query("blogs")
+      .withIndex("by_slug", (q) => q.eq("slug", args.slug))
+      .first();
+
+    if (!blog) return null;
+
+    const heroImageUrl = blog.heroImageId
+      ? await ctx.storage.getUrl(blog.heroImageId)
+      : null;
+
+    const translations = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
+      .collect();
+
+    return {
+      ...blog,
+      heroImageUrl,
+      translations,
+      availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
+    };
+  },
+});
+
+export const getById = query({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.id);
+    if (!blog) return null;
+
+    const heroImageUrl = blog.heroImageId
+      ? await ctx.storage.getUrl(blog.heroImageId)
+      : null;
+
+    const translations = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
+      .collect();
+
+    return {
+      ...blog,
+      heroImageUrl,
+      translations,
+      availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
+    };
+  },
+});
+
+export const getCategories = query({
+  args: {},
+  handler: async (ctx) => {
+    const blogs = await ctx.db.query("blogs").collect();
+    const categories = [...new Set(blogs.map((b) => b.category))];
+    return categories.sort();
+  },
+});
+
+export const getTranslation = query({
+  args: {
+    blogId: v.id("blogs"),
+    locale: v.string()
+  },
+  handler: async (ctx, args) => {
+    const translation = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog_locale", (q) =>
+        q.eq("blogId", args.blogId).eq("locale", args.locale)
+      )
+      .first();
+
+    return translation;
+  },
+});
+
+export const getAvailableLanguages = query({
+  args: { blogId: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.blogId);
+    if (!blog) return [];
+
+    const translations = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog", (q) => q.eq("blogId", args.blogId))
+      .collect();
+
+    return [blog.originalLanguage, ...translations.map((t) => t.locale)];
+  },
+});
+
+export const create = mutation({
+  args: {
+    title: v.string(),
+    excerpt: v.string(),
+    content: v.any(),
+    heroImageId: v.optional(v.id("_storage")),
+    category: v.string(),
+    author: v.string(),
+    originalLanguage: v.string(),
+    status: v.union(v.literal("draft"), v.literal("published"), v.literal("archived")),
+    isFeatured: v.boolean(),
+    isService: v.optional(v.boolean()),
+    seoTitle: v.optional(v.string()),
+    seoDescription: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    if (args.isFeatured) {
+      const featuredCount = await ctx.db
+        .query("blogs")
+        .withIndex("by_featured", (q) => q.eq("isFeatured", true))
+        .collect();
+      if (featuredCount.length >= 6) {
+        throw new Error("Maximum of 6 featured blogs allowed");
+      }
+    }
+
+    if (args.isService) {
+      const serviceCount = await ctx.db
+        .query("blogs")
+        .withIndex("by_service", (q) => q.eq("isService", true))
+        .collect();
+      if (serviceCount.length >= 3) {
+        throw new Error("Maximum of 3 service blogs allowed");
+      }
+    }
+
+    const now = Date.now();
+    let slug = generateSlug(args.title);
+
+    const existing = await ctx.db
+      .query("blogs")
+      .withIndex("by_slug", (q) => q.eq("slug", slug))
+      .first();
+
+    if (existing) {
+      slug = `${slug}-${now}`;
+    }
+
+    const readTimeMinutes = calculateReadTime(args.content);
+
+    const { isService: isServiceArg, ...restArgs } = args;
+    const blogId = await ctx.db.insert("blogs", {
+      ...restArgs,
+      isService: isServiceArg ?? false,
+      slug,
+      readTimeMinutes,
+      publishedAt: args.status === "published" ? now : undefined,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    return blogId;
+  },
+});
+
+export const update = mutation({
+  args: {
+    id: v.id("blogs"),
+    title: v.string(),
+    excerpt: v.string(),
+    content: v.any(),
+    heroImageId: v.optional(v.id("_storage")),
+    category: v.string(),
+    author: v.string(),
+    originalLanguage: v.string(),
+    status: v.union(v.literal("draft"), v.literal("published"), v.literal("archived")),
+    isFeatured: v.boolean(),
+    isService: v.optional(v.boolean()),
+    seoTitle: v.optional(v.string()),
+    seoDescription: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    const { id, isService: isServiceArg, ...data } = args;
+    const existing = await ctx.db.get(id);
+    if (!existing) throw new Error("Blog not found");
+
+    if (data.isFeatured && !existing.isFeatured) {
+      const featuredCount = await ctx.db
+        .query("blogs")
+        .withIndex("by_featured", (q) => q.eq("isFeatured", true))
+        .collect();
+      if (featuredCount.length >= 6) {
+        throw new Error("Maximum of 6 featured blogs allowed");
+      }
+    }
+
+    const isService = isServiceArg ?? false;
+    if (isService && !existing.isService) {
+      const serviceCount = await ctx.db
+        .query("blogs")
+        .withIndex("by_service", (q) => q.eq("isService", true))
+        .collect();
+      if (serviceCount.length >= 3) {
+        throw new Error("Maximum of 3 service blogs allowed");
+      }
+    }
+
+    const readTimeMinutes = calculateReadTime(data.content);
+    const now = Date.now();
+
+    let publishedAt = existing.publishedAt;
+    if (data.status === "published" && existing.status !== "published") {
+      publishedAt = now;
+    }
+
+    await ctx.db.patch(id, {
+      ...data,
+      isService,
+      readTimeMinutes,
+      publishedAt,
+      updatedAt: now,
+    });
+
+    return id;
+  },
+});
+
+export const remove = mutation({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.id);
+    if (!blog) throw new Error("Blog not found");
+
+    const translations = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog", (q) => q.eq("blogId", args.id))
+      .collect();
+
+    for (const translation of translations) {
+      await ctx.db.delete(translation._id);
+    }
+
+    if (blog.heroImageId) {
+      await ctx.storage.delete(blog.heroImageId);
+    }
+
+    await ctx.db.delete(args.id);
+    return args.id;
+  },
+});
+
+export const generateUploadUrl = mutation({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.storage.generateUploadUrl();
+  },
+});
+
+export const getStorageUrl = query({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    return await ctx.storage.getUrl(args.storageId);
+  },
+});
+
+export const getImageUrl = mutation({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    return await ctx.storage.getUrl(args.storageId);
+  },
+});
+
+export const countFeatured = query({
+  args: {},
+  handler: async (ctx) => {
+    const featured = await ctx.db
+      .query("blogs")
+      .withIndex("by_featured", (q) => q.eq("isFeatured", true))
+      .collect();
+    return featured.length;
+  },
+});
+
+export const listServices = query({
+  args: {},
+  handler: async (ctx) => {
+    const blogs = await ctx.db
+      .query("blogs")
+      .withIndex("by_service", (q) => q.eq("isService", true))
+      .collect();
+
+    const publishedServices = blogs
+      .filter((b) => b.status === "published")
+      .slice(0, 3);
+
+    const blogsWithUrls = await Promise.all(
+      publishedServices.map(async (blog) => {
+        const heroImageUrl = blog.heroImageId
+          ? await ctx.storage.getUrl(blog.heroImageId)
+          : null;
+
+        return {
+          ...blog,
+          heroImageUrl,
+        };
+      })
+    );
+
+    return blogsWithUrls;
+  },
+});
+
+export const countServices = query({
+  args: {},
+  handler: async (ctx) => {
+    const services = await ctx.db
+      .query("blogs")
+      .withIndex("by_service", (q) => q.eq("isService", true))
+      .collect();
+    return services.length;
+  },
+});
+
+export const toggleFeatured = mutation({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.id);
+    if (!blog) throw new Error("Blog not found");
+
+    if (!blog.isFeatured) {
+      const featuredCount = await ctx.db
+        .query("blogs")
+        .withIndex("by_featured", (q) => q.eq("isFeatured", true))
+        .collect();
+      if (featuredCount.length >= 6) {
+        throw new Error("Maximum of 6 featured blogs allowed");
+      }
+    }
+
+    await ctx.db.patch(args.id, {
+      isFeatured: !blog.isFeatured,
+      updatedAt: Date.now(),
+    });
+
+    return !blog.isFeatured;
+  },
+});
+
+export const publish = mutation({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.id);
+    if (!blog) throw new Error("Blog not found");
+
+    const now = Date.now();
+    await ctx.db.patch(args.id, {
+      status: "published",
+      publishedAt: blog.publishedAt ?? now,
+      updatedAt: now,
+    });
+
+    return args.id;
+  },
+});
+
+export const unpublish = mutation({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.id);
+    if (!blog) throw new Error("Blog not found");
+
+    await ctx.db.patch(args.id, {
+      status: "draft",
+      updatedAt: Date.now(),
+    });
+
+    return args.id;
+  },
+});
+
+export const upsertTranslation = mutation({
+  args: {
+    blogId: v.id("blogs"),
+    locale: v.string(),
+    title: v.string(),
+    excerpt: v.string(),
+    content: v.any(),
+    seoTitle: v.optional(v.string()),
+    seoDescription: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.blogId);
+    if (!blog) throw new Error("Blog not found");
+
+    if (args.locale === blog.originalLanguage) {
+      throw new Error("Cannot create translation in the original language");
+    }
+
+    const existing = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog_locale", (q) =>
+        q.eq("blogId", args.blogId).eq("locale", args.locale)
+      )
+      .first();
+
+    const now = Date.now();
+
+    if (existing) {
+      await ctx.db.patch(existing._id, {
+        title: args.title,
+        excerpt: args.excerpt,
+        content: args.content,
+        seoTitle: args.seoTitle,
+        seoDescription: args.seoDescription,
+        updatedAt: now,
+      });
+      return existing._id;
+    }
+
+    const translationId = await ctx.db.insert("blogTranslations", {
+      blogId: args.blogId,
+      locale: args.locale,
+      title: args.title,
+      excerpt: args.excerpt,
+      content: args.content,
+      seoTitle: args.seoTitle,
+      seoDescription: args.seoDescription,
+      updatedAt: now,
+    });
+
+    return translationId;
+  },
+});
+
+export const removeTranslation = mutation({
+  args: {
+    blogId: v.id("blogs"),
+    locale: v.string()
+  },
+  handler: async (ctx, args) => {
+    const translation = await ctx.db
+      .query("blogTranslations")
+      .withIndex("by_blog_locale", (q) =>
+        q.eq("blogId", args.blogId).eq("locale", args.locale)
+      )
+      .first();
+
+    if (!translation) throw new Error("Translation not found");
+
+    await ctx.db.delete(translation._id);
+    return translation._id;
+  },
+});

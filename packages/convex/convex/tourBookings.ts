@@ -1,0 +1,652 @@
+import { v } from "convex/values";
+import { mutation, query, action, internalMutation, internalAction } from "./_generated/server";
+import type { MutationCtx } from "./_generated/server";
+import { api, internal } from "./_generated/api";
+import type { Id } from "./_generated/dataModel";
+
+// MBWay status codes: 000 = paid, 020 = rejected, 101 = expired, 122 = declined
+const MBWAY_FAILED_STATUSES = ["020", "101", "122"];
+
+function generateBookingNumber(): string {
+  const t = Date.now().toString().slice(-10);
+  const r = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
+  return `TB${t}${r}`.slice(0, 15);
+}
+
+export const init = mutation({
+  args: {
+    productType: v.union(v.literal("tour"), v.literal("experience"), v.literal("event")),
+    tourId: v.optional(v.id("tours")),
+    eventId: v.optional(v.id("events")),
+    tourTitle: v.string(),
+    tourSlug: v.string(),
+    passengers: v.number(),
+    selectedDate: v.string(),
+    selectedTime: v.string(),
+    basePrice: v.number(),
+    selectedAddons: v.optional(v.array(v.object({
+      addonId: v.id("tourAddons"),
+      title: v.string(),
+      price: v.number(),
+      pricingType: v.union(v.literal("per_person"), v.literal("flat")),
+      quantity: v.number(),
+      subtotal: v.number(),
+    }))),
+    addonsTotal: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    let bookingNumber = generateBookingNumber();
+    let existing = await ctx.db
+      .query("tourBookings")
+      .withIndex("by_booking_number", (q) => q.eq("bookingNumber", bookingNumber))
+      .unique();
+    while (existing) {
+      bookingNumber = generateBookingNumber();
+      existing = await ctx.db
+        .query("tourBookings")
+        .withIndex("by_booking_number", (q) => q.eq("bookingNumber", bookingNumber))
+        .unique();
+    }
+
+    const totalAmount = args.basePrice + (args.addonsTotal ?? 0);
+    const id = await ctx.db.insert("tourBookings", {
+      bookingNumber,
+      productType: args.productType,
+      tourId: args.tourId ?? undefined,
+      eventId: args.eventId ?? undefined,
+      tourTitle: args.tourTitle,
+      tourSlug: args.tourSlug,
+      passengers: args.passengers,
+      selectedDate: args.selectedDate,
+      selectedTime: args.selectedTime,
+      basePrice: args.basePrice,
+      selectedAddons: args.selectedAddons ?? undefined,
+      addonsTotal: args.addonsTotal ?? undefined,
+      tipPercent: 0,
+      tipAmount: 0,
+      totalAmount,
+      customerName: "",
+      customerEmail: "",
+      customerPhone: "",
+      status: "draft",
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    const booking = await ctx.db.get(id);
+    return { bookingId: id, booking, bookingNumber: booking?.bookingNumber ?? bookingNumber };
+  },
+});
+
+export const updateContact = mutation({
+  args: {
+    bookingId: v.id("tourBookings"),
+    customerName: v.string(),
+    customerEmail: v.string(),
+    customerPhone: v.string(),
+    customerNif: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    await ctx.db.patch(args.bookingId, {
+      customerName: args.customerName,
+      customerEmail: args.customerEmail,
+      customerPhone: args.customerPhone,
+      customerNif: args.customerNif ?? undefined,
+      updatedAt: now,
+    });
+    return await ctx.db.get(args.bookingId);
+  },
+});
+
+export const updatePickup = mutation({
+  args: {
+    bookingId: v.id("tourBookings"),
+    pickup: v.optional(
+      v.object({
+        title: v.string(),
+        address: v.string(),
+        description: v.optional(v.string()),
+        lat: v.optional(v.number()),
+        lng: v.optional(v.number()),
+        placeId: v.optional(v.string()),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    await ctx.db.patch(args.bookingId, {
+      pickup: args.pickup ?? undefined,
+      updatedAt: now,
+    });
+    return await ctx.db.get(args.bookingId);
+  },
+});
+
+export const updateTipAndTotal = mutation({
+  args: {
+    bookingId: v.id("tourBookings"),
+    tipPercent: v.number(),
+    tipAmount: v.number(),
+    totalAmount: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    await ctx.db.patch(args.bookingId, {
+      tipPercent: args.tipPercent,
+      tipAmount: args.tipAmount,
+      totalAmount: args.totalAmount,
+      updatedAt: now,
+    });
+    return await ctx.db.get(args.bookingId);
+  },
+});
+
+export const getById = query({
+  args: { bookingId: v.id("tourBookings") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.bookingId);
+  },
+});
+
+export const getByBookingNumber = query({
+  args: { bookingNumber: v.string() },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("tourBookings")
+      .withIndex("by_booking_number", (q) => q.eq("bookingNumber", args.bookingNumber))
+      .unique();
+  },
+});
+
+export const subscribeToStatus = query({
+  args: { bookingNumber: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    if (!args.bookingNumber) return null;
+    const b = await ctx.db
+      .query("tourBookings")
+      .withIndex("by_booking_number", (q) => q.eq("bookingNumber", args.bookingNumber!))
+      .unique();
+    if (!b) return null;
+    return {
+      bookingId: b._id,
+      bookingNumber: b.bookingNumber,
+      status: b.status,
+      paymentStatus: b.paymentStatus,
+      updatedAt: b.updatedAt,
+    };
+  },
+});
+
+/** Departure/arrival for orders schema: { location, placeId?, lat?, lng?, name? } */
+export type OrderLocation = {
+  location: string;
+  name?: string;
+  placeId?: string;
+  lat?: number;
+  lng?: number;
+};
+
+function toOrderLocation(
+  location: string,
+  opts?: { name?: string; placeId?: string; lat?: number; lng?: number }
+): OrderLocation {
+  return {
+    location,
+    ...(opts?.name != null && { name: opts.name }),
+    ...(opts?.placeId != null && { placeId: opts.placeId }),
+    ...(opts?.lat != null && { lat: opts.lat }),
+    ...(opts?.lng != null && { lng: opts.lng }),
+  };
+}
+
+/** Resolve first and last stop of the tour (or event meeting point) for departure/arrival. Format: { location, placeId?, lat?, lng?, name? }. */
+export async function getDepartureArrivalFromBooking(
+  ctx: MutationCtx,
+  booking: { tourId?: Id<"tours">; eventId?: Id<"events">; pickup?: { address?: string; title?: string; placeId?: string; lat?: number; lng?: number } | null; tourTitle: string }
+): Promise<{ departure: OrderLocation; arrival: OrderLocation }> {
+  const fallbackDeparture: OrderLocation = toOrderLocation(
+    booking.pickup?.address ?? "Ponto de encontro",
+    { name: booking.pickup?.title, placeId: booking.pickup?.placeId, lat: booking.pickup?.lat, lng: booking.pickup?.lng }
+  );
+  const fallbackArrival: OrderLocation = toOrderLocation(booking.tourTitle);
+
+  if (booking.tourId) {
+    const tour = await ctx.db.get(booking.tourId);
+    const stops = await ctx.db
+      .query("tourStops")
+      .withIndex("by_tour", (q) => q.eq("tourId", booking.tourId!))
+      .collect();
+    const sorted = stops.sort((a, b) => a.order - b.order);
+    // Sempre usar primeira e última paragem do tour para departure/arrival; coordenadas do stop ou fallback pickup/dropoff do tour
+    if (sorted.length >= 2) {
+      const first = sorted[0]!;
+      const last = sorted[sorted.length - 1]!;
+      const depLat = first.lat ?? tour?.pickup?.lat;
+      const depLng = first.lng ?? tour?.pickup?.lng;
+      const depPlaceId = first.placeId ?? tour?.pickup?.placeId;
+      const arrLat = last.lat ?? tour?.dropoff?.lat;
+      const arrLng = last.lng ?? tour?.dropoff?.lng;
+      const arrPlaceId = last.placeId ?? tour?.dropoff?.placeId;
+      return {
+        departure: toOrderLocation(first.address ?? first.title, { name: first.title, placeId: depPlaceId, lat: depLat, lng: depLng }),
+        arrival: toOrderLocation(last.address ?? last.title, { name: last.title, placeId: arrPlaceId, lat: arrLat, lng: arrLng }),
+      };
+    }
+    if (sorted.length === 1) {
+      const stop = sorted[0]!;
+      const depLat = stop.lat ?? tour?.pickup?.lat;
+      const depLng = stop.lng ?? tour?.pickup?.lng;
+      const depPlaceId = stop.placeId ?? tour?.pickup?.placeId;
+      return {
+        departure: toOrderLocation(stop.address ?? stop.title, { name: stop.title, placeId: depPlaceId, lat: depLat, lng: depLng }),
+        arrival: toOrderLocation(booking.tourTitle, { placeId: tour?.dropoff?.placeId, lat: tour?.dropoff?.lat, lng: tour?.dropoff?.lng }),
+      };
+    }
+    if (tour?.pickup && tour?.dropoff) {
+      return {
+        departure: toOrderLocation(tour.pickup.address, { name: tour.pickup.title, placeId: tour.pickup.placeId, lat: tour.pickup.lat, lng: tour.pickup.lng }),
+        arrival: toOrderLocation(tour.dropoff.address, { name: tour.dropoff.title, placeId: tour.dropoff.placeId, lat: tour.dropoff.lat, lng: tour.dropoff.lng }),
+      };
+    }
+  }
+
+  if (booking.eventId) {
+    const event = await ctx.db.get(booking.eventId);
+    if (event?.meetingPoint) {
+      const mp = event.meetingPoint;
+      return {
+        departure: toOrderLocation(mp.address, { name: mp.title, placeId: mp.placeId, lat: mp.lat, lng: mp.lng }),
+        arrival: toOrderLocation(booking.tourTitle),
+      };
+    }
+  }
+
+  return { departure: fallbackDeparture, arrival: fallbackArrival };
+}
+
+/** Monta o documento para a tabela `orders` a partir de um tour booking pago. Mesmo schema que checkout normal (departure/arrival, paymentAmount, customerNif, departureDate = data do tour). */
+export function buildOrderFromTourBooking(
+  booking: {
+    _id: Id<"tourBookings">;
+    bookingNumber: string;
+    tourTitle: string;
+    selectedDate: string;
+    passengers: number;
+    totalAmount: number;
+    customerName: string;
+    customerEmail: string;
+    customerPhone: string;
+    customerNif?: string | null;
+    paymentMethod?: string | null;
+    selectedAddons?: Array<{
+      addonId: Id<"tourAddons">;
+      title: string;
+      price: number;
+      pricingType: "per_person" | "flat";
+      quantity: number;
+      subtotal: number;
+    }>;
+    addonsTotal?: number;
+  },
+  now: number,
+  paymentMethod: "cash" | "mbway" | "mb" | "ccard",
+  departure: OrderLocation,
+  arrival: OrderLocation
+) {
+  return {
+    orderNumber: booking.bookingNumber,
+    tourBookingId: booking._id,
+    status: "paid" as const,
+    departure: {
+      location: departure.location,
+      ...(departure.name != null && { name: departure.name }),
+      ...(departure.placeId != null && { placeId: departure.placeId }),
+      ...(departure.lat != null && { lat: departure.lat }),
+      ...(departure.lng != null && { lng: departure.lng }),
+    },
+    arrival: {
+      location: arrival.location,
+      ...(arrival.name != null && { name: arrival.name }),
+      ...(arrival.placeId != null && { placeId: arrival.placeId }),
+      ...(arrival.lat != null && { lat: arrival.lat }),
+      ...(arrival.lng != null && { lng: arrival.lng }),
+    },
+    departureDate: booking.selectedDate,
+    passengers: booking.passengers,
+    isRoundTrip: false,
+    totalAmount: booking.totalAmount,
+    paymentAmount: booking.totalAmount,
+    customerName: booking.customerName,
+    customerEmail: booking.customerEmail,
+    customerPhone: booking.customerPhone,
+    customerNif: booking.customerNif ?? undefined,
+    ...(booking.selectedAddons?.length && { selectedAddons: booking.selectedAddons }),
+    ...(booking.addonsTotal != null && booking.addonsTotal > 0 && { addonsTotal: booking.addonsTotal }),
+    paymentMethod: paymentMethod as "cash" | "mbway" | "mb" | "ccard",
+    paymentStatus: "completed" as const,
+    createdAt: now,
+    updatedAt: now,
+  };
+}
+
+/** Cria sempre uma order em `orders` quando um tour booking está pago (callback MBWay/cartão). Webhook é chamado diretamente pelo caller (action). */
+export const ensureOrderForPaidTourBooking = internalMutation({
+  args: { bookingId: v.id("tourBookings") },
+  handler: async (ctx, args): Promise<{ orderId?: Id<"orders"> }> => {
+    const booking = await ctx.db.get(args.bookingId);
+    if (!booking || booking.paymentStatus !== "completed") return {};
+
+    const existing = await ctx.db
+      .query("orders")
+      .withIndex("by_tour_booking", (q) => q.eq("tourBookingId", booking._id))
+      .unique();
+    if (existing) return { orderId: existing._id };
+
+    const now = Date.now();
+    const { departure, arrival } = await getDepartureArrivalFromBooking(ctx, booking);
+    const paymentMethod = (booking.paymentMethod as "cash" | "mbway" | "mb" | "ccard") ?? "cash";
+    const orderDoc = buildOrderFromTourBooking(booking, now, paymentMethod, departure, arrival);
+    const newOrderId = await ctx.db.insert("orders", orderDoc);
+    return { orderId: newOrderId };
+  },
+});
+
+export const startPayment = mutation({
+  args: {
+    bookingId: v.id("tourBookings"),
+    method: v.union(
+      v.literal("mbway"),
+      v.literal("mb"),
+      v.literal("ccard"),
+      v.literal("cash")
+    ),
+    totalAmount: v.number(),
+    paymentRequestId: v.optional(v.string()),
+    paymentEntity: v.optional(v.string()),
+    paymentReference: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    const isCash = args.method === "cash";
+    await ctx.db.patch(args.bookingId, {
+      paymentMethod: args.method,
+      paymentStatus: isCash ? "completed" : "pending",
+      totalAmount: args.totalAmount,
+      status: isCash ? "paid" : "pending",
+      paymentRequestId: args.paymentRequestId ?? undefined,
+      paymentEntity: args.paymentEntity ?? undefined,
+      paymentReference: args.paymentReference ?? undefined,
+      updatedAt: now,
+    });
+    // CASH: criar order em `orders` na mesma mutation; webhook é chamado pela action startPaymentAction
+    let orderId: Id<"orders"> | undefined;
+    if (isCash) {
+      const booking = await ctx.db.get(args.bookingId);
+      if (booking) {
+        const existing = await ctx.db
+          .query("orders")
+          .withIndex("by_tour_booking", (q) => q.eq("tourBookingId", booking._id))
+          .unique();
+        if (!existing) {
+          const { departure, arrival } = await getDepartureArrivalFromBooking(ctx, booking);
+          const bookingForOrder = {
+            ...booking,
+            totalAmount: booking.totalAmount ?? args.totalAmount,
+            customerNif: booking.customerNif ?? undefined,
+          };
+          const orderDoc = buildOrderFromTourBooking(bookingForOrder, now, "cash", departure, arrival);
+          orderId = await ctx.db.insert("orders", orderDoc);
+        }
+      }
+    }
+    const booking = await ctx.db.get(args.bookingId);
+    return { booking, orderId };
+  },
+});
+
+export const startPaymentAction = action({
+  args: {
+    bookingId: v.id("tourBookings"),
+    method: v.union(
+      v.literal("mbway"),
+      v.literal("mb"),
+      v.literal("ccard"),
+      v.literal("cash")
+    ),
+    amount: v.number(),
+    phoneNumber: v.optional(v.string()),
+    email: v.optional(v.string()),
+    successUrl: v.optional(v.string()),
+    errorUrl: v.optional(v.string()),
+    cancelUrl: v.optional(v.string()),
+    language: v.optional(v.string()),
+  },
+  handler: async (ctx, args): Promise<any> => {
+    const booking = await ctx.runQuery(api.tourBookings.getById, {
+      bookingId: args.bookingId,
+    });
+    if (!booking) {
+      throw new Error("Tour booking not found");
+    }
+
+    const bookingNumber = booking.bookingNumber;
+
+    if (args.method === "cash") {
+      const result = await ctx.runMutation(api.tourBookings.startPayment, {
+        bookingId: args.bookingId,
+        method: "cash",
+        totalAmount: args.amount,
+      });
+      if (result?.orderId) {
+        await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: result.orderId });
+      }
+      return { success: true };
+    }
+
+    const ifthenpayApi = api as any;
+
+    if (args.method === "mb") {
+      const result: any = await ctx.runAction(ifthenpayApi.ifthenpay.initMultibanco, {
+        orderId: bookingNumber,
+        amount: args.amount,
+        email: args.email,
+        useSandbox: false,
+      });
+      await ctx.runMutation(api.tourBookings.startPayment, {
+        bookingId: args.bookingId,
+        method: "mb",
+        totalAmount: args.amount,
+        paymentEntity: result.entity,
+        paymentReference: result.reference,
+      });
+      return {
+        success: true,
+        method: "mb",
+        entity: result.entity,
+        reference: result.reference,
+        message: result.message,
+      };
+    }
+
+    if (args.method === "mbway") {
+      if (!args.phoneNumber) {
+        throw new Error("Phone number required for MBWay");
+      }
+      const result = await ctx.runAction(ifthenpayApi.ifthenpay.initMbway, {
+        orderId: bookingNumber,
+        amount: args.amount,
+        phone: args.phoneNumber,
+        email: args.email,
+      });
+      await ctx.runMutation(api.tourBookings.startPayment, {
+        bookingId: args.bookingId,
+        method: "mbway",
+        totalAmount: args.amount,
+        paymentRequestId: result.requestId,
+      });
+      return {
+        success: true,
+        method: "mbway",
+        requestId: result.requestId,
+        message: result.message,
+        status: result.status,
+      };
+    }
+
+    if (args.method === "ccard") {
+      if (!args.successUrl || !args.errorUrl || !args.cancelUrl) {
+        throw new Error("Success, error, and cancel URLs required for credit card");
+      }
+      const result = await ctx.runAction(ifthenpayApi.ifthenpay.initCreditCard, {
+        orderId: bookingNumber,
+        amount: args.amount,
+        successUrl: args.successUrl,
+        errorUrl: args.errorUrl,
+        cancelUrl: args.cancelUrl,
+        language: args.language || "en",
+      });
+      await ctx.runMutation(api.tourBookings.startPayment, {
+        bookingId: args.bookingId,
+        method: "ccard",
+        totalAmount: args.amount,
+      });
+      return {
+        success: true,
+        method: "ccard",
+        paymentUrl: result.paymentUrl,
+        requestId: result.requestId,
+      };
+    }
+
+    throw new Error("Unsupported payment method");
+  },
+});
+
+/** Verifica estado MBWay (rejeitado/expirado) e atualiza booking para failed se aplicável */
+export const checkPaymentStatus = action({
+  args: { bookingId: v.id("tourBookings") },
+  handler: async (ctx, args): Promise<{ paymentStatus: string; status: string } | null> => {
+    const booking = await ctx.runQuery(api.tourBookings.getById, { bookingId: args.bookingId });
+    if (!booking || booking.paymentMethod !== "mbway" || !booking.paymentRequestId) {
+      return booking ? { paymentStatus: booking.paymentStatus ?? "pending", status: booking.status } : null;
+    }
+    if (booking.paymentStatus === "completed" || booking.paymentStatus === "failed") {
+      return { paymentStatus: booking.paymentStatus, status: booking.status };
+    }
+    const ifthenpayApi = api as any;
+    const result = await ctx.runAction(ifthenpayApi.ifthenpay.checkMbwayStatus, {
+      requestId: booking.paymentRequestId,
+    });
+    console.log("[TourBookings] checkPaymentStatus IfThenPay result:", {
+      bookingNumber: booking.bookingNumber,
+      requestId: booking.paymentRequestId,
+      resultStatus: result?.status,
+      resultMessage: result?.message,
+      isFailed: result && MBWAY_FAILED_STATUSES.includes(result.status),
+    });
+    if (result && MBWAY_FAILED_STATUSES.includes(result.status)) {
+      console.log("[TourBookings] Setting payment failed for", booking.bookingNumber);
+      await ctx.runMutation(internal.tourBookings.setPaymentFailed, {
+        bookingNumber: booking.bookingNumber,
+      });
+      return { paymentStatus: "failed", status: "pending" };
+    }
+    return { paymentStatus: booking.paymentStatus ?? "pending", status: booking.status };
+  },
+});
+
+export const setPaymentFailed = internalMutation({
+  args: { bookingNumber: v.string() },
+  handler: async (ctx, args) => {
+    const booking = await ctx.db
+      .query("tourBookings")
+      .withIndex("by_booking_number", (q) => q.eq("bookingNumber", args.bookingNumber))
+      .unique();
+    if (!booking) return;
+    await ctx.db.patch(booking._id, {
+      paymentStatus: "failed",
+      status: "pending",
+      updatedAt: Date.now(),
+    });
+    ctx.scheduler.runAfter(0, internal.webhooks.sendLeadPayloadFromTourBooking, {
+      bookingNumber: args.bookingNumber,
+    });
+  },
+});
+
+export const updatePaymentStatus = internalMutation({
+  args: {
+    bookingNumber: v.string(),
+    paymentStatus: v.union(
+      v.literal("pending"),
+      v.literal("processing"),
+      v.literal("completed"),
+      v.literal("failed")
+    ),
+  },
+  handler: async (ctx, args) => {
+    const booking = await ctx.db
+      .query("tourBookings")
+      .withIndex("by_booking_number", (q) => q.eq("bookingNumber", args.bookingNumber))
+      .unique();
+    if (!booking) {
+      throw new Error(`Tour booking not found: ${args.bookingNumber}`);
+    }
+    // Não sobrescrever "failed" com "completed" (ex.: callback tardio após utilizador rejeitar no MBWay)
+    if (args.paymentStatus === "completed" && booking.paymentStatus === "failed") {
+      return { success: true };
+    }
+    const now = Date.now();
+    const updates: Record<string, unknown> = {
+      paymentStatus: args.paymentStatus,
+      updatedAt: now,
+    };
+    if (args.paymentStatus === "completed") {
+      updates.status = "paid";
+    } else if (args.paymentStatus === "failed") {
+      updates.status = "pending";
+    }
+    await ctx.db.patch(booking._id, updates);
+
+    // Webhook é chamado diretamente pelo caller (action completeTourBookingPayment), nunca agendado
+    if (args.paymentStatus === "completed") {
+      return { success: true, bookingId: booking._id };
+    }
+    return { success: true };
+  },
+});
+
+/** Atualiza status de pagamento do tour e envia webhook diretamente (sem agendamento). Usado por HTTP/ifthenpay. */
+export const completeTourBookingPayment = internalAction({
+  args: {
+    bookingNumber: v.string(),
+    paymentStatus: v.union(
+      v.literal("pending"),
+      v.literal("processing"),
+      v.literal("completed"),
+      v.literal("failed")
+    ),
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.runMutation(internal.tourBookings.updatePaymentStatus, {
+      bookingNumber: args.bookingNumber,
+      paymentStatus: args.paymentStatus,
+    });
+    if (args.paymentStatus === "completed" && result?.bookingId) {
+      const ensureResult = await ctx.runMutation(internal.tourBookings.ensureOrderForPaidTourBooking, {
+        bookingId: result.bookingId,
+      });
+      if (ensureResult?.orderId) {
+        await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: ensureResult.orderId });
+      }
+    } else if (args.paymentStatus === "failed") {
+      await ctx.runAction(internal.webhooks.sendLeadPayloadFromTourBooking, {
+        bookingNumber: args.bookingNumber,
+      });
+    }
+  },
+});

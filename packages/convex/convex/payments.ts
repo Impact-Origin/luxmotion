@@ -1,0 +1,289 @@
+import { v } from "convex/values";
+import { internalMutation, mutation, action } from "./_generated/server";
+import { api, internal } from "./_generated/api";
+import type { Id } from "./_generated/dataModel";
+import { getDepartureArrivalFromBooking, buildOrderFromTourBooking } from "./tourBookings";
+
+export const updatePaymentStatus = internalMutation({
+  args: {
+    orderId: v.optional(v.string()),
+    orderNumber: v.optional(v.string()),
+    paymentStatus: v.union(
+      v.literal("pending"),
+      v.literal("processing"),
+      v.literal("completed"),
+      v.literal("failed")
+    ),
+    transactionId: v.optional(v.string()),
+    requestId: v.optional(v.string()), // Para MBWay
+    entity: v.optional(v.string()), // Para Multibanco
+    reference: v.optional(v.string()), // Para Multibanco
+    amount: v.optional(v.number()),
+    paymentDateTime: v.optional(v.string()), // ISO string
+    metadata: v.optional(v.any()),
+  },
+  handler: async (ctx, args) => {
+    let order = null;
+
+    if (args.orderId) {
+      if (args.orderId.startsWith("j")) {
+        try {
+          order = await ctx.db.get(args.orderId as any);
+        } catch {
+        }
+      }
+    }
+
+    if (!order && args.orderNumber) {
+      order = await ctx.db
+        .query("orders")
+        .withIndex("by_order_number", (q) => q.eq("orderNumber", args.orderNumber!))
+        .unique();
+    }
+
+    if (!order) {
+      throw new Error(`Order not found: orderId=${args.orderId}, orderNumber=${args.orderNumber}`);
+    }
+
+    const updates: any = {
+      paymentStatus: args.paymentStatus,
+      updatedAt: Date.now(),
+    };
+
+    // Atualizar referências de pagamento
+    if (args.entity) updates.paymentEntity = args.entity;
+    if (args.reference) updates.paymentReference = args.reference;
+    if (args.requestId) updates.paymentRequestId = args.requestId;
+    if (args.transactionId) {
+      // Store transactionId in metadata or separate field
+      updates.transactionId = args.transactionId;
+    }
+
+    if (args.paymentStatus === "completed") {
+      updates.status = "paid";
+
+      const orderAmount = (order as any).totalAmount || (order as any).price || 0;
+      const orderPaymentMethod = (order as any).paymentMethod || "unknown";
+      await ctx.db.insert("transactions", {
+        amount: args.amount || orderAmount,
+        bookingId: order._id,
+        paymentMethod: orderPaymentMethod,
+        status: "completed",
+        timestamp: args.paymentDateTime ? new Date(args.paymentDateTime).getTime() : Date.now(),
+      });
+
+      // Se for round trip, também atualizar ordem relacionada
+      const relatedOrderId = (order as any).relatedOrderId;
+      if (relatedOrderId) {
+        const relatedOrder = await ctx.db.get(relatedOrderId);
+        if (relatedOrder) {
+          await ctx.db.patch(relatedOrderId, {
+            paymentStatus: "completed",
+            status: "paid",
+            updatedAt: Date.now(),
+          });
+          
+          // Criar transação para ordem relacionada também
+          const relatedOrderAmount = (relatedOrder as any).totalAmount || (relatedOrder as any).price || 0;
+          await ctx.db.insert("transactions", {
+            amount: args.amount || relatedOrderAmount,
+            bookingId: relatedOrderId,
+            paymentMethod: orderPaymentMethod,
+            status: "completed",
+            timestamp: args.paymentDateTime ? new Date(args.paymentDateTime).getTime() : Date.now(),
+          });
+        }
+      }
+    } else if (args.paymentStatus === "failed") {
+      updates.status = "pending";
+
+      // Se for round trip, também atualizar ordem relacionada
+      const relatedOrderId = (order as any).relatedOrderId;
+      if (relatedOrderId) {
+        await ctx.db.patch(relatedOrderId, {
+          paymentStatus: "failed",
+          status: "pending",
+          updatedAt: Date.now(),
+        });
+      }
+
+      ctx.scheduler.runAfter(0, internal.webhooks.sendLeadPayloadFromOrder, {
+        orderId: order._id as Id<"orders">,
+      });
+    }
+
+    await ctx.db.patch(order._id, updates);
+
+    // Após confirmação de pagamento (transfer): criar orders para tours/experiências do upsell e enviar webhook
+    if (args.paymentStatus === "completed") {
+      const pending = (order as { pendingCheckoutExperiences?: Array<{
+        productType: "tour" | "experience" | "event";
+        tourId?: string;
+        eventId?: string;
+        tourTitle: string;
+        tourSlug: string;
+        passengers: number;
+        selectedDate: string;
+        selectedTime: string;
+        basePrice: number;
+      }> }).pendingCheckoutExperiences;
+      const customerName = (order as { customerName?: string }).customerName ?? "";
+      const customerEmail = (order as { customerEmail?: string }).customerEmail ?? "";
+      const customerPhone = (order as { customerPhone?: string }).customerPhone ?? "";
+      const customerNif = (order as { customerNif?: string }).customerNif ?? undefined;
+      const paymentMethod = (order as { paymentMethod?: "mbway" | "mb" | "ccard" | "cash" }).paymentMethod ?? "cash";
+
+      if (pending && pending.length > 0) {
+        const now = Date.now();
+        for (let i = 0; i < pending.length; i++) {
+          const exp = pending[i];
+          if (!exp) continue;
+          const bookingNumber = `TB${now.toString().slice(-10)}${(i + 1).toString().padStart(2, "0")}${Math.floor(Math.random() * 100).toString().padStart(2, "0")}`.slice(0, 15);
+          const bookingId = await ctx.db.insert("tourBookings", {
+            bookingNumber,
+            productType: exp.productType,
+            tourId: exp.tourId as Id<"tours"> | undefined,
+            eventId: exp.eventId as Id<"events"> | undefined,
+            tourTitle: exp.tourTitle,
+            tourSlug: exp.tourSlug,
+            passengers: exp.passengers,
+            selectedDate: exp.selectedDate,
+            selectedTime: exp.selectedTime,
+            basePrice: exp.basePrice,
+            tipPercent: 0,
+            tipAmount: 0,
+            totalAmount: exp.basePrice,
+            customerName,
+            customerEmail,
+            customerPhone,
+            customerNif,
+            status: "paid",
+            paymentMethod: paymentMethod as "mbway" | "mb" | "ccard" | "cash",
+            paymentStatus: "completed",
+            createdAt: now,
+            updatedAt: now,
+          });
+          const booking = await ctx.db.get(bookingId);
+          if (booking) {
+            const { departure, arrival } = await getDepartureArrivalFromBooking(ctx, booking);
+            const orderDoc = buildOrderFromTourBooking(
+              { ...booking, customerNif: booking.customerNif ?? undefined },
+              now,
+              paymentMethod as "cash" | "mbway" | "mb" | "ccard",
+              departure,
+              arrival
+            );
+            await ctx.db.insert("orders", {
+              ...orderDoc,
+              transferOrderId: order._id as Id<"orders">,
+            });
+          }
+        }
+        await ctx.db.patch(order._id, {
+          pendingCheckoutExperiences: undefined,
+          updatedAt: Date.now(),
+        });
+      }
+
+      // Webhook é chamado diretamente pelo caller (HTTP/action), nunca agendado
+      return { success: true, orderId: order._id as Id<"orders"> };
+    }
+
+    return { success: true };
+  },
+});
+
+/**
+ * Mutation para testar pagamento bem-sucedido (desenvolvimento)
+ * Pode ser chamada diretamente para simular um pagamento
+ */
+export const testPaymentSuccess = mutation({
+  args: {
+    orderId: v.id("orders"),
+  },
+  handler: async (ctx, args) => {
+    const order = await ctx.db.get(args.orderId);
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    await ctx.db.patch(args.orderId, {
+      paymentStatus: "completed",
+      status: "paid",
+      updatedAt: Date.now(),
+    });
+
+    // Criar transação
+    await ctx.db.insert("transactions", {
+      amount: order.totalAmount || 0,
+      bookingId: args.orderId,
+      paymentMethod: order.paymentMethod || "cash",
+      status: "completed",
+      timestamp: Date.now(),
+    });
+
+    return { success: true };
+  },
+});
+
+/**
+ * Action para verificar status de pagamentos MBWay pendentes
+ * Deve ser chamada periodicamente (ex: a cada 5 segundos) para verificar status
+ * Pode ser usado com Convex Scheduler ou chamado externamente
+ */
+export const checkPendingMbwayPayments = action({
+  args: {
+    sinceMinutes: v.optional(v.number()), // Padrão: 6 minutos
+  },
+  handler: async (ctx, args): Promise<{ checked: number; results: any[] }> => {
+    const sinceMinutes = args.sinceMinutes || 6;
+    const since = Date.now() - sinceMinutes * 60 * 1000;
+
+    // Buscar ordens com pagamento MBWay pendente criadas desde 'since'
+    const pendingOrders: any[] = await ctx.runQuery(api.orders.getPendingMbwayPayments, {
+      since,
+    });
+
+    const ifthenpayApi = api as any;
+    const results: any[] = [];
+
+    for (const order of pendingOrders) {
+      if (!order.paymentRequestId) continue;
+
+      try {
+        // Verificar status no IfThenPay
+        const status = await ctx.runAction(ifthenpayApi.ifthenpay.checkMbwayStatus, {
+          requestId: order.paymentRequestId,
+        });
+
+        const statusCode = status.status?.trim();
+
+        // Atualizar status baseado no código retornado
+        if (statusCode === "000") {
+          // Pago - atualizar para completed
+          await ctx.runMutation(internal.payments.updatePaymentStatus, {
+            orderId: order._id,
+            paymentStatus: "completed",
+            requestId: order.paymentRequestId,
+          });
+          await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: order._id });
+          results.push({ orderId: order._id, status: "completed", message: status.message });
+        } else if (["020", "101", "122"].includes(statusCode)) {
+          // Rejeitado, Expirado ou Declinado
+          const reason = statusCode === "020" ? "REJECTED" : statusCode === "101" ? "EXPIRED" : "DECLINED";
+          await ctx.runMutation(internal.payments.updatePaymentStatus, {
+            orderId: order._id,
+            paymentStatus: "failed",
+            requestId: order.paymentRequestId,
+          });
+          results.push({ orderId: order._id, status: "failed", reason, message: status.message });
+        }
+      } catch (error: any) {
+        console.warn(`MBWay status check failed for orderId=${order._id}`, error);
+        results.push({ orderId: order._id, error: error.message });
+      }
+    }
+
+    return { checked: pendingOrders.length, results };
+  },
+});
