@@ -46,6 +46,9 @@ pnpm-debug.log*
 bun-debug.log*
 debug.log
 
+# Docs
+docs/
+
 # Misc
 .DS_Store
 *.pem

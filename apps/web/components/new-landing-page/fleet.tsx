@@ -2,366 +2,221 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Users, Leaf, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react"
-import { useState, useCallback, useEffect, useRef } from "react"
+import { useState } from "react"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { Themed } from "@/components/themed"
-import { cn } from "@workspace/ui/lib/utils"
-import { FleetMobileCarousel } from "./fleet-mobile-carousel"
 
-const STEP = 1
-const VISIBLE = 3
-const AUTO_SCROLL_INTERVAL = 4500
-const IDLE_TIMEOUT = 10000
-const FRAME_ASPECT = "16/6"
-const CARD_GAP_PX = 16
+type CategoryId = "standard" | "xl" | "executivo" | "van" | "minibus" | "bus"
+type FeaturedId = "fiatTipo" | "mercedesSClass1" | "mercedesSClass2"
+
+const CATEGORIES: readonly { id: CategoryId; image: string; active?: boolean }[] = [
+  { id: "standard", image: "/fleet/cat-standard.png", active: true },
+  { id: "xl", image: "/fleet/cat-xl.png" },
+  { id: "executivo", image: "/fleet/cat-executivo.png" },
+  { id: "van", image: "/fleet/cat-van.png" },
+  { id: "minibus", image: "/fleet/cat-minibus.png" },
+  { id: "bus", image: "/fleet/cat-bus.png" },
+] as const
+
+const FEATURED: readonly { id: FeaturedId; image: string }[] = [
+  { id: "fiatTipo", image: "/fleet/featured-fiat-tipo.png" },
+  { id: "mercedesSClass1", image: "/fleet/cat-standard.png" },
+  { id: "mercedesSClass2", image: "/fleet/featured-mercedes-2.png" },
+] as const
 
 export function Fleet() {
   const t = useTranslations("fleet")
-  /** Posição contínua em px (0 até maxTranslatePx). Sem snap: fica onde o utilizador largar. */
-  const [translatePx, setTranslatePx] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
-  const frameRef = useRef<HTMLDivElement>(null)
-  const viewportRef = useRef<HTMLDivElement>(null)
-  const [slideWidthPx, setSlideWidthPx] = useState(0)
-  const lastInteractionRef = useRef(0)
-  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  /** Durante o drag: valor em px (sem transition). Quando null, usa translatePx. */
-  const [dragTranslatePx, setDragTranslatePx] = useState<number | null>(null)
-  const dragStartRef = useRef<{ startX: number; startTranslatePx: number } | null>(null)
-  const dragCurrentPxRef = useRef<number>(0)
-
-  const vehicles = [
-    {
-      name: t("vehicleNames.standard"),
-      capacity: `4 ${t("people")}`,
-      image: "/standard-car.png",
-    },
-    {
-      name: t("vehicleNames.xl"),
-      capacity: `5 ${t("people")}`,
-      image: "/xl-car.png",
-    },
-    {
-      name: t("vehicleNames.executivo"),
-      capacity: `4 ${t("people")}`,
-      image: "/executivo-car.png",
-    },
-    {
-      name: t("vehicleNames.van"),
-      capacity: `8 ${t("people")}`,
-      image: "/van.png",
-      badge: t("electric"),
-    },
-    {
-      name: t("vehicleNames.minibus"),
-      capacity: `16 ${t("people")}`,
-      image: "/minibus.png",
-    },
-    {
-      name: t("vehicleNames.bus"),
-      capacity: `56 ${t("people")}`,
-      image: "/bus.png",
-    },
-  ]
-
-  const carouselImages = [
-    "/mercedes frota/C.png",
-    "/mercedes frota/Maybach.png",
-    "/mercedes frota/Van.png",
-    "/mercedes frota/c class.png",
-    "/mercedes frota/class E.png",
-    "/mercedes frota/eqe.png",
-    "/mercedes frota/eqs.png",
-    "/mercedes frota/minbus.png",
-    "/mercedes frota/mini bus 8.png",
-    "/mercedes frota/s class.png",
-    "/mercedes frota/van executiva.png",
-    "/resto fotos frota/13.png",
-    "/resto fotos frota/14.png",
-    "/resto fotos frota/15.png",
-    "/resto fotos frota/16.png",
-    "/resto fotos frota/17.png",
-    "/resto fotos frota/18.png",
-    "/resto fotos frota/19.png",
-    "/resto fotos frota/porsche-panamera-2 (1).png",
-  ]
-
-  const totalItems = carouselImages.length
-  const maxOffset = Math.max(0, totalItems - VISIBLE)
-  const stepPx = slideWidthPx + CARD_GAP_PX
-  const maxTranslatePx = maxOffset * stepPx
-
-  useEffect(() => {
-    const el = viewportRef.current
-    if (!el) return
-    const update = () => {
-      const w = el.clientWidth
-      const gapTotal = (VISIBLE - 1) * CARD_GAP_PX
-      setSlideWidthPx((w - gapTotal) / VISIBLE)
-    }
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  useEffect(() => {
-    if (stepPx <= 0) return
-    setTranslatePx((prev) => Math.max(0, Math.min(maxTranslatePx, prev)))
-  }, [maxTranslatePx, stepPx])
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  const markInteraction = useCallback(() => {
-    lastInteractionRef.current = Date.now()
-  }, [])
-
-  const desktopNext = useCallback((step = STEP) => {
-    setTranslatePx((prev) => {
-      const next = prev + step * stepPx
-      return next > maxTranslatePx ? 0 : next
-    })
-  }, [maxTranslatePx, stepPx])
-
-  const desktopPrev = useCallback(() => {
-    setTranslatePx((prev) => {
-      const next = prev - stepPx
-      return next < 0 ? maxTranslatePx : next
-    })
-  }, [maxTranslatePx, stepPx])
-
-  const handleDesktopNext = useCallback(() => {
-    markInteraction()
-    desktopNext()
-  }, [markInteraction, desktopNext])
-
-  const handleDesktopPrev = useCallback(() => {
-    markInteraction()
-    desktopPrev()
-  }, [markInteraction, desktopPrev])
-
-  useEffect(() => {
-    autoScrollRef.current = setInterval(() => {
-      const elapsed = Date.now() - lastInteractionRef.current
-      if (elapsed < IDLE_TIMEOUT) return
-      if (!isMobile) desktopNext(1)
-    }, AUTO_SCROLL_INTERVAL)
-
-    return () => {
-      if (autoScrollRef.current) clearInterval(autoScrollRef.current)
-    }
-  }, [isMobile, desktopNext])
-
-  /** Paragens reais do carrossel (uma por posição possível). */
-  const totalDots = maxOffset + 1
-  const currentTranslatePx = dragTranslatePx !== null ? dragTranslatePx : translatePx
-  const currentDot =
-    stepPx > 0
-      ? Math.min(totalDots - 1, Math.max(0, Math.round(currentTranslatePx / stepPx)))
-      : 0
-
-  /** Mostrar só 4 dots que “deslizam”: o ativo reflete o progresso (0 = início, 3 = fim). */
-  const DISPLAY_DOTS = 6
-  const activeDisplayDot =
-    totalDots <= 1 ? 0 : Math.min(DISPLAY_DOTS - 1, Math.round((currentDot / (totalDots - 1)) * (DISPLAY_DOTS - 1)))
-
-  const goToPage = (pageIndex: number) => {
-    markInteraction()
-    setTranslatePx(Math.min(pageIndex * stepPx, maxTranslatePx))
-  }
-
-  /** Clique num dos 4 dots: saltar para o segmento correspondente do carrossel. */
-  const goToDisplayDot = (displayIndex: number) => {
-    if (totalDots <= 1) return
-    const pageIndex = Math.round((displayIndex / (DISPLAY_DOTS - 1)) * (totalDots - 1))
-    goToPage(pageIndex)
-  }
-
-  const onDesktopCarouselPointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      if (slideWidthPx <= 0) return
-      markInteraction()
-      const startPx = translatePx
-      dragStartRef.current = { startX: e.clientX, startTranslatePx: startPx }
-      dragCurrentPxRef.current = startPx
-      setDragTranslatePx(startPx)
-      ;(e.target as HTMLElement).setPointerCapture?.(e.pointerId)
-    },
-    [slideWidthPx, translatePx, markInteraction]
-  )
-
-  const onDesktopCarouselPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragStartRef.current) return
-      const dx = dragStartRef.current.startX - e.clientX
-      const next = Math.max(0, Math.min(maxTranslatePx, dragStartRef.current.startTranslatePx + dx))
-      dragCurrentPxRef.current = next
-      setDragTranslatePx(next)
-    },
-    [maxTranslatePx]
-  )
-
-  const onDesktopCarouselPointerUp = useCallback(
-    (e: React.PointerEvent) => {
-      ;(e.target as HTMLElement).releasePointerCapture?.(e.pointerId)
-      if (!dragStartRef.current) return
-      const currentPx = dragCurrentPxRef.current
-      // Snap to nearest page so dots always match the visible position
-      const snappedPx =
-        stepPx > 0
-          ? Math.round(currentPx / stepPx) * stepPx
-          : 0
-      setTranslatePx(Math.max(0, Math.min(maxTranslatePx, snappedPx)))
-      setDragTranslatePx(null)
-      dragStartRef.current = null
-    },
-    [stepPx, maxTranslatePx]
-  )
+  const [activeCategory, setActiveCategory] = useState<CategoryId>("standard")
 
   return (
-    <section id="fleet" className="py-[40px] md:py-[64px] px-4 md:px-12 lg:px-[60px] xl:px-[100px] overflow-visible" style={{ backgroundColor: "var(--theme-background)" }}>
-      <div className="max-w-7xl mx-auto overflow-visible">
-        <Themed as="h2" colorType="headingText" className="text-[28px] md:text-[36px] font-bold text-center mb-8 md:mb-12" style={{ color: "var(--theme-heading-text)" }}>
-          {t("title")}
-        </Themed>
-
-        <div className="grid grid-cols-2 md:flex md:flex-wrap gap-6 md:gap-8 mb-8 md:mb-12">
-          {vehicles.map((vehicle) => (
-            <Themed key={vehicle.name} colorType="cardBg" applyTo="backgroundColor" className="relative rounded-lg p-2 md:p-4 flex flex-col transition-all cursor-pointer hover:scale-[1.05] flex-1 min-w-0" style={{ backgroundColor: "var(--theme-card-bg)", boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)' }}>
-              <div className="items-center">
-                {vehicle.badge && (
-                  <Themed colorType="electricBadgeBg" applyTo="backgroundColor" className="absolute top-1 right-1 md:top-2 md:right-2 px-1 md:px-1.5 py-0.5 rounded-full text-[10px] md:text-xs flex items-center gap-0.5 md:gap-1 shadow-sm z-10 electric-badge" style={{ backgroundColor: "var(--theme-electric-badge-bg)" }}>
-                    <Themed colorType="electricBadgeText" applyTo="color">
-                      <Leaf className="w-2 h-2 md:w-2.5 md:h-2.5" style={{ color: "var(--theme-electric-badge-text)" }} />
-                    </Themed>
-                    <Themed as="span" colorType="electricBadgeText" style={{ color: "var(--theme-electric-badge-text)" }} className="font-bold text-[10px] md:text-xs">
-                      {vehicle.badge}
-                    </Themed>
-                  </Themed>
-                )}
-                <div className="w-full h-16 md:h-24 lg:h-28 relative mb-2 md:mb-3">
-                  <Image
-                    src={vehicle.image || "/placeholder.svg"}
-                    alt={vehicle.name}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <Themed as="h3" colorType="headingText" className="text-sm md:text-lg lg:text-xl font-bold mb-1 md:mb-1.5" style={{ color: "var(--theme-heading-text)" }}>{vehicle.name}</Themed>
-              <Themed colorType="badgeBg" applyTo="backgroundColor" className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full w-fit" style={{ backgroundColor: "var(--theme-badge-bg)" }}>
-                <Themed colorType="iconColor" applyTo="color">
-                  <Users className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" style={{ color: "var(--theme-icon-color)" }} />
-                </Themed>
-                <Themed as="span" colorType="badgeText" className="font-semibold whitespace-nowrap text-xs md:text-sm lg:text-base" style={{ color: "var(--theme-badge-text)" }}>
-                  {vehicle.capacity}
-                </Themed>
-              </Themed>
-            </Themed>
-          ))}
-        </div>
-
-        {/* Mobile: carrossel dedicado (scroll-snap, setas + dots) */}
-        <div className="md:hidden w-full">
-          <FleetMobileCarousel images={carouselImages} />
-        </div>
-
-        {/* Desktop: 3 cards estilo carrossel com gap; overflow-visible para as setas não serem cortadas */}
-        <div className="relative w-full hidden md:block overflow-visible">
-          <div
-            ref={frameRef}
-            className="relative w-full rounded-xl overflow-hidden border border-[#e5e7eb] bg-[#f9fafb]"
-            style={{ aspectRatio: FRAME_ASPECT, boxShadow: "0 8px 24px rgba(0,0,0,0.12)" }}
-          >
-            <div
-              ref={viewportRef}
-              className="absolute inset-0 overflow-hidden cursor-grab active:cursor-grabbing"
-              onPointerDown={onDesktopCarouselPointerDown}
-              onPointerMove={onDesktopCarouselPointerMove}
-              onPointerUp={onDesktopCarouselPointerUp}
-              onPointerLeave={onDesktopCarouselPointerUp}
-            >
-              <div
-                className="flex h-full select-none"
-                style={{
-                  gap: CARD_GAP_PX,
-                  width: carouselImages.length * slideWidthPx + (carouselImages.length - 1) * CARD_GAP_PX,
-                  transform: slideWidthPx > 0 ? `translateX(-${currentTranslatePx}px)` : undefined,
-                  transition: dragTranslatePx === null ? "transform 0.5s ease-out" : "none",
-                }}
-              >
-                {carouselImages.map((image, index) => (
-                  <div
-                    key={index}
-                    className="relative flex-shrink-0 h-full rounded-lg overflow-hidden bg-[#e5e7eb]"
-                    style={{ width: slideWidthPx }}
-                  >
-                    <Image
-                      src={image}
-                      alt={`Fleet image ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="flex absolute -left-10 lg:-left-12 2xl:-left-16 top-1/2 z-10 -translate-y-1/2">
-            <button
-              onClick={handleDesktopPrev}
-              className="size-[36px] rounded-full flex items-center justify-center bg-[#27c7ff] hover:bg-[#20b8ef] shadow-lg transition-all duration-200"
-              aria-label={t("previousImage")}
-            >
-              <ArrowLeft className="size-[16px] text-white" />
-            </button>
-          </div>
-          <div className="flex absolute -right-10 lg:-right-12 2xl:-right-16 top-1/2 z-10 -translate-y-1/2">
-            <button
-              onClick={handleDesktopNext}
-              className="size-[36px] rounded-full flex items-center justify-center bg-[#27c7ff] hover:bg-[#20b8ef] shadow-lg transition-all duration-200"
-              aria-label={t("nextImage")}
-            >
-              <ArrowRight className="size-[16px] text-white" />
-            </button>
-          </div>
-        </div>
-
-        {/* Desktop: só 4 dots; o ativo avança conforme o progresso no carrossel */}
-        <div className="hidden md:flex mt-6 gap-[6px] items-center justify-center">
-          {Array.from({ length: DISPLAY_DOTS }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToDisplayDot(index)}
-              className={cn(
-                "rounded-full transition-all",
-                index === activeDisplayDot
-                  ? "size-[14px] border-[1.2px] border-[#27c7ff] bg-transparent"
-                  : "size-[10px] bg-[#27c7ff]"
-              )}
-            />
-          ))}
-        </div>
-
-        <div className="mt-8 md:mt-12 flex justify-center">
-          <Link
-            href="/fleet"
-            className="group flex items-center justify-between pl-8 pr-6 py-4 bg-[#27c7ff] rounded-2xl shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_18px_20px_rgba(0,0,0,0.05)] hover:bg-[#20b8ef] transition-colors"
-          >
-            <span className="text-[16px] font-bold text-white uppercase tracking-[0.16px]">
-              {t("exploreFleet")}
+    <section
+      id="fleet"
+      className="bg-[#0D0D0D] pt-10 pb-16 px-4 md:px-[82px] 2xl:px-[300px]"
+    >
+      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-6">
+        <div
+          className="flex flex-col items-start gap-2 w-full"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span className="text-[12px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none">
+              {t("sectionLabel")}
             </span>
-            <ArrowUpRight className="size-8 text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ml-4" />
-          </Link>
+          </div>
+          <h2
+            className="text-[32px] md:text-[48px] font-normal text-[#F5F5F5] leading-none"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {t("titleHeading")}
+          </h2>
+          <p className="text-[15px] md:text-[18px] leading-[1.42] text-[#999]">
+            {t("subtitle")}
+          </p>
         </div>
+
+        <div className="flex flex-col gap-[2px] w-full">
+          <div className="grid grid-cols-2 md:flex md:flex-row gap-[2px] w-full">
+            {CATEGORIES.map((cat) => (
+              <CategoryCard
+                key={cat.id}
+                image={cat.image}
+                label={t(`categories.${cat.id}.label`)}
+                passengers={t(`categories.${cat.id}.passengers`)}
+                active={activeCategory === cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+              />
+            ))}
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-[2px] md:h-[340px] w-full">
+            {FEATURED.map((car) => (
+              <FeaturedCard
+                key={car.id}
+                image={car.image}
+                label={t(`featured.${car.id}.label`)}
+                name={t(`featured.${car.id}.name`)}
+                specs={t(`featured.${car.id}.specs`)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-2 mt-2">
+          <button
+            type="button"
+            aria-label={t("previousSlide")}
+            className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
+          >
+            <ArrowRight className="size-[18px] rotate-180" strokeWidth={1.7} />
+          </button>
+          <div className="flex items-center gap-[6px] px-2">
+            <span className="size-[6px] rounded-full bg-[#C9A96E]" />
+            <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+            <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+            <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+          </div>
+          <button
+            type="button"
+            aria-label={t("nextSlide")}
+            className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
+          >
+            <ArrowRight className="size-[18px]" strokeWidth={1.7} />
+          </button>
+        </div>
+
+        <Link
+          href="/fleet"
+          className="group inline-flex items-center justify-center gap-2 border border-[#C9A96E] h-12 px-6 mt-2 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          <span className="text-[14px] font-medium tracking-[1.1px] uppercase">
+            {t("exploreFleet")}
+          </span>
+          <ArrowUpRight
+            className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            strokeWidth={2}
+          />
+        </Link>
       </div>
     </section>
+  )
+}
+
+function CategoryCard({
+  image,
+  label,
+  passengers,
+  active,
+  onClick,
+}: {
+  image: string
+  label: string
+  passengers: string
+  active: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`relative flex-1 min-w-0 border border-[rgba(255,255,255,0.12)] flex flex-col items-center cursor-pointer transition-colors duration-200 hover:bg-[#222222] overflow-hidden ${
+        active ? "bg-[#0D0D0D]" : "bg-[#1A1A1A]"
+      }`}
+    >
+      <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-[#C9A96E] transition-opacity duration-200 ${active ? "opacity-100" : "opacity-0"}`} />
+      <div className="relative h-[118px] w-[114px] mt-4">
+        <Image
+          src={image}
+          alt={label}
+          fill
+          className="object-contain"
+          sizes="114px"
+        />
+      </div>
+      <div className="flex flex-col items-center justify-center gap-2 px-6 py-4 w-full">
+        <span
+          className={`text-[12px] font-semibold tracking-[2px] uppercase leading-none transition-colors duration-200 ${
+            active ? "text-[#C9A96E]" : "text-[#999]"
+          }`}
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          {label}
+        </span>
+        <span
+          className="text-[12px] text-white/55 leading-[1.2] text-center"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          {passengers}
+        </span>
+      </div>
+    </button>
+  )
+}
+
+function FeaturedCard({
+  image,
+  label,
+  name,
+  specs,
+}: {
+  image: string
+  label: string
+  name: string
+  specs: string
+}) {
+  return (
+    <div className="flex-1 min-w-0 border border-[rgba(255,255,255,0.12)] flex flex-col overflow-hidden">
+      <div className="relative h-[200px] md:h-auto md:flex-1">
+        <div className="absolute inset-0 bg-gradient-to-b from-[33.22%] from-[rgba(0,0,0,0.1)] to-[rgba(201,169,110,0.1)] z-[1] pointer-events-none" />
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      </div>
+      <div className="relative h-[120px] flex flex-col justify-center gap-2 px-6 py-5 bg-gradient-to-t from-black to-[rgba(13,13,13,0.9)]">
+        <span
+          className="text-[12px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          {label}
+        </span>
+        <span
+          className="text-[24px] md:text-[20px] font-semibold md:font-normal text-white leading-none"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {name}
+        </span>
+        <span
+          className="text-[12px] text-white/55 leading-[1.2]"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          {specs}
+        </span>
+      </div>
+    </div>
   )
 }

@@ -123,12 +123,12 @@ export function GooglePlacesInput({
           }}
           placeholder={placeholder}
           className={cn(
-            "w-full h-full pl-14 pr-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] md:text-[15px] font-medium placeholder:text-[#808080]",
+            "w-full h-full pl-8 pr-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] font-normal placeholder:text-[#696969]",
             !inlineDropdown && "truncate"
           )}
           style={{
-            color: "#222",
-            caretColor: "#27C7FF"
+            color: "white",
+            caretColor: "#C9A96E"
           }}
         />
       ) : isToursResults ? (
@@ -292,6 +292,7 @@ export function GooglePlacesInput({
             suggestions={value.location.trim() ? predictions : defaultSuggestions}
             isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
             onSelect={handleSelectSuggestion}
+            dark={isHeroInline}
           />
         </PopoverContent>
       </Popover>

@@ -2,234 +2,237 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Sparkles, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Search } from "lucide-react"
-import { useState, useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
-import { cn } from "@workspace/ui/lib/utils"
-import { ExclusiveBadge } from "@/components/new-landing-page/exclusive-badge"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useSwipe } from "@/hooks/use-swipe"
 
-const tourData = [
+type TourId = "lisboa" | "porto" | "algarve" | "alentejo" | "acores" | "madeira"
+
+const TOURS: readonly { id: TourId; image: string }[] = [
   { id: "lisboa", image: "/regions_lisboa.png" },
   { id: "porto", image: "/regions_porto.png" },
   { id: "algarve", image: "/regions_algarve.png" },
   { id: "alentejo", image: "/regions_alentejo.png" },
   { id: "acores", image: "/regions_acores.png" },
   { id: "madeira", image: "/regions_madeira.png" },
-]
+] as const
 
-const STEP = 2
-const VISIBLE = 3
-
+const VISIBLE_DESKTOP = 3
+const STEP_DESKTOP = 2
 
 export function ToursSection() {
   const t = useTranslations("tours")
-
-  const tours = tourData.map((tour) => ({
-    ...tour,
-    name: t(`destinations.${tour.id}`),
-  }))
-
-  const totalItems = tours.length + 1
-  const maxOffset = totalItems - VISIBLE
   const [offset, setOffset] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    const query = window.matchMedia("(max-width: 767px)")
+    const update = () => setIsMobile(query.matches)
+    update()
+    query.addEventListener("change", update)
+    return () => query.removeEventListener("change", update)
   }, [])
 
-  const mobileVisible = 1
-  const mobileMaxOffset = totalItems - mobileVisible
-  const currentMaxOffset = isMobile ? mobileMaxOffset : maxOffset
+  const visible = isMobile ? 1 : VISIBLE_DESKTOP
+  const step = isMobile ? 1 : STEP_DESKTOP
+  const maxOffset = Math.max(0, TOURS.length - visible)
 
-  const next = useCallback(() => {
-    setOffset((prev) => Math.min(prev + STEP, currentMaxOffset))
-  }, [currentMaxOffset])
+  const goPrev = useCallback(() => {
+    setOffset((c) => Math.max(0, c - step))
+  }, [step])
 
-  const prev = useCallback(() => {
-    setOffset((prev) => Math.max(prev - STEP, 0))
-  }, [])
+  const goNext = useCallback(() => {
+    setOffset((c) => Math.min(maxOffset, c + step))
+  }, [step, maxOffset])
 
-  const totalDots = useMemo(() => {
-    const steps = Math.ceil(currentMaxOffset / STEP)
-    return steps + 1
-  }, [currentMaxOffset])
+  const swipeHandlers = useSwipe(goNext, goPrev)
 
-  const currentDot = Math.min(Math.floor(offset / STEP), totalDots - 1)
+  const totalPages = Math.ceil(maxOffset / step) + 1
+  const currentPage = Math.min(Math.floor(offset / step), totalPages - 1)
 
-  const goToDot = (index: number) => {
-    setOffset(Math.min(index * STEP, currentMaxOffset))
+  const goToPage = (page: number) => {
+    setOffset(Math.min(maxOffset, page * step))
   }
 
-  const mobileNext = useCallback(() => setOffset((prev) => Math.min(prev + (isMobile ? 1 : STEP), currentMaxOffset)), [isMobile, currentMaxOffset])
-  const mobilePrev = useCallback(() => setOffset((prev) => Math.max(prev - (isMobile ? 1 : STEP), 0)), [isMobile])
-  const toursSwipe = useSwipe(mobileNext, mobilePrev)
-
-  const features = [
-    t("features.authentic"),
-    t("features.professional"),
-    t("features.flexibility"),
-  ]
-
-  const cardWidthPercent = isMobile ? 100 : 100 / VISIBLE
-  const gapPx = isMobile ? 24 : 32
+  const translatePercent = isMobile ? offset * 100 : offset * (100 / 3)
 
   return (
-    <section className="flex flex-col items-center justify-center py-[40px] md:py-[64px] px-4 md:px-8 lg:px-[60px] xl:px-[100px] gap-6 md:gap-8">
-      <div className="max-w-7xl mx-auto w-full flex flex-col items-center gap-5">
-        <ExclusiveBadge />
+    <section
+      id="tours"
+      className="bg-[#0D0D0D] pt-10 pb-16"
+    >
+      <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center gap-6">
+        <div className="flex flex-col items-start gap-2 w-full">
+          <div
+            className="flex items-center gap-2"
+            style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+          >
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none">
+              {t("sectionLabel")}
+            </span>
+          </div>
+          <h2
+            className="text-[36px] sm:text-[42px] lg:text-[48px] font-light leading-[1.05] text-[#F5F5F5]"
+            style={{
+              fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+              whiteSpace: "pre-line",
+            }}
+          >
+            <span className="italic text-[#C9A96E] font-medium">{t("titleGold")}</span>{" "}
+            {t("titleRest")}
+          </h2>
+          <p
+            className="text-[15px] lg:text-[18px] leading-[1.3] text-[#999] max-w-[995px] mt-1"
+            style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+          >
+            {t("description")}
+          </p>
+        </div>
 
-        <h2 className="text-[28px] md:text-[36px] font-bold text-center text-[#222222] leading-normal pb-6">
-          {t("title")}
-        </h2>
+        <div
+          className="w-full overflow-hidden mt-2"
+          {...swipeHandlers}
+        >
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${translatePercent}%)` }}
+          >
+            {TOURS.map((tour) => (
+              <div
+                key={tour.id}
+                className="flex-none w-full md:w-1/3 md:pr-[6px] md:last:pr-0"
+              >
+                <TourCard
+                  id={tour.id}
+                  image={tour.image}
+                  name={t(`destinations.${tour.id}.name`)}
+                  description={t(`destinations.${tour.id}.description`)}
+                  label={t("cardLabel")}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
-        <div className="flex flex-col gap-6 md:gap-8 items-start w-full">
-          <div className="flex flex-col gap-3 items-center w-full">
-            <div className="text-center text-[#222222] text-md md:text-md xl:text-2xl max-w-[800px] leading-[1.3]">
-              <span className="font-bold">
-                {t("description.heading")}
-              </span>
-              <p className="font-bold mt-2 mb-0">
-                {t("description.subheading")}
-              </p>
-              <span className="font-normal block mt-4">
-                {t("description.body")}
-              </span>
-            </div>
+        <div
+          className="flex items-center gap-2 mt-2"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          <button
+            type="button"
+            onClick={goPrev}
+            disabled={offset === 0}
+            aria-label={t("previousSlide")}
+            className={`size-8 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition ${
+              offset === 0
+                ? "opacity-30 cursor-not-allowed"
+                : "hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+            }`}
+          >
+            <ArrowRight className="size-[14px] rotate-180" strokeWidth={2} />
+          </button>
 
-            <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-stretch md:items-center justify-start md:justify-center w-full mt-6 md:mt-8">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="flex gap-2 md:gap-4 items-center justify-start px-4 py-1.5 md:px-10 md:py-2 bg-[#d5f6ea] rounded-lg overflow-hidden w-full md:flex-1"
-                >
-                  <Sparkles className="size-4 md:size-6 text-[#008354] shrink-0" />
-                  <p className="text-[#008354] text-sm md:text-lg font-normal leading-[1.2] min-h-0 md:min-h-[2.2em] line-clamp-2 text-left">
-                    {feature}
-                  </p>
-                </div>
-              ))}
-            </div>
+          <div className="flex items-center gap-[6px] px-2">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => goToPage(i)}
+                aria-label={t("goToSlide", { number: i + 1 })}
+                className={`rounded-full transition-all ${
+                  i === currentPage
+                    ? "size-[6px] bg-[#C9A96E]"
+                    : "size-[5px] bg-[rgba(201,169,110,0.35)]"
+                }`}
+              />
+            ))}
           </div>
 
-          <div className="flex flex-col gap-6 md:gap-8 items-center w-full">
-            <div className="w-full overflow-hidden touch-pan-y" {...toursSwipe}>
-              <div
-                className="flex transition-transform duration-500 ease-out"
-                style={{
-                  gap: `${gapPx}px`,
-                  transform: `translateX(calc(-${offset} * (${cardWidthPercent}% - ${gapPx * ((isMobile ? mobileVisible : VISIBLE) - 1) / (isMobile ? mobileVisible : VISIBLE)}px + ${gapPx}px)))`,
-                }}
-              >
-                {tours.map((tour) => (
-                  <Link
-                    key={tour.id}
-                    href={`/tours/${tour.id}`}
-                    className="shrink-0 h-[450px] md:h-[380px] xl:h-[480px] rounded-lg overflow-hidden relative cursor-pointer group"
-                    style={{ width: `calc(${cardWidthPercent}% - ${gapPx * (isMobile ? 0 : (VISIBLE - 1)) / (isMobile ? 1 : VISIBLE)}px)` }}
-                  >
-                    <Image
-                      src={tour.image}
-                      alt={tour.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 h-[165px] bg-gradient-to-t from-black/70 to-transparent z-10" />
-                    <div className="absolute bottom-6 left-4 flex gap-4 items-center z-10">
-                      <span className="text-[32px] font-bold text-white leading-[1.2]">
-                        {tour.name}
-                      </span>
-                      <div className="size-7 bg-white rounded-full flex items-center justify-center transition-colors group-hover:bg-[#27c7ff]">
-                        <ArrowRight className="size-[18px] text-[#222222] transition-colors group-hover:text-white" />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+          <button
+            type="button"
+            onClick={goNext}
+            disabled={offset >= maxOffset}
+            aria-label={t("nextSlide")}
+            className={`size-8 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition ${
+              offset >= maxOffset
+                ? "opacity-30 cursor-not-allowed"
+                : "hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+            }`}
+          >
+            <ArrowRight className="size-[14px]" strokeWidth={2} />
+          </button>
+        </div>
 
-                <Link
-                  href="/tours?focus=search"
-                  className="shrink-0 h-[450px] md:h-[380px] xl:h-[480px] rounded-lg overflow-hidden relative cursor-pointer group bg-gradient-to-br from-[#27c7ff] to-[#0e9fd8] flex flex-col items-center justify-center gap-6 px-8"
-                  style={{ width: `calc(${cardWidthPercent}% - ${gapPx * (isMobile ? 0 : (VISIBLE - 1)) / (isMobile ? 1 : VISIBLE)}px)` }}
-                >
-                  <div className="size-[72px] rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                    <Search className="size-8 text-white" />
-                  </div>
-                  <span className="text-[28px] md:text-[32px] font-bold text-white leading-[1.2] text-center">
-                    {t("exploreMore")}
-                  </span>
-                  <span className="text-[16px] md:text-[18px] text-white/80 text-center leading-[1.3]">
-                    {t("exploreMoreSub")}
-                  </span>
-                  <div className="size-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <ArrowUpRight className="size-5 text-[#27c7ff]" />
-                  </div>
-                </Link>
-              </div>
-            </div>
+        <Link
+          href="/tours"
+          className="group inline-flex items-center justify-center gap-2 border border-[#C9A96E] h-12 px-6 w-full sm:w-auto mt-2 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+        >
+          <span className="text-[14px] font-medium tracking-[1.1px] uppercase">
+            {t("exploreAll")}
+          </span>
+          <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2} />
+        </Link>
+      </div>
+    </section>
+  )
+}
 
-            <div className="flex gap-[16px] items-center justify-center">
-              <button
-                onClick={prev}
-                disabled={offset === 0}
-                className={cn(
-                  "size-[32px] rounded-full flex items-center justify-center transition-colors",
-                  offset === 0
-                    ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-                    : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-                )}
-                aria-label={t("previousSlide")}
-              >
-                <ChevronLeft className="size-[15px] text-[#222222]" />
-              </button>
-
-              <div className="flex gap-[6.183px] items-center">
-                {Array.from({ length: totalDots }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToDot(index)}
-                    className={cn(
-                      "rounded-full transition-all",
-                      index === currentDot
-                        ? "size-[13.85px] border-[1.237px] border-[#27c7ff] bg-transparent"
-                        : "size-[9.893px] bg-[#27c7ff]"
-                    )}
-                    aria-label={t("goToSlide", { number: index + 1 })}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={next}
-                disabled={offset >= currentMaxOffset}
-                className={cn(
-                  "size-[32px] rounded-full flex items-center justify-center transition-colors",
-                  offset >= currentMaxOffset
-                    ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-                    : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-                )}
-                aria-label={t("nextSlide")}
-              >
-                <ChevronRight className="size-[15px] text-[#222222]" />
-              </button>
-            </div>
-
-            <Link
-              href="/tours"
-              className="group flex items-center justify-between pl-8 pr-6 py-4 bg-[#27c7ff] rounded-2xl shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_18px_20px_rgba(0,0,0,0.05)] hover:bg-[#20b8ef] transition-colors"
+function TourCard({
+  id,
+  image,
+  name,
+  description,
+  label,
+}: {
+  id: TourId
+  image: string
+  name: string
+  description: string
+  label: string
+}) {
+  return (
+    <Link
+      href={`/tours/${id}`}
+      className="relative block h-[420px] sm:h-[460px] lg:h-[500px] overflow-hidden group"
+    >
+      <Image
+        src={image}
+        alt={name}
+        fill
+        sizes="(max-width: 768px) 100vw, 33vw"
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-black to-[82%] pointer-events-none" />
+      <div className="relative h-full flex flex-col justify-end p-4">
+        <div className="flex items-end gap-2">
+          <div className="flex-1 flex flex-col gap-2 min-w-0">
+            <span
+              className="text-[12px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none"
+              style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
             >
-              <span className="text-[16px] font-bold text-white uppercase tracking-[0.16px]">
-                {t("seeMore")}
-              </span>
-              <ArrowUpRight className="size-8 text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
+              {label}
+            </span>
+            <span
+              className="text-[24px] text-white leading-[1.1]"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {name}
+            </span>
+            <p
+              className="text-[14px] leading-[1.2] text-[#999] tracking-[0.14px] max-w-[287px]"
+              style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+            >
+              {description}
+            </p>
+          </div>
+          <div className="size-8 border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 transition-colors group-hover:border-[#C9A96E] group-hover:bg-[rgba(201,169,110,0.15)]">
+            <ArrowRight className="size-[18px] text-white transition-colors group-hover:text-[#C9A96E]" strokeWidth={1.5} />
           </div>
         </div>
       </div>
-    </section>
+    </Link>
   )
 }

@@ -5,94 +5,90 @@ import { Plus } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 
+const FAQ_KEYS = [
+  "booking",
+  "flightDelay",
+  "private",
+  "vehicles",
+  "coverage",
+] as const
+
 export function FAQ() {
-  const t = useTranslations("faq")
+  const t = useTranslations("faq.redesign")
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-
-  const faqData = [
-    {
-      question: t("questions.paymentMethods.question"),
-      answer: t("questions.paymentMethods.answer"),
-    },
-    {
-      question: t("questions.booking.question"),
-      answer: t("questions.booking.answer"),
-    },
-    {
-      question: t("questions.roundTrip.question"),
-      answer: t("questions.roundTrip.answer"),
-    },
-    {
-      question: t("questions.discount.question"),
-      answer: t("questions.discount.answer"),
-    },
-    {
-      question: t("questions.otherDestinations.question"),
-      answer: t("questions.otherDestinations.answer"),
-    },
-  ]
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
 
   return (
     <section
       id="faq"
-      className="py-[40px] md:py-[64px] px-4 md:px-8 lg:px-[60px] xl:px-[100px] bg-white"
+      className="bg-[#0D0D0D] py-10 md:py-16 px-4 md:px-[82px] 2xl:px-[300px]"
     >
-      <div className="max-w-7xl mx-auto">
-        <h2 className="font-neometric text-[28px] md:text-[36px] font-bold leading-normal text-[#222] mb-8 md:mb-12 w-full">
-          <span className="block md:inline">{t("titleLine1")}</span>
-          <span className="hidden md:inline"> </span>
-          <span className="block md:inline">{t("titleLine2")}</span>
-        </h2>
-
-        <div className="flex flex-col gap-6 md:gap-8 lg:flex-row lg:items-start">
-          <div className="flex w-full flex-col gap-2 lg:w-1/2">
-            <div className="relative h-[340px] w-full lg:h-[380px] lg:w-[420px] xl:h-[450px] xl:w-[500px]">
-              <Image
-                src="/faq_banner.png"
-                alt="FAQ"
-                fill
-                className="object-contain"
-              />
-            </div>
+      <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-start gap-8 md:gap-20">
+        <div className="flex-1 flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span
+              className="text-[12px] tracking-[1.8px] uppercase text-[#C9A96E] font-semibold"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("sectionLabel")}
+            </span>
           </div>
 
-          <div className="flex w-full flex-col justify-start gap-2 lg:w-1/2 lg:pt-8 xl:pt-6">
-            {faqData.map((faq, index) => (
+          <h2
+            className="text-[32px] md:text-[48px] leading-none text-white tracking-[0.52px]"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {t("titleLine1")}
+            <br />
+            {t("titleLine2")}
+          </h2>
+
+          <div className="flex flex-col pt-6 md:pt-9">
+            {FAQ_KEYS.map((key, i) => (
               <div
-                key={index}
-                className="overflow-hidden rounded-[5px] border border-[rgba(191,191,191,0.5)]"
+                key={key}
+                className="border-b border-[rgba(255,255,255,0.07)]"
               >
                 <button
-                  onClick={() => toggleFAQ(index)}
-                  className="flex h-10 lg:h-12 w-full items-center justify-between pl-3 lg:pl-4 pr-2 lg:pr-3 text-left transition-colors hover:bg-black/5"
+                  type="button"
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  className="flex items-center justify-between w-full py-[22px] text-left group"
                 >
-                  <span className="text-sm lg:text-base font-semibold leading-[1.3] tracking-[0.16px] text-[#222]">
-                    {faq.question}
+                  <span
+                    className="text-[14px] font-medium text-white pr-4"
+                    style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                  >
+                    {t(`items.${key}.question`)}
                   </span>
-                  <div className="flex shrink-0 items-center">
+                  <div className="size-8 border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 group-hover:border-[rgba(201,169,110,0.5)] transition-colors">
                     <Plus
-                      className={`h-4 w-4 lg:h-5 lg:w-5 text-[#5F686C] transition-transform duration-300 ${
-                        openIndex === index ? "rotate-45" : ""
-                      }`}
+                      className={`w-[18px] h-[18px] text-white/50 transition-transform duration-300 ${openIndex === i ? "rotate-45" : ""}`}
                     />
                   </div>
                 </button>
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openIndex === index ? "max-h-96" : "max-h-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${openIndex === i ? "max-h-96" : "max-h-0"}`}
                 >
-                  <p className="px-3 lg:px-4 pb-3 pt-0 text-xs lg:text-sm leading-relaxed text-[#222]/80 font-medium">
-                    {faq.answer}
+                  <p
+                    className="text-[14px] leading-[1.6] text-[#999] pb-5"
+                    style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                  >
+                    {t(`items.${key}.answer`)}
                   </p>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="w-full md:w-[480px] xl:w-[605px] shrink-0 aspect-[605/577] rounded-[4px] overflow-hidden relative">
+          <Image
+            src="/faq/driver-photo.png"
+            alt={t("photoAlt")}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 605px"
+          />
         </div>
       </div>
     </section>

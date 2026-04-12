@@ -2,16 +2,18 @@
 
 import { useState, useEffect, useRef, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { Plus, CircleMinus } from "lucide-react"
+import { CircleMinus, BadgeCheck, ShieldCheck } from "lucide-react"
+import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { motion } from "framer-motion"
 import { TransferForm } from "./booking/transfer-form"
 import { EventsTourForm } from "./booking/events-tour-form"
-import { TrustBanner } from "./booking/trust-banner"
 import type { TripType, PassengerState, TourPassengerState, LuggageState, WidgetProductItem } from "./booking/types"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { getDailyNumber } from "@/lib/daily-number"
+import { useMarketingStats } from "@/hooks/use-marketing-stats"
 
 interface BookingWidgetProps {
   className?: string
@@ -44,6 +46,8 @@ export function BookingWidget({ className }: BookingWidgetProps) {
   const [tourPassengers, setTourPassengers] = useState<TourPassengerState>({ adults: 1, children: 0, infants: 0 })
   const [luggage, setLuggage] = useState<LuggageState>({ backpack: 0, handLuggage: 0, checkedBaggage: 0 })
   const passengersRef = useRef<HTMLDivElement | null>(null)
+  const { trustpilotReviewCount } = useMarketingStats()
+  const [reservationCount, setReservationCount] = useState<number | null>(null)
 
   const toursFromApi = useQuery(api.tours.listPublished)
   const eventsFromApi = useQuery(api.events.listPublished)
@@ -101,6 +105,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
 
   useEffect(() => {
     setMounted(true)
+    setReservationCount(getDailyNumber("reservations", 8, 20))
   }, [])
 
   const addDestination = () => {
@@ -148,6 +153,9 @@ export function BookingWidget({ className }: BookingWidgetProps) {
   const hasExtraStop = destinations.length > 1
 
   const transferTranslations = {
+    labelFrom: t("labelFrom"),
+    labelTo: t("labelTo"),
+    labelDeparture: t("labelDeparture"),
     whereFrom: t("whereFrom"),
     whereTo: t("whereTo"),
     placeholderFrom: t("placeholderFrom"),
@@ -292,49 +300,41 @@ export function BookingWidget({ className }: BookingWidgetProps) {
   }
 
   return (
-    <motion.div 
+    <motion.div
       layout
       initial={false}
-      animate={{
-        maxWidth: isTransferMode && hasExtraStop ? 1280 : 1080
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 30
       }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 30 
-      }}
-      className={cn("relative z-20 mx-auto booking-widget-trip-types BookingWidget w-full", className)}
+      className={cn("relative z-20 booking-widget-trip-types BookingWidget w-full", className)}
     >
-      <div className="flex flex-nowrap gap-[12px] md:gap-[24px] mb-4 px-2 justify-center lg:justify-start overflow-x-auto snap-x snap-mandatory [&>*]:snap-start" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <div className="flex flex-nowrap gap-[12px] md:gap-[24px] mb-2 justify-start overflow-x-auto snap-x snap-mandatory [&>*]:snap-start" style={{ WebkitOverflowScrolling: 'touch' }}>
         {tripTypes.map((type) => (
           <label
             key={type.key}
-            className="flex items-center gap-[6px] md:gap-[8px] cursor-pointer group select-none shrink-0"
+            className="flex items-center gap-[8px] cursor-pointer group select-none shrink-0"
             style={{ scrollSnapStop: 'always' }}
             onClick={() => setTripType(type.key)}
           >
             <div
               className={cn(
-                "relative w-[16px] h-[16px] md:w-[18px] md:h-[18px] rounded-full border-2 flex items-center justify-center shrink-0 transition-colors",
-                tripType === type.key ? "border-[#27C7FF]" : "border-gray-300 group-hover:border-[#27C7FF]"
+                "relative size-[16px] rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-colors",
+                tripType === type.key ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.25)] group-hover:border-[#C9A96E]"
               )}
-              style={{
-                borderColor: tripType === type.key
-                  ? "#27C7FF"
-                  : "#D1D5DB"
-              }}
             >
               <div
                 className={cn(
-                  "absolute left-1/2 top-1/2 w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full bg-[#27C7FF] transition-all duration-200 ease-out transform -translate-x-1/2 -translate-y-1/2",
+                  "absolute left-1/2 top-1/2 size-[7px] rounded-full bg-[#C9A96E] transition-all duration-200 ease-out transform -translate-x-1/2 -translate-y-1/2",
                   tripType === type.key ? "scale-100 opacity-100" : "scale-0 opacity-0"
                 )}
               />
             </div>
             <span
               className={cn(
-                "text-[13px] md:text-[15px] font-medium transition-colors duration-200 whitespace-nowrap",
-                tripType === type.key ? "text-[#222]" : "text-[#808080] group-hover:text-[#222]"
+                "text-[14px] font-medium transition-colors duration-200 whitespace-nowrap leading-[19.5px]",
+                tripType === type.key ? "text-white" : "text-[#999] group-hover:text-white"
               )}
             >
               {type.label}
@@ -344,11 +344,8 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       </div>
 
       <div
-        className="rounded-[24px] shadow-[0px_4px_24px_rgba(0,0,0,0.06)] border border-[#f0f0f0] overflow-hidden"
-        style={{ 
-          backgroundColor: "#ffffff",
-          borderColor: "#f0f0f0"
-        }}
+        className="border border-[rgba(255,255,255,0.12)] backdrop-blur-[8px] overflow-hidden"
+        style={{ backgroundColor: "#1e1d1b" }}
         suppressHydrationWarning
       >
         {mounted && (
@@ -392,36 +389,84 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       </div>
 
       {mounted && isTransferMode && (
-        <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-4 w-full px-2">
-          <div className="flex-1 flex justify-start">
-            {destinations.length === 1 ? (
-              <button
-                onClick={addDestination}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-[14px] font-bold text-[#808080] hover:text-[#222] hover:bg-zinc-50 transition-all cursor-pointer"
-              >
-                <Plus className="w-5 h-5" strokeWidth={2.5} />
-                {t("addStop")}
-              </button>
-            ) : (
-              <button
-                onClick={removeDestination}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-[14px] font-bold text-[#808080] hover:text-[#222] hover:bg-zinc-50 transition-all cursor-pointer"
-              >
-                <CircleMinus className="w-5 h-5" strokeWidth={2.5} />
-                {t("removeStop")}
-              </button>
-            )}
+        <div className="mt-1 flex flex-col gap-2.5 w-full px-0.5">
+          <div className="flex items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2 min-w-0">
+              {destinations.length === 1 ? (
+                <button
+                  onClick={addDestination}
+                  className="flex items-center gap-2 text-[14px] font-medium text-[#C9A96E] hover:text-[#C9A96E]/80 transition-colors cursor-pointer shrink-0"
+                >
+                  <Image src="/svgs/stop-toggle.svg" alt="" width={16} height={16} />
+                  {t("addStop")}
+                </button>
+              ) : (
+                <button
+                  onClick={removeDestination}
+                  className="flex items-center gap-2 text-[14px] font-medium text-[#C9A96E] hover:text-[#C9A96E]/80 transition-colors cursor-pointer shrink-0"
+                >
+                  <CircleMinus className="w-4 h-4" strokeWidth={2.5} />
+                  {t("removeStop")}
+                </button>
+              )}
+
+              <div className="hidden lg:flex items-center gap-2">
+                <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
+                <BadgeCheck className="size-3.5 text-[#C9A96E]" />
+                <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+                <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
+                <ShieldCheck className="size-3.5 text-[#C9A96E]" />
+                <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+                <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
+                <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.excellent}</span>
+                <span className="text-[11px] text-[rgba(255,255,255,0.45)]">★★★★★</span>
+                <span className="text-[12px] text-[rgba(255,255,255,0.45)]">
+                  {trustpilotReviewCount} {trustTranslations.reviewsOn}
+                </span>
+                <span className="text-[12px] font-bold text-[rgba(255,255,255,0.45)]">Trustpilot & Google</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1 shrink-0">
+              <div className="size-2 rounded-full bg-[#4ADE80]" />
+              <span className="text-[11px] lg:text-[12px] font-semibold text-[#C9A96E]">
+                {t("reservations", { count: reservationCount ?? 12 })}
+              </span>
+              <span className="text-[10px] lg:text-[12px] text-[rgba(255,255,255,0.55)]">
+                {t("reservationTime")}
+              </span>
+            </div>
           </div>
 
-          <TrustBanner translations={trustTranslations} />
-          
-          <div className="flex-1 hidden md:block" />
+          <div className="flex lg:hidden flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <BadgeCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
+              <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+              <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
+              <ShieldCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
+              <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+            </div>
+            <div className="flex flex-wrap items-start gap-2">
+              <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.excellent}</span>
+              <span className="text-[11px] text-[#696969]">★★★★★</span>
+              <span className="text-[12px] text-[#696969]">
+                {trustpilotReviewCount} {trustTranslations.reviewsOn}
+              </span>
+              <span className="text-[12px] font-bold text-[#696969]">Trustpilot & Google</span>
+            </div>
+          </div>
         </div>
       )}
 
       {mounted && !isTransferMode && (
-        <div className="mt-4 flex items-center justify-center">
-          <TrustBanner translations={trustTranslations} />
+        <div className="mt-2 flex flex-col gap-2 items-start px-0.5">
+          <div className="flex items-center gap-2">
+            <BadgeCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
+            <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+            <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
+            <ShieldCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
+            <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+          </div>
         </div>
       )}
     </motion.div>

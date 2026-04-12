@@ -34,17 +34,17 @@ export function PassengersDropdownContent({
   translations: t,
 }: PassengersDropdownContentProps) {
   return (
-    <div className="bg-white rounded-xl p-4">
+    <div className="bg-[#1e1d1b] p-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[15px] font-black text-[#222]">{t.passengers}</h3>
-        <button onClick={onClose} className="p-1 hover:bg-zinc-50 rounded-lg transition-colors">
-          <X className="w-4 h-4 text-[#808080]" />
+        <h3 className="text-[15px] font-black text-white">{t.passengers}</h3>
+        <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
+          <X className="w-4 h-4 text-[#696969]" />
         </button>
       </div>
 
       <div className="space-y-4">
         <CounterRow
-          icon={<Users className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+          icon={<Users className="w-5 h-5" style={{ color: "#C9A96E" }} />}
           label={t.adults}
           value={passengers.adults}
           onDecrease={() => setPassengers((p) => ({ ...p, adults: Math.max(1, p.adults - 1) }))}
@@ -52,7 +52,7 @@ export function PassengersDropdownContent({
         />
 
         <CounterRow
-          icon={<Baby className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+          icon={<Baby className="w-5 h-5" style={{ color: "#C9A96E" }} />}
           label={t.children}
           sublabel={t.childrenAge}
           value={passengers.children}
@@ -60,10 +60,10 @@ export function PassengersDropdownContent({
           onIncrease={() => setPassengers((p) => ({ ...p, children: p.children + 1 }))}
         />
 
-        <div className="h-[1px] bg-[#f0f0f0] my-2" />
+        <div className="h-[1px] bg-[rgba(255,255,255,0.08)] my-2" />
 
         <CounterRow
-          icon={<Backpack className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+          icon={<Backpack className="w-5 h-5" style={{ color: "#C9A96E" }} />}
           label={t.backpack}
           value={luggage.backpack}
           onDecrease={() => setLuggage((l) => ({ ...l, backpack: Math.max(0, l.backpack - 1) }))}
@@ -71,7 +71,7 @@ export function PassengersDropdownContent({
         />
 
         <CounterRow
-          icon={<Luggage className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+          icon={<Luggage className="w-5 h-5" style={{ color: "#C9A96E" }} />}
           label={t.handLuggage}
           value={luggage.handLuggage}
           onDecrease={() => setLuggage((l) => ({ ...l, handLuggage: Math.max(0, l.handLuggage - 1) }))}
@@ -79,7 +79,7 @@ export function PassengersDropdownContent({
         />
 
         <CounterRow
-          icon={<Briefcase className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+          icon={<Briefcase className="w-5 h-5" style={{ color: "#C9A96E" }} />}
           label={t.checkedBaggage}
           value={luggage.checkedBaggage}
           onDecrease={() => setLuggage((l) => ({ ...l, checkedBaggage: Math.max(0, l.checkedBaggage - 1) }))}
@@ -88,7 +88,7 @@ export function PassengersDropdownContent({
 
         <button
           onClick={onClose}
-          className="w-full mt-2 bg-[#27C7FF] hover:bg-[#1fb8ff] text-white py-3 rounded-full font-black text-[14px] uppercase tracking-wider transition-all shadow-lg shadow-[#27C7FF]/20"
+          className="w-full mt-2 bg-[#C9A96E] hover:brightness-110 text-[rgba(13,13,13,0.96)] py-3 rounded-full font-black text-[14px] uppercase tracking-wider transition-all"
         >
           {t.done}
         </button>
@@ -117,7 +117,7 @@ export function PassengersDropdown({
   return (
     <div
       className={cn(
-        "absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 transition-all duration-200 ease-out transform origin-top",
+        "absolute top-full right-0 mt-2 w-72 rounded-xl shadow-2xl border border-[rgba(255,255,255,0.12)] z-50 transition-all duration-200 ease-out transform origin-top",
         visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-1"
       )}
       onMouseDown={(e) => e.stopPropagation()}
@@ -163,21 +163,21 @@ export function PassengersDropdownSimple({
   return (
     <div
       className={cn(
-        "absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-50 p-4 transition-all duration-200 ease-out transform origin-top",
+        "absolute top-full right-0 mt-2 w-72 bg-[#1e1d1b] rounded-xl shadow-xl border border-[rgba(255,255,255,0.12)] z-50 p-4 transition-all duration-200 ease-out transform origin-top",
         visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-1"
       )}
       onMouseDown={(e) => e.stopPropagation()}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[15px] font-black text-[#222]">{t.passengers}</h3>
-        <button onClick={onClose} className="p-1 hover:bg-zinc-50 rounded-lg transition-colors">
-          <X className="w-4 h-4 text-[#808080]" />
+        <h3 className="text-[15px] font-black text-white">{t.passengers}</h3>
+        <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
+          <X className="w-4 h-4 text-[#696969]" />
         </button>
       </div>
 
       <CounterRow
-        icon={<Users className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+        icon={<Users className="w-5 h-5" style={{ color: "#C9A96E" }} />}
         label={t.adults}
         value={passengers.adults}
         onDecrease={() => setPassengers((p) => ({ ...p, adults: Math.max(1, p.adults - 1) }))}
@@ -185,7 +185,7 @@ export function PassengersDropdownSimple({
       />
 
       <CounterRow
-        icon={<Baby className="w-5 h-5" style={{ color: "#27C7FF" }} />}
+        icon={<Baby className="w-5 h-5" style={{ color: "#C9A96E" }} />}
         label={t.children}
         sublabel={t.childrenAge}
         value={passengers.children}
@@ -195,7 +195,7 @@ export function PassengersDropdownSimple({
 
       <button
         onClick={onClose}
-        className="w-full mt-4 bg-[#27C7FF] hover:bg-[#1fb8ff] text-white py-3 rounded-full font-black text-[14px] uppercase tracking-wider transition-all shadow-lg shadow-[#27C7FF]/20"
+        className="w-full mt-4 bg-[#C9A96E] hover:brightness-110 text-[rgba(13,13,13,0.96)] py-3 rounded-full font-black text-[14px] uppercase tracking-wider transition-all"
       >
         {t.done}
       </button>

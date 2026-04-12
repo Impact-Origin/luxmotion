@@ -1,13 +1,18 @@
 import { Header } from "@/components/new-landing-page/header"
 import { Hero } from "@/components/new-landing-page/hero"
+import { ServicesSection } from "@/components/new-landing-page/services-section"
 import { WhyScheduleSection } from "@/components/new-landing-page/why-schedule-section"
 import { AboutUsSection } from "@/components/new-landing-page/about-us-section"
+import { OurDriversSection } from "@/components/new-landing-page/our-drivers-section"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
+import { CinematicBanner } from "@/components/new-landing-page/cinematic-banner"
 import { Fleet } from "@/components/new-landing-page/fleet"
-import { LisbonBanner } from "@/components/new-landing-page/lisbon-banner"
+import { B2BSection } from "@/components/new-landing-page/b2b-section"
+import { TravelAgenciesSection } from "@/components/new-landing-page/travel-agencies-section"
+import { WeddingPlannersSection } from "@/components/new-landing-page/wedding-planners-section"
+import { ProfessionalDriversSection } from "@/components/new-landing-page/professional-drivers-section"
+import { CTABanner } from "@/components/new-landing-page/cta-banner"
 import { ToursSection } from "@/components/new-landing-page/tours-section"
-import { PaymentMethods } from "@/components/new-landing-page/payment-methods"
-import { NewsletterSection } from "@/components/new-landing-page/newsletter-section"
 import { FAQ } from "@/components/new-landing-page/faq"
 import { SocialSection } from "@/components/new-landing-page/social-section"
 import { Footer } from "@/components/new-landing-page/footer"
@@ -31,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function SitePrincipal() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd data={buildOrganizationSchema()} />
       <JsonLd data={buildWebsiteSchema()} />
       <JsonLd
@@ -48,14 +53,22 @@ export default function SitePrincipal() {
       <Header />
       <WhatsAppFloat />
       <Hero />
-      <Testimonials />
+      <ServicesSection />
       <WhyScheduleSection />
+      <Testimonials />
+      <CinematicBanner />
       <AboutUsSection />
+      <div className="bg-[#0D0D0D] flex justify-center px-4 md:px-[82px] 2xl:px-[300px]">
+        <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[rgba(201,169,110,0.4)] to-transparent" />
+      </div>
+      <OurDriversSection />
+      <CTABanner />
+      <ToursSection />
       <Fleet />
-      <LisbonBanner />
-      <ToursSection />  
-      <PaymentMethods />
-      <NewsletterSection />
+      <B2BSection />
+      <TravelAgenciesSection />
+      <WeddingPlannersSection />
+      <ProfessionalDriversSection />
       <FAQ />
       <SocialSection />
       <Footer />

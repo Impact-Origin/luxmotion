@@ -1,4 +1,4 @@
-import { Montserrat, Yellowtail } from "next/font/google"
+import { Inter, Cormorant_Garamond } from "next/font/google"
 
 import { Suspense } from "react"
 import "@workspace/ui/globals.css"
@@ -7,18 +7,18 @@ import { TourCheckoutProvider } from "@/components/tours/tour-checkout-context"
 import { TourCheckoutModal } from "@/components/tours/tour-checkout-modal"
 import { TourCheckoutReturnHandler } from "@/components/tours/tour-checkout-return-handler"
 
-const fontSans = Montserrat({
+const fontSans = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
 })
 
-const fontSignature = Yellowtail({
+const fontTitle = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-signature",
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-title",
 })
-
 
 export default function RootLayout({
     children,
@@ -26,7 +26,7 @@ export default function RootLayout({
     children: React.ReactNode
   }>) {
     return (
-        <div className={`${fontSans.variable} ${fontSignature.variable} font-sans`}>
+        <div className={`${fontSans.variable} ${fontTitle.variable} font-sans`}>
             <GoogleMapsProvider>
                 <TourCheckoutProvider>
                     {children}

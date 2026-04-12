@@ -24,7 +24,15 @@
     "reviewsOn": "opiniones en",
     "excellent": "Excelente",
     "recommended": "Recomendado",
-    "weekdays": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+    "weekdays": [
+      "dom",
+      "lun",
+      "mar",
+      "mié",
+      "jue",
+      "vie",
+      "sáb"
+    ],
     "months": [
       "ene",
       "feb",
@@ -67,7 +75,8 @@
     "driverCompanies": "Empresas de Conductores",
     "reviews": "Opiniones",
     "faq": "FAQ",
-    "bookNow": "Reservar"
+    "bookNow": "Reservar",
+    "reserve": "Reservar"
   },
   "hero": {
     "title1": "Fácil de usar,",
@@ -111,7 +120,25 @@
     "readMore": "Leer más",
     "adultAge": "Más de 13+",
     "infant": "Bebé",
-    "infantAge": "Hasta 3 años"
+    "infantAge": "Hasta 3 años",
+    "label": "Private Mobility · Portugal",
+    "titleHighlight": "En Sus Términos.",
+    "description": "Traslados privados con chófer y experiencias exclusivas para huéspedes que esperan más que un viaje.",
+    "excellentRating": "Valoración Excelente",
+    "verifiedBy": "Verificado por",
+    "fromReviews": "De {count} Reseñas",
+    "poweredBy": "Powered by",
+    "reservations": "{count} reservas",
+    "reservationTime": "realizadas en las últimas 24 horas",
+    "flightMonitoring": "Monitoreo de vuelo:",
+    "flightMonitoringDesc": "Su conductor se adapta, siempre.",
+    "conciergeSupport": "Soporte concierge 24/7,",
+    "conciergeSupportDesc": "donde quiera que esté.",
+    "privateTransfers": "100% traslados privados,",
+    "privateTransfersDesc": "solo chóferes verificados.",
+    "labelFrom": "Desde",
+    "labelTo": "Hasta",
+    "labelDeparture": "Salida"
   },
   "features": {
     "title": "¿Por qué reservar con nosotros?",
@@ -154,6 +181,54 @@
       "van": "Furgoneta",
       "minibus": "Minibús",
       "bus": "Autobús"
+    },
+    "sectionLabel": "Nuestra Flota",
+    "titleHeading": "El Estándar, Definido.",
+    "subtitle": "Seis categorías. Un único nivel de excelencia, sin concesiones.",
+    "previousSlide": "Diapositiva anterior",
+    "nextSlide": "Siguiente diapositiva",
+    "categories": {
+      "standard": {
+        "label": "Estándar",
+        "passengers": "1–3 pasajeros"
+      },
+      "xl": {
+        "label": "XL",
+        "passengers": "1–5 pasajeros"
+      },
+      "executivo": {
+        "label": "Ejecutivo",
+        "passengers": "1–4 pasajeros"
+      },
+      "van": {
+        "label": "Furgoneta",
+        "passengers": "8 pasajeros"
+      },
+      "minibus": {
+        "label": "Minibús",
+        "passengers": "16 pasajeros"
+      },
+      "bus": {
+        "label": "Autobús",
+        "passengers": "56 pasajeros"
+      }
+    },
+    "featured": {
+      "fiatTipo": {
+        "label": "Estándar",
+        "name": "Fiat Tipo Station",
+        "specs": "1–4 pasajeros · 3 maletas"
+      },
+      "mercedesSClass1": {
+        "label": "Estándar",
+        "name": "Mercedes Clase S",
+        "specs": "1–4 pasajeros · 3 maletas"
+      },
+      "mercedesSClass2": {
+        "label": "Estándar",
+        "name": "Mercedes Clase S",
+        "specs": "1–4 pasajeros · 3 maletas"
+      }
     }
   },
   "fleetPage": {
@@ -209,12 +284,10 @@
     "clientsAndCompanies": "clientes y empresas"
   },
   "testimonials": {
-    "happyCustomers": "Clientes felices en el Palacio de Sintra",
-    "groupTour": "Tour en grupo con traslado",
-    "familyTransfer": "Familia con vehículo de traslado Mercedes",
-    "luxuryRide": "Experiencia de viaje de lujo",
-    "airportPickup": "Servicio de recogida en el aeropuerto",
-    "scenicTour": "Paseo panorámico"
+    "exclusive": "Exclusivo",
+    "sectionLabel": "Opiniones de Clientes",
+    "heading": "Qué Dicen Nuestros Clientes",
+    "reviews": "Opiniones"
   },
   "faq": {
     "title": "FAQ",
@@ -241,6 +314,34 @@
       "otherDestinations": {
         "question": "¿Viajan a otros lugares?",
         "answer": "¡Sí! Ofrecemos traslados a varios destinos en Portugal y España. Además de aeropuertos, viajamos a ciudades turísticas, eventos especiales, hoteles y cualquier otro lugar que necesites. Pregúntanos sobre tu destino específico."
+      }
+    },
+    "redesign": {
+      "sectionLabel": "Preguntas",
+      "titleLine1": "Todo lo que Necesitas",
+      "titleLine2": "Saber.",
+      "photoAlt": "Conductor profesional de LuxMotion",
+      "items": {
+        "booking": {
+          "question": "¿Con cuánta antelación debo reservar?",
+          "answer": "Recomendamos reservar al menos 24 horas de antelación para garantizar disponibilidad. Sin embargo, atendemos solicitudes del mismo día siempre que sea posible. Para temporada alta, festivos o transfers de grupos grandes, reservar 48–72 horas antes asegura la mejor selección de vehículos."
+        },
+        "flightDelay": {
+          "question": "¿Qué pasa si mi vuelo se retrasa?",
+          "answer": "Monitorizamos cada vuelo en tiempo real. Si tu vuelo se retrasa, el horario de tu conductor se ajusta automáticamente — sin llamadas, sin estrés. No hay cargo extra por retrasos de vuelo, y tu chófer estará esperando cuando aterrices, sin importar la hora."
+        },
+        "private": {
+          "question": "¿Todos los transfers son realmente privados?",
+          "answer": "Sí. Cada reserva es un servicio privado — nunca compartirás tu vehículo con otros pasajeros. Tu chófer, tu vehículo, tu horario. Sin excepciones."
+        },
+        "vehicles": {
+          "question": "¿Qué vehículos están disponibles?",
+          "answer": "Nuestra flota incluye Mercedes Clase E, Clase S, Clase V y furgonetas Sprinter. Para grupos más grandes, ofrecemos minibuses y autocares. Cada vehículo se mantiene con los más altos estándares, con agua, Wi-Fi y sillas infantiles disponibles bajo petición."
+        },
+        "coverage": {
+          "question": "¿Cubrís todo Portugal?",
+          "answer": "Operamos en todo el Portugal continental, desde el Algarve hasta Oporto y todo lo que hay en medio. Transfers aeroportuarios, rutas ciudad a ciudad e itinerarios personalizados están disponibles. También cubrimos transfers transfronterizos a España bajo petición."
+        }
       }
     }
   },
@@ -324,7 +425,15 @@
     "paymentMethods": "Métodos de Pago",
     "arbitrationCenter": "Centro de Arbitraje",
     "alternativeDispute": "Resolución Alternativa de Disputas de Consumo",
-    "support": "Soporte"
+    "support": "Soporte",
+    "redesign": {
+      "tagline1": "Movilidad Privada. Portugal.",
+      "tagline2": "Donde cada llegada es una primera impresión.",
+      "follow": "Seguir",
+      "acceptedPayments": "Pagos Aceptados",
+      "securePayments": "Pagos seguros · SSL cifrado",
+      "copyright": "© 2026 LuxMotion by EasyTransfer. Todos los derechos reservados."
+    }
   },
   "checkout": {
     "steps": {
@@ -652,32 +761,41 @@
   },
   "exclusive": "Exclusivo",
   "tours": {
-    "exclusive": "Exclusivo",
-    "title": "Nuestros Tours Inmersivos",
-    "description": {
-      "heading": "Vea Portugal desde un nuevo ángulo.",
-      "subheading": "¡Una experiencia que vale la pena!",
-      "body": "Nuestros servicios cubren las principales ciudades y regiones turísticas de Portugal, garantizando que llegue a su destino rápidamente y con seguridad."
-    },
-    "features": {
-      "authentic": "Experiencia local auténtica y VIP",
-      "professional": "Guías profesionales y experimentados",
-      "flexibility": "Flexibilidad en la creación de itinerarios"
-    },
-    "seeMore": "Ver más",
+    "sectionLabel": "Tours Privados",
+    "titleGold": "Portugal,",
+    "titleRest": "más allá\nde lo esperado.",
+    "description": "Experiencias privadas de día completo creadas para viajeros exigentes. Diseñadas para quienes prefieren vivir el viaje antes que seguir un itinerario.",
+    "cardLabel": "Privado · Día completo",
+    "exploreAll": "Explorar todos los destinos",
     "previousSlide": "Diapositiva anterior",
     "nextSlide": "Siguiente diapositiva",
     "goToSlide": "Ir a la diapositiva {number}",
     "destinations": {
-      "lisboa": "Lisboa",
-      "porto": "Oporto",
-      "algarve": "Algarve",
-      "alentejo": "Alentejo",
-      "acores": "Azores",
-      "madeira": "Madeira"
-    },
-    "exploreMore": "Descubre Más Destinos",
-    "exploreMoreSub": "Encuentra tu escapada perfecta"
+      "lisboa": {
+        "name": "Lisboa",
+        "description": "Alfama en la hora dorada. Belém antes de las multitudes. Una ciudad que premia a quienes saben dónde mirar."
+      },
+      "porto": {
+        "name": "Oporto",
+        "description": "Niebla sobre la Ribeira, siglos de historia del vino de Oporto y puentes sacados de una postal. Una ciudad que permanece."
+      },
+      "algarve": {
+        "name": "Algarve",
+        "description": "Acantilados tallados por el Atlántico. Calas escondidas al amanecer. La costa que Portugal reserva a los que saben."
+      },
+      "alentejo": {
+        "name": "Alentejo",
+        "description": "Alcornoques infinitos, pueblos amurallados en lo alto y caminos silenciosos donde el tiempo se detiene."
+      },
+      "acores": {
+        "name": "Azores",
+        "description": "Cráteres volcánicos, lagunas de altitud y un horizonte oceánico que cambia con cada hora."
+      },
+      "madeira": {
+        "name": "Madeira",
+        "description": "Levadas entre bosques de laurisilva. Terrazas aferradas a los acantilados. Una isla como un jardín secreto."
+      }
+    }
   },
   "addExperience": {
     "title": "Añadir",
@@ -768,23 +886,32 @@
     }
   },
   "aboutUs": {
-    "title": "Sobre nosotros",
-    "imageAlt": "Foto del equipo de Sobre nosotros",
-    "content": {
-      "welcome": "¡Bienvenidos a nuestro viaje único!",
-      "unitedByLove": "Unidos por amor a Portugal",
-      "foundersDescription": ", dos jóvenes dedicados y una persona experimentada con 70 años, dieron vida a nuestra empresa.",
-      "motivation": "Impulsados por la pasión de explorar, decidimos crear",
-      "memorableExperiences": "experiencias memorables",
-      "companyDescription": ". Combinando energía juvenil e innovación con la sabiduría acumulada a lo largo de los años, moldeamos una empresa que refleja autenticidad y compromiso.",
-      "serviceDescription": "Cada traslado y tour es más que un servicio, es una narrativa cautivadora,",
-      "discoveries": "llena de descubrimientos",
-      "emotionalConnections": " y conexiones emocionales.",
-      "joinUs": "Únete a nosotros en este emocionante viaje por Portugal,",
-      "everyKilometer": "donde cada kilómetro es una historia y cada destino una experiencia inolvidable",
-      "signature": "A.: Afonso, David, Jorge"
-    },
-    "seeMore": "Ver más"
+    "sectionLabel": "Sobre nosotros",
+    "title": "Conoce a los Fundadores",
+    "imageAlt": "Conoce a los fundadores de LuxMotion",
+    "quote1": "Unidos por el amor a Portugal, dos jóvenes dedicados y un experimentado de 70 años dieron vida a nuestra empresa.",
+    "quote2": "Impulsados por la pasión por explorar, nos propusimos crear experiencias inolvidables. Combinando la energía juvenil y la innovación con la sabiduría acumulada a lo largo de los años, moldeamos una empresa que refleja autenticidad y compromiso.",
+    "quote3": "Cada traslado y tour es más que un simple servicio; es una narrativa cautivadora, llena de descubrimientos y conexiones emocionales.",
+    "quote4": "Únete a nosotros en este emocionante viaje por Portugal, donde cada kilómetro es una historia y cada destino una experiencia inolvidable.",
+    "foundersName": "Afonso, David, & Jorge",
+    "foundersRole": "Cofundadores"
+  },
+  "drivers": {
+    "sectionLabel": "Nuestros Conductores",
+    "titlePart1": "Los Mejores Conductores",
+    "titlePart2": "en Cada Destino.",
+    "vehicle": "Vehículo",
+    "languages": "Idiomas",
+    "rides": "viajes",
+    "prevDriver": "Conductor anterior",
+    "nextDriver": "Siguiente conductor",
+    "goToDriver": "Ir al conductor",
+    "vettingHeading": "Cada conductor es cuidadosamente seleccionado y evaluado por nuestro equipo.",
+    "vettingSubtext": "Solo 1 de cada 5 candidatos se une a LuxMotion.",
+    "step1": "Entrevista individual",
+    "step2": "Verificación de identidad y vehículo",
+    "step3": "Formación en protocolos de seguridad",
+    "step4": "Listo para el primer viaje"
   },
   "social": {
     "followUs": "Síguenos",
@@ -793,7 +920,8 @@
     "posts": "publicaciones",
     "followers": "seguidores",
     "following": "siguiendo",
-    "follow": "Seguir"
+    "follow": "Seguir",
+    "followJourney": "Sigue el Viaje"
   },
   "trustedBy": {
     "title": "Confían en nosotros"
@@ -944,11 +1072,41 @@
     "goToSlide": "Ir a la diapositiva {number}"
   },
   "services": {
-    "title": "Nuestros Servicios",
-    "luxuryTravel": "Viajes de\nLujo",
-    "tailorMade": "Itinerarios\nPersonalizados",
-    "transfers": "Transfers",
-    "goToSlide": "Ir a la diapositiva {number}"
+    "sectionLabel": "Servicios Que Ofrecemos",
+    "transfers": "Traslados",
+    "tours": "Tours",
+    "weddings": "Bodas",
+    "events": "Eventos",
+    "corporate": "Corporativo"
+  },
+  "whyLuxMotion": {
+    "sectionLabel": "Por Qué LuxMotion",
+    "heading": "Diseñado Para Ti",
+    "subtitle": "El vehículo. El conductor. El timing. Cada detalle se gestiona antes de que pienses en pedirlo.",
+    "alwaysOnTime": {
+      "title": "Siempre a Tiempo",
+      "description": "Rastreamos tu vuelo en tiempo real. Tu conductor se ajusta automáticamente — sin llamadas, sin cargos extra."
+    },
+    "privateAlways": {
+      "title": "Privado. Siempre.",
+      "description": "Sin viajes compartidos. Sin desvíos. Tu vehículo es solo tuyo desde el momento en que subes."
+    },
+    "meetAndGreet": {
+      "title": "Meet & Greet",
+      "description": "Tu conductor te espera antes de pasar por aduanas. Cartel con nombre, equipaje atendido. Sin buscar."
+    },
+    "fleet": {
+      "title": "Una Flota Sin Compromiso",
+      "description": "Mercedes S-Class, BMW 7, Audi A8, Tesla Model X. Nada que no combine con donde te hospedas."
+    },
+    "confirmed": {
+      "title": "Confirmado en Segundos",
+      "description": "Reserva en menos de 30 segundos. Soporte 24/7. Cambia o cancela sin complicaciones, cuando lo necesites."
+    },
+    "partners": {
+      "title": "40+ Socios de Lujo",
+      "description": "Elegidos por los mejores hoteles y resorts de Portugal como la primera impresión que reciben sus huéspedes."
+    }
   },
   "guides": {
     "title": "Consejos de viaje y guías",
@@ -1082,7 +1240,7 @@
     "featureCardDescription": "Descripción de Tarjeta de Característica",
     "featureIconColor": "Icono de Característica",
     "fleetSection": "Sección de Flota",
-    "fleetSectionBg": "Fondo de la Sección de Flota",
+    "fleetSectionBg": "Fondo de la Sección",
     "fleetSectionTitle": "Título de la Sección de Flota",
     "vehicleCardBg": "Fondo de Tarjeta de Vehículo",
     "vehicleName": "Nombre del Vehículo",
@@ -1099,13 +1257,12 @@
     "exclusiveBadgeIcon": "Icono de Insignia Exclusiva",
     "faqSection": "Sección de FAQ",
     "faqTitle": "Título FAQ",
-    "faqSubtitle": "Subtítulo FAQ",
+    "faqSubtitle": "Subtítulo de FAQ",
     "faqCardBg": "Fondo de Tarjeta FAQ",
     "faqCardBorder": "Borde de Tarjeta FAQ",
     "faqQuestionText": "Texto de Pregunta FAQ",
     "faqAnswerText": "Texto de Respuesta FAQ",
     "faqIconColor": "Icono de FAQ",
-    "faqSubtitle": "Subtítulo de FAQ",
     "footerSection": "Sección del Pie de Página",
     "footerBackground": "Fondo del Pie de Página",
     "footerLogoBg": "Fondo del Logo del Pie",
@@ -1113,7 +1270,6 @@
     "footerLinkColor": "Color de Enlaces del Pie",
     "testimonialNavButtonBg": "Botón de Navegación",
     "featuresSectionBg": "Fondo de la Sección",
-    "fleetSectionBg": "Fondo de la Sección",
     "paymentSectionBg": "Fondo de la Sección",
     "exclusiveBadgeText": "Texto de Insignia Exclusiva",
     "faqSectionBg": "Section Background",
@@ -1313,7 +1469,6 @@
     "checkoutSecurityBannerTitle": "Texto del Título",
     "checkoutSecurityBannerText": "Texto del Cuerpo",
     "paymentStep": "Pago",
-
     "featuredBlog": "Publicación Destacada",
     "featuredTour": "Tour Destacado",
     "featuredEvent": "Evento Destacado",
@@ -2032,5 +2187,81 @@
       "successUpdated": "Miembro actualizado con éxito",
       "errorGeneric": "Algo salió mal"
     }
+  },
+  "b2b": {
+    "sectionLabel": "Hoteles y Propiedades Boutique",
+    "titleMain": "Eleve Cada Llegada.",
+    "titleItalic": "Antes del Check-In.",
+    "body1": "Sus huéspedes eligieron un 5 estrellas. El transfer no puede ser una ocurrencia tardía.",
+    "body2": "LuxMotion se integra perfectamente en sus comunicaciones con huéspedes — totalmente white-label, con cero carga operativa para su equipo. Los retrasos de vuelo se rastrean automáticamente, su conserje se mantiene informado en tiempo real, y los huéspedes llegan sintiendo que la experiencia comenzó en el momento en que aterrizaron.",
+    "cta": "Conviértase en socio",
+    "photoAlt": "Transfer de lujo recibiendo a huésped del hotel",
+    "card": {
+      "label": "Check-In del Huésped",
+      "guestInitial": "J",
+      "guestName": "James Whitmore",
+      "guestMeta": "Suite 412 · Llegada 14:35",
+      "tag1": "Vuelo retrasado 45 min",
+      "tag2": "Check-out tardío",
+      "call": "Llamar",
+      "message": "Mensaje"
+    }
+  },
+  "travelAgencies": {
+    "sectionLabel": "Agencias de Viajes",
+    "titleMain": "Añade Transporte Terrestre Premium",
+    "titleItalic": "a Cada Itinerario que Vendas.",
+    "body": "Tus clientes confían en ti para cuidar cada detalle. Ahora puedes incluir transfers privados con chófer por todo Portugal sin gestionar un solo vehículo ni conductor. Totalmente personalizado bajo tu marca, nuestra plataforma se integra en tu flujo de reservas en minutos — aumentando tus ingresos por reserva y dando a los clientes un motivo más para volver.",
+    "cta": "Explorar la integración",
+    "photoAlt": "Chófer con vehículo de lujo en el aeropuerto",
+    "card": {
+      "label": "+ Reserva White-Label",
+      "route": "Aeropuerto de Lisboa → Bairro Alto Hotel",
+      "date": "14 Mar  ·  08:45 llegada",
+      "button": "Continuar Reserva"
+    }
+  },
+  "weddingPlanners": {
+    "sectionLabel": "Wedding Planners y Espacios",
+    "titleLine1": "El Día Es Perfecto.",
+    "titleLine2": "Los Transfers También Deberían Serlo.",
+    "body": "Una boda no tiene margen para un conductor que llega tarde, un vehículo que no encaja con la estética o un invitado esperando en el aeropuerto. LuxMotion ofrece a los wedding planners y espacios un socio de transfers privados preparado para los días más exigentes — vehículos impecables, chóferes verificados, seguimiento en tiempo real y discreción absoluta como estándar.",
+    "cta": "Trabaja con nosotros",
+    "photoAlt": "Chófer abriendo puerta de vehículo de lujo",
+    "card": {
+      "badge": "+ Viaje Confirmado",
+      "arrival": "Llegó a las 14:30",
+      "status": "A Tiempo"
+    }
+  },
+  "professionalDrivers": {
+    "sectionLabel": "Conductores Profesionales",
+    "titleLine1": "Conduce a los Huéspedes",
+    "titleLine2": "Más Exigentes de Portugal.",
+    "body": "LuxMotion conecta conductores profesionales con huéspedes que esperan el más alto estándar. Viajes preprogramados, pagos semanales y una plataforma que gestiona todo — para que te centres en conducir. Solo aceptamos 1 de cada 5 solicitantes. Si tienes el vehículo, el profesionalismo y la discreción, nos gustaría conocerte.",
+    "cta": "Solicita conducir con nosotros",
+    "photoAlt": "Conductor profesional al volante de vehículo de lujo",
+    "card": {
+      "dateLabel": "Hoy · 4 Mar",
+      "ridesCount": "3 viajes confirmados",
+      "onTime": "A Tiempo",
+      "scheduled": "Programado",
+      "route1": "DESDE Aeropuerto de Lisboa T1",
+      "route2": "HASTA Penha Longa Resort",
+      "route3": "DESDE Hotel Bairro Alto"
+    }
+  },
+  "cinematicBanner": {
+    "line1": "Cada Llegada.",
+    "line2": "Una Primera Impresión.",
+    "cta": "Explorar Nuestro Servicio",
+    "photoAlt": "Chófer de lujo llegando a la propiedad"
+  },
+  "ctaBanner": {
+    "line1": "Cada Llegada.",
+    "line2": "Una Primera Impresión",
+    "subtitle1": "De Lisboa al Duero, del Algarve al Alentejo.",
+    "subtitle2": "Te movemos por Portugal como fue hecho para ser vivido.",
+    "cta": "Explorar Nuestro Servicio"
   }
 }

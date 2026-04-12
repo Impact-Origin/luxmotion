@@ -1,12 +1,11 @@
 "use client"
 
 import { type Dispatch, type SetStateAction, useState } from "react"
-import { MapPin, Home, ChevronDown, Briefcase, Luggage, Users, BadgeCheck, MapPinCheckInside, MapPinPlus } from "lucide-react"
+import { MapPin, ChevronDown, Briefcase, Luggage, Users, CircleCheckBig, CalendarArrowDown } from "lucide-react"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
 import { PassengersDropdownContent } from "./passengers-dropdown"
 import { GooglePlacesInput } from "@/components/ui/google-places-input"
 import type { PassengerState, LuggageState } from "./types"
-import { Themed } from "@/components/themed"
 import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
 import { motion, AnimatePresence } from "framer-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
@@ -36,6 +35,9 @@ interface TransferFormProps {
   setDepartureDate: (date: Date | undefined) => void
   onContinue: () => void
   translations: {
+    labelFrom: string
+    labelTo: string
+    labelDeparture: string
     whereFrom: string
     whereTo: string
     placeholderFrom: string
@@ -109,8 +111,8 @@ export function TransferForm({
       {/* From / Partida */}
       <motion.div
         layout
-        className="relative flex-[1.6] border-b lg:border-b-0 lg:border-r border-gray-100 min-h-[64px] flex items-center booking-section focus-within:z-30 lg:rounded-l-[24px]" 
-        style={{ backgroundColor: "#ffffff", borderColor: "#f0f0f0" }}
+        className="relative flex-1 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] flex items-center booking-section focus-within:z-30"
+        style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}
       >
         {isMobile ? (
           <MobileLocationPanel
@@ -125,13 +127,10 @@ export function TransferForm({
                 type="button"
                 className="w-full h-full flex items-center gap-3 pl-14 pr-4 py-3 text-left cursor-pointer"
               >
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ color: "#27C7FF" }}>
-                  <div className="relative">
-                    <MapPin className="w-5 h-5" strokeWidth={2.5} />
-                    <Home className="w-2.5 h-2.5 absolute -bottom-0.5 -right-0.5 rounded-full" strokeWidth={2.5} />
-                  </div>
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#C9A96E]">
+                  <MapPin className="w-5 h-5" strokeWidth={2.5} />
                 </div>
-                <span className={fromLocation.text ? "text-[14px] font-medium text-[#222]" : "text-[14px] text-[#808080]"}>
+                <span className={fromLocation.text ? "text-[14px] font-medium text-white" : "text-[14px] text-[#696969]"}>
                   {fromLocation.text || t.placeholderFrom}
                 </span>
               </button>
@@ -155,31 +154,31 @@ export function TransferForm({
             </div>
           </MobileLocationPanel>
         ) : (
-          <>
-            <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ color: "#27C7FF" }}>
-              <div className="relative">
-                <MapPin className="w-5 h-5" strokeWidth={2.5} />
-                <Home className="w-2.5 h-2.5 absolute -bottom-0.5 -right-0.5 rounded-full" strokeWidth={2.5} />
+          <div className="flex flex-col justify-center w-full pl-2 py-[10px]">
+            <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[1.08px] uppercase leading-none" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>{t.labelFrom}</span>
+            <div className="relative flex items-center mt-3 h-[24px]">
+              <div className="absolute left-0 z-10 pointer-events-none text-[#C9A96E]">
+                <MapPin className="w-6 h-6" />
               </div>
+              <GooglePlacesInput
+                value={{
+                  location: fromLocation.text,
+                  placeId: fromLocation.placeId,
+                  lat: fromLocation.lat,
+                  lng: fromLocation.lng,
+                }}
+                onChange={(v) =>
+                  setFromLocation(
+                    v.location,
+                    v.placeId ? { placeId: v.placeId, lat: v.lat!, lng: v.lng! } : undefined
+                  )
+                }
+                placeholder={t.placeholderFrom}
+                className="w-full"
+                variant="hero-inline"
+              />
             </div>
-            <GooglePlacesInput
-              value={{
-                location: fromLocation.text,
-                placeId: fromLocation.placeId,
-                lat: fromLocation.lat,
-                lng: fromLocation.lng,
-              }}
-              onChange={(v) =>
-                setFromLocation(
-                  v.location,
-                  v.placeId ? { placeId: v.placeId, lat: v.lat!, lng: v.lng! } : undefined
-                )
-              }
-              placeholder={t.placeholderFrom}
-              className="w-full h-full"
-              variant="hero-inline"
-            />
-          </>
+          </div>
         )}
       </motion.div>
 
@@ -190,11 +189,11 @@ export function TransferForm({
             key={index}
             layout
             initial={{ opacity: 0, x: -20, flex: 0 }}
-            animate={{ opacity: 1, x: 0, flex: 1.6 }}
+            animate={{ opacity: 1, x: 0, flex: 1 }}
             exit={{ opacity: 0, x: -20, flex: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative border-b lg:border-b-0 lg:border-r border-gray-100 min-h-[64px] flex items-center booking-section focus-within:z-30 overflow-hidden"
-            style={{ backgroundColor: "#ffffff", borderColor: "#f0f0f0" }}
+            className="relative border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] flex items-center booking-section focus-within:z-30 overflow-hidden"
+            style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}
           >
             {isMobile ? (
               <MobileLocationPanel
@@ -214,14 +213,10 @@ export function TransferForm({
                     }}
                     className="w-full h-full flex items-center gap-3 pl-14 pr-4 py-3 text-left cursor-pointer"
                   >
-                    <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ color: "#27C7FF" }}>
-                      {index === destinations.length - 1 ? (
-                        <MapPinCheckInside className="w-5 h-5" strokeWidth={2.5} />
-                      ) : (
-                        <MapPinPlus className="w-5 h-5" strokeWidth={2.5} />
-                      )}
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-[#C9A96E]">
+                      <MapPin className="w-5 h-5" strokeWidth={2.5} />
                     </div>
-                    <span className={dest.text ? "text-[14px] font-medium text-[#222]" : "text-[14px] text-[#808080]"}>
+                    <span className={dest.text ? "text-[14px] font-medium text-white" : "text-[14px] text-[#696969]"}>
                       {dest.text || t.placeholderTo}
                     </span>
                   </button>
@@ -245,49 +240,60 @@ export function TransferForm({
                 </div>
               </MobileLocationPanel>
             ) : (
-              <>
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ color: "#27C7FF" }}>
-                  {index === destinations.length - 1 ? (
-                    <MapPinCheckInside className="w-5 h-5" strokeWidth={2.5} />
-                  ) : (
-                    <MapPinPlus className="w-5 h-5" strokeWidth={2.5} />
-                  )}
+              <div className="flex flex-col justify-center w-full pl-2 py-[10px]">
+                <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[1.08px] uppercase leading-none" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>{t.labelTo}</span>
+                <div className="relative flex items-center mt-3 h-[24px]">
+                  <div className="absolute left-0 z-10 pointer-events-none text-[#C9A96E]">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <GooglePlacesInput
+                    value={{
+                      location: dest.text,
+                      placeId: dest.placeId,
+                      lat: dest.lat,
+                      lng: dest.lng,
+                    }}
+                    onChange={(v) =>
+                      setDestination(
+                        index,
+                        v.location,
+                        v.placeId ? { placeId: v.placeId, lat: v.lat!, lng: v.lng! } : undefined
+                      )
+                    }
+                    placeholder={t.placeholderTo}
+                    className="w-full"
+                    variant="hero-inline"
+                  />
                 </div>
-                <GooglePlacesInput
-                  value={{
-                    location: dest.text,
-                    placeId: dest.placeId,
-                    lat: dest.lat,
-                    lng: dest.lng,
-                  }}
-                  onChange={(v) =>
-                    setDestination(
-                      index,
-                      v.location,
-                      v.placeId ? { placeId: v.placeId, lat: v.lat!, lng: v.lng! } : undefined
-                    )
-                  }
-                  placeholder={t.placeholderTo}
-                  className="w-full h-full"
-                  variant="hero-inline"
-                />
-              </>
+              </div>
             )}
           </motion.div>
         ))}
       </AnimatePresence>
 
-      <motion.div layout className="flex-[0.9] border-b lg:border-b-0 lg:border-r border-gray-100 flex items-center booking-section" style={{ backgroundColor: "#ffffff", borderColor: "#f0f0f0" }}>
+      <motion.div layout className="lg:w-[199px] lg:shrink-0 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] booking-section hidden lg:flex flex-col justify-center pl-2 py-[10px]" style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
+        <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[1.08px] uppercase leading-none" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>{t.labelDeparture}</span>
+        <div className="mt-3">
+          <DateTimePicker
+            value={departureDate}
+            onChange={setDepartureDate}
+            placeholder="dd/mm/aaaa"
+            label={t.labelDeparture}
+            variant="new-widget"
+          />
+        </div>
+      </motion.div>
+      <motion.div layout className="lg:hidden flex-[0.9] border-b border-[rgba(255,255,255,0.08)] flex items-center booking-section" style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
         <DateTimePicker
           value={departureDate}
           onChange={setDepartureDate}
           placeholder={t.placeholderDeparture}
-          label={t.placeholderDeparture}
+          label={t.labelDeparture}
           variant="new-widget"
         />
       </motion.div>
 
-      <motion.div layout className="relative flex-[0.7] flex items-center border-b lg:border-b-0 border-gray-100" style={{ borderColor: "#f0f0f0" }}>
+      <motion.div layout className="relative shrink-0 flex items-center border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)]" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
         {isMobile ? (
           <MobileDrawer
             open={showPassengersDropdown}
@@ -296,29 +302,29 @@ export function TransferForm({
             trigger={
               <button
                 type="button"
-                className="relative flex items-center justify-start lg:justify-center gap-4 md:gap-5 px-6 py-3 w-full h-full cursor-pointer transition-colors hover:bg-zinc-50/50 booking-section outline-none"
+                className="relative flex items-center justify-start lg:justify-center gap-4 md:gap-5 px-6 py-3 w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
                 style={{
-                  backgroundColor: "#ffffff",
-                  color: "#27C7FF",
-                  borderColor: "#f0f0f0"
+                  backgroundColor: "transparent",
+                  color: "#C9A96E",
+                  borderColor: "rgba(255,255,255,0.08)"
                 }}
               >
-                <div className="flex items-center gap-5 text-[#27C7FF]">
+                <div className="flex items-center gap-5 text-[#C9A96E]">
                   <div className="flex items-center gap-2">
-                    <Users className="w-[22px] h-[22px]" style={{ color: "#27C7FF" }} strokeWidth={2.5} />
-                    <span className="text-[17px] font-semibold leading-none text-[#808080]">
+                    <Users className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <span className="text-[14px] font-medium leading-[21px] text-white">
                       {totalPassengers}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-[22px] h-[22px]" style={{ color: "#27C7FF" }} strokeWidth={2.5} />
-                    <Luggage className="w-[22px] h-[22px]" style={{ color: "#27C7FF" }} strokeWidth={2.5} />
-                    <span className="text-[17px] font-semibold leading-none text-[#808080]">
+                    <Briefcase className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <Luggage className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <span className="text-[14px] font-medium leading-[21px] text-white">
                       {totalLuggage}
                     </span>
                   </div>
                 </div>
-                <ChevronDown className="w-4 h-4" style={{ color: "#27C7FF" }} strokeWidth={3} />
+                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={3} />
               </button>
             }
           >
@@ -336,36 +342,36 @@ export function TransferForm({
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="relative flex items-center justify-start lg:justify-center gap-4 md:gap-5 px-6 py-3 w-full h-full cursor-pointer transition-colors hover:bg-zinc-50/50 booking-section outline-none"
+                className="relative flex items-center justify-start lg:justify-center gap-4 md:gap-5 px-6 py-3 w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
                 style={{
-                  backgroundColor: "#ffffff",
-                  color: "#27C7FF",
-                  borderColor: "#f0f0f0"
+                  backgroundColor: "transparent",
+                  color: "#C9A96E",
+                  borderColor: "rgba(255,255,255,0.08)"
                 }}
               >
-                <div className="flex items-center gap-5 text-[#27C7FF]">
+                <div className="flex items-center gap-5 text-[#C9A96E]">
                   <div className="flex items-center gap-2">
-                    <Users className="w-[22px] h-[22px]" style={{ color: "#27C7FF" }} strokeWidth={2.5} />
-                    <span className="text-[17px] font-semibold leading-none text-[#808080]">
+                    <Users className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <span className="text-[14px] font-medium leading-[21px] text-white">
                       {totalPassengers}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-[22px] h-[22px]" style={{ color: "#27C7FF" }} strokeWidth={2.5} />
-                    <Luggage className="w-[22px] h-[22px]" style={{ color: "#27C7FF" }} strokeWidth={2.5} />
-                    <span className="text-[17px] font-semibold leading-none text-[#808080]">
+                    <Briefcase className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <Luggage className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <span className="text-[14px] font-medium leading-[21px] text-white">
                       {totalLuggage}
                     </span>
                   </div>
                 </div>
-                <ChevronDown className="w-4 h-4" style={{ color: "#27C7FF" }} strokeWidth={3} />
+                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={3} />
               </button>
             </PopoverTrigger>
             <PopoverContent
               side="bottom"
               align="end"
               sideOffset={8}
-              className="w-80 p-0 border border-gray-100 shadow-xl rounded-xl z-50"
+              className="w-80 p-0 border border-[rgba(255,255,255,0.12)] bg-[#1e1d1b] shadow-xl rounded-none z-50"
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
               <PassengersDropdownContent
@@ -381,21 +387,17 @@ export function TransferForm({
         )}
       </motion.div>
 
-      <motion.div layout className="flex items-center p-1.5 bg-white shrink-0 lg:rounded-r-[24px] w-full lg:w-auto">
-        <Themed
-          as="button"
+      <motion.div layout className="flex items-center self-stretch shrink-0 w-full lg:w-auto">
+        <button
           type="button"
-          colorType="heroBookingAccent"
-          applyTo="backgroundColor"
           onClick={handleContinue}
-          className="text-white px-8 py-3 font-bold flex items-center justify-center gap-3 transition-all w-full lg:w-auto lg:min-w-[160px] rounded-xl hover:brightness-95 hover:scale-[1.02] active:scale-95 shadow-lg shadow-black/5"
-          style={{ backgroundColor: "var(--theme-hero-booking-accent, #29C5F6)" }}
+          className="bg-[#C9A96E] flex items-center justify-center gap-3 px-6 py-[22px] h-full w-full lg:w-[283px] transition-all hover:brightness-95 active:scale-95 cursor-pointer"
         >
-          <BadgeCheck className="w-5 h-5 stroke-[2.5]" style={{ color: "#0E4659" }} />
-          <span className="text-[15px] font-bold uppercase tracking-wide">
+          <span className="text-[14px] font-semibold uppercase tracking-[1.1px] text-[rgba(13,13,13,0.96)]">
             {t.continue}
           </span>
-        </Themed>
+          <CircleCheckBig className="w-5 h-5 stroke-[2.5] text-[rgba(13,13,13,0.96)]" />
+        </button>
       </motion.div>
     </div>
   )

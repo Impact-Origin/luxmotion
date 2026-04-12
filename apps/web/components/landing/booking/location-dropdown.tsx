@@ -8,12 +8,12 @@ interface LocationDropdownProps {
   suggestions: LocationSuggestion[]
   onSelect: (suggestion: LocationSuggestion) => void
   isLoading?: boolean
-  /** When true, render in document flow (e.g. inside drawer below input) instead of absolute. */
   inline?: boolean
+  dark?: boolean
 }
 
 export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps>(
-  ({ suggestions, onSelect, isLoading, inline }, ref) => {
+  ({ suggestions, onSelect, isLoading, inline, dark }, ref) => {
     return (
       <div
         ref={ref}
@@ -21,7 +21,10 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
           "z-[100] overflow-hidden",
           inline
             ? "relative flex-1 min-h-0 flex flex-col bg-transparent"
-            : "absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100 animate-in fade-in slide-in-from-top-2 duration-200"
+            : cn(
+                "absolute top-full left-0 right-0 mt-2 shadow-[0_10px_40px_rgba(0,0,0,0.25)] border animate-in fade-in slide-in-from-top-2 duration-200",
+                dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)] rounded-none" : "bg-white border-gray-100 rounded-2xl"
+              )
         )}
       >
         <div
@@ -30,13 +33,13 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
         >
           {isLoading && suggestions.length === 0 && (
             <div className="px-4 py-8 text-center">
-              <div className="inline-block w-6 h-6 border-2 border-[#29C5F6] border-t-transparent rounded-full animate-spin mb-2" />
-              <p className="text-xs text-gray-400 font-medium">Searching locations...</p>
+              <div className={cn("inline-block w-6 h-6 border-2 border-t-transparent rounded-full animate-spin mb-2", dark ? "border-[#C9A96E]" : "border-[#29C5F6]")} />
+              <p className={cn("text-xs font-medium", dark ? "text-[rgba(255,255,255,0.4)]" : "text-gray-400")}>Searching locations...</p>
             </div>
           )}
-          
+
           {!isLoading && suggestions.length === 0 && (
-            <div className="px-4 py-8 text-center text-gray-400">
+            <div className={cn("px-4 py-8 text-center", dark ? "text-[rgba(255,255,255,0.4)]" : "text-gray-400")}>
               <p className="text-xs font-medium">No locations found</p>
             </div>
           )}
@@ -47,19 +50,24 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
               type="button"
               onClick={() => onSelect(suggestion)}
               className={cn(
-                "w-full flex items-start gap-4 py-3.5 hover:bg-[#F8FDFF] transition-all duration-150 group text-left touch-manipulation",
-                inline ? "px-0 border-b border-gray-100/80 last:border-0" : "px-4 border-b border-gray-50 last:border-0"
+                "w-full flex items-start gap-4 py-3.5 transition-all duration-150 group text-left touch-manipulation",
+                dark
+                  ? cn("hover:bg-[rgba(255,255,255,0.06)]", inline ? "px-0 border-b border-[rgba(255,255,255,0.06)] last:border-0" : "px-4 border-b border-[rgba(255,255,255,0.06)] last:border-0")
+                  : cn("hover:bg-[#F8FDFF]", inline ? "px-0 border-b border-gray-100/80 last:border-0" : "px-4 border-b border-gray-50 last:border-0")
               )}
             >
-              <div className="mt-0.5 shrink-0 w-8 h-8 rounded-full bg-gray-100/80 flex items-center justify-center group-hover:bg-[#E9F9FF] transition-colors">
-                <suggestion.icon className="w-4 h-4 text-gray-400 group-hover:text-[#29C5F6] transition-colors" />
+              <div className={cn(
+                "mt-0.5 shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors",
+                dark ? "bg-[rgba(255,255,255,0.06)] group-hover:bg-[rgba(201,169,110,0.15)]" : "bg-gray-100/80 group-hover:bg-[#E9F9FF]"
+              )}>
+                <suggestion.icon className={cn("w-4 h-4 transition-colors", dark ? "text-[rgba(255,255,255,0.4)] group-hover:text-[#C9A96E]" : "text-gray-400 group-hover:text-[#29C5F6]")} />
               </div>
               <div className="flex flex-col min-w-0 flex-1">
-                <span className="text-[14px] font-semibold text-gray-900 leading-tight group-hover:text-[#29C5F6] transition-colors truncate">
+                <span className={cn("text-[14px] font-semibold leading-tight transition-colors truncate", dark ? "text-white group-hover:text-[#C9A96E]" : "text-gray-900 group-hover:text-[#29C5F6]")}>
                   {suggestion.name}
                 </span>
                 {suggestion.description && (
-                  <span className="text-[12px] font-medium text-gray-400 mt-1 truncate">
+                  <span className={cn("text-[12px] font-medium mt-1 truncate", dark ? "text-[rgba(255,255,255,0.35)]" : "text-gray-400")}>
                     {suggestion.description}
                   </span>
                 )}
@@ -69,10 +77,10 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
         </div>
         <div className={cn(
           "px-4 py-2 flex justify-end flex-shrink-0",
-          inline ? "bg-transparent" : "bg-gray-50"
+          inline ? "bg-transparent" : dark ? "bg-[rgba(255,255,255,0.03)]" : "bg-gray-50"
         )}>
-          <img 
-            src="https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png" 
+          <img
+            src={dark ? "https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-non-white3.png" : "https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png"}
             alt="Powered by Google"
             className="h-3 opacity-50"
           />

@@ -8,7 +8,8 @@ import Image from "next/image"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { MobileDrawer } from "../ui/mobile-drawer"
 import { cn } from "@workspace/ui/lib/utils"
-import { ClockTimePicker } from "../ui/clock-time-picker"
+import { ClockTimePicker } from "@/components/ui/clock-time-picker"
+import { ClockTimePicker as ClockTimePickerDark } from "@/components/new-landing-page/booking/clock-time-picker"
 
 interface DateTimePickerProps {
   value?: Date | string | number | null
@@ -253,6 +254,8 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
   const isWidget = variant === "widget"
   const isNewWidget = variant === "new-widget"
 
+  const dark = isNewWidget
+
   const pickerContent = (
     <div className={cn("p-4 overflow-y-auto", isMobile && "px-0")}>
       <div className="flex items-center justify-between mb-4">
@@ -261,23 +264,23 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
           onClick={handlePrevMonth}
           disabled={!canNavigateToPrevMonth()}
           className={`w-8 h-8 flex items-center justify-center transition-colors ${
-            canNavigateToPrevMonth() 
-              ? "text-[#9ca3af] hover:text-[#6b7280]" 
-              : "text-[#e5e7eb] cursor-not-allowed"
+            canNavigateToPrevMonth()
+              ? dark ? "text-[rgba(255,255,255,0.5)] hover:text-white" : "text-[#9ca3af] hover:text-[#6b7280]"
+              : dark ? "text-[rgba(255,255,255,0.15)] cursor-not-allowed" : "text-[#e5e7eb] cursor-not-allowed"
           }`}
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        
+
         <div className="flex items-center gap-1">
-          <span className="text-[15px] font-medium text-[#222222]">
+          <span className={cn("text-[15px] font-medium", dark ? "text-white" : "text-[#222222]")}>
             {MONTHS[viewMonth]} {viewYear}
           </span>
           <div className="flex flex-col -space-y-1 ml-1">
             <button
               type="button"
               onClick={handleNextYear}
-              className="text-[#9ca3af] hover:text-[#6b7280] transition-colors p-0.5"
+              className={cn("transition-colors p-0.5", dark ? "text-[rgba(255,255,255,0.5)] hover:text-white" : "text-[#9ca3af] hover:text-[#6b7280]")}
             >
               <ChevronUp className="w-3 h-3" />
             </button>
@@ -287,19 +290,19 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
               disabled={!canNavigateToPrevYear()}
               className={`transition-colors p-0.5 ${
                 canNavigateToPrevYear()
-                  ? "text-[#9ca3af] hover:text-[#6b7280]"
-                  : "text-[#e5e7eb] cursor-not-allowed"
+                  ? dark ? "text-[rgba(255,255,255,0.5)] hover:text-white" : "text-[#9ca3af] hover:text-[#6b7280]"
+                  : dark ? "text-[rgba(255,255,255,0.15)] cursor-not-allowed" : "text-[#e5e7eb] cursor-not-allowed"
               }`}
             >
               <ChevronDown className="w-3 h-3" />
             </button>
           </div>
         </div>
-        
+
         <button
           type="button"
           onClick={handleNextMonth}
-          className="w-8 h-8 flex items-center justify-center text-[#9ca3af] hover:text-[#6b7280] transition-colors"
+          className={cn("w-8 h-8 flex items-center justify-center transition-colors", dark ? "text-[rgba(255,255,255,0.5)] hover:text-white" : "text-[#9ca3af] hover:text-[#6b7280]")}
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -309,7 +312,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         {DAYS.map((day) => (
           <div
             key={day}
-            className="h-8 flex items-center justify-center text-[13px] font-medium text-[#9ca3af]"
+            className={cn("h-8 flex items-center justify-center text-[13px] font-medium", dark ? "text-[rgba(255,255,255,0.4)]" : "text-[#9ca3af]")}
           >
             {day}
           </div>
@@ -327,14 +330,14 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
               disabled={isPast}
               className={`h-9 flex items-center justify-center text-[14px] transition-colors rounded-lg ${
                 isPast
-                  ? "text-[#d1d5db] cursor-not-allowed"
+                  ? dark ? "text-[rgba(255,255,255,0.15)] cursor-not-allowed" : "text-[#d1d5db] cursor-not-allowed"
                   : isDateSelected(item.date)
-                  ? "bg-[#27c7ff] text-white font-semibold"
+                  ? dark ? "bg-[#C9A96E] text-[#0D0D0D] font-semibold" : "bg-[#27c7ff] text-white font-semibold"
                   : isDateToday(item.date)
-                  ? "text-[#27c7ff] font-semibold hover:bg-[#f3f4f6]"
+                  ? dark ? "text-[#C9A96E] font-semibold hover:bg-[rgba(255,255,255,0.08)]" : "text-[#27c7ff] font-semibold hover:bg-[#f3f4f6]"
                   : item.isCurrentMonth
-                  ? "text-[#222222] hover:bg-[#f3f4f6]"
-                  : "text-[#d1d5db] hover:bg-[#f3f4f6]"
+                  ? dark ? "text-white hover:bg-[rgba(255,255,255,0.08)]" : "text-[#222222] hover:bg-[#f3f4f6]"
+                  : dark ? "text-[rgba(255,255,255,0.25)] hover:bg-[rgba(255,255,255,0.05)]" : "text-[#d1d5db] hover:bg-[#f3f4f6]"
               }`}
             >
               {item.day}
@@ -343,20 +346,23 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         })}
       </div>
 
-      <div className="border-t border-[#e5e7eb] my-4" />
+      <div className={cn("border-t my-4", dark ? "border-[rgba(255,255,255,0.08)]" : "border-[#e5e7eb]")} />
 
       <div>
-        <label className="block text-[15px] font-semibold text-[#222222] mb-2">
+        <label className={cn("block text-[15px] font-semibold mb-2", dark ? "text-white" : "text-[#222222]")}>
           {label}
         </label>
         <button
           type="button"
           onClick={() => setShowClockPicker(true)}
-          className="flex items-center w-full h-12 px-3 border border-[#e0e0e0] rounded-lg bg-white hover:border-[#bfbfbf] transition-colors"
+          className={cn(
+            "flex items-center w-full h-12 px-3 border rounded-lg transition-colors",
+            dark ? "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(255,255,255,0.25)]" : "border-[#e0e0e0] bg-white hover:border-[#bfbfbf]"
+          )}
         >
-          <Clock className="w-5 h-5 text-[#27c7ff] flex-shrink-0" />
+          <Clock className={cn("w-5 h-5 flex-shrink-0", dark ? "text-[#C9A96E]" : "text-[#27c7ff]")} />
           <div className="flex items-center flex-1 ml-2">
-            <span className="text-[15px] text-[#222222]">
+            <span className={cn("text-[15px]", dark ? "text-white" : "text-[#222222]")}>
               {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}
             </span>
           </div>
@@ -365,7 +371,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
               e.stopPropagation()
               handleTimeChange(0, 0)
             }}
-            className="text-[#9ca3af] hover:text-[#6b7280] transition-colors ml-2 cursor-pointer"
+            className={cn("transition-colors ml-2 cursor-pointer", dark ? "text-[rgba(255,255,255,0.4)] hover:text-white" : "text-[#9ca3af] hover:text-[#6b7280]")}
           >
             <X className="w-4 h-4" />
           </div>
@@ -375,7 +381,10 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       {isMobile && (
         <button
           onClick={() => setOpen(false)}
-          className="w-full mt-6 bg-[#29C5F6] text-white py-3.5 rounded-xl font-bold active:bg-[#20aadd] transition-colors shadow-lg shadow-[#29C5F6]/20"
+          className={cn(
+            "w-full mt-6 py-3.5 rounded-xl font-bold transition-colors",
+            dark ? "bg-[#C9A96E] text-[#0D0D0D] active:brightness-90" : "bg-[#29C5F6] text-white active:bg-[#20aadd] shadow-lg shadow-[#29C5F6]/20"
+          )}
         >
           Confirm
         </button>
@@ -383,8 +392,10 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
     </div>
   )
 
+  const ClockComponent = dark ? ClockTimePickerDark : ClockTimePicker
+
   const clockPickerContent = (
-    <ClockTimePicker
+    <ClockComponent
       value={{ hours, minutes }}
       onChange={(time) => handleTimeChange(time.hours, time.minutes)}
       onCancel={() => setShowClockPicker(false)}
@@ -399,21 +410,21 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       type="button"
       className={
         isNewWidget
-          ? `w-full h-full px-6 py-3 bg-transparent border-0 flex items-center gap-3 focus:outline-none focus:ring-0 hover:bg-zinc-50/50 transition-colors`
+          ? `w-full h-full px-0 py-0 bg-transparent border-0 flex items-center gap-2 focus:outline-none focus:ring-0 cursor-pointer`
           : isWidget
           ? `w-full h-full px-6 py-4 md:py-3 bg-transparent border-0 flex items-center gap-3 focus:outline-none focus:ring-0 hover:bg-zinc-50/50 transition-colors`
           : `w-full h-12 px-4 border border-[#e0e0e0] rounded-lg bg-white flex items-center gap-3 transition-all hover:border-[#bfbfbf] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] ${
               date ? "text-[#222222]" : "text-[#a2a2a2]"
             }`
       }
-      style={isNewWidget ? { 
-        color: date ? "#222" : "#808080"
-      } : isWidget ? { 
+      style={isNewWidget ? {
+        color: date ? "white" : "#696969"
+      } : isWidget ? {
         color: date ? "#222" : "#808080"
       } : undefined}
     >
       {isNewWidget ? (
-        <CalendarIcon data-theme-color="heroBookingIcon" className="w-5 h-5 flex-shrink-0" strokeWidth={2.5} style={{ color: "var(--theme-hero-booking-icon, #27C7FF)" }} />
+        <CalendarIcon className="w-6 h-6 flex-shrink-0" strokeWidth={2} style={{ color: "#C9A96E" }} />
       ) : isWidget ? (
         <div
           data-theme-color="heroBookingIcon"
@@ -425,7 +436,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       ) : (
         <CalendarIcon className="w-5 h-5 flex-shrink-0 text-[#bfbfbf]" strokeWidth={2.5} />
       )}
-      <span className={`flex-1 text-left ${isNewWidget ? "text-[15px] font-medium leading-tight" : isWidget ? "text-[15px] font-medium leading-tight" : "text-[15px]"}`}>
+      <span className={`flex-1 text-left ${isNewWidget ? "text-[14px] font-normal leading-tight" : isWidget ? "text-[15px] font-medium leading-tight" : "text-[15px]"}`}>
         {date ? formatDisplay() : placeholder}
       </span>
       {date && !isWidget && !isNewWidget && (
@@ -486,8 +497,8 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         className={cn(
           "p-0 shadow-lg overflow-hidden transition-all duration-300 ease-out",
           showClockPicker
-            ? "w-[328px] bg-[#e9f9ff] border-0 rounded-[28px]"
-            : "w-[280px] bg-white border-[#e0e0e0] rounded-xl"
+            ? cn("w-[328px] border-0", dark ? "bg-transparent rounded-none" : "bg-[#e9f9ff] rounded-[28px]")
+            : cn("w-[280px]", dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)] rounded-none" : "bg-white border-[#e0e0e0] rounded-xl")
         )}
         align="start"
         sideOffset={8}

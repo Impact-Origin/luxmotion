@@ -23,12 +23,12 @@ export function CounterRow({
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center gap-3">
-        <div className="bg-[#f7f7f7] p-2 rounded-full">
+        <div className="bg-[rgba(255,255,255,0.06)] p-2 rounded-full">
           {icon}
         </div>
         <div>
-          <span className="text-[14px] font-bold text-[#222]">{label}</span>
-          {sublabel && <p className="text-[11px] text-[#808080] leading-none mt-0.5">{sublabel}</p>}
+          <span className="text-[14px] font-bold text-white">{label}</span>
+          {sublabel && <p className="text-[11px] text-[#696969] leading-none mt-0.5">{sublabel}</p>}
         </div>
       </div>
       <div className="flex items-center gap-3">
@@ -39,11 +39,11 @@ export function CounterRow({
             e.stopPropagation()
             onDecrease()
           }}
-          className="w-7 h-7 rounded-full border border-[#f0f0f0] flex items-center justify-center hover:bg-zinc-50 transition-colors"
+          className="w-7 h-7 rounded-full border border-[rgba(255,255,255,0.15)] flex items-center justify-center hover:bg-white/10 transition-colors"
         >
-          <CircleMinus className="w-4 h-4 text-[#808080]" />
+          <CircleMinus className="w-4 h-4 text-[#696969]" />
         </button>
-        <span className="w-4 text-center text-[14px] font-black text-[#222]">{value}</span>
+        <span className="w-4 text-center text-[14px] font-black text-white">{value}</span>
         <button
           type="button"
           onMouseDown={(e) => e.stopPropagation()}
@@ -51,9 +51,9 @@ export function CounterRow({
             e.stopPropagation()
             onIncrease()
           }}
-          className="w-7 h-7 rounded-full border border-[#f0f0f0] flex items-center justify-center hover:bg-zinc-50 transition-colors"
+          className="w-7 h-7 rounded-full border border-[rgba(255,255,255,0.15)] flex items-center justify-center hover:bg-white/10 transition-colors"
         >
-          <CirclePlus className="w-4 h-4" style={{ color: "#27C7FF" }} />
+          <CirclePlus className="w-4 h-4" style={{ color: "#C9A96E" }} />
         </button>
       </div>
     </div>

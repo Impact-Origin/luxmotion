@@ -82,6 +82,7 @@ html,
 
 @theme inline {
   --breakpoint-xs: 375px;
+  --font-family-title: var(--font-title), "Cormorant Garamond", serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -179,6 +180,15 @@ html,
     to {
       opacity: 1;
       transform: translateX(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 }

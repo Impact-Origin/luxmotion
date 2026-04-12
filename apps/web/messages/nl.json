@@ -24,7 +24,15 @@
     "reviewsOn": "beoordelingen op",
     "excellent": "Uitstekend",
     "recommended": "Aanbevolen",
-    "weekdays": ["zo", "ma", "di", "wo", "do", "vr", "za"],
+    "weekdays": [
+      "zo",
+      "ma",
+      "di",
+      "wo",
+      "do",
+      "vr",
+      "za"
+    ],
     "months": [
       "jan",
       "feb",
@@ -67,7 +75,8 @@
     "driverCompanies": "Chauffeursbedrijven",
     "reviews": "Beoordelingen",
     "faq": "FAQ",
-    "bookNow": "Nu boeken"
+    "bookNow": "Nu boeken",
+    "reserve": "Reserveer"
   },
   "hero": {
     "title1": "Makkelijk te gebruiken,",
@@ -111,7 +120,25 @@
     "readMore": "Lees meer",
     "adultAge": "Boven 13+",
     "infant": "Baby",
-    "infantAge": "Onder 3"
+    "infantAge": "Onder 3",
+    "label": "Private Mobility · Portugal",
+    "titleHighlight": "Op Uw Voorwaarden.",
+    "description": "Privé chauffeur transfers en samengestelde ervaringen voor gasten die meer verwachten dan een reis.",
+    "excellentRating": "Uitstekende Beoordeling",
+    "verifiedBy": "Geverifieerd door",
+    "fromReviews": "Uit {count} Beoordelingen",
+    "poweredBy": "Powered by",
+    "reservations": "{count} reserveringen",
+    "reservationTime": "gemaakt in de afgelopen 24 uur",
+    "flightMonitoring": "Vluchtmonitoring:",
+    "flightMonitoringDesc": "Uw chauffeur past zich aan, altijd.",
+    "conciergeSupport": "24/7 conciërge support,",
+    "conciergeSupportDesc": "waar u ook bent.",
+    "privateTransfers": "100% privé transfers,",
+    "privateTransfersDesc": "alleen geverifieerde chauffeurs.",
+    "labelFrom": "Van",
+    "labelTo": "Naar",
+    "labelDeparture": "Vertrek"
   },
   "features": {
     "title": "Waarom bij ons boeken?",
@@ -154,6 +181,54 @@
       "van": "Bestelbus",
       "minibus": "Minibus",
       "bus": "Bus"
+    },
+    "sectionLabel": "Onze Vloot",
+    "titleHeading": "De Standaard, Gedefinieerd.",
+    "subtitle": "Zes categorieën. Eén compromisloos niveau van uitmuntendheid.",
+    "previousSlide": "Vorige dia",
+    "nextSlide": "Volgende dia",
+    "categories": {
+      "standard": {
+        "label": "Standaard",
+        "passengers": "1–3 passagiers"
+      },
+      "xl": {
+        "label": "XL",
+        "passengers": "1–5 passagiers"
+      },
+      "executivo": {
+        "label": "Executive",
+        "passengers": "1–4 passagiers"
+      },
+      "van": {
+        "label": "Bestelbus",
+        "passengers": "8 passagiers"
+      },
+      "minibus": {
+        "label": "Minibus",
+        "passengers": "16 passagiers"
+      },
+      "bus": {
+        "label": "Touringcar",
+        "passengers": "56 passagiers"
+      }
+    },
+    "featured": {
+      "fiatTipo": {
+        "label": "Standaard",
+        "name": "Fiat Tipo Station",
+        "specs": "1–4 passagiers · 3 koffers"
+      },
+      "mercedesSClass1": {
+        "label": "Standaard",
+        "name": "Mercedes S-Klasse",
+        "specs": "1–4 passagiers · 3 koffers"
+      },
+      "mercedesSClass2": {
+        "label": "Standaard",
+        "name": "Mercedes S-Klasse",
+        "specs": "1–4 passagiers · 3 koffers"
+      }
     }
   },
   "fleetPage": {
@@ -209,12 +284,10 @@
     "clientsAndCompanies": "klanten en bedrijven"
   },
   "testimonials": {
-    "happyCustomers": "Tevreden klanten bij Sintra Palace",
-    "groupTour": "Groepsrondleiding met transfer",
-    "familyTransfer": "Familie met Mercedes-transfervoertuig",
-    "luxuryRide": "Luxe ritervaring",
-    "airportPickup": "Luchthaven ophaalservice",
-    "scenicTour": "Schilderachtige rondrit"
+    "exclusive": "Exclusief",
+    "sectionLabel": "Klantbeoordelingen",
+    "heading": "Wat Onze Klanten Zeggen",
+    "reviews": "Beoordelingen"
   },
   "faq": {
     "title": "FAQ",
@@ -241,6 +314,34 @@
       "otherDestinations": {
         "question": "Reist u ook naar andere plaatsen?",
         "answer": "Ja! We bieden transfers naar verschillende bestemmingen in Portugal en Spanje. Naast vliegvelden rijden we naar toeristische steden, speciale evenementen, hotels en elke andere locatie die u nodig heeft. Vraag ons naar uw specifieke bestemming."
+      }
+    },
+    "redesign": {
+      "sectionLabel": "Vragen",
+      "titleLine1": "Alles wat U Moet",
+      "titleLine2": "Weten.",
+      "photoAlt": "Professionele LuxMotion-chauffeur",
+      "items": {
+        "booking": {
+          "question": "Hoe ver van tevoren moet ik boeken?",
+          "answer": "We raden aan om minstens 24 uur van tevoren te boeken om beschikbaarheid te garanderen. We verwerken echter ook last-minute aanvragen waar mogelijk. Voor het hoogseizoen, feestdagen of groepstransfers is 48–72 uur vooruit boeken het beste voor de ideale voertuigkeuze."
+        },
+        "flightDelay": {
+          "question": "Wat gebeurt er als mijn vlucht vertraagd is?",
+          "answer": "We monitoren elke vlucht in realtime. Als uw vlucht vertraagd is, past het schema van uw chauffeur zich automatisch aan — geen telefoontjes, geen stress. Er zijn geen extra kosten voor vluchvertragingen, en uw chauffeur wacht op u bij aankomst, ongeacht het tijdstip."
+        },
+        "private": {
+          "question": "Zijn alle transfers echt privé?",
+          "answer": "Ja. Elke boeking is een privéservice — u deelt uw voertuig nooit met andere passagiers. Uw chauffeur, uw voertuig, uw schema. Zonder uitzonderingen."
+        },
+        "vehicles": {
+          "question": "Welke voertuigen zijn beschikbaar?",
+          "answer": "Onze vloot omvat Mercedes E-Klasse, S-Klasse, V-Klasse en Sprinter-bussen. Voor grotere groepen bieden we minibussen en touringcars. Elk voertuig wordt onderhouden volgens de hoogste normen, met gratis water, wifi en kinderzitjes op aanvraag."
+        },
+        "coverage": {
+          "question": "Dekken jullie heel Portugal?",
+          "answer": "We opereren in heel Portugal, van de Algarve tot Porto en alles daartussenin. Luchthaven transfers, stad-naar-stad routes en op maat gemaakte routes zijn beschikbaar. We verzorgen ook grensoverschrijdende transfers naar Spanje op aanvraag."
+        }
       }
     }
   },
@@ -324,7 +425,15 @@
     "paymentMethods": "Betaalmethoden",
     "arbitrationCenter": "Arbitragecentrum",
     "alternativeDispute": "Alternatieve Geschillenbeslechting voor Consumenten",
-    "support": "Ondersteuning"
+    "support": "Ondersteuning",
+    "redesign": {
+      "tagline1": "Privé Mobiliteit. Portugal.",
+      "tagline2": "Waar elke aankomst een eerste indruk is.",
+      "follow": "Volgen",
+      "acceptedPayments": "Geaccepteerde Betalingen",
+      "securePayments": "Veilige betalingen · SSL versleuteld",
+      "copyright": "© 2026 LuxMotion by EasyTransfer. Alle rechten voorbehouden."
+    }
   },
   "checkout": {
     "steps": {
@@ -652,32 +761,41 @@
   },
   "exclusive": "Exclusief",
   "tours": {
-    "exclusive": "Exclusief",
-    "title": "Onze Meeslepende Rondleidingen",
-    "description": {
-      "heading": "Bekijk Portugal vanuit een nieuwe hoek.",
-      "subheading": "Een ervaring die het waard is!",
-      "body": "Onze diensten dekken de belangrijkste steden en toeristische regio's in Portugal, zodat u uw bestemming snel en veilig bereikt."
-    },
-    "features": {
-      "authentic": "Authentieke en VIP lokale ervaring",
-      "professional": "Professionele en ervaren gidsen",
-      "flexibility": "Flexibiliteit bij het maken van routes"
-    },
-    "seeMore": "Meer zien",
+    "sectionLabel": "Privétours",
+    "titleGold": "Portugal,",
+    "titleRest": "voorbij\nhet verwachte.",
+    "description": "Privédagtochten samengesteld voor veeleisende reizigers. Bedacht voor wie de ervaring verkiest boven het reisschema.",
+    "cardLabel": "Privé · Hele dag",
+    "exploreAll": "Ontdek alle bestemmingen",
     "previousSlide": "Vorige dia",
     "nextSlide": "Volgende dia",
     "goToSlide": "Ga naar dia {number}",
     "destinations": {
-      "lisboa": "Lissabon",
-      "porto": "Porto",
-      "algarve": "Algarve",
-      "alentejo": "Alentejo",
-      "acores": "Azoren",
-      "madeira": "Madeira"
-    },
-    "exploreMore": "Ontdek Meer Bestemmingen",
-    "exploreMoreSub": "Vind uw perfecte vakantie"
+      "lisboa": {
+        "name": "Lissabon",
+        "description": "Alfama in het gouden uur. Belém vóór de drukte. Een stad die beloont wie weet waar te kijken."
+      },
+      "porto": {
+        "name": "Porto",
+        "description": "Mist boven de Ribeira, eeuwen portwijngeschiedenis en bruggen als uit een ansichtkaart. Een stad die bijblijft."
+      },
+      "algarve": {
+        "name": "Algarve",
+        "description": "Kliffen uitgehouwen door de Atlantische Oceaan. Verborgen baaien bij zonsopkomst. De kust die Portugal bewaart voor ingewijden."
+      },
+      "alentejo": {
+        "name": "Alentejo",
+        "description": "Eindeloze kurkeiken, ommuurde bergdorpen en stille wegen waar de tijd vertraagt."
+      },
+      "acores": {
+        "name": "Azoren",
+        "description": "Vulkanische kraters, kratermeren en een oceaanhorizon die per uur verandert."
+      },
+      "madeira": {
+        "name": "Madeira",
+        "description": "Levadas door laurierbossen. Terrassen geklemd tegen de kliffen. Een eiland als een geheime tuin."
+      }
+    }
   },
   "addExperience": {
     "title": "Toevoegen",
@@ -768,23 +886,32 @@
     }
   },
   "aboutUs": {
-    "title": "Over ons",
-    "imageAlt": "Over ons teamfoto",
-    "content": {
-      "welcome": "Welkom bij onze unieke reis!",
-      "unitedByLove": "Verenigd door liefde voor Portugal",
-      "foundersDescription": ", twee toegewijde jongeren en een ervaren persoon van 70 jaar, brachten ons bedrijf tot leven.",
-      "motivation": "Gedreven door de passie voor ontdekken, besloten we om",
-      "memorableExperiences": "onvergetelijke ervaringen",
-      "companyDescription": " te creëren. Door jeugdige energie en innovatie te combineren met wijsheid die door de jaren is opgebouwd, vormden we een bedrijf dat authenticiteit en toewijding weergeeft.",
-      "serviceDescription": "Elke transfer en rondleiding is meer dan een service, het is een boeiend verhaal,",
-      "discoveries": "vol ontdekkingen",
-      "emotionalConnections": " en emotionele verbindingen.",
-      "joinUs": "Sluit je bij ons aan op deze spannende reis door Portugal,",
-      "everyKilometer": "waar elke kilometer een verhaal is en elke bestemming een onvergetelijke ervaring",
-      "signature": "A.: Afonso, David, Jorge"
-    },
-    "seeMore": "Meer zien"
+    "sectionLabel": "Over ons",
+    "title": "Ontmoet de Oprichters",
+    "imageAlt": "Ontmoet de oprichters van LuxMotion",
+    "quote1": "Verenigd door een liefde voor Portugal brachten twee toegewijde jongeren en een ervaren 70-jarige ons bedrijf tot leven.",
+    "quote2": "Gedreven door een passie voor ontdekken, gingen we op zoek naar het creëren van onvergetelijke ervaringen. Door jeugdige energie en innovatie te combineren met de wijsheid die door de jaren heen is opgebouwd, vormden we een bedrijf dat authenticiteit en toewijding weerspiegelt.",
+    "quote3": "Elke transfer en rondleiding is meer dan zomaar een service; het is een boeiend verhaal, vol ontdekkingen en emotionele verbindingen.",
+    "quote4": "Sluit je bij ons aan op deze spannende reis door Portugal, waar elke kilometer een verhaal is en elke bestemming een onvergetelijke ervaring.",
+    "foundersName": "Afonso, David, & Jorge",
+    "foundersRole": "Medeoprichters"
+  },
+  "drivers": {
+    "sectionLabel": "Onze Chauffeurs",
+    "titlePart1": "De Beste Chauffeurs",
+    "titlePart2": "op Elke Bestemming.",
+    "vehicle": "Voertuig",
+    "languages": "Talen",
+    "rides": "ritten",
+    "prevDriver": "Vorige chauffeur",
+    "nextDriver": "Volgende chauffeur",
+    "goToDriver": "Ga naar chauffeur",
+    "vettingHeading": "Elke chauffeur wordt zorgvuldig geselecteerd en gescreend door ons team.",
+    "vettingSubtext": "Slechts 1 op de 5 kandidaten wordt toegelaten tot LuxMotion.",
+    "step1": "Persoonlijk gesprek",
+    "step2": "Identiteits- en voertuigcontrole",
+    "step3": "Training in veiligheidsprotocollen",
+    "step4": "Klaar voor de eerste rit"
   },
   "social": {
     "followUs": "Volg ons",
@@ -793,7 +920,8 @@
     "posts": "berichten",
     "followers": "volgers",
     "following": "volgend",
-    "follow": "Volgen"
+    "follow": "Volgen",
+    "followJourney": "Volg de Reis"
   },
   "trustedBy": {
     "title": "Vertrouwd door"
@@ -944,11 +1072,41 @@
     "goToSlide": "Ga naar dia {number}"
   },
   "services": {
-    "title": "Onze Diensten",
-    "luxuryTravel": "Luxe\nReizen",
-    "tailorMade": "Op Maat\nGemaakte Routes",
+    "sectionLabel": "Onze Diensten",
     "transfers": "Transfers",
-    "goToSlide": "Ga naar dia {number}"
+    "tours": "Rondleidingen",
+    "weddings": "Bruiloften",
+    "events": "Evenementen",
+    "corporate": "Zakelijk"
+  },
+  "whyLuxMotion": {
+    "sectionLabel": "Waarom LuxMotion",
+    "heading": "Ontworpen Rond U",
+    "subtitle": "Het voertuig. De chauffeur. De timing. Elk detail wordt beheerd voordat u eraan denkt te vragen.",
+    "alwaysOnTime": {
+      "title": "Altijd Op Tijd",
+      "description": "We volgen uw vlucht in realtime. Uw chauffeur past zich automatisch aan — geen telefoontjes, geen extra kosten."
+    },
+    "privateAlways": {
+      "title": "Privé. Altijd.",
+      "description": "Geen gedeelde ritten. Geen omwegen. Uw voertuig is uitsluitend van u vanaf het moment dat u instapt."
+    },
+    "meetAndGreet": {
+      "title": "Meet & Greet",
+      "description": "Uw chauffeur wacht op u voordat u de douane passeert. Naambordje, bagage afgehandeld. Niet zoeken."
+    },
+    "fleet": {
+      "title": "Een Vloot Zonder Compromissen",
+      "description": "Mercedes S-Klasse, BMW 7, Audi A8, Tesla Model X. Niets dat niet past bij waar u verblijft."
+    },
+    "confirmed": {
+      "title": "Bevestigd in Seconden",
+      "description": "Boek in minder dan 30 seconden. 24/7 live ondersteuning. Wijzig of annuleer zonder gedoe, wanneer u maar wilt."
+    },
+    "partners": {
+      "title": "40+ Luxe Partners",
+      "description": "Gekozen door de beste hotels en resorts van Portugal als de eerste indruk die hun gasten ontvangen."
+    }
   },
   "guides": {
     "title": "Reistips & Gidsen",
@@ -1082,7 +1240,7 @@
     "featureCardDescription": "Feature Kaart Beschrijving",
     "featureIconColor": "Feature Icoon",
     "fleetSection": "Vloot Sectie",
-    "fleetSectionBg": "Vloot Sectie Achtergrond",
+    "fleetSectionBg": "Sectie Achtergrond",
     "fleetSectionTitle": "Vloot Sectie Titel",
     "vehicleCardBg": "Voertuigkaart Achtergrond",
     "vehicleName": "Voertuignaam",
@@ -1104,9 +1262,7 @@
     "faqCardBorder": "FAQ Kaart Rand",
     "faqQuestionText": "FAQ Vraag Tekst",
     "faqAnswerText": "FAQ Antwoord Tekst",
-    "faqIconColor": "FAQ Icoon Kleur",
     "faqIconColor": "FAQ Icoon",
-    "faqSubtitle": "FAQ Ondertitel",
     "footerSection": "Footer Sectie",
     "footerBackground": "Footer Achtergrond",
     "footerLogoBg": "Footer Logo Achtergrond",
@@ -1114,7 +1270,6 @@
     "footerLinkColor": "Footer Link Kleur",
     "testimonialNavButtonBg": "Navigatie Knop",
     "featuresSectionBg": "Sectie Achtergrond",
-    "fleetSectionBg": "Sectie Achtergrond",
     "paymentSectionBg": "Sectie Achtergrond",
     "exclusiveBadgeText": "Exclusieve Badge Tekst",
     "faqSectionBg": "Section Background",
@@ -1314,7 +1469,6 @@
     "checkoutSecurityBannerTitle": "Titel Tekst",
     "checkoutSecurityBannerText": "Body Tekst",
     "paymentStep": "Betaling",
-
     "featuredBlog": "Uitgelicht Bericht",
     "featuredTour": "Uitgelichte Tour",
     "featuredEvent": "Uitgelicht Evenement",
@@ -2017,5 +2171,81 @@
       "successUpdated": "Teamlid succesvol bijgewerkt",
       "errorGeneric": "Er is iets misgegaan"
     }
+  },
+  "b2b": {
+    "sectionLabel": "Hotels & Boutique Properties",
+    "titleMain": "Verhef Elke Aankomst.",
+    "titleItalic": "Nog Voor de Check-In.",
+    "body1": "Uw gasten kozen voor een 5-sterren locatie. De transfer mag geen bijzaak zijn.",
+    "body2": "LuxMotion integreert naadloos in uw gastcommunicatie — volledig white-label, zonder operationele belasting voor uw team. Vluchtvertragingen worden automatisch bijgehouden, uw concierge blijft in real time op de hoogte, en gasten arriveren met het gevoel dat de ervaring begon op het moment dat ze landden.",
+    "cta": "Word partner",
+    "photoAlt": "Luxe transfer ontvangt hotelgast",
+    "card": {
+      "label": "Gast Check-In",
+      "guestInitial": "J",
+      "guestName": "James Whitmore",
+      "guestMeta": "Suite 412 · Aankomst 14:35",
+      "tag1": "Vlucht 45 min vertraagd",
+      "tag2": "Late check-out",
+      "call": "Bellen",
+      "message": "Bericht"
+    }
+  },
+  "travelAgencies": {
+    "sectionLabel": "Reisbureaus",
+    "titleMain": "Voeg Premium Grondvervoer Toe",
+    "titleItalic": "aan Elke Reis die U Verkoopt.",
+    "body": "Uw klanten vertrouwen erop dat u elk detail verzorgt. Nu kunt u privé chauffeurtransfers door heel Portugal aanbieden zonder zelf een voertuig of chauffeur te beheren. Volledig onder uw eigen merk, integreert ons platform binnen enkele minuten in uw boekingsproces — verhoogt uw omzet per boeking en geeft klanten nog een reden om terug te komen.",
+    "cta": "Ontdek de integratie",
+    "photoAlt": "Chauffeur met luxe voertuig op de luchthaven",
+    "card": {
+      "label": "+ White-Label Boeking",
+      "route": "Luchthaven Lissabon → Bairro Alto Hotel",
+      "date": "14 mrt  ·  08:45 aankomst",
+      "button": "Doorgaan met boeken"
+    }
+  },
+  "weddingPlanners": {
+    "sectionLabel": "Weddingplanners & Locaties",
+    "titleLine1": "De Dag Is Vlekkeloos.",
+    "titleLine2": "De Transfers Horen Dat Ook Te Zijn.",
+    "body": "Een bruiloft heeft geen ruimte voor een chauffeur die te laat komt, een voertuig dat niet bij de esthetiek past of een gast die staat te wachten op de luchthaven. LuxMotion biedt weddingplanners en locaties een privé transferpartner gebouwd voor veeleisende dagen — onberispelijke voertuigen, gecertificeerde chauffeurs, realtime tracking en absolute discretie als standaard.",
+    "cta": "Werk met ons samen",
+    "photoAlt": "Chauffeur opent deur van luxe voertuig",
+    "card": {
+      "badge": "+ Rit Bevestigd",
+      "arrival": "Aangekomen om 14:30",
+      "status": "Op Tijd"
+    }
+  },
+  "professionalDrivers": {
+    "sectionLabel": "Professionele Chauffeurs",
+    "titleLine1": "Rijd Portugals Meest",
+    "titleLine2": "Veeleisende Gasten.",
+    "body": "LuxMotion verbindt professionele chauffeurs met gasten die de hoogste standaard verwachten. Vooraf geplande ritten, wekelijkse betalingen en een platform dat alles regelt — zodat u zich op het rijden kunt concentreren. We accepteren slechts 1 op de 5 aanvragers. Als u het voertuig, het professionalisme en de discretie heeft, ontmoeten we u graag.",
+    "cta": "Solliciteer als chauffeur",
+    "photoAlt": "Professionele chauffeur achter het stuur van luxe voertuig",
+    "card": {
+      "dateLabel": "Vandaag · 4 mrt",
+      "ridesCount": "3 ritten bevestigd",
+      "onTime": "Op Tijd",
+      "scheduled": "Gepland",
+      "route1": "VAN Luchthaven Lissabon T1",
+      "route2": "NAAR Penha Longa Resort",
+      "route3": "VAN Hotel Bairro Alto"
+    }
+  },
+  "cinematicBanner": {
+    "line1": "Elke Aankomst.",
+    "line2": "Een Eerste Indruk.",
+    "cta": "Ontdek Onze Service",
+    "photoAlt": "Luxe chauffeur arriveert bij landgoed"
+  },
+  "ctaBanner": {
+    "line1": "Elke Aankomst.",
+    "line2": "Een Eerste Indruk",
+    "subtitle1": "Van Lissabon tot de Douro, van de Algarve tot de Alentejo.",
+    "subtitle2": "Wij brengen u door Portugal zoals het bedoeld is om te beleven.",
+    "cta": "Ontdek Onze Service"
   }
 }

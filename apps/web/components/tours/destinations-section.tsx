@@ -78,7 +78,7 @@ export function DestinationsSection() {
 
   const destinations = destinationData.map((d) => ({
     ...d,
-    name: tTours(`destinations.${d.id}`),
+    name: tTours(`destinations.${d.id}.name`),
   }))
 
   useEffect(() => {
@@ -172,13 +172,7 @@ export function DestinationsSection() {
                   "font-bold text-white leading-[1.2] text-center",
                   isMobile ? "text-[17px]" : "text-[28px]"
                 )}>
-                  {tTours("exploreMore")}
-                </span>
-                <span className={cn(
-                  "text-white/80 text-center leading-[1.3]",
-                  isMobile ? "text-[12px]" : "text-[16px]"
-                )}>
-                  {tTours("exploreMoreSub")}
+                  {tTours("exploreAll")}
                 </span>
                 <div className={cn(
                   "bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform",

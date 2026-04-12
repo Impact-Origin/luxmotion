@@ -1,380 +1,267 @@
 "use client"
 
+import { useState, useMemo, useCallback } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { ChevronLeft, ChevronRight, Map, Calendar } from "lucide-react"
-import { TrustSection } from "@/components/new-landing-page/trust-section"
+import { ChevronLeft, ChevronRight, BadgeCheck, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useState, useMemo, useRef, useEffect, useCallback } from "react"
-import { useSwipe } from "@/hooks/use-swipe"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { cn } from "@workspace/ui/lib/utils"
+import { useSwipe } from "@/hooks/use-swipe"
 
-type Testimonial = {
+const REVIEW_PHOTOS = [
+  "/reviews/review-1.png",
+  "/reviews/review-2.png",
+  "/reviews/review-3.png",
+  "/reviews/review-4.png",
+]
+
+const AVATAR_COLORS = [
+  "#5f6368", "#9c27b0", "#1976d2", "#546e7a",
+  "#e91e63", "#ff5722", "#009688", "#795548",
+]
+
+const FALLBACK_REVIEWS = [
+  {
+    name: "Denise Bulacher",
+    date: "2 years ago",
+    color: "#5f6368",
+    rating: 5,
+    text: "Reliable, friendly, and exactly on time. The driver was waiting at arrivals with a name board. Absolutely seamless.",
+  },
+  {
+    name: "Marco Wohlgemuth",
+    date: "2 years ago",
+    color: "#9c27b0",
+    rating: 5,
+    text: "Everything worked perfectly and we had a great conversation throughout the drive. The vehicle was immaculate. Can only recommend.",
+  },
+  {
+    name: "Jan Z.",
+    date: "2 years ago",
+    color: "#1976d2",
+    rating: 5,
+    text: "We had a great experience — reliable, accessible, and genuinely friendly. The transfer was exactly what we needed. Thank you.",
+  },
+  {
+    name: "Aleks Macura",
+    date: "2 years ago",
+    color: "#546e7a",
+    rating: 5,
+    text: "Right on time and easy to find. Communication before arrival was excellent. After the drop-off he even gave us a personal dinner recommendation.",
+  },
+]
+
+type Review = {
   name: string
   date: string
-  initial: string
   color: string
   rating: number
   text: string
-  tourTitle?: string | null
-  tourSlug?: string | null
-  eventTitle?: string | null
-  eventSlug?: string | null
 }
 
-const AVATAR_COLORS = [
-  "bg-purple-600",
-  "bg-slate-700",
-  "bg-pink-600",
-  "bg-emerald-600",
-  "bg-blue-600",
-  "bg-orange-600",
-  "bg-teal-600",
-  "bg-rose-600",
-]
-
-export function Testimonials() {
-  const t = useTranslations("testimonials")
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const featuredReviews = useQuery(api.tourReviews.listFeatured)
-
-  const images = [
-    { src: "/testimonials-carousel-1.png", alt: t("happyCustomers") },
-    { src: "/testimonials-carousel-2.png", alt: t("groupTour") },
-    { src: "/testimonials-carousel-3.png", alt: t("familyTransfer") },
-    { src: "/testimonials-carousel-4.jpg", alt: t("luxuryRide") },
-    { src: "/testimonials-carousel-5.jpg", alt: t("airportPickup") },
-    { src: "/testimonials-carousel-6.jpg", alt: t("scenicTour") },
-  ]
-
-  const mockTestimonials = [
-    {
-      name: "yasminn rezende",
-      date: "23/11/2022",
-      initial: "y",
-      color: "bg-purple-600",
-      rating: 5,
-      text: "On time, really attentive and nice music 😎",
-    },
-    {
-      name: "Ricardo van Mildert",
-      date: "21/11/2022",
-      initial: "R",
-      color: "bg-slate-700",
-      rating: 5,
-      text: "Had some delay with my plane, but it was absolutely no problem to them. Great conversation, great service!",
-    },
-    {
-      name: "Rebecca .P",
-      date: "13/11/2022",
-      initial: "R",
-      color: "bg-pink-600",
-      rating: 5,
-      text: "Great!",
-    },
-  ]
-
-  const testimonials: Testimonial[] = useMemo(() => {
-    const dbReviews: Testimonial[] = (featuredReviews ?? []).map((review, i) => ({
-      name: review.author,
-      date: new Date(review.createdAt).toLocaleDateString("en-GB"),
-      initial: review.author.charAt(0).toUpperCase(),
-      color: AVATAR_COLORS[(i + 3) % AVATAR_COLORS.length] ?? "bg-purple-600",
-      rating: review.rating,
-      text: review.text,
-      tourTitle: review.tourTitle,
-      tourSlug: review.tourSlug,
-      eventTitle: review.eventTitle,
-      eventSlug: review.eventSlug,
-    }))
-    return [...mockTestimonials, ...dbReviews]
-  }, [featuredReviews])
-
-  const totalImagePages = Math.ceil(images.length / 3)
-  const totalReviewPages = Math.ceil(testimonials.length / 3)
-  const totalDesktopPages = Math.max(totalImagePages, totalReviewPages)
-  const totalMobileItems = Math.max(images.length, testimonials.length)
-
-  const desktopPage = currentIndex
-  const mobileImageIndex = currentIndex % images.length
-  const mobileReviewIndex = currentIndex % testimonials.length
-  const desktopImagePage = currentIndex % totalImagePages
-  const desktopReviewPage = currentIndex % totalReviewPages
-
-  const nextMobile = () => {
-    setCurrentIndex((prev) => (prev + 1) % totalMobileItems)
-  }
-
-  const prevMobile = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalMobileItems) % totalMobileItems)
-  }
-
-  const nextDesktop = () => {
-    setCurrentIndex((prev) => (prev + 1) % totalDesktopPages)
-  }
-
-  const prevDesktop = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalDesktopPages) % totalDesktopPages)
-  }
-
-  const mobileSwipe = useSwipe(nextMobile, prevMobile)
-
-  const imagePages = useMemo(() => {
-    const pages = []
-    for (let i = 0; i < images.length; i += 3) {
-      pages.push(images.slice(i, i + 3))
-    }
-    return pages
-  }, [images.length])
-
-  const reviewPages = useMemo(() => {
-    const pages = []
-    for (let i = 0; i < testimonials.length; i += 3) {
-      pages.push(testimonials.slice(i, i + 3))
-    }
-    return pages
-  }, [testimonials])
-
-  const mobileReviewRef = useRef<HTMLDivElement>(null)
-  const desktopReviewRef = useRef<HTMLDivElement>(null)
-  const [mobileHeight, setMobileHeight] = useState<number | undefined>(undefined)
-  const [desktopHeight, setDesktopHeight] = useState<number | undefined>(undefined)
-
-  const measureHeights = useCallback(() => {
-    if (mobileReviewRef.current) {
-      const active = mobileReviewRef.current.querySelector<HTMLElement>("[data-active='true']")
-      if (active) setMobileHeight(active.scrollHeight)
-    }
-    if (desktopReviewRef.current) {
-      const active = desktopReviewRef.current.querySelector<HTMLElement>("[data-active='true']")
-      if (active) setDesktopHeight(active.scrollHeight)
-    }
-  }, [])
-
-  useEffect(() => {
-    measureHeights()
-  }, [currentIndex, testimonials, measureHeights])
+function ReviewCard({ review }: { review: Review }) {
+  const initial = review.name.charAt(0).toUpperCase()
 
   return (
-    <section id="reviews" className="py-3">
-      <div className="mx-auto max-w-7xl px-4 md:px-5 lg:px-6 xl:px-8">
-        <TrustSection />
-        <div className="bg-gradient-to-b from-white via-cyan-50/80 to-cyan-100/30 px-3 rounded-2xl touch-pan-y" {...mobileSwipe}>
-          {/* Images carousel */}
-          <div className="relative mb-6">
-            <div className="md:hidden mx-auto max-w-5xl">
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl">
-                <div className="relative w-full h-full">
-                  {images.map((image, index) => (
-                    <div
-                      key={index}
-                      className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                        index === mobileImageIndex
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-95"
-                      }`}
-                    >
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        fill
-                        className="object-cover aspect-square"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="hidden md:block mx-auto max-w-5xl relative">
-              {imagePages.map((page, pageIndex) => (
-                <div
-                  key={pageIndex}
-                  className={`grid grid-cols-3 gap-6 transition-all duration-500 ease-in-out ${
-                    pageIndex === desktopImagePage
-                      ? "opacity-100 relative"
-                      : "opacity-0 absolute inset-0 pointer-events-none"
-                  }`}
-                >
-                  {page.map((image, index) => (
-                    <div key={index} className="relative aspect-square w-full overflow-hidden rounded-2xl">
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Logos */}
-          <div className="mb-8 flex items-center justify-center gap-6">
-            <Image src="/google-logo.png" alt="Google" width={100} height={33} className="h-auto w-24" />
-            <Image src="/trustpilot-logo.png" alt="Trustpilot" width={120} height={33} className="h-auto w-28" />
-          </div>
-
-          {/* Reviews carousel */}
-          <div className="mx-auto max-w-5xl">
-            <div
-              ref={mobileReviewRef}
-              className="md:hidden relative overflow-hidden transition-[height] duration-500 ease-in-out"
-              style={{ height: mobileHeight ? `${mobileHeight}px` : "auto" }}
-            >
-              {testimonials.map((testimonial, index) => {
-                const isActive = index === mobileReviewIndex
-                return (
-                  <div
-                    key={index}
-                    data-active={isActive}
-                    className={`rounded-2xl bg-white p-6 shadow-lg transition-all duration-500 ease-in-out ${
-                      isActive
-                        ? "opacity-100 translate-x-0"
-                        : "opacity-0 absolute inset-0 translate-x-4"
-                    }`}
-                  >
-                    <ReviewCard testimonial={testimonial} />
-                  </div>
-                )
-              })}
-            </div>
-
-            <div
-              ref={desktopReviewRef}
-              className="hidden md:block relative overflow-hidden transition-[height] duration-500 ease-in-out"
-              style={{ height: desktopHeight ? `${desktopHeight}px` : "auto" }}
-            >
-              {reviewPages.map((page, pageIndex) => {
-                const isActive = pageIndex === desktopReviewPage
-                return (
-                  <div
-                    key={pageIndex}
-                    data-active={isActive}
-                    className={`grid grid-cols-3 gap-6 transition-all duration-500 ease-in-out ${
-                      isActive
-                        ? "opacity-100 relative"
-                        : "opacity-0 absolute inset-0 pointer-events-none"
-                    }`}
-                  >
-                    {page.map((testimonial, index) => (
-                      <div key={index} className="rounded-2xl bg-white p-6 shadow-lg mb-5">
-                        <ReviewCard testimonial={testimonial} />
-                      </div>
-                    ))}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Unified navigation — mobile */}
-          <div className="md:hidden mt-8 flex items-center justify-center gap-3 pb-4">
-            <button
-              onClick={prevMobile}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#bceeff] hover:bg-[#a8e6ff] shadow-lg transition-all duration-200"
-            >
-              <ChevronLeft className="h-5 w-5 text-[#27c7ff]" />
-            </button>
-            <div className="flex gap-1.5">
-              {Array.from({ length: totalMobileItems }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === currentIndex ? "bg-cyan-400 w-6" : "bg-cyan-200 w-2"
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={nextMobile}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#bceeff] hover:bg-[#a8e6ff] shadow-lg transition-all duration-200"
-            >
-              <ChevronRight className="h-5 w-5 text-[#27c7ff]" />
-            </button>
-          </div>
-
-          {/* Unified navigation — desktop */}
-          {totalDesktopPages > 1 && (
-            <div className="hidden md:flex mt-8 items-center justify-center gap-3 pb-4">
-              <button
-                onClick={prevDesktop}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#bceeff] hover:bg-[#a8e6ff] shadow-lg transition-all duration-200"
-              >
-                <ChevronLeft className="h-5 w-5 text-[#27c7ff]" />
-              </button>
-              <div className="flex gap-1.5">
-                {Array.from({ length: totalDesktopPages }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      i === desktopPage ? "bg-cyan-400 w-6" : "bg-cyan-200 w-2"
-                    }`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={nextDesktop}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#bceeff] hover:bg-[#a8e6ff] shadow-lg transition-all duration-200"
-              >
-                <ChevronRight className="h-5 w-5 text-[#27c7ff]" />
-              </button>
-            </div>
-          )}
+    <div className="relative bg-[#1a1a1a] flex flex-col gap-[11px] px-5 py-6 h-full group overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+      <div className="flex items-center gap-[10px]">
+        <div
+          className="size-9 rounded-full flex items-center justify-center shrink-0"
+          style={{ backgroundColor: review.color }}
+        >
+          <span className="text-[14px] text-white">{initial}</span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[14px] font-semibold text-white leading-none">{review.name}</p>
+          <p className="text-[12px] text-[#8c8680] leading-none mt-1">{review.date}</p>
+        </div>
+        <Image
+          src="/svgs/google-icon.svg"
+          alt="Google"
+          width={16}
+          height={16}
+          className="size-4 shrink-0"
+        />
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="text-[12px] text-[#C9A96E] tracking-[1px]">★★★★★</span>
+        <div className="size-[14px] rounded-full bg-[#1a73e8] flex items-center justify-center">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+            <path d="M1.5 4L3 5.5L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
       </div>
-    </section>
+      <p className="text-[14px] text-white/55 leading-[1.2]">{review.text}</p>
+    </div>
   )
 }
 
-function ReviewCard({ testimonial }: { testimonial: Testimonial }) {
-  const linkHref = testimonial.tourSlug
-    ? `/tours/tour/${testimonial.tourSlug}`
-    : testimonial.eventSlug
-      ? `/events/${testimonial.eventSlug}`
-      : null
+function ArrowButton({ direction, onClick, className }: { direction: "left" | "right"; onClick: () => void; className?: string }) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-colors hover:border-[#C9A96E]",
+        className
+      )}
+      aria-label={direction === "left" ? "Previous" : "Next"}
+    >
+      {direction === "left" ? (
+        <ChevronLeft className="size-[14px] text-[#C9A96E]" />
+      ) : (
+        <ChevronRight className="size-[14px] text-[#C9A96E]" />
+      )}
+    </button>
+  )
+}
 
-  const linkLabel = testimonial.tourTitle || testimonial.eventTitle
-  const isTour = !!testimonial.tourSlug
+export function Testimonials() {
+  const t = useTranslations("testimonials")
+  const [currentPage, setCurrentPage] = useState(0)
+  const featuredReviews = useQuery(api.tourReviews.listFeatured)
+
+  const reviews: Review[] = useMemo(() => {
+    const dbReviews: Review[] = (featuredReviews ?? []).map((review, i) => ({
+      name: review.author,
+      date: new Date(review.createdAt).toLocaleDateString("en-GB"),
+      color: AVATAR_COLORS[(i + 4) % AVATAR_COLORS.length] ?? "#5f6368",
+      rating: 5 as const,
+      text: review.text,
+    }))
+    return dbReviews.length > 0 ? dbReviews : FALLBACK_REVIEWS
+  }, [featuredReviews])
+
+  const desktopItemsPerPage = 4
+  const desktopPages = Math.ceil(reviews.length / desktopItemsPerPage)
+
+  const nextPage = useCallback(() => {
+    setCurrentPage((prev) => (prev + 1) % reviews.length)
+  }, [reviews.length])
+
+  const prevPage = useCallback(() => {
+    setCurrentPage((prev) => (prev - 1 + reviews.length) % reviews.length)
+  }, [reviews.length])
+
+  const swipeHandlers = useSwipe(nextPage, prevPage)
+
+  const desktopPageIdx = Math.min(currentPage, desktopPages - 1)
+  const desktopReviews = reviews.slice(desktopPageIdx * desktopItemsPerPage, desktopPageIdx * desktopItemsPerPage + desktopItemsPerPage)
+  const mobileReview = reviews[currentPage % reviews.length]
+  const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
 
   return (
-    <>
-      <div className="mb-4 flex items-center gap-3">
-        <div
-          className={`flex h-12 w-12 items-center justify-center rounded-full ${testimonial.color} text-xl font-bold text-white`}
-        >
-          {testimonial.initial}
+    <section id="reviews" className="bg-[#0D0D0D] pt-[60px] pb-6 relative">
+      <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center">
+        <div className="backdrop-blur-sm bg-[rgba(33,33,33,0.3)] border border-[#C9A96E] flex items-center gap-2 px-4 py-2">
+          <BadgeCheck className="size-6 text-[#C9A96E]" strokeWidth={1.5} />
+          <span className="text-[14px] text-[#C9A96E] tracking-[0.28px]">
+            {t("exclusive")}
+          </span>
         </div>
-        <div className="flex-1">
-          <h3 className="font-semibold text-slate-900">{testimonial.name}</h3>
-          <p className="text-xs text-slate-500">{testimonial.date}</p>
+
+        <div className="flex flex-col items-center gap-6 w-full mt-10" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-px bg-[#C9A96E]" />
+              <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}>
+                {t("sectionLabel")}
+              </span>
+              <div className="w-8 h-px bg-[#C9A96E]" />
+            </div>
+            <h2 className="font-light text-[36px] md:text-[48px] text-[#f5f5f5] text-center leading-none">
+              {t("heading")}
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="relative">
+              <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">5</span>
+              <Star className="size-6 md:size-[43px] text-[#ab9c6b] fill-[#ab9c6b] absolute right-[-28px] md:right-[-44px] top-[12px] md:top-[14px]" />
+            </div>
+            <div className="w-[2px] h-[40px] md:h-[60px] bg-white rotate-[12deg] ml-6 md:ml-10" />
+            <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">322</span>
+            <span className="font-medium text-[18px] md:text-[24px] text-[#C9A96E] tracking-[0.24px]">
+              {t("reviews")}
+            </span>
+          </div>
+
+          <div className="text-[28px] md:text-[32px] text-[#C9A96E] tracking-[2px]">★★★★★</div>
+
+          <div className="flex items-center justify-center gap-6">
+            <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
+            <Image src="/trustpilot-logo.png" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" />
+          </div>
+        </div>
+
+        <div className="hidden md:flex flex-col gap-6 w-full mt-10">
+          <div className="relative">
+            <div className="flex gap-[2px]">
+              {REVIEW_PHOTOS.map((photo, i) => (
+                <div key={i} className="flex-1 relative h-[355px]">
+                  <Image
+                    src={photo}
+                    alt={`Client photo ${i + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="25vw"
+                  />
+                </div>
+              ))}
+            </div>
+            <ArrowButton direction="left" onClick={prevPage} className="absolute -left-[52px] top-1/2 -translate-y-1/2" />
+            <ArrowButton direction="right" onClick={nextPage} className="absolute -right-[52px] top-1/2 -translate-y-1/2" />
+          </div>
+
+          <div className="relative">
+            <div className="flex gap-[2px]">
+              {desktopReviews.map((review, i) => (
+                <div key={`${desktopPageIdx}-${i}`} className="flex-1">
+                  <ReviewCard review={review} />
+                </div>
+              ))}
+            </div>
+            {desktopPages > 1 && (
+              <>
+                <ArrowButton
+                  direction="left"
+                  onClick={() => setCurrentPage((p) => (p - 1 + desktopPages) % desktopPages)}
+                  className="absolute -left-[52px] top-1/2 -translate-y-1/2"
+                />
+                <ArrowButton
+                  direction="right"
+                  onClick={() => setCurrentPage((p) => (p + 1) % desktopPages)}
+                  className="absolute -right-[52px] top-1/2 -translate-y-1/2"
+                />
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="md:hidden flex flex-col gap-6 w-full mt-10" {...swipeHandlers}>
+          <div className="flex gap-[2px]">
+            {[mobilePhotoIdx, (mobilePhotoIdx + 1) % REVIEW_PHOTOS.length].map((idx) => (
+              <div key={idx} className="flex-1 relative h-[220px]">
+                <Image
+                  src={REVIEW_PHOTOS[idx]!}
+                  alt={`Client photo ${idx + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="50vw"
+                />
+              </div>
+            ))}
+          </div>
+
+          <ReviewCard review={mobileReview!} />
+
+          <div className="flex items-center justify-center gap-6">
+            <ArrowButton direction="left" onClick={prevPage} />
+            <ArrowButton direction="right" onClick={nextPage} />
+          </div>
         </div>
       </div>
-      <div className="mb-3 flex gap-0.5">
-        {[...Array(testimonial.rating)].map((_, i) => (
-          <svg key={i} className="h-5 w-5 fill-cyan-400" viewBox="0 0 20 20">
-            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-          </svg>
-        ))}
-      </div>
-      <p className="text-sm text-slate-600">{testimonial.text}</p>
-      {linkHref && linkLabel && (
-        <Link
-          href={linkHref}
-          className="mt-3 flex items-center gap-1.5 text-xs text-cyan-600 hover:text-cyan-700 transition-colors group"
-        >
-          {isTour ? (
-            <Map className="h-3.5 w-3.5 shrink-0" />
-          ) : (
-            <Calendar className="h-3.5 w-3.5 shrink-0" />
-          )}
-          <span className="truncate group-hover:underline">{linkLabel}</span>
-        </Link>
-      )}
-    </>
+    </section>
   )
 }
