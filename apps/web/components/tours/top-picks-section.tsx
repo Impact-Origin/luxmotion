@@ -1,192 +1,194 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback } from "react"
+import Image from "next/image"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Plane, House, MapPinned, ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
-import { TourCard, TourData } from "./shared/tour-card"
-import { useFeaturedTours, type TourData as ApiTourData } from "@/hooks/use-tour-data"
+import { useSwipe } from "@/hooks/use-swipe"
 
-function mapTourToCardData(tour: ApiTourData): TourData {
-  const originalPrice = tour.originalPrice ?? tour.basePrice
-  const discountedPrice = tour.basePrice
-  const savings = originalPrice > discountedPrice ? originalPrice - discountedPrice : 0
-
-  return {
-    id: tour.slug,
-    image: tour.bannerImageUrl || "/mockup_tour_picks/1.jpg",
-    rating: tour.rating ?? 4.5,
-    reviewCount: tour.reviewCount ?? 0,
-    title: tour.title,
-    location: tour.destination,
-    duration: tour.duration,
-    originalPrice,
-    discountedPrice,
-    savings,
-    isBestSeller: tour.isBestSeller,
-    category: tour.category,
-  }
+interface ServiceCard {
+  id: string
+  icon: LucideIcon
+  image: string
+  href: string
 }
 
-interface ArrowButtonProps {
-  direction: "left" | "right"
-  onClick: () => void
-  disabled?: boolean
-}
+const SERVICES: ServiceCard[] = [
+  { id: "luxury", icon: Plane, image: "/tours-page/svc-luxury.png", href: "/tours/results?category=luxury" },
+  { id: "itineraries", icon: House, image: "/tours-page/svc-itineraries.png", href: "/tours/results?category=custom" },
+  { id: "transfers", icon: MapPinned, image: "/tours-page/svc-transfers.png", href: "/tours/results?category=transfers" },
+]
 
-function ArrowButton({ direction, onClick, disabled }: ArrowButtonProps) {
+function ServiceCardItem({
+  icon: Icon,
+  label,
+  title,
+  description,
+  image,
+  href,
+}: {
+  icon: LucideIcon
+  label: string
+  title: string
+  description: string
+  image: string
+  href: string
+}) {
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "size-[32px] rounded-full flex items-center justify-center transition-colors",
-        disabled
-          ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-          : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-      )}
-      aria-label={direction === "left" ? "Previous" : "Next"}
-    >
-      {direction === "left" ? (
-        <ChevronLeft className="size-[15px] text-[#222222]" />
-      ) : (
-        <ChevronRight className="size-[15px] text-[#222222]" />
-      )}
-    </button>
+    <Link href={href} className="relative overflow-hidden block h-full group cursor-pointer">
+      <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-black to-[82%]" />
+      <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-4">
+        <div className="size-[48px] bg-[rgba(201,169,110,0.08)] border-2 border-[rgba(201,169,110,0.25)] flex items-center justify-center">
+          <Icon className="size-6 text-[#C9A96E]" />
+        </div>
+        <div className="flex items-end gap-2">
+          <div className="flex-1 flex flex-col gap-2">
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {label}
+            </span>
+            <span
+              className="text-[24px] text-white leading-normal"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {title}
+            </span>
+            <p
+              className="text-[14px] text-[#999] leading-[1.2] tracking-[0.14px]"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {description}
+            </p>
+          </div>
+          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 group-hover:border-[#C9A96E] transition-colors">
+            <ChevronRight className="size-[18px] text-[#C9A96E]" />
+          </div>
+        </div>
+      </div>
+    </Link>
   )
 }
 
 export function TopPicksSection() {
   const t = useTranslations("topPicks")
-  const { tours: apiTours, isLoading } = useFeaturedTours(6)
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [visibleCards, setVisibleCards] = useState(6)
-
-  const tourPicks = useMemo(() => {
-    return apiTours.map(mapTourToCardData)
-  }, [apiTours])
+  const [offset, setOffset] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisibleCards(4)
-      } else {
-        setVisibleCards(6)
-      }
-    }
-
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
     handleResize()
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  const maxSlide = Math.max(0, Math.ceil(tourPicks.length / visibleCards) - 1)
-  const showNavigation = tourPicks.length > visibleCards
+  const maxOffset = isMobile ? SERVICES.length - 1 : 0
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => Math.min(prev + 1, maxSlide))
-  }, [maxSlide])
+  const next = useCallback(() => {
+    setOffset((prev) => Math.min(prev + 1, maxOffset))
+  }, [maxOffset])
 
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => Math.max(prev - 1, 0))
+  const prev = useCallback(() => {
+    setOffset((prev) => Math.max(prev - 1, 0))
   }, [])
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(Math.min(index, maxSlide))
-  }
-
-  if (isLoading) {
-    return (
-      <section className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 pt-[28px] pb-[20px] md:pt-[40px] md:pb-[60px]">
-        <div className="max-w-7xl mx-auto flex flex-col gap-[20px] md:gap-[24px]">
-          <div className="h-[32px] w-[300px] bg-gray-200 rounded animate-pulse" />
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-[16px] md:gap-[24px]">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-[360px] md:h-[560px] bg-gray-200 rounded-[16px] animate-pulse" />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  if (tourPicks.length === 0) {
-    return null
-  }
+  const swipeHandlers = useSwipe(next, prev)
 
   return (
-    <section className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 pt-[28px] pb-[20px] md:pt-[40px] md:pb-[60px]">
-      <div className="max-w-7xl mx-auto flex flex-col gap-[20px] md:gap-[24px]">
-        <div className="flex items-start md:items-center justify-between">
-          <h2 className="text-[24px] md:text-[32px] font-bold leading-[1.3] text-[#070d0f]">
-            <span className="font-extrabold italic text-[#222222]">
-              {t("titlePart1")}
-            </span>
-            {", "}
-            <br className="md:hidden" />
-            <span className="text-[#27c7ff]">{t("titlePart2")}</span>
+    <section className="bg-[#0D0D0D] pt-10 pb-16 px-4 md:px-[82px] 2xl:px-[300px]">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <h2
+            className="text-[32px] md:text-[48px] leading-[1.3] text-white"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {t("redesign.heading")}{" "}
+            <span className="italic text-[#C9A96E]">{t("redesign.headingAccent")}</span>
           </h2>
-
-          {showNavigation && (
-            <div className="hidden md:flex gap-[8.842px] items-center shrink-0 ml-4">
-              <ArrowButton
-                direction="left"
-                onClick={prevSlide}
-                disabled={currentSlide === 0}
-              />
-              <ArrowButton
-                direction="right"
-                onClick={nextSlide}
-                disabled={currentSlide >= maxSlide}
-              />
-            </div>
-          )}
+          <p
+            className="text-[18px] text-[#999] leading-[1.3] max-w-[536px]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("redesign.subtitle")}
+          </p>
         </div>
 
-        <div className="flex flex-col gap-[24px] items-center">
-          <div className="hidden md:grid grid-cols-3 gap-[24px] w-full">
-            {tourPicks.map((tour) => (
-              <Link key={tour.id} href={`/tours/tour/${tour.id}`}>
-                <TourCard tour={tour} variant="desktop" />
-              </Link>
-            ))}
-          </div>
+        <div className="hidden md:flex gap-[2px] h-[550px]">
+          {SERVICES.map((svc) => (
+            <div key={svc.id} className="flex-1 h-full">
+              <ServiceCardItem
+                icon={svc.icon}
+                label={t(`redesign.cards.${svc.id}.label`)}
+                title={t(`redesign.cards.${svc.id}.title`)}
+                description={t(`redesign.cards.${svc.id}.description`)}
+                image={svc.image}
+                href={svc.href}
+              />
+            </div>
+          ))}
+        </div>
 
-          <div className="md:hidden w-full">
-            <div className="grid grid-cols-2 gap-[16px]">
-              {tourPicks.slice(0, 4).map((tour) => (
-                <Link key={tour.id} href={`/tours/tour/${tour.id}`}>
-                  <TourCard tour={tour} variant="mobile" />
-                </Link>
+        <div className="md:hidden">
+          <div className="overflow-hidden touch-pan-y" {...swipeHandlers}>
+            <div
+              className="flex gap-[2px] transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(calc(-${offset} * (100% + 2px)))` }}
+            >
+              {SERVICES.map((svc) => (
+                <div key={svc.id} className="shrink-0 w-full h-[450px]">
+                  <ServiceCardItem
+                    icon={svc.icon}
+                    label={t(`redesign.cards.${svc.id}.label`)}
+                    title={t(`redesign.cards.${svc.id}.title`)}
+                    description={t(`redesign.cards.${svc.id}.description`)}
+                    image={svc.image}
+                    href={svc.href}
+                  />
+                </div>
               ))}
             </div>
           </div>
 
-          {showNavigation && (
-            <div className="hidden md:flex gap-[6.183px] items-center">
-              {Array.from({ length: maxSlide + 1 }).map((_, index) => (
+          <div className="flex gap-4 items-center justify-center mt-4">
+            <button
+              onClick={prev}
+              className={cn(
+                "size-[36px] rounded-full flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+                offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
+              )}
+              aria-label="Previous"
+            >
+              <ChevronLeft className="size-[14px] text-[#C9A96E]" />
+            </button>
+
+            <div className="flex gap-[6px] items-center">
+              {SERVICES.map((_, i) => (
                 <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
+                  key={i}
+                  onClick={() => setOffset(i)}
                   className={cn(
                     "rounded-full transition-all",
-                    index === currentSlide
-                      ? "size-[13.85px] border-[1.237px] border-[#27c7ff] bg-transparent"
-                      : "size-[9.893px] bg-[#27c7ff]"
+                    i === offset ? "size-[10px] bg-[#C9A96E]" : "size-[6px] bg-[rgba(201,169,110,0.3)]"
                   )}
-                  aria-label={t("goToSlide", { number: index + 1 })}
                 />
               ))}
             </div>
-          )}
 
-          <Link
-            href="/tours/results"
-            className="bg-white border border-[#dedede] rounded-[99px] px-[17px] py-[13px] hover:bg-gray-50 transition-colors"
-          >
-            <span className="text-[14.8px] text-[#222]">{t("showMore")}</span>
-          </Link>
+            <button
+              onClick={next}
+              className={cn(
+                "size-[36px] rounded-full flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+                offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
+              )}
+              aria-label="Next"
+            >
+              <ChevronRight className="size-[14px] text-[#C9A96E]" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

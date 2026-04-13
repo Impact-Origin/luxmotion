@@ -3,67 +3,74 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Search } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { useSwipe } from "@/hooks/use-swipe"
 
-const destinationData = [
-  { id: "lisboa", image: "/regions_lisboa.png" },
-  { id: "porto", image: "/regions_porto.png" },
-  { id: "algarve", image: "/regions_algarve.png" },
+const DESTINATIONS = [
+  { id: "lisboa", image: "/tours-page/dest-lisboa-2.png" },
+  { id: "porto", image: "/tours-page/dest-porto.png" },
+  { id: "algarve", image: "/tours-page/dest-algarve.png" },
+  { id: "ericeira", image: "/tours-page/dest-ericeira.png" },
   { id: "alentejo", image: "/regions_alentejo.png" },
-  { id: "acores", image: "/regions_acores.png" },
   { id: "madeira", image: "/regions_madeira.png" },
 ]
 
-const STEP = 2
-const DESKTOP_VISIBLE = 3
+const DESKTOP_VISIBLE = 4
 const MOBILE_VISIBLE = 2
 
-function scrollToSearch() {
-  window.scrollTo({ top: 0, behavior: "smooth" })
-  setTimeout(() => {
-    const input = document.querySelector<HTMLInputElement>(".tours-hero input[type='text'], header input[type='text'], input[placeholder*='earch']")
-    if (input) input.focus()
-  }, 600)
-}
-
-interface DestinationCardProps {
+function DestinationCard({
+  name,
+  label,
+  subtitle,
+  image,
+  href,
+}: {
   name: string
+  label: string
+  subtitle: string
   image: string
   href: string
-  isMobile?: boolean
-}
-
-function DestinationCard({ name, image, href, isMobile }: DestinationCardProps) {
+}) {
   return (
     <Link
       href={href}
-      className={cn(
-        "relative overflow-hidden rounded-[16px] cursor-pointer group block shrink-0",
-        isMobile ? "h-[300px]" : "h-[540px]"
-      )}
+      className="relative overflow-hidden cursor-pointer group block shrink-0 h-full"
     >
       <Image
         src={image}
         alt={name}
         fill
-        className="object-cover transition-transform duration-300 group-hover:scale-105"
-        sizes={isMobile ? "50vw" : "33vw"}
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        sizes="(max-width: 768px) 50vw, 25vw"
       />
-      <div className="absolute bottom-0 left-0 right-0 h-[165px] bg-gradient-to-t from-black/70 to-transparent" />
-      <div className="absolute bottom-[24px] left-[16px] flex gap-[16px] items-center">
-        <span
-          className={cn(
-            "font-bold text-white leading-[1.2]",
-            isMobile ? "text-[24px]" : "text-[32px]"
-          )}
-        >
-          {name}
-        </span>
-        <div className="size-[28px] bg-white rounded-full flex items-center justify-center group-hover:bg-[#27c7ff] transition-colors">
-          <ArrowRight className="size-[18px] text-[#222222] group-hover:text-white transition-colors" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-black to-[82%]" />
+      <div className="absolute bottom-0 left-0 right-0 p-4">
+        <div className="flex items-end gap-2">
+          <div className="flex-1 flex flex-col gap-2">
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {label}
+            </span>
+            <span
+              className="text-[24px] font-medium text-white leading-normal"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {name}
+            </span>
+            <span
+              className="text-[14px] font-light text-[#999] leading-[1.2] tracking-[0.14px]"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {subtitle}
+            </span>
+          </div>
+          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 group-hover:border-[#C9A96E] transition-colors">
+            <ChevronRight className="size-[18px] text-[#C9A96E]" />
+          </div>
         </div>
       </div>
     </Link>
@@ -72,14 +79,8 @@ function DestinationCard({ name, image, href, isMobile }: DestinationCardProps) 
 
 export function DestinationsSection() {
   const t = useTranslations("destinations")
-  const tTours = useTranslations("tours")
   const [offset, setOffset] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-
-  const destinations = destinationData.map((d) => ({
-    ...d,
-    name: tTours(`destinations.${d.id}.name`),
-  }))
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768)
@@ -89,146 +90,126 @@ export function DestinationsSection() {
   }, [])
 
   const visible = isMobile ? MOBILE_VISIBLE : DESKTOP_VISIBLE
-  const totalItems = destinations.length + 1
-  const maxOffset = totalItems - visible
+  const maxOffset = Math.max(DESTINATIONS.length - visible, 0)
 
   const next = useCallback(() => {
-    setOffset((prev) => Math.min(prev + STEP, maxOffset))
+    setOffset((prev) => Math.min(prev + 1, maxOffset))
   }, [maxOffset])
 
   const prev = useCallback(() => {
-    setOffset((prev) => Math.max(prev - STEP, 0))
+    setOffset((prev) => Math.max(prev - 1, 0))
   }, [])
 
-  const destSwipe = useSwipe(next, prev)
+  const swipeHandlers = useSwipe(next, prev)
 
-  const totalDots = useMemo(() => {
-    return Math.ceil(maxOffset / STEP) + 1
-  }, [maxOffset])
-
-  const currentDot = Math.min(Math.floor(offset / STEP), totalDots - 1)
-
-  const goToDot = (index: number) => {
-    setOffset(Math.min(index * STEP, maxOffset))
-  }
-
-  const gapPx = isMobile ? 16 : 24
-  const cardWidthPercent = 100 / visible
+  const totalDots = useMemo(() => maxOffset + 1, [maxOffset])
+  const currentDot = offset
 
   return (
-    <section className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 pt-[40px] pb-[24px] md:pb-[60px]">
-      <div className="max-w-7xl mx-auto flex flex-col gap-[24px]">
-        <div className="flex items-start md:items-center justify-between">
-          <h2 className="text-[24px] md:text-[32px] font-bold leading-[1.3] text-[#070d0f]">
-            {t("titlePart1")}{" "}
-            <span className="font-extrabold italic text-[#222222]">
-              {t("titleDestination")}
-            </span>{" "}
-            {t("titlePart2")}{" "}
-            <span className="text-[#27c7ff]">{t("titleHighlight")}</span>
-            {t("titleEnd")}
+    <section className="bg-[#0D0D0D] pt-10 pb-10 px-4 md:px-[82px] 2xl:px-[300px]">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-9">
+        <div className="flex flex-col gap-2">
+          <h2
+            className="text-[32px] md:text-[48px] leading-[1.3] text-white"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {t("redesign.heading")}{" "}
+            <span className="italic text-[#C9A96E]">{t("redesign.headingAccent")}</span>
           </h2>
+          <p
+            className="text-[18px] text-[#999] leading-[1.3]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("redesign.subtitle")}
+          </p>
         </div>
 
-        <div className="flex flex-col gap-[24px] items-center">
-          <div className="w-full overflow-hidden touch-pan-y" {...destSwipe}>
+        <div className="relative">
+          <div className="overflow-hidden touch-pan-y" {...swipeHandlers}>
             <div
-              className="flex transition-transform duration-500 ease-out"
+              className="flex gap-[2px] transition-transform duration-500 ease-out"
               style={{
-                gap: `${gapPx}px`,
-                transform: `translateX(calc(-${offset} * (${cardWidthPercent}% - ${gapPx * (visible - 1) / visible}px + ${gapPx}px)))`,
+                transform: `translateX(calc(-${offset} * (${100 / visible}% + ${2 * (visible - 1) / visible}px)))`,
               }}
             >
-              {destinations.map((destination) => (
+              {DESTINATIONS.map((dest) => (
                 <div
-                  key={destination.id}
-                  className="shrink-0"
-                  style={{ width: `calc(${cardWidthPercent}% - ${gapPx * (visible - 1) / visible}px)` }}
+                  key={dest.id}
+                  className="shrink-0 h-[486px] md:h-[486px]"
+                  style={{ width: `calc(${100 / visible}% - ${2 * (visible - 1) / visible}px)` }}
                 >
                   <DestinationCard
-                    name={destination.name}
-                    image={destination.image}
-                    href={`/tours/${destination.id}`}
-                    isMobile={isMobile}
+                    name={t(`redesign.cards.${dest.id}.name`)}
+                    label={t(`redesign.cards.${dest.id}.label`)}
+                    subtitle={t(`redesign.cards.${dest.id}.subtitle`)}
+                    image={dest.image}
+                    href={`/tours/${dest.id}`}
                   />
                 </div>
               ))}
+            </div>
+          </div>
 
+          <button
+            onClick={prev}
+            className={cn(
+              "hidden md:flex absolute left-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] rounded-full items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
+            )}
+            aria-label="Previous"
+          >
+            <ChevronLeft className="size-[14px] text-[#C9A96E]" />
+          </button>
+          <button
+            onClick={next}
+            className={cn(
+              "hidden md:flex absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] rounded-full items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
+            )}
+            aria-label="Next"
+          >
+            <ChevronRight className="size-[14px] text-[#C9A96E]" />
+          </button>
+        </div>
+
+        <div className="flex gap-4 items-center justify-center">
+          <button
+            onClick={prev}
+            className={cn(
+              "md:hidden size-[36px] rounded-full flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
+            )}
+            aria-label="Previous"
+          >
+            <ChevronLeft className="size-[14px] text-[#C9A96E]" />
+          </button>
+
+          <div className="flex gap-[6px] items-center">
+            {Array.from({ length: totalDots }).map((_, i) => (
               <button
-                onClick={scrollToSearch}
+                key={i}
+                onClick={() => setOffset(i)}
                 className={cn(
-                  "shrink-0 rounded-[16px] overflow-hidden cursor-pointer group bg-gradient-to-br from-[#27c7ff] to-[#0e9fd8] flex flex-col items-center justify-center px-4 md:px-6",
-                  isMobile ? "h-[300px] gap-3" : "h-[540px] gap-5"
+                  "rounded-full transition-all",
+                  i === currentDot
+                    ? "size-[10px] bg-[#C9A96E]"
+                    : "size-[6px] bg-[rgba(201,169,110,0.3)]"
                 )}
-                style={{ width: `calc(${cardWidthPercent}% - ${gapPx * (visible - 1) / visible}px)` }}
-              >
-                <div className={cn(
-                  "rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors",
-                  isMobile ? "size-[52px]" : "size-[64px]"
-                )}>
-                  <Search className={cn("text-white", isMobile ? "size-5" : "size-7")} />
-                </div>
-                <span className={cn(
-                  "font-bold text-white leading-[1.2] text-center",
-                  isMobile ? "text-[17px]" : "text-[28px]"
-                )}>
-                  {tTours("exploreAll")}
-                </span>
-                <div className={cn(
-                  "bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform",
-                  isMobile ? "size-8" : "size-9"
-                )}>
-                  <ArrowUpRight className={cn("text-[#27c7ff]", isMobile ? "size-4" : "size-5")} />
-                </div>
-              </button>
-            </div>
+                aria-label={t("goToSlide", { number: i + 1 })}
+              />
+            ))}
           </div>
 
-          <div className="flex gap-[16px] items-center justify-center">
-            <button
-              onClick={prev}
-              disabled={offset === 0}
-              className={cn(
-                "size-[32px] rounded-full flex items-center justify-center transition-colors",
-                offset === 0
-                  ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-                  : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-              )}
-              aria-label="Previous"
-            >
-              <ChevronLeft className="size-[15px] text-[#222222]" />
-            </button>
-
-            <div className="flex gap-[6.183px] items-center">
-              {Array.from({ length: totalDots }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToDot(index)}
-                  className={cn(
-                    "rounded-full transition-all",
-                    index === currentDot
-                      ? "size-[13.85px] border-[1.237px] border-[#27c7ff] bg-transparent"
-                      : "size-[9.893px] bg-[#27c7ff]"
-                  )}
-                  aria-label={t("goToSlide", { number: index + 1 })}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={next}
-              disabled={offset >= maxOffset}
-              className={cn(
-                "size-[32px] rounded-full flex items-center justify-center transition-colors",
-                offset >= maxOffset
-                  ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-                  : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-              )}
-              aria-label="Next"
-            >
-              <ChevronRight className="size-[15px] text-[#222222]" />
-            </button>
-          </div>
+          <button
+            onClick={next}
+            className={cn(
+              "md:hidden size-[36px] rounded-full flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
+            )}
+            aria-label="Next"
+          >
+            <ChevronRight className="size-[14px] text-[#C9A96E]" />
+          </button>
         </div>
       </div>
     </section>

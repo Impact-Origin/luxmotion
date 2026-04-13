@@ -938,6 +938,19 @@
       "bestPrice": "Beste Prijs",
       "authenticExperiences": "Authentieke Lokale Ervaringen",
       "expertGuides": "Deskundige Lokale Gidsen"
+    },
+    "redesign": {
+      "label": "Private Tours · Portugal",
+      "headingLine1": "Ontdek de",
+      "headingLine2": "Ziel van Portugal",
+      "subtitle": "Privéchauffeur. Geselecteerde routes. Elke weg in Portugal — beleefd zoals het verdient.",
+      "searchPlaceholder": "Zoek naar tours, bestemmingen, ervaringen...",
+      "searchButton": "Zoeken",
+      "badges": {
+        "safe": "Veilig",
+        "authenticExperiences": "Authentieke ervaringen",
+        "expertGuides": "Lokale expertgidsen"
+      }
     }
   },
   "tourResults": {
@@ -1061,7 +1074,18 @@
     "titlePart2": "een verhaal.",
     "paragraph1": "Elke reis met ons wordt een hoofdstuk in uw grootste avonturen. Van verborgen pareltjes in oude dorpen tot wijnproeverijen bij zonsondergang met uitzicht op terrassenvallei—wij creëren ervaringen die uw ziel raken en herinneringen maken die voor altijd duren.",
     "paragraph2": "Onze lokale gidsen laten u niet alleen Portugal zien—ze delen hun thuis, hun verhalen en hun passie voor dit prachtige land.",
-    "imageAlt": "Onze perfecte reis - fotogalerij met premium voertuig"
+    "imageAlt": "Onze perfecte reis - fotogalerij met premium voertuig",
+    "redesign": {
+      "label": "Onze Filosofie",
+      "headingPart1": "Meer dan een reis,",
+      "headingPart2": "een verhaal",
+      "paragraph1": "Portugal herbergt duizend versies van zichzelf — fado die weerklinkt op de tegels van Alfama, de terrassen van de Douro in het gouden uur, de Atlantische Oceaan die onder de kliffen van Sintra valt. Onze privétours zijn gemaakt om de versie te vinden die u het meest raakt.",
+      "paragraph2": "Elk reisschema wordt rond u opgebouwd. Geen vaste groepen, geen strakke schema's, geen compromissen. Alleen een zorgvuldig geselecteerde chauffeur, een samengestelde route en een dag die geheel van u is — of twintig.",
+      "photoCardText": "Our perfect trip",
+      "reviewStars": "5/5 Stars",
+      "reviewCount": "150+ Beoordelingen",
+      "imageAlt": "Onze perfecte reis - fotogalerij met premiumvoertuig"
+    }
   },
   "destinations": {
     "titlePart1": "Welke",
@@ -1069,7 +1093,44 @@
     "titlePart2": "gaan",
     "titleHighlight": "we bezoeken",
     "titleEnd": "?",
-    "goToSlide": "Ga naar dia {number}"
+    "goToSlide": "Ga naar dia {number}",
+    "redesign": {
+      "heading": "Welke bestemming",
+      "headingAccent": "kiezen we?",
+      "subtitle": "Privé dagexcursies samengesteld voor veeleisende reizigers. Ontworpen voor wie ervaring boven reisschema verkiest.",
+      "cards": {
+        "lisboa": {
+          "name": "Lissabon",
+          "label": "Privétour",
+          "subtitle": "Halve dag · Hele dag · Op maat"
+        },
+        "porto": {
+          "name": "Porto",
+          "label": "Privétour",
+          "subtitle": "Hele dag · Meerdaags"
+        },
+        "algarve": {
+          "name": "Algarve",
+          "label": "Privé · Hele Dag",
+          "subtitle": "Hele dag · Meerdaags"
+        },
+        "ericeira": {
+          "name": "Ericeira",
+          "label": "Privé · Hele Dag",
+          "subtitle": "Hele dag · Meerdaags"
+        },
+        "alentejo": {
+          "name": "Alentejo",
+          "label": "Privétour",
+          "subtitle": "Hele dag · Meerdaags"
+        },
+        "madeira": {
+          "name": "Madeira",
+          "label": "Privétour",
+          "subtitle": "Hele dag · Meerdaags"
+        }
+      }
+    }
   },
   "services": {
     "sectionLabel": "Onze Diensten",
@@ -1129,7 +1190,45 @@
     "supportEmail": "geral@easytransferericeira.com",
     "responseTime": "Antwoord binnen max. 24 uur. Geen verborgen kosten.",
     "submitSuccess": "Bericht succesvol verzonden!",
-    "submitError": "Verzenden mislukt. Probeer het opnieuw."
+    "submitError": "Verzenden mislukt. Probeer het opnieuw.",
+    "redesign": {
+      "label": "Neem Contact Op",
+      "heading": "Plan uw perfecte dag",
+      "heroLine1": "Plan uw",
+      "heroLine2": "perfecte dag",
+      "subtitle": "Vertel ons waar u heen wilt, wanneer en met hoeveel. Wij creëren iets onvergetelijks voor u.",
+      "form": {
+        "name": "Naam",
+        "namePlaceholder": "Volledige naam",
+        "email": "E-mail",
+        "emailPlaceholder": "voorbeeld@email.com",
+        "country": "Land",
+        "countryPlaceholder": "Selecteer land",
+        "phone": "Telefoon",
+        "phonePlaceholder": "000 000 000",
+        "region": "Wat wilt u bezoeken?",
+        "regionPlaceholder": "Selecteer regio",
+        "date": "Wanneer wilt u gaan?",
+        "flexibleDates": "Flexibele data",
+        "travelers": "Hoeveel personen reizen?",
+        "travelersPlaceholder": "Selecteer",
+        "budget": "Budget per persoon?",
+        "interests": "Wat wilt u doen en bezoeken?",
+        "interestsPlaceholder": "Deel uw interesses (privé wijnproeverij, gastronomische ervaringen, buitenactiviteiten, begeleide culturele tours, wellnessmomenten, luxe cruises, privéjet, exclusief winkelen).",
+        "interestsHelp": "Hoe meer details u deelt, hoe beter wij uw ervaring kunnen personaliseren.",
+        "ageRange": "Leeftijdsgroep",
+        "ageRangePlaceholder": "Selecteer een optie",
+        "newsletter": "Ik ga akkoord met het ontvangen van e-mails van LuxMotion met reisgidsen, tips en informatie over exclusieve ervaringen in Portugal.",
+        "submit": "Aanvraag Verzenden"
+      },
+      "support": {
+        "name": "Carolina Pinheiro - Support",
+        "role": "LuxMotion toerisme specialist",
+        "phone": "+351 963 650 278",
+        "email": "geral@easytransferericeira.com"
+      },
+      "responseTime": "Antwoord binnen 24 uur. Geen verborgen kosten."
+    }
   },
   "topPicks": {
     "titlePart1": "Onze topkeuzes",
@@ -1140,7 +1239,29 @@
     "was": "Was {price} €",
     "from": "Vanaf {price} €",
     "showMore": "Meer tonen",
-    "goToSlide": "Ga naar dia {number}"
+    "goToSlide": "Ga naar dia {number}",
+    "redesign": {
+      "heading": "Welke bestemming",
+      "headingAccent": "kiezen we?",
+      "subtitle": "Privé dagexcursies samengesteld voor veeleisende reizigers. Ontworpen voor wie ervaring boven reisschema verkiest.",
+      "cards": {
+        "luxury": {
+          "label": "Privétour",
+          "title": "Luxe Reizen",
+          "description": "Bentley, Mercedes S-Klasse, Tesla — elk voertuig is een statement. Elke transfer is een ervaring op zich."
+        },
+        "itineraries": {
+          "label": "Privétour",
+          "title": "Op Maat Gemaakte Routes",
+          "description": "Wijnregio's, verborgen dorpen, dramatische kustlijnen. Uw tempo, uw stops, uw Portugal."
+        },
+        "transfers": {
+          "label": "Privétour",
+          "title": "Privé Transfers",
+          "description": "Van de luchthaven naar het hotel. Van het hotel naar de locatie. Punt naar punt — altijd op tijd, altijd stijlvol."
+        }
+      }
+    }
   },
   "admin": {
     "landingHeader": "Landing Header",
@@ -2247,5 +2368,10 @@
     "subtitle1": "Van Lissabon tot de Douro, van de Algarve tot de Alentejo.",
     "subtitle2": "Wij brengen u door Portugal zoals het bedoeld is om te beleven.",
     "cta": "Ontdek Onze Service"
+  },
+  "toursTestimonials": {
+    "exclusive": "Exclusief",
+    "heading": "Klanten & Bedrijven",
+    "subtitle": "Vertrouwd in Portugal en daarbuiten"
   }
 }

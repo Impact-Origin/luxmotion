@@ -1,53 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ShieldCheck, BadgeEuro, MapPinned, UserRoundCheck, LucideIcon } from "lucide-react"
+import { ShieldCheck, MapPinned, UserRoundCheck, type LucideIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@workspace/ui/lib/utils"
-import { type GooglePlaceValue } from "@/components/ui/google-places-input"
-import { ToursSearchBar } from "@/components/tours/shared/tours-search-bar"
+import { GooglePlacesInput, type GooglePlaceValue } from "@/components/ui/google-places-input"
+import Image from "next/image"
 
-const FEATURE_BADGES = [
-  { icon: ShieldCheck, key: "safe", order: { desktop: 0, mobile: 0 } },
-  { icon: BadgeEuro, key: "bestPrice", order: { desktop: 1, mobile: 2 } },
-  { icon: MapPinned, key: "authenticExperiences", order: { desktop: 2, mobile: 1 } },
-  { icon: UserRoundCheck, key: "expertGuides", order: { desktop: 3, mobile: 3 } },
-] as const
-
-interface FeatureBadgeProps {
-  icon: LucideIcon
-  label: string
-  variant?: "default" | "mobile"
-  className?: string
-}
-
-function FeatureBadge({ icon: Icon, label, variant = "default", className }: FeatureBadgeProps) {
-  const isMobile = variant === "mobile"
-  return (
-    <div
-      className={cn(
-        "flex items-center bg-white rounded-full shadow-[0px_4px_4px_0px_rgba(97,236,154,0.2)]",
-        isMobile
-          ? "gap-1.5 pl-1.5 pr-2.5 py-1.5"
-          : "gap-[8px] pl-[8px] pr-[16px] py-[9px]",
-        className
-      )}
-    >
-      <Icon
-        className={cn("shrink-0 text-[#27C7FF]", isMobile ? "w-3.5 h-3.5" : "w-[20px] h-[20px]")}
-      />
-      <span
-        className={cn(
-          "text-[#0e4659] font-normal leading-none whitespace-nowrap",
-          isMobile ? "text-[11px]" : "text-[16px]"
-        )}
-      >
-        {label}
-      </span>
-    </div>
-  )
-}
+const TRUST_BADGES: { icon: LucideIcon; key: string }[] = [
+  { icon: ShieldCheck, key: "safe" },
+  { icon: MapPinned, key: "authenticExperiences" },
+  { icon: UserRoundCheck, key: "expertGuides" },
+]
 
 export function ToursHero() {
   const t = useTranslations("toursHero")
@@ -88,78 +53,127 @@ export function ToursHero() {
     }
   }
 
-  const desktopBadges = [...FEATURE_BADGES].sort((a, b) => a.order.desktop - b.order.desktop)
-  const mobileBadges = [...FEATURE_BADGES].sort((a, b) => a.order.mobile - b.order.mobile)
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSearch()
+  }
+
+  const handlePlaceChange = (next: GooglePlaceValue) => {
+    setPlaceValue(next)
+    if (next.lat !== null && next.lng !== null) handleSearch(next)
+  }
 
   return (
-    <section className="relative w-full h-[459px] md:h-[520px] lg:h-[600px] xl:h-[690px] overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/tours_hero.jpg')" }}
+    <section className="relative w-full min-h-[500px] md:min-h-[596px] flex items-center justify-center overflow-hidden">
+      <Image
+        src="/tours-page/hero-bg.png"
+        alt=""
+        fill
+        className="object-cover"
+        priority
       />
 
-      <div className="absolute inset-0 bg-black/20" />
+      <div
+        className="absolute inset-0 md:hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(127.5deg, rgba(10,14,15,0.7) 0%, rgba(15,26,20,0.7) 35%, rgba(20,17,10,0.7) 70%, rgba(13,13,13,0.7) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 hidden md:block"
+        style={{
+          backgroundImage:
+            "linear-gradient(155deg, rgba(10,14,15,0.8) 0%, rgba(15,26,20,0.8) 35%, rgba(20,17,10,0.8) 70%, rgba(13,13,13,0.8) 100%)",
+        }}
+      />
 
-      {/* Top fade: opaco no topo para esconder a linha do header, depois suaviza */}
-      <div className="absolute top-0 left-0 right-0 h-[180px] md:h-[200px] lg:h-[240px] bg-gradient-to-b from-white from-0% via-white via-[20%] to-transparent" />
-
-      <div className="absolute bottom-0 left-0 right-0 h-[140px] md:h-[160px] lg:h-[200px] bg-gradient-to-t from-white via-white/70 to-transparent" />
-
-      <div className="relative z-10 h-full flex items-center justify-center px-4">
-        <div className="flex flex-col items-center gap-[16px] w-full max-w-[395px] md:max-w-[777px]">
-          <h1
-            className={cn(
-              "text-center text-white mix-blend-screen transition-all duration-700 ease-out",
-              "text-[40px] md:text-[72px] leading-[1.3] md:leading-[72px]",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
+      <div className="relative z-10 flex flex-col items-center gap-6 md:gap-7 px-4 md:px-8 py-[89px] w-full max-w-[710px]">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-px bg-[#C9A96E]" />
+          <span
+            className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
-            <span className="font-extrabold">{t("titleDiscover")}</span>
-            <span className="font-normal"> {t("titleSoul")}</span>
-            <br />
-            <span className="font-normal">{t("titlePortugal")}</span>
-          </h1>
+            {t("redesign.label")}
+          </span>
+          <div className="w-8 h-px bg-[#C9A96E]" />
+        </div>
 
-          <ToursSearchBar
-            value={placeValue}
-            onChange={setPlaceValue}
-            onSearch={handleSearch}
-            placeholder={t("searchPlaceholder")}
+        <h1
+          className={cn(
+            "text-center text-[48px] md:text-[96px] leading-[1.2] md:leading-[0.95] transition-all duration-700 ease-out",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          <span className="text-[#F5F5F5]">{t("redesign.headingLine1")}</span>
+          <br />
+          <span className="italic text-[#C9A96E]">{t("redesign.headingLine2")}</span>
+        </h1>
+
+        <p
+          className={cn(
+            "text-[18px] text-[#999] text-center leading-[1.3] max-w-[597px]",
+            "transition-all duration-700 ease-out delay-100",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {t("redesign.subtitle")}
+        </p>
+
+        <div className="flex flex-col gap-2 w-full md:w-auto">
+          <div
             className={cn(
+              "flex items-center w-full",
               "transition-all duration-700 ease-out delay-150",
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             )}
-          />
-
-          <div
-            className={cn(
-              "hidden md:flex flex-row items-center justify-center gap-[16px] w-full",
-              "transition-all duration-700 ease-out delay-300",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
+            onKeyDown={handleKeyDown}
           >
-            {desktopBadges.map((badge) => (
-              <FeatureBadge key={badge.key} icon={badge.icon} label={t(`badges.${badge.key}`)} />
-            ))}
+            <div className="flex-1 md:flex-none md:w-[384px] h-[56px] bg-[#1E1D1B] border-l border-t border-b border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-3">
+              <GooglePlacesInput
+                value={placeValue}
+                onChange={handlePlaceChange}
+                placeholder={t("redesign.searchPlaceholder")}
+                variant="tours-hero-dark"
+                className="flex-1 h-full"
+              />
+            </div>
+            <button
+              onClick={() => handleSearch()}
+              className="h-[56px] px-[22px] bg-[#C9A96E] border border-[#C9A96E] shrink-0 hover:bg-[#b8954f] transition-colors"
+            >
+              <span
+                className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"
+                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+              >
+                {t("redesign.searchButton")}
+              </span>
+            </button>
           </div>
 
           <div
             className={cn(
-              "md:hidden flex justify-center w-full",
+              "flex items-stretch gap-2 w-full",
               "transition-all duration-700 ease-out delay-300",
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             )}
           >
-            <div className="grid grid-cols-2 gap-2 place-items-center">
-            {mobileBadges.map((badge) => (
-                <FeatureBadge
-                  key={badge.key}
-                  icon={badge.icon}
-                  label={t(`badges.${badge.key}`)}
-                  variant="mobile"
-                />
-              ))}
-            </div>
+            {TRUST_BADGES.map((badge) => (
+              <div
+                key={badge.key}
+                className="flex-1 flex items-center gap-2 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] px-3 py-2"
+              >
+                <badge.icon className="w-5 h-5 text-[#999] shrink-0" />
+                <span
+                  className="text-[12px] font-medium text-[#999] leading-[1.3] md:whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                >
+                  {t(`redesign.badges.${badge.key}`)}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

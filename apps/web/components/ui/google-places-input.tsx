@@ -24,7 +24,7 @@ interface GooglePlacesInputProps {
   /** Shown in the iOS keyboard bar above the input; use e.g. "De onde?" so it doesn't show "home". */
   ariaLabel?: string
   className?: string
-  variant?: "default" | "widget" | "new-widget" | "hero-inline" | "tours-hero" | "tours-results"
+  variant?: "default" | "widget" | "new-widget" | "hero-inline" | "tours-hero" | "tours-hero-dark" | "tours-results"
   /** When true, render suggestions inline below the input (e.g. inside a bottom drawer). Drawer closes only on selection. */
   inlineDropdown?: boolean
 }
@@ -106,6 +106,7 @@ export function GooglePlacesInput({
   const isNewWidget = variant === "new-widget"
   const isHeroInline = variant === "hero-inline"
   const isToursHero = variant === "tours-hero"
+  const isToursHeroDark = variant === "tours-hero-dark"
   const isToursResults = variant === "tours-results"
 
   const triggerInput = (
@@ -146,6 +147,24 @@ export function GooglePlacesInput({
             }}
             placeholder={placeholder}
             className="flex-1 text-[16px] text-[#222] placeholder:text-[#a2a2a2] font-normal outline-none bg-transparent"
+          />
+        </div>
+      ) : isToursHeroDark ? (
+        <div className="w-full h-full relative flex items-center gap-2">
+          <Search className="w-[24px] h-[24px] text-[#C9A96E] shrink-0" />
+          <input
+            suppressHydrationWarning
+            value={value.location}
+            onChange={handleInputChange}
+            onFocus={() => {
+              if (value.location.trim()) {
+                fetchPredictions(value.location)
+              }
+              setShowDropdown(true)
+            }}
+            placeholder={placeholder}
+            className="flex-1 text-[13px] text-white placeholder:text-[rgba(255,255,255,0.22)] font-normal outline-none bg-transparent"
+            style={{ caretColor: "#C9A96E" }}
           />
         </div>
       ) : isToursHero ? (
@@ -292,7 +311,7 @@ export function GooglePlacesInput({
             suggestions={value.location.trim() ? predictions : defaultSuggestions}
             isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
             onSelect={handleSelectSuggestion}
-            dark={isHeroInline}
+            dark={isHeroInline || isToursHeroDark}
           />
         </PopoverContent>
       </Popover>

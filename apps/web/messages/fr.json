@@ -938,6 +938,19 @@
       "bestPrice": "Meilleur Prix",
       "authenticExperiences": "Expériences Locales Authentiques",
       "expertGuides": "Guides Locaux Experts"
+    },
+    "redesign": {
+      "label": "Private Tours · Portugal",
+      "headingLine1": "Découvrez l'",
+      "headingLine2": "Âme du Portugal",
+      "subtitle": "Chauffeur privé. Itinéraires sélectionnés. Chaque route au Portugal — vécue comme elle le mérite.",
+      "searchPlaceholder": "Rechercher des tours, destinations, expériences...",
+      "searchButton": "Rechercher",
+      "badges": {
+        "safe": "Sécurisé",
+        "authenticExperiences": "Expériences authentiques",
+        "expertGuides": "Guides locaux spécialisés"
+      }
     }
   },
   "tourResults": {
@@ -1061,7 +1074,18 @@
     "titlePart2": "une histoire.",
     "paragraph1": "Chaque voyage avec nous devient un chapitre de vos plus grandes aventures. Des joyaux cachés dans d'anciens villages aux dégustations de vin au coucher du soleil surplombant des vallées en terrasses—nous créons des expériences qui touchent votre âme et créent des souvenirs qui durent éternellement.",
     "paragraph2": "Nos guides locaux ne vous montrent pas seulement le Portugal—ils partagent leur maison, leurs histoires et leur passion pour cette belle terre.",
-    "imageAlt": "Notre voyage parfait - galerie photo avec véhicule premium"
+    "imageAlt": "Notre voyage parfait - galerie photo avec véhicule premium",
+    "redesign": {
+      "label": "Notre Philosophie",
+      "headingPart1": "Plus qu'un voyage,",
+      "headingPart2": "une histoire",
+      "paragraph1": "Le Portugal recèle mille versions de lui-même — le fado résonnant sur les azulejos d'Alfama, les terrasses du Douro à l'heure dorée, l'Atlantique se brisant sous les falaises de Sintra. Nos circuits privés sont conçus pour trouver la version qui vous émeut le plus.",
+      "paragraph2": "Chaque itinéraire est construit autour de vous. Pas de groupes fixes, pas d'horaires rigides, pas de compromis. Juste un chauffeur soigneusement sélectionné, un parcours choisi et une journée qui vous appartient entièrement — ou vingt.",
+      "photoCardText": "Our perfect trip",
+      "reviewStars": "5/5 Stars",
+      "reviewCount": "150+ Avis",
+      "imageAlt": "Notre voyage parfait - galerie photo avec véhicule premium"
+    }
   },
   "destinations": {
     "titlePart1": "Quelle",
@@ -1069,7 +1093,44 @@
     "titlePart2": "allons-",
     "titleHighlight": "nous visiter",
     "titleEnd": "?",
-    "goToSlide": "Aller à la diapositive {number}"
+    "goToSlide": "Aller à la diapositive {number}",
+    "redesign": {
+      "heading": "Quelle destination",
+      "headingAccent": "choisissons-nous ?",
+      "subtitle": "Expériences privées d'une journée pour voyageurs exigeants. Conçues pour ceux qui préfèrent l'expérience à l'itinéraire.",
+      "cards": {
+        "lisboa": {
+          "name": "Lisbonne",
+          "label": "Tour Privé",
+          "subtitle": "Demi-journée · Journée · Sur mesure"
+        },
+        "porto": {
+          "name": "Porto",
+          "label": "Tour Privé",
+          "subtitle": "Journée · Plusieurs jours"
+        },
+        "algarve": {
+          "name": "Algarve",
+          "label": "Privé · Journée",
+          "subtitle": "Journée · Plusieurs jours"
+        },
+        "ericeira": {
+          "name": "Ericeira",
+          "label": "Privé · Journée",
+          "subtitle": "Journée · Plusieurs jours"
+        },
+        "alentejo": {
+          "name": "Alentejo",
+          "label": "Tour Privé",
+          "subtitle": "Journée · Plusieurs jours"
+        },
+        "madeira": {
+          "name": "Madère",
+          "label": "Tour Privé",
+          "subtitle": "Journée · Plusieurs jours"
+        }
+      }
+    }
   },
   "services": {
     "sectionLabel": "Nos Services",
@@ -1129,7 +1190,45 @@
     "supportEmail": "geral@easytransferericeira.com",
     "responseTime": "Réponse sous 24 heures maximum. Pas de frais cachés.",
     "submitSuccess": "Message envoyé avec succès !",
-    "submitError": "Échec de l'envoi. Veuillez réessayer."
+    "submitError": "Échec de l'envoi. Veuillez réessayer.",
+    "redesign": {
+      "label": "Contactez-nous",
+      "heading": "Planifiez votre journée parfaite",
+      "heroLine1": "Planifiez votre",
+      "heroLine2": "journée parfaite",
+      "subtitle": "Dites-nous où vous voulez aller, quand et combien. Nous créerons quelque chose de mémorable pour vous.",
+      "form": {
+        "name": "Nom",
+        "namePlaceholder": "Nom complet",
+        "email": "E-mail",
+        "emailPlaceholder": "exemple@email.com",
+        "country": "Pays",
+        "countryPlaceholder": "Sélectionner le pays",
+        "phone": "Téléphone",
+        "phonePlaceholder": "000 000 000",
+        "region": "Que souhaitez-vous visiter ?",
+        "regionPlaceholder": "Sélectionner la région",
+        "date": "Quand souhaitez-vous partir ?",
+        "flexibleDates": "Dates flexibles",
+        "travelers": "Combien de personnes voyagent ?",
+        "travelersPlaceholder": "Sélectionner",
+        "budget": "Budget par personne ?",
+        "interests": "Que souhaitez-vous faire et visiter ?",
+        "interestsPlaceholder": "Partagez vos intérêts (dégustation de vins privée, expériences gastronomiques, activités de plein air, visites culturelles guidées, moments bien-être, croisières de luxe, jet privé, shopping exclusif).",
+        "interestsHelp": "Plus vous partagez de détails, mieux nous pourrons personnaliser votre expérience.",
+        "ageRange": "Tranche d'âge",
+        "ageRangePlaceholder": "Sélectionner une option",
+        "newsletter": "J'accepte de recevoir des emails de LuxMotion avec des guides de voyage, des conseils et des informations sur des expériences exclusives au Portugal.",
+        "submit": "Envoyer la Demande"
+      },
+      "support": {
+        "name": "Carolina Pinheiro - Support",
+        "role": "Spécialiste tourisme LuxMotion",
+        "phone": "+351 963 650 278",
+        "email": "geral@easytransferericeira.com"
+      },
+      "responseTime": "Réponse sous 24 heures maximum. Aucun frais caché."
+    }
   },
   "topPicks": {
     "titlePart1": "Nos meilleures sélections",
@@ -1140,7 +1239,29 @@
     "was": "Était {price} €",
     "from": "À partir de {price} €",
     "showMore": "Afficher plus",
-    "goToSlide": "Aller à la diapositive {number}"
+    "goToSlide": "Aller à la diapositive {number}",
+    "redesign": {
+      "heading": "Quelle destination",
+      "headingAccent": "choisissons-nous ?",
+      "subtitle": "Expériences privées d'une journée pour voyageurs exigeants. Conçues pour ceux qui préfèrent l'expérience à l'itinéraire.",
+      "cards": {
+        "luxury": {
+          "label": "Tour Privé",
+          "title": "Voyage de Luxe",
+          "description": "Bentley, Mercedes Classe S, Tesla — chaque véhicule est une déclaration. Chaque transfert est une expérience en soi."
+        },
+        "itineraries": {
+          "label": "Tour Privé",
+          "title": "Itinéraires Sur Mesure",
+          "description": "Régions viticoles, villages cachés, côtes dramatiques. Votre rythme, vos arrêts, votre Portugal."
+        },
+        "transfers": {
+          "label": "Tour Privé",
+          "title": "Transferts Privés",
+          "description": "De l'aéroport à l'hôtel. De l'hôtel au lieu. Point à point — toujours à l'heure, toujours avec style."
+        }
+      }
+    }
   },
   "admin": {
     "landingHeader": "En-tête de Landing",
@@ -2247,5 +2368,10 @@
     "subtitle1": "De Lisbonne au Douro, de l’Algarve à l’Alentejo.",
     "subtitle2": "Nous vous transportons à travers le Portugal tel qu’il mérite d’être vécu.",
     "cta": "Découvrir Notre Service"
+  },
+  "toursTestimonials": {
+    "exclusive": "Exclusif",
+    "heading": "Clients & Entreprises",
+    "subtitle": "De confiance au Portugal et au-delà"
   }
 }

@@ -2,59 +2,119 @@
 
 import { useTranslations } from "next-intl"
 import Image from "next/image"
-import { cn } from "@workspace/ui/lib/utils"
+
+function PhotoComposition({ t }: { t: (key: string) => string }) {
+  return (
+    <div className="w-[493px] h-[457px] relative origin-top-left scale-[0.676] md:scale-100">
+      <img
+        src="/tours-page/ellipse-blur.svg"
+        alt=""
+        className="absolute left-[-61px] top-[271px] w-[577px] h-[110px] pointer-events-none"
+      />
+
+      <div className="absolute left-[185px] top-[147px] w-[297px] h-[249px]">
+        <Image
+          src="/tours-page/van-premium.png"
+          alt=""
+          width={297}
+          height={249}
+          className="object-contain"
+        />
+      </div>
+
+      <div className="absolute left-[65px] top-[-16px] flex items-center justify-center w-[184px] h-[440px]">
+        <div className="-rotate-[3.05deg]">
+          <div
+            className="w-[161px] flex flex-col gap-[10px] items-center px-[7px] py-[10px] border border-[rgba(154,117,53,0.22)]"
+            style={{
+              background: "linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.04) 100%), #0D0D0D",
+              boxShadow: "6px 12px 30px rgba(0,0,0,0.1), 27px 47px 55px rgba(0,0,0,0.09), 62px 106px 74px rgba(0,0,0,0.05)",
+            }}
+          >
+            {["/tours-page/lisbon-streets-1.png", "/tours-page/lisbon-streets-2.png", "/tours-page/lisbon-streets-3.png"].map(
+              (src, i) => (
+                <div key={i} className="w-[136px] h-[107px] relative overflow-hidden shrink-0 shadow-[0px_2px_8px_-2px_rgba(19,35,57,0.1)]">
+                  <Image src={src} alt="" fill className="object-cover" />
+                </div>
+              )
+            )}
+            <p
+              className="italic font-semibold text-[22px] text-[#C9A96E] tracking-[-0.35px] -rotate-[0.58deg] leading-[1.2]"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {t("redesign.photoCardText")}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="absolute left-[-50px] top-[30px] flex items-center gap-2 border border-[rgba(154,117,53,0.22)] px-[14px] py-[12px] overflow-hidden shadow-[0px_9px_30px_-6px_rgba(19,35,57,0.15)]"
+        style={{
+          background: "linear-gradient(90deg, rgba(154,117,53,0.22) 0%, rgba(154,117,53,0.22) 100%), #0D0D0D",
+        }}
+      >
+        <img src="/tours-page/stars-rating.svg" alt="5 stars" className="w-[102px] h-[16px]" />
+        <div className="flex flex-col gap-2">
+          <span
+            className="text-[14px] font-semibold text-white leading-none whitespace-nowrap"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("redesign.reviewStars")}
+          </span>
+          <span
+            className="text-[12px] text-[#999] leading-none whitespace-nowrap"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("redesign.reviewCount")}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function TourStory() {
   const t = useTranslations("tourStory")
 
   return (
-    <section className="relative bg-white overflow-hidden px-4 md:px-5 lg:px-6 xl:px-8">
-      <div className="max-w-7xl mx-auto relative">
-        {/* Bloco da imagem dentro do max-w-7xl para alinhar com a secção de baixo */}
-        <div className="hidden xl:block absolute left-[35%] right-0 top-[-30px] h-[1050px]">
-          <Image
-            src="/more_than_a_trip.png"
-            alt={t("imageAlt")}
-            fill
-            className="object-contain object-right object-[55%_50%]"
-            priority
-          />
-        </div>
-
-        <div className="hidden lg:block xl:hidden absolute left-[42%] right-0 top-[-30px] h-[1050px]">
-          <Image
-            src="/more_than_a_trip.png"
-            alt={t("imageAlt")}
-            fill
-            className="object-contain object-right object-[55%_50%]"
-            priority
-          />
-        </div>
-        <div className="flex flex-col lg:min-h-[560px]">
-          <div className="flex flex-col gap-[29px] lg:max-w-[480px] xl:max-w-[536px] pt-4 md:pt-[40px] pb-[40px] lg:py-0 lg:justify-center lg:min-h-[560px]">
-            <h2 className="text-[24px] md:text-[36px] lg:text-[48px] font-bold leading-[1.2] text-[#132339]">
-              {t("titlePart1")}{" "}
-              <span className="text-[#29c9ff]">{t("titlePart2")}</span>
-            </h2>
-
-            <p className="text-[14px] leading-[1.5] text-[#7a7a7a]">
-              {t("paragraph1")}
-            </p>
-
-            <p className="text-[14px] leading-[1.5] text-[#7a7a7a]">
-              {t("paragraph2")}
-            </p>
+    <section className="bg-[#0D0D0D] pt-12 pb-16 px-4 md:px-[82px] 2xl:px-[300px]">
+      <div className="max-w-[1280px] mx-auto relative">
+        <div className="flex flex-col gap-[29px] md:max-w-[640px] md:min-h-[457px] md:justify-center">
+          <div className="flex items-center gap-2">
+            <div className="w-[82px] h-px bg-[#C9A96E]" />
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("redesign.label")}
+            </span>
           </div>
 
-          <div className="relative w-full lg:hidden mb-[10px] mt-[-80px] overflow-hidden max-h-[400px] md:max-h-[800px]">
-            <Image
-              src="/more_than_a_trip.png"
-              alt={t("imageAlt")}
-              width={1000}
-              height={700}
-              className="w-full h-auto mt-[30px]"
-              priority
-            />
+          <h2
+            className="text-[32px] md:text-[48px] leading-[1.2] text-[#F5F5F5]"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {t("redesign.headingPart1")}{" "}
+            <span className="italic text-[#C9A96E]">{t("redesign.headingPart2")}</span>.
+          </h2>
+
+          <div
+            className="flex flex-col gap-4 text-[14px] text-[#999] leading-[1.3]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            <p>{t("redesign.paragraph1")}</p>
+            <p>{t("redesign.paragraph2")}</p>
+          </div>
+        </div>
+
+        <div className="hidden md:block absolute right-0 top-[10px] w-[493px] h-[457px]">
+          <PhotoComposition t={t} />
+        </div>
+
+        <div className="md:hidden relative mt-10 flex justify-center">
+          <div className="w-[333px] h-[305px] relative">
+            <PhotoComposition t={t} />
           </div>
         </div>
       </div>
