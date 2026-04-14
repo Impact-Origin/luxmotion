@@ -4,7 +4,8 @@ import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { TourRouteMap } from "./tour-route-map"
+import { cn } from "@workspace/ui/lib/utils"
+import { TourRouteMap } from "@/components/tours/tour-route-map"
 
 interface ItineraryItem {
   time: string
@@ -37,80 +38,82 @@ function ItineraryCard({
   item,
   isOpen,
   onToggle,
-  isFirst
 }: {
   item: ItineraryItem
   isOpen: boolean
   onToggle: () => void
-  isFirst: boolean
 }) {
   return (
-    <div className="relative">
-      {!isFirst && (
-        <div className="absolute left-[47px] bottom-[calc(100%-12px)] w-0 h-[28px] border-l-[2px] border-dotted border-black z-0" />
-      )}
+    <div
+      onClick={onToggle}
+      className="w-full border-[0.8px] border-[rgba(255,255,255,0.04)] flex items-stretch cursor-pointer hover:border-[rgba(201,169,110,0.2)] transition-colors"
+    >
+      <div className="w-[56px] md:w-[70px] shrink-0 border-r-[0.8px] border-[rgba(201,169,110,0.08)] py-[16px] flex justify-center items-start">
+        <span
+          className="text-[10px] font-semibold text-[#c9a96e] tracking-[0.6px]"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {item.time}
+        </span>
+      </div>
 
-      <div
-        onClick={onToggle}
-        className={`relative z-10 w-full bg-white border border-[#e5ebf6] rounded-[16px] px-4 py-3 flex items-start justify-between cursor-pointer transition-all duration-150 ${
-          isOpen ? "" : "hover:bg-[#fafafa]"
-        }`}
-      >
-        <div className="flex gap-5 items-start flex-1 min-w-0">
-          {item.image && (
-            <div
-              className={`relative overflow-hidden shrink-0 transition-all duration-200 ease-out ${
-                isOpen
-                  ? "w-[210px] h-[170px] rounded-[16px]"
-                  : "w-[72px] h-[54px] lg:w-[64px] lg:h-[48px] rounded-[9px] lg:rounded-[8px]"
-              }`}
-            >
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-          )}
+      {item.image && (
+        <div className="shrink-0 self-stretch flex items-center p-[14px]">
           <div
-            className={`flex flex-col items-start flex-1 min-w-0 transition-all duration-150 ${
-              isOpen ? "gap-[17px] self-stretch" : "gap-0 justify-center"
-            }`}
+            className={cn(
+              "relative overflow-hidden transition-all duration-300 ease-out",
+              isOpen
+                ? "border-[2.38px] border-[rgba(201,169,110,0.1)] w-[100px] md:w-[152px] h-[96px] md:h-[114px]"
+                : "border-0 w-[72px] h-[54px]"
+            )}
           >
-            <div className="flex flex-col items-start w-full">
-              <span
-                className={`font-medium text-[#005fad] tracking-[0.2px] transition-all duration-150 ${
-                  isOpen ? "text-[12.9px] leading-[22px]" : "text-[12px] lg:text-[12.9px] leading-[22px]"
-                }`}
-              >
-                {item.time}
-              </span>
-              <span
-                className={`text-[#111] text-left transition-all duration-150 ${
-                  isOpen ? "text-[16.9px] leading-[21.6px]" : "text-[14px] lg:text-[16.9px] leading-[21.6px]"
-                }`}
-              >
-                {item.title}
-              </span>
-            </div>
-            <div
-              className={`overflow-hidden transition-all duration-200 ease-out ${
-                isOpen ? "max-h-[200px] opacity-100" : "max-h-0 opacity-0"
-              }`}
-            >
-              <p className="text-[14px] text-[#7a7a7a] leading-[1.2] text-left">
-                {item.description}
-              </p>
-            </div>
+            <Image src={item.image} alt={item.title} fill className="object-cover" />
           </div>
         </div>
-        <div className="flex items-center justify-center shrink-0 pt-1">
-          <ChevronDown
-            className={`size-[22px] text-[#808080] transition-transform duration-150 ${
-              isOpen ? "rotate-180" : "rotate-0"
-            }`}
-          />
+      )}
+
+      <div className="flex-1 min-w-0 flex flex-col py-[14px]">
+        <div className="flex items-center justify-between gap-3 pr-[16px] pl-[14px]">
+          <span
+            className="text-[14px] font-medium text-white leading-[1.3]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {item.title}
+          </span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              onToggle()
+            }}
+            aria-expanded={isOpen}
+            className={cn(
+              "size-[32px] shrink-0 flex items-center justify-center border transition-colors duration-300",
+              isOpen
+                ? "bg-[#c9a96e] border-[rgba(154,117,53,0.22)]"
+                : "bg-transparent border-[rgba(201,169,110,0.25)] hover:bg-[rgba(201,169,110,0.08)]"
+            )}
+          >
+            <ChevronDown
+              className={cn(
+                "size-[16px] transition-all duration-300",
+                isOpen ? "text-[#0D0D0D] rotate-180" : "text-[#c9a96e]"
+              )}
+            />
+          </button>
+        </div>
+        <div
+          className={cn(
+            "overflow-hidden transition-all duration-300 ease-out pr-[16px] pl-[14px]",
+            isOpen ? "max-h-[400px] opacity-100 mt-[8px]" : "max-h-0 opacity-0 mt-0"
+          )}
+        >
+          <p
+            className="text-[13px] font-light text-[#999] leading-[1.3]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {item.description}
+          </p>
         </div>
       </div>
     </div>
@@ -121,35 +124,29 @@ export function TourItinerary({ items, mapCenter, pickup, dropoff }: TourItinera
   const t = useTranslations("tourDetails")
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
-  const handleToggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
-
-  const hasLocations =
-    (pickup?.lat && pickup?.lng) ||
-    (dropoff?.lat && dropoff?.lng) ||
-    items.some((item) => item.lat && item.lng)
-
   return (
     <div className="w-full">
-      <h2 className="text-[24px] font-bold text-[#0c171c] leading-[1.3] mb-6">
+      <h2
+        className="text-[24px] font-light italic text-[#c9a96e] leading-none mb-5"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
         {t("itinerary")}
       </h2>
+
       <TourRouteMap
         pickup={pickup}
         dropoff={dropoff}
         stops={items}
-        className="h-[500px] mb-6"
+        className="h-[400px] md:h-[500px] mb-6"
       />
 
-      <div className="flex flex-col gap-4 relative">
+      <div className="flex flex-col gap-0">
         {items.map((item, index) => (
           <ItineraryCard
             key={index}
             item={item}
             isOpen={openIndex === index}
-            onToggle={() => handleToggle(index)}
-            isFirst={index === 0}
+            onToggle={() => setOpenIndex(openIndex === index ? null : index)}
           />
         ))}
       </div>

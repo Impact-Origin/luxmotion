@@ -29,7 +29,7 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
 
   if (count === 1) {
     return (
-      <div className="relative w-full h-[250px] md:h-[320px] lg:h-[380px] overflow-hidden bg-slate-900">
+      <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden bg-[#0D0D0D]">
         {first.type === "video" ? (
           <video
             src={first.url}
@@ -57,7 +57,7 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
   }
 
   return (
-    <div className="relative w-full h-[250px] md:h-[320px] lg:h-[380px] overflow-hidden">
+    <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden bg-[#0D0D0D]">
       <div className={`${mobileHidden} h-full`}>
         <MobileMediaCarousel
           media={media}
@@ -163,7 +163,7 @@ function MobileMediaCarousel({
           </div>
         ))}
       </div>
-      <div className="absolute bottom-4 right-4 flex items-center gap-1.5">
+      <div className="absolute bottom-4 right-4 flex items-center gap-[2px]">
         {media.map((_, index) => (
           <button
             key={index}
@@ -231,9 +231,9 @@ function TwoMediaLayout({
   onMediaClick: (i: number) => void
 }) {
   return (
-    <div className="grid grid-cols-[3fr_2fr] gap-1.5 h-full">
-      <GridMedia item={media[0]!} alt={alt} onClick={() => onMediaClick(0)} className="rounded-xl" priority />
-      <GridMedia item={media[1]!} alt={`${alt} - 2`} onClick={() => onMediaClick(1)} className="rounded-xl" />
+    <div className="grid grid-cols-[3fr_2fr] gap-[2px] h-full">
+      <GridMedia item={media[0]!} alt={alt} onClick={() => onMediaClick(0)} className="" priority />
+      <GridMedia item={media[1]!} alt={`${alt} - 2`} onClick={() => onMediaClick(1)} className="" />
     </div>
   )
 }
@@ -248,11 +248,11 @@ function ThreeMediaLayout({
   onMediaClick: (i: number) => void
 }) {
   return (
-    <div className="grid grid-cols-[2fr_1fr] gap-1.5 h-full">
-      <GridMedia item={media[0]!} alt={alt} onClick={() => onMediaClick(0)} className="rounded-xl" priority />
-      <div className="flex flex-col gap-1.5 h-full">
-        <GridMedia item={media[1]!} alt={`${alt} - 2`} onClick={() => onMediaClick(1)} className="flex-1 min-h-0 rounded-xl" />
-        <GridMedia item={media[2]!} alt={`${alt} - 3`} onClick={() => onMediaClick(2)} className="flex-1 min-h-0 rounded-xl" />
+    <div className="grid grid-cols-[2fr_1fr] gap-[2px] h-full">
+      <GridMedia item={media[0]!} alt={alt} onClick={() => onMediaClick(0)} className="" priority />
+      <div className="flex flex-col gap-[2px] h-full">
+        <GridMedia item={media[1]!} alt={`${alt} - 2`} onClick={() => onMediaClick(1)} className="flex-1 min-h-0 " />
+        <GridMedia item={media[2]!} alt={`${alt} - 3`} onClick={() => onMediaClick(2)} className="flex-1 min-h-0 " />
       </div>
     </div>
   )
@@ -268,12 +268,12 @@ function FourMediaLayout({
   onMediaClick: (i: number) => void
 }) {
   return (
-    <div className="grid grid-cols-[1fr_2fr_1fr] gap-1.5 h-full">
-      <GridMedia item={media[0]!} alt={alt} onClick={() => onMediaClick(0)} className="rounded-xl" priority />
-      <GridMedia item={media[1]!} alt={`${alt} - 2`} onClick={() => onMediaClick(1)} className="rounded-xl" />
-      <div className="flex flex-col gap-1.5 h-full">
-        <GridMedia item={media[2]!} alt={`${alt} - 3`} onClick={() => onMediaClick(2)} className="flex-1 min-h-0 rounded-xl" />
-        <GridMedia item={media[3]!} alt={`${alt} - 4`} onClick={() => onMediaClick(3)} className="flex-1 min-h-0 rounded-xl" />
+    <div className="grid grid-cols-[1fr_2fr_1fr] gap-[2px] h-full">
+      <GridMedia item={media[0]!} alt={alt} onClick={() => onMediaClick(0)} className="" priority />
+      <GridMedia item={media[1]!} alt={`${alt} - 2`} onClick={() => onMediaClick(1)} className="" />
+      <div className="flex flex-col gap-[2px] h-full">
+        <GridMedia item={media[2]!} alt={`${alt} - 3`} onClick={() => onMediaClick(2)} className="flex-1 min-h-0 " />
+        <GridMedia item={media[3]!} alt={`${alt} - 4`} onClick={() => onMediaClick(3)} className="flex-1 min-h-0 " />
       </div>
     </div>
   )
@@ -337,7 +337,7 @@ function buildColumns(
             item={item}
             alt={i === 0 ? alt : `${alt} - ${i + 1}`}
             onClick={() => onMediaClick(i)}
-            className="h-full rounded-xl"
+            className="h-full "
             priority={i === 0}
           />
         </div>
@@ -350,7 +350,7 @@ function buildColumns(
             item={item}
             alt={`${alt} - ${i + 1}`}
             onClick={() => onMediaClick(i)}
-            className="h-full rounded-xl"
+            className="h-full "
           />
         </div>
       )
@@ -360,18 +360,18 @@ function buildColumns(
         const topItem = media[i]!
         const bottomItem = media[i + 1]!
         cols.push(
-          <div key={`${keyPrefix}col-${colIdx}`} className="shrink-0 w-[28%] h-full flex flex-col gap-1.5 snap-start" style={{ scrollSnapStop: "always" }}>
+          <div key={`${keyPrefix}col-${colIdx}`} className="shrink-0 w-[28%] h-full flex flex-col gap-[2px] snap-start" style={{ scrollSnapStop: "always" }}>
             <GridMedia
               item={topItem}
               alt={`${alt} - ${i + 1}`}
               onClick={() => onMediaClick(i)}
-              className="flex-1 min-h-0 rounded-xl"
+              className="flex-1 min-h-0 "
             />
             <GridMedia
               item={bottomItem}
               alt={`${alt} - ${i + 2}`}
               onClick={() => onMediaClick(i + 1)}
-              className="flex-1 min-h-0 rounded-xl"
+              className="flex-1 min-h-0 "
             />
           </div>
         )
@@ -383,7 +383,7 @@ function buildColumns(
               item={item}
               alt={`${alt} - ${i + 1}`}
               onClick={() => onMediaClick(i)}
-              className="h-full rounded-xl"
+              className="h-full "
             />
           </div>
         )
@@ -472,7 +472,7 @@ function ScrollableMediaLayout({
     <div className="relative h-full">
       <div
         ref={scrollRef}
-        className="flex gap-1.5 h-full overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden select-none"
+        className="flex gap-[2px] h-full overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden select-none"
         style={{ scrollbarWidth: "none", cursor: "grab", WebkitOverflowScrolling: "touch" }}
         onScroll={handleScroll}
         onPointerDown={onPointerDown}
@@ -487,27 +487,27 @@ function ScrollableMediaLayout({
           type="button"
           onClick={scrollToPrev}
           className={cn(
-            "w-9 h-9 rounded-full shadow-lg flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer",
-            canScrollLeft ? "bg-white/90 hover:bg-white" : "bg-white/40"
+            "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E]",
+            !canScrollLeft && "opacity-40"
           )}
           aria-label="Anterior"
         >
-          <ChevronLeft className={cn("h-4 w-4", canScrollLeft ? "text-zinc-700" : "text-zinc-400")} />
+          <ChevronLeft className="h-[14px] w-[14px] text-[#C9A96E]" />
         </button>
         <button
           type="button"
           onClick={scrollToNext}
           className={cn(
-            "w-9 h-9 rounded-full shadow-lg flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer",
-            canScrollRight ? "bg-white/90 hover:bg-white" : "bg-white/40"
+            "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E]",
+            !canScrollRight && "opacity-40"
           )}
           aria-label="Seguinte"
         >
-          <ChevronRight className={cn("h-4 w-4", canScrollRight ? "text-zinc-700" : "text-zinc-400")} />
+          <ChevronRight className="h-[14px] w-[14px] text-[#C9A96E]" />
         </button>
         <button
           onClick={onShowAll}
-          className="bg-white/90 hover:bg-white text-zinc-800 text-xs font-semibold px-3 py-2 rounded-full shadow-lg transition-colors"
+          className="bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E] text-[#C9A96E] text-xs font-semibold px-3 py-2 transition-colors uppercase tracking-[1px]"
         >
           {t("showAllPhotos", { count: totalCount })}
         </button>

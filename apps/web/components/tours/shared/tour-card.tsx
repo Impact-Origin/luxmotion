@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { ArrowRight, Star, Award } from "lucide-react"
+import { ArrowRight, MapPin, Clock, Users } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -18,151 +18,132 @@ export interface TourData {
   savings: number
   isBestSeller: boolean
   category: "tours" | "experiences" | "private"
+  pax?: string
 }
 
-function StarRating({ rating, small }: { rating: number; small?: boolean }) {
-  const fullStars = Math.floor(rating)
-  const hasHalfStar = rating % 1 >= 0.5
-
+function Stars({ rating }: { rating: number }) {
+  const clamped = Math.max(0, Math.min(5, rating))
+  const full = Math.floor(clamped)
+  const hasHalf = clamped - full >= 0.5
   return (
-    <div className="flex gap-[2px] items-center">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          className={cn(
-            small ? "size-[14px]" : "size-[17px]",
-            i < fullStars
-              ? "fill-[#fbb03b] text-[#fbb03b]"
-              : i === fullStars && hasHalfStar
-                ? "fill-[#fbb03b]/50 text-[#fbb03b]"
-                : "fill-gray-200 text-gray-200"
-          )}
-        />
-      ))}
-    </div>
+    <span className="text-[#c9a96e] text-[12px] tracking-[1px] leading-none whitespace-nowrap">
+      {Array.from({ length: 5 }).map((_, i) => {
+        if (i < full) return "★"
+        if (i === full && hasHalf) return "★"
+        return "☆"
+      }).join("")}
+    </span>
   )
 }
 
 interface TourCardProps {
   tour: TourData
-  variant?: "desktop" | "mobile"
   className?: string
 }
 
-export function TourCard({ tour, variant = "desktop", className }: TourCardProps) {
+export function TourCard({ tour, className }: TourCardProps) {
   const t = useTranslations("topPicks")
-  const isMobile = variant === "mobile"
+  const savePercent =
+    tour.originalPrice > 0 && tour.savings > 0
+      ? Math.round((tour.savings / tour.originalPrice) * 100)
+      : 0
+  const formattedPrice = `${tour.discountedPrice.toFixed(0)} €`
 
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[16px] cursor-pointer group",
-        isMobile ? "h-[360px]" : "h-[560px]",
+        "group relative bg-[#1a1a1a] border border-[rgba(255,255,255,0.12)] flex flex-col overflow-hidden h-full transition-colors hover:border-[rgba(201,169,110,0.4)]",
         className
       )}
     >
-      <Image
-        src={tour.image}
-        alt={tour.title}
-        fill
-        className="object-cover"
-        sizes={isMobile ? "50vw" : "33vw"}
-      />
+      {savePercent > 0 && (
+        <div className="absolute top-[11px] left-[11px] z-[3] bg-[rgba(201,169,110,0.92)] px-[8px] py-[5px] inline-flex items-center leading-none">
+          <span
+            className="text-[10px] font-semibold text-[#0d0d0d] tracking-[0.5px] uppercase leading-none whitespace-nowrap"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("savePercent", { percent: savePercent })}
+          </span>
+        </div>
+      )}
 
-      <div className={cn(
-        "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent",
-        isMobile ? "h-[140px]" : "h-[165px]"
-      )} />
-
-      <div
-        className={cn(
-          "absolute top-[14px] left-[16px] right-[16px] flex justify-between items-start",
-          isMobile && "flex-col gap-[8px]"
-        )}
-      >
-        {tour.isBestSeller && (
-          <div className={cn(
-            "flex items-center gap-0 bg-[#fbb03b] rounded-[80px] px-[8px]",
-            isMobile ? "h-[24px]" : "h-[32px]"
-          )}>
-            <Award className={cn("text-[#774c08]", isMobile ? "size-[18px]" : "size-[24px]")} />
-            <span className={cn(
-              "font-medium text-[#774c08] px-[8px]",
-              isMobile ? "text-[12px]" : "text-[14px]"
-            )}>
-              {t("bestSeller")}
-            </span>
-          </div>
-        )}
-        {tour.savings > 0 && (
-          <div className={cn(
-            "flex items-center bg-[#7f1efa] rounded-[80px] px-[8px]",
-            isMobile ? "h-[24px]" : "h-[32px]"
-          )}>
-            <span className={cn(
-              "font-medium text-white",
-              isMobile ? "text-[12px]" : "text-[14px]"
-            )}>
-              {t("save", { amount: tour.savings.toFixed(2).replace(".", ",") })}
-            </span>
-          </div>
-        )}
+      <div className="relative w-full h-[210px] bg-[#0d0d0d] z-[2]">
+        <Image
+          src={tour.image}
+          alt={tour.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 50vw, 33vw"
+        />
       </div>
 
-      <div className={cn(
-        "absolute",
-        isMobile ? "left-[8px] right-[8px] bottom-[8px]" : "left-[16px] right-[16px] bottom-[16px]"
-      )}>
-        <div className={cn(
-          "bg-white rounded-[10px]",
-          isMobile ? "px-[12px] py-[10px]" : "px-[16px] py-[12px]"
-        )}>
-          <div className={cn("flex flex-col", isMobile ? "gap-[4px]" : "gap-[6px]")}>
-            <div className="flex flex-col gap-[2px]">
-              <StarRating rating={tour.rating} small={isMobile} />
-              <div className="flex items-baseline gap-[6px]">
-                <span className={cn("font-bold text-[#111]", isMobile ? "text-[12px]" : "text-[14px]")}>
-                  {tour.rating}
-                </span>
-                <span className={cn("text-[#808080]", isMobile ? "text-[11px]" : "text-[12px]")}>
-                  {tour.reviewCount} {t("reviews")}
-                </span>
-              </div>
-            </div>
+      <div className="flex flex-col gap-[8px] pt-[20px] pb-[24px] px-[20px] flex-1 z-[1]">
+        <div className="flex gap-[6px] items-center">
+          <Stars rating={tour.rating} />
+          <span
+            className="text-[12px] text-[rgba(255,255,255,0.3)] tracking-[0.3px] leading-none whitespace-nowrap"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {tour.reviewCount} {t("reviews")}
+          </span>
+        </div>
 
-            <h3 className={cn(
-              "font-bold text-[#222] leading-[1.2] line-clamp-2",
-              isMobile ? "text-[14px]" : "text-[16px]"
-            )}>
-              {tour.title}
-            </h3>
+        <h3
+          className="text-[20px] md:text-[24px] font-semibold text-white leading-[1.3]"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {tour.title}
+        </h3>
 
-            <div className="flex flex-wrap gap-[8px] items-center">
-              <span className="text-[10px] uppercase text-[#0e4659] tracking-[-0.2px]">
-                {tour.location}
+        <div className="flex flex-wrap items-center gap-x-[12px] gap-y-[4px] pt-[2px]">
+          <div className="flex items-center gap-[5px]">
+            <MapPin className="size-[14px] text-[#999]" strokeWidth={1.6} />
+            <span
+              className="text-[12px] text-[#999] leading-none"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {tour.location}
+            </span>
+          </div>
+          <div className="flex items-center gap-[5px]">
+            <Clock className="size-[14px] text-[#999]" strokeWidth={1.6} />
+            <span
+              className="text-[12px] text-[#999] leading-none"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {tour.duration}
+            </span>
+          </div>
+          {tour.pax && (
+            <div className="flex items-center gap-[5px]">
+              <Users className="size-[14px] text-[#999]" strokeWidth={1.6} />
+              <span
+                className="text-[12px] text-[#999] leading-none"
+                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+              >
+                {tour.pax}
               </span>
-              <span className="size-[4px] rounded-full bg-[#0e4659]" />
-              <span className="text-[10px] uppercase text-[#0e4659] tracking-[-0.2px]">
-                {tour.duration}
-              </span>
             </div>
+          )}
+        </div>
 
-            <div className="flex items-end justify-between">
-              <div className="flex flex-col gap-[4px]">
-                <span className="text-[12px] text-[#808080] line-through leading-none">
-                  {t("was", { price: tour.originalPrice.toFixed(2).replace(".", ",") })}
-                </span>
-                <span className={cn(
-                  "font-bold text-[#1f9fcc] tracking-[-0.2px] whitespace-nowrap",
-                  isMobile ? "text-[14px]" : "text-[16px]"
-                )}>
-                  {t("from", { price: tour.discountedPrice.toFixed(2).replace(".", ",") })}
-                </span>
-              </div>
-              <div className="size-[24px] bg-[#27c7ff] rounded-full flex items-center justify-center opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:bg-[#1f9fcc] transition-all duration-200">
-                <ArrowRight className="size-[14px] text-white" />
-              </div>
-            </div>
+        <div className="mt-auto pt-[12.8px] border-t-[0.8px] border-[rgba(255,255,255,0.12)] flex items-center justify-between">
+          <div className="flex flex-col items-start">
+            <span
+              className="text-[12px] font-semibold text-[#8c8680] tracking-[0.9px] uppercase leading-none"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("fromShort")}
+            </span>
+            <span
+              className="text-[20px] font-semibold text-[#c9a96e] leading-[1.2]"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {formattedPrice}
+            </span>
+          </div>
+          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center transition-colors group-hover:border-[#c9a96e] group-hover:bg-[rgba(201,169,110,0.08)]">
+            <ArrowRight className="size-[18px] text-white transition-colors group-hover:text-[#c9a96e]" strokeWidth={1.5} />
           </div>
         </div>
       </div>

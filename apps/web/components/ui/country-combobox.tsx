@@ -102,18 +102,19 @@ export function CountryCombobox({
             placeholder={placeholder}
             readOnly={!open}
             className={cn(
-              "w-full h-[48px] px-4 pr-10 bg-white border border-[#dedede] rounded-[8px] text-[14px] text-[#0c171c] placeholder:!text-[#9ca3af] focus:border-[#27c7ff] focus:outline-none transition-colors",
+              "w-full px-[14.8px] py-[13.8px] pr-10 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-none text-[13px] font-light text-white placeholder:!text-[rgba(255,255,255,0.2)] focus:border-[rgba(201,169,110,0.4)] focus:outline-none focus:ring-0 transition-colors",
               inputClassName
             )}
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           />
           <ChevronDown
-            className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-[#9ca3af] pointer-events-none"
+            className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-[rgba(255,255,255,0.4)] pointer-events-none"
             aria-hidden
           />
         </div>
       </PopoverAnchor>
       <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)] p-0 max-h-[280px] overflow-hidden flex flex-col bg-white shadow-lg"
+        className="w-[var(--radix-popover-trigger-width)] p-0 max-h-[280px] overflow-hidden flex flex-col bg-[#1e1d1b] border border-[rgba(255,255,255,0.12)] rounded-none shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]"
         align="start"
         sideOffset={4}
         onOpenAutoFocus={(e) => e.preventDefault()}
@@ -123,8 +124,8 @@ export function CountryCombobox({
             type="button"
             onClick={handleClear}
             className={cn(
-              "w-full px-3 py-2 text-left text-[14px] text-[#9ca3af] hover:bg-[#f5f5f5] transition-colors",
-              !value && "bg-[#f5f5f5]"
+              "w-full px-3 py-2 text-left text-[13px] text-[rgba(255,255,255,0.4)] hover:bg-[rgba(201,169,110,0.08)] hover:text-[#c9a96e] transition-colors",
+              !value && "bg-[rgba(255,255,255,0.04)]"
             )}
           >
             {emptyLabel}
@@ -135,8 +136,8 @@ export function CountryCombobox({
               type="button"
               onClick={() => handleSelect(country.value)}
               className={cn(
-                "w-full px-3 py-2 text-left text-[14px] flex items-center gap-2 hover:bg-[#f5f5f5] transition-colors",
-                value === country.value && "bg-[#e8f7fc] text-[#0e4659]"
+                "w-full px-3 py-2 text-left text-[13px] text-[rgba(247,244,239,0.75)] flex items-center gap-2 hover:bg-[rgba(201,169,110,0.08)] hover:text-[#c9a96e] transition-colors",
+                value === country.value && "bg-[rgba(201,169,110,0.12)] text-[#c9a96e]"
               )}
             >
               <span className="text-[16px]">{country.flag}</span>
@@ -144,7 +145,7 @@ export function CountryCombobox({
             </button>
           ))}
           {filteredOptions.length === 0 && (
-            <div className="px-3 py-4 text-[14px] text-[#9ca3af] text-center">
+            <div className="px-3 py-4 text-[13px] text-[rgba(255,255,255,0.4)] text-center">
               No results
             </div>
           )}

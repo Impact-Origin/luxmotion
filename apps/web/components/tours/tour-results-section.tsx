@@ -404,7 +404,7 @@ export function TourResultsSection({ searchQuery: initialQuery }: TourResultsSec
                     }}
                   >
                     <Link href={`/tours/tour/${tour.id}`}>
-                      <TourCard tour={tour} variant="desktop" />
+                      <TourCard tour={tour} />
                     </Link>
                   </div>
                 ))}
@@ -425,7 +425,7 @@ export function TourResultsSection({ searchQuery: initialQuery }: TourResultsSec
                     }}
                   >
                     <Link href={`/tours/tour/${tour.id}`}>
-                      <TourCard tour={tour} variant="mobile" />
+                      <TourCard tour={tour} />
                     </Link>
                   </div>
                 ))}

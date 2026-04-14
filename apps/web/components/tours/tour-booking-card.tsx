@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useCallback, useEffect, useMemo } from "react"
-import { Star, User, Baby, CalendarCheck2, Minus, Plus, CalendarDays, Calendar } from "lucide-react"
+import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { TourDateTimePicker } from "./tour-date-time-picker"
+import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { BookingAddonsSelector, type BookingAddon } from "@/components/shared/booking-addons-selector"
 
@@ -40,43 +40,33 @@ interface BookingData {
   addonsTotal?: number
 }
 
-interface GuestRowProps {
-  icon: React.ReactNode
-  label: string
-  description: string
-  count: number
-  onDecrement: () => void
-  onIncrement: () => void
-  minCount?: number
-  disableIncrement?: boolean
+function CounterButton({ onClick, disabled, children }: { onClick: () => void; disabled?: boolean; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="size-[32px] border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#999] hover:border-[rgba(201,169,110,0.5)] hover:text-[#C9A96E] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+    >
+      {children}
+    </button>
+  )
 }
 
-function GuestRow({ icon, label, description, count, onDecrement, onIncrement, minCount = 0, disableIncrement }: GuestRowProps) {
+function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: string; desc: string; count: number; onDec: () => void; onInc: () => void; disableInc?: boolean }) {
   return (
-    <div className="flex items-center justify-between w-full">
-      <div className="flex gap-[10px] items-start">
-        <div className="size-5 text-[#27c7ff]">{icon}</div>
-        <div className="flex flex-col">
-          <span className="text-[16px] font-semibold text-[#0c171c] leading-[23px]">{label}</span>
-          <span className="text-[14px] text-[#5f686c] leading-[20px]">{description}</span>
-        </div>
+    <div className="flex items-center justify-between px-[14px] py-[12px] border-b border-[rgba(255,255,255,0.04)] last:border-b-0">
+      <div className="flex flex-col">
+        <span className="text-[12px] font-medium text-white">{label}</span>
+        <span className="text-[10px] text-[#8c8680]">{desc}</span>
       </div>
-      <div className="flex items-center gap-4">
-        <button
-          onClick={onDecrement}
-          disabled={count <= minCount}
-          className="size-[31px] rounded-full border border-[#dedede] flex items-center justify-center text-[#5f686c] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          <Minus className="size-4" />
-        </button>
-        <span className="text-[18px] font-semibold text-[#0c171c] w-4 text-center">{count}</span>
-        <button
-          onClick={onIncrement}
-          disabled={disableIncrement}
-          className="size-[31px] rounded-full border border-[#dedede] flex items-center justify-center text-[#5f686c] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          <Plus className="size-4" />
-        </button>
+      <div className="flex items-center">
+        <CounterButton onClick={onDec} disabled={count <= 0}>
+          <Minus className="size-[14px]" />
+        </CounterButton>
+        <div className="w-[40px] text-center text-[14px] font-medium text-white">{count}</div>
+        <CounterButton onClick={onInc} disabled={disableInc}>
+          <Plus className="size-[14px]" />
+        </CounterButton>
       </div>
     </div>
   )
@@ -146,9 +136,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   const isBelowMin = minPassengers ? totalGuests < minPassengers : false
 
-  const formatPrice = (value: number) => {
-    return value.toLocaleString("de-DE")
-  }
+  const formatPrice = (value: number) => value.toLocaleString("de-DE")
 
   const handleBook = () => {
     const selectedAddonsData = addons
@@ -175,36 +163,36 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   }
 
   return (
-    <div className="bg-white border border-[#dedede] rounded-[19px] shadow-[0px_4px_19px_rgba(0,0,0,0.08)] overflow-hidden">
-      <div className="border-b border-[#dedede] px-6 py-6">
-        <span className="text-[14px] text-[#5f686c]">{t("from")}</span>
-        <div className="flex items-center gap-3 mt-1">
-          <span className="text-[35px] font-bold text-[#0c171c] leading-none">
+    <div className="bg-[#1A1A1A] border border-[rgba(201,169,110,0.12)] overflow-hidden" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>
+      <div className="h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.2)]" />
+
+      <div className="border-b border-[rgba(255,255,255,0.05)] px-6 pt-6 pb-5">
+        <span className="text-[12px] font-semibold text-[#8c8680] tracking-[1.35px] uppercase">{t("from")}</span>
+        <div className="flex items-baseline gap-[10px] mt-1">
+          <span className="text-[48px] font-semibold text-[#C9A96E] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
             {currency}{formatPrice(price)}
           </span>
-          {!hideReviews && (
-            <div className="flex items-center gap-2">
-              <Star className="size-[23px] text-[#f5a623] fill-[#f5a623]" />
-              <span className="text-[14px] text-[#5f686c]">
-                {rating.toFixed(1)} ({reviewCount} {t("reviews")})
-              </span>
-            </div>
-          )}
+          <span className="text-[14px] text-[rgba(255,255,255,0.3)]">{t("perPerson")}</span>
         </div>
+        {!hideReviews && (
+          <div className="flex items-center gap-[6px] mt-1">
+            <span className="text-[12px] text-[#C9A96E] tracking-[0.5px]">★★★★★</span>
+            <span className="text-[12px] font-semibold text-white">{rating.toFixed(1)}</span>
+            <span className="text-[12px] text-[#999]">· {reviewCount} {t("reviews")}</span>
+          </div>
+        )}
       </div>
 
-      <div className="px-6 py-6">
-        <div className="flex flex-col gap-3 mb-6">
-          <div className="flex items-center gap-1">
-            <CalendarDays className="size-5 text-[#27C7FF]" />
-            <span className="text-[16px] font-semibold text-[#0c171c]">{t("dateAndTime")}</span>
+      <div className="px-6 py-6 flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <CalendarClock className="size-4 text-[#999]" />
+            <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("dateAndTime")}</span>
           </div>
           {fixedDateTime ? (
-            <div className="w-full h-[47px] px-4 border border-[#27c7ff] rounded-[12px] bg-[#f8f9fa] flex items-center gap-3 cursor-not-allowed">
-              <Calendar className="w-5 h-5 shrink-0 text-[#27c7ff]" />
-              <span className="flex-1 text-left text-[15px] text-[#222222]">
-                {formatFixedDateTime()}
-              </span>
+            <div className="w-full h-[44px] px-[13px] border border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] flex items-center gap-3">
+              <span className="flex-1 text-[14px] text-[#999]">{formatFixedDateTime()}</span>
+              <CalendarClock className="size-6 text-[#999]" />
             </div>
           ) : (
             <TourDateTimePicker
@@ -218,70 +206,67 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
           )}
         </div>
 
-        <div className="bg-[#f8f9fa] rounded-[16px] p-6 flex flex-col gap-4">
-          <GuestRow
-            icon={<User className="size-5" />}
-            label={t("adult")}
-            description={t("adultAge")}
-            count={adults}
-            onDecrement={() => setAdults(Math.max(1, adults - 1))}
-            onIncrement={() => setAdults(adults + 1)}
-            minCount={1}
-            disableIncrement={isAtMax}
-          />
-          <GuestRow
-            icon={<User className="size-5" />}
-            label={t("children")}
-            description={t("childrenAge")}
-            count={children}
-            onDecrement={() => setChildren(Math.max(0, children - 1))}
-            onIncrement={() => setChildren(children + 1)}
-            disableIncrement={isAtMax}
-          />
-          <GuestRow
-            icon={<Baby className="size-5" />}
-            label={t("infant")}
-            description={t("infantAge")}
-            count={infants}
-            onDecrement={() => setInfants(Math.max(0, infants - 1))}
-            onIncrement={() => setInfants(infants + 1)}
-            disableIncrement={isAtMax}
-          />
+        <div className="flex items-center gap-2 pt-3">
+          <Users className="size-4 text-[#999]" />
+          <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("passengers")}</span>
+        </div>
+
+        <div className="border border-[rgba(255,255,255,0.06)]">
+          <PaxRow label={t("adult")} desc={t("adultAge")} count={adults} onDec={() => setAdults(Math.max(1, adults - 1))} onInc={() => setAdults(adults + 1)} disableInc={isAtMax} />
+          <PaxRow label={t("children")} desc={t("childrenAge")} count={children} onDec={() => setChildren(Math.max(0, children - 1))} onInc={() => setChildren(children + 1)} disableInc={isAtMax} />
+          <PaxRow label={t("infant")} desc={t("infantAge")} count={infants} onDec={() => setInfants(Math.max(0, infants - 1))} onInc={() => setInfants(infants + 1)} disableInc={isAtMax} />
         </div>
 
         {addons && addons.length > 0 && (
-          <BookingAddonsSelector
-            addons={addons}
-            selectedAddonIds={selectedAddonIds}
-            onToggleAddon={handleToggleAddon}
-            totalGuests={totalGuests || 1}
-            currency={currency}
-          />
+          <>
+            <div className="flex items-center gap-2 pt-3">
+              <Layers className="size-4 text-[#999]" />
+              <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("addOns")}</span>
+            </div>
+            <BookingAddonsSelector
+              addons={addons}
+              selectedAddonIds={selectedAddonIds}
+              onToggleAddon={handleToggleAddon}
+              totalGuests={totalGuests || 1}
+              currency={currency}
+            />
+          </>
         )}
 
-        <div className="border-t border-[#dedede] mt-6 pt-6">
-          <div className="flex items-center justify-between mb-6">
-            <span className="text-[14px] text-[#5f686c] tracking-[1px] uppercase">{t("total")}</span>
-            <span className="text-[31px] font-bold text-[#0c171c]">
-              {currency}{formatPrice(total)}
-            </span>
-          </div>
+        <div className="border-t border-[rgba(255,255,255,0.06)] pt-4 pb-4 flex items-center justify-between">
+          <span className="text-[12px] font-bold text-[#999] tracking-[1px] uppercase">{t("total")}</span>
+          <span className="text-[32px] font-bold text-white" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
+            {currency}{formatPrice(total)}
+          </span>
+        </div>
 
-          <button
-            onClick={handleBook}
-            disabled={(!fixedDateTime && !dateTime.time) || isBelowMin}
-            className="w-full h-[56px] bg-[#27c7ff] rounded-[8px] flex items-center justify-center gap-2 hover:bg-[#1eb8f0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#27c7ff]"
-          >
-            <CalendarCheck2 className="size-6 text-[#0e4659]" />
-            <span className="text-[16px] font-bold text-[#0e4659] uppercase tracking-[0.16px]">
-              {t("bookNow")}
-            </span>
-          </button>
-          {isBelowMin && (
-            <p className="text-[13px] text-[#e74c3c] text-center mt-2">
+        <button
+          onClick={handleBook}
+          disabled={(!fixedDateTime && !dateTime.time) || isBelowMin}
+          className="w-full h-[48px] bg-[#C9A96E] border border-[#C9A96E] flex items-center justify-center gap-2 hover:bg-[#b8954f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span className="text-[14px] font-medium text-[#0D0D0D] uppercase tracking-[1.1px]">{t("bookNow")}</span>
+          <ArrowRight className="size-[18px] text-[#0D0D0D]" />
+        </button>
+
+        <div
+          aria-hidden={!isBelowMin}
+          className={`grid transition-all duration-300 ease-out ${
+            isBelowMin ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <p className="text-[10px] text-[#999] text-center pt-1">
               {t("minPassengersRequired", { count: minPassengers ?? 1 })}
             </p>
-          )}
+          </div>
+        </div>
+
+        <div className="border-t border-[rgba(255,255,255,0.04)] pt-4 flex items-center justify-center gap-2">
+          <Users className="size-3 text-[#999]" />
+          <span className="text-[10px] font-semibold text-[#C9A96E]">141 {t("travelers")}</span>
+          <span className="text-[10px] text-[#999]">{t("bookedToday")}</span>
+          <Star className="size-[10px] text-[#C9A96E] fill-[#C9A96E]" />
         </div>
       </div>
     </div>

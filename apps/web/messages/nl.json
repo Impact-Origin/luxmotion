@@ -1015,7 +1015,17 @@
     "showAllPhotos": "Alle {count} foto's bekijken",
     "addOns": "Extra's",
     "perPerson": "per persoon",
-    "flatFee": "vast tarief"
+    "flatFee": "vast tarief",
+    "passengers": "Passagiers",
+    "travelers": "reizigers",
+    "bookedToday": "Vandaag geboekt.",
+    "aboutPrefix": "Over deze",
+    "aboutAccent": "Tour",
+    "pickupTag": "Hoofdophaalpunt",
+    "meetingLocationLabel": "Ontmoetingspunt",
+    "meetingNote": "De exacte coördinaten worden gedeeld na bevestiging van de boeking. De hotelophaalservice is beschikbaar op aanvraag.",
+    "verifiedBooking": "Geverifieerde boeking",
+    "verifiedReviews": "geverifieerde beoordelingen"
   },
   "blogsHero": {
     "title": "Ontdek de Wonderen van Portugal",
@@ -1261,7 +1271,10 @@
           "description": "Van de luchthaven naar het hotel. Van het hotel naar de locatie. Punt naar punt — altijd op tijd, altijd stijlvol."
         }
       }
-    }
+    },
+    "savePercent": "Bespaar {percent}%",
+    "fromShort": "VANAF",
+    "pax": "pers."
   },
   "admin": {
     "landingHeader": "Landing Header",

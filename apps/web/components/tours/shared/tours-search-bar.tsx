@@ -1,6 +1,6 @@
 "use client"
 
-import { Search } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { GooglePlacesInput, type GooglePlaceValue } from "@/components/ui/google-places-input"
 
@@ -13,6 +13,8 @@ interface ToursSearchBarProps {
 }
 
 export function ToursSearchBar({ value, onChange, onSearch, placeholder, className }: ToursSearchBarProps) {
+  const t = useTranslations("toursHero")
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       onSearch()
@@ -29,24 +31,27 @@ export function ToursSearchBar({ value, onChange, onSearch, placeholder, classNa
   return (
     <div
       className={cn(
-        "bg-white border border-[#bfbfbf] rounded-[53px] h-[56px] w-full flex items-center px-[16px] gap-[9px]",
+        "flex items-stretch w-full max-w-[552px]",
         className
       )}
       onKeyDown={handleKeyDown}
     >
-      <GooglePlacesInput
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-        variant="tours-hero"
-        className="flex-1"
-      />
+      <div className="flex-1 min-w-0 h-[56px] bg-[#1e1d1b] border border-r-0 border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-[12px]">
+        <GooglePlacesInput
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}
+          variant="tours-hero-dark"
+          className="flex-1 h-full"
+        />
+      </div>
       <button
         onClick={() => onSearch()}
-        className="shrink-0 hover:opacity-70 transition-opacity"
-        aria-label="Search"
+        className="shrink-0 h-[56px] bg-[#c9a96e] border border-[#c9a96e] px-[22px] flex items-center justify-center transition-colors hover:bg-[#b8954f]"
       >
-        <Search className="w-[24px] h-[24px] text-[#a2a2a2]" />
+        <span className="text-[14px] font-medium text-[#0d0d0d] tracking-[1.1px] uppercase whitespace-nowrap">
+          {t("redesign.searchButton")}
+        </span>
       </button>
     </div>
   )

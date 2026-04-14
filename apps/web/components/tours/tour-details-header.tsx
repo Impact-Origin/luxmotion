@@ -1,49 +1,77 @@
 "use client"
 
-import { RatingStars } from "@/components/shared/rating-stars"
+import { useTranslations } from "next-intl"
+import { TourInfoBoxes } from "./tour-info-boxes"
 
 interface TourDetailsHeaderProps {
   title: string
   rating: number
   tags: string[]
+  duration: string
+  tourType: string
+  groupSize: string
+  languages: string[]
 }
 
-function Tag({ label }: { label: string }) {
-  return (
-    <div className="bg-[#e9f9ff] rounded-[5px] px-6 py-[10px] flex items-center justify-center h-[36px] whitespace-nowrap">
-      <span className="text-[#0e4659] text-[12px] lg:text-[14px] font-medium leading-[15px]">
-        {label}
-      </span>
-    </div>
-  )
-}
+export function TourDetailsHeader({
+  title,
+  rating,
+  tags,
+  duration,
+  tourType,
+  groupSize,
+  languages,
+}: TourDetailsHeaderProps) {
+  const t = useTranslations("tourDetails")
+  const words = title.split(" ")
+  const lastWord = words.pop() || ""
+  const restWords = words.join(" ")
 
-export function TourDetailsHeader({ title, rating, tags }: TourDetailsHeaderProps) {
   return (
-    <div className="pt-[28px] md:pt-[50px] pb-[17px]">
-      <h1 className="text-[24px] lg:text-[28px] font-bold text-[#070d0f] leading-[1.3] mb-4 lg:mb-[31px] break-words">
-        {title}
-      </h1>
+    <div className="pt-[20px] md:pt-[28px] pb-[17px] flex flex-col gap-[13.2px] items-start">
+      <TourInfoBoxes
+        duration={duration}
+        tourType={tourType}
+        groupSize={groupSize}
+        languages={languages}
+      />
 
-      <div className="hidden lg:flex items-center gap-6">
-        <RatingStars rating={rating} />
-        <div className="flex flex-wrap gap-4">
-          {tags.map((tag, index) => (
-            <Tag key={index} label={tag} />
-          ))}
+      {tags.length > 0 && (
+        <div className="flex items-center gap-[10px] pt-[16px] w-full">
+          <div className="w-[20px] h-px bg-[#C9A96E]" />
+          <span
+            className="text-[9px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {tags.join(" · ")}
+          </span>
         </div>
-      </div>
+      )}
 
-      <div className="lg:hidden flex flex-col gap-4">
-        <RatingStars rating={rating} />
-        <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory" style={{ WebkitOverflowScrolling: 'touch' }}>
-          <div className="flex gap-3 w-max">
-            {tags.map((tag, index) => (
-              <div key={index} className="snap-start" style={{ scrollSnapStop: 'always' }}>
-                <Tag label={tag} />
-              </div>
-            ))}
-          </div>
+      <div className="flex flex-col items-start w-full">
+        <h1
+          className="text-[36px] md:text-[48px] text-white leading-[1.17] font-light"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {restWords}
+          {restWords ? " " : ""}
+          <span className="italic text-[#C9A96E] font-light">{lastWord}</span>
+        </h1>
+
+        <div className="flex items-center gap-[10px] pt-[2.8px] w-full">
+          <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">★★★★★</span>
+          <span
+            className="text-[32px] md:text-[16px] text-white leading-none font-normal"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {rating.toFixed(1)}
+          </span>
+          <span
+            className="text-[14px] md:text-[12px] text-[#999] leading-none"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            · 317 {t("reviews")}
+          </span>
         </div>
       </div>
     </div>

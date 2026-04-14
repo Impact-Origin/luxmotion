@@ -48,41 +48,54 @@ export function DestinationHero({ destination, searchQuery, onSearchChange }: De
   }
 
   return (
-    <section className="relative w-full h-[459px] md:h-[520px] lg:h-[600px] xl:h-[690px] overflow-hidden">
+    <section className="relative w-full overflow-hidden bg-[#0D0D0D]">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/tours_destination_hero.jpg')" }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
+        style={{ backgroundImage: "url('/lisbonbanner_desktop.png')" }}
+      />
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
+        style={{ backgroundImage: "url('/lisbonbanner_mobile.png')" }}
       />
 
-      <div className="absolute inset-0 bg-black/20" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(161deg, rgba(10,16,24,0.8) 0%, rgba(15,24,32,0.8) 40%, rgba(19,16,16,0.8) 80%, rgba(13,13,13,0.8) 100%)",
+        }}
+      />
 
-      <div className="absolute top-0 left-0 right-0 h-[180px] md:h-[200px] lg:h-[240px] bg-gradient-to-b from-white via-white/80 via-50% to-transparent" />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 40% at 50% 50%, rgba(201,169,110,0.10) 0%, rgba(201,169,110,0) 65%)",
+        }}
+      />
 
-      <div className="absolute bottom-0 left-0 right-0 h-[140px] md:h-[160px] lg:h-[200px] bg-gradient-to-t from-white via-white/70 to-transparent" />
+      <div className="relative z-10 flex flex-col items-center justify-center gap-[16px] px-4 py-[64px] md:py-[89px]">
+        <h1
+          className={cn(
+            "text-center text-[#f5f5f5] font-normal transition-all duration-700 ease-out",
+            "text-[56px] md:text-[72px] lg:text-[96px] leading-[1]",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {destination}
+        </h1>
 
-      <div className="relative z-10 h-full flex items-center justify-center px-4">
-        <div className="flex flex-col items-center gap-[16px] w-full max-w-[395px] md:max-w-[777px]">
-          <h1
-            className={cn(
-              "text-center text-white mix-blend-screen transition-all duration-700 ease-out",
-              "text-[40px] md:text-[72px] leading-[1.3] md:leading-[72px] font-extrabold",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
-          >
-            {destination}
-          </h1>
-
-          <ToursSearchBar
-            value={placeValue}
-            onChange={handlePlaceChange}
-            onSearch={handleSearch}
-            placeholder={t("searchPlaceholder")}
-            className={cn(
-              "transition-all duration-700 ease-out delay-150",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
-          />
-        </div>
+        <ToursSearchBar
+          value={placeValue}
+          onChange={handlePlaceChange}
+          onSearch={handleSearch}
+          placeholder={t("redesign.searchPlaceholder")}
+          className={cn(
+            "transition-all duration-700 ease-out delay-150",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}
+        />
       </div>
     </section>
   )

@@ -1015,7 +1015,17 @@
     "showAllPhotos": "Alle {count} Fotos anzeigen",
     "addOns": "Zusatzoptionen",
     "perPerson": "pro Person",
-    "flatFee": "Pauschalgebühr"
+    "flatFee": "Pauschalgebühr",
+    "passengers": "Passagiere",
+    "travelers": "Reisende",
+    "bookedToday": "Heute gebucht.",
+    "aboutPrefix": "Über diese",
+    "aboutAccent": "Tour",
+    "pickupTag": "Haupttreffpunkt",
+    "meetingLocationLabel": "Treffpunkt",
+    "meetingNote": "Die genauen Koordinaten werden nach Buchungsbestätigung mitgeteilt. Der Hotelabholservice ist auf Anfrage verfügbar.",
+    "verifiedBooking": "Verifizierte Buchung",
+    "verifiedReviews": "verifizierte Bewertungen"
   },
   "blogsHero": {
     "title": "Entdecken Sie die Wunder von Portugal",
@@ -1261,7 +1271,10 @@
           "description": "Vom Flughafen zum Hotel. Vom Hotel zum Ziel. Punkt zu Punkt — immer pünktlich, immer stilvoll."
         }
       }
-    }
+    },
+    "savePercent": "Spare {percent}%",
+    "fromShort": "AB",
+    "pax": "Pers."
   },
   "admin": {
     "landingHeader": "Landing-Header",

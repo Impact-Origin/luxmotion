@@ -57,13 +57,13 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
   if (isLoading) {
     return (
-      <div className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 py-[50px] md:py-[60px]">
-        <div className="max-w-7xl mx-auto flex flex-col gap-[50px] md:gap-[60px]">
-          <div className="flex flex-col gap-[24px]">
-            <div className="h-[32px] w-[300px] bg-gray-200 rounded animate-pulse" />
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-[16px] md:gap-[24px]">
+      <div className="bg-[#1a1a1a] px-4 md:px-[82px] py-[60px] md:py-[72px]">
+        <div className="max-w-[1280px] mx-auto flex flex-col gap-[60px]">
+          <div className="flex flex-col gap-6">
+            <div className="h-[48px] w-[360px] bg-[rgba(255,255,255,0.06)] animate-pulse" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-[480px] md:h-[560px] bg-gray-200 rounded-[16px] animate-pulse" />
+                <div key={i} className="h-[424px] bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] animate-pulse" />
               ))}
             </div>
           </div>
@@ -74,24 +74,22 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
   if (!hasAnyResults && !searchQuery) {
     return (
-      <div className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 py-[50px] md:py-[60px]">
-        <div className="max-w-7xl mx-auto">
-          <div className="py-[60px] text-center">
-            <p className="text-[18px] text-[#808080]">
-              No tours available in <span className="font-medium text-[#222]">{destination}</span> yet
-            </p>
-            <p className="text-[14px] text-[#a0a0a0] mt-[8px]">
-              Check back later for new tours and experiences
-            </p>
-          </div>
+      <div className="bg-[#1a1a1a] px-4 md:px-[82px] py-[60px] md:py-[72px]">
+        <div className="max-w-[1280px] mx-auto py-[60px] text-center">
+          <p className="text-[18px] text-[#999]">
+            No tours available in <span className="font-medium text-white">{destination}</span> yet
+          </p>
+          <p className="text-[14px] text-[#666] mt-2">
+            Check back later for new tours and experiences
+          </p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 py-[50px] md:py-[60px]">
-      <div className="max-w-7xl mx-auto flex flex-col gap-[50px] md:gap-[60px]">
+    <div className="bg-[#1a1a1a] px-4 md:px-[82px] py-[60px] md:py-[72px]">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-[60px] md:gap-[80px]">
         {hasAnyResults ? (
           <>
             {topTours.length > 0 && (
@@ -126,10 +124,10 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
           </>
         ) : (
           <div className="py-[60px] text-center">
-            <p className="text-[18px] text-[#808080]">
-              No results found for "<span className="font-medium text-[#222]">{searchQuery}</span>"
+            <p className="text-[18px] text-[#999]">
+              No results found for &ldquo;<span className="font-medium text-white">{searchQuery}</span>&rdquo;
             </p>
-            <p className="text-[14px] text-[#a0a0a0] mt-[8px]">
+            <p className="text-[14px] text-[#666] mt-2">
               Try searching for a different tour or experience
             </p>
           </div>

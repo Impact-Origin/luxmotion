@@ -151,7 +151,7 @@ export default async function TourDetailsPage({ params }: TourDetailsPageProps) 
   const seo = tour ? resolveTourSeo(tour, locale) : null
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       {tour && seo && (
         <>
           <JsonLd

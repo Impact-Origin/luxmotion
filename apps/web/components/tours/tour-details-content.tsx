@@ -7,14 +7,11 @@ import type { Id } from "@workspace/convex/dataModel"
 import { TourDetailsHero } from "./tour-details-hero"
 import { TourDetailsHeader } from "./tour-details-header"
 import { TourBookingCard } from "./tour-booking-card"
-import { DailyTravelersBadge } from "@/components/ui/daily-travelers-badge"
-import { TourInfoBoxes } from "./tour-info-boxes"
 import { TourAboutSection } from "./tour-about-section"
 import { TourIncludedExcluded } from "./tour-included-excluded"
 import { TourItinerary } from "./tour-itinerary"
 import { TourMeetingPoints } from "./tour-meeting-points"
 import { TourReviews } from "./tour-reviews"
-import { TopPicksSection } from "./top-picks-section"
 import { useTourCheckout } from "./tour-checkout-context"
 import { AddonCarouselSection } from "@/components/shared/addon-carousel-section"
 
@@ -107,18 +104,19 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
 
       <div className="px-4 md:px-5 lg:px-6 xl:px-8">
         <div className="max-w-7xl mx-auto">
-          <TourDetailsHeader title={tour.title} rating={tour.rating} tags={tour.tags} />
-
           <div className="flex flex-col lg:flex-row lg:gap-8">
-            <div className="flex-1 min-w-0 pt-6">
-              <TourInfoBoxes
+            <div className="flex-1 min-w-0">
+              <TourDetailsHeader
+                title={tour.title}
+                rating={tour.rating}
+                tags={tour.tags}
                 duration={tour.duration}
                 tourType={tour.tourType}
                 groupSize={tour.groupSize}
                 languages={tour.languages}
               />
 
-              <div className="border-t border-[#dedede] mt-10 pt-10">
+              <div className="mt-6">
                 <TourAboutSection description={tour.description} />
               </div>
 
@@ -133,7 +131,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 <AddonCarouselSection addons={tour.addons} />
               )}
 
-              <div id="tour-map" className="border-t border-[#dedede] mt-10 pt-10 scroll-mt-24">
+              <div id="tour-map" className="border-t border-[rgba(255,255,255,0.06)] mt-6 pt-6 scroll-mt-24">
                 <TourItinerary
                   items={tour.itinerary}
                   mapCenter={tour.mapCenter}
@@ -142,7 +140,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 />
               </div>
 
-              <div className="border-t border-[#dedede] mt-10 pt-10">
+              <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10">
                 <TourMeetingPoints
                   pickup={tour.pickup}
                   dropoff={tour.dropoff}
@@ -150,7 +148,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 />
               </div>
 
-              <div className="border-t border-[#dedede] mt-10 pt-10 pb-10">
+              <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 pb-10">
                 {tour._id && (
                   <TourReviews
                     tourId={tour._id as Id<"tours">}
@@ -162,8 +160,8 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
               </div>
             </div>
 
-            <div className="hidden lg:block w-[29%] min-w-[320px] max-w-[380px] shrink-0 pt-6">
-              <div className="sticky top-[70px] flex flex-col gap-6">
+            <div className="hidden lg:block w-[29%] min-w-[320px] max-w-[380px] shrink-0 pt-[20px] md:pt-[28px]">
+              <div className="sticky top-[70px]">
                 <TourBookingCard
                   price={tour.price}
                   rating={tour.rating}
@@ -174,16 +172,13 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                   addons={tour.addons}
                   onBook={handleBook}
                 />
-                <div className="flex justify-center w-full">
-                  <DailyTravelersBadge seedSuffix="tours" min={55} max={125} />
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="lg:hidden px-4 pb-8 flex flex-col gap-6">
+      <div className="lg:hidden px-4 pb-8">
         <TourBookingCard
           price={tour.price}
           rating={tour.rating}
@@ -194,12 +189,8 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
           addons={tour.addons}
           onBook={handleBook}
         />
-        <div className="flex justify-center w-full">
-          <DailyTravelersBadge seedSuffix="tours" min={55} max={125} />
-        </div>
       </div>
 
-      <TopPicksSection />
     </div>
   )
 }

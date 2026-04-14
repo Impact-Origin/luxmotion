@@ -56,7 +56,7 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd
         data={
           buildBreadcrumbSchema([
@@ -78,7 +78,7 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       />
       <Header />
       <div className="pt-[46px] md:pt-[46px]">
-        <DestinationPageContent destination={destinationName} />
+        <DestinationPageContent destination={destinationName} slug={destination} />
       </div>
       <Footer />
     </div>

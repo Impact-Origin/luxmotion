@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 interface MeetingPoint {
@@ -27,15 +27,20 @@ export function TourMeetingPoints({ pickup, dropoff, hasMapSection }: TourMeetin
         mapSection.scrollIntoView({ behavior: "smooth" })
         if (point.lat && point.lng) {
           setTimeout(() => {
-            window.dispatchEvent(new CustomEvent("tour-map-focus", {
-              detail: { type, lat: point.lat, lng: point.lng }
-            }))
+            window.dispatchEvent(
+              new CustomEvent("tour-map-focus", {
+                detail: { type, lat: point.lat, lng: point.lng },
+              })
+            )
           }, 500)
         }
       }
     } else {
       if (point.lat && point.lng) {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${point.lat},${point.lng}`, "_blank")
+        window.open(
+          `https://www.google.com/maps/search/?api=1&query=${point.lat},${point.lng}`,
+          "_blank"
+        )
       } else {
         const query = encodeURIComponent(point.address || point.title)
         window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank")
@@ -45,53 +50,75 @@ export function TourMeetingPoints({ pickup, dropoff, hasMapSection }: TourMeetin
 
   return (
     <div className="w-full">
-      <h2 className="text-[24px] font-bold text-[#0c171c] leading-[1.3] mb-6">
+      <h2
+        className="text-[24px] italic text-[#c9a96e] mb-5 font-medium"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
         {t("meetingPoints")}
       </h2>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-[2px] bg-[rgba(201,169,110,0.05)]">
         <button
+          type="button"
           onClick={() => handleClick(pickup, "pickup")}
-          className="group flex-1 text-left bg-[#27c7ff] rounded-[20px] px-5 py-6 flex flex-col gap-4 hover:bg-[#20b8ef] transition-colors cursor-pointer"
+          className="flex-1 text-left bg-[#1a1a1a] border-l-[1.6px] border-[#c9a96e] p-[24px] flex flex-col gap-[8px] transition-colors hover:bg-[#1f1f1f] cursor-pointer"
         >
-          <h3 className="text-[18px] lg:text-[18.6px] font-bold text-white leading-[1.2] tracking-[-0.5px]">
-            {pickup.title}
-          </h3>
-          <p className="text-[14px] text-white/90 leading-[22.4px] tracking-[-0.2px]">
-            {pickup.address}
-          </p>
-          <div className="flex items-center gap-2">
-            {pickup.description && (
-              <span className="text-[15px] lg:text-[15.1px] font-medium text-white leading-[19.2px]">
-                {pickup.description}
-              </span>
-            )}
-            <div className="size-[28px] rounded-full bg-white flex items-center justify-center transition-transform group-hover:translate-x-1 shrink-0">
-              <ArrowRight className="size-[18px] text-[#27c7ff]" />
-            </div>
+          <div className="size-[24px] rounded-[12px] bg-[rgba(201,169,110,0.15)] border-[0.857px] border-[rgba(201,169,110,0.3)] flex items-center justify-center">
+            <MapPin className="size-[10px] text-[#c9a96e]" strokeWidth={2} />
+          </div>
+          <span
+            className="text-[8px] font-bold text-[#c9a96e] tracking-[1.2px] uppercase"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("pickupTag")}
+          </span>
+          <div className="flex flex-col gap-[2px]">
+            <span
+              className="text-[20px] text-white leading-[1.2]"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {pickup.title}
+            </span>
+            <span
+              className="text-[12px] text-[#8c8680]"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {pickup.address}
+            </span>
           </div>
         </button>
 
         <button
+          type="button"
           onClick={() => handleClick(dropoff, "dropoff")}
-          className="group flex-1 text-left bg-white border border-[#dedede] rounded-[20px] px-5 py-6 flex flex-col gap-4 hover:border-[#27c7ff] transition-colors cursor-pointer"
+          className="flex-1 text-left bg-[rgba(255,255,255,0.02)] p-[24px] flex flex-col gap-[6px] transition-colors hover:bg-[rgba(255,255,255,0.035)] cursor-pointer"
         >
-          <h3 className="text-[18px] lg:text-[18.8px] font-bold text-[#111] leading-[1.2] tracking-[-0.5px]">
-            {dropoff.title}
-          </h3>
-          <p className="text-[14px] text-[#222] leading-[22.4px] tracking-[-0.2px]">
-            {dropoff.address}
-          </p>
-          <div className="flex items-center gap-2">
-            {dropoff.description && (
-              <span className="text-[15px] lg:text-[15.1px] font-medium text-[#222] leading-[19.2px]">
-                {dropoff.description}
-              </span>
-            )}
-            <div className="size-[28px] rounded-full bg-[#27c7ff] flex items-center justify-center transition-transform group-hover:translate-x-1">
-              <ArrowRight className="size-[18px] text-white" />
-            </div>
+          <span
+            className="text-[8px] font-semibold text-[#8c8680] tracking-[1.2px] uppercase"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("meetingLocationLabel")}
+          </span>
+          <div className="flex flex-col gap-[2px]">
+            <span
+              className="text-[20px] font-light text-white leading-[1.2]"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {dropoff.title}
+            </span>
+            <span
+              className="text-[12px] text-[rgba(255,255,255,0.3)]"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {dropoff.address}
+            </span>
           </div>
+          <p
+            className="text-[11px] text-[rgba(255,255,255,0.3)] leading-[17.6px]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {dropoff.description || t("meetingNote")}
+          </p>
         </button>
       </div>
     </div>

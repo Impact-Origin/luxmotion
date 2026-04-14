@@ -1,9 +1,11 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { Star, ChevronDown } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { useState } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useTranslations, useLocale } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
+import type { Id } from "@workspace/convex/dataModel"
+import { TourReviewForm } from "./tour-review-form"
 
 interface Review {
   author: string
@@ -16,10 +18,6 @@ interface Review {
   createdAt?: number
 }
 
-import type { Id } from "@workspace/convex/dataModel"
-import { TourReviewForm } from "./tour-review-form"
-import { getFlagForNationality } from "@/lib/countries"
-
 interface TourReviewsProps {
   tourId: Id<"tours">
   rating: number
@@ -27,176 +25,203 @@ interface TourReviewsProps {
   reviews: Review[]
 }
 
-function HeaderStars({ rating }: { rating: number }) {
-  const fullStars = Math.floor(rating)
-  const hasHalf = rating % 1 >= 0.5
+const AVATAR_PALETTE = [
+  "#7b1fa2",
+  "#1565c0",
+  "#c62828",
+  "#2e7d32",
+  "#ef6c00",
+  "#4527a0",
+  "#00838f",
+  "#ad1457",
+]
 
-  return (
-    <div className="flex">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="relative size-[22px]">
-          {i < fullStars ? (
-            <Star className="size-[22px] text-[#f5a623] fill-[#f5a623]" />
-          ) : i === fullStars && hasHalf ? (
-            <div className="relative size-[22px]">
-              <Star className="absolute size-[22px] text-[#e0e0e0] fill-[#e0e0e0]" />
-              <div className="absolute overflow-hidden w-[11px]">
-                <Star className="size-[22px] text-[#f5a623] fill-[#f5a623]" />
-              </div>
-            </div>
-          ) : (
-            <Star className="size-[22px] text-[#e0e0e0] fill-[#e0e0e0]" />
-          )}
-        </div>
-      ))}
-    </div>
-  )
+function avatarColorFor(name: string) {
+  const code = (name.charCodeAt(0) || 65) - 65
+  return AVATAR_PALETTE[Math.abs(code) % AVATAR_PALETTE.length]
 }
 
-function ReviewStars({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-[2px]">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          className={`size-[18px] ${i < rating ? "text-[#f5a623] fill-[#f5a623]" : "text-[#e0e0e0] fill-[#e0e0e0]"}`}
-        />
-      ))}
-    </div>
-  )
+function formatReviewDate(review: Review, locale: string) {
+  if (review.createdAt) {
+    return new Date(review.createdAt).toLocaleDateString(locale, {
+      month: "long",
+      year: "numeric",
+    })
+  }
+  return review.date || ""
 }
 
 function ReviewCard({ review }: { review: Review }) {
   const t = useTranslations("tourDetails")
-  const initial = review.source?.charAt(0).toUpperCase() || review.author.charAt(0).toUpperCase()
+  const locale = useLocale()
+  const name = review.source || review.author
+  const initial = name.charAt(0).toUpperCase()
+  const dateLabel = formatReviewDate(review, locale)
 
   return (
-    <div className="bg-white border border-[#dedede] rounded-[12px] p-5 flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <ReviewStars rating={review.rating} />
-        <p className="text-[14px] text-[#5f686c] leading-[1.6]">
-          {review.text}
-        </p>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <div className="size-10 rounded-full bg-[#27c7ff] flex items-center justify-center shrink-0">
-          <span className="text-[16px] font-medium text-[#0e4659]">
+    <div className="bg-[#1a1a1a] border-l-[1.6px] border-transparent hover:border-[#c9a96e] transition-colors p-[24px] flex flex-col gap-[8px] w-full">
+      <div className="flex gap-[12px] items-center">
+        <div
+          className="size-[36px] rounded-[18px] flex items-center justify-center shrink-0"
+          style={{ backgroundColor: avatarColorFor(name) }}
+        >
+          <span
+            className="text-[14px] font-semibold text-white leading-none"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
             {initial}
           </span>
         </div>
-        <div className="flex flex-col">
-          <span className="text-[14px] font-semibold text-[#0c171c] leading-[1.2]">
-            {review.source || review.author}
+        <div className="flex flex-col min-w-0">
+          <span
+            className="text-[12px] font-semibold text-white leading-[1.3] truncate"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {name}
           </span>
-          <span className="text-[12px] text-[#5f686c] leading-[1.2] flex items-center gap-1.5">
-            {review.nationality && getFlagForNationality(review.nationality) && (
-              <span className="text-[14px]">{getFlagForNationality(review.nationality)}</span>
-            )}
-            {review.nationality || t("unknownNationality")}
-          </span>
-          <span className="text-[12px] text-[#5f686c] leading-[1.2]">
-            {review.createdAt
-              ? new Date(review.createdAt).toLocaleDateString(undefined, { month: "short", year: "numeric" })
-              : review.date || ""}
+          <span
+            className="text-[10px] text-[#8c8680] leading-[1.3]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {dateLabel}
+            {dateLabel ? " · " : ""}
+            {t("verifiedBooking")}
           </span>
         </div>
       </div>
+      <div
+        className="text-[12px] text-[#c9a96e] tracking-[1px] leading-none pt-[0.8px]"
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+      >
+        {"★★★★★".slice(0, review.rating).padEnd(5, "☆")}
+      </div>
+      <p
+        className="text-[12px] text-[rgba(255,255,255,0.45)] leading-[19.8px]"
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+      >
+        {review.text}
+      </p>
     </div>
+  )
+}
+
+function CarouselButton({
+  onClick,
+  disabled,
+  children,
+}: {
+  onClick: () => void
+  disabled?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="size-[44px] border border-[rgba(201,169,110,0.5)] text-[#c9a96e] flex items-center justify-center transition-colors hover:bg-[rgba(201,169,110,0.08)] disabled:opacity-30 disabled:cursor-not-allowed"
+    >
+      {children}
+    </button>
   )
 }
 
 export function TourReviews({ tourId, rating, reviewCount, reviews }: TourReviewsProps) {
   const t = useTranslations("tourDetails")
-  const [showAll, setShowAll] = useState(false)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const collapsibleRef = useRef<HTMLDivElement>(null)
-
-  const initialReviews = reviews.slice(0, 2)
-  const hiddenReviews = reviews.slice(2)
-  const hasMoreReviews = reviews.length > 2
-
-  const handleToggle = () => {
-    setIsAnimating(true)
-    setShowAll(!showAll)
-  }
-
-  useEffect(() => {
-    if (isAnimating) {
-      const timer = setTimeout(() => setIsAnimating(false), 500)
-      return () => clearTimeout(timer)
-    }
-  }, [isAnimating])
+  const [mobileIndex, setMobileIndex] = useState(0)
+  const canPrev = mobileIndex > 0
+  const canNext = mobileIndex < reviews.length - 1
 
   return (
-    <div className="w-full flex flex-col gap-[10px] items-center">
-      <h2 className="text-[24px] font-bold text-[#0c171c] leading-[1.3] w-full">
+    <div className="w-full flex flex-col gap-[20px]">
+      <h2
+        className="text-[24px] italic font-light text-[#c9a96e] leading-none"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
         {t("reviewsTitle")}
       </h2>
 
-      <div className="flex items-center gap-1 w-full">
-        <HeaderStars rating={rating} />
-        <span className="text-[20px] font-bold text-[#0c171c] leading-[22px] ml-1">
-          {rating.toFixed(1)}
-        </span>
-        <span className="text-[14px] text-[#5f686c] leading-[22px] ml-1">
-          ({reviewCount} {t("reviews")})
-        </span>
+      <div className="flex flex-col gap-[4px]">
+        <div className="flex items-baseline gap-[8px]">
+          <span
+            className="text-[56px] font-light text-[#c9a96e] leading-[56px]"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {rating.toFixed(1)}
+          </span>
+          <span
+            className="text-[14px] text-[rgba(255,255,255,0.3)]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            / 5
+          </span>
+        </div>
+        <div className="flex items-center gap-[8px]">
+          <span className="text-[16px] text-[#c9a96e] tracking-[1px] leading-none pt-[2.4px]">
+            ★★★★★
+          </span>
+          <span
+            className="text-[12px] text-[#8c8680]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {reviewCount} {t("verifiedReviews")}
+          </span>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-4 w-full">
-        {initialReviews.map((review, index) => (
-          <ReviewCard key={index} review={review} />
-        ))}
+      {reviews.length > 0 && (
+        <>
+          <div className="hidden md:flex flex-col gap-[3px] pt-[12px]">
+            {reviews.map((review, index) => (
+              <ReviewCard key={index} review={review} />
+            ))}
+          </div>
 
-        {hasMoreReviews && (
-          <div
-            ref={collapsibleRef}
-            className={cn(
-              "grid transition-all duration-500 ease-in-out",
-              showAll ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-            )}
-          >
+          <div className="md:hidden flex flex-col gap-4 pt-[12px]">
             <div className="overflow-hidden">
-              <div className="flex flex-col gap-4">
-                {hiddenReviews.map((review, index) => (
-                  <div
-                    key={index + 2}
-                    className={cn(
-                      "transition-all duration-500 ease-out",
-                      showAll
-                        ? "translate-y-0 opacity-100"
-                        : "-translate-y-4 opacity-0"
-                    )}
-                    style={{
-                      transitionDelay: showAll ? `${index * 75}ms` : `${(hiddenReviews.length - index - 1) * 50}ms`
-                    }}
-                  >
+              <div
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${mobileIndex * 100}%)` }}
+              >
+                {reviews.map((review, index) => (
+                  <div key={index} className="w-full shrink-0">
                     <ReviewCard review={review} />
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      {hasMoreReviews && (
-        <button
-          onClick={handleToggle}
-          className="group flex items-center gap-2 px-6 py-3 bg-white border border-[#dedede] rounded-[8px] text-[14px] font-semibold text-[#0c171c] text-center hover:border-[#27c7ff] hover:text-[#27c7ff] transition-all duration-300"
-        >
-          <span>{showAll ? t("showLess") : t("showMore")}</span>
-          <ChevronDown
-            className={cn(
-              "size-4 transition-transform duration-300 ease-in-out",
-              showAll && "rotate-180"
+            {reviews.length > 1 && (
+              <div className="flex items-center justify-center gap-4">
+                <CarouselButton
+                  onClick={() => canPrev && setMobileIndex((i) => i - 1)}
+                  disabled={!canPrev}
+                >
+                  <ChevronLeft className="size-5" />
+                </CarouselButton>
+                <div className="flex items-center gap-[6px]">
+                  {reviews.map((_, i) => (
+                    <span
+                      key={i}
+                      className={cn(
+                        "size-[6px] rounded-full transition-colors",
+                        i === mobileIndex ? "bg-[#c9a96e]" : "bg-[rgba(201,169,110,0.25)]"
+                      )}
+                    />
+                  ))}
+                </div>
+                <CarouselButton
+                  onClick={() => canNext && setMobileIndex((i) => i + 1)}
+                  disabled={!canNext}
+                >
+                  <ChevronRight className="size-5" />
+                </CarouselButton>
+              </div>
             )}
-          />
-        </button>
+          </div>
+        </>
       )}
 
-      <div className="w-full">
+      <div className="w-full pt-[12px]">
         <TourReviewForm tourId={tourId} />
       </div>
     </div>

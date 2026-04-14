@@ -1,10 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { Check } from "lucide-react"
 import Image from "next/image"
-import { Gem, ChevronDown } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { motion, AnimatePresence } from "framer-motion"
+import { cn } from "@workspace/ui/lib/utils"
 
 export interface BookingAddon {
   _id: string
@@ -31,127 +29,51 @@ export function BookingAddonsSelector({
   totalGuests,
   currency,
 }: BookingAddonsSelectorProps) {
-  const t = useTranslations("tourDetails")
-  const [isExpanded, setIsExpanded] = useState(false)
-
-  const formatPrice = (value: number) => {
-    return value.toLocaleString("de-DE")
-  }
+  const formatPrice = (value: number) => value.toLocaleString("de-DE")
 
   if (addons.length === 0) return null
 
   return (
-    <div className="mt-4">
-      <button
-        type="button"
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full bg-[#f8f9fa] rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-[#f0f1f2] transition-colors"
-      >
-        <Gem className="size-5 text-[#27c7ff] shrink-0" />
-        <span className="text-[15px] font-semibold text-[#0c171c] flex-1 text-left">
-          {t("addOns")}
-        </span>
-        <motion.div
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-        >
-          <ChevronDown className="size-5 text-[#5f686c]" />
-        </motion.div>
-      </button>
+    <div className="flex flex-col gap-[3px]">
+      {addons.map((addon) => {
+        const isSelected = selectedAddonIds.includes(addon._id)
+        const isFree = addon.price === 0
 
-      <AnimatePresence initial={false}>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
+        return (
+          <button
+            key={addon._id}
+            type="button"
+            onClick={() => onToggleAddon(addon._id)}
+            className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] flex items-center gap-3 px-[15px] py-[13px] transition-colors hover:border-[rgba(201,169,110,0.25)]"
           >
-            <div className="mt-2 space-y-2">
-              {addons.map((addon) => {
-                const isSelected = selectedAddonIds.includes(addon._id)
-                const subtotal =
-                  addon.pricingType === "per_person"
-                    ? addon.price * totalGuests
-                    : addon.price
-
-                return (
-                  <motion.button
-                    key={addon._id}
-                    type="button"
-                    onClick={() => onToggleAddon(addon._id)}
-                    layout
-                    className={`w-full rounded-xl px-4 py-3 flex items-center gap-3 transition-colors duration-200 border ${
-                      isSelected
-                        ? "border-[#27c7ff] bg-[#f0faff]"
-                        : "border-[#e8eaed] bg-white hover:border-[#27c7ff]"
-                    }`}
-                  >
-                    {addon.imageUrl ? (
-                      <div className="relative size-10 rounded-lg overflow-hidden shrink-0 bg-[#e8eaed]">
-                        <Image
-                          src={addon.imageUrl}
-                          alt={addon.title}
-                          fill
-                          className="object-cover"
-                          sizes="40px"
-                        />
-                      </div>
-                    ) : (
-                      <div className="size-10 rounded-lg bg-[#e8eaed] shrink-0" />
-                    )}
-
-                    <div className="flex-1 min-w-0 text-left">
-                      <p className="text-[14px] font-medium text-[#0c171c] leading-tight truncate">
-                        {addon.title}
-                      </p>
-                      <p className="text-[12px] text-[#5f686c]">
-                        {addon.pricingType === "per_person"
-                          ? `${currency}${formatPrice(addon.price)} × ${totalGuests} = ${currency}${formatPrice(subtotal)}`
-                          : `${currency}${formatPrice(addon.price)}`}
-                      </p>
-                    </div>
-
-                    <div className="relative size-5 shrink-0">
-                      <motion.div
-                        className="absolute inset-0 rounded-full border-2 flex items-center justify-center"
-                        animate={{
-                          borderColor: isSelected ? "#27c7ff" : "#dedede",
-                          backgroundColor: isSelected ? "#27c7ff" : "transparent",
-                          scale: isSelected ? [1, 1.15, 1] : 1,
-                        }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        <motion.svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          initial={false}
-                          animate={{
-                            scale: isSelected ? 1 : 0,
-                            opacity: isSelected ? 1 : 0,
-                          }}
-                          transition={{ duration: 0.15, ease: "easeOut" }}
-                        >
-                          <path
-                            d="M2.5 6L5 8.5L9.5 4"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </motion.svg>
-                      </motion.div>
-                    </div>
-                  </motion.button>
-                )
-              })}
+            <div
+              className={cn(
+                "size-[18px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center shrink-0 transition-colors",
+                isSelected && "bg-[rgba(154,117,53,0.22)] border-[rgba(201,169,110,0.5)]"
+              )}
+            >
+              {isSelected && <Check className="size-[10px] text-[#C9A96E]" />}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            <div className="flex-1 min-w-0 text-left">
+              <p className="text-[12px] font-medium text-white leading-normal">{addon.title}</p>
+              {addon.description && (
+                <p className="text-[10px] text-[#999] leading-[14px]">{addon.description}</p>
+              )}
+            </div>
+
+            <span
+              className={cn(
+                "text-[16px] font-bold shrink-0",
+                isFree ? "text-[#81c784] tracking-[0.66px]" : "text-[rgba(201,169,110,0.7)]"
+              )}
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {isFree ? "Livre" : `+${formatPrice(addon.price)}${currency}`}
+            </span>
+          </button>
+        )
+      })}
     </div>
   )
 }

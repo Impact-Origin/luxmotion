@@ -1015,7 +1015,17 @@
     "showAllPhotos": "Voir les {count} photos",
     "addOns": "Suppléments",
     "perPerson": "par personne",
-    "flatFee": "forfait"
+    "flatFee": "forfait",
+    "passengers": "Passagers",
+    "travelers": "voyageurs",
+    "bookedToday": "Réservé aujourd'hui.",
+    "aboutPrefix": "À propos de ce",
+    "aboutAccent": "Tour",
+    "pickupTag": "Point de collecte principal",
+    "meetingLocationLabel": "Point de rencontre",
+    "meetingNote": "Les coordonnées exactes seront partagées après la confirmation de la réservation. Le service de prise en charge à l'hôtel est disponible sur demande.",
+    "verifiedBooking": "Réservation vérifiée",
+    "verifiedReviews": "avis vérifiés"
   },
   "blogsHero": {
     "title": "Découvrez les Merveilles du Portugal",
@@ -1261,7 +1271,10 @@
           "description": "De l'aéroport à l'hôtel. De l'hôtel au lieu. Point à point — toujours à l'heure, toujours avec style."
         }
       }
-    }
+    },
+    "savePercent": "Économisez {percent}%",
+    "fromShort": "DÈS",
+    "pax": "pax"
   },
   "admin": {
     "landingHeader": "En-tête de Landing",

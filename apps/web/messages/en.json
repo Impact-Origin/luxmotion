@@ -1019,7 +1019,17 @@
     "showAllPhotos": "Show all {count} photos",
     "addOns": "Add Ons",
     "perPerson": "per person",
-    "flatFee": "flat fee"
+    "flatFee": "flat fee",
+    "passengers": "Passengers",
+    "travelers": "travelers",
+    "bookedToday": "Booked this today.",
+    "aboutPrefix": "About this",
+    "aboutAccent": "Tour",
+    "pickupTag": "Main Pickup",
+    "meetingLocationLabel": "Meeting Location",
+    "meetingNote": "Exact coordinates will be shared after booking confirmation. Hotel pickup service is available on request.",
+    "verifiedBooking": "Verified booking",
+    "verifiedReviews": "verified reviews"
   },
   "blogsHero": {
     "title": "Discover the Wonders of Portugal",
@@ -1264,7 +1274,10 @@
           "description": "From the airport to the hotel. From the hotel to the venue. Point to point — always on time, always in style."
         }
       }
-    }
+    },
+    "savePercent": "Save {percent}%",
+    "fromShort": "FROM",
+    "pax": "pax"
   },
   "admin": {
     "landingHeader": "Landing Header",

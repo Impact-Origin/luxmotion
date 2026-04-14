@@ -36,28 +36,19 @@ export function CategorySection({
   }
 
   return (
-    <section className="bg-white transition-all duration-300 ease-out">
-      <div className="flex gap-[16px] md:gap-[24px] items-center w-full mb-[24px]">
-        <h2 className="text-[24px] md:text-[32px] font-bold leading-[1.3] text-[#222] shrink-0">
-          <span className="font-extrabold italic">{title}</span>
-          <span className="font-bold">{` ${titleHighlight}`}</span>
-          <span className="text-[#27c7ff]">{` ${destination} `}</span>
-        </h2>
-        <div className="flex-1 h-[1px] bg-[#e0e0e0]" />
-      </div>
+    <section className="w-full">
+      <h2
+        className="text-[32px] md:text-[48px] leading-[1.1] text-[#f5f5f5] mb-6"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
+        <span>{title} {titleHighlight} </span>
+        <span className="italic text-[#c9a96e]">{destination}</span>
+      </h2>
 
-      <div className="hidden md:grid grid-cols-3 gap-[24px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
         {filteredTours.map((tour) => (
-          <Link key={tour.id} href={`/tours/tour/${tour.id}`}>
-            <TourCard tour={tour} variant="desktop" />
-          </Link>
-        ))}
-      </div>
-
-      <div className="md:hidden grid grid-cols-2 gap-[16px]">
-        {filteredTours.map((tour) => (
-          <Link key={tour.id} href={`/tours/tour/${tour.id}`}>
-            <TourCard tour={tour} variant="mobile" />
+          <Link key={tour.id} href={`/tours/tour/${tour.id}`} className="flex">
+            <TourCard tour={tour} className="w-full" />
           </Link>
         ))}
       </div>

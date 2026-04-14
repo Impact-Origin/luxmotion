@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
-import { Star, Send } from "lucide-react"
+import { Star } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import type { Id } from "@workspace/convex/dataModel"
@@ -23,7 +23,7 @@ function StarRating({
   const [hovered, setHovered] = useState(0)
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-[6px]">
       {Array.from({ length: 5 }).map((_, i) => {
         const starValue = i + 1
         const isFilled = starValue <= (hovered || rating)
@@ -35,13 +35,13 @@ function StarRating({
             onClick={() => onRatingChange(starValue)}
             onMouseEnter={() => setHovered(starValue)}
             onMouseLeave={() => setHovered(0)}
-            className="p-0.5 transition-transform hover:scale-110"
+            className="transition-transform hover:scale-110"
           >
             <Star
-              className={`size-7 transition-colors ${
+              className={`size-[20px] transition-colors ${
                 isFilled
-                  ? "text-[#f5a623] fill-[#f5a623]"
-                  : "text-[#dedede] fill-[#dedede] hover:text-[#f5a623]/50 hover:fill-[#f5a623]/50"
+                  ? "text-[#c9a96e] fill-[#c9a96e]"
+                  : "text-[rgba(255,255,255,0.15)] fill-[rgba(255,255,255,0.15)] hover:text-[rgba(201,169,110,0.5)] hover:fill-[rgba(201,169,110,0.5)]"
               }`}
             />
           </button>
@@ -60,6 +60,11 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
   const [nationality, setNationality] = useState("")
   const [text, setText] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const title = t("writeReview")
+  const titleWords = title.split(" ")
+  const titleAccent = titleWords.pop() || ""
+  const titleLead = titleWords.join(" ")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -100,15 +105,19 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
   }
 
   return (
-    <div className="mt-8 bg-[#f8f9fa] rounded-[16px] p-6">
-      <h3 className="text-[18px] font-bold text-[#0c171c] leading-none mb-5">
-        {t("writeReview")}
+    <div className="bg-[#1a1a1a] border border-[rgba(201,169,110,0.08)] p-[24px] md:p-[33px] flex flex-col gap-[19px]">
+      <div className="h-[2px] w-[40px] bg-[#c9a96e]" />
+      <h3
+        className="text-[22px] font-light text-white leading-none"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
+        {titleLead}
+        {titleLead ? " " : ""}
+        <span className="italic text-[#c9a96e]">{titleAccent}</span>
       </h3>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <StarRating rating={rating} onRatingChange={setRating} />
-        </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[14px]">
+        <StarRating rating={rating} onRatingChange={setRating} />
 
         <input
           suppressHydrationWarning
@@ -117,7 +126,8 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           required
-          className="w-full h-[48px] px-4 bg-white border border-[#dedede] rounded-[8px] text-[14px] text-[#0c171c] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#27c7ff] transition-colors"
+          className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] px-[14.8px] py-[13.8px] text-[13px] font-light text-white placeholder:text-[rgba(255,255,255,0.2)] focus:outline-none focus:border-[rgba(201,169,110,0.4)] transition-colors"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         />
 
         <CountryCombobox
@@ -134,16 +144,19 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
           onChange={(e) => setText(e.target.value)}
           required
           rows={4}
-          className="w-full px-4 py-3 bg-white border border-[#dedede] rounded-[8px] text-[14px] text-[#0c171c] placeholder:text-[#9ca3af] resize-none focus:outline-none focus:border-[#27c7ff] transition-colors"
+          className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] px-[14.8px] py-[13.8px] text-[13px] font-light text-white placeholder:text-[rgba(255,255,255,0.2)] resize-none focus:outline-none focus:border-[rgba(201,169,110,0.4)] transition-colors min-h-[100px]"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         />
 
         <button
           type="submit"
           disabled={isSubmitting || rating === 0}
-          className="w-full sm:w-auto sm:self-end h-[48px] px-6 bg-[#27c7ff] rounded-[8px] flex items-center justify-center gap-2 hover:bg-[#1eb8f0] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full bg-[#c9a96e] p-[14px] flex items-center justify-center transition-colors hover:bg-[#b8954f] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Send className="size-5 text-[#0e4659]" />
-          <span className="text-[14px] font-bold text-[#0e4659] uppercase tracking-[0.14px]">
+          <span
+            className="text-[11px] font-bold text-[#0d0d0d] tracking-[1.32px] uppercase"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
             {isSubmitting ? t("submitting") : t("submitReview")}
           </span>
         </button>

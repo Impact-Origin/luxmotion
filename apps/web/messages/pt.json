@@ -1017,7 +1017,17 @@
     "showAllPhotos": "Ver todas as {count} fotos",
     "addOns": "Complementos",
     "perPerson": "por pessoa",
-    "flatFee": "taxa fixa"
+    "flatFee": "taxa fixa",
+    "passengers": "Passageiros",
+    "travelers": "viajantes",
+    "bookedToday": "Reservei isso hoje.",
+    "aboutPrefix": "Sobre este",
+    "aboutAccent": "Tour",
+    "pickupTag": "Coleta principal",
+    "meetingLocationLabel": "Local de encontro",
+    "meetingNote": "As coordenadas exatas serão compartilhadas após a confirmação da reserva. O serviço de busca no hotel está disponível mediante solicitação.",
+    "verifiedBooking": "Reserva verificada",
+    "verifiedReviews": "avaliações verificadas"
   },
   "blogsHero": {
     "title": "Descubra as Maravilhas de Portugal",
@@ -1262,7 +1272,10 @@
           "description": "Do aeroporto ao hotel. Do hotel ao local. Ponto a ponto — sempre na hora certa, sempre com estilo."
         }
       }
-    }
+    },
+    "savePercent": "Poupe {percent}%",
+    "fromShort": "DE",
+    "pax": "pax"
   },
   "admin": {
     "landingHeader": "Cabeçalho da Landing Page",

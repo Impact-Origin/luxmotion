@@ -12,12 +12,16 @@ export function TourAboutSection({ description }: TourAboutSectionProps) {
 
   return (
     <div className="w-full">
-      <h2 className="text-[24px] font-bold text-[#27c7ff] leading-[1.3] mb-4">
-        {t("aboutThisTour")}
+      <h2
+        className="text-[24px] md:text-[32px] text-white leading-[1.3] mb-6"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
+        {t("aboutPrefix")}{" "}
+        <span className="italic text-[#C9A96E]">{t("aboutAccent")}</span>
       </h2>
       <TipTapRenderer
         content={description}
-        className="text-[14px] lg:text-[16px] text-[#5f686c] leading-[1.6]"
+        className="text-[14px] lg:text-[16px] text-[#999] leading-[1.6]"
       />
     </div>
   )

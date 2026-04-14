@@ -1015,7 +1015,17 @@
     "showAllPhotos": "Ver las {count} fotos",
     "addOns": "Complementos",
     "perPerson": "por persona",
-    "flatFee": "tarifa fija"
+    "flatFee": "tarifa fija",
+    "passengers": "Pasajeros",
+    "travelers": "viajeros",
+    "bookedToday": "Reservado hoy.",
+    "aboutPrefix": "Sobre este",
+    "aboutAccent": "Tour",
+    "pickupTag": "Recogida principal",
+    "meetingLocationLabel": "Punto de encuentro",
+    "meetingNote": "Las coordenadas exactas se compartirán tras la confirmación de la reserva. El servicio de recogida en hotel está disponible bajo solicitud.",
+    "verifiedBooking": "Reserva verificada",
+    "verifiedReviews": "reseñas verificadas"
   },
   "blogsHero": {
     "title": "Descubre las Maravillas de Portugal",
@@ -1261,7 +1271,10 @@
           "description": "Del aeropuerto al hotel. Del hotel al lugar. Punto a punto — siempre a tiempo, siempre con estilo."
         }
       }
-    }
+    },
+    "savePercent": "Ahorra {percent}%",
+    "fromShort": "DESDE",
+    "pax": "pax"
   },
   "admin": {
     "landingHeader": "Encabezado de Landing",
