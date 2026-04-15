@@ -9,7 +9,7 @@ export function AboutUsSection() {
   const t = useTranslations("aboutUs")
 
   return (
-    <section id="about" className="bg-[#0D0D0D] pt-6 pb-12 lg:pb-16">
+    <section id="about" className="bg-[#0D0D0D] pt-6 pb-4 lg:pb-6">
       <div className="max-w-[1280px] mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-6 xl:gap-8">
           <div className="relative w-full max-w-[578px] lg:w-[45%] lg:max-w-none lg:shrink-0 xl:w-[578px] xl:max-w-[578px] h-[460px] sm:h-[520px] lg:h-[520px] xl:h-[562px]">

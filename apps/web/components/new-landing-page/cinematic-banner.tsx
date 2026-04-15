@@ -9,39 +9,90 @@ export function CinematicBanner() {
   const t = useTranslations("cinematicBanner")
 
   return (
-    <section className="bg-[#0D0D0D]">
-      <div className="relative w-full h-[280px] md:h-[400px] overflow-hidden">
+    <section
+      className="relative overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(to right, #0a0a0a 0%, #1a1005 50%, #0a0a0a 100%)",
+      }}
+    >
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1535px] h-[960px] pointer-events-none select-none">
         <Image
-          src="/cinematic-banner.png"
-          alt={t("photoAlt")}
+          src="/cinematic/lines-grid.svg"
+          alt=""
           fill
           className="object-cover"
-          sizes="100vw"
+          unoptimized
+          aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[rgba(13,13,13,0.4)] to-[rgba(13,13,13,0.3)]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(13,13,13,0.6)] to-transparent" />
       </div>
 
-      <div className="relative bg-gradient-to-b from-[rgba(201,169,110,0.06)] to-[#0D0D0D] px-4 md:px-[82px] 2xl:px-[300px]">
-        <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between py-8 md:py-10 gap-6">
-          <h2
-            className="text-[28px] md:text-[36px] leading-none text-white"
+      <div className="relative w-full h-[340px] md:h-[480px] lg:h-[590px]">
+        <div
+          className="absolute inset-0"
+          style={{
+            maskImage: "url('/cinematic/mask.svg')",
+            WebkitMaskImage: "url('/cinematic/mask.svg')",
+            maskSize: "100% 100%",
+            WebkitMaskSize: "100% 100%",
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+            maskPosition: "center",
+            WebkitMaskPosition: "center",
+          }}
+        >
+          <Image
+            src="/cinematic/hero.png"
+            alt={t("photoAlt")}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+        </div>
+      </div>
+
+      <div className="relative px-4 pb-16 md:pb-20">
+        <div
+          className="absolute left-1/2 top-0 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(201,169,110,0.10) 0%, transparent 70%)",
+          }}
+        />
+        <div className="relative max-w-[1280px] mx-auto flex flex-col items-center gap-5 pt-4">
+          <div
+            className="flex flex-col items-center text-center"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
-            {t("line1")}
-            <br />
-            <span className="italic text-[#C9A96E]">{t("line2")}</span>
-          </h2>
+            <p className="font-light text-[32px] md:text-[40px] leading-none text-white">
+              {t("line1")}
+            </p>
+            <p className="font-light italic text-[32px] md:text-[40px] leading-tight text-[#C9A96E]">
+              {t("line2")}
+            </p>
+          </div>
+
+          <p
+            className="text-[14px] text-[#999] text-center max-w-[420px] leading-[1.4]"
+            style={{ fontFamily: "var(--font-sans), Inter, system-ui, sans-serif" }}
+          >
+            {t("subtitle")}
+          </p>
 
           <Link
-            href="/booking"
-            className="group inline-flex items-center gap-3 border border-[#C9A96E] px-6 py-3 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors w-fit shrink-0"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            href="/#services"
+            className="group inline-flex items-center h-12 border border-[#C9A96E] px-[22px] py-[9px] hover:bg-[rgba(201,169,110,0.08)] transition-colors w-fit shrink-0 mt-2"
           >
-            <span className="text-[12px] font-semibold tracking-[1.2px] uppercase">
+            <span
+              className="px-2 text-[14px] tracking-[1.1px] uppercase text-[#C9A96E] font-medium whitespace-nowrap"
+              style={{ fontFamily: "var(--font-sans), Inter, system-ui, sans-serif" }}
+            >
               {t("cta")}
             </span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight
+              className="size-[18px] text-[#C9A96E] transition-transform group-hover:translate-x-1"
+              strokeWidth={1.5}
+            />
           </Link>
         </div>
       </div>

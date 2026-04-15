@@ -41,7 +41,10 @@ function ServiceCard({ title, image, href, className }: ServiceCardProps) {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[47%] to-black to-[84%]" />
       <div className="relative flex items-center justify-between p-4">
-        <span className="font-title font-semibold text-[24px] text-white leading-normal">
+        <span
+          className="font-semibold text-[24px] text-white leading-normal"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
           {title}
         </span>
         <div className="size-8 border-[1.143px] border-white/30 flex items-center justify-center group-hover:border-white/50 transition-colors">

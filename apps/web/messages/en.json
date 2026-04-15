@@ -928,7 +928,8 @@
     "followJourney": "Follow the Journey"
   },
   "trustedBy": {
-    "title": "Trusted by"
+    "title": "Trusted by",
+    "eyebrow": "Trusted by +300 Clients & Businesses"
   },
   "toursHero": {
     "titleDiscover": "Discover",
@@ -2548,7 +2549,8 @@
     "line1": "Every Arrival.",
     "line2": "A First Impression.",
     "cta": "Explore Our Service",
-    "photoAlt": "Luxury chauffeur arriving at estate"
+    "photoAlt": "Luxury chauffeur arriving at estate",
+    "subtitle": "From Lisbon to the Douro, from the Algarve to the Alentejo.\nWe move you through Portugal as it was meant to be experienced."
   },
   "ctaBanner": {
     "line1": "Every Arrival.",

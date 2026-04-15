@@ -74,7 +74,7 @@ export function DestinationHero({ destination, searchQuery, onSearchChange }: De
         }}
       />
 
-      <div className="relative z-10 flex flex-col items-center justify-center gap-[16px] px-4 py-[64px] md:py-[89px]">
+      <div className="relative z-10 flex flex-col items-center justify-center gap-[16px] px-4 py-[80px] md:py-[120px]">
         <h1
           className={cn(
             "text-center text-[#f5f5f5] font-normal transition-all duration-700 ease-out",

@@ -924,7 +924,8 @@
     "followJourney": "Suivez le Voyage"
   },
   "trustedBy": {
-    "title": "Ils nous font confiance"
+    "title": "Ils nous font confiance",
+    "eyebrow": "La confiance de +300 clients et entreprises"
   },
   "toursHero": {
     "titleDiscover": "Découvrez",
@@ -2373,7 +2374,8 @@
     "line1": "Chaque Arrivée.",
     "line2": "Une Première Impression.",
     "cta": "Découvrir Notre Service",
-    "photoAlt": "Chauffeur de luxe arrivant au domaine"
+    "photoAlt": "Chauffeur de luxe arrivant au domaine",
+    "subtitle": "De Lisbonne au Douro, de l'Algarve à l'Alentejo.\nNous vous transportons à travers le Portugal comme il se doit."
   },
   "ctaBanner": {
     "line1": "Chaque Arrivée.",

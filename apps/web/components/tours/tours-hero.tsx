@@ -163,7 +163,7 @@ export function ToursHero() {
             {TRUST_BADGES.map((badge) => (
               <div
                 key={badge.key}
-                className="flex-1 flex items-center gap-2 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] px-3 py-2"
+                className="flex-1 flex items-center justify-center gap-2 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] px-3 py-2"
               >
                 <badge.icon className="w-5 h-5 text-[#999] shrink-0" />
                 <span

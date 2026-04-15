@@ -924,7 +924,8 @@
     "followJourney": "Sigue el Viaje"
   },
   "trustedBy": {
-    "title": "Confían en nosotros"
+    "title": "Confían en nosotros",
+    "eyebrow": "La confianza de +300 clientes y empresas"
   },
   "toursHero": {
     "titleDiscover": "Descubre",
@@ -2389,7 +2390,8 @@
     "line1": "Cada Llegada.",
     "line2": "Una Primera Impresión.",
     "cta": "Explorar Nuestro Servicio",
-    "photoAlt": "Chófer de lujo llegando a la propiedad"
+    "photoAlt": "Chófer de lujo llegando a la propiedad",
+    "subtitle": "De Lisboa al Duero, del Algarve al Alentejo.\nLe llevamos por Portugal como fue hecho para ser vivido."
   },
   "ctaBanner": {
     "line1": "Cada Llegada.",

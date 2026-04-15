@@ -25,7 +25,10 @@ export function WhyScheduleSection() {
               {t("sectionLabel")}
             </span>
           </div>
-          <h2 className="font-title text-[36px] md:text-[48px] text-[#f5f5f5] leading-none">
+          <h2
+            className="text-[36px] md:text-[48px] text-[#f5f5f5] leading-none"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
             {t("heading")}
           </h2>
           <p className="text-[16px] md:text-[18px] text-white/55 leading-[1.3] max-w-[900px]">
@@ -46,7 +49,10 @@ export function WhyScheduleSection() {
                     <Icon className="size-6 text-[#C9A96E]" strokeWidth={1.5} />
                   </div>
                   <div className="flex flex-col gap-[10px]">
-                    <h3 className="font-title font-medium text-[20px] md:text-[24px] text-white leading-[1.2]">
+                    <h3
+                      className="font-medium text-[20px] md:text-[24px] text-white leading-[1.2]"
+                      style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                    >
                       {t(`${feature.id}.title`)}
                     </h3>
                     <p className="text-[13px] md:text-[14px] text-[#999] leading-[1.2]">

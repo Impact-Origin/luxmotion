@@ -926,7 +926,8 @@
     "followJourney": "Siga a Jornada"
   },
   "trustedBy": {
-    "title": "Quem confia em nós?"
+    "title": "Quem confia em nós?",
+    "eyebrow": "A confiança de +300 Clientes e Empresas"
   },
   "toursHero": {
     "titleDiscover": "Descubra",
@@ -2546,7 +2547,8 @@
     "line1": "Cada Chegada.",
     "line2": "Uma Primeira Impressão.",
     "cta": "Explore o Nosso Serviço",
-    "photoAlt": "Motorista de luxo a chegar a propriedade"
+    "photoAlt": "Motorista de luxo a chegar a propriedade",
+    "subtitle": "De Lisboa ao Douro, do Algarve ao Alentejo.\nLevamos-o por Portugal como foi feito para ser vivido."
   },
   "ctaBanner": {
     "line1": "Cada Chegada.",

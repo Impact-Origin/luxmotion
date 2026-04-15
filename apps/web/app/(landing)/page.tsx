@@ -6,6 +6,7 @@ import { AboutUsSection } from "@/components/new-landing-page/about-us-section"
 import { OurDriversSection } from "@/components/new-landing-page/our-drivers-section"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { CinematicBanner } from "@/components/new-landing-page/cinematic-banner"
+import { TrustedBy } from "@/components/new-landing-page/trusted-by"
 import { Fleet } from "@/components/new-landing-page/fleet"
 import { B2BSection } from "@/components/new-landing-page/b2b-section"
 import { TravelAgenciesSection } from "@/components/new-landing-page/travel-agencies-section"
@@ -57,6 +58,7 @@ export default function SitePrincipal() {
       <WhyScheduleSection />
       <Testimonials />
       <CinematicBanner />
+      <TrustedBy />
       <AboutUsSection />
       <div className="bg-[#0D0D0D] flex justify-center px-4 md:px-[82px] 2xl:px-[300px]">
         <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[rgba(201,169,110,0.4)] to-transparent" />
