@@ -1,20 +1,25 @@
 "use client"
 
-import { useState, useMemo, useEffect, useRef, useCallback } from "react"
-import Image from "next/image"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import Link from "next/link"
-import { ChevronDown, X, Lock, CheckCircle2, CreditCard, Banknote, MessageSquare, ShieldCheck, ExternalLink, Info } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
-import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
-import { Checkbox } from "@workspace/ui/components/checkbox"
-import { InputWithIcon } from "@/components/ui/input-with-icon"
+import Image from "next/image"
+import {
+  ArrowLeft,
+  Shield,
+  Users,
+  Clock,
+  Package,
+  Check,
+  CreditCard,
+  Banknote,
+  ShieldCheck,
+} from "lucide-react"
 import { PhoneInput } from "@/components/ui/phone-input"
-import { InsuranceOptionCard, PaymentMethodButton, AnimatedCollapse } from "@/components/checkout/shared"
 import { useTranslations, useLocale } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
-import { useIsMobile } from "@/hooks/use-is-mobile"
-import { calculatePriceBreakdown, calculateTotalChildSeats, calculateTotalLuggage } from "@/lib/format"
+import {
+  calculatePriceBreakdown,
+} from "@/lib/format"
 import {
   startPayment,
   useSubscribeToOrderStatus,
@@ -24,102 +29,287 @@ import {
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import { useConvex } from "convex/react"
+import { cn } from "@workspace/ui/lib/utils"
 
-type UiPaymentMethod = "cartao" | "cash" | "multibanco" | "mbway"
+const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
+
+type UiPaymentMethod = "cartao" | "cash" | "multibanco" | "mbway" | "pix" | "googlepay"
 
 interface PaymentStepProps {
   onContinue: () => void
+  onBack?: () => void
 }
 
-export function PaymentStep({ onContinue }: PaymentStepProps) {
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center w-full">
+      <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+        {children}
+      </span>
+    </div>
+  )
+}
+
+function SubLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+      {children}
+    </span>
+  )
+}
+
+interface AddonCardProps {
+  icon: React.ReactNode
+  title: string
+  subtitle: string
+  bullets: string[]
+  priceLabel: string
+  active: boolean
+  onToggle: () => void
+  badge?: string
+  addLabel: string
+  removeLabel: string
+  tagline?: string
+}
+
+function AddonCard({
+  icon,
+  title,
+  subtitle,
+  bullets,
+  priceLabel,
+  active,
+  onToggle,
+  badge,
+  addLabel,
+  removeLabel,
+  tagline,
+}: AddonCardProps) {
+  return (
+    <div className="relative bg-[#1E1D1B] border-2 border-[rgba(154,117,53,0.22)] flex flex-col gap-[10px] px-6 py-4">
+      {badge && (
+        <div className="absolute top-[-2px] right-[22.8px] bg-[#A27425] px-2 py-1">
+          <span className="text-[8px] font-semibold text-white uppercase tracking-[1px] leading-[14.08px]">
+            {badge}
+          </span>
+        </div>
+      )}
+      <div className="flex items-center gap-2 w-full">
+        <div className="bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] p-[10px] shrink-0">
+          <div className="w-5 h-5 text-[#C9A96E] flex items-center justify-center">
+            {icon}
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col min-w-0">
+          <p className="text-[14px] font-bold text-white leading-[22.528px]">{title}</p>
+          <p className="text-[12px] text-[#999] leading-[19.2px]">{subtitle}</p>
+        </div>
+        <p className="text-[16px] font-bold text-[#C9A96E] leading-[24.32px] whitespace-nowrap">
+          {priceLabel}
+        </p>
+      </div>
+
+      <ul className="flex flex-col gap-1 w-full">
+        {bullets.map((b, i) => (
+          <li key={i} className="flex items-center gap-[6px]">
+            <Check className="w-3 h-3 text-[#C9A96E] shrink-0" strokeWidth={3} />
+            <span className="text-[12px] text-[#999] leading-[19.2px]">{b}</span>
+          </li>
+        ))}
+      </ul>
+
+      {tagline && (
+        <p className="text-[12px] text-[#C9A96E] leading-[19.2px]">{tagline}</p>
+      )}
+
+      <button
+        type="button"
+        onClick={onToggle}
+        className={cn(
+          "h-10 w-full flex items-center justify-center gap-1 px-[22px] py-[9px] text-[14px] font-medium uppercase tracking-[1.1px] border transition-colors",
+          active
+            ? "bg-[#C9A96E] border-[#C9A96E] text-[#0D0D0D] hover:bg-[#b89558] hover:border-[#b89558]"
+            : "bg-[#A27425] border-[#C9A96E] text-white hover:bg-[#8f6420]",
+        )}
+      >
+        <span>{active ? removeLabel : addLabel}</span>
+        <span className="font-bold">{priceLabel}</span>
+      </button>
+    </div>
+  )
+}
+
+function TipChip({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string
+  selected: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex-1 h-10 flex items-center justify-center text-[14px] font-medium border transition-colors",
+        selected
+          ? "border-[#C9A96E] text-[#C9A96E] bg-[rgba(154,117,53,0.07)]"
+          : "border-[rgba(255,255,255,0.12)] text-[#999] hover:border-[rgba(255,255,255,0.3)] hover:text-white",
+      )}
+    >
+      {label}
+    </button>
+  )
+}
+
+function RadioDot({ selected }: { selected: boolean }) {
+  return (
+    <span
+      className={cn(
+        "relative w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-colors",
+        selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.35)]",
+      )}
+    >
+      {selected && <span className="w-[10px] h-[10px] rounded-full bg-[#C9A96E]" />}
+    </span>
+  )
+}
+
+interface MethodRowProps {
+  selected: boolean
+  onSelect: () => void
+  children: React.ReactNode
+  right?: React.ReactNode
+  className?: string
+}
+
+function MethodRow({ selected, onSelect, children, right, className }: MethodRowProps) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={cn(
+        "w-full h-[56px] flex items-center px-2 bg-[#1E1D1B] border transition-colors",
+        selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.2)]",
+        className,
+      )}
+    >
+      <RadioDot selected={selected} />
+      <div className="ml-2 flex items-center gap-2 flex-1 min-w-0">{children}</div>
+      {right && <div className="ml-auto flex items-center gap-2 pr-2">{right}</div>}
+    </button>
+  )
+}
+
+function GooglePayLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 64 26" className={className} xmlns="http://www.w3.org/2000/svg">
+      <path fill="#5F6368" d="M30.3 12.6v7h-2.2V2.3h5.9c1.5 0 2.7.5 3.7 1.5s1.5 2.2 1.5 3.6-.5 2.6-1.5 3.6-2.3 1.5-3.7 1.5h-3.7zm0-8.2v6.1h3.8c.9 0 1.6-.3 2.2-.9s.9-1.3.9-2.1c0-.8-.3-1.5-.9-2.1s-1.3-.9-2.2-.9h-3.8zm13.5 2.8c1.6 0 2.9.4 3.8 1.3s1.4 2 1.4 3.5v7.1h-2.1v-1.6h-.1c-.9 1.3-2.1 2-3.6 2-1.3 0-2.4-.4-3.3-1.1s-1.3-1.7-1.3-2.8c0-1.2.5-2.2 1.4-2.9s2.1-1.1 3.6-1.1c1.3 0 2.3.2 3.2.7V12c0-.8-.3-1.4-.9-2-.6-.5-1.4-.8-2.2-.8-1.3 0-2.3.5-3.1 1.6L36.6 9.5c1.1-1.5 2.8-2.3 4.9-2.3zm-2.8 8.6c0 .6.2 1 .7 1.4s1.1.6 1.8.6c1 0 1.9-.4 2.7-1.1.8-.8 1.2-1.6 1.2-2.7-.7-.5-1.7-.8-3-.8-.9 0-1.7.2-2.3.7s-1.1 1.1-1.1 1.9z"/>
+      <path fill="#4285F4" d="M60.7 7.7l-7.4 17h-2.3l2.7-5.9-4.9-11.1h2.4l3.5 8.5h.1l3.4-8.5z"/>
+      <path fill="#4285F4" d="M20.7 11.2c0-.7-.1-1.4-.2-2h-9.3v3.8h5.3c-.2 1.3-.9 2.3-2 3v2.5h3.3c1.9-1.7 3-4.3 3-7.3z"/>
+      <path fill="#34A853" d="M11.2 20.8c2.7 0 5-.9 6.7-2.4l-3.3-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H2.2v2.6c1.6 3.3 5 5.4 9 5.4z"/>
+      <path fill="#FBBC04" d="M5.6 12.8c-.4-1.3-.4-2.6 0-3.9V6.3H2.2c-1.4 2.7-1.4 5.9 0 8.6z"/>
+      <path fill="#EA4335" d="M11.2 4.8c1.4 0 2.7.5 3.7 1.5l2.9-2.9C16 1.8 13.7.8 11.2.8c-4 0-7.4 2.1-9 5.4l3.4 2.6c.8-2.2 3-4 5.6-4z"/>
+    </svg>
+  )
+}
+
+function VisaLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 16" className={className} xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="13" fontFamily="Arial Black,Arial,sans-serif" fontStyle="italic" fontWeight="900" fontSize="15" fill="#1A1F71">VISA</text>
+    </svg>
+  )
+}
+
+function MastercardLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 20" className={className} xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="10" r="8" fill="#EB001B" />
+      <circle cx="20" cy="10" r="8" fill="#F79E1B" />
+      <path d="M16 4.2a8 8 0 010 11.6 8 8 0 010-11.6z" fill="#FF5F00" />
+    </svg>
+  )
+}
+
+function PixLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill="#32BCAD"
+        d="M18.3 15.4a2.7 2.7 0 01-1.9-.8l-2.8-2.8a.5.5 0 00-.7 0l-2.8 2.8a2.7 2.7 0 01-1.9.8H7.6l3.6 3.6a2.7 2.7 0 003.8 0l3.6-3.6h-.3zm-9.6-6.8c.7 0 1.4.3 1.9.8l2.8 2.8c.2.2.5.2.7 0l2.8-2.8a2.7 2.7 0 011.9-.8h.3l-3.6-3.6a2.7 2.7 0 00-3.8 0L7.6 8.6h1.1zm10.5.9l-2.2-2.2h-.3a1.8 1.8 0 00-1.3.5l-2.8 2.8a1.4 1.4 0 01-2 0L8 7.8a1.8 1.8 0 00-1.3-.5h-.3L4 9.5a2.7 2.7 0 000 3.8l2.2 2.2h.3a1.8 1.8 0 001.3-.5l2.8-2.8a1.4 1.4 0 012 0l2.8 2.8a1.8 1.8 0 001.3.5h.3l2.2-2.2a2.7 2.7 0 000-3.8z"
+      />
+    </svg>
+  )
+}
+
+export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
   const convex = useConvex()
   const locale = useLocale()
   const t = useTranslations("payment")
-  const tTransfer = useTranslations("transfer")
   const tCommon = useTranslations("common")
   const { state, updatePayment, setTip, submitCheckout, setStep } = useCheckout()
-  const { payment, orderId, selectedVehicle, passenger, transfer, currentStep, experiences, order: orderObj, hasNearbyTours } = state
+  const {
+    payment,
+    orderId,
+    selectedVehicle,
+    passenger,
+    transfer,
+    currentStep,
+    experiences,
+    order: orderObj,
+    hasNearbyTours,
+  } = state
   const confirmationStep = hasNearbyTours ? 5 : 4
-  
-  // Subscribe to order status (substitui WebSocket)
+
   const orderStatus = useSubscribeToOrderStatus(orderId ? String(orderId) : null)
 
-  const [extrasExpanded, setExtrasExpanded] = useState(false)
-  const [roundTripPopoverRefund, setRoundTripPopoverRefund] = useState(false)
-  const [roundTripPopoverComfort, setRoundTripPopoverComfort] = useState(false)
-  const isMobile = useIsMobile()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState("")
-  const [statusMessage, setStatusMessage] = useState("")
-  const [paymentData, setPaymentData] = useState<{
-    entity?: string
-    reference?: string
-    amount?: number
-    mbwayMessage?: string
-  } | null>(null)
 
-  const isRoundTrip = transfer.bookReturn // Se bookReturn está marcado, é round trip (independente da aba)
+  const isRoundTrip = transfer.bookReturn
   const baseVehiclePrice = selectedVehicle?.price ?? 0
   const baseTotalPrice = baseVehiclePrice
+  const multiplier = isRoundTrip ? 2 : 1
 
-  // Se for round trip, dobrar insurance e refund terms
-  const premiumInsurancePrice = useMemo(
-    () => (payment.premiumInsurance ? (isRoundTrip ? 18 : 9) : 0),
-    [payment.premiumInsurance, isRoundTrip]
-  )
-  const refundTermsPrice = useMemo(
-    () => (payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0),
-    [payment.refundTerms, isRoundTrip]
-  )
-  const comfortConnectionPrice = useMemo(
-    () => (payment.comfortConnection ? (isRoundTrip ? 14 : 7) : 0),
-    [payment.comfortConnection, isRoundTrip]
-  )
-  const insuranceTotal = premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice
+  const airportGuaranteePrice = payment.premiumInsurance ? 9 * multiplier : 0
+  const meetGreetPrice = payment.refundTerms ? 5 * multiplier : 0
+  const priorityPickupPrice = payment.priorityPickup ? 6 * multiplier : 0
+  const comfortPackPrice = payment.comfortConnection ? 7 * multiplier : 0
+  const addonsTotal =
+    airportGuaranteePrice + meetGreetPrice + priorityPickupPrice + comfortPackPrice
+
   const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
-
-  // Extras (cadeirinhas, pranchas, pets) – mesma lógica do OrderSummarySidebar
-  const passengers = transfer.passengers
-  const luggage = calculateTotalLuggage(transfer.luggage)
-  const childSeats = calculateTotalChildSeats(transfer.childSeats)
-  const surfboards = transfer.surfboardChecked
-    ? transfer.surfboard.standard + transfer.surfboard.upgraded
-    : 0
-  const pets = transfer.petChecked
-    ? transfer.pet.small + transfer.pet.large
-    : 0
-
-  const extrasMultiplier = isRoundTrip ? 2 : 1
-  const childSeatsCost = childSeats * 5 * extrasMultiplier
-  const surfboardsCost = surfboards * 5 * extrasMultiplier
-  const petsCost = pets * 10 * extrasMultiplier
-  const extrasTotal = childSeatsCost + surfboardsCost + petsCost
 
   const experiencesTotal = experiences.reduce((sum, exp) => sum + exp.totalPrice, 0)
   const tipAmount = state.tipAmount ?? 0
 
-  // Calculate price breakdown with all fees (vehicle, insurance, extras, card fee) included in rounding.
-  // Esta lógica deve estar alinhada com o resumo de pedido.
   const priceBreakdown = useMemo(
     () =>
       calculatePriceBreakdown({
         basePrice: baseTotalPrice,
         cardFeeRate,
-        insuranceTotal: insuranceTotal + extrasTotal,
+        insuranceTotal: addonsTotal,
       }),
-    [baseTotalPrice, cardFeeRate, insuranceTotal, extrasTotal]
+    [baseTotalPrice, cardFeeRate, addonsTotal],
   )
 
-  // Tip logic
-  const { tipPercent } = state
-  const tipOptions = [
-    { percent: 0, label: "0%" },
-    { percent: 10, label: "10%" },
-    { percent: 20, label: "20%" },
-    { percent: -1, label: t("tipCustom") },
-  ]
+  const totalToPay = priceBreakdown.total + experiencesTotal + tipAmount
 
-  // Initialize tip amount when base price changes and tip percent is set
+  const { tipPercent } = state
+
+  const tipOptions = useMemo(
+    () => [
+      { percent: 0, label: "0%" },
+      { percent: 10, label: "10%" },
+      { percent: 20, label: "20%" },
+      { percent: -1, label: t("tipCustom") },
+    ],
+    [t],
+  )
+
   useEffect(() => {
     if (tipPercent > 0) {
       const amount = Math.round((baseTotalPrice * tipPercent) / 100)
@@ -127,92 +317,72 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
         setTip(tipPercent, amount)
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseTotalPrice])
 
-  const handleTipSelect = useCallback((percent: number, customValue?: number) => {
-    if (percent >= 0) {
-      const amount = Math.round((baseTotalPrice * percent) / 100)
-      setTip(percent, amount)
-    } else {
-      setTip(percent, customValue ?? 0)
-    }
-  }, [baseTotalPrice, setTip])
-
-  const paymentMethods: { method: UiPaymentMethod; icon: React.ReactNode; label: string }[] = [
-    { method: "cartao", icon: <CreditCard className="w-7 h-7 md:w-8 md:h-8 text-[#222222]" />, label: t("card") },
-    { method: "cash", icon: <Banknote className="w-7 h-7 md:w-8 md:h-8 text-[#222222]" />, label: t("cash") },
-    {
-      method: "mbway",
-      icon: (
-        <Image
-          src="/mbway_checkout.png"
-          alt="MB Way"
-          width={32}
-          height={32}
-          className="w-7 h-7 md:w-8 md:h-8 object-contain"
-        />
-      ),
-      label: t("mbway"),
+  const handleTipSelect = useCallback(
+    (percent: number, customValue?: number) => {
+      if (percent >= 0) {
+        const amount = Math.round((baseTotalPrice * percent) / 100)
+        setTip(percent, amount)
+      } else {
+        setTip(percent, customValue ?? 0)
+      }
     },
-  ]
-
-  const premiumBenefits = [
-    { text: t("cancelUpTo4h") },
-    { text: t("fullRefund"), subtext: t("fullRefundDesc") },
-    { text: t("dateTimeChangeFree") },
-  ]
-
-  const refundBenefits = [
-    { text: t("covidInfection"), subtext: t("byCovid") },
-    { text: t("illnessOrInjury") },
-    { text: t("preExistingConditions"), subtext: t("preExistingDesc") },
-    { text: t("familyDeath"), subtext: t("familyDeathDesc") },
-  ]
+    [baseTotalPrice, setTip],
+  )
 
   const selectedCheckoutAddons = useMemo(() => {
     const addons: StartPaymentRequest["selectedCheckoutAddons"] = []
     if (payment.premiumInsurance) {
       addons.push({
-        code: "premiumInsurance",
-        label: t("premiumInsurance"),
-        price: premiumInsurancePrice,
+        code: "airportGuarantee",
+        label: t("addons.airportGuarantee.title"),
+        price: airportGuaranteePrice,
       })
     }
     if (payment.refundTerms) {
       addons.push({
-        code: "refundTerms",
-        label: t("refundTerms"),
-        price: refundTermsPrice,
+        code: "meetGreet",
+        label: t("addons.meetGreet.title"),
+        price: meetGreetPrice,
+      })
+    }
+    if (payment.priorityPickup) {
+      addons.push({
+        code: "priorityPickup",
+        label: t("addons.priorityPickup.title"),
+        price: priorityPickupPrice,
       })
     }
     if (payment.comfortConnection) {
       addons.push({
-        code: "comfortConnection",
-        label: t("comfortConnection"),
-        price: comfortConnectionPrice,
+        code: "comfortPack",
+        label: t("addons.comfortPack.title"),
+        price: comfortPackPrice,
       })
     }
     return addons
   }, [
-    comfortConnectionPrice,
-    payment.comfortConnection,
     payment.premiumInsurance,
     payment.refundTerms,
-    premiumInsurancePrice,
-    refundTermsPrice,
+    payment.priorityPickup,
+    payment.comfortConnection,
+    airportGuaranteePrice,
+    meetGreetPrice,
+    priorityPickupPrice,
+    comfortPackPrice,
     t,
   ])
 
   const handlePay = async () => {
     setSubmitError("")
-    setStatusMessage("")
     if (!orderId) {
-      setSubmitError(t("orderNotInitialized") || "Order is not initialized yet.")
+      setSubmitError(t("orderNotInitialized"))
       return
     }
     if (!selectedVehicle) {
-      setSubmitError(t("vehicleMissing") || "Vehicle is missing.")
+      setSubmitError(t("vehicleMissing"))
       return
     }
 
@@ -224,44 +394,39 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
     }
 
     const method = mapMethod(payment.method)
-    
+
     if (method === "mbway" && (!payment.mbwayPhone || !payment.mbwayPhone.trim())) {
       setSubmitError(t("mbwayPhoneRequired"))
       return
     }
 
-    // Use the pre-calculated values from priceBreakdown (all fees included in rounding)
-    // e alinhar com o resumo do pedido (experiências + gorjeta)
-    const totalAmount = priceBreakdown.total + experiencesTotal + tipAmount
+    updatePayment({ acceptTerms: true })
+
+    const totalAmount = totalToPay
     const basePrice = priceBreakdown.transferPrice
     const taxAmount = priceBreakdown.tax
 
-    // Para round trip, dividir valores entre ida e volta
-    // O backend vai somar os dois valores para fazer 1 pagamento único
     const outboundAmount = isRoundTrip ? totalAmount / 2 : totalAmount
     const returnAmount = isRoundTrip ? totalAmount / 2 : 0
     const outboundBasePrice = isRoundTrip ? basePrice / 2 : basePrice
     const returnBasePrice = isRoundTrip ? basePrice / 2 : 0
+    const outboundTax = isRoundTrip ? taxAmount / 2 : taxAmount
+    const returnTax = isRoundTrip ? taxAmount / 2 : 0
 
-    // Gerar URLs para cartão de crédito (erro/cancel redirecionam para checkout com success=false)
     const baseUrl = typeof window !== "undefined" ? window.location.origin : ""
     const successUrl = `${baseUrl}/checkout?success=true`
     const errorUrl = `${baseUrl}/checkout?success=false`
     const cancelUrl = `${baseUrl}/checkout?success=false`
 
-    // Fees da ida e da volta separadas (na ida não guardar o total das fees)
-    const outboundTax = isRoundTrip ? taxAmount / 2 : taxAmount
-    const returnTax = isRoundTrip ? taxAmount / 2 : 0
-
     const payload: StartPaymentRequest = {
-      amount: outboundAmount, // Valor da ida (metade se round trip)
-      amountReturn: returnAmount, // Valor da volta (metade se round trip, 0 se não)
+      amount: outboundAmount,
+      amountReturn: returnAmount,
       basePrice: outboundBasePrice,
       basePriceReturn: returnBasePrice,
       discountAmount: 0,
       discountAmountReturn: 0,
-      additionalFees: outboundTax, // Só fees da ida
-      additionalFeesReturn: returnTax, // Só fees da volta
+      additionalFees: outboundTax,
+      additionalFeesReturn: returnTax,
       nightTax: selectedVehicle.nightTaxOutbound ?? 0,
       nightTaxReturn: selectedVehicle.nightTaxReturn ?? 0,
       airportServiceFee: 0,
@@ -269,31 +434,26 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
       refundFee: priceBreakdown.refundTax,
       refundToOriginalPaymentMethod: payment.agreeRefund,
       nif: passenger.nif?.trim() ? passenger.nif.trim() : undefined,
-      // Para MBWay, usar o telefone do MBWay se fornecido, senão usar o telefone do passageiro
-      // Para outros métodos, sempre usar o telefone do passageiro
       phoneNumber: (() => {
         if (method === "mbway" && payment.mbwayPhone?.trim()) {
-          return payment.mbwayPhone.trim();
+          return payment.mbwayPhone.trim()
         }
-        // Usar telefone do passageiro (principal ou viajante)
-        const contactPhone = passenger.isMainPassenger ? passenger.phone : passenger.passengerPhone;
-        return contactPhone?.trim() ? contactPhone.trim() : undefined;
+        const contactPhone = passenger.isMainPassenger ? passenger.phone : passenger.passengerPhone
+        return contactPhone?.trim() ? contactPhone.trim() : undefined
       })(),
       email: passenger.email?.trim() ? passenger.email.trim() : undefined,
       driverNotes: payment.specialRequest?.trim() ? payment.specialRequest.trim() : undefined,
       selectedCheckoutAddons: selectedCheckoutAddons?.length ? selectedCheckoutAddons : undefined,
-      // URLs obrigatórias para cartão de crédito
       successUrl: method === "ccard" ? successUrl : undefined,
       errorUrl: method === "ccard" ? errorUrl : undefined,
       cancelUrl: method === "ccard" ? cancelUrl : undefined,
-      language: locale === "pt" ? "pt" : "en", // IfThenPay supports pt and en
+      language: locale === "pt" ? "pt" : "en",
     }
 
     setIsSubmitting(true)
     try {
-      // Guardar tours/experiências do upsell na order antes de iniciar pagamento (para criar orders após confirmação)
       if (experiences.length > 0) {
-        let convexOrderIdForExp = (orderObj as { _id?: string })?. _id
+        let convexOrderIdForExp = (orderObj as { _id?: string })?._id
         if (!convexOrderIdForExp && typeof orderId === "string" && !orderId.startsWith("j")) {
           const orderByNum = await convex.query(api.orders.getByOrderNumber, { orderNumber: orderId })
           convexOrderIdForExp = orderByNum?._id
@@ -302,9 +462,19 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
           await convex.mutation(api.orders.setPendingCheckoutExperiences, {
             orderId: convexOrderIdForExp as Id<"orders">,
             experiences: experiences.map((exp) => ({
-              productType: (exp.category === "events" ? "event" : exp.category === "private" ? "tour" : exp.category === "tours" ? "tour" : "experience") as "tour" | "experience" | "event",
-              tourId: (exp.category !== "events" ? exp.experienceId : undefined) as Id<"tours"> | undefined,
-              eventId: (exp.category === "events" ? exp.experienceId : undefined) as Id<"events"> | undefined,
+              productType: (exp.category === "events"
+                ? "event"
+                : exp.category === "private"
+                ? "tour"
+                : exp.category === "tours"
+                ? "tour"
+                : "experience") as "tour" | "experience" | "event",
+              tourId: (exp.category !== "events" ? exp.experienceId : undefined) as
+                | Id<"tours">
+                | undefined,
+              eventId: (exp.category === "events" ? exp.experienceId : undefined) as
+                | Id<"events">
+                | undefined,
               tourTitle: exp.title,
               tourSlug: exp.slug,
               passengers: exp.passengers,
@@ -316,10 +486,12 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
         }
       }
 
-      const resp = await startPayment(convex, orderId, method, payload) as { paymentUrl?: string; redirectUrl?: string }
+      const resp = (await startPayment(convex, orderId, method, payload)) as {
+        paymentUrl?: string
+        redirectUrl?: string
+      }
 
       if (method === "ccard") {
-        // IfThenPay retorna paymentUrl, não redirectUrl
         const paymentUrl = resp?.paymentUrl || resp?.redirectUrl
         if (typeof paymentUrl === "string" && paymentUrl) {
           window.location.href = paymentUrl
@@ -337,467 +509,342 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
       }
 
       if (method === "mbway") {
-        console.log("[PaymentStep] MBWay response:", resp)
-        // A resposta pode ter success: true ou apenas requestId/message/status
         const response = resp as any
         if (response?.success === true || response?.requestId || response?.status) {
           submitCheckout()
           setIsSubmitting(false)
           setStep(confirmationStep)
         } else {
-          console.error("[PaymentStep] MBWay response error:", response)
-          throw new Error(response?.message || "Failed to start MB Way paymentttt.")
+          throw new Error(response?.message || "Failed to start MB Way payment.")
         }
       }
 
-      // Payment status is now monitored via Convex subscription
       setIsSubmitting(false)
     } catch (e: any) {
-      setSubmitError(e?.message || t("paymentError") || "An error occurred during payment. Please try again.")
+      setSubmitError(e?.message || t("paymentError"))
       setIsSubmitting(false)
     }
   }
 
-  // Monitor order status changes (substitui WebSocket)
-  // Only for non-MBWay payments (MBWay goes directly to confirmation and polls there)
   useEffect(() => {
-    if (currentStep === confirmationStep) {
-      return
-    }
-    
-    if (payment.method === "mbway") {
-      return
-    }
-    
-    if (orderStatus) {
-      console.log("[PaymentStep] Order status updated:", {
-        paymentStatus: orderStatus.paymentStatus,
-        status: orderStatus.status,
-        orderNumber: orderStatus.orderNumber,
-      })
-    }
-    
+    if (currentStep === confirmationStep) return
+    if (payment.method === "mbway") return
     if (orderStatus?.paymentStatus === "completed") {
       submitCheckout()
       setIsSubmitting(false)
       setStep(confirmationStep)
     } else if (orderStatus?.paymentStatus === "failed") {
-      console.log("[PaymentStep] Payment failed")
-      setSubmitError(t("paymentFailed") || "Payment failed")
+      setSubmitError(t("paymentFailed"))
       setIsSubmitting(false)
     }
-  }, [orderStatus?.paymentStatus, submitCheckout, setStep, t, currentStep, orderStatus, payment.method, confirmationStep])
+  }, [
+    orderStatus?.paymentStatus,
+    submitCheckout,
+    setStep,
+    t,
+    currentStep,
+    orderStatus,
+    payment.method,
+    confirmationStep,
+  ])
+
+  const addLabel = t("addAddon")
+  const removeLabel = tCommon("remove")
+
+  const addons: AddonCardProps[] = [
+    {
+      icon: <Shield className="w-5 h-5" strokeWidth={2} />,
+      title: t("addons.airportGuarantee.title"),
+      subtitle: t("addons.airportGuarantee.subtitle"),
+      bullets: [
+        t("addons.airportGuarantee.b1"),
+        t("addons.airportGuarantee.b2"),
+        t("addons.airportGuarantee.b3"),
+      ],
+      priceLabel: `+€${9 * multiplier}`,
+      active: payment.premiumInsurance,
+      onToggle: () => updatePayment({ premiumInsurance: !payment.premiumInsurance }),
+      badge: t("addons.airportGuarantee.badge"),
+      addLabel,
+      removeLabel,
+    },
+    {
+      icon: <Users className="w-5 h-5" strokeWidth={2} />,
+      title: t("addons.meetGreet.title"),
+      subtitle: t("addons.meetGreet.subtitle"),
+      bullets: [
+        t("addons.meetGreet.b1"),
+        t("addons.meetGreet.b2"),
+        t("addons.meetGreet.b3"),
+      ],
+      priceLabel: `+€${5 * multiplier}`,
+      active: payment.refundTerms,
+      onToggle: () => updatePayment({ refundTerms: !payment.refundTerms }),
+      addLabel,
+      removeLabel,
+      tagline: t("addons.meetGreet.tagline"),
+    },
+    {
+      icon: <Clock className="w-5 h-5" strokeWidth={2} />,
+      title: t("addons.priorityPickup.title"),
+      subtitle: t("addons.priorityPickup.subtitle"),
+      bullets: [
+        t("addons.priorityPickup.b1"),
+        t("addons.priorityPickup.b2"),
+        t("addons.priorityPickup.b3"),
+      ],
+      priceLabel: `+€${6 * multiplier}`,
+      active: payment.priorityPickup,
+      onToggle: () => updatePayment({ priorityPickup: !payment.priorityPickup }),
+      addLabel,
+      removeLabel,
+    },
+    {
+      icon: <Package className="w-5 h-5" strokeWidth={2} />,
+      title: t("addons.comfortPack.title"),
+      subtitle: t("addons.comfortPack.subtitle"),
+      bullets: [
+        t("addons.comfortPack.b1"),
+        t("addons.comfortPack.b2"),
+        t("addons.comfortPack.b3"),
+      ],
+      priceLabel: `+€${7 * multiplier}`,
+      active: payment.comfortConnection,
+      onToggle: () => updatePayment({ comfortConnection: !payment.comfortConnection }),
+      addLabel,
+      removeLabel,
+    },
+  ]
 
   return (
-    <div className="w-full">
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h2 className="text-[22px] font-bold text-[#222222] mb-6">{t("title")}</h2>
+    <div className="flex flex-col gap-4 pb-10">
+      <h1
+        className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
+        style={SERIF_FONT}
+      >
+        {t("title")}
+      </h1>
 
-        {paymentData && (
-          <div className="mb-8 p-6 bg-[#f0f9ff] border-2 border-[#27c7ff] rounded-xl animate-in fade-in slide-in-from-top-2 duration-300">
-            <h3 className="text-lg font-bold text-[#0e4659] mb-4 flex items-center gap-2">
-              <CheckCircle2 className="w-6 h-6 text-[#27c7ff]" />
-              {t("mbwayTitle")}
-            </h3>
-            
-            {payment.method === "mbway" && (
-              <div className="text-center py-4">
-                <div className="mb-4 flex justify-center">
-                  <Image
-                    src="/mbway_checkout.png"
-                    alt="MBWay"
-                    width={300}
-                    height={200}
-                    className="w-full max-w-[300px] h-auto object-contain"
-                  />
-                </div>
-                <p className="text-[#222222] font-semibold text-lg leading-relaxed">
-                  {paymentData.mbwayMessage || t("mbwayInstructions")}
-                </p>
-                <div className="mt-4 flex justify-center">
-                  <div className="relative w-12 h-12">
-                    <div className="absolute inset-0 border-4 border-[#27c7ff] border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            <p className="mt-4 text-sm text-[#177799] italic text-center">
-              {t("awaitingConfirmation")}
-            </p>
+      <SectionLabel>{t("addonsHeading")}</SectionLabel>
+
+      <div className="flex flex-col gap-4">
+        {addons.map((a) => (
+          <AddonCard key={a.title} {...a} />
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-4 pt-2">
+        <SectionLabel>{t("tipHeading")}</SectionLabel>
+        <div className="flex items-center gap-[10px]">
+          {tipOptions.map((opt) => (
+            <TipChip
+              key={opt.percent}
+              label={opt.label}
+              selected={tipPercent === opt.percent}
+              onClick={() =>
+                handleTipSelect(
+                  opt.percent,
+                  opt.percent >= 0 ? Math.round((baseTotalPrice * opt.percent) / 100) : 0,
+                )
+              }
+            />
+          ))}
+        </div>
+        {tipPercent === -1 && (
+          <div>
+            <label className="block text-[12px] text-[#999] mb-1">{t("tipCustomPercent")}</label>
+            <input
+              type="number"
+              min={0}
+              max={100}
+              step={1}
+              className="w-full h-[44px] px-[13px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+              placeholder="e.g. 5"
+              onChange={(e) => {
+                const p = parseFloat(e.target.value) || 0
+                handleTipSelect(-1, Math.round((baseTotalPrice * p) / 100))
+              }}
+            />
           </div>
         )}
+      </div>
 
-        {/* Tip section */}
-        <div className="mb-6 border border-[#e0e0e0] rounded-lg p-5">
-          <h3 className="text-[15px] font-bold text-[#222222] mb-3">{t("addTip")}</h3>
-          <div className="flex gap-2">
-            {tipOptions.map((opt) => (
-              <button
-                key={opt.percent}
-                type="button"
-                onClick={() => handleTipSelect(opt.percent, opt.percent >= 0 ? Math.round((baseTotalPrice * opt.percent) / 100) : 0)}
-                className={`flex-1 py-2.5 rounded-xl text-sm font-medium border-2 transition-colors text-center ${
-                  tipPercent === opt.percent
-                    ? "border-[#27c7ff] bg-[#e0f4fc] text-[#0e4659]"
-                    : "border-[#e8eaed] bg-white text-[#222222] hover:border-[#27c7ff]"
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
+      <div className="flex flex-col gap-4 pt-2">
+        <SectionLabel>{t("methodHeading")}</SectionLabel>
+
+        <div className="flex flex-col gap-[10px]">
+          <SubLabel>{t("methodFast")}</SubLabel>
+          <MethodRow
+            selected={payment.method === "googlepay"}
+            onSelect={() => updatePayment({ method: "googlepay" })}
+          >
+            <div className="flex-1 flex items-center justify-center">
+              <GooglePayLogo className="h-6" />
+            </div>
+          </MethodRow>
+        </div>
+
+        <div className="flex items-center gap-2 h-3">
+          <div className="flex-1 h-px bg-[rgba(255,255,255,0.12)]" />
+          <span className="text-[12px] text-[#999] lowercase">{t("or")}</span>
+          <div className="flex-1 h-px bg-[rgba(255,255,255,0.12)]" />
+        </div>
+
+        <div className="flex flex-col gap-[10px]">
+          <SubLabel>{t("methodCard")}</SubLabel>
+          <MethodRow
+            selected={payment.method === "cartao"}
+            onSelect={() => updatePayment({ method: "cartao" })}
+            right={
+              <>
+                <VisaLogo className="h-6" />
+                <MastercardLogo className="h-6" />
+              </>
+            }
+          >
+            <CreditCard className="w-6 h-6 text-white" strokeWidth={2} />
+            <span className="text-[14px] text-white">{t("cardTitle")}</span>
+          </MethodRow>
+          {payment.method === "cartao" && (
+            <div className="flex items-center justify-between px-2">
+              <span className="text-[12px] text-[#999]">{t("cardFee")}</span>
+              <span className="text-[14px] font-semibold text-white">
+                € {priceBreakdown.cardFee.toFixed(2).replace(".", ",")}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-[10px]">
+          <SubLabel>{t("methodPortuguese")}</SubLabel>
+          <div className="grid grid-cols-2 gap-[10px]">
+            <MethodRow
+              selected={payment.method === "mbway"}
+              onSelect={() => updatePayment({ method: "mbway" })}
+            >
+              <div className="flex-1 flex items-center">
+                <Image
+                  src="/checkout/payment/mbway.svg"
+                  alt="MB Way"
+                  width={60}
+                  height={29}
+                  className="h-[29px] w-auto"
+                  unoptimized
+                />
+              </div>
+            </MethodRow>
+            <MethodRow
+              selected={payment.method === "multibanco"}
+              onSelect={() => updatePayment({ method: "multibanco" })}
+            >
+              <div className="flex-1 flex items-center">
+                <Image
+                  src="/checkout/payment/multibanco.svg"
+                  alt="Multibanco"
+                  width={81}
+                  height={29}
+                  className="h-[29px] w-auto"
+                  unoptimized
+                />
+              </div>
+            </MethodRow>
           </div>
-          {tipPercent === -1 && (
-            <div className="mt-3">
-              <label className="block text-xs text-[#808080] mb-1">{t("tipCustomPercent")}</label>
-              <input
-                type="number"
-                min={0}
-                max={100}
-                step={1}
-                className="w-full border border-[#e8eaed] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#27c7ff]"
-                placeholder="e.g. 5"
-                onChange={(e) => {
-                  const p = parseFloat(e.target.value) || 0
-                  handleTipSelect(-1, Math.round((baseTotalPrice * p) / 100))
-                }}
+          {payment.method === "mbway" && (
+            <div>
+              <label className="block text-[12px] font-semibold text-white mb-2 leading-none">
+                {t("mbwayPhoneNumber")}
+              </label>
+              <PhoneInput
+                value={payment.mbwayPhone}
+                onChange={(v) => updatePayment({ mbwayPhone: v })}
+                defaultCountry="pt"
+                placeholder={t("mbwayPhonePlaceholder")}
+                dark
               />
             </div>
           )}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
-          {paymentMethods.map(({ method, icon, label }) => (
-            <PaymentMethodButton
-              key={method}
-              selected={payment.method === method}
-              onSelect={() => updatePayment({ method })}
-              icon={icon}
-              label={label}
-            />
-          ))}
-        </div>
-
-        {payment.method === "cartao" && (
-          <div className="flex items-center justify-between mb-6">
-            <span className="text-[14px] text-[#808080]">{t("cardFee")}</span>
-            <span className="text-[16px] font-semibold text-[#222222]">
-              € {priceBreakdown.cardFee.toFixed(2).replace(".", ",")}
-            </span>
-          </div>
-        )}
-
-        {payment.method === "mbway" && (
-          <div className="mb-6">
-            <label className="block text-[14px] font-semibold text-[#222222] mb-2">
-              {t("mbwayPhoneNumber") || "MBWay Phone Number"}
-            </label>
-            <PhoneInput
-              value={payment.mbwayPhone}
-              onChange={(v) => updatePayment({ mbwayPhone: v })}
-              defaultCountry="pt"
-              placeholder={t("mbwayPhonePlaceholder") || "Enter your MBWay phone number"}
-            />
-          </div>
-        )}
-
-        <div className="mb-6 rounded-lg border border-[#e0e0e0] overflow-hidden">
-          <button
-            onClick={() => setExtrasExpanded(!extrasExpanded)}
-            className={`w-full flex items-center justify-between ${isMobile ? "bg-[#e9f9ff] px-4 py-3" : "bg-[#dff7ff] p-4 hover:bg-[#d0f4ff]"} transition-all ${extrasExpanded ? "" : "rounded-lg"}`}
+        <div className="flex flex-col gap-[10px]">
+          <SubLabel>{t("methodInternational")}</SubLabel>
+          <MethodRow
+            selected={payment.method === "pix"}
+            onSelect={() => updatePayment({ method: "pix" })}
+            right={<span className="text-[12px] text-[#999]">BRL</span>}
           >
-            <h3 className={`font-bold text-[#222222] ${isMobile ? "text-[16px]" : "text-[15px]"}`}>{t("extras")}</h3>
-            <ChevronDown
-              className={`w-5 h-5 text-[#27c7ff] transition-transform duration-300 ${extrasExpanded ? "rotate-180" : ""}`}
-            />
-          </button>
-
-          <AnimatedCollapse isOpen={extrasExpanded}>
-            <div className={`bg-white ${isMobile ? "px-4 pb-4 pt-2" : "p-4"}`}>
-              {isMobile ? (
-                <div className="border border-[#f7f7f7] rounded-[8px] p-3">
-                  <div className="flex items-start gap-3">
-                    <div className="w-[54px] h-[54px] rounded-[3px] overflow-hidden flex-shrink-0 -mt-1 -ml-1">
-                      <Image
-                        src="/images/extras.png"
-                        alt={t("comfortConnection")}
-                        width={54}
-                        height={54}
-                        unoptimized
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-[14px] font-bold text-[#222222] leading-tight mb-1">
-                        {t("comfortConnection")} ({t("comfortConnectionPrice")})
-                      </h4>
-                      <ul className="list-disc text-[12px] text-[#222222] space-y-0.5 ml-4">
-                        <li>{t("freshWater")}</li>
-                        <li>{t("unlimitedWifi")}</li>
-                        <li>{t("chargers")}</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-end gap-2 mt-3 flex-wrap">
-                    {isRoundTrip && (
-                      <span className="inline-flex shrink-0">
-                        <Popover open={roundTripPopoverRefund} onOpenChange={setRoundTripPopoverRefund} modal={false}>
-                          <PopoverTrigger asChild>
-                            <button
-                              type="button"
-                              className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-11 h-11 rounded-full bg-[#dff7ff] border border-[#27c7ff]/40 text-[#27c7ff] hover:bg-[#c5eef9] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:ring-offset-1 shrink-0 touch-manipulation"
-                              aria-label={tTransfer("extrasRoundTripTooltip")}
-                            >
-                              <Info className="w-4 h-4" strokeWidth={2.5} />
-                            </button>
-                          </PopoverTrigger>
-                          <PopoverContent side="bottom" sideOffset={6} align="start" className="max-w-[280px] text-left z-[100] !bg-white !text-[#222222] shadow-lg border border-[#e0e0e0] text-sm p-3">
-                            {tTransfer("extrasRoundTripTooltip")}
-                          </PopoverContent>
-                        </Popover>
-                      </span>
-                    )}
-                    <Button 
-                      onClick={() => updatePayment({ comfortConnection: !payment.comfortConnection })}
-                      className={payment.comfortConnection 
-                        ? "bg-[#d60510] hover:bg-[#b0040d] text-white h-9 px-5 text-[14px] font-bold uppercase rounded-[8px]"
-                        : "bg-[#27c7ff] hover:bg-[#23b3e6] text-white h-9 px-5 text-[14px] font-bold uppercase rounded-[8px]"
-                      }
-                    >
-                      {payment.comfortConnection ? tCommon("remove")?.toUpperCase() || "REMOVE" : tCommon("upgrade").toUpperCase()}
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-start gap-3">
-                  <div className="w-[60px] h-[60px] rounded overflow-hidden flex-shrink-0">
-                    <Image
-                      src="/images/extras.png"
-                      alt={t("comfortConnection")}
-                      width={60}
-                      height={60}
-                      unoptimized
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-[15px] font-bold text-[#222222] mb-1">
-                      {t("comfortConnection")} ({t("comfortConnectionPrice")})
-                    </h4>
-                    <ul className="text-[13px] text-[#222222] space-y-0.5">
-                      <li>• {t("freshWater")}</li>
-                      <li>• {t("unlimitedWifi")}</li>
-                      <li>• {t("chargers")}</li>
-                    </ul>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <Button 
-                      onClick={() => updatePayment({ comfortConnection: !payment.comfortConnection })}
-                      className={payment.comfortConnection 
-                        ? "bg-[#d60510] hover:bg-[#b0040d] text-white h-8 px-4 text-[13px] font-bold rounded"
-                        : "bg-[#27c7ff] hover:bg-[#23b3e6] text-white h-8 px-4 text-[13px] font-bold rounded"
-                      }
-                    >
-                      {payment.comfortConnection ? tCommon("remove")?.toUpperCase() || "REMOVE" : tCommon("upgrade").toUpperCase()}
-                    </Button>
-                    <div className="flex items-center justify-end gap-1.5 flex-nowrap">
-                      {isRoundTrip && (
-                        <span className="inline-flex shrink-0">
-                          <span className="md:hidden">
-                            <Popover open={roundTripPopoverComfort} onOpenChange={setRoundTripPopoverComfort} modal={false}>
-                              <PopoverTrigger asChild>
-                                <button
-                                  type="button"
-                                  className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-11 h-11 rounded-full bg-[#dff7ff] border border-[#27c7ff]/40 text-[#27c7ff] hover:bg-[#c5eef9] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:ring-offset-1 shrink-0 touch-manipulation"
-                                  aria-label={tTransfer("extrasRoundTripTooltip")}
-                                >
-                                  <Info className="w-4 h-4" strokeWidth={2.5} />
-                                </button>
-                              </PopoverTrigger>
-                              <PopoverContent side="bottom" sideOffset={6} align="start" className="max-w-[280px] text-left z-[100] !bg-white !text-[#222222] shadow-lg border border-[#e0e0e0] text-sm p-3">
-                                {tTransfer("extrasRoundTripTooltip")}
-                              </PopoverContent>
-                            </Popover>
-                          </span>
-                          <span className="hidden md:inline-flex">
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <button
-                                  type="button"
-                                  className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#dff7ff] border border-[#27c7ff]/40 text-[#27c7ff] hover:bg-[#c5eef9] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:ring-offset-1 shrink-0"
-                                  aria-label={tTransfer("extrasRoundTripTooltip")}
-                                >
-                                  <Info className="w-4 h-4" strokeWidth={2.5} />
-                                </button>
-                              </TooltipTrigger>
-                              <TooltipContent side="bottom" sideOffset={6} className="max-w-[260px] text-left z-[100] !bg-white !text-[#222222] shadow-lg border border-[#e0e0e0] [&>svg]:!fill-white [&>svg]:!stroke-white">
-                                {tTransfer("extrasRoundTripTooltip")}
-                              </TooltipContent>
-                            </Tooltip>
-                          </span>
-                        </span>
-                      )}
-                      <span className="text-[15px] font-bold text-[#222222] whitespace-nowrap">+€ {isRoundTrip ? "14" : "7"}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </AnimatedCollapse>
+            <PixLogo className="w-6 h-6" />
+            <span className="text-[14px] text-white lowercase">pix</span>
+          </MethodRow>
         </div>
 
-        <div className="mb-6 border border-[#e0e0e0] rounded-lg p-5">
-          <h3 className="text-[15px] font-bold text-[#222222] mb-3">{t("discountCoupon")}</h3>
-          <div className="relative">
-            <InputWithIcon
-              icon={<span />}
-              value={payment.coupon}
-              onChange={(v) => updatePayment({ coupon: v })}
-              placeholder={t("couponPlaceholder")}
-              containerClassName="[&>div:first-child]:hidden"
-              inputClassName="pl-4"
-              rightIcon={
-                <button type="button">
-                  <CheckCircle2 className="size-8 text-[#27c7ff]" />
-                </button>
-              }
-            />
-          </div>
+        <div className="flex flex-col gap-[10px]">
+          <SubLabel>{t("methodInPerson")}</SubLabel>
+          <MethodRow
+            selected={payment.method === "cash"}
+            onSelect={() => updatePayment({ method: "cash" })}
+            right={
+              <span className="text-[12px] text-[#999] uppercase tracking-[0.5px]">
+                {t("payAtDriver")}
+              </span>
+            }
+          >
+            <Banknote className="w-6 h-6 text-white" strokeWidth={2} />
+            <span className="text-[14px] text-white">{t("cash")}</span>
+          </MethodRow>
         </div>
+      </div>
 
-        <div className="mb-6">
-          <h3 className="text-[15px] font-bold text-[#222222] mb-3">{t("specialRequest")}</h3>
-          <div className="relative">
-            <MessageSquare className="absolute left-3 top-3.5 w-5 h-5 text-[#bfbfbf]" />
-            <textarea
-              value={payment.specialRequest}
-              onChange={(e) => updatePayment({ specialRequest: e.target.value })}
-              placeholder={t("specialRequestPlaceholder")}
-              className="w-full min-h-[100px] pl-10 pr-10 py-3 border border-[#e0e0e0] rounded-lg text-[15px] text-[#222222] placeholder:text-[#a2a2a2] resize-none focus:outline-none focus:ring-2 focus:ring-[#27c7ff]"
-            />
-            {payment.specialRequest && (
-              <button
-                type="button"
-                onClick={() => updatePayment({ specialRequest: "" })}
-                className="absolute right-3 top-3 w-5 h-5 text-[#bfbfbf] hover:text-[#808080] transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            )}
-          </div>
+      <div className="flex flex-col gap-4 pt-2">
+        <SectionLabel>{t("specialRequestHeading")}</SectionLabel>
+        <textarea
+          value={payment.specialRequest}
+          onChange={(e) => updatePayment({ specialRequest: e.target.value })}
+          placeholder={t("specialRequestPlaceholderNew")}
+          className="w-full min-h-[80px] px-4 py-2 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors resize-none"
+        />
+      </div>
+
+      <div className="flex items-center gap-3 bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] px-4 py-2">
+        <ShieldCheck className="w-6 h-6 text-[#C9A96E] shrink-0" strokeWidth={2} />
+        <p className="text-[12px] text-[#F7F4EF] leading-[18px]">
+          <span className="font-semibold">{t("sslBannerLead")} </span>
+          {t("sslBannerMid")}{" "}
+          <Link href="/terms-and-conditions" target="_blank" className="text-[#C9A96E] underline">
+            {t("termsAndConditions")}
+          </Link>{" "}
+          {t("acceptTermsAnd")}{" "}
+          <Link href="/refund" target="_blank" className="text-[#C9A96E] underline">
+            {t("privacyPolicy")}
+          </Link>
+          .
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={handlePay}
+        disabled={isSubmitting}
+        className="h-12 w-full bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-1 hover:bg-[#b89558] hover:border-[#b89558] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span>{t("payButton")}</span>
+        <span className="font-bold">€{Math.round(totalToPay)}</span>
+      </button>
+
+      {submitError && (
+        <div className="text-[13px] text-[#E32828]" aria-live="polite">
+          {submitError}
         </div>
+      )}
 
-        <div className="border-t border-[#e0e0e0] mb-6" />
-
-        <div className="mb-6">
-          <div className="flex items-start gap-3 bg-[#e9f9ff] p-3 rounded-lg">
-            <Checkbox
-              id="refund"
-              checked={payment.agreeRefund}
-              onCheckedChange={(checked: boolean) => updatePayment({ agreeRefund: checked })}
-              className="mt-0.5"
-            />
-            <label htmlFor="refund" className="text-[14px] text-[#0e4659] leading-relaxed">
-              <span className="font-bold">{t("refundToOriginal")}</span>
-              <br />
-              {t("refundToOriginalDesc")}
-            </label>
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <InsuranceOptionCard
-            id="premium"
-            title={t("premiumInsurance")}
-            price={isRoundTrip ? "€ 18" : "€ 9"}
-            subtitle={t("cancellationProtection")}
-            benefits={premiumBenefits}
-            checked={payment.premiumInsurance}
-            onCheckedChange={(v) => updatePayment({ premiumInsurance: v })}
-            recommendedLabel={tCommon("recommended")}
-          />
-        </div>
-
-        <div className="mb-6">
-          <InsuranceOptionCard
-            id="terms-refund"
-            title={t("refundTerms")}
-            price={isRoundTrip ? "€ 8" : "€ 4"}
-            subtitle={t("refundTermsDesc")}
-            benefits={refundBenefits}
-            checked={payment.refundTerms}
-            onCheckedChange={(v) => updatePayment({ refundTerms: v })}
-            recommendedLabel={tCommon("recommended")}
-          />
-        </div>
-
-        <div
-          className="checkout-security-banner flex items-center gap-4 border rounded-[8px] p-4 mb-6"
-          style={{
-            backgroundColor: "var(--theme-checkout-security-banner-bg, #e9f9ff)",
-            borderColor: "var(--theme-checkout-security-banner-border, #1d95bf)",
-          }}
+      <div className="pt-2">
+        <button
+          type="button"
+          onClick={onBack}
+          className="h-12 px-8 border border-[#999] text-[#999] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[#F7F4EF] hover:text-[#F7F4EF] transition-colors"
         >
-          <div className="shrink-0 w-8 h-8">
-            <ShieldCheck
-              className="checkout-security-banner-icon w-full h-full"
-              style={{ color: "var(--theme-checkout-security-banner-icon, #0e4659)" }}
-            />
-          </div>
-          <p
-            className="checkout-security-banner-title flex-1 text-[16px] font-bold leading-[1.2] tracking-[0.16px]"
-            style={{ color: "var(--theme-checkout-security-banner-title, #0e4659)" }}
-          >
-            {t("sslProtection")}
-          </p>
-          <div className="shrink-0 w-[1.5px] h-[44px] bg-[#9a9a9a]" />
-          <p
-            className="checkout-security-banner-text flex-1 text-[14px] leading-[1.2] tracking-[0.12px]"
-            style={{ color: "var(--theme-checkout-security-banner-text, #177799)" }}
-          >
-            {t("termsAcceptance")}
-          </p>
-        </div>
-
-        <div className="flex items-start gap-3 mb-6">
-          <Checkbox
-            id="accept-terms"
-            checked={payment.acceptTerms}
-            onCheckedChange={(checked: boolean) => updatePayment({ acceptTerms: checked })}
-            className="mt-0.5"
-          />
-          <label htmlFor="accept-terms" className="text-[14px] text-[#222222] leading-relaxed">
-            {t("acceptTermsLabel")}{" "}
-            <Link href="/terms-and-conditions" target="_blank" className="text-[#27c7ff] underline">
-              {t("termsAndConditions")}
-            </Link>{" "}
-            {t("acceptTermsAnd")}{" "}
-            <Link href="/refund" target="_blank" className="text-[#27c7ff] underline">
-              {t("refundPolicy")}
-            </Link>
-          </label>
-        </div>
-
-        <Button
-          onClick={handlePay}
-          disabled={isSubmitting || !payment.acceptTerms}
-          className="w-full bg-[#27c7ff] hover:bg-[#23b3e6] text-white h-14 text-[16px] font-bold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Lock className="w-5 h-5 mr-2" />
-          {t("payButton")}
-        </Button>
-
-        {submitError && (
-          <div className="mt-3 text-[13px] text-[#d60510]" aria-live="polite">
-            {submitError}
-          </div>
-        )}
-
-        {!submitError && statusMessage && (
-          <div className="mt-3 text-[13px] text-[#404040]" aria-live="polite">
-            {statusMessage}
-          </div>
-        )}
+          <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
+          <span className="px-2">{tCommon("back")}</span>
+        </button>
       </div>
     </div>
   )

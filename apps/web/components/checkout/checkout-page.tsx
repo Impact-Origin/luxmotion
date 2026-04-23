@@ -1,12 +1,11 @@
 "use client"
 
 import { CheckoutHeader } from "@/components/checkout/checkout-header"
-import { TrustBanner } from "@/components/checkout/trust-banner"
 import { VehicleCard } from "@/components/checkout/vehicle-card"
 import { TransferInfoStep } from "@/components/checkout/transfer-info-step"
 import { OrderSummarySidebar } from "@/components/checkout/order-summary-sidebar"
 import { OrderSummaryMobile } from "@/components/checkout/order-summary-mobile"
-import { Footer } from "@/components/common/footer"
+import { Footer } from "@/components/new-landing-page/footer"
 import { PassengerInfoForm } from "@/components/checkout/passenger-info-form"
 import { PaymentStep } from "@/components/checkout/payment-step"
 import { ConfirmationModal } from "@/components/checkout/confirmation-modal"
@@ -17,6 +16,7 @@ import { useVehicles } from "@/hooks/use-vehicles"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
 import { useEffect, useMemo } from "react"
+import { ArrowRight } from "lucide-react"
 import { initOrder, toBackendLocation, formatLocalDateTime } from "@/lib/orders"
 import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
@@ -173,8 +173,12 @@ function CheckoutPageContent() {
 
   const handleVehicleSelect = (vehicle: Vehicle) => {
     setSelectedVehicle(vehicle)
-    setShowTransferForm(true)
     setUpgradeMode(false)
+  }
+
+  const handleContinueFromVehicle = () => {
+    if (!selectedVehicle) return
+    setShowTransferForm(true)
   }
 
   const handleContinue = () => {
@@ -200,7 +204,7 @@ function CheckoutPageContent() {
         hasNearbyTours={hasNearbyTours}
       />
 
-      <main className="flex-1 bg-[#F5F5F5] overflow-hidden pb-16">
+      <main className="flex-1 bg-[#0D0D0D] text-white overflow-hidden pb-16">
         <div key={currentStep} className={getAnimationClass()} style={getAnimationStyle()}>
           {currentStep === 1 && (
             <VehicleSelectionStep
@@ -209,6 +213,7 @@ function CheckoutPageContent() {
               selectedVehicle={selectedVehicle}
               showTransferForm={showTransferForm}
               onVehicleSelect={handleVehicleSelect}
+              onContinueFromVehicle={handleContinueFromVehicle}
               onContinue={handleContinue}
               routeError={routeError}
               isRoundTrip={isRoundTrip}
@@ -216,18 +221,28 @@ function CheckoutPageContent() {
           )}
 
           {currentStep === experiencesStep && hasNearbyTours && (
-            <ExperiencesStep onContinue={handleContinue} nearbyTours={nearbyTours} />
+            <ExperiencesStep
+              onContinue={handleContinue}
+              onBack={() => setStep(currentStep - 1)}
+              nearbyTours={nearbyTours}
+            />
           )}
 
           {currentStep === passengerStep && (
             <CheckoutStepLayout>
-              <PassengerInfoForm onContinue={handleContinue} />
+              <PassengerInfoForm
+                onContinue={handleContinue}
+                onBack={() => setStep(currentStep - 1)}
+              />
             </CheckoutStepLayout>
           )}
 
           {currentStep === paymentStep && (
             <CheckoutStepLayout>
-              <PaymentStep onContinue={handleContinue} />
+              <PaymentStep
+                onContinue={handleContinue}
+                onBack={() => setStep(currentStep - 1)}
+              />
             </CheckoutStepLayout>
           )}
 
@@ -237,7 +252,7 @@ function CheckoutPageContent() {
         </div>
       </main>
 
-      <Footer variant="checkout" />
+      <Footer />
     </div>
   )
 }
@@ -248,6 +263,7 @@ interface VehicleSelectionStepProps {
   selectedVehicle: Vehicle | null
   showTransferForm: boolean
   onVehicleSelect: (vehicle: Vehicle) => void
+  onContinueFromVehicle: () => void
   onContinue: () => void
   routeError?: "no_route" | "api_error" | null
   isRoundTrip: boolean
@@ -259,56 +275,90 @@ function VehicleSelectionStep({
   selectedVehicle,
   showTransferForm,
   onVehicleSelect,
+  onContinueFromVehicle,
   onContinue,
   routeError,
   isRoundTrip,
 }: VehicleSelectionStepProps) {
   const t = useTranslations("checkout")
-  return (
-    <>
-      <div className={`mx-auto pt-8 transition-all duration-300 ${showTransferForm && selectedVehicle ? "max-w-[1200px] px-6" : "max-w-[1400px] px-4"}`}>
-        <TrustBanner />
-      </div>
+  const tCommon = useTranslations("common")
 
-      {showTransferForm && selectedVehicle ? (
-        <div className="max-w-[1200px] mx-auto px-6 py-6 pt-8">
-          <OrderSummaryMobile />
-          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 mt-6 lg:mt-0">
+  if (showTransferForm && selectedVehicle) {
+    return (
+      <div className="max-w-[1200px] mx-auto px-6 pb-6">
+        <OrderSummaryMobile />
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0 mt-6 lg:mt-0 items-start">
+          <div className="pt-8 lg:pr-6">
             <TransferInfoStep onContinue={onContinue} />
-            <div className="hidden lg:block">
-              <OrderSummarySidebar />
-            </div>
+          </div>
+          <div className="hidden lg:block">
+            <OrderSummarySidebar />
           </div>
         </div>
-      ) : (
-        <div className="max-w-[1400px] mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-6 pb-6">
+      <div className="lg:hidden mb-6">
+        <OrderSummaryMobile />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0 items-start">
+        <div className="flex flex-col pt-8 lg:pr-6">
+          <h2 className="text-[22px] lg:text-[24px] font-normal text-[#F7F4EF] mb-5">
+            {t("chooseYourVehicle")}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {isLoading ? (
               [1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-[285px] bg-white rounded-2xl animate-pulse" />
+                <div
+                  key={i}
+                  className="h-[285px] bg-[#1A1A1A] border border-[rgba(201,169,110,0.08)] animate-pulse"
+                />
               ))
             ) : routeError === "no_route" ? (
-              <div className="col-span-full py-20 text-center bg-white rounded-2xl border border-dashed border-[#DEDEDE]">
-                <p className="text-[#0E4659] font-medium mb-2">No driving route found between these locations.</p>
-                <p className="text-[#808080] text-sm">Please check if both locations are accessible by car.</p>
+              <div className="col-span-full py-20 text-center bg-[#141414] border border-dashed border-[rgba(201,169,110,0.22)]">
+                <p className="text-[#F5F5F5] font-medium mb-2">No driving route found between these locations.</p>
+                <p className="text-[rgba(255,255,255,0.55)] text-sm">Please check if both locations are accessible by car.</p>
               </div>
             ) : routeError === "api_error" ? (
-              <div className="col-span-full py-20 text-center bg-white rounded-2xl border border-dashed border-[#DEDEDE]">
-                <p className="text-[#0E4659] font-medium mb-2">Unable to calculate route.</p>
-                <p className="text-[#808080] text-sm">Please try again or contact support.</p>
+              <div className="col-span-full py-20 text-center bg-[#141414] border border-dashed border-[rgba(201,169,110,0.22)]">
+                <p className="text-[#F5F5F5] font-medium mb-2">Unable to calculate route.</p>
+                <p className="text-[rgba(255,255,255,0.55)] text-sm">Please try again or contact support.</p>
               </div>
             ) : vehicles.length === 0 ? (
-              <div className="col-span-full py-20 text-center bg-white rounded-2xl border border-dashed border-[#DEDEDE]">
-                <p className="text-[#0E4659] font-medium">{t("noVehicles")}</p>
+              <div className="col-span-full py-20 text-center bg-[#141414] border border-dashed border-[rgba(201,169,110,0.22)]">
+                <p className="text-[#C9A96E] font-medium">{t("noVehicles")}</p>
               </div>
             ) : (
               vehicles.map((vehicle) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} isRoundTrip={isRoundTrip} onSelect={onVehicleSelect} />
+                <VehicleCard
+                  key={vehicle.id}
+                  vehicle={vehicle}
+                  isRoundTrip={isRoundTrip}
+                  onSelect={onVehicleSelect}
+                  selected={selectedVehicle?.id === vehicle.id}
+                />
               ))
             )}
           </div>
+          <div className="flex justify-end mt-8">
+            <button
+              type="button"
+              onClick={onContinueFromVehicle}
+              disabled={!selectedVehicle}
+              className="inline-flex items-center gap-2 bg-[#C9A96E] hover:bg-[#b89558] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-8 py-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {tCommon("continue")}
+              <ArrowRight className="size-4" strokeWidth={2} />
+            </button>
+          </div>
         </div>
-      )}
-    </>
+        <div className="hidden lg:block">
+          <OrderSummarySidebar />
+        </div>
+      </div>
+    </div>
   )
 }

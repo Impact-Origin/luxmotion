@@ -2,6 +2,7 @@
   "common": {
     "continue": "Continue",
     "select": "Select",
+    "selected": "Selected",
     "edit": "Edit",
     "upgrade": "Upgrade",
     "pay": "Pay",
@@ -453,11 +454,22 @@
       "bestDrivers": "Best drivers in Lisbon",
       "bestDriversDesc": "We handpick the friendliest, professional, English-speaking drivers",
       "alwaysOnTime": "Always on time",
-      "alwaysOnTimeDesc": "Our drivers monitor the flights in case of delays"
+      "alwaysOnTimeDesc": "Our drivers monitor the flights in case of delays",
+      "shortRating": "4.98/5 — 3000+ reviews",
+      "shortDrivers": "Best drivers",
+      "shortFlight": "Flight monitoring"
     },
     "verifiedReviews": "verified 5-star reviews on Trustpilot",
     "initError": "Failed to initialize order. Please try again.",
-    "noVehicles": "No suitable vehicles found for your requirements."
+    "noVehicles": "No suitable vehicles found for your requirements.",
+    "chooseYourVehicle": "Choose your vehicle",
+    "continue": "CONTINUE",
+    "nav": {
+      "reservationsToday": "{count} reservations today",
+      "themeToggle": "Toggle theme",
+      "menu": "Menu",
+      "close": "Close"
+    }
   },
   "vehicle": {
     "electric": "Electric",
@@ -545,7 +557,11 @@
     "enterFlightNumber": "Please enter a flight number",
     "selectDateFirst": "Please select a date first",
     "fillLocations": "Please fill in origin and destination.",
-    "extrasRoundTripTooltip": "On round trips, extras are charged per leg. The amount shown is the total (outbound + return)."
+    "extrasRoundTripTooltip": "On round trips, extras are charged per leg. The amount shown is the total (outbound + return).",
+    "landing": "Landing",
+    "wait": "Wait",
+    "tripDetails": "Trip details",
+    "bags": "Luggage"
   },
   "experiences": {
     "extraStop": "Extra stop",
@@ -553,14 +569,15 @@
     "experiences": "Experiences",
     "privateTours": "Private Tours",
     "events": "Events",
-    "title": "Tours Near Your Destination",
+    "title": "Experiences at destination",
     "subtitle": "Enhance your trip with these experiences nearby",
     "distanceAway": "{distance} km away",
     "skipStep": "Continue without tours",
-    "viewDetails": "View details"
+    "viewDetails": "View details",
+    "extraStops": "Extra stops"
   },
   "passengerForm": {
-    "title": "Passenger Information",
+    "title": "Passenger information",
     "iAmMainPassenger": "I am the main passenger",
     "bookingForOther": "This booking is for someone else",
     "name": "Name",
@@ -586,7 +603,8 @@
     "fillRequired": "Please fill in name, email and phone.",
     "fillTravelerRequired": "Please fill in the traveler's name, email and phone.",
     "orderNotInitialized": "Order is not initialized yet.",
-    "saveError": "Failed to save passenger information."
+    "saveError": "Failed to save passenger information.",
+    "mainPassengerData": "Main passenger details"
   },
   "payment": {
     "title": "Payment",
@@ -631,7 +649,7 @@
     "familyDeathDesc": "Immediate",
     "sslProtection": "Your payment is protected by SSL/TLS.",
     "termsAcceptance": "By proceeding, you accept our Terms and Privacy Policy.",
-    "payButton": "PAY",
+    "payButton": "Pay",
     "acceptTermsLabel": "I agree to the",
     "termsAndConditions": "Terms and Conditions",
     "acceptTermsAnd": "and",
@@ -657,7 +675,56 @@
     "amount": "Amount",
     "awaitingConfirmation": "Awaiting payment confirmation from the bank...",
     "orderNotInitialized": "Order is not initialized yet.",
-    "vehicleMissing": "Vehicle is missing."
+    "vehicleMissing": "Vehicle is missing.",
+    "addonsHeading": "Main passenger data",
+    "tipHeading": "Driver tip (optional)",
+    "methodHeading": "Payment method",
+    "methodFast": "Fast payment",
+    "methodCard": "Card",
+    "methodPortuguese": "Portuguese methods",
+    "methodInternational": "International",
+    "methodInPerson": "Pay in person",
+    "cardTitle": "Credit / debit card",
+    "payAtDriver": "Pay at driver",
+    "or": "or",
+    "specialRequestHeading": "Special request",
+    "specialRequestPlaceholderNew": "Write here what you need in detail...",
+    "sslBannerLead": "Payment secured by SSL/TLS.",
+    "sslBannerMid": "By paying, you accept our",
+    "privacyPolicy": "Privacy Policy",
+    "addAddon": "Add",
+    "addons": {
+      "airportGuarantee": {
+        "title": "Airport Arrival Guarantee",
+        "subtitle": "Never miss your flight due to an unexpected event",
+        "b1": "Free rescheduling",
+        "b2": "Guaranteed replacement driver",
+        "b3": "24/7 priority support",
+        "badge": "Stress-Free Travel"
+      },
+      "meetGreet": {
+        "title": "Personal Meet & Greet",
+        "subtitle": "Your driver meets you on arrival with a name sign",
+        "b1": "Driver waiting in the arrivals area",
+        "b2": "Sign with your name for easy identification",
+        "b3": "Luggage assistance to the vehicle",
+        "tagline": "Most requested service on international arrivals"
+      },
+      "priorityPickup": {
+        "title": "Priority Pick-up",
+        "subtitle": "Driver 10 min early, extended wait",
+        "b1": "Driver on site 15 min before",
+        "b2": "60 min airport wait",
+        "b3": "Direct line to operations"
+      },
+      "comfortPack": {
+        "title": "Comfort Travel Pack",
+        "subtitle": "Water, Wi-Fi, chargers, assistance",
+        "b1": "Fresh water per passenger + hand wipes + a snack",
+        "b2": "Wi-Fi during the trip",
+        "b3": "iPhone and USB-C chargers"
+      }
+    }
   },
   "tourCheckout": {
     "title": "Book Tour",
@@ -744,7 +811,8 @@
     "notSelected": "Not selected",
     "selectDate": "Select date",
     "selectOrigin": "Select origin",
-    "selectDestination": "Select destination"
+    "selectDestination": "Select destination",
+    "stopsLabel": "Stop(s)"
   },
   "confirmation": {
     "title": "Booking Confirmation",
@@ -760,7 +828,24 @@
     "backToHome": "BACK TO HOME PAGE",
     "waitingPayment": "Waiting for MB Way payment confirmation...",
     "paymentRejected": "Payment rejected",
-    "paymentRejectedSubtext": "The booking was not confirmed. You can try again or choose another method."
+    "paymentRejectedSubtext": "The booking was not confirmed. You can try again or choose another method.",
+    "eyebrow": "Booking made",
+    "headingLine1": "Your journey",
+    "headingLine2": "awaits",
+    "cardTitle": "Booking Confirmation",
+    "backToStart": "Back to start",
+    "flightMonitored": {
+      "title": "Flight Monitored",
+      "desc": "We're tracking your flight in real time. Your driver adjusts automatically — zero delay charges."
+    },
+    "driverConfirmed": {
+      "title": "Driver Confirmed",
+      "desc": "Your chauffeur will be assigned within 2 hours and you'll receive their details by SMS."
+    },
+    "support247": {
+      "title": "24/7 Support",
+      "desc": "Need anything? Our team is available around the clock via call, WhatsApp, or email."
+    }
   },
   "exclusive": "Exclusive",
   "tours": {
@@ -1034,13 +1119,32 @@
   },
   "blogsHero": {
     "title": "Discover the Wonders of Portugal",
-    "searchPlaceholder": "Search everything",
-    "searchButton": "Search"
+    "searchPlaceholder": "Search for tours, destination, experience...",
+    "searchButton": "Search",
+    "eyebrow": "The LuxMotion Journal",
+    "headingMain": "Discover the\nwonders of",
+    "headingAccent": "Portugal"
   },
   "featuredBlogs": {
     "readMore": "Read more",
     "share": "Share",
-    "goToSlide": "Go to slide {number}"
+    "goToSlide": "Go to slide {number}",
+    "eyebrow": "Editor's Pick",
+    "heading": "Featured",
+    "headingAccent": "articles",
+    "readArticle": "Read article",
+    "seeMore": "See more articles",
+    "sortByLabel": "Sort by",
+    "sortLatest": "Latest",
+    "sortOldest": "Oldest",
+    "noArticles": "No articles found.",
+    "catAll": "All",
+    "catTransfers": "Transfers",
+    "catTours": "Tours",
+    "catLisbon": "Lisbon",
+    "catPorto": "Porto",
+    "catAlgarve": "Algarve",
+    "catTraveltips": "Travel Tips"
   },
   "latestGuides": {
     "title": "Latest guides",
@@ -2155,7 +2259,28 @@
     "priceHigh": "Price (High to Low)",
     "noEventsFound": "No events found",
     "tryFilters": "Try adjusting your filters.",
-    "checkBackSoon": "Check back soon for upcoming events."
+    "checkBackSoon": "Check back soon for upcoming events.",
+    "hero": {
+      "eyebrow": "Private Transport · Portugal Events",
+      "headingLine1": "Arrive like",
+      "headingLine2": "it matters.",
+      "subtitle": "Private chauffeur transport to Portugal’s finest festivals, concerts, sporting events and cultural occasions — door to door, in the vehicle you deserve.",
+      "upcomingEvents": "Upcoming events",
+      "citiesCovered": "Cities covered",
+      "bookingAvailable": "Booking available"
+    },
+    "featuredHeading": "Don't miss these",
+    "featuredHeadingAccent": "events",
+    "allEventsLabel": "All Events",
+    "allEventsHeading": "All the upcoming",
+    "allEventsHeadingAccent": "Events",
+    "searchButton": "Search",
+    "eventCountSuffix": "events",
+    "categoryAll": "All",
+    "categoryMusic": "Music",
+    "categorySports": "Sports",
+    "categoryCulture": "Culture",
+    "categoryCorporate": "Corporate"
   },
   "eventDetails": {
     "date": "Date",

@@ -15,7 +15,7 @@ function SocialProofBar() {
   ))
 
   return (
-    <div className="bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.12)] flex flex-col lg:flex-row lg:h-[70px] gap-4 lg:gap-3 items-start lg:items-center px-4 py-3">
+    <div className="self-start w-full lg:w-fit bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.12)] flex flex-col lg:flex-row lg:h-[70px] gap-4 lg:gap-3 items-start lg:items-center px-4 py-3">
       <div className="flex items-start gap-6 w-full lg:w-auto">
         <div className="flex flex-col gap-2 shrink-0">
           <span className="text-[14px] font-bold text-white leading-normal">

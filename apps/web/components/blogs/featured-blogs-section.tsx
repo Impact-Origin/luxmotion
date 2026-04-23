@@ -1,362 +1,333 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useMemo } from "react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { ArrowRight, Share2, ChevronLeft, ChevronRight } from "lucide-react"
+import Link from "next/link"
 import { useTranslations } from "next-intl"
-import { cn } from "@workspace/ui/lib/utils"
-import { LanguageBadge } from "./language-badge"
-import { FeaturedBlogsSkeleton } from "./blog-skeletons"
+import { Calendar, Clock, User, ArrowRight, ChevronDown, Loader2 } from "lucide-react"
+import { useFeaturedBlogs, useFilteredBlogs, type BlogData } from "@/hooks/use-blog-data"
 
-interface BlogPost {
-  _id?: string
-  id?: string
-  slug: string
-  heroImageUrl?: string | null
-  image?: string
-  category?: string
-  location?: string
-  title: string
-  publishedAt?: number
-  date?: string
-  excerpt?: string
-  description?: string
-  originalLanguage?: string
-  availableLanguages?: string[]
-}
+const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
+const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
-const defaultFeaturedBlogs: BlogPost[] = [
+const CATEGORIES = ["all", "transfers", "tours", "lisbon", "porto", "algarve", "travel tips"] as const
+
+const FALLBACK_BLOGS: BlogData[] = [
   {
-    id: "lisbon-airport-transfer",
+    _id: "fb-1",
     slug: "lisbon-airport-transfer-guide",
-    image: "/mockup-blogs/lisbon-city-center.jpg",
-    location: "Lisbon",
-    title: "Airport to Lisbon City Center: Complete Transfer Guide 2024",
-    date: "11 dezembro, 2025",
-    description: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget.",
+    title: "Airport to Lisbon City Centre: The Complete Transfer Guide 2026",
+    excerpt: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget — and why private transfer wins every time.",
+    content: null,
+    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    category: "transfer guide",
+    author: "Carolina Pinheiro",
+    originalLanguage: "en",
+    status: "published",
+    isFeatured: true,
+    readTimeMinutes: 8,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    availableLanguages: ["en", "pt"],
   },
   {
-    id: "porto-wine-tour",
+    _id: "fb-2",
     slug: "porto-wine-tour-guide",
-    image: "/mockup-blogs/lisbon-city-center.jpg",
-    location: "Porto",
-    title: "Porto Wine Tour: The Ultimate Guide to Douro Valley",
-    date: "8 dezembro, 2025",
-    description: "Discover the best wineries and tasting experiences in the stunning Douro Valley region.",
+    title: "Airport to Lisbon City Centre: The Complete Transfer Guide 2026",
+    excerpt: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget.",
+    content: null,
+    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    category: "day tours",
+    author: "Carolina Pinheiro",
+    originalLanguage: "en",
+    status: "published",
+    isFeatured: true,
+    readTimeMinutes: 8,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    availableLanguages: ["en", "pt"],
   },
   {
-    id: "sintra-day-trip",
+    _id: "fb-3",
     slug: "sintra-day-trip-guide",
-    image: "/mockup-blogs/lisbon-city-center.jpg",
-    location: "Sintra",
-    title: "Sintra Day Trip: Palaces, Gardens & Hidden Gems",
-    date: "5 dezembro, 2025",
-    description: "Plan the perfect day trip to Sintra with our comprehensive guide to this magical UNESCO town.",
+    title: "Airport to Lisbon City Centre: The Complete Transfer Guide 2026",
+    excerpt: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget.",
+    content: null,
+    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    category: "wine & food",
+    author: "Carolina Pinheiro",
+    originalLanguage: "en",
+    status: "published",
+    isFeatured: true,
+    readTimeMinutes: 8,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    availableLanguages: ["en", "pt"],
   },
 ]
 
-function formatDate(timestamp?: number): string {
+function formatMonth(timestamp?: number): string {
   if (!timestamp) return ""
-  return new Date(timestamp).toLocaleDateString("pt-PT", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  })
+  const d = new Date(timestamp)
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  return `${months[d.getMonth()]} ${d.getFullYear()}`
 }
 
-interface LocationBadgeProps {
-  location: string
-}
-
-function LocationBadge({ location }: LocationBadgeProps) {
+function MetaRow({ date, readTime, author }: { date?: number; readTime: number; author: string }) {
   return (
-    <div className="bg-white rounded-full px-[10px] py-[4px]">
-      <span className="text-[14px] font-medium text-[#0e4659]">{location}</span>
+    <div className="flex items-center gap-2 flex-wrap">
+      <Calendar className="size-4 text-[#999] shrink-0" strokeWidth={1.5} />
+      <span className="text-[12px] text-[#999]" style={sans}>{formatMonth(date)}</span>
+      <span className="text-[8px] text-[rgba(255,255,255,0.18)]">·</span>
+      <Clock className="size-4 text-[#999] shrink-0" strokeWidth={1.5} />
+      <span className="text-[12px] text-[#999]" style={sans}>{readTime} min read</span>
+      <span className="text-[8px] text-[rgba(255,255,255,0.18)]">·</span>
+      <User className="size-4 text-[#999] shrink-0" strokeWidth={1.5} />
+      <span className="text-[12px] text-[#999]" style={sans}>{author}</span>
     </div>
   )
 }
 
-interface BlogCardProps {
-  blog: BlogPost
-  isActive: boolean
-}
-
-function BlogCard({ blog, isActive }: BlogCardProps) {
-  const t = useTranslations("featuredBlogs")
-  const router = useRouter()
-
-  const imageUrl = blog.heroImageUrl || blog.image || "/mockup-blogs/lisbon-city-center.jpg"
-  const location = blog.category || blog.location || "Portugal"
-  const date = blog.publishedAt ? formatDate(blog.publishedAt) : blog.date || ""
-  const description = blog.excerpt || blog.description || ""
-  const blogUrl = `/blogs/${blog.slug}`
-
-  const handleCardClick = () => {
-    router.push(blogUrl)
-  }
-
-  const handleShare = async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: blog.title,
-          text: description,
-          url: blogUrl,
-        })
-      } catch {
-      }
-    } else {
-      navigator.clipboard.writeText(`${window.location.origin}${blogUrl}`)
-    }
-  }
-
+function AuthorBadge({ author }: { author: string }) {
+  const initial = author.charAt(0).toUpperCase()
   return (
-    <div
-      className={cn(
-        "w-full transition-opacity duration-300",
-        isActive ? "opacity-100" : "opacity-0 absolute pointer-events-none"
-      )}
-    >
-      <div
-        onClick={handleCardClick}
-        className="hidden md:flex h-[562px] rounded-[16px] border border-[#e8e8e8] overflow-hidden cursor-pointer"
-      >
-        <div className="relative w-[70%] h-full">
-          <Image
-            src={imageUrl}
-            alt={blog.title}
-            fill
-            className="object-cover"
-            sizes="60vw"
-          />
-          <div className="absolute top-[16px] left-[16px] flex gap-2">
-            <LocationBadge location={location} />
-            {blog.originalLanguage && (
-              <div className="bg-white/90 rounded-full px-[10px] py-[4px] flex items-center justify-center h-[32px]">
-                <LanguageBadge
-                  originalLanguage={blog.originalLanguage}
-                  availableLanguages={blog.availableLanguages}
-                  size="sm"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="w-[30%] bg-[#27c7ff] p-[24px] flex flex-col h-full">
-          <div className="flex flex-col gap-[6px] flex-1">
-            <div className="flex items-start justify-between">
-              <h3 className="text-[32px] font-bold text-[#222] leading-[1.2] flex-1">
-                {blog.title}
-              </h3>
-              <button
-                onClick={handleShare}
-                className="shrink-0 hover:opacity-70 transition-opacity ml-[8px]"
-                aria-label={t("share")}
-              >
-                <Share2 className="size-[20px] text-[#0e4659]" />
-              </button>
-            </div>
-
-            <p className="text-[12px] font-medium text-[#0e4659]">
-              {date}
-            </p>
-
-            <p className="text-[16px] text-[#0e4659] leading-[1.3]">
-              {description}
-            </p>
-
-            <div className="flex items-end justify-between flex-1 mt-auto">
-              <span className="text-[16px] font-bold text-[#0e4659] tracking-[-0.2px] hover:underline">
-                {t("readMore")}
-              </span>
-              <span className="size-[28px] bg-white rounded-full flex items-center justify-center">
-                <ArrowRight className="size-[18px] text-[#222]" />
-              </span>
-            </div>
-          </div>
-        </div>
+    <div className="flex items-center gap-2">
+      <div className="size-6 rounded-full bg-[rgba(201,169,110,0.08)] border-[0.92px] border-[rgba(201,169,110,0.2)] flex items-center justify-center">
+        <span className="text-[9px] font-semibold text-[#C9A96E]" style={sans}>{initial}</span>
       </div>
-
-      <div
-        onClick={handleCardClick}
-        className="md:hidden flex flex-col rounded-[16px] overflow-hidden cursor-pointer"
-      >
-        <div className="relative w-full h-[340px]">
-          <Image
-            src={imageUrl}
-            alt={blog.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute top-[16px] left-[16px] flex gap-2">
-            <LocationBadge location={location} />
-            {blog.originalLanguage && (
-              <div className="bg-white/90 rounded-full px-[10px] py-[4px] flex items-center justify-center h-[32px]">
-                <LanguageBadge
-                  originalLanguage={blog.originalLanguage}
-                  availableLanguages={blog.availableLanguages}
-                  size="sm"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-[#27c7ff] pt-[24px] px-[24px] pb-[16px] flex flex-col gap-[16px]">
-          <div className="flex items-start justify-between">
-            <h3 className="text-[24px] font-bold text-[#222] leading-[1.2] pr-[16px]">
-              {blog.title}
-            </h3>
-            <button
-              onClick={handleShare}
-              className="shrink-0 hover:opacity-70 transition-opacity"
-              aria-label={t("share")}
-            >
-              <Share2 className="size-[28px] text-[#808080]" />
-            </button>
-          </div>
-
-          <p className="text-[14px] font-medium text-[#27c7ff] brightness-75">
-            {date}
-          </p>
-
-          <p className="text-[15px] text-[#222]/80 leading-[1.5]">
-            {description}
-          </p>
-
-          <div className="flex items-center justify-between mt-[24px]">
-            <span className="text-[20px] font-semibold text-[#222] hover:underline">
-              {t("readMore")}
-            </span>
-            <span className="size-[40px] bg-white rounded-full flex items-center justify-center">
-              <ArrowRight className="size-[20px] text-[#222]" />
-            </span>
-          </div>
-        </div>
-      </div>
+      <span className="text-[12px] text-[#999]" style={sans}>
+        {author.split(" ")[0]} {author.split(" ")[1]?.[0]}.
+      </span>
     </div>
   )
 }
 
-interface ArrowButtonProps {
-  direction: "left" | "right"
-  onClick: () => void
-  disabled?: boolean
-}
-
-function ArrowButton({ direction, onClick, disabled }: ArrowButtonProps) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "size-[32px] rounded-full flex items-center justify-center transition-colors",
-        disabled
-          ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-          : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-      )}
-      aria-label={direction === "left" ? "Previous" : "Next"}
-    >
-      {direction === "left" ? (
-        <ChevronLeft className="size-[15px] text-[#222222]" />
-      ) : (
-        <ChevronRight className="size-[15px] text-[#222222]" />
-      )}
-    </button>
-  )
-}
-
-interface NavigationProps {
-  total: number
-  current: number
-  onSelect: (index: number) => void
-  onPrev: () => void
-  onNext: () => void
-}
-
-function Navigation({ total, current, onSelect, onPrev, onNext }: NavigationProps) {
-  const t = useTranslations("featuredBlogs")
+function HeroBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleLabel: string }) {
+  const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
 
   return (
-    <div className="flex gap-[16px] items-center justify-center">
-      <ArrowButton
-        direction="left"
-        onClick={onPrev}
-        disabled={current === 0}
+    <Link href={`/blogs/${blog.slug}`} className="flex-1 relative flex flex-col justify-end overflow-clip group min-h-[300px] md:min-h-0">
+      <Image
+        src={imageUrl}
+        alt={blog.title}
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        sizes="(max-width: 768px) 100vw, 60vw"
       />
-
-      <div className="flex gap-[6.183px] items-center">
-        {Array.from({ length: total }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => onSelect(index)}
-            className={cn(
-              "rounded-full transition-all",
-              index === current
-                ? "size-[13.85px] border-[1.237px] border-[#27c7ff] bg-transparent"
-                : "size-[9.893px] bg-[#27c7ff]"
-            )}
-            aria-label={t("goToSlide", { number: index + 1 })}
-          />
-        ))}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[63%] to-[rgba(0,0,0,0.8)] to-[76%]" />
+      <div className="relative flex flex-col gap-2 px-5 md:px-6 py-4 md:py-[18px]">
+        <div className="bg-[#C9A96E] self-start px-[8.8px] py-[2.8px]">
+          <span className="text-[12px] font-semibold text-[#0D0D0D] uppercase tracking-[1px]" style={sans}>
+            {blog.category}
+          </span>
+        </div>
+        <h3 className="text-[24px] md:text-[32px] font-bold text-white leading-[1.2] pb-[6px]" style={serif}>
+          {blog.title}
+        </h3>
+        <MetaRow date={blog.publishedAt || blog.createdAt} readTime={blog.readTimeMinutes} author={blog.author} />
+        <p className="text-[14px] text-[#999] leading-[17.6px] py-2 hidden md:block" style={sans}>
+          {blog.excerpt}
+        </p>
+        <div className="border-t-[0.8px] border-[rgba(255,255,255,0.12)] flex items-center justify-between pt-3">
+          <span className="text-[12px] font-medium text-[#C9A96E] uppercase tracking-[1px]" style={sans}>
+            {readArticleLabel}
+          </span>
+          <div className="size-8 border-[1.143px] border-[rgba(154,117,53,0.22)] flex items-center justify-center">
+            <ArrowRight className="size-[18px] text-[#C9A96E]" strokeWidth={1.5} />
+          </div>
+        </div>
       </div>
-
-      <ArrowButton
-        direction="right"
-        onClick={onNext}
-        disabled={current === total - 1}
-      />
-    </div>
+    </Link>
   )
 }
 
-interface FeaturedBlogsSectionProps {
-  blogs?: BlogPost[]
-  isLoading?: boolean
-}
-
-export function FeaturedBlogsSection({ blogs, isLoading }: FeaturedBlogsSectionProps) {
-  const [currentSlide, setCurrentSlide] = useState(0)
-
-  const displayBlogs = blogs && blogs.length > 0 ? blogs : defaultFeaturedBlogs
-  const totalSlides = displayBlogs.length
-
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index)
-  }, [])
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => Math.min(prev + 1, totalSlides - 1))
-  }, [totalSlides])
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => Math.max(prev - 1, 0))
-  }, [])
-
-  if (isLoading) {
-    return <FeaturedBlogsSkeleton />
-  }
+function SideBlogCard({ blog }: { blog: BlogData }) {
+  const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
 
   return (
-    <section className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 py-[40px] md:py-[60px]">
-      <div className="max-w-7xl mx-auto flex flex-col gap-[8px]">
-        <div className="relative min-h-[620px] md:min-h-[562px]">
-          {displayBlogs.map((blog, index) => (
-            <BlogCard key={blog._id || blog.id} blog={blog} isActive={index === currentSlide} />
-          ))}
-        </div>
-
-        <Navigation
-          total={totalSlides}
-          current={currentSlide}
-          onSelect={goToSlide}
-          onPrev={prevSlide}
-          onNext={nextSlide}
+    <Link href={`/blogs/${blog.slug}`} className="bg-[#1e1e1e] flex-1 flex flex-col overflow-clip group">
+      <div className="relative flex-1 min-h-[120px] overflow-clip">
+        <Image
+          src={imageUrl}
+          alt={blog.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, 35vw"
         />
+      </div>
+      <div className="flex flex-col gap-2 px-5 md:px-6 py-3 md:py-4">
+        <div className="backdrop-blur-[3px] bg-[rgba(154,117,53,0.22)] border border-[rgba(154,117,53,0.22)] self-start px-[9.8px] py-[3.8px]">
+          <span className="text-[12px] font-semibold text-[#C9A96E] uppercase tracking-[1px]" style={sans}>
+            {blog.category}
+          </span>
+        </div>
+        <h3 className="text-[20px] md:text-[24px] font-bold text-white leading-[1.2] pb-[6px]" style={serif}>
+          {blog.title}
+        </h3>
+        <MetaRow date={blog.publishedAt || blog.createdAt} readTime={blog.readTimeMinutes} author={blog.author} />
+      </div>
+    </Link>
+  )
+}
+
+function GridBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleLabel: string }) {
+  const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
+
+  return (
+    <Link href={`/blogs/${blog.slug}`} className="bg-[#1e1e1e] flex flex-col md:h-[420px] overflow-clip group">
+      <div className="relative flex-1 min-h-[160px] overflow-clip">
+        <Image
+          src={imageUrl}
+          alt={blog.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+        <div className="absolute bottom-3 left-4 bg-[#C9A96E] border border-[rgba(154,117,53,0.22)] px-[9.8px] py-[3.8px]">
+          <span className="text-[12px] font-semibold text-[#0D0D0D] uppercase tracking-[1px]" style={sans}>
+            {blog.category}
+          </span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 px-5 md:px-6 py-3 md:py-4">
+        <h3 className="text-[20px] md:text-[24px] font-semibold text-white leading-[1.2] pb-[6px]" style={serif}>
+          {blog.title}
+        </h3>
+        <p className="text-[14px] text-[#999] leading-[17.6px] line-clamp-2" style={sans}>
+          {blog.excerpt}
+        </p>
+        <div className="border-t-[0.8px] border-[rgba(255,255,255,0.12)] flex items-center justify-between pt-3 mt-auto">
+          <AuthorBadge author={blog.author} />
+          <div className="flex items-center gap-2">
+            <Calendar className="size-4 text-[#999]" strokeWidth={1.5} />
+            <span className="text-[12px] text-[#999]" style={sans}>
+              {formatMonth(blog.publishedAt || blog.createdAt)}
+            </span>
+            <span className="text-[8px] text-[rgba(255,255,255,0.18)]">·</span>
+            <Clock className="size-4 text-[#999]" strokeWidth={1.5} />
+            <span className="text-[12px] text-[#999]" style={sans}>{blog.readTimeMinutes} min read</span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+export function FeaturedBlogsSection() {
+  const t = useTranslations("featuredBlogs")
+  const [activeCategory, setActiveCategory] = useState<string>("all")
+  const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest")
+
+  const { blogs: featuredBlogs, isLoading: featuredLoading } = useFeaturedBlogs()
+  const { blogs: allBlogs, isLoading: allLoading } = useFilteredBlogs({
+    category: activeCategory === "all" ? undefined : activeCategory,
+    status: "published",
+    sortBy,
+  })
+
+  const featured = featuredBlogs.length >= 3 ? featuredBlogs : FALLBACK_BLOGS
+  const heroCard = featured[0]!
+  const sideCards = featured.slice(1, 3)
+
+  const gridBlogs = useMemo(() => {
+    const featuredIds = new Set(featured.map(b => b._id))
+    return allBlogs.filter(b => !featuredIds.has(b._id))
+  }, [allBlogs, featured])
+
+  const isLoading = featuredLoading || allLoading
+
+  return (
+    <section className="bg-[#0D0D0D] pt-10 md:pt-[56px] pb-10 md:pb-[64px] px-4 md:px-[56px]">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-6 items-center">
+        <div className="flex flex-col gap-2 items-start w-full">
+          <div className="flex items-center gap-2">
+            <div className="w-8 md:w-[82px] h-px bg-[#C9A96E]" />
+            <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={sans}>
+              {t("eyebrow")}
+            </span>
+          </div>
+          <h2 className="text-[32px] md:text-[48px] font-light text-white leading-none" style={serif}>
+            {t("heading")}{" "}
+            <span className="italic text-[#C9A96E]">{t("headingAccent")}</span>
+          </h2>
+        </div>
+
+        {isLoading ? (
+          <div className="flex items-center justify-center py-16 w-full">
+            <Loader2 className="size-8 animate-spin text-[#999]" />
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col md:flex-row gap-[2px] w-full md:h-[650px]">
+              <HeroBlogCard blog={heroCard} readArticleLabel={t("readArticle")} />
+              <div className="flex flex-col gap-[2px] md:w-[532px] shrink-0">
+                {sideCards.map((blog) => (
+                  <SideBlogCard key={blog._id} blog={blog} />
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full pt-10 md:pt-[66px] pb-4 md:pb-6">
+              <div className="flex gap-2 items-center overflow-x-auto no-scrollbar">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`h-8 px-[14.8px] text-[12px] uppercase tracking-[0.7px] whitespace-nowrap transition-colors shrink-0 ${
+                      activeCategory === cat
+                        ? "bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.18)] text-[#C9A96E]"
+                        : "border border-[rgba(255,255,255,0.12)] text-[#999] hover:text-white"
+                    }`}
+                    style={sans}
+                  >
+                    {t(`cat${cat.charAt(0).toUpperCase() + cat.slice(1).replace(/\s+/g, "")}`)}
+                  </button>
+                ))}
+              </div>
+              <div className="hidden md:flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-[12px] text-[#696969]" style={sans}>{t("sortByLabel")}</span>
+                  <div className="relative">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as "newest" | "oldest")}
+                      className="h-[44px] bg-[#1e1d1b] border border-[rgba(255,255,255,0.12)] pl-4 pr-8 text-[14px] text-[#f7f4ef] outline-none appearance-none cursor-pointer"
+                      style={sans}
+                    >
+                      <option value="newest">{t("sortLatest")}</option>
+                      <option value="oldest">{t("sortOldest")}</option>
+                    </select>
+                    <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[#999] pointer-events-none" strokeWidth={1.5} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {gridBlogs.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-[10px] w-full">
+                {gridBlogs.slice(0, 6).map((blog) => (
+                  <GridBlogCard key={blog._id} blog={blog} readArticleLabel={t("readArticle")} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center py-12 w-full border border-dashed border-[rgba(255,255,255,0.12)]">
+                <p className="text-[14px] text-[#999]" style={sans}>{t("noArticles")}</p>
+              </div>
+            )}
+
+            {gridBlogs.length > 6 && (
+              <Link
+                href="/blogs/results"
+                className="mt-4 h-[48px] px-8 border border-[rgba(201,169,110,0.3)] flex items-center gap-2 hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+              >
+                <span className="text-[12px] font-medium text-[#C9A96E] uppercase tracking-[1.1px]" style={sans}>
+                  {t("seeMore")}
+                </span>
+                <ArrowRight className="size-4 text-[#C9A96E]" strokeWidth={1.5} />
+              </Link>
+            )}
+          </>
+        )}
       </div>
     </section>
   )

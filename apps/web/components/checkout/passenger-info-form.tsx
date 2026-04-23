@@ -1,25 +1,99 @@
 "use client"
 
 import { useState } from "react"
-import { User, Mail, FileText, Lock } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
-import { InputWithIcon } from "@/components/ui/input-with-icon"
-import { RadioOption } from "@/components/ui/radio-option"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
 import { registContactInformation } from "@/lib/orders"
 import { useConvex } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { cn } from "@workspace/ui/lib/utils"
 
 interface PassengerInfoFormProps {
   onContinue: () => void
+  onBack?: () => void
 }
 
-export function PassengerInfoForm({ onContinue }: PassengerInfoFormProps) {
+const SERIF_FONT = {
+  fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+} as const
+
+function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
+  return (
+    <label className="block text-[12px] font-semibold text-white mb-2 leading-none">
+      {children}
+      {required && <span className="text-[#E32828]">*</span>}
+    </label>
+  )
+}
+
+function DarkInput({
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  autoComplete,
+}: {
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  type?: string
+  autoComplete?: string
+}) {
+  return (
+    <input
+      type={type}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      autoComplete={autoComplete}
+      className="w-full h-[44px] px-[13px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+    />
+  )
+}
+
+function RadioCard({
+  label,
+  selected,
+  onSelect,
+}: {
+  label: string
+  selected: boolean
+  onSelect: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={cn(
+        "w-full h-[44px] flex items-center gap-2 px-[15px] bg-[#1E1D1B] border transition-colors",
+        selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.2)]",
+      )}
+    >
+      <span
+        className={cn(
+          "relative w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-colors",
+          selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.35)]",
+        )}
+      >
+        {selected && <span className="w-[10px] h-[10px] rounded-full bg-[#C9A96E]" />}
+      </span>
+      <span
+        className={cn(
+          "text-[14px] font-normal leading-[20.992px]",
+          selected ? "text-white" : "text-[#999]",
+        )}
+      >
+        {label}
+      </span>
+    </button>
+  )
+}
+
+export function PassengerInfoForm({ onContinue, onBack }: PassengerInfoFormProps) {
   const convex = useConvex()
   const t = useTranslations("passengerForm")
-  const tTransfer = useTranslations("transfer")
   const tCommon = useTranslations("common")
   const { state, updatePassenger } = useCheckout()
   const { passenger, orderId } = state
@@ -89,11 +163,9 @@ export function PassengerInfoForm({ onContinue }: PassengerInfoFormProps) {
         return
       }
 
-      // Get order to check if it's a round trip
       const order = await convex.query(api.orders.getByOrderNumber, { orderNumber: String(orderId) })
       const relatedOrderId = order?.relatedOrderId
-      
-      // Register contact info for outbound order
+
       await registContactInformation(convex, orderId, {
         name: contactName.trim(),
         email: contactEmail.trim(),
@@ -105,8 +177,7 @@ export function PassengerInfoForm({ onContinue }: PassengerInfoFormProps) {
         passengerWhatsapp: (passenger.isMainPassenger ? passenger.phone : passenger.passengerPhone).trim(),
         passengerRelationship: passenger.isMainPassenger ? undefined : passenger.relationship,
       })
-      
-      // If round trip, also register contact info for return order
+
       if (relatedOrderId) {
         const returnOrder = await convex.query(api.orders.getById, { orderId: relatedOrderId })
         if (returnOrder?.orderNumber) {
@@ -131,30 +202,33 @@ export function PassengerInfoForm({ onContinue }: PassengerInfoFormProps) {
     }
   }
 
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-[22px] font-bold text-[#222222] mb-6">{tTransfer("title")}</h2>
+  const isForOther = !passenger.isMainPassenger
 
-      <div className="space-y-4 mb-6">
-        <RadioOption
+  return (
+    <div className="flex flex-col gap-4 pb-10">
+      <h1
+        className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
+        style={SERIF_FONT}
+      >
+        {t("title")}
+      </h1>
+
+      <div className="flex flex-col gap-[7px]">
+        <RadioCard
           label={t("iAmMainPassenger")}
           selected={passenger.isMainPassenger}
           onSelect={() => updatePassenger({ isMainPassenger: true })}
         />
-        <RadioOption
+        <RadioCard
           label={t("bookingForOther")}
           selected={!passenger.isMainPassenger}
           onSelect={() => updatePassenger({ isMainPassenger: false })}
         />
       </div>
 
-      <div className="mb-6">
-        <label className="block text-[15px] font-semibold text-[#222222] mb-2">
-          {t("name")}
-          <span className="text-[#ff0000]">*</span>
-        </label>
-        <InputWithIcon
-          icon={<User className="w-5 h-5" />}
+      <div>
+        <FieldLabel required>{t("name")}</FieldLabel>
+        <DarkInput
           value={passenger.name}
           onChange={(v) => updatePassenger({ name: v })}
           placeholder={t("namePlaceholder")}
@@ -162,22 +236,18 @@ export function PassengerInfoForm({ onContinue }: PassengerInfoFormProps) {
         />
       </div>
 
-      <div className="mb-6">
-        <label className="block text-[15px] font-semibold text-[#222222] mb-2">
-          {t("email")}
-          <span className="text-[#ff0000]">*</span>
-        </label>
-        <InputWithIcon
-          icon={<Mail className="w-5 h-5" />}
+      <div>
+        <FieldLabel required>{t("email")}</FieldLabel>
+        <DarkInput
           value={passenger.email}
           onChange={handleEmailChange}
-          placeholder={t("emailPlaceholder")}
+          placeholder={t("namePlaceholder")}
           type="email"
           autoComplete="email"
         />
         <div
-          className={`text-[12px] text-[#d60510] overflow-hidden transition-all duration-200 ease-in-out ${
-            emailWarning ? "opacity-100 translate-y-0 max-h-10" : "opacity-0 -translate-y-1 max-h-0"
+          className={`text-[12px] text-[#E32828] overflow-hidden transition-all duration-200 ease-in-out ${
+            emailWarning ? "opacity-100 translate-y-0 max-h-10 mt-1" : "opacity-0 -translate-y-1 max-h-0"
           }`}
           aria-live="polite"
         >
@@ -185,122 +255,120 @@ export function PassengerInfoForm({ onContinue }: PassengerInfoFormProps) {
         </div>
       </div>
 
-      <div className="mb-6">
-        <label className="block text-[15px] font-semibold text-[#222222] mb-2">
-          {t("whatsapp")}
-          <span className="text-[#ff0000]">*</span>
-        </label>
-        <PhoneInput 
-          value={passenger.phone} 
-          onChange={(v) => updatePassenger({ phone: v })} 
+      <div>
+        <FieldLabel required>{t("whatsapp")}</FieldLabel>
+        <PhoneInput
+          value={passenger.phone}
+          onChange={(v) => updatePassenger({ phone: v })}
           defaultCountry="pt"
           autoComplete="tel"
+          dark
         />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-[15px] font-semibold text-[#222222] mb-2">{t("nifVat")}</label>
-        <InputWithIcon
-          icon={<FileText className="w-5 h-5" />}
+      <div>
+        <FieldLabel>{t("nifVat")}</FieldLabel>
+        <DarkInput
           value={passenger.nif}
           onChange={(v) => updatePassenger({ nif: v })}
-          placeholder={t("nifPlaceholder")}
+          placeholder={t("namePlaceholder")}
           autoComplete="off"
         />
       </div>
 
-      <div className="flex items-start gap-2 mb-6">
-        <div className="w-4 h-4 rounded-full border-2 border-[#bfbfbf] flex items-center justify-center flex-shrink-0 mt-0.5">
-          <span className="text-[10px] text-[#bfbfbf] font-bold">i</span>
-        </div>
-        <p className="text-[13px] text-[#808080]">{t("nifInfo")}</p>
-      </div>
-
-      <div 
-        className={`grid transition-all duration-300 ease-in-out ${
-          !passenger.isMainPassenger ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        }`}
+      <div
+        className={cn(
+          "grid transition-all duration-300 ease-in-out",
+          isForOther ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+        )}
       >
         <div className="overflow-hidden">
-          <div className="border-t border-[#e0e0e0] my-8" />
-
-          <div className="mb-6">
-            <label className="block text-[15px] font-semibold text-[#222222] mb-2">
-              {t("passengerName")}
-              <span className="text-[#ff0000]">*</span>
-            </label>
-            <InputWithIcon
-              icon={<User className="w-5 h-5" />}
-              value={passenger.passengerName}
-              onChange={(v) => updatePassenger({ passengerName: v })}
-              placeholder={t("passengerNamePlaceholder")}
-              autoComplete="name"
-            />
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-[15px] font-semibold text-[#222222] mb-2">
-              {t("passengerEmail")}
-              <span className="text-[#ff0000]">*</span>
-            </label>
-            <InputWithIcon
-              icon={<Mail className="w-5 h-5" />}
-              value={passenger.passengerEmail}
-              onChange={handlePassengerEmailChange}
-              placeholder={t("passengerEmailPlaceholder")}
-              type="email"
-              autoComplete="email"
-            />
-            <div
-              className={`text-[12px] text-[#d60510] overflow-hidden transition-all duration-200 ease-in-out ${
-                passengerEmailWarning ? "opacity-100 translate-y-0 max-h-10" : "opacity-0 -translate-y-1 max-h-0"
-              }`}
-              aria-live="polite"
-            >
-              {passengerEmailWarning}
+          <div className="flex flex-col gap-4">
+            <div>
+              <FieldLabel>{t("relationshipTitle")}</FieldLabel>
+              <div className="flex flex-col gap-4">
+                {relationshipOptions.map((option) => (
+                  <RadioCard
+                    key={option.value}
+                    label={option.label}
+                    selected={passenger.relationship === option.value}
+                    onSelect={() => updatePassenger({ relationship: option.value })}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="mb-6">
-            <label className="block text-[15px] font-semibold text-[#222222] mb-2">
-              {t("passengerWhatsapp")}
-              <span className="text-[#ff0000]">*</span>
-            </label>
-            <PhoneInput 
-              value={passenger.passengerPhone} 
-              onChange={(v) => updatePassenger({ passengerPhone: v })} 
-              defaultCountry="pt"
-              autoComplete="tel"
-            />
-          </div>
+            <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center">
+              <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+                {t("mainPassengerData")}
+              </span>
+            </div>
 
-          <div className="mb-6">
-            <h3 className="text-[15px] font-semibold text-[#222222] mb-4">{t("relationshipTitle")}</h3>
-            <div className="space-y-3">
-              {relationshipOptions.map((option) => (
-                <RadioOption
-                  key={option.value}
-                  label={option.label}
-                  selected={passenger.relationship === option.value}
-                  onSelect={() => updatePassenger({ relationship: option.value })}
-                />
-              ))}
+            <div>
+              <FieldLabel required>{t("passengerName")}</FieldLabel>
+              <DarkInput
+                value={passenger.passengerName}
+                onChange={(v) => updatePassenger({ passengerName: v })}
+                placeholder={t("passengerNamePlaceholder")}
+                autoComplete="name"
+              />
+            </div>
+
+            <div>
+              <FieldLabel required>{t("passengerEmail")}</FieldLabel>
+              <DarkInput
+                value={passenger.passengerEmail}
+                onChange={handlePassengerEmailChange}
+                placeholder={t("passengerEmailPlaceholder")}
+                type="email"
+                autoComplete="email"
+              />
+              <div
+                className={`text-[12px] text-[#E32828] overflow-hidden transition-all duration-200 ease-in-out ${
+                  passengerEmailWarning ? "opacity-100 translate-y-0 max-h-10 mt-1" : "opacity-0 -translate-y-1 max-h-0"
+                }`}
+                aria-live="polite"
+              >
+                {passengerEmailWarning}
+              </div>
+            </div>
+
+            <div>
+              <FieldLabel required>{t("passengerWhatsapp")}</FieldLabel>
+              <PhoneInput
+                value={passenger.passengerPhone}
+                onChange={(v) => updatePassenger({ passengerPhone: v })}
+                defaultCountry="pt"
+                autoComplete="tel"
+                dark
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <Button 
-        onClick={handleContinue}
-        disabled={isSubmitting}
-        className="w-full bg-[#27c7ff] hover:bg-[#23b3e6] text-white h-14 text-[16px] font-bold rounded-lg"
-      >
-        <Lock className="w-5 h-5 mr-2" />
-        {!passenger.isMainPassenger ? `${tCommon("continue").toUpperCase()} (€ 45.00)` : tCommon("continue").toUpperCase()}
-      </Button>
+      <div className="flex items-center justify-between pt-6">
+        <button
+          type="button"
+          onClick={onBack}
+          className="h-12 px-8 border border-[#999] text-[#999] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[#F7F4EF] hover:text-[#F7F4EF] transition-colors"
+        >
+          <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
+          <span className="px-2">{tCommon("back")}</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleContinue}
+          disabled={isSubmitting}
+          className="h-12 px-8 bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:bg-[#b89558] hover:border-[#b89558] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span className="px-2">{tCommon("continue")}</span>
+          <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2} />
+        </button>
+      </div>
 
       {submitError && (
-        <div className="mt-3 text-[13px] text-[#d60510]" aria-live="polite">
+        <div className="text-[13px] text-[#E32828]" aria-live="polite">
           {submitError}
         </div>
       )}

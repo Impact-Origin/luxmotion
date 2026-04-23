@@ -27,6 +27,7 @@ interface GooglePlacesInputProps {
   variant?: "default" | "widget" | "new-widget" | "hero-inline" | "tours-hero" | "tours-hero-dark" | "tours-results"
   /** When true, render suggestions inline below the input (e.g. inside a bottom drawer). Drawer closes only on selection. */
   inlineDropdown?: boolean
+  hideLeftIcon?: boolean
 }
 
 export function GooglePlacesInput({
@@ -37,6 +38,7 @@ export function GooglePlacesInput({
   className,
   variant = "default",
   inlineDropdown = false,
+  hideLeftIcon = false,
 }: GooglePlacesInputProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [defaultSuggestions, setDefaultSuggestions] = useState<LocationSuggestion[]>([])
@@ -151,7 +153,7 @@ export function GooglePlacesInput({
         </div>
       ) : isToursHeroDark ? (
         <div className="w-full h-full relative flex items-center gap-2">
-          <Search className="w-[24px] h-[24px] text-[#C9A96E] shrink-0" />
+          {!hideLeftIcon && <Search className="w-[24px] h-[24px] text-[#C9A96E] shrink-0" />}
           <input
             suppressHydrationWarning
             value={value.location}

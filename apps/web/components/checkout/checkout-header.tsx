@@ -1,21 +1,149 @@
 "use client"
 
-import { Star, ChevronLeft } from "lucide-react"
-import { useEffect, useRef } from "react"
-import { useTranslations } from "next-intl"
-import { LanguageSwitcher } from "@/components/ui/language-switcher"
+import { ChevronLeft, ChevronDown, Menu, Moon, Check } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { useTranslations, useLocale } from "next-intl"
 import Image from "next/image"
+import Link from "next/link"
+import { cn } from "@workspace/ui/lib/utils"
+import { FlagImage } from "react-international-phone"
+import { locales, localeNames, localeCountryIso, type Locale } from "@/i18n/config"
+import { TrustBanner } from "@/components/checkout/trust-banner"
 
 interface CheckoutHeaderProps {
   currentStep?: number
   onStepClick?: (step: number) => void
   allowStepSkip?: boolean
   hasNearbyTours?: boolean
+  reservationsToday?: number
 }
 
-export function CheckoutHeader({ currentStep = 1, onStepClick, allowStepSkip = false, hasNearbyTours = false }: CheckoutHeaderProps) {
+function LuxMotionLogo() {
+  return (
+    <Link href="/" className="flex items-center gap-[10px] shrink-0">
+      <div className="relative w-[45px] h-[45px] border-[1.9px] border-[#C9A96E] flex items-center justify-center shrink-0">
+        <div className="relative w-[23px] h-[13px]">
+          <Image src="/svgs/lm-monogram.svg" alt="" fill className="object-contain" priority />
+        </div>
+      </div>
+      <div className="flex flex-col justify-center">
+        <div className="relative w-[82px] h-[9px]">
+          <Image
+            src="/svgs/luxmotion-text.svg"
+            alt="LuxMotion"
+            fill
+            className="object-contain object-left"
+            priority
+          />
+        </div>
+        <span className="text-[7.2px] tracking-[1px] text-[rgba(255,255,255,0.55)] mt-[4px] whitespace-nowrap">
+          BY EASYTRANSFER
+        </span>
+      </div>
+    </Link>
+  )
+}
+
+function LangPill() {
+  const locale = useLocale() as Locale
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const h = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener("mousedown", h)
+    return () => document.removeEventListener("mousedown", h)
+  }, [])
+
+  const onChange = (l: Locale) => {
+    document.cookie = `NEXT_LOCALE=${l};path=/;max-age=31536000`
+    setOpen(false)
+    window.location.reload()
+  }
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-[4px] h-[40px] px-[9px] border border-[rgba(201,169,110,0.22)] hover:border-[rgba(201,169,110,0.4)] transition-colors cursor-pointer"
+      >
+        <FlagImage iso2={localeCountryIso[locale]} size={20} className="rounded-[2px]" />
+        <span className="text-[14px] font-medium text-[#C9A96E] tracking-[0.15px]">
+          {locale.toUpperCase()}
+        </span>
+        <ChevronDown
+          className={cn("w-[13px] h-[13px] text-[#C9A96E] transition-transform", open && "rotate-180")}
+        />
+      </button>
+      {open && (
+        <div className="absolute top-full mt-1 right-0 bg-[#1A1A1A] border border-[#2A2A2A] shadow-xl py-1 min-w-[180px] z-50">
+          {locales.map((l) => (
+            <button
+              key={l}
+              type="button"
+              onClick={() => onChange(l)}
+              className={cn(
+                "w-full flex items-center gap-3 px-4 py-2.5 transition-colors text-[#8C8680] hover:text-[#C9A96E] hover:bg-white/5",
+                l === locale && "text-[#C9A96E] bg-white/5"
+              )}
+            >
+              <FlagImage iso2={localeCountryIso[l]} size={20} />
+              <span className="flex-1 text-left text-sm font-medium">{localeNames[l]}</span>
+              {l === locale && <Check className="w-4 h-4 text-[#C9A96E]" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function CurrencyPill() {
+  return (
+    <button
+      type="button"
+      className="hidden md:flex items-center gap-[4px] h-[40px] px-[9px] border border-[rgba(201,169,110,0.22)] hover:border-[rgba(201,169,110,0.4)] transition-colors cursor-pointer"
+    >
+      <span className="text-[14px] font-medium text-[#C9A96E] tracking-[0.15px]">€</span>
+      <span className="text-[14px] font-medium text-[#C9A96E] tracking-[0.15px]">EUR</span>
+      <ChevronDown className="w-[13px] h-[13px] text-[#C9A96E]" />
+    </button>
+  )
+}
+
+function ThemeToggle({ label }: { label: string }) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      className="flex items-center justify-center size-[40px] border border-[rgba(201,169,110,0.22)] text-[#C9A96E] hover:border-[rgba(201,169,110,0.4)] transition-colors cursor-pointer"
+    >
+      <Moon className="w-4 h-4" strokeWidth={1.5} />
+    </button>
+  )
+}
+
+function LiveCount({ text }: { text: string }) {
+  return (
+    <div className="hidden lg:flex items-center gap-[12px] pr-2">
+      <span className="inline-block size-[6px] rounded-[3px] bg-[#2e7d52] shadow-[0_0_6px_rgba(46,125,82,0.7)]" />
+      <span className="text-[12px] text-[rgba(247,244,239,0.38)] whitespace-nowrap">{text}</span>
+    </div>
+  )
+}
+
+export function CheckoutHeader({
+  currentStep = 1,
+  onStepClick,
+  allowStepSkip = false,
+  hasNearbyTours = false,
+  reservationsToday = 13,
+}: CheckoutHeaderProps) {
   const t = useTranslations("checkout.steps")
-  const tBanner = useTranslations("checkout")
+  const tNav = useTranslations("checkout.nav")
   const tCommon = useTranslations("common")
 
   const steps = hasNearbyTours
@@ -36,114 +164,88 @@ export function CheckoutHeader({ currentStep = 1, onStepClick, allowStepSkip = f
   const mobileSteps = steps.filter((s) => s.number === currentStep || s.number === currentStep + 1)
 
   const handleStepClick = (step: number) => {
-    if (allowStepSkip) {
-      onStepClick?.(step)
-    }
+    if (allowStepSkip) onStepClick?.(step)
   }
 
   return (
-    <header className="bg-[rgba(217,217,217,0.18)]">
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-6 py-3 lg:py-4">
-        <div className="flex items-center justify-between">
-          <div className="bg-transparent rounded-lg px-3 py-2">
-            <div className="relative h-6 w-28 lg:h-7 lg:w-36">
-              <Image
-                src="/svgs/easytransfer-logo.svg"
-                alt="EasyTransfer"
-                fill
-                className="object-contain object-left hidden"
-                priority
+    <header className="bg-[#0D0D0D] border-b border-[rgba(247,244,239,0.08)]">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-[48px] 2xl:px-[130px] h-[60px] md:h-[72px] flex items-center justify-between">
+        <LuxMotionLogo />
+
+        <div className="flex items-center gap-[12px]">
+          <LiveCount text={tNav("reservationsToday", { count: reservationsToday })} />
+          <CurrencyPill />
+          <LangPill />
+          <ThemeToggle label={tNav("themeToggle")} />
+          <Link
+            href="/"
+            aria-label={tNav("menu")}
+            className="md:hidden flex items-center justify-center size-[40px] border border-[rgba(201,169,110,0.22)] text-[#C9A96E] hover:border-[rgba(201,169,110,0.4)] transition-colors"
+          >
+            <Menu className="w-4 h-4" strokeWidth={1.5} />
+          </Link>
+        </div>
+      </div>
+
+      <TrustBanner />
+
+      <div className="bg-[#222] border-b-[0.8px] border-[rgba(247,244,239,0.08)]">
+        <div className="hidden md:flex max-w-[1440px] mx-auto px-[16px] py-[12px] items-center justify-center gap-[4px]">
+          {steps.map((step, index) => (
+            <div key={step.number} className="flex items-center gap-[4px]">
+              {index > 0 && <StepConnector step={steps[index - 1]!.number} currentStep={currentStep} />}
+              <StepItem
+                number={step.number}
+                label={step.shortLabel || step.label}
+                sublabel={step.sublabel}
+                isActive={currentStep === step.number}
+                isCompleted={currentStep > step.number}
+                onClick={() => handleStepClick(step.number)}
+                allowClick={allowStepSkip}
               />
             </div>
-          </div>
-
-          <div className="hidden lg:flex items-center">
-            {steps.map((step, index) => (
-              <div key={step.number} className="flex items-center">
-                {index > 0 && <StepConnector step={steps[index - 1]!.number} currentStep={currentStep} />}
-                <StepItem
-                  number={step.number}
-                  label={step.shortLabel || step.label}
-                  sublabel={step.sublabel}
-                  isActive={currentStep === step.number}
-                  isCompleted={currentStep > step.number}
-                  onClick={() => handleStepClick(step.number)}
-                  allowClick={allowStepSkip}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher variant="compact" />
-          </div>
-        </div>
-      </div>
-
-      <div className="lg:hidden py-2 flex items-center justify-center gap-2 text-black text-xs bg-[rgba(217,217,217,0.18)]">
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <Star key={i} className="w-3 h-3 fill-[#00B67A] text-[#00B67A]" />
           ))}
         </div>
-        <span>1000+ {tBanner("verifiedReviews")}</span>
-      </div>
 
-      <div className="lg:hidden px-4 py-3 w-full min-w-0 bg-[rgba(217,217,217,0.18)]">
-        <div className="flex items-center gap-2 xs:gap-3 w-full min-w-0 max-w-full">
-          {currentStep > 1 && (
-            <button
-              type="button"
-              onClick={() => handleStepClick(currentStep - 1)}
-              aria-label={tCommon("back")}
-              className="w-6 h-6 xs:w-7 xs:h-7 rounded-full flex items-center justify-center shrink-0 bg-[#0E4659] text-white border-2 border-[#0E4659] hover:opacity-90 transition-opacity"
-            >
-              <ChevronLeft className="w-3.5 h-3.5 xs:w-4 xs:h-4" strokeWidth={2.5} />
-            </button>
-          )}
-          {mobileSteps.map((step, index) => {
-            const isActive = currentStep === step!.number
-            const isCompleted = currentStep > step!.number
-            const circleClasses = isActive || isCompleted ? "bg-[#0E4659] text-white" : "bg-black text-white"
-            const labelClasses = isActive ? "text-[#0E4659]" : "text-black"
-            const mobileLabel = step!.shortLabel ? `${step!.shortLabel}${step!.sublabel ? ` ${step!.sublabel}` : ""}` : step!.label
-
-            return (
-              <div
-                key={step!.number}
-                className={`flex items-center gap-2 xs:gap-3 min-w-0 flex-1 transition-all duration-500 ease-out ${
-                  isActive ? "transform translate-y-0" : "transform translate-y-[1px] opacity-95"
-                }`}
+        <div className="md:hidden px-4 py-[12px]">
+          <div className="flex items-center justify-center gap-[4px] w-full min-w-0">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={() => handleStepClick(currentStep - 1)}
+                aria-label={tCommon("back")}
+                className="size-6 rounded-full flex items-center justify-center shrink-0 border border-[rgba(247,244,239,0.2)] text-[rgba(247,244,239,0.55)] hover:border-[rgba(201,169,110,0.5)] hover:text-[#C9A96E] transition-colors mr-1"
               >
-                <button
-                  onClick={() => handleStepClick(step!.number)}
-                  disabled={!allowStepSkip}
-                  className={`flex items-center gap-1.5 xs:gap-2 transition-all duration-500 ease-out min-w-0 flex-1 ${
-                    allowStepSkip ? "cursor-pointer" : "cursor-default"
-                  }`}
-                >
-                  <div
-                    className={`w-6 h-6 xs:w-7 xs:h-7 rounded-full flex items-center justify-center text-[11px] xs:text-[13px] font-extrabold transition-all duration-500 ease-out shrink-0 ${circleClasses} ${
-                      isActive ? "scale-110 shadow-sm" : "scale-95"
-                    }`}
-                  >
-                    {step!.number}
-                  </div>
-                  <span
-                    className={`text-[11px] xs:text-[13px] font-medium truncate transition-all duration-500 ease-out ${labelClasses} ${
-                      isActive ? "opacity-100 translate-x-0" : "opacity-80 translate-x-0.5"
-                    }`}
-                  >
-                    {mobileLabel}
-                  </span>
-                </button>
+                <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2.5} />
+              </button>
+            )}
+            {mobileSteps.map((step, index) => {
+              const isActive = currentStep === step!.number
+              const isCompleted = currentStep > step!.number
+              const mobileLabel = step!.shortLabel
+                ? `${step!.shortLabel}${step!.sublabel ? ` ${step!.sublabel}` : ""}`
+                : step!.label
 
-                {index < mobileSteps.length - 1 && (
-                  <div className="w-6 xs:w-8 h-[1.5px] bg-[#D9D9D9] rounded-full shrink-0" />
-                )}
-              </div>
-            )
-          })}
+              return (
+                <div key={step!.number} className="flex items-center gap-[4px] min-w-0">
+                  <StepItem
+                    number={step!.number}
+                    label={mobileLabel}
+                    isActive={isActive}
+                    isCompleted={isCompleted}
+                    onClick={() => handleStepClick(step!.number)}
+                    allowClick={allowStepSkip}
+                  />
+                  {index < mobileSteps.length - 1 && (
+                    <StepConnector
+                      step={step!.number}
+                      currentStep={currentStep}
+                    />
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </header>
@@ -167,27 +269,42 @@ function StepItem({
   onClick?: () => void
   allowClick?: boolean
 }) {
+  const circleCls = isCompleted
+    ? "bg-[#2E7D52] border-transparent text-white"
+    : isActive
+      ? "bg-[#C9A96E] border-[rgba(247,244,239,0.08)] text-white"
+      : "bg-transparent border-[rgba(247,244,239,0.08)] text-[rgba(247,244,239,0.38)]"
+
+  const labelCls = isCompleted
+    ? "text-[#F7F4EF]"
+    : isActive
+      ? "text-white"
+      : "text-[rgba(247,244,239,0.38)]"
+
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={!allowClick}
-      className={`flex items-center gap-2 transition ${
+      className={cn(
+        "flex items-center transition",
         allowClick ? "cursor-pointer hover:opacity-80" : "cursor-default"
-      }`}
+      )}
     >
       <div
-        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 ${
-          isActive || isCompleted ? "bg-[#0E4659] text-white" : "bg-black text-white"
-        }`}
+        className={cn(
+          "size-6 rounded-full border flex items-center justify-center text-[10.4px] font-extrabold leading-none transition-all duration-500",
+          circleCls
+        )}
       >
         {number}
       </div>
-      <div className="flex flex-col leading-tight">
-        <span className={`text-xs font-medium ${isActive ? "text-[#0E4659]" : "text-black"}`}>
+      <div className="flex flex-col leading-tight text-left px-[6px]">
+        <span className={cn("text-[12px] font-semibold leading-[16.64px] whitespace-nowrap", labelCls)}>
           {label}
         </span>
         {sublabel && (
-          <span className={`text-xs font-medium ${isActive ? "text-[#0E4659]" : "text-black"}`}>
+          <span className={cn("text-[12px] font-semibold leading-[16.64px] whitespace-nowrap", labelCls)}>
             {sublabel}
           </span>
         )}
@@ -209,17 +326,13 @@ function StepConnector({ step, currentStep }: { step: number; currentStep: numbe
   const isGoingForward = currentStep > prevStep
 
   let delay = 0
-
-  if (isGoingBackward && !isCompleted) {
-    delay = (prevStep - step - 1) * 600
-  } else if (isGoingForward && isCompleted) {
-    delay = (step - prevStep) * 600
-  }
+  if (isGoingBackward && !isCompleted) delay = (prevStep - step - 1) * 600
+  else if (isGoingForward && isCompleted) delay = (step - prevStep) * 600
 
   return (
-    <div className="relative w-12 h-[2px] bg-gray-400 mx-2">
+    <div className="relative w-[32px] max-w-[32px] h-[2px] bg-[rgba(247,244,239,0.08)] shrink-0">
       <div
-        className={`absolute inset-0 bg-[#0E4659] transition-all duration-500 origin-left`}
+        className="absolute inset-0 bg-[#2E7D52] transition-all duration-500 origin-left"
         style={{
           width: isCompleted ? "100%" : "0%",
           transitionDelay: `${delay}ms`,

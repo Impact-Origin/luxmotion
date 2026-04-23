@@ -1,12 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
 import { AddExperienceModal } from "./add-experience-modal"
+import { CheckoutStepLayout } from "./shared/checkout-step-layout"
 import type { Experience } from "./shared/types"
 import { useTranslations } from "next-intl"
-import { Button } from "@workspace/ui/components/button"
 import { useCheckout } from "@/components/checkout/checkout-context"
 
 export interface NearbyTour {
@@ -33,9 +33,13 @@ export interface NearbyTour {
 
 interface ExperiencesStepProps {
   onContinue: () => void
+  onBack?: () => void
   nearbyTours: NearbyTour[]
-  variant?: "classic" | "modern"
 }
+
+const SERIF_FONT = {
+  fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+} as const
 
 function toExperience(tour: NearbyTour): Experience {
   return {
@@ -53,7 +57,25 @@ function toExperience(tour: NearbyTour): Experience {
   }
 }
 
-export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }: ExperiencesStepProps) {
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center">
+      <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+        {children}
+      </span>
+    </div>
+  )
+}
+
+function CardRow({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex gap-[13.6px] overflow-x-auto pb-1 scrollbar-hide">
+      {children}
+    </div>
+  )
+}
+
+export function ExperiencesStep({ onContinue, onBack, nearbyTours }: ExperiencesStepProps) {
   const t = useTranslations("experiences")
   const tCommon = useTranslations("common")
   const { addExperience } = useCheckout()
@@ -114,15 +136,12 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
     />
   )
 
-  const renderSection = (title: string, items: NearbyTour[]) => {
+  const renderSection = (label: string, items: NearbyTour[]) => {
     if (items.length === 0) return null
-    const isSingleItem = items.length === 1
     return (
-      <section>
-        <h2 className={`text-lg lg:text-2xl font-bold text-[#222] mb-6 ${isSingleItem ? "text-center" : ""}`}>{title}</h2>
-        <div className={isSingleItem ? "flex justify-center" : "grid grid-cols-1 lg:grid-cols-2 gap-6"}>
-          {items.map((item) => renderCard(item))}
-        </div>
+      <section className="flex flex-col gap-4">
+        <SectionLabel>{label}</SectionLabel>
+        <CardRow>{items.map(renderCard)}</CardRow>
       </section>
     )
   }
@@ -142,53 +161,42 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
     />
   )
 
-  if (variant === "modern") {
-    return (
-      <div className="max-w-[1036px] mx-auto px-4 py-8 space-y-14">
-        <div className="text-center mb-4">
-          <h1 className="text-3xl font-bold text-black mb-2">{t("title")}</h1>
-        </div>
+  return (
+    <CheckoutStepLayout>
+      <div className="flex flex-col gap-4 pb-10">
+        <h1
+          className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
+          style={SERIF_FONT}
+        >
+          {t("title")}
+        </h1>
 
+        {renderSection(t("extraStops"), privateTours)}
         {renderSection(t("tours"), tours)}
         {renderSection(t("experiences"), experiences)}
-        {renderSection(t("privateTours"), privateTours)}
         {renderSection(t("events"), events)}
 
-        <div className="flex justify-center pt-4">
-          <Button
-            onClick={onContinue}
-            variant="outline"
-            className="px-8 h-12 text-[15px] font-semibold border-2 border-[#27c7ff] text-[#27c7ff] hover:bg-[#27c7ff] hover:text-white transition-colors"
+        <div className="flex items-center justify-between pt-6">
+          <button
+            type="button"
+            onClick={onBack}
+            className="h-12 px-8 border border-[#999] text-[#999] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[#F7F4EF] hover:text-[#F7F4EF] transition-colors"
           >
-            {t("skipStep")}
-            <ChevronRight className="w-5 h-5 ml-1" />
-          </Button>
+            <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
+            <span className="px-2">{tCommon("back")}</span>
+          </button>
+          <button
+            type="button"
+            onClick={onContinue}
+            className="h-12 px-8 bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:bg-[#b89558] hover:border-[#b89558] transition-colors"
+          >
+            <span className="px-2">{tCommon("continue")}</span>
+            <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2} />
+          </button>
         </div>
 
         {modal}
       </div>
-    )
-  }
-
-  return (
-    <div className="max-w-[1036px] mx-auto px-4 py-8 space-y-14">
-      {renderSection(t("extraStop"), privateTours)}
-      {renderSection(t("tours"), tours)}
-      {renderSection(t("experiences"), experiences)}
-      {renderSection(t("events"), events)}
-
-      <div className="flex justify-center pt-4">
-        <Button
-          onClick={onContinue}
-          variant="outline"
-          className="px-8 h-12 text-[15px] font-semibold border-2 border-[#27c7ff] text-[#27c7ff] hover:bg-[#27c7ff] hover:text-white transition-colors"
-        >
-          {tCommon("skip")}
-          <ChevronRight className="w-5 h-5 ml-1" />
-        </Button>
-      </div>
-
-      {modal}
-    </div>
+    </CheckoutStepLayout>
   )
 }

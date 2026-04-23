@@ -52,36 +52,23 @@ export function CinematicBanner() {
         </div>
       </div>
 
-      <div className="relative px-4 pb-16 md:pb-20">
-        <div
-          className="absolute left-1/2 top-0 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at center, rgba(201,169,110,0.10) 0%, transparent 70%)",
-          }}
-        />
-        <div className="relative max-w-[1280px] mx-auto flex flex-col items-center gap-5 pt-4">
+      <div className="relative px-6 md:px-12 lg:px-[82px] pt-10 md:pt-12 lg:pt-[39px] pb-12 md:pb-16 lg:pb-[39px]">
+        <div className="relative max-w-[1440px] mx-auto flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
           <div
-            className="flex flex-col items-center text-center"
+            className="flex flex-col lg:flex-1"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
             <p className="font-light text-[32px] md:text-[40px] leading-none text-white">
               {t("line1")}
             </p>
-            <p className="font-light italic text-[32px] md:text-[40px] leading-tight text-[#C9A96E]">
+            <p className="font-light italic text-[32px] md:text-[40px] leading-none text-[#C9A96E]">
               {t("line2")}
             </p>
           </div>
 
-          <p
-            className="text-[14px] text-[#999] text-center max-w-[420px] leading-[1.4]"
-            style={{ fontFamily: "var(--font-sans), Inter, system-ui, sans-serif" }}
-          >
-            {t("subtitle")}
-          </p>
-
           <Link
             href="/#services"
-            className="group inline-flex items-center h-12 border border-[#C9A96E] px-[22px] py-[9px] hover:bg-[rgba(201,169,110,0.08)] transition-colors w-fit shrink-0 mt-2"
+            className="group inline-flex items-center justify-center h-12 border border-[#C9A96E] px-[22px] py-[9px] hover:bg-[rgba(201,169,110,0.08)] transition-colors w-full lg:w-fit shrink-0 self-stretch lg:self-auto"
           >
             <span
               className="px-2 text-[14px] tracking-[1.1px] uppercase text-[#C9A96E] font-medium whitespace-nowrap"

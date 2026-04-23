@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { getDailyNumber } from "@/lib/daily-number";
 import { useMarketingStats } from "@/hooks/use-marketing-stats";
 
-import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker";
 import { useTourAvailability } from "@/hooks/use-tour-data";
@@ -16,6 +15,10 @@ import { useIsMobile } from "@/hooks/use-is-mobile";
 import type { Experience, ExperienceExtra } from "./shared";
 
 export type { Experience, ExperienceExtra };
+
+const SERIF_FONT = {
+  fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+} as const;
 
 interface GuestRowProps {
   icon: React.ReactNode;
@@ -38,33 +41,42 @@ function GuestRow({
 }: GuestRowProps) {
   return (
     <div className="flex items-center justify-between w-full">
-      <div className="flex gap-[10px] items-start">
-        <div className="size-5 text-[#27c7ff]">{icon}</div>
+      <div className="flex gap-2.5 items-start">
+        <div className="size-5 text-[#C9A96E] shrink-0">{icon}</div>
         <div className="flex flex-col">
-          <span className="text-[16px] font-semibold text-[#0c171c] leading-[23px]">
+          <span className="text-[14px] font-bold text-[#F7F4EF] leading-[19.2px]">
             {label}
           </span>
-          <span className="text-[14px] text-[#5f686c] leading-[20px]">
+          <span className="text-[12px] font-medium text-[rgba(247,244,239,0.38)] uppercase tracking-[0.1px] leading-[14.85px]">
             {description}
           </span>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center">
         <button
+          type="button"
           onClick={onDecrement}
           disabled={count <= minCount}
-          className="size-[31px] rounded-full border border-[#dedede] flex items-center justify-center text-[#5f686c] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(255,255,255,0.12)] text-[#F7F4EF] hover:bg-[rgba(255,255,255,0.04)] disabled:text-[rgba(247,244,239,0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
         >
-          <Minus className="size-4" />
+          <Minus className="w-3.5 h-3.5" strokeWidth={2} />
         </button>
-        <span className="text-[18px] font-semibold text-[#0c171c] w-4 text-center">
-          {count}
-        </span>
+        <div className="w-10 h-8 flex items-center justify-center border-y-[1.5px] border-[rgba(255,255,255,0.12)]">
+          <span
+            className={cn(
+              "text-[14px] font-medium tabular-nums",
+              count > 0 ? "text-white" : "text-[#696969]",
+            )}
+          >
+            {count}
+          </span>
+        </div>
         <button
+          type="button"
           onClick={onIncrement}
-          className="size-[31px] rounded-full border border-[#dedede] flex items-center justify-center text-[#5f686c] hover:bg-gray-50 transition-colors"
+          className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(255,255,255,0.12)] text-[#F7F4EF] hover:bg-[rgba(255,255,255,0.04)] transition-colors"
         >
-          <Plus className="size-4" />
+          <Plus className="w-3.5 h-3.5" strokeWidth={2} />
         </button>
       </div>
     </div>
@@ -209,7 +221,7 @@ export function AddExperienceModal({
 
   if (isMobile) {
     return (
-      <div className="fixed inset-0 z-50 flex items-end justify-center">
+      <div className="checkout-dark fixed inset-0 z-50 flex items-end justify-center">
         <div
           className={cn(
             "absolute inset-0 bg-black/80 transition-opacity duration-300",
@@ -219,16 +231,14 @@ export function AddExperienceModal({
         />
         <div
           className={cn(
-            "relative w-full max-w-full bg-white rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] transition-transform duration-300",
+            "relative w-full max-w-full bg-[#0D0D0D] border-t border-x border-[rgba(255,255,255,0.12)] shadow-2xl overflow-hidden flex flex-col max-h-[92vh] transition-transform duration-300",
             drawerOpen ? "translate-y-0" : "translate-y-full",
           )}
         >
-          <div className="flex flex-col">
-            <div
-              className="mx-auto mt-2 mb-1 h-1.5 w-12 rounded-full bg-gray-300"
-              aria-hidden="true"
-            />
-          </div>
+          <div
+            className="mx-auto mt-2 mb-1 h-1 w-12 bg-[rgba(255,255,255,0.2)]"
+            aria-hidden="true"
+          />
           <ModalContent {...modalProps} onClose={handleCloseDrawer} />
         </div>
       </div>
@@ -236,8 +246,8 @@ export function AddExperienceModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
-      <div className="bg-white rounded-2xl shadow-xl max-w-[600px] w-full overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
+    <div className="checkout-dark fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
+      <div className="bg-[#0D0D0D] border border-[rgba(255,255,255,0.12)] shadow-2xl max-w-[600px] w-full overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
         <ModalContent {...modalProps} onClose={onClose} />
       </div>
     </div>
@@ -314,19 +324,25 @@ function ModalContent({
 
   return (
     <>
-      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 shrink-0">
-        <h2 className="text-[22px] font-bold text-[#222222]">{t("title")}</h2>
-        <button
-          onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+      <div className="flex items-center justify-between px-6 py-5 border-b border-[rgba(255,255,255,0.12)] shrink-0">
+        <h2
+          className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
+          style={SERIF_FONT}
         >
-          <X className="w-6 h-6" />
+          {t("title")}
+        </h2>
+        <button
+          type="button"
+          onClick={onClose}
+          className="text-[#999] hover:text-[#C9A96E] transition-colors"
+        >
+          <X className="w-6 h-6" strokeWidth={1.75} />
         </button>
       </div>
 
-      <div className="p-4 overflow-y-auto flex-1">
+      <div className="px-6 py-6 overflow-y-auto flex-1">
         <div className="flex gap-4 mb-6">
-          <div className="relative w-[200px] h-[140px] shrink-0 rounded-lg overflow-hidden">
+          <div className="relative w-[200px] h-[140px] shrink-0 overflow-hidden border border-[rgba(255,255,255,0.08)]">
             <Image
               src={experience.image || "/placeholder-experience.png"}
               alt={experience.title}
@@ -334,20 +350,20 @@ function ModalContent({
               className="object-cover"
             />
           </div>
-          <div className="flex-1">
-            <h3 className="text-[22px] font-bold text-[#222222] mb-2 leading-tight">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-[18px] font-bold text-[#F7F4EF] mb-2 leading-tight">
               {experience.title}
             </h3>
-            <p className="text-sm text-gray-600 line-clamp-4">
+            <p className="text-[13px] text-[#999] leading-[1.5] line-clamp-4">
               {experience.description}
             </p>
           </div>
         </div>
 
         <div className="mb-6">
-          <div className="flex items-center gap-1 mb-3">
-            <CalendarDays className="size-5 text-[#27C7FF]" />
-            <span className="text-[16px] font-semibold text-[#0c171c]">
+          <div className="flex items-center gap-2 mb-3">
+            <CalendarDays className="size-5 text-[#C9A96E]" strokeWidth={1.75} />
+            <span className="text-[14px] font-bold text-[#F7F4EF]">
               {t("date")}
             </span>
           </div>
@@ -361,9 +377,9 @@ function ModalContent({
           />
         </div>
 
-        <div className="bg-[#f8f9fa] rounded-[16px] p-4 flex flex-col gap-4 mb-6">
+        <div className="bg-[#1E1D1B] border border-[rgba(255,255,255,0.08)] p-5 flex flex-col gap-4 mb-6">
           <GuestRow
-            icon={<User className="size-5" />}
+            icon={<User className="size-5" strokeWidth={1.75} />}
             label={tTour("adult")}
             description={tTour("adultAge")}
             count={adults}
@@ -372,7 +388,7 @@ function ModalContent({
             minCount={1}
           />
           <GuestRow
-            icon={<User className="size-5" />}
+            icon={<User className="size-5" strokeWidth={1.75} />}
             label={tTour("children")}
             description={tTour("childrenAge")}
             count={children}
@@ -380,7 +396,7 @@ function ModalContent({
             onIncrement={() => setChildren(children + 1)}
           />
           <GuestRow
-            icon={<Baby className="size-5" />}
+            icon={<Baby className="size-5" strokeWidth={1.75} />}
             label={tTour("infant")}
             description={tTour("infantAge")}
             count={infants}
@@ -390,11 +406,11 @@ function ModalContent({
         </div>
 
         {extras.length > 0 && (
-          <div className="mb-4">
-            <label className="block text-[15px] font-bold text-[#222222] mb-2">
+          <div className="mb-2">
+            <label className="block text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] mb-3">
               {t("extras")}
             </label>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               {extras.map((extra) => (
                 <div key={extra.id} className="flex items-center gap-3">
                   <Checkbox
@@ -404,14 +420,14 @@ function ModalContent({
                   />
                   <label
                     htmlFor={extra.id}
-                    className="text-[15px] text-[#222222] cursor-pointer select-none flex-1 truncate"
+                    className="text-[14px] text-[#F7F4EF] cursor-pointer select-none flex-1 truncate"
                   >
                     {extra.label}
                   </label>
-                  <span className="text-[15px] font-semibold text-[#222222] shrink-0">
+                  <span className="text-[14px] font-semibold text-[#F7F4EF] shrink-0">
                     + € {extra.price}
                     {extra.pricingType && (
-                      <span className="text-[12px] font-normal text-[#808080] ml-1">
+                      <span className="text-[11px] font-normal text-[#999] ml-1">
                         /
                         {extra.pricingType === "per_person"
                           ? tTour("perPerson")
@@ -426,30 +442,36 @@ function ModalContent({
         )}
       </div>
 
-      <div className="p-4 pt-2 bg-white shrink-0 border-t border-[#e0e0e0]">
+      <div className="px-6 pt-4 pb-5 bg-[#0D0D0D] shrink-0 border-t border-[rgba(255,255,255,0.12)]">
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-[#a2a2a2] bg-gray-50 px-3 py-2 rounded-lg">
-            <Flame className="w-5 h-5 text-orange-500 fill-orange-500" />
-            <span className="text-[13px] font-medium">
+          <div className="flex items-center gap-2 border border-[rgba(201,169,110,0.4)] px-3 py-1.5">
+            <Flame className="w-4 h-4 text-[#C9A96E] fill-[#C9A96E]" />
+            <span className="text-[12px] font-medium text-[#C9A96E]">
               {t("bookedTimes", { count: dailyBookedCount })}
             </span>
           </div>
           <div className="text-right">
-            <div className="text-[24px] font-bold text-[#222222]">
+            <div
+              className="text-[24px] font-bold leading-none text-[#C9A96E]"
+              style={SERIF_FONT}
+            >
               {formatPrice(calculateTotal())}
             </div>
-            <div className="text-[14px] text-[#a2a2a2]">{t("total")}</div>
+            <div className="text-[11px] font-medium uppercase tracking-[1.152px] text-[#999] mt-1">
+              {t("total")}
+            </div>
           </div>
         </div>
 
-        <Button
+        <button
+          type="button"
           onClick={handleAdd}
           disabled={!dateTime.time}
-          className="w-full h-12 bg-[#27c7ff] hover:bg-[#1fb3e8] text-white font-bold text-[17px] uppercase rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-12 bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Plus className="w-5 h-5 mr-2" strokeWidth={3} />
-          {t("add")}
-        </Button>
+          <Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />
+          <span className="px-1">{t("add")}</span>
+        </button>
       </div>
     </>
   );

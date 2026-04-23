@@ -135,6 +135,16 @@ html,
     border-color: #27c7ff !important;
   }
 
+  .checkout-dark .checkbox-custom {
+    background-color: transparent;
+    border-color: rgba(201, 169, 110, 0.4);
+  }
+
+  .checkout-dark .checkbox-custom[data-state="checked"] {
+    background-color: #c9a96e !important;
+    border-color: #c9a96e !important;
+  }
+
   @keyframes slideInRight {
     from {
       opacity: 0;

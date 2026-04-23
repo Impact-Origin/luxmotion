@@ -1,8 +1,7 @@
 "use client"
 
-import { Plus, Clock, MapPin } from "lucide-react"
+import { Plus, Clock } from "lucide-react"
 import Image from "next/image"
-import { useTranslations } from "next-intl"
 
 interface ExperienceCardProps {
   title: string
@@ -13,35 +12,39 @@ interface ExperienceCardProps {
   onAdd?: () => void
 }
 
-export function ExperienceCard({ title, price, duration, image, distanceKm, onAdd }: ExperienceCardProps) {
-  const t = useTranslations("experiences")
-
+export function ExperienceCard({ title, price, duration, image, onAdd }: ExperienceCardProps) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-[#dedede]">
-      <div className="relative h-56">
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
-        {distanceKm !== undefined && (
-          <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-medium text-[#0E4659]">
-            <MapPin className="w-3.5 h-3.5" />
-            {t("distanceAway", { distance: distanceKm })}
-          </div>
-        )}
+    <div className="bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] flex flex-col min-w-[220px] h-[260px] shrink-0 overflow-hidden">
+      <div className="relative flex-1 min-h-0 w-full">
+        <Image
+          src={image || "/placeholder.svg"}
+          alt={title}
+          fill
+          sizes="220px"
+          className="object-cover"
+        />
       </div>
-      <div className="p-4 flex items-center gap-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold text-[#222] truncate">{title}</h3>
-          <div className="flex items-center gap-1.5 text-[#0E4659] bg-[#e9f9ff] px-2.5 py-1 rounded-2xl w-fit mt-1">
-            <Clock className="w-4 h-4" />
-            <span className="text-sm font-medium">{duration}</span>
+      <div className="flex flex-col gap-[3.3px] p-3">
+        <h3 className="text-[12px] font-bold text-[#F7F4EF] leading-[19.97px] truncate">{title}</h3>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[14px] font-bold text-[#F7F4EF] leading-[22.53px]">
+              €{price.toFixed(0)}
+            </span>
+            <div className="flex items-center gap-[3px] text-[#9A7535]">
+              <Clock className="w-[14px] h-[14px]" strokeWidth={2} />
+              <span className="text-[12px] font-normal leading-[15.87px]">{duration}</span>
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={onAdd}
+            aria-label="Add"
+            className="w-8 h-8 shrink-0 bg-[#C9A96E] hover:bg-[#b89558] transition-colors flex items-center justify-center"
+          >
+            <Plus className="w-[18px] h-[18px] text-[#0D0D0D]" strokeWidth={2.5} />
+          </button>
         </div>
-        <div className="text-xl font-extrabold text-[#222] shrink-0">€{price.toFixed(2)}</div>
-        <button
-          onClick={onAdd}
-          className="size-10 shrink-0 rounded-full bg-[#27c7ff] hover:bg-[#1fb5e8] transition-colors flex items-center justify-center"
-        >
-          <Plus className="size-5 text-white" strokeWidth={3} />
-        </button>
       </div>
     </div>
   )

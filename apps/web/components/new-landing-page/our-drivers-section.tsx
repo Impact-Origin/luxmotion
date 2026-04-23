@@ -109,21 +109,29 @@ export function OurDriversSection() {
           className="relative w-full max-w-[1080px] mt-4"
           {...swipeHandlers}
         >
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${current * 100}%)` }}
-            >
-              {DRIVERS.map((driver) => (
-                <DriverSlide
+          <div className="relative grid">
+            {DRIVERS.map((driver, i) => {
+              const active = i === current
+              return (
+                <div
                   key={driver.id}
-                  driver={driver}
-                  vehicleLabel={t("vehicle")}
-                  languagesLabel={t("languages")}
-                  ridesLabel={t("rides")}
-                />
-              ))}
-            </div>
+                  aria-hidden={!active}
+                  className={`col-start-1 row-start-1 transition-[opacity,transform,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    active
+                      ? "opacity-100 translate-y-0 blur-0 pointer-events-auto"
+                      : "opacity-0 translate-y-3 blur-[2px] pointer-events-none"
+                  }`}
+                >
+                  <DriverSlide
+                    driver={driver}
+                    active={active}
+                    vehicleLabel={t("vehicle")}
+                    languagesLabel={t("languages")}
+                    ridesLabel={t("rides")}
+                  />
+                </div>
+              )
+            })}
           </div>
 
           <button
@@ -211,23 +219,40 @@ export function OurDriversSection() {
 
 function DriverSlide({
   driver,
+  active,
   vehicleLabel,
   languagesLabel,
   ridesLabel,
 }: {
   driver: Driver
+  active: boolean
   vehicleLabel: string
   languagesLabel: string
   ridesLabel: string
 }) {
+  const imgMotion = active
+    ? "opacity-100 scale-100"
+    : "opacity-0 scale-[0.94]"
+  const textMotion = active
+    ? "opacity-100 translate-y-0"
+    : "opacity-0 translate-y-2"
+  const ease = "cubic-bezier(0.22,1,0.36,1)"
+
   return (
     <div className="w-full shrink-0 px-12 sm:px-16">
       <div className="mx-auto max-w-[960px] flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-0">
         <div className="relative w-[280px] sm:w-[320px] lg:w-[380px] h-[300px] lg:h-[340px] flex items-center justify-center shrink-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[260px] rounded-full bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.2)]" />
           <div
-            className="relative w-[200px] sm:w-[220px] h-[280px] sm:h-[300px] border border-[#C9A96E] overflow-hidden z-10"
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[260px] rounded-full bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.2)] transition-all duration-[700ms] ${
+              active ? "opacity-100 scale-100" : "opacity-0 scale-[0.9]"
+            }`}
+            style={{ transitionTimingFunction: ease, transitionDelay: active ? "80ms" : "0ms" }}
+          />
+          <div
+            className={`relative w-[200px] sm:w-[220px] h-[280px] sm:h-[300px] border border-[#C9A96E] overflow-hidden z-10 transition-all duration-[700ms] ${imgMotion}`}
             style={{
+              transitionTimingFunction: ease,
+              transitionDelay: active ? "120ms" : "0ms",
               borderTopLeftRadius: "100px",
               borderTopRightRadius: "100px",
               backgroundImage:
@@ -244,7 +269,10 @@ function DriverSlide({
           </div>
         </div>
 
-        <div className="flex-1 lg:w-[580px] flex flex-col gap-[10px] items-center lg:items-start text-center lg:text-left">
+        <div
+          className={`flex-1 lg:w-[580px] flex flex-col gap-[10px] items-center lg:items-start text-center lg:text-left transition-all duration-[650ms] ${textMotion}`}
+          style={{ transitionTimingFunction: ease, transitionDelay: active ? "200ms" : "0ms" }}
+        >
           <h3
             className="text-[28px] lg:text-[32px] leading-[1.1] lg:leading-[36px] text-white"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}

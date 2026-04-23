@@ -1,15 +1,69 @@
 "use client"
 
-import { Check, Loader2, X } from "lucide-react"
+import { Check, Loader2, X, Plane, Car, Phone, Clock, CircleCheck } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Button } from "@workspace/ui/components/button"
 import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
 import { useEffect, useRef, useState } from "react"
 import { useAction } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { useSubscribeToOrderStatus } from "@/lib/orders"
-import { CheckoutStepLayout } from "@/components/checkout/shared/checkout-step-layout"
+import { cn } from "@workspace/ui/lib/utils"
+
+const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
+
+function FeatureCell({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode
+  title: string
+  desc: string
+}) {
+  return (
+    <div className="flex items-center gap-4 px-6 py-4 flex-1 min-w-0">
+      <div className="w-12 h-12 rounded-full bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] flex items-center justify-center shrink-0">
+        <div className="w-5 h-5 text-[#C9A96E] flex items-center justify-center">{icon}</div>
+      </div>
+      <div className="flex flex-col gap-[8px] min-w-0">
+        <p className="text-[14px] font-semibold text-[#F7F4EF] leading-none">{title}</p>
+        <p className="text-[12px] text-[#999] leading-[16px]">{desc}</p>
+      </div>
+    </div>
+  )
+}
+
+function StatusRow({
+  label,
+  icon,
+  highlight,
+}: {
+  label: string
+  icon: React.ReactNode
+  highlight?: boolean
+}) {
+  return (
+    <div
+      className={cn(
+        "h-[52px] flex items-center justify-between px-4 bg-[#1E1D1B] border transition-colors",
+        highlight ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.12)]",
+      )}
+    >
+      <span
+        className={cn(
+          "text-[14px] font-semibold",
+          highlight ? "text-white" : "text-[#999]",
+        )}
+      >
+        {label}
+      </span>
+      <div className={cn("w-6 h-6 flex items-center justify-center", highlight ? "text-[#C9A96E]" : "text-[#696969]")}>
+        {icon}
+      </div>
+    </div>
+  )
+}
 
 export function ConfirmationModal() {
   const t = useTranslations("confirmation")
@@ -18,23 +72,21 @@ export function ConfirmationModal() {
   const { resetCheckout, state } = useCheckout()
   const { orderId, payment } = state
   const successFromUrl = searchParams?.get("success")
-  
-  // Subscribe to order status
+
   const orderStatus = useSubscribeToOrderStatus(orderId ? String(orderId) : null)
-  
-  // Action para verificar status MBWay (polling fallback)
+
   const checkMbwayStatus = useAction(api.orders.checkMbwayOrderStatus)
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const [isWaitingPayment, setIsWaitingPayment] = useState(false)
   const [localPaymentFailed, setLocalPaymentFailed] = useState(false)
 
-  // Check if this is MBWay payment that's still pending
-  const isMbwayPending = payment.method === "mbway" && orderStatus?.paymentStatus !== "completed" && orderStatus?.paymentStatus !== "failed"
+  const isMbwayPending =
+    payment.method === "mbway" &&
+    orderStatus?.paymentStatus !== "completed" &&
+    orderStatus?.paymentStatus !== "failed"
 
-  // Start polling for MBWay if payment is pending (first check immediately, then every 3s)
   useEffect(() => {
     if (!isMbwayPending || !orderId) return
-    // Reset local failure state when starting a new MBWay check
     setLocalPaymentFailed(false)
     setIsWaitingPayment(true)
 
@@ -76,7 +128,6 @@ export function ConfirmationModal() {
     }
   }, [isMbwayPending, orderId, checkMbwayStatus])
 
-  // Update waiting state when orderStatus changes
   useEffect(() => {
     if (orderStatus?.paymentStatus === "completed" || orderStatus?.paymentStatus === "failed") {
       if (orderStatus.paymentStatus === "failed") {
@@ -100,75 +151,121 @@ export function ConfirmationModal() {
     orderStatus?.paymentStatus === "failed" ||
     successFromUrl === "false"
 
+  const paymentDone =
+    !isWaitingPayment && !paymentFailed && (payment.method === "cash" ? true : true)
+
   return (
-    <CheckoutStepLayout>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[440px] md:max-w-[1080px] overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-500 mx-auto">
-        <div className="bg-[#27c7ff] px-6 py-4 md:px-12 md:py-8">
-          <h1 className="text-white text-[20px] md:text-[42px] font-bold leading-tight">{t("title")}</h1>
+    <div className="w-full">
+      <div className="max-w-[1180px] mx-auto px-6 pt-10 pb-16">
+        <div className="flex flex-col items-center">
+          <div className="w-[56px] h-[56px] rounded-full border border-[#C9A96E] flex items-center justify-center">
+            <CircleCheck className="w-6 h-6 text-[#C9A96E]" strokeWidth={1.5} />
+          </div>
+
+          <div className="mt-8 flex items-center gap-2">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]">
+              {t("eyebrow")}
+            </span>
+            <div className="w-8 h-px bg-[#C9A96E]" />
+          </div>
+
+          <h1
+            className="mt-6 text-center text-[72px] md:text-[96px] leading-[1] text-[#F7F4EF]"
+            style={SERIF_FONT}
+          >
+            <span className="font-normal">{t("headingLine1")}</span>
+            <br />
+            <span className="italic text-[#C9A96E] font-normal">{t("headingLine2")}</span>
+            <span className="font-normal">.</span>
+          </h1>
         </div>
 
-        <div className="px-6 py-6 md:px-12 md:py-10 space-y-6">
-          <p className="text-[16px] md:text-[19px] leading-[1.5]">
-            <span className="text-black">{t("thankYou")} </span>
-            <span className="text-[#27c7ff]">{t("emailWhatsapp")}</span>
-          </p>
+        <div className="mt-16 max-w-[800px] mx-auto bg-[#1A1918] border border-[rgba(255,255,255,0.12)]">
+          <div className="h-14 px-6 border-b border-[rgba(255,255,255,0.12)] flex items-center">
+            <h2 className="text-[18px] text-[#F7F4EF] leading-none" style={SERIF_FONT}>
+              {t("cardTitle")}
+            </h2>
+          </div>
 
-          <p className="text-[16px] md:text-[19px] text-black leading-[1.5]">
-            <span className="font-bold">{t("teamConfirmation")}</span> {t("driverDetails")}
-          </p>
+          <div className="px-12 py-12 flex flex-col gap-6">
+            <p className="text-[14px] leading-[1.6] text-[#F7F4EF]">
+              <span className="font-bold">{t("thankYou")} </span>
+              <span className="text-[#C9A96E]">{t("emailWhatsapp")}</span>
+            </p>
 
-          <p className="text-[16px] md:text-[19px] text-black leading-[1.5]">
-            {t("tipRequest")} <span className="font-bold">{t("considerTip")}</span> {t("tipMessage")}
-          </p>
+            <p className="text-[14px] leading-[1.6] text-[#F7F4EF]">
+              <span className="font-bold">{t("teamConfirmation")}</span> {t("driverDetails")}
+            </p>
 
-          <div className="space-y-3 md:space-y-4 pt-2 md:pt-4">
-            {paymentFailed ? (
-              <div className="bg-red-50 border-2 border-red-200 rounded-xl px-5 py-4 md:px-8 md:py-5 flex items-center gap-3">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                  <X className="w-5 h-5 text-red-600" strokeWidth={2.5} />
-                </div>
-                <div>
-                  <span className="text-red-700 text-[18px] md:text-[22px] font-bold block">{t("paymentRejected")}</span>
-                  <span className="text-red-600 text-sm md:text-base">{t("paymentRejectedSubtext")}</span>
-                </div>
-              </div>
-            ) : isWaitingPayment ? (
-              <div className="bg-[#fff3cd] border border-[#ffc107]/60 rounded-xl px-5 py-4 md:px-8 md:py-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Loader2 className="w-6 h-6 md:w-8 md:h-8 text-[#ffc107] animate-spin" />
-                  <span className="text-[#856404] text-[18px] md:text-[22px] font-semibold">
-                    {t("waitingPayment")}
+            <p className="text-[14px] leading-[1.6] text-[#F7F4EF]">
+              {t("tipRequest")} <span className="font-bold">{t("considerTip")}</span>{" "}
+              {t("tipMessage")}
+            </p>
+
+            <div className="flex flex-col gap-2 pt-2">
+              {paymentFailed ? (
+                <div className="h-[52px] flex items-center justify-between px-4 bg-[rgba(227,40,40,0.08)] border border-[rgba(227,40,40,0.35)]">
+                  <span className="text-[14px] font-semibold text-[#E32828]">
+                    {t("paymentRejected")}
                   </span>
+                  <X className="w-5 h-5 text-[#E32828]" strokeWidth={2.5} />
                 </div>
-              </div>
-            ) : (
-              <>
-                {payment.method !== "cash" && (
-                  <div className="bg-[#d5f6ea] border border-[#48d9a4]/60 rounded-xl px-5 py-4 md:px-8 md:py-5 flex items-center justify-between">
-                    <span className="text-[#48d9a4] text-[18px] md:text-[22px] font-semibold">{t("paymentDone")}</span>
-                    <Check className="w-7 h-7 md:w-9 md:h-9 text-[#48d9a4]" strokeWidth={2.5} />
-                  </div>
-                )}
+              ) : (
+                <>
+                  <StatusRow
+                    label={t("bookingDone")}
+                    icon={<Check className="w-5 h-5" strokeWidth={2.5} />}
+                    highlight
+                  />
+                  <StatusRow
+                    label={t("paymentDone")}
+                    icon={
+                      isWaitingPayment ? (
+                        <Loader2 className="w-5 h-5 animate-spin" strokeWidth={2} />
+                      ) : paymentDone && payment.method !== "cash" ? (
+                        <Check className="w-5 h-5" strokeWidth={2.5} />
+                      ) : (
+                        <Clock className="w-5 h-5" strokeWidth={2} />
+                      )
+                    }
+                    highlight={paymentDone && payment.method !== "cash" && !isWaitingPayment}
+                  />
+                </>
+              )}
+            </div>
 
-                <div className="bg-[#d5f6ea] border border-[#48d9a4]/60 rounded-xl px-5 py-4 md:px-8 md:py-5 flex items-center justify-between">
-                  <span className="text-[#48d9a4] text-[18px] md:text-[22px] font-semibold">{t("bookingDone")}</span>
-                  <Check className="w-7 h-7 md:w-9 md:h-9 text-[#48d9a4]" strokeWidth={2.5} />
-                </div>
-              </>
-            )}
+            <div className="flex justify-center pt-2">
+              <button
+                type="button"
+                onClick={handleBackToHome}
+                disabled={isWaitingPayment}
+                className="h-12 w-[240px] bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center hover:bg-[#b89558] hover:border-[#b89558] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {t("backToStart")}
+              </button>
+            </div>
           </div>
+        </div>
 
-          <div className="flex justify-center pt-4 md:pt-8 pb-2">
-            <Button 
-              onClick={handleBackToHome}
-              disabled={isWaitingPayment}
-              className="w-full md:w-auto bg-[#27c7ff] hover:bg-[#1fb3e8] disabled:opacity-50 disabled:cursor-not-allowed text-white text-[16px] md:text-[17px] font-bold tracking-wide px-6 py-4 md:px-24 md:py-7 rounded-xl h-auto uppercase"
-            >
-              {t("backToHome")}
-            </Button>
-          </div>
+        <div className="mt-10 max-w-[800px] mx-auto border border-[rgba(255,255,255,0.12)] grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[rgba(255,255,255,0.12)]">
+          <FeatureCell
+            icon={<Plane className="w-5 h-5" strokeWidth={2} />}
+            title={t("flightMonitored.title")}
+            desc={t("flightMonitored.desc")}
+          />
+          <FeatureCell
+            icon={<Car className="w-5 h-5" strokeWidth={2} />}
+            title={t("driverConfirmed.title")}
+            desc={t("driverConfirmed.desc")}
+          />
+          <FeatureCell
+            icon={<Phone className="w-5 h-5" strokeWidth={2} />}
+            title={t("support247.title")}
+            desc={t("support247.desc")}
+          />
         </div>
       </div>
-    </CheckoutStepLayout>
+    </div>
   )
 }

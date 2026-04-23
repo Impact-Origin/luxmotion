@@ -17,6 +17,7 @@ interface DateTimePickerProps {
   placeholder?: string
   label?: string
   variant?: "default" | "widget" | "new-widget"
+  hideLeftIcon?: boolean
 }
 
 const MONTHS = [
@@ -26,7 +27,7 @@ const MONTHS = [
 
 const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
 
-export function DateTimePicker({ value, onChange, placeholder = "Partida", label = "Partida", variant = "default" }: DateTimePickerProps) {
+export function DateTimePicker({ value, onChange, placeholder = "Partida", label = "Partida", variant = "default", hideLeftIcon = false }: DateTimePickerProps) {
   const normalizedValue = React.useMemo(() => {
     if (!value) return undefined
     if (value instanceof Date) return value
@@ -424,7 +425,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       } : undefined}
     >
       {isNewWidget ? (
-        <CalendarIcon className="w-6 h-6 flex-shrink-0" strokeWidth={2} style={{ color: "#C9A96E" }} />
+        !hideLeftIcon && <CalendarIcon className="w-6 h-6 flex-shrink-0" strokeWidth={2} style={{ color: "#C9A96E" }} />
       ) : isWidget ? (
         <div
           data-theme-color="heroBookingIcon"

@@ -2,6 +2,7 @@
   "common": {
     "continue": "Continuar",
     "select": "Selecionar",
+    "selected": "Selecionado",
     "edit": "Editar",
     "upgrade": "Upgrade",
     "pay": "Pagar",
@@ -453,11 +454,22 @@
       "bestDrivers": "Melhores motoristas de Lisboa",
       "bestDriversDesc": "Escolhemos os motoristas mais simpáticos, profissionais e que falam inglês",
       "alwaysOnTime": "Sempre a tempo",
-      "alwaysOnTimeDesc": "Os nossos motoristas monitorizam os voos em caso de atrasos"
+      "alwaysOnTimeDesc": "Os nossos motoristas monitorizam os voos em caso de atrasos",
+      "shortRating": "4.98/5 — 3000+ avaliações",
+      "shortDrivers": "Melhores motoristas",
+      "shortFlight": "Monitorização de voo"
     },
     "verifiedReviews": "avaliações verificadas de 5 estrelas no Trustpilot",
     "initError": "Falha ao inicializar o pedido. Por favor, tente novamente.",
-    "noVehicles": "Não encontrámos veículos adequados para os seus requisitos."
+    "noVehicles": "Não encontrámos veículos adequados para os seus requisitos.",
+    "chooseYourVehicle": "Escolha o seu veículo",
+    "continue": "CONTINUAR",
+    "nav": {
+      "reservationsToday": "{count} reservas hoje",
+      "themeToggle": "Alternar tema",
+      "menu": "Menu",
+      "close": "Fechar"
+    }
   },
   "vehicle": {
     "electric": "Elétrico",
@@ -545,7 +557,11 @@
     "enterFlightNumber": "Por favor, insira o número do voo",
     "selectDateFirst": "Por favor, selecione primeiro a data",
     "fillLocations": "Por favor, preencha a origem e o destino.",
-    "extrasRoundTripTooltip": "Em viagens de ida e volta, os extras são cobrados por trajeto. O valor indicado corresponde ao total (ida + volta)."
+    "extrasRoundTripTooltip": "Em viagens de ida e volta, os extras são cobrados por trajeto. O valor indicado corresponde ao total (ida + volta).",
+    "landing": "Pouso",
+    "wait": "Espera",
+    "tripDetails": "Detalhes da viagem",
+    "bags": "Bagagens"
   },
   "experiences": {
     "extraStop": "Paragem extra",
@@ -553,11 +569,12 @@
     "experiences": "Experiências",
     "privateTours": "Tours Privados",
     "events": "Eventos",
-    "title": "Tours Perto do Seu Destino",
+    "title": "Experiências no destino",
     "subtitle": "Melhore a sua viagem com estas experiências próximas",
     "distanceAway": "{distance} km de distância",
     "skipStep": "Continuar sem tours",
-    "viewDetails": "Ver detalhes"
+    "viewDetails": "Ver detalhes",
+    "extraStops": "Paragens extra"
   },
   "passengerForm": {
     "iAmMainPassenger": "Sou o passageiro principal",
@@ -585,7 +602,9 @@
     "fillRequired": "Por favor, preencha o nome, e-mail e telefone.",
     "fillTravelerRequired": "Por favor, preencha o nome, e-mail e telefone do viajante.",
     "orderNotInitialized": "O pedido ainda não foi inicializado.",
-    "saveError": "Falha ao salvar as informações do passageiro."
+    "saveError": "Falha ao salvar as informações do passageiro.",
+    "title": "Informação do passageiro",
+    "mainPassengerData": "Dados do passageiro principal"
   },
   "payment": {
     "title": "Pagamento",
@@ -630,7 +649,7 @@
     "familyDeathDesc": "Imediata",
     "sslProtection": "O seu pagamento é protegido por SSL/TLS.",
     "termsAcceptance": "Ao prosseguir, aceita os nossos Termos e a Política de Privacidade.",
-    "payButton": "PAGAR",
+    "payButton": "Pagar",
     "acceptTermsLabel": "Concordo com os",
     "termsAndConditions": "Termos e Condições",
     "acceptTermsAnd": "e a",
@@ -656,7 +675,56 @@
     "amount": "Valor",
     "awaitingConfirmation": "A aguardar confirmação de pagamento do banco...",
     "orderNotInitialized": "O pedido ainda não foi inicializado.",
-    "vehicleMissing": "O veículo não foi selecionado."
+    "vehicleMissing": "O veículo não foi selecionado.",
+    "addonsHeading": "Dados do Passageiro principal",
+    "tipHeading": "Gorjeta para o motorista (opcional)",
+    "methodHeading": "Método de pagamento",
+    "methodFast": "Pagamento rápido",
+    "methodCard": "Cartão",
+    "methodPortuguese": "Métodos portugueses",
+    "methodInternational": "Internacional",
+    "methodInPerson": "Pagamento presencial",
+    "cardTitle": "Cartão de crédito / débito",
+    "payAtDriver": "Pagar ao motorista",
+    "or": "ou",
+    "specialRequestHeading": "Pedido especial",
+    "specialRequestPlaceholderNew": "Escreva aqui o que você precisa com detalhes...",
+    "sslBannerLead": "Pagamento protegido por SSL/TLS.",
+    "sslBannerMid": "Ao pagar, está a aceitar os nossos",
+    "privacyPolicy": "Política de Privacidade",
+    "addAddon": "Adicionar",
+    "addons": {
+      "airportGuarantee": {
+        "title": "Garantia de Chegada ao Aeroporto",
+        "subtitle": "Nunca perca o seu voo por um imprevisto",
+        "b1": "Reagendamento gratuito",
+        "b2": "Motorista de substituição garantido",
+        "b3": "Suporte prioritário 24/7",
+        "badge": "Viagem Tranquila"
+      },
+      "meetGreet": {
+        "title": "Meet & Greet Pessoal",
+        "subtitle": "O seu motorista encontra-o à chegada com placa nominativa",
+        "b1": "Motorista à sua espera na zona de chegadas",
+        "b2": "Placa com o seu nome para fácil identificação",
+        "b3": "Assistência com bagagem até ao veículo",
+        "tagline": "Serviço mais requisitado em chegadas internacionais"
+      },
+      "priorityPickup": {
+        "title": "Pick-up Prioritário",
+        "subtitle": "Motorista 10 min antes, espera alargada",
+        "b1": "Motorista no local 15 min antes",
+        "b2": "Espera 60 min em aeroporto",
+        "b3": "Linha direta operações"
+      },
+      "comfortPack": {
+        "title": "Pack Viagem Confortável",
+        "subtitle": "Água, Wi-Fi, carregadores, assistência",
+        "b1": "Água fresca por passageiro + toalhitas para as mãos + um snack",
+        "b2": "Wi-Fi durante a viagem",
+        "b3": "Carregadores iPhone e USB-C"
+      }
+    }
   },
   "tourCheckout": {
     "title": "Reservar Tour",
@@ -743,7 +811,8 @@
     "notSelected": "Não selecionado",
     "selectDate": "Selecione a data",
     "selectOrigin": "Selecione a origem",
-    "selectDestination": "Selecione o destino"
+    "selectDestination": "Selecione o destino",
+    "stopsLabel": "Parada(s)"
   },
   "confirmation": {
     "title": "Confirmação de reserva",
@@ -759,7 +828,24 @@
     "backToHome": "VOLTAR PARA PÁGINA INICIAL",
     "waitingPayment": "Aguardando confirmação do pagamento MB Way...",
     "paymentRejected": "Pagamento rejeitado",
-    "paymentRejectedSubtext": "A reserva não foi confirmada. Pode tentar novamente ou escolher outro método."
+    "paymentRejectedSubtext": "A reserva não foi confirmada. Pode tentar novamente ou escolher outro método.",
+    "eyebrow": "Reserva feita",
+    "headingLine1": "A sua jornada",
+    "headingLine2": "espera",
+    "cardTitle": "Confirmação de Reserva",
+    "backToStart": "Voltar para o início",
+    "flightMonitored": {
+      "title": "Voo Monitorizado",
+      "desc": "Seguimos o seu voo em tempo real. O motorista ajusta automaticamente — sem taxas de atraso."
+    },
+    "driverConfirmed": {
+      "title": "Motorista Confirmado",
+      "desc": "O motorista será atribuído em 2 horas e receberá os detalhes por SMS."
+    },
+    "support247": {
+      "title": "Suporte 24/7",
+      "desc": "Precisa de algo? A nossa equipa está disponível 24 horas via chamada, WhatsApp ou email."
+    }
   },
   "exclusive": "Exclusivo",
   "tours": {
@@ -1032,13 +1118,32 @@
   },
   "blogsHero": {
     "title": "Descubra as Maravilhas de Portugal",
-    "searchPlaceholder": "Pesquisar tudo",
-    "searchButton": "Pesquisar"
+    "searchPlaceholder": "Pesquise por tours, destino, experiência...",
+    "searchButton": "Pesquisar",
+    "eyebrow": "The LuxMotion Journal",
+    "headingMain": "Descubra as\nmaravilhas de",
+    "headingAccent": "Portugal"
   },
   "featuredBlogs": {
     "readMore": "Ler mais",
     "share": "Partilhar",
-    "goToSlide": "Ir para slide {number}"
+    "goToSlide": "Ir para slide {number}",
+    "eyebrow": "Escolha do Editor",
+    "heading": "Artigos em",
+    "headingAccent": "destaque",
+    "readArticle": "Ler artigo",
+    "seeMore": "Ver mais artigos",
+    "sortByLabel": "Ordenar por",
+    "sortLatest": "Recentes",
+    "sortOldest": "Antigos",
+    "noArticles": "Nenhum artigo encontrado.",
+    "catAll": "Todos",
+    "catTransfers": "Transfers",
+    "catTours": "Tours",
+    "catLisbon": "Lisboa",
+    "catPorto": "Porto",
+    "catAlgarve": "Algarve",
+    "catTraveltips": "Dicas de viagem"
   },
   "latestGuides": {
     "title": "Últimos guias",
@@ -2153,7 +2258,28 @@
     "priceHigh": "Preço (Maior para Menor)",
     "noEventsFound": "Nenhum evento encontrado",
     "tryFilters": "Tente ajustar os filtros.",
-    "checkBackSoon": "Volte em breve para ver próximos eventos."
+    "checkBackSoon": "Volte em breve para ver próximos eventos.",
+    "hero": {
+      "eyebrow": "Transporte Privado · Eventos em Portugal",
+      "headingLine1": "Chegue como",
+      "headingLine2": "merece.",
+      "subtitle": "Transporte privado com motorista para os melhores festivais, concertos, eventos desportivos e ocasiões culturais de Portugal — porta a porta, no veículo que merece.",
+      "upcomingEvents": "Próximos eventos",
+      "citiesCovered": "Cidades cobertas",
+      "bookingAvailable": "Reserva disponível"
+    },
+    "featuredHeading": "Não perca esses",
+    "featuredHeadingAccent": "eventos",
+    "allEventsLabel": "Todos os Eventos",
+    "allEventsHeading": "Todos os próximos",
+    "allEventsHeadingAccent": "Eventos",
+    "searchButton": "Pesquisar",
+    "eventCountSuffix": "eventos",
+    "categoryAll": "Todos",
+    "categoryMusic": "Música",
+    "categorySports": "Desporto",
+    "categoryCulture": "Cultura",
+    "categoryCorporate": "Corporativo"
   },
   "eventDetails": {
     "date": "Data",

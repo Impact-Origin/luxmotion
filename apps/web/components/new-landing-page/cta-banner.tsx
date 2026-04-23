@@ -9,11 +9,32 @@ export function CTABanner() {
 
   return (
     <section
-      className="relative overflow-hidden pt-10 pb-16 px-4 md:px-[82px] 2xl:px-[300px] flex flex-col items-center justify-center gap-6"
-      style={{
-        background: "radial-gradient(ellipse at center, rgba(26,16,5,1) 0%, rgba(13,13,13,1) 100%)",
-      }}
+      className="relative overflow-hidden pt-10 pb-16 px-4 md:px-[82px] 2xl:px-[300px] flex flex-col items-center justify-center gap-6 bg-[#0D0D0D]"
     >
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 85% at 50% 50%, rgba(26,16,5,1) 0%, rgba(22,14,6,0.85) 35%, rgba(17,13,9,0.5) 60%, rgba(13,13,13,0) 85%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-y-0 left-0 w-[22%] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, #0D0D0D 0%, rgba(13,13,13,0.6) 50%, rgba(13,13,13,0) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-y-0 right-0 w-[22%] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to left, #0D0D0D 0%, rgba(13,13,13,0.6) 50%, rgba(13,13,13,0) 100%)",
+        }}
+      />
       <div className="flex flex-col items-center gap-2 text-center max-w-[1280px] relative z-10">
         <h2
           className="text-[36px] md:text-[48px] text-[#F5F5F5] leading-none"

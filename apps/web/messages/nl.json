@@ -2,6 +2,7 @@
   "common": {
     "continue": "Doorgaan",
     "select": "Selecteren",
+    "selected": "Geselecteerd",
     "edit": "Bewerken",
     "upgrade": "Upgraden",
     "pay": "Betalen",
@@ -453,11 +454,22 @@
       "bestDrivers": "Beste chauffeurs in Lissabon",
       "bestDriversDesc": "We selecteren de vriendelijkste, professionele, Engelssprekende chauffeurs",
       "alwaysOnTime": "Altijd op tijd",
-      "alwaysOnTimeDesc": "Onze chauffeurs monitoren de vluchten bij vertragingen"
+      "alwaysOnTimeDesc": "Onze chauffeurs monitoren de vluchten bij vertragingen",
+      "shortRating": "4.98/5 — 3000+ beoordelingen",
+      "shortDrivers": "Beste chauffeurs",
+      "shortFlight": "Vluchtmonitoring"
     },
     "verifiedReviews": "geverifieerde 5-sterrenbeoordelingen op Trustpilot",
     "initError": "Initialiseren van de bestelling mislukt. Probeer het opnieuw.",
-    "noVehicles": "Geen geschikte voertuigen gevonden voor uw wensen."
+    "noVehicles": "Geen geschikte voertuigen gevonden voor uw wensen.",
+    "chooseYourVehicle": "Kies uw voertuig",
+    "continue": "DOORGAAN",
+    "nav": {
+      "reservationsToday": "{count} reserveringen vandaag",
+      "themeToggle": "Thema wisselen",
+      "menu": "Menu",
+      "close": "Sluiten"
+    }
   },
   "vehicle": {
     "electric": "Elektrisch",
@@ -545,7 +557,11 @@
     "enterFlightNumber": "Voer een vluchtnummer in",
     "selectDateFirst": "Selecteer eerst een datum",
     "fillLocations": "Vul herkomst en bestemming in.",
-    "extrasRoundTripTooltip": "Bij retourtjes worden extras per rit in rekening gebracht. Het getoonde bedrag is het totaal (heen- + terugreis)."
+    "extrasRoundTripTooltip": "Bij retourtjes worden extras per rit in rekening gebracht. Het getoonde bedrag is het totaal (heen- + terugreis).",
+    "landing": "Landing",
+    "wait": "Wachten",
+    "tripDetails": "Reisdetails",
+    "bags": "Bagage"
   },
   "experiences": {
     "extraStop": "Extra stop",
@@ -553,11 +569,12 @@
     "experiences": "Ervaringen",
     "privateTours": "Privérondleidingen",
     "events": "Evenementen",
-    "title": "Rondleidingen Nabij Uw Bestemming",
+    "title": "Ervaringen op bestemming",
     "subtitle": "Verrijk uw reis met deze ervaringen in de buurt",
     "distanceAway": "{distance} km afstand",
     "skipStep": "Doorgaan zonder rondleidingen",
-    "viewDetails": "Details bekijken"
+    "viewDetails": "Details bekijken",
+    "extraStops": "Extra stops"
   },
   "passengerForm": {
     "iAmMainPassenger": "Ik ben de hoofdpassagier",
@@ -585,7 +602,9 @@
     "fillRequired": "Vul naam, e-mail en telefoon in.",
     "fillTravelerRequired": "Vul de naam, het e-mailadres en het telefoonnummer van de reiziger in.",
     "orderNotInitialized": "Bestelling is nog niet geïnitialiseerd.",
-    "saveError": "Opslaan van passagiersinformatie mislukt."
+    "saveError": "Opslaan van passagiersinformatie mislukt.",
+    "title": "Passagiersgegevens",
+    "mainPassengerData": "Gegevens van hoofdpassagier"
   },
   "payment": {
     "title": "Betaling",
@@ -630,7 +649,7 @@
     "familyDeathDesc": "Onmiddellijk",
     "sslProtection": "Uw betaling is beschermd door SSL/TLS.",
     "termsAcceptance": "Door verder te gaan, accepteert u onze Voorwaarden en Privacybeleid.",
-    "payButton": "BETALEN",
+    "payButton": "Betalen",
     "acceptTermsLabel": "Ik ga akkoord met de",
     "termsAndConditions": "Algemene Voorwaarden",
     "acceptTermsAnd": "en het",
@@ -656,7 +675,56 @@
     "amount": "Bedrag",
     "awaitingConfirmation": "Wachten op betalingsbevestiging van de bank...",
     "orderNotInitialized": "Bestelling is nog niet geïnitialiseerd.",
-    "vehicleMissing": "Voertuig ontbreekt."
+    "vehicleMissing": "Voertuig ontbreekt.",
+    "addonsHeading": "Gegevens hoofdpassagier",
+    "tipHeading": "Fooi voor de chauffeur (optioneel)",
+    "methodHeading": "Betaalmethode",
+    "methodFast": "Snelle betaling",
+    "methodCard": "Kaart",
+    "methodPortuguese": "Portugese methoden",
+    "methodInternational": "Internationaal",
+    "methodInPerson": "Betalen bij de chauffeur",
+    "cardTitle": "Credit- / debitkaart",
+    "payAtDriver": "Bij chauffeur betalen",
+    "or": "of",
+    "specialRequestHeading": "Speciaal verzoek",
+    "specialRequestPlaceholderNew": "Schrijf hier gedetailleerd wat u nodig heeft...",
+    "sslBannerLead": "Betaling beveiligd met SSL/TLS.",
+    "sslBannerMid": "Door te betalen accepteert u onze",
+    "privacyPolicy": "Privacybeleid",
+    "addAddon": "Toevoegen",
+    "addons": {
+      "airportGuarantee": {
+        "title": "Aankomstgarantie Luchthaven",
+        "subtitle": "Mis nooit uw vlucht door een onverwachte gebeurtenis",
+        "b1": "Gratis herplanning",
+        "b2": "Gegarandeerde vervangende chauffeur",
+        "b3": "24/7 prioriteitsondersteuning",
+        "badge": "Zorgeloze Reis"
+      },
+      "meetGreet": {
+        "title": "Persoonlijke Meet & Greet",
+        "subtitle": "Uw chauffeur ontvangt u bij aankomst met naambord",
+        "b1": "Chauffeur wacht in de aankomsthal",
+        "b2": "Bord met uw naam voor makkelijke herkenning",
+        "b3": "Bagageassistentie tot aan het voertuig",
+        "tagline": "Meest gevraagde service bij internationale aankomsten"
+      },
+      "priorityPickup": {
+        "title": "Prioriteitsafhaling",
+        "subtitle": "Chauffeur 10 min vooraf, verlengde wachttijd",
+        "b1": "Chauffeur 15 min voor vertrek ter plaatse",
+        "b2": "60 min wachttijd op luchthaven",
+        "b3": "Directe lijn met operations"
+      },
+      "comfortPack": {
+        "title": "Comfort Reispakket",
+        "subtitle": "Water, Wi-Fi, opladers, assistentie",
+        "b1": "Vers water per passagier + handdoekjes + een snack",
+        "b2": "Wi-Fi tijdens de reis",
+        "b3": "iPhone- en USB-C-opladers"
+      }
+    }
   },
   "tourCheckout": {
     "title": "Tour boeken",
@@ -743,7 +811,8 @@
     "notSelected": "Niet geselecteerd",
     "selectDate": "Selecteer datum",
     "selectOrigin": "Selecteer vertrekpunt",
-    "selectDestination": "Selecteer bestemming"
+    "selectDestination": "Selecteer bestemming",
+    "stopsLabel": "Stop(s)"
   },
   "confirmation": {
     "title": "Boekingsbevestiging",
@@ -757,7 +826,24 @@
     "paymentDone": "Betaling voltooid",
     "bookingDone": "Boeking voltooid",
     "backToHome": "TERUG NAAR STARTPAGINA",
-    "waitingPayment": "Wachten op bevestiging van MB Way-betaling..."
+    "waitingPayment": "Wachten op bevestiging van MB Way-betaling...",
+    "eyebrow": "Boeking gemaakt",
+    "headingLine1": "Uw reis",
+    "headingLine2": "wacht",
+    "cardTitle": "Boekingsbevestiging",
+    "backToStart": "Terug naar start",
+    "flightMonitored": {
+      "title": "Vlucht Gemonitord",
+      "desc": "We volgen uw vlucht in realtime. Uw chauffeur past zich automatisch aan — geen vertragingskosten."
+    },
+    "driverConfirmed": {
+      "title": "Chauffeur Bevestigd",
+      "desc": "Uw chauffeur wordt binnen 2 uur toegewezen en u ontvangt de gegevens per SMS."
+    },
+    "support247": {
+      "title": "24/7 Ondersteuning",
+      "desc": "Iets nodig? Ons team is de klok rond bereikbaar via telefoon, WhatsApp of e-mail."
+    }
   },
   "exclusive": "Exclusief",
   "tours": {
@@ -1030,13 +1116,32 @@
   },
   "blogsHero": {
     "title": "Ontdek de Wonderen van Portugal",
-    "searchPlaceholder": "Alles zoeken",
-    "searchButton": "Zoeken"
+    "searchPlaceholder": "Zoek naar tours, bestemming, ervaring...",
+    "searchButton": "Zoeken",
+    "eyebrow": "The LuxMotion Journal",
+    "headingMain": "Ontdek de\nwonderen van",
+    "headingAccent": "Portugal"
   },
   "featuredBlogs": {
     "readMore": "Lees meer",
     "share": "Delen",
-    "goToSlide": "Ga naar dia {number}"
+    "goToSlide": "Ga naar dia {number}",
+    "eyebrow": "Keuze van de Redactie",
+    "heading": "Uitgelichte",
+    "headingAccent": "artikelen",
+    "readArticle": "Lees artikel",
+    "seeMore": "Meer artikelen bekijken",
+    "sortByLabel": "Sorteren op",
+    "sortLatest": "Nieuwste",
+    "sortOldest": "Oudste",
+    "noArticles": "Geen artikelen gevonden.",
+    "catAll": "Alle",
+    "catTransfers": "Transfers",
+    "catTours": "Tours",
+    "catLisbon": "Lissabon",
+    "catPorto": "Porto",
+    "catAlgarve": "Algarve",
+    "catTraveltips": "Reistips"
   },
   "latestGuides": {
     "title": "Laatste gidsen",
@@ -1980,7 +2085,28 @@
     "priceHigh": "Prijs (Hoog naar Laag)",
     "noEventsFound": "Geen evenementen gevonden",
     "tryFilters": "Probeer de filters aan te passen.",
-    "checkBackSoon": "Kom snel terug voor aankomende evenementen."
+    "checkBackSoon": "Kom snel terug voor aankomende evenementen.",
+    "hero": {
+      "eyebrow": "Privévervoer · Evenementen in Portugal",
+      "headingLine1": "Arriveer zoals",
+      "headingLine2": "het hoort.",
+      "subtitle": "Privé chauffeurvervoer naar de beste festivals, concerten, sportevenementen en culturele gelegenheden van Portugal — van deur tot deur, in het voertuig dat u verdient.",
+      "upcomingEvents": "Aankomende evenementen",
+      "citiesCovered": "Steden gedekt",
+      "bookingAvailable": "Boeking beschikbaar"
+    },
+    "featuredHeading": "Mis deze",
+    "featuredHeadingAccent": "evenementen niet",
+    "allEventsLabel": "Alle Evenementen",
+    "allEventsHeading": "Alle aankomende",
+    "allEventsHeadingAccent": "Evenementen",
+    "searchButton": "Zoeken",
+    "eventCountSuffix": "evenementen",
+    "categoryAll": "Alle",
+    "categoryMusic": "Muziek",
+    "categorySports": "Sport",
+    "categoryCulture": "Cultuur",
+    "categoryCorporate": "Zakelijk"
   },
   "eventDetails": {
     "date": "Datum",

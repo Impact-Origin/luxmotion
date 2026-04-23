@@ -10,6 +10,7 @@ interface PhoneInputProps {
   defaultCountry?: CountryIso2
   placeholder?: string
   autoComplete?: string
+  dark?: boolean
 }
 
 const allCountries = defaultCountries.map((country) => parseCountry(country))
@@ -27,6 +28,7 @@ export function PhoneInput({
   defaultCountry = "pt",
   placeholder = "",
   autoComplete = "tel",
+  dark = false,
 }: PhoneInputProps) {
   const defaultSelectedCountry =
     allCountries.find((c) => c.iso2 === defaultCountry) || allCountries.find((c) => c.iso2 === "pt")!
@@ -53,7 +55,7 @@ export function PhoneInput({
 
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
-      searchInputRef.current.focus()
+      searchInputRef.current.focus({ preventScroll: true })
     }
   }, [isOpen])
 
@@ -95,23 +97,31 @@ export function PhoneInput({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="h-12 pl-3 pr-2 border border-r-0 border-[#e0e0e0] rounded-l-md bg-white text-[#222222] text-[15px] flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] shrink-0"
+          className={
+            dark
+              ? "h-[44px] pl-2 pr-3 border border-r-0 border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] text-white text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#23221F] transition-colors focus:outline-none shrink-0"
+              : "h-12 pl-3 pr-2 border border-r-0 border-[#e0e0e0] rounded-l-md bg-white text-[#222222] text-[15px] flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] shrink-0"
+          }
         >
-          <FlagImage iso2={selectedCountry.iso2} size={24} />
-          <span className="font-medium">+{selectedCountry.dialCode}</span>
-          <ChevronDown className={`w-4 h-4 text-[#666] transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+          <FlagImage iso2={selectedCountry.iso2} size={20} />
+          <span className="font-normal">+{selectedCountry.dialCode}</span>
+          <ChevronDown className={`w-4 h-4 ${dark ? "text-[#F7F4EF]" : "text-[#666]"} transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
         </button>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-1 w-[280px] max-h-[320px] bg-white border border-[#e0e0e0] rounded-lg shadow-lg z-50 overflow-hidden">
-            <div className="p-2 border-b border-[#e0e0e0]">
+          <div className={`absolute top-full left-0 mt-1 w-[280px] max-h-[320px] ${dark ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-50 overflow-hidden`}>
+            <div className={`p-2 border-b ${dark ? "border-[rgba(255,255,255,0.12)]" : "border-[#e0e0e0]"}`}>
               <input
                 ref={searchInputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search country..."
-                className="w-full h-9 px-3 border border-[#e0e0e0] rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] text-black"
+                className={
+                  dark
+                    ? "w-full h-9 px-3 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+                    : "w-full h-9 px-3 border border-[#e0e0e0] rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] text-black"
+                }
               />
             </div>
             <div className="max-h-[260px] overflow-y-auto">
@@ -120,17 +130,19 @@ export function PhoneInput({
                   key={country.iso2}
                   type="button"
                   onClick={() => handleCountrySelect(country)}
-                  className={`w-full px-3 py-2.5 flex items-center gap-3 hover:bg-[#f5f5f5] transition-colors text-left ${
-                    selectedCountry.iso2 === country.iso2 ? "bg-[#e9f9ff]" : ""
+                  className={`w-full px-3 py-2.5 flex items-center gap-3 transition-colors text-left ${
+                    dark
+                      ? `hover:bg-[rgba(255,255,255,0.04)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(201,169,110,0.08)]" : ""}`
+                      : `hover:bg-[#f5f5f5] ${selectedCountry.iso2 === country.iso2 ? "bg-[#e9f9ff]" : ""}`
                   }`}
                 >
                   <FlagImage iso2={country.iso2} size={24} />
-                  <span className="flex-1 text-[14px] text-[#222222] truncate">{country.name}</span>
-                  <span className="text-[14px] text-[#808080] font-medium">+{country.dialCode}</span>
+                  <span className={`flex-1 text-[14px] truncate ${dark ? "text-[#F7F4EF]" : "text-[#222222]"}`}>{country.name}</span>
+                  <span className={`text-[14px] font-medium ${dark ? "text-[#999]" : "text-[#808080]"}`}>+{country.dialCode}</span>
                 </button>
               ))}
               {filteredCountries.length === 0 && (
-                <div className="px-3 py-4 text-center text-[14px] text-[#808080]">
+                <div className={`px-3 py-4 text-center text-[14px] ${dark ? "text-[#999]" : "text-[#808080]"}`}>
                   No countries found
                 </div>
               )}
@@ -144,7 +156,11 @@ export function PhoneInput({
           onChange={handlePhoneChange}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className="flex-1 min-w-0 w-0 h-12 px-3 border border-[#e0e0e0] rounded-r-md text-[15px] text-[#222222] placeholder:text-[#a2a2a2] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff]"
+          className={
+            dark
+              ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+              : "flex-1 min-w-0 w-0 h-12 px-3 border border-[#e0e0e0] rounded-r-md text-[15px] text-[#222222] placeholder:text-[#a2a2a2] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff]"
+          }
         />
       </div>
 

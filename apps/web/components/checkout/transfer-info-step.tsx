@@ -1,49 +1,280 @@
 "use client"
 
 import Image from "next/image"
-import { Plane, Search, Info, Backpack, Luggage, Briefcase, Lock, Plus, X } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
+import { Search, Info, Backpack, Luggage, Briefcase, Plus, X, ArrowLeft, ArrowRight, Minus, PlaneLanding, Clock, MapPin, Users, Baby, ChevronRight } from "lucide-react"
 import { Checkbox } from "@workspace/ui/components/checkbox"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
-import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
-import { Counter } from "@/components/ui/counter"
-import { InputWithIcon } from "@/components/ui/input-with-icon"
-import { ChildSeatCard, ExtrasCard, AnimatedCollapse, LuggageSection, FormField } from "@/components/checkout/shared"
+import { AnimatedCollapse } from "@/components/checkout/shared"
 import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
 import { GooglePlacesInput } from "@/components/ui/google-places-input"
 import { initOrder, createReturnOrder, registTrip, selectCar, toBackendLocation, formatLocalDate, formatLocalDateTime, lookupFlight } from "@/lib/orders"
-import { useState, useMemo } from "react"
+import { useState, useMemo, type ReactNode, type ComponentType } from "react"
 import { useConvex } from "convex/react"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { api } from "@workspace/convex/api"
 import { toast } from "sonner"
+import { cn } from "@workspace/ui/lib/utils"
 
 interface TransferInfoStepProps {
   onContinue: () => void
 }
 
-function RoundTripInfoPopoverMobile({ label, content }: { label: string; content: string }) {
-  const [open, setOpen] = useState(false)
+const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
+
+function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <div className="md:hidden">
-      <Popover open={open} onOpenChange={setOpen} modal={false}>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] w-11 h-11 rounded-full bg-[#dff7ff] border border-[#27c7ff]/40 text-[#27c7ff] hover:bg-[#c5eef9] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:ring-offset-1 touch-manipulation"
-            aria-label={label}
-          >
-            <Info className="w-4 h-4" strokeWidth={2.5} />
-          </button>
-        </PopoverTrigger>
-        <PopoverContent side="bottom" sideOffset={6} align="start" className="max-w-[280px] text-left z-[100] !bg-white !text-[#222222] shadow-lg border border-[#e0e0e0] text-sm p-3">
-          {content}
-        </PopoverContent>
-      </Popover>
+    <div className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] mt-8 mb-3">
+      {children}
     </div>
   )
+}
+
+function FieldLabel({ children }: { children: ReactNode }) {
+  return (
+    <label className="block text-[14px] font-medium text-[#F7F4EF] mb-2">{children}</label>
+  )
+}
+
+function DarkFieldBox({ children }: { children: ReactNode }) {
+  return (
+    <div className="h-12 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-3 flex items-center focus-within:border-[#C9A96E] transition-colors">
+      {children}
+    </div>
+  )
+}
+
+function DarkCounter({
+  value,
+  onChange,
+  min = 0,
+  max = Infinity,
+  className,
+}: {
+  value: number
+  onChange: (v: number) => void
+  min?: number
+  max?: number
+  className?: string
+}) {
+  return (
+    <div className={cn("flex items-center", className)}>
+      <button
+        type="button"
+        onClick={() => value > min && onChange(value - 1)}
+        disabled={value <= min}
+        className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(255,255,255,0.12)] text-[#F7F4EF] hover:bg-[rgba(255,255,255,0.04)] disabled:text-[rgba(247,244,239,0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
+      >
+        <Minus className="w-3.5 h-3.5" strokeWidth={2} />
+      </button>
+      <div className="w-10 h-8 flex items-center justify-center border-y-[1.5px] border-[rgba(255,255,255,0.12)]">
+        <span className={cn("text-[14px] font-medium tabular-nums", value > 0 ? "text-white" : "text-[#696969]")}>{value}</span>
+      </div>
+      <button
+        type="button"
+        onClick={() => value < max && onChange(value + 1)}
+        disabled={value >= max}
+        className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(255,255,255,0.12)] text-[#F7F4EF] hover:bg-[rgba(255,255,255,0.04)] disabled:text-[rgba(247,244,239,0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
+      >
+        <Plus className="w-3.5 h-3.5" strokeWidth={2} />
+      </button>
+    </div>
+  )
+}
+
+function DarkInput({
+  value,
+  onChange,
+  placeholder,
+  leftIcon,
+  rightAdornment,
+}: {
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  leftIcon?: ReactNode
+  rightAdornment?: ReactNode
+}) {
+  return (
+    <div className="relative">
+      {leftIcon && (
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C9A96E]">{leftIcon}</div>
+      )}
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className={cn(
+          "w-full h-12 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] text-[14px] text-white placeholder:text-[#696969]",
+          "focus:outline-none focus:border-[#C9A96E] transition-colors",
+          leftIcon ? "pl-10" : "pl-4",
+          rightAdornment ? "pr-12" : "pr-4",
+        )}
+      />
+      {rightAdornment && (
+        <div className="absolute right-3 top-1/2 -translate-y-1/2">{rightAdornment}</div>
+      )}
+    </div>
+  )
+}
+
+function IconOptionCard({
+  icon: Icon,
+  title,
+  subtitle,
+  badge,
+  selected,
+  children,
+}: {
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>
+  title: string
+  subtitle?: string
+  badge?: string
+  selected?: boolean
+  children: ReactNode
+}) {
+  return (
+    <div
+      className={cn(
+        "relative border p-4 flex flex-col gap-2 items-center transition-colors",
+        selected
+          ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
+          : "bg-[#1A1918] border-[rgba(255,255,255,0.06)]",
+      )}
+    >
+      {badge && (
+        <span className="absolute top-3 right-3 text-[9px] font-bold text-[#9A7535] uppercase tracking-[0.72px]">
+          {badge}
+        </span>
+      )}
+      <div className="flex items-center justify-center gap-2">
+        <Icon className="w-6 h-6 text-[#C9A96E]" strokeWidth={1.6} />
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[12px] font-bold text-[#F7F4EF] leading-[19.2px]">{title}</span>
+          {subtitle && (
+            <span className="text-[10px] font-medium text-[rgba(247,244,239,0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
+              {subtitle}
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="flex items-center justify-center w-full">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function ImageOptionCard({
+  image,
+  imageRotation,
+  title,
+  subtitle,
+  badge,
+  selected,
+  children,
+}: {
+  image: string
+  imageRotation?: string
+  title: string
+  subtitle?: string
+  badge?: string
+  selected?: boolean
+  children: ReactNode
+}) {
+  return (
+    <div
+      className={cn(
+        "relative border p-4 flex flex-col gap-2 items-center transition-colors",
+        selected
+          ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
+          : "bg-[#1E1D1B] border-[rgba(247,244,239,0.08)]",
+      )}
+    >
+      {badge && (
+        <span className="absolute top-3 right-3 text-[9px] font-bold text-[#9A7535] uppercase tracking-[0.72px] z-10">
+          {badge}
+        </span>
+      )}
+      <div className="h-[88px] flex items-center justify-center overflow-hidden">
+        <Image
+          src={image}
+          alt={title}
+          width={140}
+          height={88}
+          className={cn(
+            "max-h-full w-auto object-contain drop-shadow-[3px_4px_7px_rgba(0,0,0,0.25)]",
+            imageRotation,
+          )}
+        />
+      </div>
+      <div className="flex flex-col items-center gap-0.5 text-center">
+        <span className="text-[12px] font-bold text-[#F7F4EF] leading-[19.2px]">{title}</span>
+        {subtitle && (
+          <span className="text-[10px] font-medium text-[rgba(247,244,239,0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
+            {subtitle}
+          </span>
+        )}
+      </div>
+      <div className="flex items-center justify-center w-full">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function FlightTimeline({
+  arrivalTime,
+  pickupTime,
+}: {
+  arrivalTime?: string | null
+  pickupTime?: string | null
+}) {
+  const t = useTranslations("transfer")
+  return (
+    <div className="flex items-stretch gap-2 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-4 py-3">
+      <TimelineStop icon={PlaneLanding} time={arrivalTime} label={t("landing")} />
+      <TimelineConnector />
+      <TimelineStop icon={Clock} time={"00:30"} label={t("wait")} />
+      <TimelineConnector />
+      <TimelineStop icon={MapPin} time={pickupTime} label={t("landing")} align="end" />
+    </div>
+  )
+}
+
+function TimelineStop({
+  icon: Icon,
+  time,
+  label,
+  align = "start",
+}: {
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>
+  time?: string | null
+  label: string
+  align?: "start" | "center" | "end"
+}) {
+  const alignClass = align === "end" ? "items-end" : align === "center" ? "items-center" : "items-start"
+  return (
+    <div className={cn("flex flex-col min-w-[60px]", alignClass)}>
+      <div className="w-8 h-8 border border-[rgba(201,169,110,0.4)] flex items-center justify-center mb-1">
+        <Icon className="w-4 h-4 text-[#C9A96E]" strokeWidth={1.6} />
+      </div>
+      <span className="text-[14px] font-bold text-white tabular-nums leading-tight">{time || "--:--"}</span>
+      <span className="text-[10px] text-[#999] uppercase tracking-[0.5px] mt-0.5">{label}</span>
+    </div>
+  )
+}
+
+function TimelineConnector() {
+  return <div className="flex-1 border-t border-dashed border-[rgba(201,169,110,0.4)] mt-4" />
+}
+
+function formatFlightTime(value: string | Date | null | undefined): string | null {
+  if (!value) return null
+  const d = value instanceof Date ? value : new Date(value)
+  if (!Number.isFinite(d.getTime())) return null
+  return d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: false })
 }
 
 export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
@@ -56,10 +287,11 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const [error, setError] = useState("")
   const [flightSuccess, setFlightSuccess] = useState("")
 
-  const isRoundTrip = transfer.bookReturn // Se bookReturn está marcado, é round trip (independente da aba)
+  const isRoundTrip = transfer.bookReturn
   const isReturnTab = transfer.transferType === "volta"
   const activeFlightNumber = isReturnTab ? transfer.returnFlightNumber : transfer.outboundFlightNumber
   const activeAirlineCompany = isReturnTab ? transfer.returnAirlineCompany : transfer.outboundAirlineCompany
+  const activeArrivalDate = isReturnTab ? transfer.returnArrivalDate : transfer.outboundArrivalDate
   const activeFlightDate = isReturnTab ? transfer.returnDate : transfer.departureDate
   const basePrice = selectedVehicle?.price ?? 0
   const baseTotalPrice = basePrice
@@ -104,15 +336,13 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
     setFlightSuccess("")
     updateTransfer({ transferType })
   }
-  
-  // Calculate insurance totals (same as invoice)
+
   const premiumInsurancePrice = payment.premiumInsurance ? (isRoundTrip ? 18 : 9) : 0
   const refundTermsPrice = payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0
   const comfortConnectionPrice = payment.comfortConnection ? (isRoundTrip ? 14 : 7) : 0
   const insuranceTotal = premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice
   const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
 
-  // Calculate extras costs (child seats, surfboards, pets)
   const multiplier = isRoundTrip ? 2 : 1
   const totalChildSeats = transfer.childSeatChecked ? (transfer.childSeats.baby + transfer.childSeats.child + transfer.childSeats.booster) : 0
   const totalSurfboards = transfer.surfboardChecked ? (transfer.surfboard.standard + transfer.surfboard.upgraded) : 0
@@ -124,7 +354,6 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
 
   const experiencesTotal = experiences.reduce((sum, exp) => sum + exp.totalPrice, 0)
 
-  // Calculate price breakdown with all fees included in rounding (same as invoice)
   const priceBreakdown = useMemo(() => calculatePriceBreakdown({
     basePrice: baseTotalPrice,
     cardFeeRate,
@@ -133,6 +362,10 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
 
   const continueButtonTotal = priceBreakdown.total + experiencesTotal
 
+  const updateChildSeats = (next: typeof transfer.childSeats) => {
+    const any = next.baby + next.child + next.booster > 0
+    updateTransfer({ childSeats: next, childSeatChecked: any })
+  }
   const childSeats = [
     {
       id: "baby",
@@ -140,7 +373,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       ageRange: t("babySeatAge"),
       image: "/images/c589411c-9d31-4b5a-82af.jpeg",
       value: transfer.childSeats.baby,
-      onChange: (v: number) => updateTransfer({ childSeats: { ...transfer.childSeats, baby: v } }),
+      onChange: (v: number) => updateChildSeats({ ...transfer.childSeats, baby: v }),
     },
     {
       id: "child",
@@ -148,7 +381,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       ageRange: t("childSeatAge"),
       image: "/images/cadeira-crianca.jpeg",
       value: transfer.childSeats.child,
-      onChange: (v: number) => updateTransfer({ childSeats: { ...transfer.childSeats, child: v } }),
+      onChange: (v: number) => updateChildSeats({ ...transfer.childSeats, child: v }),
     },
     {
       id: "booster",
@@ -156,10 +389,14 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       ageRange: t("boosterSeatAge"),
       image: "/images/banco-elevatorio.jpeg",
       value: transfer.childSeats.booster,
-      onChange: (v: number) => updateTransfer({ childSeats: { ...transfer.childSeats, booster: v } }),
+      onChange: (v: number) => updateChildSeats({ ...transfer.childSeats, booster: v }),
     },
   ]
 
+  const updateSurfboard = (next: typeof transfer.surfboard) => {
+    const any = next.standard + next.upgraded > 0
+    updateTransfer({ surfboard: next, surfboardChecked: any })
+  }
   const surfboards = [
     {
       id: "standard",
@@ -167,7 +404,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       subtitle: t("standardSurfboardSize"),
       image: "/checkout/surfboard_standard.png",
       value: transfer.surfboard.standard,
-      onChange: (v: number) => updateTransfer({ surfboard: { ...transfer.surfboard, standard: v } }),
+      onChange: (v: number) => updateSurfboard({ ...transfer.surfboard, standard: v }),
       imageRotation: "rotate-[330deg] -scale-x-150 scale-y-150",
     },
     {
@@ -176,13 +413,16 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       subtitle: t("biggerSurfboardSize"),
       image: "/checkout/surfboard_upgraded.png",
       value: transfer.surfboard.upgraded,
-      onChange: (v: number) => updateTransfer({ surfboard: { ...transfer.surfboard, upgraded: v } }),
-      badge: t("autoUpgrade"),
-      infoText: t("requiresXlVehicle"),
+      onChange: (v: number) => updateSurfboard({ ...transfer.surfboard, upgraded: v }),
+      badge: t("requiresXlVehicle"),
       imageRotation: "rotate-[235deg] -scale-x-140 scale-y-140",
     },
   ]
 
+  const updatePet = (next: typeof transfer.pet) => {
+    const any = next.small + next.large > 0
+    updateTransfer({ pet: next, petChecked: any })
+  }
   const pets = [
     {
       id: "small",
@@ -190,9 +430,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       subtitle: t("smallPetWeight"),
       image: "/checkout/pet_small.png",
       value: transfer.pet.small,
-      onChange: (v: number) => updateTransfer({ pet: { ...transfer.pet, small: v } }),
-      imageRotation: "-scale-x-[1.4] scale-y-[1.4] -lg:translate-x-2 -lg:translate-y-2",
-      className: "min-h-[240px]",
+      onChange: (v: number) => updatePet({ ...transfer.pet, small: v }),
+      imageRotation: "-scale-x-[1.4] scale-y-[1.4]",
     },
     {
       id: "large",
@@ -200,11 +439,9 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       subtitle: t("largePetWeight"),
       image: "/checkout/pet_large.png",
       value: transfer.pet.large,
-      onChange: (v: number) => updateTransfer({ pet: { ...transfer.pet, large: v } }),
-      badge: t("autoUpgrade"),
-      infoText: t("requiresXlVehicle"),
-      imageRotation: "-scale-x-[1.1] scale-y-[1.1] lg:translate-x-4",
-      className: "min-h-[240px]",
+      onChange: (v: number) => updatePet({ ...transfer.pet, large: v }),
+      badge: t("requiresXlVehicle"),
+      imageRotation: "-scale-x-[1.1] scale-y-[1.1]",
     },
   ]
 
@@ -259,7 +496,6 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         )
         setFlightSuccess(t("flightVerified", { airline: resp.airlineCompany }))
       } else {
-        // Voo não encontrado - mostrar toast
         toast.error(t("flightNotFound") || "Flight not found", {
           description:
             t("flightNotFoundDesc") ||
@@ -305,16 +541,22 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
     return { placeId, lat: details.lat, lng: details.lng }
   }
 
+  const handleBack = () => {
+    if (transfer.transferType === "volta") {
+      setTransferType("ida")
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
+    setShowTransferForm(false)
+  }
+
   const handleContinue = async () => {
-    // Se estiver na aba "ida" (outbound), mudar para aba "volta" (return)
     if (transfer.transferType === "ida") {
       setTransferType("volta")
-      // Scroll para o topo após mudar de aba
       window.scrollTo({ top: 0, behavior: "smooth" })
       return
     }
 
-    // Se estiver na aba "volta" (return), validar e continuar
     setError("")
     if (!selectedVehicle) {
       setError("Please select a vehicle first.")
@@ -413,10 +655,9 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         toBackendLocation({ location: s.text, placeId: s.placeId, lat: s.lat, lng: s.lng })
       )
 
-      // Usar ordem existente ou criar nova(s) se não existir(em)
       let currentOrderId = orderId
       let returnOrderId: string | null = null
-      
+
       if (!currentOrderId) {
         const initOrderPayload = {
           departure,
@@ -426,14 +667,13 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           adults: transfer.adults,
           children: transfer.children,
           departureDate: formatLocalDateTime(departureDate, true),
-          isRoundTrip: false, // Sempre criar apenas 1 ordem inicialmente
+          isRoundTrip: false,
           returnDate: undefined,
         }
         const initResp = await initOrder(convex, initOrderPayload)
         currentOrderId = initResp.order.id
         setOrder(currentOrderId, initResp.order)
       } else {
-        // Verificar se já existe ordem de retorno
         const existingOrder = await convex.query(api.orders.getByOrderNumber, { orderNumber: String(currentOrderId) })
         if (existingOrder?.relatedOrderId) {
           const returnOrder = await convex.query(api.orders.getById, { orderId: existingOrder.relatedOrderId })
@@ -441,17 +681,15 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         }
       }
 
-      // Se for round trip mas ainda não existe ordem de retorno, criar agora (mesmo sem returnDate ainda)
       if (isRoundTrip && !returnOrderId) {
-        // Se não tiver returnDate ainda, usar uma data placeholder (será atualizada depois)
-        const returnDate = transfer.returnDate 
+        const returnDate = transfer.returnDate
           ? new Date(transfer.returnDate)
-          : departureDate ? new Date(departureDate.getTime() + 24 * 60 * 60 * 1000) : new Date() // 1 dia depois se não tiver
-        
+          : departureDate ? new Date(departureDate.getTime() + 24 * 60 * 60 * 1000) : new Date()
+
         if (Number.isFinite(returnDate.getTime())) {
           const returnOrderResp = await createReturnOrder(convex, currentOrderId, {
-            departure: arrival, // Return starts from arrival
-            arrival: departure, // Return ends at departure
+            departure: arrival,
+            arrival: departure,
             departureDate: formatLocalDateTime(returnDate, true),
             passengers: transfer.passengers,
             adults: transfer.adults,
@@ -461,22 +699,19 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         }
       }
 
-      // Select car for outbound order - usar preço base do veículo (não o total com taxas)
-      const vehicleBasePrice = basePrice // Preço base do veículo (ex: 51)
+      const vehicleBasePrice = basePrice
       const selectCarPayload = {
         carId: String(selectedVehicle.id),
         type: selectedVehicle.name,
-        price: vehicleBasePrice, // Preço base do veículo (mesmo valor para ambas as ordens em round trip)
+        price: vehicleBasePrice,
         passengerCapacity: selectedVehicle.passengers,
       }
       await selectCar(convex, currentOrderId, selectCarPayload)
 
-      // If round trip, also select car for return order (sempre atualizar ambas)
       if (isRoundTrip && returnOrderId) {
         await selectCar(convex, returnOrderId, selectCarPayload)
       }
 
-      // Register outbound trip
       const registTripPayload = {
         flightNumber: transfer.outboundFlightNumber || "",
         departureDate: formatLocalDateTime(departureDate, false),
@@ -508,18 +743,15 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       }
       await registTrip(convex, currentOrderId, registTripPayload)
 
-      // If round trip, register return trip in separate order (sempre com os mesmos dados de bagagem/equipamento)
       if (isRoundTrip && returnOrderId) {
-        // Se não tiver returnDate ainda, usar uma data placeholder (será atualizada depois)
-        const returnDate = transfer.returnDate 
+        const returnDate = transfer.returnDate
           ? new Date(transfer.returnDate)
-          : departureDate ? new Date(departureDate.getTime() + 24 * 60 * 60 * 1000) : new Date() // 1 dia depois se não tiver
-        
+          : departureDate ? new Date(departureDate.getTime() + 24 * 60 * 60 * 1000) : new Date()
+
         if (Number.isFinite(returnDate.getTime())) {
           const returnTripPayload = {
             flightNumber: transfer.returnFlightNumber || "",
             departureDate: formatLocalDateTime(returnDate, false),
-            // Return trip usa os mesmos dados de bagagem/equipamento da ida
             backpacks: transfer.luggage.backpack,
             handbaggage: transfer.luggage.handLuggage,
             pets: transfer.petChecked ? transfer.pet.small + transfer.pet.large : 0,
@@ -536,7 +768,6 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
             adults: transfer.adults,
             children: transfer.children,
             flightType: "VOLTA" as const,
-            // Locations swapped for return trip
             departure: arrival,
             arrival: departure,
             arrivalDate: transfer.returnArrivalDate,
@@ -604,45 +835,65 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
     },
   ]
 
+  const arrivalTimeStr = formatFlightTime(activeArrivalDate)
+  const pickupTimeStr = formatFlightTime(activeFlightDate)
+  const showFlightTimeline = Boolean(arrivalTimeStr || activeAirlineCompany)
+
   return (
     <div className="w-full">
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <h2 className="text-[22px] font-bold text-[#222222] mb-6">{t("title")}</h2>
+      <h2
+        className="text-[28px] md:text-[32px] font-normal text-[#F7F4EF] mb-6 leading-none"
+        style={SERIF_FONT}
+      >
+        {t("tripDetails")}
+      </h2>
 
-        <div className="flex gap-3 mb-6 relative">
-          <button
-            onClick={() => setTransferType("ida")}
-            className={`flex-1 py-3 rounded-lg font-semibold text-[15px] transition-colors ${
-              transfer.transferType === "ida" ? "bg-[#27c7ff] text-white" : "bg-[#f7f7f7] text-[#222222]"
-            }`}
-          >
-            {t("outbound")}
-          </button>
-          <button
-            onClick={() => setTransferType("volta")}
-            className={`flex-1 py-3 rounded-lg font-semibold text-[15px] transition-colors ${
-              transfer.transferType === "volta" ? "bg-[#27c7ff] text-white" : "bg-[#f7f7f7] text-[#222222]"
-            }`}
-          >
-            {t("return")}
-          </button>
-        </div>
+      <div className="grid grid-cols-2 mb-6">
+        <button
+          type="button"
+          onClick={() => setTransferType("ida")}
+          className={cn(
+            "h-12 text-[13px] font-semibold uppercase tracking-[1px] transition-colors",
+            transfer.transferType === "ida"
+              ? "bg-[#C9A96E] text-[#0D0D0D]"
+              : "bg-[#1A1918] text-[#999] border border-[rgba(255,255,255,0.06)] hover:text-[#F7F4EF]",
+          )}
+        >
+          {t("outbound")}
+        </button>
+        <button
+          type="button"
+          onClick={() => setTransferType("volta")}
+          className={cn(
+            "h-12 text-[13px] font-semibold uppercase tracking-[1px] transition-colors",
+            transfer.transferType === "volta"
+              ? "bg-[#C9A96E] text-[#0D0D0D]"
+              : "bg-[#1A1918] text-[#999] border border-[rgba(255,255,255,0.06)] hover:text-[#F7F4EF]",
+          )}
+        >
+          {t("return")}
+        </button>
+      </div>
 
-        {transfer.transferType === "volta" && (
-          <div className="mb-4 bg-[#f7f7f7] p-2.5 rounded">
-            <label htmlFor="book-return" className="flex items-center gap-2 cursor-pointer">
-              <Checkbox
-                id="book-return"
-                checked={transfer.bookReturn}
-                onCheckedChange={(checked: boolean) => updateTransfer({ bookReturn: checked })}
-              />
-              <span className="text-[13px] text-[#222222]">{t("bookReturn")}</span>
-            </label>
-          </div>
-        )}
+      {transfer.transferType === "volta" && (
+        <label
+          htmlFor="book-return"
+          className="flex items-center gap-2 cursor-pointer mb-4 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-3 py-2.5"
+        >
+          <Checkbox
+            id="book-return"
+            checked={transfer.bookReturn}
+            onCheckedChange={(checked: boolean) => updateTransfer({ bookReturn: checked })}
+            className="border-[rgba(201,169,110,0.5)] data-[state=checked]:bg-[#C9A96E] data-[state=checked]:border-[#C9A96E]"
+          />
+          <span className="text-[13px] text-[#F7F4EF]">{t("bookReturn")}</span>
+        </label>
+      )}
 
-        <AnimatedCollapse isOpen={showLocationFields}>
-          <FormField label={t("from")}>
+      <AnimatedCollapse isOpen={showLocationFields}>
+        <div className="mb-4">
+          <FieldLabel>{t("from")}</FieldLabel>
+          <DarkFieldBox>
             <GooglePlacesInput
               value={{
                 location: displayFromLocation,
@@ -660,7 +911,6 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                   })
                   return
                 }
-
                 updateTransfer({
                   fromLocation: v.location,
                   fromPlaceId: v.placeId,
@@ -669,29 +919,50 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 })
               }}
               placeholder={t("departureLocation")}
+              variant="tours-hero-dark"
+              hideLeftIcon
             />
-          </FormField>
+          </DarkFieldBox>
+        </div>
 
-          {stops.map((stop, index) => (
-            <div key={index} className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-[15px] font-semibold text-[#222222]">{t("extraStop")}</label>
-                <button
-                  onClick={() => handleRemoveStop(index)}
-                  className="text-gray-400 hover:text-red-500 transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
+        {stops.length === 0 && (
+          <button
+            type="button"
+            onClick={handleAddStop}
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#C9A96E] hover:text-[#b89558] transition-colors mb-4"
+          >
+            <Plus className="w-4 h-4" strokeWidth={2} />
+            {t("addStop")}
+          </button>
+        )}
+
+        {stops.map((stop, index) => (
+          <div key={index} className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <FieldLabel>{t("extraStop")}</FieldLabel>
+              <button
+                type="button"
+                onClick={() => handleRemoveStop(index)}
+                className="text-[#696969] hover:text-[#C9A96E] transition-colors -mt-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <DarkFieldBox>
               <GooglePlacesInput
                 value={{ location: stop.text, placeId: stop.placeId, lat: stop.lat, lng: stop.lng }}
                 onChange={(v) => handleUpdateStop(index, v)}
                 placeholder={t("destinationLocation")}
+                variant="tours-hero-dark"
+                hideLeftIcon
               />
-            </div>
-          ))}
+            </DarkFieldBox>
+          </div>
+        ))}
 
-          <FormField label={t("to")}>
+        <div className="mb-4">
+          <FieldLabel>{t("to")}</FieldLabel>
+          <DarkFieldBox>
             <GooglePlacesInput
               value={{
                 location: displayToLocation,
@@ -709,7 +980,6 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                   })
                   return
                 }
-
                 updateTransfer({
                   toLocation: v.location,
                   toPlaceId: v.placeId,
@@ -718,407 +988,273 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 })
               }}
               placeholder={t("destinationLocation")}
+              variant="tours-hero-dark"
+              hideLeftIcon
             />
-          </FormField>
+          </DarkFieldBox>
+        </div>
 
-          {stops.length < 1 && (
-            <button
-              onClick={handleAddStop}
-              className="flex items-center gap-2 text-[14px] font-semibold text-[#27c7ff] hover:text-[#23b3e6] transition-colors mb-6"
-            >
-              <Plus className="w-4 h-4" />
-              {t("addStop") || "Add stop"}
-            </button>
-          )}
-
-          {!isReturnTab && (
-            <FormField label={isRoundTrip ? t("departureDateLabel") : t("dateTime")}>
+        {!isReturnTab && (
+          <div className="mb-4">
+            <FieldLabel>{isRoundTrip ? t("departureDateLabel") : t("dateTime")}</FieldLabel>
+            <DarkFieldBox>
               <DateTimePicker
                 value={transfer.departureDate}
                 onChange={(d) => updateTransfer({ departureDate: d })}
+                variant="new-widget"
+                hideLeftIcon
               />
-            </FormField>
-          )}
+            </DarkFieldBox>
+          </div>
+        )}
 
-          <AnimatedCollapse
-            isOpen={isEditingReturn}
-            className={isEditingReturn ? "mb-6" : "mb-0"}
-          >
-            <FormField label={t("returnDateLabel")} className="mb-0">
-              <DateTimePicker 
-                value={transfer.returnDate} 
-                onChange={(d) => updateTransfer({ returnDate: d })} 
+        <AnimatedCollapse isOpen={isEditingReturn}>
+          <div className="mb-4">
+            <FieldLabel>{t("returnDateLabel")}</FieldLabel>
+            <DarkFieldBox>
+              <DateTimePicker
+                value={transfer.returnDate}
+                onChange={(d) => updateTransfer({ returnDate: d })}
                 placeholder={t("return") || "Regresso"}
+                variant="new-widget"
+                hideLeftIcon
               />
-            </FormField>
-          </AnimatedCollapse>
-
-          <div className="mb-4">
-            <label className="block text-[15px] font-semibold text-[#222222] mb-2">{t("flightNumber")}</label>
-            <InputWithIcon
-              icon={<Plane className="w-5 h-5" />}
-              value={activeFlightNumber}
-              onChange={(v) => {
-                setFlightSuccess("")
-                updateTransfer(
-                  buildFlightTransferUpdate({
-                    flightNumber: v,
-                    arrivalDate: null,
-                    airlineCompany: null,
-                    amadeusFlightInfo: null,
-                  })
-                )
-              }}
-              placeholder="TP1691"
-              rightIcon={
-                <Search 
-                  className={`w-5 h-5 cursor-pointer transition-colors ${activeAirlineCompany ? "text-[#27c7ff]" : "text-[#bfbfbf] hover:text-[#808080]"}`} 
-                  onClick={handleFlightLookup}
-                />
-              }
-            />
-            {activeAirlineCompany && (
-              <p className="mt-1.5 text-xs font-semibold text-[#27c7ff]">
-                ✓ {activeAirlineCompany}
-              </p>
-            )}
-          </div>
-
-          <div className="flex gap-3 bg-[#f5f5f5] p-3 rounded-lg mb-6">
-            <Info className="w-5 h-5 text-[#27c7ff] flex-shrink-0 mt-0.5" />
-            <p className="text-[13px] text-[#404040] leading-relaxed">{t("flightInfo")}</p>
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-[15px] font-semibold text-[#222222] mb-3">{t("passengers")}</label>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <span className="text-[13px] text-[#65758b] block mb-1">{t("adults")}</span>
-                <Counter
-                  value={transfer.adults}
-                  onChange={(v) => updateTransfer({ adults: v, passengers: v + transfer.children })}
-                  min={1}
-                  max={passengerCapacity}
-                  variant="tiny"
-                />
-              </div>
-              <div className="flex-1">
-                <span className="text-[13px] text-[#65758b] block mb-1">{t("children")}</span>
-                <Counter
-                  value={transfer.children}
-                  onChange={(v) => updateTransfer({ children: v, passengers: transfer.adults + v })}
-                  min={0}
-                  max={Math.max(0, passengerCapacity - transfer.adults)}
-                  variant="tiny"
-                />
-              </div>
-            </div>
-          </div>
-
-          {transfer.passengers >= passengerCapacity && (
-            <div className="flex items-center justify-between bg-[#dff7ff] p-4 rounded-lg mb-6 animate-in fade-in duration-300">
-              <p className="text-[14px] text-[#0e4659]">{t("passengerLimit")}</p>
-              <Button
-                onClick={handleUpgrade}
-                className="bg-[#27c7ff] hover:bg-[#23b3e6] text-white px-5 h-9 text-[14px] font-semibold"
-              >
-                {tCommon("upgrade").toUpperCase()}
-              </Button>
-            </div>
-          )}
-
-          <div className="mb-4">
-            <div className="grid grid-cols-3 gap-3 md:hidden">
-              {luggageItems.map((item) => (
-                <LuggageSection
-                  key={item.label}
-                  label={item.label}
-                  icon={item.icon}
-                  value={item.value}
-                  onChange={item.onChange}
-                  max={item.max}
-                  variant="mobile"
-                />
-              ))}
-            </div>
-
-            <div className="hidden md:grid grid-cols-3 gap-4">
-              {luggageItems.map((item) => (
-                <LuggageSection
-                  key={item.label}
-                  label={item.label}
-                  icon={item.icon}
-                  value={item.value}
-                  onChange={item.onChange}
-                  max={item.max}
-                  variant="desktop"
-                />
-              ))}
-            </div>
-          </div>
-
-          {remainingLuggageCapacity === 0 && (
-            <div className="flex items-center justify-between bg-[#dff7ff] p-4 rounded-lg mb-6 animate-in fade-in duration-300">
-              <p className="text-[14px] text-[#0e4659]">{t("luggageLimit")}</p>
-              <Button
-                onClick={handleUpgrade}
-                className="bg-[#27c7ff] hover:bg-[#23b3e6] text-white px-5 h-9 text-[14px] font-semibold"
-              >
-                {tCommon("upgrade").toUpperCase()}
-              </Button>
-            </div>
-          )}
-
-          {isRoundTrip && (
-            <div className="mb-3 flex items-center">
-              <RoundTripInfoPopoverMobile
-                label={t("extrasRoundTripTooltip")}
-                content={t("extrasRoundTripTooltip")}
-              />
-              <div className="hidden md:block">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      type="button"
-                      className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#dff7ff] border border-[#27c7ff]/40 text-[#27c7ff] hover:bg-[#c5eef9] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:ring-offset-1"
-                      aria-label={t("extrasRoundTripTooltip")}
-                    >
-                      <Info className="w-4 h-4" strokeWidth={2.5} />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom" sideOffset={6} className="max-w-[260px] text-left z-[100] !bg-white !text-[#222222] shadow-lg border border-[#e0e0e0] [&>svg]:!fill-white [&>svg]:!stroke-white">
-                    {t("extrasRoundTripTooltip")}
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </div>
-          )}
-
-          <div className="mb-6">
-            <div className="mb-4 flex items-center gap-2">
-              <Checkbox
-                id="child-seat"
-                checked={transfer.childSeatChecked}
-                onCheckedChange={(checked: boolean) => updateTransfer({ childSeatChecked: checked })}
-              />
-              <label
-                htmlFor="child-seat"
-                className="text-base font-semibold text-[#222222] inline-flex items-center gap-2 cursor-pointer"
-              >
-                <Image
-                  src="/svgs/baby-car-seat.svg"
-                  alt="Baby car seat"
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 text-[#27c7ff]"
-                />
-                {t("childSeat")}
-              </label>
-            </div>
-
-            <AnimatedCollapse isOpen={transfer.childSeatChecked}>
-              <div className="sm:hidden grid grid-cols-2 gap-2 pt-4">
-                {childSeats.map((seat, index) => (
-                  <ChildSeatCard
-                    key={seat.id}
-                    title={seat.title}
-                    ageRange={seat.ageRange}
-                    image={seat.image}
-                    value={seat.value}
-                    onChange={seat.onChange}
-                    isSelected={index === 0}
-                    variant="mobile"
-                  />
-                ))}
-              </div>
-
-              <div className="hidden sm:grid grid-cols-3 gap-4">
-                {childSeats.map((seat, index) => (
-                  <ChildSeatCard
-                    key={seat.id}
-                    title={seat.title}
-                    ageRange={seat.ageRange}
-                    image={seat.image}
-                    value={seat.value}
-                    onChange={seat.onChange}
-                    isSelected={index === 0}
-                    variant="desktop"
-                  />
-                ))}
-              </div>
-            </AnimatedCollapse>
-          </div>
-
-          <div className="mb-6">
-            <div className="mb-4 flex items-center gap-2">
-              <Checkbox
-                id="surfboard"
-                checked={transfer.surfboardChecked}
-                onCheckedChange={(checked: boolean) => updateTransfer({ surfboardChecked: checked })}
-              />
-              <label
-                htmlFor="surfboard"
-                className="text-base font-semibold text-[#222222] inline-flex items-center gap-2 cursor-pointer"
-              >
-                <Image src="/svgs/surf.svg" alt="Surfboard" width={24} height={24} className="w-6 h-6" />
-                {t("surfboard")}
-              </label>
-            </div>
-
-            <AnimatedCollapse isOpen={transfer.surfboardChecked}>
-              <div className="sm:hidden grid grid-cols-2 gap-2 pt-4">
-                {surfboards.map((item) => (
-                  <ExtrasCard
-                    key={item.id}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    image={item.image}
-                    value={item.value}
-                    onChange={item.onChange}
-                    isSelected={item.value > 0}
-                    badge={item.badge}
-                    infoText={item.infoText}
-                    imageRotation={item.imageRotation}
-                    variant="mobile"
-                  />
-                ))}
-              </div>
-              <div className="hidden sm:grid grid-cols-2 gap-4">
-                {surfboards.map((item) => (
-                  <ExtrasCard
-                    key={item.id}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    image={item.image}
-                    value={item.value}
-                    onChange={item.onChange}
-                    isSelected={item.value > 0}
-                    badge={item.badge}
-                    infoText={item.infoText}
-                    imageRotation={item.imageRotation}
-                    variant="desktop"
-                  />
-                ))}
-              </div>
-
-              {transfer.surfboard.upgraded > 0 && passengerCapacity <= 5 && (
-                <div className="flex items-center justify-between bg-[#dff7ff] p-4 rounded-lg mt-3 animate-in fade-in duration-300">
-                  <p className="text-[14px] text-[#0e4659]">{t("surfboardUpgradeNeeded")}</p>
-                  <Button
-                    onClick={handleUpgrade}
-                    className="bg-[#27c7ff] hover:bg-[#23b3e6] text-white px-5 h-9 text-[14px] font-semibold"
-                  >
-                    {tCommon("upgrade").toUpperCase()}
-                  </Button>
-                </div>
-              )}
-            </AnimatedCollapse>
-          </div>
-
-          <div className="mb-6">
-            <div className="mb-4 flex items-center gap-2">
-              <Checkbox
-                id="pet"
-                checked={transfer.petChecked}
-                onCheckedChange={(checked: boolean) => updateTransfer({ petChecked: checked })}
-              />
-              <label
-                htmlFor="pet"
-                className="text-base font-semibold text-[#222222] inline-flex items-center gap-2 cursor-pointer"
-              >
-                <Image src="/svgs/paw.svg" alt="Pet" width={24} height={24} className="w-6 h-6" />
-                {t("pet")}
-              </label>
-            </div>
-
-            <AnimatedCollapse isOpen={transfer.petChecked}>
-              <div className="sm:hidden grid grid-cols-2 gap-2 pt-4">
-                {pets.map((item) => (
-                  <ExtrasCard
-                    key={item.id}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    image={item.image}
-                    value={item.value}
-                    onChange={item.onChange}
-                    isSelected={item.value > 0}
-                    badge={item.badge}
-                    infoText={item.infoText}
-                    imageRotation={item.imageRotation}
-                    variant="mobile"
-                  />
-                ))}
-              </div>
-              <div className="hidden sm:grid grid-cols-2 gap-4">
-                {pets.map((item) => (
-                  <ExtrasCard
-                    key={item.id}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    image={item.image}
-                    value={item.value}
-                    onChange={item.onChange}
-                    isSelected={item.value > 0}
-                    badge={item.badge}
-                    infoText={item.infoText}
-                    imageRotation={item.imageRotation}
-                    variant="desktop"
-                  />
-                ))}
-              </div>
-
-              {transfer.pet.large > 0 && passengerCapacity <= 5 && (
-                <div className="flex items-center justify-between bg-[#dff7ff] p-4 rounded-lg mt-3 animate-in fade-in duration-300">
-                  <p className="text-[14px] text-[#0e4659]">{t("petUpgradeNeeded")}</p>
-                  <Button
-                    onClick={handleUpgrade}
-                    className="bg-[#27c7ff] hover:bg-[#23b3e6] text-white px-5 h-9 text-[14px] font-semibold"
-                  >
-                    {tCommon("upgrade").toUpperCase()}
-                  </Button>
-                </div>
-              )}
-            </AnimatedCollapse>
-          </div>
-
-          <div className="mb-6">
-            <div className="flex items-center gap-3 bg-[#dff7ff] p-4 rounded-lg">
-              <Checkbox
-                id="terms"
-                checked={transfer.acceptTerms}
-                onCheckedChange={(checked: boolean) => updateTransfer({ acceptTerms: checked })}
-              />
-              <label htmlFor="terms" className="text-[14px] text-[#0e4659]">
-                {t("agreeTerms")}
-              </label>
-            </div>
+            </DarkFieldBox>
           </div>
         </AnimatedCollapse>
 
-        {error && (
-          <div className="mb-4 text-[13px] text-[#d60510]" aria-live="polite">
-            {error}
+        <div className="mb-4">
+          <FieldLabel>{t("flightNumber")}</FieldLabel>
+          <DarkInput
+            value={activeFlightNumber}
+            onChange={(v) => {
+              setFlightSuccess("")
+              updateTransfer(
+                buildFlightTransferUpdate({
+                  flightNumber: v,
+                  arrivalDate: null,
+                  airlineCompany: null,
+                  amadeusFlightInfo: null,
+                })
+              )
+            }}
+            placeholder="TP941"
+            rightAdornment={
+              <button
+                type="button"
+                onClick={handleFlightLookup}
+                className={cn(
+                  "transition-colors",
+                  activeAirlineCompany ? "text-[#C9A96E]" : "text-[#696969] hover:text-[#C9A96E]"
+                )}
+                aria-label="Search flight"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+            }
+          />
+          {activeAirlineCompany && (
+            <p className="mt-1.5 text-[11px] font-semibold text-[#C9A96E]">
+              ✓ {activeAirlineCompany}
+            </p>
+          )}
+        </div>
+
+        {showFlightTimeline && (
+          <div className="mb-3">
+            <FlightTimeline arrivalTime={arrivalTimeStr} pickupTime={pickupTimeStr} />
           </div>
         )}
 
-        {flightSuccess && (
-          <div className="mb-4 text-[13px] text-[#27c7ff]" aria-live="polite">
-            {flightSuccess}
-          </div>
+        <div className="flex items-start gap-2 mb-2 pl-1">
+          <Info className="w-3.5 h-3.5 text-[#696969] flex-shrink-0 mt-0.5" />
+          <p className="text-[11px] text-[#999] leading-[1.5]">{t("flightInfo")}</p>
+        </div>
+
+        <SectionLabel>{t("passengers")}</SectionLabel>
+        <div className="grid grid-cols-2 gap-3">
+          <IconOptionCard
+            icon={Users}
+            title={t("adults")}
+            subtitle="IDADE 12+"
+            selected={transfer.adults > 0}
+          >
+            <DarkCounter
+              value={transfer.adults}
+              onChange={(v) => updateTransfer({ adults: v, passengers: v + transfer.children })}
+              min={1}
+              max={passengerCapacity}
+            />
+          </IconOptionCard>
+          <IconOptionCard
+            icon={Baby}
+            title={t("children")}
+            subtitle="ABAIXO DE 12"
+            selected={transfer.children > 0}
+          >
+            <DarkCounter
+              value={transfer.children}
+              onChange={(v) => updateTransfer({ children: v, passengers: transfer.adults + v })}
+              min={0}
+              max={Math.max(0, passengerCapacity - transfer.adults)}
+            />
+          </IconOptionCard>
+        </div>
+
+        {transfer.passengers >= passengerCapacity && (
+          <UpgradeBanner message={t("passengerLimit")} label={tCommon("upgrade")} onClick={handleUpgrade} />
         )}
 
-        <Button
+        <SectionLabel>{t("bags")}</SectionLabel>
+        <div className="grid grid-cols-3 gap-3">
+          {luggageItems.map((item) => (
+            <IconOptionCard
+              key={item.label}
+              icon={item.icon}
+              title={item.label}
+              selected={item.value > 0}
+            >
+              <DarkCounter
+                value={item.value}
+                onChange={item.onChange}
+                min={0}
+                max={item.max}
+              />
+            </IconOptionCard>
+          ))}
+        </div>
+
+        {remainingLuggageCapacity === 0 && (
+          <UpgradeBanner message={t("luggageLimit")} label={tCommon("upgrade")} onClick={handleUpgrade} />
+        )}
+
+        <SectionLabel>{t("childSeat")}</SectionLabel>
+        <div className="grid grid-cols-3 gap-3">
+          {childSeats.map((seat) => (
+            <ImageOptionCard
+              key={seat.id}
+              image={seat.image}
+              title={seat.title}
+              subtitle={seat.ageRange}
+              selected={seat.value > 0}
+            >
+              <DarkCounter value={seat.value} onChange={seat.onChange} min={0} />
+            </ImageOptionCard>
+          ))}
+        </div>
+
+        <SectionLabel>{t("surfboard")}</SectionLabel>
+        <div className="grid grid-cols-2 gap-3">
+          {surfboards.map((item) => (
+            <ImageOptionCard
+              key={item.id}
+              image={item.image}
+              imageRotation={item.imageRotation}
+              title={item.title}
+              subtitle={item.subtitle}
+              badge={item.badge}
+              selected={item.value > 0}
+            >
+              <DarkCounter value={item.value} onChange={item.onChange} min={0} />
+            </ImageOptionCard>
+          ))}
+        </div>
+        {transfer.surfboard.upgraded > 0 && passengerCapacity <= 5 && (
+          <UpgradeBanner message={t("surfboardUpgradeNeeded")} label={tCommon("upgrade")} onClick={handleUpgrade} />
+        )}
+
+        <SectionLabel>{t("pet")}</SectionLabel>
+        <div className="grid grid-cols-2 gap-3">
+          {pets.map((item) => (
+            <ImageOptionCard
+              key={item.id}
+              image={item.image}
+              imageRotation={item.imageRotation}
+              title={item.title}
+              subtitle={item.subtitle}
+              badge={item.badge}
+              selected={item.value > 0}
+            >
+              <DarkCounter value={item.value} onChange={item.onChange} min={0} />
+            </ImageOptionCard>
+          ))}
+        </div>
+        {transfer.pet.large > 0 && passengerCapacity <= 5 && (
+          <UpgradeBanner message={t("petUpgradeNeeded")} label={tCommon("upgrade")} onClick={handleUpgrade} />
+        )}
+
+        <div className="mt-6">
+          <label htmlFor="terms" className="flex items-center gap-3 cursor-pointer bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-4 py-3">
+            <Checkbox
+              id="terms"
+              checked={transfer.acceptTerms}
+              onCheckedChange={(checked: boolean) => updateTransfer({ acceptTerms: checked })}
+              className="border-[rgba(201,169,110,0.5)] data-[state=checked]:bg-[#C9A96E] data-[state=checked]:border-[#C9A96E]"
+            />
+            <span className="text-[13px] text-[#F7F4EF] leading-relaxed">{t("agreeTerms")}</span>
+          </label>
+        </div>
+      </AnimatedCollapse>
+
+      {error && (
+        <div className="mt-4 text-[12px] text-[#E53935]" aria-live="polite">
+          {error}
+        </div>
+      )}
+
+      {flightSuccess && (
+        <div className="mt-4 text-[12px] text-[#C9A96E]" aria-live="polite">
+          {flightSuccess}
+        </div>
+      )}
+
+      <div className="flex items-center justify-between gap-4 mt-6">
+        <button
+          type="button"
+          onClick={handleBack}
+          disabled={isSubmitting}
+          className="inline-flex items-center gap-2 h-12 px-6 text-[13px] font-semibold uppercase tracking-[1px] text-[#F7F4EF] bg-[#1A1918] border border-[rgba(255,255,255,0.08)] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors disabled:opacity-50"
+        >
+          <ArrowLeft className="w-4 h-4" strokeWidth={2} />
+          {tCommon("back")}
+        </button>
+        <button
+          type="button"
           onClick={handleContinue}
           disabled={isSubmitting || !transfer.acceptTerms}
-          className="w-full bg-[#27c7ff] hover:bg-[#23b3e6] text-white h-14 text-[16px] font-bold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          <Lock className="w-5 h-5 mr-2" />
-          {transfer.transferType === "ida" 
-            ? tCommon("continue") 
-            : t("continueWithPrice", { price: continueButtonTotal.toFixed(2).replace(".", ",") })
-          }
-        </Button>
+          {transfer.transferType === "ida"
+            ? tCommon("continue")
+            : t("continueWithPrice", { price: continueButtonTotal.toFixed(2).replace(".", ",") })}
+          <ArrowRight className="w-4 h-4" strokeWidth={2} />
+        </button>
       </div>
     </div>
   )
 }
+
+function UpgradeBanner({
+  message,
+  label,
+  onClick,
+}: {
+  message: string
+  label: string
+  onClick: () => void
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.22)] px-4 py-3 mt-3 animate-in fade-in duration-300">
+      <p className="text-[12px] text-[#F7F4EF]">{message}</p>
+      <button
+        type="button"
+        onClick={onClick}
+        className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[1px] text-[#C9A96E] hover:text-[#b89558] transition-colors"
+      >
+        {label}
+        <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />
+      </button>
+    </div>
+  )
+}
+

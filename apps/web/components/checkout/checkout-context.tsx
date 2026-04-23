@@ -86,7 +86,7 @@ export interface PassengerState {
 }
 
 export interface PaymentState {
-  method: "cartao" | "cash" | "multibanco" | "mbway"
+  method: "cartao" | "cash" | "multibanco" | "mbway" | "pix" | "googlepay"
   cardNumber: string
   expiry: string
   cvc: string
@@ -97,6 +97,7 @@ export interface PaymentState {
   premiumInsurance: boolean
   refundTerms: boolean
   comfortConnection: boolean
+  priorityPickup: boolean
   acceptTerms: boolean
 }
 
@@ -180,6 +181,7 @@ const initialPaymentState: PaymentState = {
   premiumInsurance: false,
   refundTerms: false,
   comfortConnection: false,
+  priorityPickup: false,
   acceptTerms: false,
 }
 
