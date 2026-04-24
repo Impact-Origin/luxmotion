@@ -310,14 +310,12 @@ export function OrderSummarySidebar() {
             <span className="text-[12px] font-bold uppercase tracking-[1.152px] text-[#999] leading-none">
               {t("itinerary")}
             </span>
-            {stopsCount > 0 && (
-              <div className="inline-flex items-center gap-1.5 border border-[rgba(201,169,110,0.4)] bg-transparent px-2 py-1 rounded-[2px]">
-                <MapPin className="size-[14px] text-[#C9A96E]" strokeWidth={1.75} />
-                <span className="text-[12px] font-medium text-[#C9A96E] leading-none tracking-[0.2px]">
-                  {stopsCount} {t("stopsLabel")}
-                </span>
-              </div>
-            )}
+            <div className="inline-flex items-center gap-1.5 bg-[rgba(201,169,110,0.18)] px-2 py-1 rounded-[2px]">
+              <MapPinCheckInside className="size-[14px] text-[#C9A96E]" strokeWidth={1.75} />
+              <span className="text-[12px] font-medium text-[#C9A96E] leading-none tracking-[0.2px]">
+                {stopsCount} {t("stopsLabel")}
+              </span>
+            </div>
           </div>
           <ChevronButton open={isItineraryExpanded} />
         </button>

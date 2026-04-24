@@ -287,7 +287,7 @@ function VehicleSelectionStep({
     return (
       <div className="max-w-[1200px] mx-auto px-6 pb-6">
         <OrderSummaryMobile />
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0 mt-6 lg:mt-0 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-0 mt-6 lg:mt-0 items-start">
           <div className="pt-8 lg:pr-6">
             <TransferInfoStep onContinue={onContinue} />
           </div>
@@ -304,7 +304,7 @@ function VehicleSelectionStep({
       <div className="lg:hidden mb-6">
         <OrderSummaryMobile />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-0 items-start">
         <div className="flex flex-col pt-8 lg:pr-6">
           <h2 className="text-[22px] lg:text-[24px] font-normal text-[#F7F4EF] mb-5">
             {t("chooseYourVehicle")}

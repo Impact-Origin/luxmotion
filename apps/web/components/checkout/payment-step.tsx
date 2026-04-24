@@ -30,6 +30,7 @@ import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import { useConvex } from "convex/react"
 import { cn } from "@workspace/ui/lib/utils"
+import { AnimatedCollapse } from "@/components/checkout/shared"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
@@ -89,7 +90,7 @@ function AddonCard({
     <div className="relative bg-[#1E1D1B] border-2 border-[rgba(154,117,53,0.22)] flex flex-col gap-[10px] px-6 py-4">
       {badge && (
         <div className="absolute top-[-2px] right-[22.8px] bg-[#A27425] px-2 py-1">
-          <span className="text-[8px] font-semibold text-white uppercase tracking-[1px] leading-[14.08px]">
+          <span className="block translate-y-[1px] text-[8px] font-semibold text-white uppercase tracking-[1px] leading-[14.08px]">
             {badge}
           </span>
         </div>
@@ -650,8 +651,13 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
             />
           ))}
         </div>
-        {tipPercent === -1 && (
-          <div>
+        <AnimatedCollapse isOpen={tipPercent === -1}>
+          <div
+            className={cn(
+              "transition-[opacity,transform] duration-300 ease-out pt-1",
+              tipPercent === -1 ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+            )}
+          >
             <label className="block text-[12px] text-[#999] mb-1">{t("tipCustomPercent")}</label>
             <input
               type="number"
@@ -666,7 +672,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
               }}
             />
           </div>
-        )}
+        </AnimatedCollapse>
       </div>
 
       <div className="flex flex-col gap-4 pt-2">
@@ -705,14 +711,19 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
             <CreditCard className="w-6 h-6 text-white" strokeWidth={2} />
             <span className="text-[14px] text-white">{t("cardTitle")}</span>
           </MethodRow>
-          {payment.method === "cartao" && (
-            <div className="flex items-center justify-between px-2">
+          <AnimatedCollapse isOpen={payment.method === "cartao"}>
+            <div
+              className={cn(
+                "flex items-center justify-between px-2 transition-[opacity,transform] duration-300 ease-out",
+                payment.method === "cartao" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+              )}
+            >
               <span className="text-[12px] text-[#999]">{t("cardFee")}</span>
               <span className="text-[14px] font-semibold text-white">
                 € {priceBreakdown.cardFee.toFixed(2).replace(".", ",")}
               </span>
             </div>
-          )}
+          </AnimatedCollapse>
         </div>
 
         <div className="flex flex-col gap-[10px]">
@@ -749,8 +760,13 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
               </div>
             </MethodRow>
           </div>
-          {payment.method === "mbway" && (
-            <div>
+          <AnimatedCollapse isOpen={payment.method === "mbway"}>
+            <div
+              className={cn(
+                "pt-1 transition-[opacity,transform] duration-300 ease-out",
+                payment.method === "mbway" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+              )}
+            >
               <label className="block text-[12px] font-semibold text-white mb-2 leading-none">
                 {t("mbwayPhoneNumber")}
               </label>
@@ -762,7 +778,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
                 dark
               />
             </div>
-          )}
+          </AnimatedCollapse>
         </div>
 
         <div className="flex flex-col gap-[10px]">
@@ -830,11 +846,17 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         <span className="font-bold">€{Math.round(totalToPay)}</span>
       </button>
 
-      {submitError && (
-        <div className="text-[13px] text-[#E32828]" aria-live="polite">
+      <AnimatedCollapse isOpen={!!submitError}>
+        <div
+          className={cn(
+            "text-[13px] text-[#E32828] transition-[opacity,transform] duration-300 ease-out",
+            submitError ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+          )}
+          aria-live="polite"
+        >
           {submitError}
         </div>
-      )}
+      </AnimatedCollapse>
 
       <div className="pt-2">
         <button

@@ -65,7 +65,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
   const baseTotalPrice = baseVehiclePrice
   // Se for round trip, dobrar insurance e refund terms
   const premiumInsurancePrice = useMemo(() => (payment.premiumInsurance ? (isRoundTrip ? 18 : 9) : 0), [payment.premiumInsurance, isRoundTrip])
-  const refundTermsPrice = useMemo(() => (payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0), [payment.refundTerms, isRoundTrip])
+  const refundTermsPrice = useMemo(() => (payment.refundTerms ? (isRoundTrip ? 10 : 5) : 0), [payment.refundTerms, isRoundTrip])
   const comfortConnectionPrice = useMemo(() => (payment.comfortConnection ? (isRoundTrip ? 14 : 7) : 0), [payment.comfortConnection, isRoundTrip])
   const insuranceTotal = premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice
   const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
