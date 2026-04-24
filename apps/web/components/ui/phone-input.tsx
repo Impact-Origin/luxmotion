@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useLayoutEffect } from "react"
+import { createPortal } from "react-dom"
 import { defaultCountries, parseCountry, FlagImage, CountryIso2 } from "react-international-phone"
 import { ChevronDown } from "lucide-react"
 
@@ -38,12 +39,24 @@ export function PhoneInput({
   const [isOpen, setIsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [warning, setWarning] = useState("")
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const popoverRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const [popoverPos, setPopoverPos] = useState<{ top: number; left: number } | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node
+      if (
+        containerRef.current && !containerRef.current.contains(target) &&
+        popoverRef.current && !popoverRef.current.contains(target)
+      ) {
         setIsOpen(false)
         setSearchQuery("")
       }
@@ -52,6 +65,22 @@ export function PhoneInput({
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  useLayoutEffect(() => {
+    if (!isOpen) return
+    const updatePosition = () => {
+      if (!buttonRef.current) return
+      const rect = buttonRef.current.getBoundingClientRect()
+      setPopoverPos({ top: rect.bottom + 4, left: rect.left })
+    }
+    updatePosition()
+    window.addEventListener("scroll", updatePosition, true)
+    window.addEventListener("resize", updatePosition)
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true)
+      window.removeEventListener("resize", updatePosition)
+    }
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
@@ -92,9 +121,10 @@ export function PhoneInput({
   }
 
   return (
-    <div className="flex flex-col gap-1 min-w-0" ref={dropdownRef}>
+    <div className="flex flex-col gap-1 min-w-0" ref={containerRef}>
       <div className="flex gap-0 relative min-w-0">
         <button
+          ref={buttonRef}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={
@@ -108,8 +138,12 @@ export function PhoneInput({
           <ChevronDown className={`w-4 h-4 ${dark ? "text-[#F7F4EF]" : "text-[#666]"} transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
         </button>
 
-        {isOpen && (
-          <div className={`absolute top-full left-0 mt-1 w-[280px] max-h-[320px] ${dark ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-50 overflow-hidden`}>
+        {isOpen && mounted && popoverPos && createPortal(
+          <div
+            ref={popoverRef}
+            style={{ position: "fixed", top: popoverPos.top, left: popoverPos.left }}
+            className={`w-[280px] max-h-[320px] ${dark ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
+          >
             <div className={`p-2 border-b ${dark ? "border-[rgba(255,255,255,0.12)]" : "border-[#e0e0e0]"}`}>
               <input
                 ref={searchInputRef}
@@ -147,7 +181,8 @@ export function PhoneInput({
                 </div>
               )}
             </div>
-          </div>
+          </div>,
+          document.body
         )}
 
         <input

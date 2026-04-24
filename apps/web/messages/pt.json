@@ -1022,6 +1022,10 @@
     "searchPlaceholder": "Pesquisar por qualquer lugar",
     "searchButton": "Pesquisar",
     "searchResults": "Resultados da Pesquisa",
+    "resultsFor": "Resultados para",
+    "allTours": "Todos os Tours",
+    "noResultsFound": "Nenhum resultado encontrado",
+    "tryDifferent": "Tente outro termo de pesquisa",
     "badges": {
       "safe": "Seguro",
       "bestPrice": "Melhor Preço",

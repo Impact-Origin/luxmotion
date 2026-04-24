@@ -1020,6 +1020,10 @@
     "searchPlaceholder": "Nach Orten suchen",
     "searchButton": "Suchen",
     "searchResults": "Suchergebnisse",
+    "resultsFor": "Ergebnisse für",
+    "allTours": "Alle Touren",
+    "noResultsFound": "Keine Ergebnisse gefunden",
+    "tryDifferent": "Versuchen Sie einen anderen Suchbegriff",
     "badges": {
       "safe": "Sicher",
       "bestPrice": "Bester Preis",

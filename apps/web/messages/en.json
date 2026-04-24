@@ -1023,6 +1023,10 @@
     "searchPlaceholder": "Search for any places",
     "searchButton": "Search",
     "searchResults": "Search Results",
+    "resultsFor": "Results for",
+    "allTours": "All Tours",
+    "noResultsFound": "No results found",
+    "tryDifferent": "Try a different search term",
     "badges": {
       "safe": "Safe",
       "bestPrice": "Best Price",

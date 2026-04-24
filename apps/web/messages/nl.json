@@ -1020,6 +1020,10 @@
     "searchPlaceholder": "Zoek naar plaatsen",
     "searchButton": "Zoeken",
     "searchResults": "Zoekresultaten",
+    "resultsFor": "Resultaten voor",
+    "allTours": "Alle Tours",
+    "noResultsFound": "Geen resultaten gevonden",
+    "tryDifferent": "Probeer een andere zoekterm",
     "badges": {
       "safe": "Veilig",
       "bestPrice": "Beste Prijs",
