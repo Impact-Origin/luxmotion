@@ -9,7 +9,7 @@ export function AboutUsSection() {
   const t = useTranslations("aboutUs")
 
   return (
-    <section id="about" className="bg-[#0D0D0D] pt-6 pb-4 lg:pb-6">
+    <section id="about" className="bg-[#0D0D0D] pt-6 pb-0 lg:pb-0">
       <div className="max-w-[1280px] mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-6 xl:gap-8">
           <div className="relative w-full max-w-[578px] lg:w-[45%] lg:max-w-none lg:shrink-0 xl:w-[578px] xl:max-w-[578px] h-[460px] sm:h-[520px] lg:h-[520px] xl:h-[562px]">
@@ -40,12 +40,12 @@ export function AboutUsSection() {
               </div>
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 top-[60px] lg:top-[62px]">
+            <div className="absolute inset-x-0 bottom-0 top-[60px] lg:top-[62px] origin-bottom scale-[1.18] -translate-x-3 lg:-translate-x-5">
               <Image
                 src="/about/founders.png"
                 alt={t("imageAlt")}
                 fill
-                sizes="(max-width: 1024px) 100vw, 578px"
+                sizes="(max-width: 1024px) 100vw, 680px"
                 className="object-contain object-bottom"
                 priority={false}
               />

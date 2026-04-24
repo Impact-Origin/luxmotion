@@ -16,23 +16,23 @@ export function CTABanner() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 55% 85% at 50% 50%, rgba(26,16,5,1) 0%, rgba(22,14,6,0.85) 35%, rgba(17,13,9,0.5) 60%, rgba(13,13,13,0) 85%)",
+            "linear-gradient(to right, rgba(13,13,13,1) 0%, rgba(26,16,5,0.95) 28%, rgba(26,16,5,1) 50%, rgba(26,16,5,0.95) 72%, rgba(13,13,13,1) 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)",
         }}
       />
       <div
         aria-hidden
-        className="absolute inset-y-0 left-0 w-[22%] pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-[0.35]"
         style={{
-          background:
-            "linear-gradient(to right, #0D0D0D 0%, rgba(13,13,13,0.6) 50%, rgba(13,13,13,0) 100%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-y-0 right-0 w-[22%] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to left, #0D0D0D 0%, rgba(13,13,13,0.6) 50%, rgba(13,13,13,0) 100%)",
+          backgroundImage:
+            "repeating-linear-gradient(to right, transparent 0, transparent 119px, rgba(201,169,110,0.12) 119px, rgba(201,169,110,0.12) 120px)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)",
         }}
       />
       <div className="flex flex-col items-center gap-2 text-center max-w-[1280px] relative z-10">

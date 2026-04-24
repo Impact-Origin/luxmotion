@@ -102,11 +102,12 @@ function FeatureCard({
 }) {
   return (
     <div className="relative flex-1 flex items-center gap-4 px-12 py-6 lg:p-6 lg:justify-center group cursor-default overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[rgba(201,169,110,0.06)] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100" />
       <div className="absolute top-0 left-0 h-[2px] w-0 bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.4)] transition-all duration-300 ease-out group-hover:w-full" />
-      <div className="shrink-0 flex items-center justify-center p-4 rounded-full bg-[rgba(201,169,110,0.08)] border-2 border-[rgba(201,169,110,0.25)] transition-all duration-300 group-hover:border-[#C9A96E] group-hover:shadow-[0_0_16px_rgba(201,169,110,0.2)] group-hover:bg-[rgba(201,169,110,0.12)]">
+      <div className="relative shrink-0 flex items-center justify-center p-4 rounded-full bg-[rgba(201,169,110,0.08)] border-2 border-[rgba(201,169,110,0.25)] transition-all duration-300 group-hover:border-[#C9A96E] group-hover:shadow-[0_0_16px_rgba(201,169,110,0.2)] group-hover:bg-[rgba(201,169,110,0.12)]">
         {icon}
       </div>
-      <p className="text-[16px] leading-[1.3] text-[rgba(255,255,255,0.55)] transition-colors duration-300 group-hover:text-[rgba(255,255,255,0.8)]">
+      <p className="relative text-[16px] leading-[1.3] text-[rgba(255,255,255,0.55)] transition-colors duration-300 group-hover:text-[rgba(255,255,255,0.8)]">
         {title}
         <br />
         {description}

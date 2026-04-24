@@ -83,7 +83,7 @@ export function OurDriversSection() {
   const swipeHandlers = useSwipe(goNext, goPrev)
 
   return (
-    <section id="drivers" className="bg-[#0D0D0D] pt-10 pb-16">
+    <section id="drivers" className="bg-[#0D0D0D] pt-6 pb-16">
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center gap-6">
         <div className="flex flex-col items-center gap-2">
           <div
@@ -106,7 +106,8 @@ export function OurDriversSection() {
         </div>
 
         <div
-          className="relative w-full max-w-[1080px] mt-4"
+          className="relative w-full max-w-[1080px]"
+          style={{ marginTop: "-10px" }}
           {...swipeHandlers}
         >
           <div className="relative grid">
@@ -240,8 +241,8 @@ function DriverSlide({
 
   return (
     <div className="w-full shrink-0 px-12 sm:px-16">
-      <div className="mx-auto max-w-[960px] flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-0">
-        <div className="relative w-[280px] sm:w-[320px] lg:w-[380px] h-[300px] lg:h-[340px] flex items-center justify-center shrink-0">
+      <div className="mx-auto max-w-[960px] flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-0">
+        <div className="relative w-[280px] sm:w-[320px] lg:w-[380px] h-[280px] lg:h-[300px] flex items-start justify-center shrink-0">
           <div
             className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[260px] rounded-full bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.2)] transition-all duration-[700ms] ${
               active ? "opacity-100 scale-100" : "opacity-0 scale-[0.9]"
@@ -256,7 +257,7 @@ function DriverSlide({
               borderTopLeftRadius: "100px",
               borderTopRightRadius: "100px",
               backgroundImage:
-                "linear-gradient(rgba(15, 15, 15, 1) 0%, rgba(25, 25, 25, 1) 87.98%, rgba(201, 169, 110, 0.1) 94.71%)",
+                "linear-gradient(rgba(15, 15, 15, 1) 0%, rgba(25, 25, 25, 1) 87.98%, rgba(201, 169, 110, 0.04) 94.71%)",
             }}
           >
             <Image
@@ -270,7 +271,7 @@ function DriverSlide({
         </div>
 
         <div
-          className={`flex-1 lg:w-[580px] flex flex-col gap-[10px] items-center lg:items-start text-center lg:text-left transition-all duration-[650ms] ${textMotion}`}
+          className={`flex-1 lg:w-[580px] lg:mt-16 flex flex-col gap-[10px] items-center lg:items-start text-center lg:text-left transition-all duration-[650ms] ${textMotion}`}
           style={{ transitionTimingFunction: ease, transitionDelay: active ? "200ms" : "0ms" }}
         >
           <h3
@@ -284,8 +285,8 @@ function DriverSlide({
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 pt-4 items-center sm:items-start justify-center lg:justify-start w-full">
-            <div className="flex items-center gap-2">
-              <div className="relative w-16 h-12 shrink-0">
+            <div className="flex items-start gap-2">
+              <div className="relative w-16 h-12 shrink-0 mt-1">
                 <Image
                   src="/drivers/mercedes-s-class.png"
                   alt={driver.vehicle}
@@ -314,8 +315,8 @@ function DriverSlide({
             </div>
           </div>
 
-          <div className="mt-3">
-            <div className="inline-flex items-center gap-[7px] px-4 py-2 bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)]">
+          <div className="-mt-1">
+            <div className="inline-flex items-center gap-[7px] px-4 py-3 bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)]">
               <span className="text-[12px] font-semibold text-[#C9A96E] leading-none">
                 {driver.rating}
               </span>

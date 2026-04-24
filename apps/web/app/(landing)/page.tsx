@@ -61,7 +61,7 @@ export default function SitePrincipal() {
       <TrustedBy />
       <AboutUsSection />
       <div className="bg-[#0D0D0D] flex justify-center px-4 md:px-[82px] 2xl:px-[300px]">
-        <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[rgba(201,169,110,0.4)] to-transparent" />
+        <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent" />
       </div>
       <OurDriversSection />
       <CTABanner />

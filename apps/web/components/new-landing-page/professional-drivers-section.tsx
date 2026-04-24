@@ -78,7 +78,7 @@ function DriverScheduleCard() {
   ]
 
   return (
-    <div className="absolute bottom-[-20px] right-[-10px] md:right-[-20px] w-[278px] backdrop-blur-[6px] bg-[rgba(20,20,20,0.95)] border border-[rgba(201,169,110,0.15)] px-4 pt-4 pb-2 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
+    <div className="absolute bottom-[-20px] right-[-10px] md:right-[-20px] w-[304px] backdrop-blur-[6px] bg-[rgba(20,20,20,0.95)] border border-[rgba(201,169,110,0.15)] px-4 pt-4 pb-2 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
       <div className="flex items-center gap-1 mb-3">
         <span
           className="text-[12px] text-[#999]"
@@ -116,7 +116,7 @@ function DriverScheduleCard() {
             {ride.badge}
           </span>
           <span
-            className="text-[11px] text-[rgba(255,255,255,0.45)]"
+            className="text-[11px] text-[rgba(255,255,255,0.45)] whitespace-nowrap"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {ride.route}
