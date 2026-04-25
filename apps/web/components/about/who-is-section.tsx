@@ -1,56 +1,89 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { Star, ArrowLeftRight, Shield, Clock } from "lucide-react"
+import { Award, Plane, ShieldCheck, MessageSquare, type LucideIcon } from "lucide-react"
 
-const stats = [
-  { icon: Star, valueKey: "clientRatingValue", labelKey: "clientRating" },
-  { icon: ArrowLeftRight, valueKey: "successfulTransfersValue", labelKey: "successfulTransfers" },
-  { icon: Shield, valueKey: "safetyRecordValue", labelKey: "safetyRecord" },
-  { icon: Clock, valueKey: "localSupportValue", labelKey: "localSupport" },
-] as const
+type Stat = {
+  icon: LucideIcon
+  valueKey: string
+  labelKey: string
+}
+
+const STATS: Stat[] = [
+  { icon: Award, valueKey: "stats.rating.value", labelKey: "stats.rating.label" },
+  { icon: Plane, valueKey: "stats.transfers.value", labelKey: "stats.transfers.label" },
+  { icon: ShieldCheck, valueKey: "stats.safety.value", labelKey: "stats.safety.label" },
+  { icon: MessageSquare, valueKey: "stats.support.value", labelKey: "stats.support.label" },
+]
+
+function StatCell({ icon: Icon, value, label }: { icon: LucideIcon; value: string; label: string }) {
+  return (
+    <div className="bg-[#1a1a1a] flex flex-col items-center justify-center gap-[6px] h-[170px] px-8 py-9">
+      <Icon className="w-6 h-6 text-[#C9A96E]" strokeWidth={1.5} />
+      <p
+        className="text-[#C9A96E] text-[42px] font-light leading-[42px] text-center whitespace-nowrap"
+        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+      >
+        {value}
+      </p>
+      <p
+        className="text-[#8c8680] text-[12px] font-medium uppercase tracking-[1.2px] text-center"
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+      >
+        {label}
+      </p>
+    </div>
+  )
+}
 
 export function WhoIsSection() {
-  const t = useTranslations("aboutPage")
+  const t = useTranslations("aboutPage.whoIsSection")
 
   return (
-    <section className="w-full px-4 md:px-8 lg:px-[60px] xl:px-[100px] pt-[20px] pb-[36px]">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-6">
-        <div className="flex flex-col gap-6 lg:max-w-[544px] w-full shrink-0">
-          <h2 className="text-[32px] md:text-[40px] xl:text-[48px] font-bold tracking-[-1.2px] leading-[1] text-[#222]">
-            {t("whoIs")}{" "}
-            <span className="text-[#27c7ff]">Easy Transfer</span>
-          </h2>
-          <div className="flex flex-col gap-5">
-            <p className="text-[16px] md:text-[18px] leading-[1.3] text-[#222]">
-              {t.rich("description", {
-                bold: (chunks) => <strong className="font-bold">{chunks}</strong>,
-              })}
-            </p>
-            <p className="text-[16px] md:text-[18px] leading-[1.3] text-[#222]">
-              {t.rich("descriptionPart2", {
-                bold: (chunks) => <strong className="font-bold">{chunks}</strong>,
-              })}
-            </p>
+    <section className="bg-[#1a1a1a] border-y border-[rgba(201,169,110,0.08)] px-4 md:px-[82px] py-20">
+      <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row gap-20 items-center">
+        <div className="w-full lg:w-[598px] shrink-0 flex flex-col gap-[26px]">
+          <div className="flex items-center gap-2">
+            <div className="w-[82px] h-px bg-[#C9A96E]" />
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("eyebrow")}
+            </span>
           </div>
+          <h2
+            className="text-white font-normal leading-none"
+            style={{
+              fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+              fontSize: "clamp(2rem, 3.4vw, 3rem)",
+            }}
+          >
+            <span className="block">{t("headingLine1")}</span>
+            <span className="block italic text-[#C9A96E]">{t("headingLine2")}</span>
+          </h2>
+          <p
+            className="text-[14px] leading-[1.2] text-[#999]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("body1")}
+          </p>
+          <p
+            className="text-[14px] leading-[1.2] text-[#999]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("body2")}
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 flex-1 w-full">
-          {stats.map(({ icon: Icon, valueKey, labelKey }) => (
-            <div
-              key={labelKey}
-              className="bg-white border border-[rgba(225,231,239,0.5)] rounded-2xl p-6 flex flex-col items-center gap-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
-            >
-              <div className="size-12 rounded-lg bg-[rgba(41,201,255,0.1)] flex items-center justify-center">
-                <Icon className="size-6 text-[#29c9ff]" />
-              </div>
-              <p className="text-[28px] md:text-[36px] font-bold leading-[40px] text-[#0f1729] text-center">
-                {t(valueKey)}
-              </p>
-              <p className="text-[14px] font-medium leading-[20px] text-[#65758b] text-center">
-                {t(labelKey)}
-              </p>
-            </div>
+        <div className="flex-1 w-full grid grid-cols-2 gap-x-0 gap-y-px bg-[rgba(201,169,110,0.08)]">
+          {STATS.map((s) => (
+            <StatCell
+              key={s.labelKey}
+              icon={s.icon}
+              value={t(s.valueKey)}
+              label={t(s.labelKey)}
+            />
           ))}
         </div>
       </div>

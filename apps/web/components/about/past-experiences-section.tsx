@@ -1,276 +1,213 @@
 "use client"
 
-import { useState, useEffect, useMemo, useCallback } from "react"
-import { useQuery } from "convex/react"
-import { api } from "@workspace/convex/api"
+import { useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
-import { ChevronLeft, ChevronRight, Briefcase } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 
-const DESKTOP_PER_PAGE = 6
-const MOBILE_VISIBLE = 1
+type Category = "all" | "weddings" | "corporate" | "events" | "tours"
+
+type Photo = {
+  src: string
+  alt: string
+  cat: Exclude<Category, "all">
+}
+
+const CATEGORIES: { id: Category; labelKey: string }[] = [
+  { id: "all", labelKey: "filters.all" },
+  { id: "weddings", labelKey: "filters.weddings" },
+  { id: "corporate", labelKey: "filters.corporate" },
+  { id: "events", labelKey: "filters.events" },
+  { id: "tours", labelKey: "filters.tours" },
+]
+
+const PHOTOS: Photo[] = [
+  { src: "/about/exp-cabo-da-roca.png", alt: "Cabo da Roca cliffs", cat: "tours" },
+  { src: "/about/exp-websummit.png", alt: "Web Summit Lisbon", cat: "events" },
+  { src: "/about/exp-driver-merc.png", alt: "Driver greeting at hotel", cat: "corporate" },
+  { src: "/about/exp-wedding.png", alt: "Wedding ceremony procession", cat: "weddings" },
+]
+
+function PhotoTile({ photo, className }: { photo: Photo; className?: string }) {
+  return (
+    <div className={cn("relative overflow-hidden", className)}>
+      <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 950px" />
+    </div>
+  )
+}
+
+function CarouselArrow({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: "left" | "right"
+  onClick: () => void
+  disabled: boolean
+}) {
+  const Icon = direction === "left" ? ArrowLeft : ArrowRight
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "size-12 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition-colors",
+        disabled ? "opacity-30 cursor-not-allowed" : "hover:bg-[rgba(201,169,110,0.08)]",
+      )}
+      aria-label={direction === "left" ? "Previous" : "Next"}
+    >
+      <Icon className="size-[18px]" strokeWidth={1.5} />
+    </button>
+  )
+}
 
 export function PastExperiencesSection() {
   const t = useTranslations("aboutPage.pastExperiences")
-  const experiences = useQuery(api.pastExperiences.listPublished)
+  const [active, setActive] = useState<Category>("all")
+  const [mobileIdx, setMobileIdx] = useState(0)
 
-  const [activeCategory, setActiveCategory] = useState("all")
-  const [desktopPage, setDesktopPage] = useState(0)
-  const [mobileOffset, setMobileOffset] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  const categories = useMemo(() => {
-    if (!experiences) return []
-    const cats = [...new Set(experiences.map((e) => e.category))]
-    return cats
-  }, [experiences])
-
-  const filtered = useMemo(() => {
-    if (!experiences) return []
-    if (activeCategory === "all") return experiences
-    return experiences.filter((e) => e.category === activeCategory)
-  }, [experiences, activeCategory])
-
-  useEffect(() => {
-    setDesktopPage(0)
-    setMobileOffset(0)
-  }, [activeCategory])
-
-  const totalDesktopPages = Math.ceil(filtered.length / DESKTOP_PER_PAGE)
-  const desktopSlice = filtered.slice(
-    desktopPage * DESKTOP_PER_PAGE,
-    (desktopPage + 1) * DESKTOP_PER_PAGE
+  const filtered = useMemo(
+    () => (active === "all" ? PHOTOS : PHOTOS.filter((p) => p.cat === active)),
+    [active],
   )
 
-  const mobileMaxOffset = Math.max(filtered.length - MOBILE_VISIBLE, 0)
+  const showAsymmetric = active === "all" && filtered.length === 4
 
-  const nextDesktop = useCallback(() => {
-    setDesktopPage((p) => Math.min(p + 1, totalDesktopPages - 1))
-  }, [totalDesktopPages])
+  const handleCategory = (cat: Category) => {
+    setActive(cat)
+    setMobileIdx(0)
+  }
 
-  const prevDesktop = useCallback(() => {
-    setDesktopPage((p) => Math.max(p - 1, 0))
-  }, [])
-
-  const nextMobile = useCallback(() => {
-    setMobileOffset((p) => Math.min(p + 1, mobileMaxOffset))
-  }, [mobileMaxOffset])
-
-  const prevMobile = useCallback(() => {
-    setMobileOffset((p) => Math.max(p - 1, 0))
-  }, [])
-
-  const totalMobileDots = filtered.length
-  const currentMobileDot = mobileOffset
-
-  if (!experiences) return null
-
-  const showDesktopArrows = !isMobile && totalDesktopPages > 1
-  const showMobileArrows = isMobile && filtered.length > 1
+  const mobileMax = Math.max(filtered.length - 1, 0)
 
   return (
-    <section className="px-4 md:px-8 lg:px-[60px] xl:px-[100px] py-[36px]">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-[28px] md:text-[36px] font-bold text-[#222] leading-normal mb-3">
-            {t("title")}
+    <section className="bg-[#0D0D0D] flex flex-col items-center px-4 md:px-[82px] py-20 md:py-24">
+      <div className="flex flex-col gap-10 items-center w-full max-w-[1280px]">
+        <div className="flex flex-col gap-[14px] items-center w-full">
+          <div className="flex gap-2 items-center">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("eyebrow")}
+            </span>
+            <div className="w-8 h-px bg-[#C9A96E]" />
+          </div>
+          <h2
+            className="text-white font-normal text-center leading-[1.2]"
+            style={{
+              fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+              fontSize: "clamp(2rem, 3.4vw, 3rem)",
+            }}
+          >
+            <span className="block">{t("headingLine1")}</span>
+            <span className="block italic text-[#C9A96E]">{t("headingLine2")}</span>
           </h2>
-          <p className="text-[16px] md:text-[18px] text-[#666] max-w-[600px] mx-auto leading-[1.4]">
+          <p
+            className="text-[14px] md:text-[18px] text-center text-[#999] max-w-[540px] leading-[1.3]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
             {t("subtitle")}
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3 justify-center mb-8">
-          <button
-            onClick={() => setActiveCategory("all")}
-            className={cn(
-              "px-5 py-2 rounded-full text-sm font-medium transition-colors",
-              activeCategory === "all"
-                ? "bg-[#27c7ff] text-white"
-                : "border border-[#e8e8e8] text-[#808080] hover:border-[#ccc]"
-            )}
-          >
-            {t("filterAll")}
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={cn(
-                "px-5 py-2 rounded-full text-sm font-medium transition-colors",
-                activeCategory === cat
-                  ? "bg-[#27c7ff] text-white"
-                  : "border border-[#e8e8e8] text-[#808080] hover:border-[#ccc]"
-              )}
-            >
-              {t(`categories.${cat}`)}
-            </button>
-          ))}
+        <div className="flex gap-2 items-center overflow-x-auto no-scrollbar w-full md:w-auto md:justify-center">
+          {CATEGORIES.map((c) => {
+            const isActive = active === c.id
+            return (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => handleCategory(c.id)}
+                className={cn(
+                  "h-8 px-4 text-[12px] font-semibold uppercase tracking-[0.7px] whitespace-nowrap shrink-0 transition-colors",
+                  isActive
+                    ? "bg-[#C9A96E] text-[#0D0D0D] border border-[rgba(201,169,110,0.18)]"
+                    : "text-[#999] hover:text-white",
+                )}
+                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+              >
+                {t(c.labelKey)}
+              </button>
+            )
+          })}
         </div>
 
-        {filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <Briefcase className="h-12 w-12 mx-auto text-zinc-300 mb-4" />
-            <p className="text-[#808080] text-lg">{t("empty")}</p>
-          </div>
-        ) : (
-          <>
-            {!isMobile ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
-                {desktopSlice.map((exp) => (
-                  <ExperienceCard key={exp._id} experience={exp} t={t} />
-                ))}
+        <div className="hidden md:block w-full">
+          {showAsymmetric ? (
+            <div className="flex flex-col gap-[2px] w-full">
+              <div className="flex gap-[2px] w-full h-[394px]">
+                <PhotoTile photo={filtered[0]!} className="w-[950px] h-full shrink-0" />
+                <PhotoTile photo={filtered[1]!} className="flex-1 h-full" />
               </div>
-            ) : (
-              <div className="overflow-hidden">
+              <div className="flex gap-[2px] w-full h-[394px]">
+                <PhotoTile photo={filtered[2]!} className="w-[509px] h-full shrink-0" />
+                <PhotoTile photo={filtered[3]!} className="flex-1 h-full" />
+              </div>
+            </div>
+          ) : filtered.length === 0 ? (
+            <p className="text-center text-[#999] py-16">{t("empty")}</p>
+          ) : (
+            <div className="grid grid-cols-2 gap-[2px] w-full">
+              {filtered.map((p) => (
+                <PhotoTile key={p.src} photo={p} className="h-[394px]" />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="md:hidden w-full flex flex-col gap-4">
+          {filtered.length === 0 ? (
+            <p className="text-center text-[#999] py-16">{t("empty")}</p>
+          ) : (
+            <>
+              <div className="overflow-hidden w-full">
                 <div
                   className="flex transition-transform duration-500 ease-out"
-                  style={{
-                    gap: "24px",
-                    transform: `translateX(calc(-${mobileOffset} * (100% + 24px)))`,
-                  }}
+                  style={{ transform: `translateX(-${mobileIdx * 100}%)` }}
                 >
-                  {filtered.map((exp) => (
-                    <div key={exp._id} className="shrink-0 w-full">
-                      <ExperienceCard experience={exp} t={t} />
+                  {filtered.map((p) => (
+                    <div key={p.src} className="shrink-0 w-full">
+                      <PhotoTile photo={p} className="w-full h-[340px]" />
                     </div>
                   ))}
                 </div>
               </div>
-            )}
-
-            {((isMobile && filtered.length > 1) || (!isMobile && totalDesktopPages > 1)) && (
-              <div className="flex gap-4 items-center justify-center mt-8">
-                <button
-                  onClick={isMobile ? prevMobile : prevDesktop}
-                  disabled={isMobile ? mobileOffset === 0 : desktopPage === 0}
-                  className={cn(
-                    "size-[32px] rounded-full flex items-center justify-center transition-colors",
-                    (isMobile ? mobileOffset === 0 : desktopPage === 0)
-                      ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-                      : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-                  )}
-                >
-                  <ChevronLeft className="size-[15px] text-[#222]" />
-                </button>
-
-                {isMobile && (
-                  <div className="flex gap-[6px] items-center">
-                    {Array.from({ length: totalMobileDots }).map((_, i) => (
+              {filtered.length > 1 && (
+                <div className="flex items-center justify-center gap-2">
+                  <CarouselArrow
+                    direction="left"
+                    onClick={() => setMobileIdx((i) => Math.max(i - 1, 0))}
+                    disabled={mobileIdx === 0}
+                  />
+                  <div className="flex gap-2 items-center px-4">
+                    {filtered.map((_, i) => (
                       <button
                         key={i}
-                        onClick={() => setMobileOffset(i)}
+                        type="button"
+                        onClick={() => setMobileIdx(i)}
+                        aria-label={`Go to slide ${i + 1}`}
                         className={cn(
                           "rounded-full transition-all",
-                          i === currentMobileDot
-                            ? "size-[14px] border-[1.2px] border-[#27c7ff] bg-transparent"
-                            : "size-[10px] bg-[#27c7ff]"
+                          i === mobileIdx ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
                         )}
                       />
                     ))}
                   </div>
-                )}
-
-                {!isMobile && totalDesktopPages > 1 && (
-                  <div className="flex gap-[6px] items-center">
-                    {Array.from({ length: totalDesktopPages }).map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setDesktopPage(i)}
-                        className={cn(
-                          "rounded-full transition-all",
-                          i === desktopPage
-                            ? "size-[14px] border-[1.2px] border-[#27c7ff] bg-transparent"
-                            : "size-[10px] bg-[#27c7ff]"
-                        )}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                <button
-                  onClick={isMobile ? nextMobile : nextDesktop}
-                  disabled={
-                    isMobile
-                      ? mobileOffset >= mobileMaxOffset
-                      : desktopPage >= totalDesktopPages - 1
-                  }
-                  className={cn(
-                    "size-[32px] rounded-full flex items-center justify-center transition-colors",
-                    (isMobile
-                      ? mobileOffset >= mobileMaxOffset
-                      : desktopPage >= totalDesktopPages - 1)
-                      ? "bg-[#ebebeb] cursor-not-allowed opacity-50"
-                      : "bg-[#ebebeb] hover:bg-[#d5d5d5]"
-                  )}
-                >
-                  <ChevronRight className="size-[15px] text-[#222]" />
-                </button>
-              </div>
-            )}
-          </>
-        )}
+                  <CarouselArrow
+                    direction="right"
+                    onClick={() => setMobileIdx((i) => Math.min(i + 1, mobileMax))}
+                    disabled={mobileIdx >= mobileMax}
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </section>
-  )
-}
-
-function ExperienceCard({ experience, t }: { experience: any; t: any }) {
-  return (
-    <div className="rounded-[16px] border border-[#e8e8e8] overflow-hidden bg-white">
-      <div className="relative h-[250px] md:h-[300px]">
-        {experience.imageUrl ? (
-          <Image
-            src={experience.imageUrl}
-            alt={experience.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-        ) : (
-          <div className="w-full h-full bg-zinc-100 flex items-center justify-center">
-            <Briefcase className="h-12 w-12 text-zinc-300" />
-          </div>
-        )}
-
-        {experience.location && (
-          <div className="absolute top-3 left-3">
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#27c7ff] text-white text-sm font-medium">
-              {experience.location}
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="p-5 md:p-6">
-        <h3 className="text-[18px] font-bold text-[#222] mb-2 line-clamp-1">
-          {experience.title}
-        </h3>
-        <p className="text-[15px] text-[#0e4659] leading-[1.5] line-clamp-3 mb-3">
-          {experience.description}
-        </p>
-
-        {experience.tags && experience.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {experience.tags.map((tag: string) => (
-              <span
-                key={tag}
-                className="px-4 py-1.5 rounded-full bg-[#bceeff] text-[#0e4659] text-[15px] font-medium"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
   )
 }

@@ -1,59 +1,163 @@
 "use client"
 
-import { useQuery } from "convex/react"
-import { api } from "@workspace/convex/api"
+import { useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
-import { Users } from "lucide-react"
 import Image from "next/image"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { cn } from "@workspace/ui/lib/utils"
+
+type Member = {
+  id: string
+  image: string
+  nameKey: string
+  roleKey: string
+}
+
+const MEMBERS: Member[] = [
+  { id: "m1", image: "/about/team-1.png", nameKey: "members.m1.name", roleKey: "members.m1.role" },
+  { id: "m2", image: "/about/team-2.png", nameKey: "members.m2.name", roleKey: "members.m2.role" },
+  { id: "m3", image: "/about/team-3.png", nameKey: "members.m3.name", roleKey: "members.m3.role" },
+  { id: "m4", image: "/about/team-4.png", nameKey: "members.m4.name", roleKey: "members.m4.role" },
+  { id: "m5", image: "/about/team-5.png", nameKey: "members.m5.name", roleKey: "members.m5.role" },
+  { id: "m6", image: "/about/team-6.png", nameKey: "members.m6.name", roleKey: "members.m6.role" },
+  { id: "m7", image: "/about/team-7.png", nameKey: "members.m7.name", roleKey: "members.m7.role" },
+  { id: "m8", image: "/about/team-8.png", nameKey: "members.m8.name", roleKey: "members.m8.role" },
+]
+
+const PER_PAGE_DESKTOP = 8
+const PER_PAGE_MOBILE = 8
+
+function MemberCard({ member, t }: { member: Member; t: ReturnType<typeof useTranslations> }) {
+  return (
+    <div className="relative aspect-[3/4] overflow-hidden">
+      <Image
+        src={member.image}
+        alt={t(member.nameKey)}
+        fill
+        className="object-cover"
+        sizes="(max-width: 768px) 50vw, 320px"
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 41.9%, rgba(0,0,0,0.7) 82.4%)" }}
+      />
+      <div className="absolute inset-x-0 bottom-0 px-6 py-8 flex flex-col gap-2">
+        <p
+          className="text-[#C9A96E] text-[12px] font-semibold uppercase tracking-[2px]"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {t(member.roleKey)}
+        </p>
+        <p
+          className="text-white text-[24px] font-normal leading-none"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {t(member.nameKey)}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function CarouselArrow({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: "left" | "right"
+  onClick: () => void
+  disabled: boolean
+}) {
+  const Icon = direction === "left" ? ArrowLeft : ArrowRight
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "size-12 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition-colors",
+        disabled ? "opacity-30 cursor-not-allowed" : "hover:bg-[rgba(201,169,110,0.08)]",
+      )}
+      aria-label={direction === "left" ? "Previous" : "Next"}
+    >
+      <Icon className="size-[18px]" strokeWidth={1.5} />
+    </button>
+  )
+}
 
 export function TeamSection() {
   const t = useTranslations("aboutPage.team")
-  const members = useQuery(api.teamMembers.listPublished)
+  const [page, setPage] = useState(0)
 
-  if (!members) return null
+  const totalPages = useMemo(() => Math.ceil(MEMBERS.length / PER_PAGE_DESKTOP), [])
+  const slice = useMemo(
+    () => MEMBERS.slice(page * PER_PAGE_DESKTOP, (page + 1) * PER_PAGE_DESKTOP),
+    [page],
+  )
 
   return (
-    <section className="px-4 md:px-8 lg:px-[60px] xl:px-[100px] py-[36px]">
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-10">
-        <div className="text-center flex flex-col gap-3 items-center">
-          <h2 className="text-[24px] md:text-[32px] font-bold text-[#222]">
-            {t("title")}
+    <section className="bg-[#1a1a1a] flex flex-col items-center px-4 md:px-[82px] py-16 md:py-20">
+      <div className="flex flex-col gap-6 items-center w-full max-w-[1280px]">
+        <div className="flex flex-col gap-[14px] items-center w-full">
+          <div className="flex gap-2 items-center">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("eyebrow")}
+            </span>
+            <div className="w-8 h-px bg-[#C9A96E]" />
+          </div>
+          <h2
+            className="text-white font-normal text-center leading-[1.2]"
+            style={{
+              fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+              fontSize: "clamp(2rem, 3.4vw, 3rem)",
+            }}
+          >
+            {t("heading")}
           </h2>
-          <p className="text-[16px] md:text-[18px] text-[#65758b] leading-[1.4] max-w-[600px]">
+          <p
+            className="text-[14px] text-center text-[#999] max-w-[540px]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
             {t("subtitle")}
           </p>
         </div>
 
-        {members.length > 0 && (
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {members.map((member) => (
-              <div
-                key={member._id}
-                className="relative aspect-[3/4] rounded-[12px] overflow-hidden group"
-              >
-                {member.imageUrl ? (
-                  <Image
-                    src={member.imageUrl}
-                    alt={member.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="size-full bg-zinc-100 flex items-center justify-center">
-                    <Users className="h-12 w-12 text-zinc-300" />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="font-bold text-[18px] text-white leading-tight">
-                    {member.name}
-                  </p>
-                  <p className="text-[14px] text-white/80 mt-0.5">
-                    {member.role}
-                  </p>
-                </div>
-              </div>
-            ))}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+          {slice.map((m) => (
+            <MemberCard key={m.id} member={m} t={t} />
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <CarouselArrow
+              direction="left"
+              onClick={() => setPage((p) => Math.max(p - 1, 0))}
+              disabled={page === 0}
+            />
+            <div className="flex gap-2 items-center px-4">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setPage(i)}
+                  aria-label={`Go to page ${i + 1}`}
+                  className={cn(
+                    "rounded-full transition-all",
+                    i === page ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
+                  )}
+                />
+              ))}
+            </div>
+            <CarouselArrow
+              direction="right"
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
+              disabled={page >= totalPages - 1}
+            />
           </div>
         )}
       </div>

@@ -2224,7 +2224,14 @@
       "line1": "Gedreven door Passie,",
       "line2": "Verenigd door Portugal:",
       "line3": "Elke Rit Wordt",
-      "line4": "een Herinnering"
+      "line4": "een Herinnering",
+      "eyebrow": "Ons Verhaal · Ericeira, Portugal",
+      "headingLine1": "Gedreven door Passie,",
+      "headingLine2Pre": "Verenigd door ",
+      "headingAccent": "Portugal.",
+      "subtitle": "We wilden geen vervoersbedrijf opbouwen. We wilden veranderen hoe mensen Portugal ervaren — één aankomst tegelijk. Elke kilometer is een kans om een herinnering te creëren die het bewaren waard is.",
+      "ctaPrimary": "Ons Verhaal",
+      "ctaSecondary": "Ontmoet het Team"
     },
     "timeline": {
       "year1": "2018",
@@ -2234,7 +2241,11 @@
       "year3": "2023",
       "label3": "Landelijke Dekking",
       "year4": "2025",
-      "label4": "Best Beoordeeld"
+      "label4": "Best Beoordeeld",
+      "desc1": "Geboren in Ericeira. Eerste voertuig, eerste transfer, eerste vijfsterrenbeoordeling.",
+      "desc2": "Lancering van speciaal bruiloftsvervoer. Penha Longa wordt eerste hotelpartner.",
+      "desc3": "Uitbreiding naar Porto, Algarve en de Douro-vallei. 40+ luxe hotelpartners.",
+      "desc4": "322 vijfsterrenbeoordelingen. PME Líder '24. Tripadvisor Top 3 Tours in Lissabon."
     },
     "whoIs": "Wie is",
     "description": "Easy Transfer werd opgericht in 2018 met een eenvoudige visie: reizigers in Portugal een veiliger, betrouwbaarder en persoonlijker alternatief bieden voor taxi's en ritdeel-apps.",
@@ -2249,24 +2260,27 @@
     "localSupport": "Lokale Ondersteuning",
     "values": {
       "title": "Waarden die elke reis aandrijven",
-      "subtitle": "Onze toewijding aan excellentie gaat verder dan transport",
-      "imageAlt": "Easy Transfer vloot en professionele chauffeurs",
+      "subtitle": "Onze toewijding aan uitmuntendheid reikt veel verder dan het voertuig.",
+      "imageAlt": "LuxMotion vloot en chauffeurs",
       "safety": "Veiligheid",
-      "safetyDesc": "Uw veiligheid is onze topprioriteit. Alle chauffeurs worden gescreend en voertuigen regelmatig geïnspecteerd.",
+      "safetyDesc": "Uw veiligheid is onze topprioriteit. Alle chauffeurs zijn gescreend en voertuigen worden regelmatig volgens de hoogste norm gecontroleerd.",
       "hospitality": "Gastvrijheid",
-      "hospitalityDesc": "Ervaar echte Portugese warmte vanaf het moment dat u in onze voertuigen stapt.",
+      "hospitalityDesc": "Echte Portugese warmte vanaf het moment dat u instapt. Uw comfort is de enige agenda.",
       "transparency": "Transparantie",
-      "transparencyDesc": "Vaste prijzen zonder verborgen kosten. Wat u ziet, is precies wat u betaalt.",
+      "transparencyDesc": "Vaste prijzen. Geen verborgen kosten. Geen verrassingen. Wat u boekt, is precies wat u bij aankomst betaalt.",
       "personalization": "Personalisatie",
-      "personalizationDesc": "Van kinderzitjes tot speciale verzoeken, wij passen elke reis aan uw behoeften aan.",
+      "personalizationDesc": "Van speciale verzoeken tot zorgvuldig gekozen stops en op maat gemaakte routes — elke rit wordt rond u opgebouwd.",
       "quality": "Kwaliteit",
-      "qualityDesc": "Premium voertuigen, professionele kleding en aandacht voor elk detail.",
+      "qualityDesc": "Mercedes S-Klasse, BMW 7, Audi A8. Premium voertuigen, professionele kleding en oog voor elk detail.",
       "sustainability": "Duurzaamheid",
-      "sustainabilityDesc": "We breiden onze vloot van hybride en elektrische voertuigen uit voor een groenere toekomst."
+      "sustainabilityDesc": "We bouwen onze hybride en elektrische vloot uit — want een groener Portugal is er een om te laten zien.",
+      "eyebrow": "Waar Wij Voor Staan",
+      "headingLine1": "Waarden Die Elke",
+      "headingLine2": "Rit Sturen."
     },
     "pastExperiences": {
       "title": "Eerdere Ervaringen",
-      "subtitle": "Een blik op enkele evenementen en diensten waar wij het voorrecht hadden aan deel te nemen",
+      "subtitle": "Van intieme bruiloften tot grootschalige bedrijfsevenementen in heel Portugal.",
       "filterAll": "Alles",
       "categories": {
         "corporate": "Zakelijk",
@@ -2274,7 +2288,17 @@
         "events": "Evenementen",
         "privateTours": "Privé Tours"
       },
-      "empty": "Nog geen ervaringen om te tonen"
+      "empty": "Nog geen ervaringen in deze categorie.",
+      "eyebrow": "Eerdere Ervaringen",
+      "headingLine1": "Evenementen & Diensten",
+      "headingLine2": "Die We Mochten Verzorgen.",
+      "filters": {
+        "all": "Alle",
+        "weddings": "Bruiloften",
+        "corporate": "Zakelijk",
+        "events": "Evenementen",
+        "tours": "Tours"
+      }
     },
     "drivers": {
       "title": "Onze Vriendelijke Chauffeurs",
@@ -2285,17 +2309,136 @@
         "backgroundCheck": "Antecedentenonderzoek",
         "training": "Training",
         "approval": "Goedkeuring"
+      },
+      "eyebrow": "Onze Chauffeurs",
+      "heading": "Onze Vriendelijke Chauffeurs",
+      "items": {
+        "joao": {
+          "name": "João",
+          "location": "Lissabon",
+          "quote": "“Elke gast is een vriend die ik nog niet heb ontmoet. Ik deel graag de verborgen pareltjes van mijn stad.”"
+        },
+        "maria": {
+          "name": "Maria",
+          "location": "Porto",
+          "quote": "“Veiligheid en comfort zijn mijn prioriteit. Ik behandel elke passagier als familie.”"
+        },
+        "pedro": {
+          "name": "Pedro",
+          "location": "Algarve",
+          "quote": "“20 jaar rijden leerde me dat de reis net zo belangrijk is als de bestemming.”"
+        }
       }
     },
     "team": {
       "title": "Ontmoet het team",
-      "subtitle": "Het leiderschapsteam dat het succes van Easy Transfer stuurt."
+      "subtitle": "Het leiderschapsteam dat het succes van LuxMotion leidt.",
+      "eyebrow": "Ontmoet het Team",
+      "heading": "Ons Team",
+      "members": {
+        "m1": {
+          "name": "Name Surname",
+          "role": "CEO"
+        },
+        "m2": {
+          "name": "Name Surname",
+          "role": "COO"
+        },
+        "m3": {
+          "name": "Name Surname",
+          "role": "CTO"
+        },
+        "m4": {
+          "name": "Name Surname",
+          "role": "CFO"
+        },
+        "m5": {
+          "name": "Name Surname",
+          "role": "Hoofd Operations"
+        },
+        "m6": {
+          "name": "Name Surname",
+          "role": "Hoofd Vloot"
+        },
+        "m7": {
+          "name": "Name Surname",
+          "role": "Hoofd Verkoop"
+        },
+        "m8": {
+          "name": "Name Surname",
+          "role": "Hoofd Gastvrijheid"
+        }
+      }
     },
     "joinUs": {
       "title": "Word lid!",
-      "subtitle": "Hoe kunnen we samenwerken?",
+      "subtitle": "Twee manieren om bij het LuxMotion-netwerk te komen — als partner die de gastervaring naar een hoger niveau tilt, of als chauffeur die de standaard zet.",
       "becomePartner": "Word partner",
-      "becomeDriver": "Word chauffeur"
+      "becomeDriver": "Word chauffeur",
+      "eyebrow": "Werk Met Ons Samen",
+      "headingLine1": "Hoe Kunnen We",
+      "headingLine2": "Samenwerken?",
+      "partner": {
+        "titleLine1": "Word",
+        "titleLine2": "Partner",
+        "body": "Hotel, trouwlocatie of luxe reisbureau? Bied uw gasten privévervoer onder uw merk — geen operationele rompslomp, volledige white-label integratie en omzetdeling vanaf dag één.",
+        "cta": "Word Partner"
+      },
+      "chauffeur": {
+        "titleLine1": "Word",
+        "titleLine2": "Chauffeur",
+        "body": "Rijd voor de meest veeleisende gasten van Portugal. Vooraf geplande ritten, wekelijkse uitbetalingen en een platform dat alles regelt zodat u zich op het rijden kunt concentreren. Slechts 1 op de 5 kandidaten wordt aangenomen — als u de standaard heeft, willen we van u horen.",
+        "cta": "Aanmelden"
+      }
+    },
+    "whoIsSection": {
+      "eyebrow": "Wie Is LuxMotion",
+      "headingLine1": "Geboren in Ericeira.",
+      "headingLine2": "Vertrouwd in heel Portugal.",
+      "body1": "Opgericht in 2018, ontstond LuxMotion vanuit een eenvoudige overtuiging: Portugal verdient een privé-transferservice die de kwaliteit van zijn beste hotels evenaart. We selecteren elke chauffeur persoonlijk, onderhouden een vloot van premium voertuigen en behandelen elke rit als een kans om het beste van de Portugese gastvrijheid te tonen.",
+      "body2": "Van aankomsten op de luchthaven van Lissabon tot tours door de Douro-vallei en bruiloften aan de Algarve — we bouwden een platform dat gasten, hotels en chauffeurs in één naadloze ervaring verbindt. Slechts één op de vijf chauffeurskandidaten haalt het. Geen concessies aan de voertuigstandaard.",
+      "stats": {
+        "rating": {
+          "value": "4,9/5",
+          "label": "Klantbeoordeling"
+        },
+        "transfers": {
+          "value": "+10.000",
+          "label": "Transfers Voltooid"
+        },
+        "safety": {
+          "value": "100%",
+          "label": "Veiligheid Gegarandeerd"
+        },
+        "support": {
+          "value": "24/7",
+          "label": "Live Ondersteuning"
+        }
+      }
+    },
+    "vetting": {
+      "eyebrow": "Geselecteerd en Professioneel",
+      "headingLine1": "We Accepteren Niet",
+      "headingLine2": "Zomaar Iedereen.",
+      "subHighlight": "Elke chauffeur is gescreend, getraind en geverifieerd.",
+      "subRest": "Slechts 1 op de 5 kandidaten krijgt een plaats in de LuxMotion-vloot.",
+      "processLabel": "Ons Verificatieproces voor Chauffeurs",
+      "interview": {
+        "title": "Interview",
+        "desc": "Persoonlijk gesprek met ons operations-team. Service-ethos, taal en lokale kennis worden getoetst."
+      },
+      "background": {
+        "title": "Achtergrondcheck",
+        "desc": "Volledige strafblad-check, rijbewijsverificatie en voertuiginspectie."
+      },
+      "training": {
+        "title": "Training",
+        "desc": "LuxMotion-serviceprotocol, gastvrijheidsstandaarden, vluchttracking en veiligheidstraining."
+      },
+      "approved": {
+        "title": "Goedgekeurd",
+        "desc": "Klaar voor de eerste rit. Begeleide transfer voordat zelfstandig opereren begint."
+      }
     }
   },
   "adminDrivers": {

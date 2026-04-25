@@ -2240,7 +2240,14 @@
       "line1": "Impulsados por la Pasión,",
       "line2": "Unidos por Portugal:",
       "line3": "Haciendo Cada Kilómetro",
-      "line4": "en un Recuerdo"
+      "line4": "en un Recuerdo",
+      "eyebrow": "Nuestra Historia · Ericeira, Portugal",
+      "headingLine1": "Impulsados por la Pasión,",
+      "headingLine2Pre": "Unidos por ",
+      "headingAccent": "Portugal.",
+      "subtitle": "No nos propusimos construir una empresa de transporte. Nos propusimos cambiar la forma en que las personas viven Portugal — una llegada a la vez. Cada kilómetro es una oportunidad para crear un recuerdo que vale la pena guardar.",
+      "ctaPrimary": "Nuestra Historia",
+      "ctaSecondary": "Conoce al Equipo"
     },
     "timeline": {
       "year1": "2018",
@@ -2250,7 +2257,11 @@
       "year3": "2023",
       "label3": "Cobertura Nacional",
       "year4": "2025",
-      "label4": "Mejor Valorado"
+      "label4": "Mejor Valorado",
+      "desc1": "Nacida en Ericeira. Primer vehículo, primer traslado, primera reseña de cinco estrellas.",
+      "desc2": "Lanzamos transporte dedicado para bodas. Penha Longa se convierte en primer hotel asociado.",
+      "desc3": "Expansión a Oporto, Algarve y Valle del Duero. Más de 40 hoteles de lujo asociados.",
+      "desc4": "322 reseñas de cinco estrellas. PME Líder '24. Top 3 Tours en Lisboa en Tripadvisor."
     },
     "whoIs": "Quién es",
     "description": "Fundada en 2018, Easy Transfer nació para ofrecer en Portugal una alternativa más segura, fiable y personalizada a taxis y apps de transporte.",
@@ -2265,24 +2276,27 @@
     "localSupport": "Soporte Local",
     "values": {
       "title": "Valores que impulsan cada viaje",
-      "subtitle": "Nuestro compromiso con la excelencia va más allá del transporte",
-      "imageAlt": "Flota Easy Transfer y conductores profesionales",
+      "subtitle": "Nuestro compromiso con la excelencia va mucho más allá del vehículo.",
+      "imageAlt": "Flota y conductores LuxMotion",
       "safety": "Seguridad",
-      "safetyDesc": "Tu seguridad es nuestra máxima prioridad. Todos los conductores son verificados y los vehículos inspeccionados regularmente.",
+      "safetyDesc": "Su seguridad es nuestra máxima prioridad. Todos los conductores son seleccionados y los vehículos se inspeccionan con los más altos estándares.",
       "hospitality": "Hospitalidad",
-      "hospitalityDesc": "Experimenta la calidez portuguesa genuina desde el momento en que subes a nuestros vehículos.",
+      "hospitalityDesc": "Auténtica calidez portuguesa desde el momento en que sube al vehículo. Su comodidad es la única agenda.",
       "transparency": "Transparencia",
-      "transparencyDesc": "Precios fijos sin cargos ocultos. Lo que ves es exactamente lo que pagas.",
+      "transparencyDesc": "Precios fijos. Sin tarifas ocultas. Sin sorpresas. Lo que ve al reservar es exactamente lo que paga al llegar.",
       "personalization": "Personalización",
-      "personalizationDesc": "Desde sillas infantiles hasta solicitudes especiales, adaptamos cada viaje a tus necesidades.",
+      "personalizationDesc": "Desde solicitudes especiales hasta paradas seleccionadas e itinerarios a medida — cada viaje se adapta a usted.",
       "quality": "Calidad",
-      "qualityDesc": "Vehículos premium, vestimenta profesional y atención a cada detalle.",
+      "qualityDesc": "Mercedes Clase S, BMW 7, Audi A8. Vehículos premium, atuendo profesional y atención al detalle.",
       "sustainability": "Sostenibilidad",
-      "sustainabilityDesc": "Ampliando nuestra flota de vehículos híbridos y eléctricos para un futuro más verde."
+      "sustainabilityDesc": "Ampliando nuestra flota híbrida y eléctrica — porque un Portugal más verde es el que vale la pena mostrar.",
+      "eyebrow": "Lo Que Defendemos",
+      "headingLine1": "Valores Que Mueven",
+      "headingLine2": "Cada Viaje."
     },
     "pastExperiences": {
       "title": "Experiencias Pasadas",
-      "subtitle": "Un vistazo a algunos de los eventos y servicios de los que hemos tenido el privilegio de formar parte",
+      "subtitle": "De bodas íntimas a eventos corporativos a gran escala en todo Portugal.",
       "filterAll": "Todos",
       "categories": {
         "corporate": "Corporativo",
@@ -2290,7 +2304,17 @@
         "events": "Eventos",
         "privateTours": "Tours Privados"
       },
-      "empty": "Aún no hay experiencias para mostrar"
+      "empty": "Aún no hay experiencias en esta categoría.",
+      "eyebrow": "Experiencias Pasadas",
+      "headingLine1": "Eventos & Servicios Que",
+      "headingLine2": "Hemos Tenido el Privilegio.",
+      "filters": {
+        "all": "Todos",
+        "weddings": "Bodas",
+        "corporate": "Corporativo",
+        "events": "Eventos",
+        "tours": "Tours"
+      }
     },
     "drivers": {
       "title": "Nuestros Simpáticos Conductores",
@@ -2301,17 +2325,136 @@
         "backgroundCheck": "Verificación de Antecedentes",
         "training": "Capacitación",
         "approval": "Aprobación"
+      },
+      "eyebrow": "Nuestros Chóferes",
+      "heading": "Nuestros Amables Conductores",
+      "items": {
+        "joao": {
+          "name": "João",
+          "location": "Lisboa",
+          "quote": "“Cada huésped es un amigo que aún no he conocido. Me encanta compartir los rincones ocultos de mi ciudad.”"
+        },
+        "maria": {
+          "name": "Maria",
+          "location": "Oporto",
+          "quote": "“La seguridad y el confort son mis prioridades. Trato a cada pasajero como a mi familia.”"
+        },
+        "pedro": {
+          "name": "Pedro",
+          "location": "Algarve",
+          "quote": "“20 años conduciendo me enseñaron que el viaje importa tanto como el destino.”"
+        }
       }
     },
     "team": {
       "title": "Conoce al equipo",
-      "subtitle": "El equipo de liderazgo que guía el éxito de Easy Transfer."
+      "subtitle": "El equipo directivo que guía el éxito de LuxMotion.",
+      "eyebrow": "Conoce al Equipo",
+      "heading": "Nuestro Equipo",
+      "members": {
+        "m1": {
+          "name": "Name Surname",
+          "role": "CEO"
+        },
+        "m2": {
+          "name": "Name Surname",
+          "role": "COO"
+        },
+        "m3": {
+          "name": "Name Surname",
+          "role": "CTO"
+        },
+        "m4": {
+          "name": "Name Surname",
+          "role": "CFO"
+        },
+        "m5": {
+          "name": "Name Surname",
+          "role": "Director de Operaciones"
+        },
+        "m6": {
+          "name": "Name Surname",
+          "role": "Director de Flota"
+        },
+        "m7": {
+          "name": "Name Surname",
+          "role": "Director de Ventas"
+        },
+        "m8": {
+          "name": "Name Surname",
+          "role": "Directora de Hospitalidad"
+        }
+      }
     },
     "joinUs": {
       "title": "¡Únete!",
-      "subtitle": "¿Cómo podemos trabajar juntos?",
+      "subtitle": "Dos formas de unirte a la red LuxMotion — como socio que eleva la experiencia del huésped, o como chófer que marca el estándar.",
       "becomePartner": "Ser socio",
-      "becomeDriver": "Ser conductor"
+      "becomeDriver": "Ser conductor",
+      "eyebrow": "Trabaja Con Nosotros",
+      "headingLine1": "¿Cómo Podemos",
+      "headingLine2": "Trabajar Juntos?",
+      "partner": {
+        "titleLine1": "Conviértete en",
+        "titleLine2": "Socio",
+        "body": "¿Hotel, venue para bodas o agencia de viajes de lujo? Ofrece a tus huéspedes transporte privado bajo tu marca — cero gastos operativos, integración white-label completa y reparto de ingresos desde el primer día.",
+        "cta": "Asóciate"
+      },
+      "chauffeur": {
+        "titleLine1": "Conviértete en",
+        "titleLine2": "Chófer",
+        "body": "Conduce a los huéspedes más exigentes de Portugal. Viajes preprogramados, pagos semanales y una plataforma que gestiona todo para que te concentres en conducir. Solo aceptamos a 1 de cada 5 candidatos — si tienes el estándar, queremos saber de ti.",
+        "cta": "Postular"
+      }
+    },
+    "whoIsSection": {
+      "eyebrow": "Quién Es LuxMotion",
+      "headingLine1": "Nacida en Ericeira.",
+      "headingLine2": "Confiada en todo Portugal.",
+      "body1": "Fundada en 2018, LuxMotion creció a partir de una convicción simple: Portugal merece un servicio de transferes privados a la altura de sus mejores hoteles. Seleccionamos personalmente a cada conductor, mantenemos una flota de vehículos premium y tratamos cada viaje como una oportunidad para mostrar lo mejor de la hospitalidad portuguesa.",
+      "body2": "Desde llegadas al aeropuerto de Lisboa hasta tours por el valle del Duero y bodas en el Algarve — hemos creado una plataforma que conecta huéspedes, hoteles y conductores en una experiencia fluida. Solo uno de cada cinco aspirantes a conductor es aprobado. Cero compromisos en el estándar de los vehículos.",
+      "stats": {
+        "rating": {
+          "value": "4.9/5",
+          "label": "Valoración Clientes"
+        },
+        "transfers": {
+          "value": "+10.000",
+          "label": "Transferes Completados"
+        },
+        "safety": {
+          "value": "100%",
+          "label": "Seguridad Garantizada"
+        },
+        "support": {
+          "value": "24/7",
+          "label": "Soporte en Vivo"
+        }
+      }
+    },
+    "vetting": {
+      "eyebrow": "Seleccionados y Profesionales",
+      "headingLine1": "No Aceptamos",
+      "headingLine2": "a Cualquiera.",
+      "subHighlight": "Cada conductor es seleccionado, formado y verificado.",
+      "subRest": "Solo 1 de cada 5 candidatos obtiene un lugar en la flota LuxMotion.",
+      "processLabel": "Nuestro Proceso de Verificación de Conductores",
+      "interview": {
+        "title": "Entrevista",
+        "desc": "Entrevista individual con nuestro equipo de operaciones. Evaluamos la ética de servicio, el idioma y el conocimiento local."
+      },
+      "background": {
+        "title": "Verificación de Antecedentes",
+        "desc": "Verificación completa de antecedentes penales, validación de licencia e inspección del vehículo."
+      },
+      "training": {
+        "title": "Formación",
+        "desc": "Protocolo de servicio LuxMotion, estándares de hospitalidad, seguimiento de vuelos y formación en seguridad."
+      },
+      "approved": {
+        "title": "Aprobado",
+        "desc": "Listo para el primer viaje. Transfer supervisado antes del comienzo de las operaciones independientes."
+      }
     }
   },
   "adminDrivers": {

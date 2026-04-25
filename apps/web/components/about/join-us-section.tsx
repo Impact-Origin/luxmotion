@@ -1,50 +1,106 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { Handshake, CarFront } from "lucide-react"
 import Link from "next/link"
+import { ArrowRight, HeartHandshake, Car, type LucideIcon } from "lucide-react"
 
-const cards = [
-  { icon: Handshake, labelKey: "becomePartner", href: "/partnerships" },
-  { icon: CarFront, labelKey: "becomeDriver", href: "/work-with-us" },
-] as const
+type JoinCard = {
+  id: string
+  icon: LucideIcon
+  href: string
+}
+
+const CARDS: JoinCard[] = [
+  { id: "partner", icon: HeartHandshake, href: "/partnerships" },
+  { id: "chauffeur", icon: Car, href: "/work-with-us" },
+]
+
+function JoinCardBlock({ card, t }: { card: JoinCard; t: ReturnType<typeof useTranslations> }) {
+  const Icon = card.icon
+  return (
+    <div className="bg-[#1a1a1a] flex flex-col gap-5 items-start px-6 md:px-12 py-10 md:py-14 flex-1 overflow-hidden">
+      <div className="size-14 border border-[rgba(201,169,110,0.2)] flex items-center justify-center shrink-0">
+        <Icon className="size-6 text-[#C9A96E]" strokeWidth={1.5} />
+      </div>
+      <div className="flex flex-col gap-4 items-start w-full">
+        <h3
+          className="text-white font-normal leading-none"
+          style={{
+            fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+            fontSize: "clamp(1.75rem, 2.4vw, 2rem)",
+          }}
+        >
+          <span className="block">{t(`${card.id}.titleLine1`)}</span>
+          <span className="block italic text-[#C9A96E]">{t(`${card.id}.titleLine2`)}</span>
+        </h3>
+        <p
+          className="text-[14px] text-[#999] leading-[1.3]"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {t(`${card.id}.body`)}
+        </p>
+      </div>
+      <Link
+        href={card.href}
+        className="h-10 px-[22px] flex items-center gap-2 border border-[#C9A96E] text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+      >
+        <span className="px-2 text-[14px] font-medium uppercase tracking-[1.1px]">
+          {t(`${card.id}.cta`)}
+        </span>
+        <ArrowRight className="size-[18px]" strokeWidth={2} />
+      </Link>
+    </div>
+  )
+}
 
 export function JoinUsSection() {
   const t = useTranslations("aboutPage.joinUs")
 
   return (
-    <section className="px-4 md:px-8 lg:px-[60px] xl:px-[100px] py-[36px]">
-      <div className="max-w-7xl mx-auto">
-        <div className="relative rounded-[24px] overflow-hidden px-6 md:px-12 py-[60px] md:py-[80px] flex flex-col items-center gap-6">
-          <div className="absolute inset-0 bg-[#125a73]" />
-          <div
-            className="absolute inset-0 opacity-40 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url(/container.png)" }}
-          />
-
-          <div className="relative z-10 flex flex-col items-center gap-4 text-center text-white">
-            <h2 className="text-[32px] md:text-[40px] font-bold leading-normal">
-              {t("title")}
-            </h2>
-            <p className="text-[16px] md:text-[20px] font-medium leading-[1.3] max-w-[738px]">
-              {t("subtitle")}
-            </p>
+    <section className="relative bg-[#0D0D0D] px-4 md:px-[82px] py-20 md:py-24 overflow-hidden">
+      <div
+        className="absolute left-1/2 -translate-x-1/2 pointer-events-none w-[1100px] h-[700px] opacity-60"
+        style={{
+          top: "calc(50% + 75px)",
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(ellipse, rgba(201,169,110,0.08) 0%, transparent 60%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative flex flex-col gap-14 items-center w-full max-w-[1280px] mx-auto">
+        <div className="flex flex-col gap-6 items-center w-full">
+          <div className="flex gap-2 items-center">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("eyebrow")}
+            </span>
+            <div className="w-8 h-px bg-[#C9A96E]" />
           </div>
+          <h2
+            className="text-white font-normal text-center leading-[1.2]"
+            style={{
+              fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+              fontSize: "clamp(2rem, 3.4vw, 3rem)",
+            }}
+          >
+            <span className="block">{t("headingLine1")}</span>
+            <span className="block italic text-[#C9A96E]">{t("headingLine2")}</span>
+          </h2>
+          <p
+            className="text-[14px] text-center text-[#999] leading-[1.3] max-w-[440px]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {t("subtitle")}
+          </p>
+        </div>
 
-          <div className="relative z-10 flex flex-col sm:flex-row gap-6 w-full max-w-[674px]">
-            {cards.map(({ icon: Icon, labelKey, href }) => (
-              <Link
-                key={labelKey}
-                href={href}
-                className="flex-1 flex flex-col items-center justify-center gap-[10px] h-[140px] rounded-[16px] border border-[#e8e8e8] bg-white/10 hover:bg-white/20 transition-colors"
-              >
-                <Icon className="size-10 text-white" />
-                <span className="text-[18px] md:text-[20px] font-bold text-white leading-[1.2]">
-                  {t(labelKey)}
-                </span>
-              </Link>
-            ))}
-          </div>
+        <div className="flex flex-col md:flex-row gap-[3px] w-full">
+          {CARDS.map((c) => (
+            <JoinCardBlock key={c.id} card={c} t={t} />
+          ))}
         </div>
       </div>
     </section>

@@ -6,8 +6,9 @@ import { TimelineSection } from "@/components/about/timeline-section"
 import { ValuesSection } from "@/components/about/values-section"
 import { PastExperiencesSection } from "@/components/about/past-experiences-section"
 import { DriversSection } from "@/components/about/drivers-section"
+import { VettingSection } from "@/components/about/vetting-section"
 import { TeamSection } from "@/components/about/team-section"
-import { Testimonials } from "@/components/new-landing-page/testimonials"
+import { ToursTestimonials } from "@/components/tours/tours-testimonials"
 import { JoinUsSection } from "@/components/about/join-us-section"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
@@ -29,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function AboutUsPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd data={buildOrganizationSchema()} />
       <JsonLd
         data={
@@ -57,8 +58,9 @@ export default function AboutUsPage() {
         <ValuesSection />
         <PastExperiencesSection />
         <DriversSection />
+        <VettingSection />
         <TeamSection />
-        <Testimonials />
+        <ToursTestimonials />
         <JoinUsSection />
       </main>
       <Footer />
