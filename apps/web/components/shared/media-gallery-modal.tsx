@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Dialog, DialogContent, DialogTitle } from "@workspace/ui/components/dialog"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
@@ -44,6 +44,49 @@ export function MediaGalleryModal({
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [open, goToPrev, goToNext])
+
+  const stripRef = useRef<HTMLDivElement>(null)
+  const dragState = useRef({ down: false, moved: false, startX: 0, startScroll: 0 })
+
+  useEffect(() => {
+    if (!open) return
+    const strip = stripRef.current
+    if (!strip) return
+    const active = strip.querySelector<HTMLElement>(`[data-thumb-index="${currentIndex}"]`)
+    if (active) {
+      const stripRect = strip.getBoundingClientRect()
+      const activeRect = active.getBoundingClientRect()
+      const offset = activeRect.left - stripRect.left - stripRect.width / 2 + activeRect.width / 2
+      strip.scrollBy({ left: offset, behavior: "smooth" })
+    }
+  }, [currentIndex, open])
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const strip = stripRef.current
+    if (!strip) return
+    dragState.current = {
+      down: true,
+      moved: false,
+      startX: e.clientX,
+      startScroll: strip.scrollLeft,
+    }
+    strip.setPointerCapture(e.pointerId)
+  }
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const strip = stripRef.current
+    const state = dragState.current
+    if (!strip || !state.down) return
+    const dx = e.clientX - state.startX
+    if (Math.abs(dx) > 4) state.moved = true
+    strip.scrollLeft = state.startScroll - dx
+  }
+
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const strip = stripRef.current
+    if (strip && strip.hasPointerCapture(e.pointerId)) strip.releasePointerCapture(e.pointerId)
+    setTimeout(() => (dragState.current.down = false), 0)
+  }
 
   if (media.length === 0) return null
 
@@ -108,12 +151,29 @@ export function MediaGalleryModal({
         </div>
 
         {media.length > 1 && (
-          <div className="shrink-0 px-4 py-3 overflow-x-auto">
-            <div className="flex gap-2 justify-center">
+          <div
+            ref={stripRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            className="shrink-0 px-4 py-3 overflow-x-auto overflow-y-hidden cursor-grab active:cursor-grabbing select-none scrollbar-hide touch-pan-x"
+            style={{ scrollbarWidth: "none" }}
+          >
+            <div className="flex gap-2 w-max mx-auto">
               {media.map((item, index) => (
                 <button
                   key={index}
-                  onClick={() => onIndexChange(index)}
+                  data-thumb-index={index}
+                  onClick={(e) => {
+                    if (dragState.current.moved) {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      return
+                    }
+                    onIndexChange(index)
+                  }}
+                  draggable={false}
                   className={cn(
                     "relative w-16 h-12 rounded-lg overflow-hidden shrink-0 transition-all duration-200",
                     index === currentIndex
@@ -124,7 +184,7 @@ export function MediaGalleryModal({
                   {item.type === "video" ? (
                     <video
                       src={item.url}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                       muted
                       playsInline
                       preload="metadata"
@@ -134,7 +194,8 @@ export function MediaGalleryModal({
                       src={item.url}
                       alt={`Thumbnail ${index + 1}`}
                       fill
-                      className="object-cover"
+                      className="object-cover pointer-events-none"
+                      draggable={false}
                     />
                   )}
                 </button>

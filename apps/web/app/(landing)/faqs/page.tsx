@@ -1,6 +1,7 @@
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
-import { FaqsContent } from "./faqs-content"
+import { FaqsClient } from "./faqs-client"
+import { FaqsCtaBand } from "@/components/faqs/faqs-cta-band"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
@@ -42,7 +43,7 @@ export default async function FaqsPage() {
   const faqSchema = await getFaqSchemaData()
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd
         data={
           buildBreadcrumbSchema([
@@ -54,7 +55,8 @@ export default async function FaqsPage() {
       <JsonLd data={faqSchema} />
       <Header />
       <main className="pt-[56px]">
-        <FaqsContent />
+        <FaqsClient />
+        <FaqsCtaBand />
       </main>
       <Footer />
     </div>

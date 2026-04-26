@@ -236,10 +236,9 @@
     "heroTitle": "Nossa Frota",
     "heroSubtitle": "Descubra os nossos veículos premium, desenhados para o seu conforto e segurança. De sedans a autocarros, temos o veículo perfeito para cada viagem.",
     "badges": {
-      "premium": "Veículos Premium",
-      "comfort": "Máximo Conforto",
-      "safety": "Segurança Certificada",
-      "available": "Disponível 24/7"
+      "available": "Disponível",
+      "eco": "Eco",
+      "electric": "Elétrico"
     },
     "exploreFleet": "Explore a nossa frota",
     "category": {
@@ -278,7 +277,45 @@
     "ctaSubtitle": "Reserve o seu transfer em menos de 60 segundos. Seguro, fiável e sempre a horas.",
     "ctaButton": "Reservar Agora",
     "noVehicles": "Sem veículos disponíveis de momento.",
-    "loading": "A carregar a nossa frota..."
+    "loading": "A carregar a nossa frota...",
+    "gallery": "Galeria",
+    "titleHeading": "Explore a Nossa",
+    "titleHeadingAccent": "Frota",
+    "titleSubtitle": "Cada veículo escolhido a dedo pelo conforto, segurança e padrão que os hóspedes mais distintos de Portugal merecem.",
+    "bookVehicle": "Reservar este veículo",
+    "meta": {
+      "pax": "{min}–{max} pax",
+      "bags": "{count} malas",
+      "ac": "A/C",
+      "wifi": "Wi-Fi",
+      "upToPax": "Até {count} pax",
+      "largeCargo": "Grande carga"
+    },
+    "vehicleCount": "{count, plural, one {# veículo} other {# veículos}}",
+    "standard": {
+      "headingFirst": "Confortável &",
+      "headingAccent": "Fiável"
+    },
+    "xl": {
+      "headingFirst": "Espaço e",
+      "headingAccent": "Versatilidade"
+    },
+    "executive": {
+      "headingFirst": "Prestígio e",
+      "headingAccent": "Excelência"
+    },
+    "van": {
+      "headingFirst": "Grupos e",
+      "headingAccent": "Eventos"
+    },
+    "minibus": {
+      "headingFirst": "Grupos Grandes e",
+      "headingAccent": "Transferes"
+    },
+    "coach": {
+      "headingFirst": "Conferências e",
+      "headingAccent": "Grandes Eventos"
+    }
   },
   "trustSection": {
     "trustedBy": "Com a confiança de + 300",
@@ -404,7 +441,38 @@
     "a13_1": "Viaturas modernas e premium, com seguro completo",
     "a13_2": "Motoristas profissionais e selecionados",
     "a13_3": "Monitorização em tempo real dos voos para transfers de aeroporto",
-    "a13_4": "Atendimento personalizado antes, durante e após a viagem"
+    "a13_4": "Atendimento personalizado antes, durante e após a viagem",
+    "hero": {
+      "breadcrumbHome": "Início",
+      "breadcrumbCurrent": "FAQs",
+      "eyebrow": "Perguntas Frequentes",
+      "headingLead": "Tudo o que precisa de",
+      "headingAccent": "saber.",
+      "subtitle": "Respostas às perguntas mais comuns sobre os nossos transfers, tours e serviços. Não encontra o que procura? Fale connosco — respondemos em minutos.",
+      "searchPlaceholder": "Pesquisar FAQs — ex. 'aeroporto', 'casamentos', 'pagamento'...",
+      "searchButton": "Pesquisar"
+    },
+    "categories": {
+      "all": "Todas as Perguntas",
+      "booking": "Reservas",
+      "services": "Serviços",
+      "payment": "Pagamento",
+      "operations": "Operações"
+    },
+    "noResults": "Nenhuma pergunta corresponde à sua pesquisa.",
+    "cta": {
+      "eyebrow": "Ainda tem Dúvidas?",
+      "headingLead": "Estamos a uma",
+      "headingAccent": "mensagem",
+      "headingTrail": "de distância.",
+      "subtitle": "A nossa equipa está disponível 24/7 para qualquer questão sobre transfers, tours, casamentos ou experiências à medida em Portugal.",
+      "whatsapp": "WhatsApp",
+      "proposal": "Pedir Proposta",
+      "phoneLabel": "Telefone · WhatsApp",
+      "emailLabel": "Email",
+      "availabilityLabel": "Disponibilidade",
+      "availabilityValue": "24/7 · Sempre Aqui"
+    }
   },
   "footer": {
     "contact": "Contacto",

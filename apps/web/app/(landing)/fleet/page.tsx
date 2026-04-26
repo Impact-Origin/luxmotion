@@ -1,6 +1,10 @@
 import { Header } from "@/components/new-landing-page/header"
 import { FleetCarousel } from "@/components/fleet/fleet-carousel"
-import { FleetVehiclesByCategory } from "@/components/fleet/fleet-vehicles-by-category"
+import { FleetTitleBlock } from "@/components/fleet/fleet-title-block"
+import { FleetCategoryFilter } from "@/components/fleet/fleet-category-filter"
+import { FleetCategorySection } from "@/components/fleet/fleet-category-section"
+import { STANDARD_VEHICLES, XL_VEHICLES, EXECUTIVE_VEHICLES, VAN_VEHICLES, MINIBUS_VEHICLES, COACH_VEHICLES } from "@/lib/fleet-vehicles-data"
+import { getTranslations as getT } from "next-intl/server"
 import { Footer } from "@/components/new-landing-page/footer"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
@@ -20,9 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function FleetPage() {
+export default async function FleetPage() {
+  const t = await getT("fleetPage")
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0d0d0d] text-white">
       <JsonLd
         data={
           buildBreadcrumbSchema([
@@ -42,9 +47,57 @@ export default function FleetPage() {
         }
       />
       <Header />
-      <div className="pt-[46px] md:pt-[46px] flex flex-col gap-12 md:gap-16">
+      <div className="pt-[46px] md:pt-[46px]">
         <FleetCarousel />
-        <FleetVehiclesByCategory />
+        <FleetTitleBlock />
+        <div className="pt-8 md:pt-10">
+          <FleetCategoryFilter />
+        </div>
+        <FleetCategorySection
+          categoryKey="standard"
+          categoryLabelKey="category.standard"
+          headingFirst={t("standard.headingFirst")}
+          headingAccent={t("standard.headingAccent")}
+          vehicles={STANDARD_VEHICLES}
+        />
+        <FleetCategorySection
+          categoryKey="xl"
+          categoryLabelKey="category.xl"
+          headingFirst={t("xl.headingFirst")}
+          headingAccent={t("xl.headingAccent")}
+          vehicles={XL_VEHICLES}
+        />
+        <FleetCategorySection
+          categoryKey="executivo"
+          categoryLabelKey="category.executivo"
+          headingFirst={t("executive.headingFirst")}
+          headingAccent={t("executive.headingAccent")}
+          vehicles={EXECUTIVE_VEHICLES}
+        />
+        <FleetCategorySection
+          categoryKey="van"
+          categoryLabelKey="category.van"
+          headingFirst={t("van.headingFirst")}
+          headingAccent={t("van.headingAccent")}
+          vehicles={VAN_VEHICLES}
+        />
+        <FleetCategorySection
+          categoryKey="minibus"
+          categoryLabelKey="category.minibus"
+          headingFirst={t("minibus.headingFirst")}
+          headingAccent={t("minibus.headingAccent")}
+          vehicles={MINIBUS_VEHICLES}
+          desktopColumns={2}
+        />
+        <FleetCategorySection
+          categoryKey="autocarro"
+          categoryLabelKey="category.autocarro"
+          headingFirst={t("coach.headingFirst")}
+          headingAccent={t("coach.headingAccent")}
+          vehicles={COACH_VEHICLES}
+          desktopColumns={2}
+        />
+        <div className="h-12 md:h-16" />
       </div>
       <Footer />
     </div>

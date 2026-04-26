@@ -236,10 +236,9 @@
     "heroTitle": "Onze Vloot",
     "heroSubtitle": "Ontdek onze premium voertuigen, ontworpen voor uw comfort en veiligheid. Van sedans tot bussen, we hebben het perfecte voertuig voor elke reis.",
     "badges": {
-      "premium": "Premium Voertuigen",
-      "comfort": "Maximaal Comfort",
-      "safety": "Gecertificeerde Veiligheid",
-      "available": "24/7 Beschikbaar"
+      "available": "Beschikbaar",
+      "eco": "Eco",
+      "electric": "Elektrisch"
     },
     "exploreFleet": "Ontdek Onze Vloot",
     "category": {
@@ -278,7 +277,45 @@
     "ctaSubtitle": "Boek uw transfer in minder dan 60 seconden. Veilig, betrouwbaar en altijd op tijd.",
     "ctaButton": "Nu Boeken",
     "noVehicles": "Momenteel geen voertuigen beschikbaar.",
-    "loading": "Onze vloot wordt geladen..."
+    "loading": "Onze vloot wordt geladen...",
+    "gallery": "Galerij",
+    "titleHeading": "Ontdek Onze",
+    "titleHeadingAccent": "Vloot",
+    "titleSubtitle": "Elk voertuig met zorg gekozen voor comfort, veiligheid en de standaard die Portugals meest veeleisende gasten verdienen.",
+    "bookVehicle": "Dit voertuig boeken",
+    "meta": {
+      "pax": "{min}–{max} pers.",
+      "bags": "{count} bagage",
+      "ac": "Airco",
+      "wifi": "Wi-Fi",
+      "upToPax": "Tot {count} pers.",
+      "largeCargo": "Grote bagage"
+    },
+    "vehicleCount": "{count, plural, one {# voertuig} other {# voertuigen}}",
+    "standard": {
+      "headingFirst": "Comfortabel &",
+      "headingAccent": "Betrouwbaar"
+    },
+    "xl": {
+      "headingFirst": "Ruimte &",
+      "headingAccent": "Veelzijdigheid"
+    },
+    "executive": {
+      "headingFirst": "Prestige &",
+      "headingAccent": "Excellentie"
+    },
+    "van": {
+      "headingFirst": "Groepen &",
+      "headingAccent": "Evenementen"
+    },
+    "minibus": {
+      "headingFirst": "Grote Groepen &",
+      "headingAccent": "Transfers"
+    },
+    "coach": {
+      "headingFirst": "Conferenties &",
+      "headingAccent": "Grote Evenementen"
+    }
   },
   "trustSection": {
     "trustedBy": "Vertrouwd door meer dan 300",
@@ -404,7 +441,38 @@
     "a13_1": "Moderne premium voertuigen met volledige verzekering",
     "a13_2": "Professionele, geselecteerde chauffeurs",
     "a13_3": "Realtime vluchtmonitoring voor luchthaventransfers",
-    "a13_4": "Persoonlijke service voor, tijdens en na de rit"
+    "a13_4": "Persoonlijke service voor, tijdens en na de rit",
+    "hero": {
+      "breadcrumbHome": "Home",
+      "breadcrumbCurrent": "FAQs",
+      "eyebrow": "Veelgestelde Vragen",
+      "headingLead": "Alles wat u moet",
+      "headingAccent": "weten.",
+      "subtitle": "Antwoorden op de meest gestelde vragen over onze transfers, tours en diensten. Vindt u niet wat u zoekt? Neem contact op — we reageren binnen enkele minuten.",
+      "searchPlaceholder": "Zoek in FAQs — bv. 'luchthaven', 'bruiloften', 'betaling'...",
+      "searchButton": "Zoeken"
+    },
+    "categories": {
+      "all": "Alle Vragen",
+      "booking": "Boeking",
+      "services": "Diensten",
+      "payment": "Betaling",
+      "operations": "Operaties"
+    },
+    "noResults": "Geen vragen komen overeen met uw zoekopdracht.",
+    "cta": {
+      "eyebrow": "Nog Vragen?",
+      "headingLead": "We zijn slechts één",
+      "headingAccent": "bericht",
+      "headingTrail": "verwijderd.",
+      "subtitle": "Ons team is 24/7 beschikbaar voor elke vraag over transfers, tours, bruiloften of op maat gemaakte ervaringen in Portugal.",
+      "whatsapp": "WhatsApp",
+      "proposal": "Offerte Aanvragen",
+      "phoneLabel": "Telefoon · WhatsApp",
+      "emailLabel": "E-mail",
+      "availabilityLabel": "Beschikbaarheid",
+      "availabilityValue": "24/7 · Altijd Hier"
+    }
   },
   "footer": {
     "contact": "Contact",
