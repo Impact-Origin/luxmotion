@@ -34,7 +34,7 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
         {vehicle.badges.map((b) => (
           <span
             key={b}
-            className={`h-[17.6px] inline-flex items-center px-[8.8px] py-[3.8px] border text-[8px] font-semibold tracking-[0.8px] uppercase whitespace-nowrap ${BADGE_STYLES[b]}`}
+            className={`inline-flex items-center px-[8.8px] py-[3.8px] border text-[8px] font-semibold tracking-[0.8px] uppercase whitespace-nowrap ${BADGE_STYLES[b]}`}
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t(`badges.${b}`)}

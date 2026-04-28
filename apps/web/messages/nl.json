@@ -2817,5 +2817,119 @@
     "contactEmailLabel": "E-mail",
     "contactPhoneLabel": "Telefoon",
     "lastUpdated": "Laatst bijgewerkt: 9 maart 2026"
+  },
+  "wedding": {
+    "hero": {
+      "pill": "Bruiloftsmobiliteit · Portugal",
+      "title1": "Het Perfecte",
+      "title2": "Vervoer Voor",
+      "titleAccent": "Uw Trouwdag.",
+      "subtitle": "Op maat van elk paar. Een persoonlijke, vlekkeloze service van het eerste welkom tot het laatste afscheid.",
+      "check1": "Voertuigen met chauffeur. Onberispelijke presentatie",
+      "check2": "Flexibele routes en planning rond uw dag",
+      "check3": "Beschikbaar in heel Portugal",
+      "excellentRating": "Uitstekende Beoordeling",
+      "verifiedBy": "Geverifieerd door",
+      "fromReviews": "Van 387 Beoordelingen",
+      "poweredBy": "Mogelijk gemaakt door",
+      "ctaPrimary": "Offerte Aanvragen",
+      "ctaSecondary": "Ontdek de Vloot",
+      "statValue": "2.187",
+      "statLabel": "Bruiloften vervoerd",
+      "photoAlt": "Bruidspaar bij het Hiëronymietenklooster",
+      "carsAlt": "Bruiloftsvloot"
+    },
+    "offer": {
+      "eyebrow": "Onze Diensten",
+      "titleStart": "Wat wij ",
+      "titleAccent": "bieden",
+      "imageAlt": "Bruidspaar met chauffeur en luxe sedan",
+      "card1": {
+        "title": "Bruidsvoertuig",
+        "desc": "Een toegewijd, versierd executive voertuig exclusief voor het paar. Uw aankomst zet de toon voor de hele viering."
+      },
+      "card2": {
+        "title": "Mobiliteit Gasten",
+        "desc": "Gecoördineerde vloot voor elke gast. Van intieme familiegroepen tot grote bruiloftsgezelschappen over meerdere voertuigen."
+      },
+      "card3": {
+        "title": "Professionele Chauffeurs",
+        "desc": "Elke chauffeur is gescreend, getraind en gekleed voor de gelegenheid. Discretie, stiptheid en elegantie als standaard."
+      },
+      "card4": {
+        "title": "Heel Portugal",
+        "desc": "Alentejo-quinta's, Douro-wijngaarden, Algarve-kliffen, Lissabon-paleizen. Waar uw locatie ook is, wij zijn er al."
+      }
+    },
+    "stats": {
+      "taglineStart": "Praktisch,",
+      "taglineAccent": "veilig",
+      "taglineEnd": " en moeiteloos elegant.",
+      "subtitle": "Vertrouwd door meer dan tweeduizend paren in heel Portugal. Gebouwd op betrouwbaarheid, oog voor detail en het besef dat uw trouwdag geen compromis duldt.",
+      "stat1": {
+        "value": "+2.187",
+        "label": "Bruiloften\nverzorgd"
+      },
+      "stat2": {
+        "value": "+7",
+        "label": "Jaar\nervaring"
+      },
+      "stat3": {
+        "value": "99%",
+        "label": "Klant-\ntevredenheid"
+      },
+      "stat4": {
+        "value": "+300",
+        "label": "Gasten\nper event"
+      }
+    },
+    "testimonials": {
+      "pill": "Exclusief",
+      "count": "300+",
+      "countLabel": "Stellen & Families",
+      "trustedSubtitle": "Vertrouwd in Portugal en daarbuiten",
+      "source": "Google · Geverifieerd",
+      "review1": {
+        "name": "Sofia Andrade",
+        "text": "Volledig vlekkeloos van begin tot eind. De Mercedes was prachtig, de chauffeur perfect verzorgd en alles verliep op tijd. Al onze gasten waren onder de indruk."
+      },
+      "review2": {
+        "name": "Ricardo Fonseca",
+        "text": "We hebben LuxMotion ingehuurd voor onze bruiloft in Sintra. Uitzonderlijke service — altijd op tijd, volkomen onopvallend wanneer nodig, en oprecht goede mensen. Bedankt!"
+      },
+      "review3": {
+        "name": "Margaret & James",
+        "text": "Als Brits stel dat in de Alentejo trouwde, hadden we een team nodig dat we volledig konden vertrouwen. LuxMotion overtrof al onze verwachtingen. Pure klasse."
+      },
+      "review4": {
+        "name": "Ana Luísa Costa",
+        "text": "Van het eerste contact tot de laatste rit was het team onberispelijk. Persoonlijk in elke stap. Ik voelde me echt verzorgd op mijn trouwdag."
+      }
+    },
+    "benefits": {
+      "eyebrow": "Waarom LuxMotion",
+      "headingStart": "Waarom Stellen Kiezen voor",
+      "headingAccent": "LuxMotion",
+      "benefit1": {
+        "title": "Onberispelijke Standaarden",
+        "desc": "Elke chauffeur is opgeleid, in uniform en geïnformeerd over uw bruiloftsplanning voordat de eerste motor start."
+      },
+      "benefit2": {
+        "title": "Volledig Wagenpark",
+        "desc": "Van executive sedans voor het paar tot minibussen en touringcars voor grotere bruiloftsgroepen."
+      },
+      "benefit3": {
+        "title": "Flexibele Planning",
+        "desc": "Uw bruiloftsplanning verandert. Wij passen aan. Geen boetes, geen starheid, geen verrassingen op de dag."
+      },
+      "benefit4": {
+        "title": "Bewezen Ervaring",
+        "desc": "Meer dan 2.000 bruiloften. Wij kennen de locaties, de timings en wat mis kan gaan. Dus dat gebeurt niet."
+      },
+      "benefit5": {
+        "title": "Persoonlijke Service",
+        "desc": "Wij leren uw voorkeuren, de details van het paar en de behoeften van de gasten. Niets generieks. Alles van u."
+      }
+    }
   }
 }

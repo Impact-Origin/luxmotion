@@ -2914,5 +2914,119 @@
     "contactEmailLabel": "E-Mail",
     "contactPhoneLabel": "Telefon",
     "lastUpdated": "Zuletzt aktualisiert: 9. März 2026"
+  },
+  "wedding": {
+    "hero": {
+      "pill": "Hochzeitsmobilität · Portugal",
+      "title1": "Der perfekte",
+      "title2": "Transport für",
+      "titleAccent": "Ihren Hochzeitstag.",
+      "subtitle": "Auf jedes Paar zugeschnitten. Ein persönlicher, makelloser Service vom ersten Empfang bis zum letzten Abschied.",
+      "check1": "Chauffeurfahrzeuge. Tadellose Präsentation",
+      "check2": "Flexible Routen und Zeitpläne rund um Ihren Tag",
+      "check3": "Verfügbar in ganz Portugal",
+      "excellentRating": "Ausgezeichnete Bewertung",
+      "verifiedBy": "Verifiziert von",
+      "fromReviews": "Aus 387 Bewertungen",
+      "poweredBy": "Bereitgestellt von",
+      "ctaPrimary": "Angebot anfragen",
+      "ctaSecondary": "Flotte entdecken",
+      "statValue": "2.187",
+      "statLabel": "Transportierte Hochzeiten",
+      "photoAlt": "Brautpaar vor dem Hieronymus-Kloster",
+      "carsAlt": "Hochzeitsflotte"
+    },
+    "offer": {
+      "eyebrow": "Unsere Leistungen",
+      "titleStart": "Was wir ",
+      "titleAccent": "bieten",
+      "imageAlt": "Brautpaar mit Chauffeur und Luxuslimousine",
+      "card1": {
+        "title": "Brautfahrzeug",
+        "desc": "Ein dediziertes, dekoriertes Executive-Fahrzeug exklusiv für das Paar. Ihre Ankunft setzt den Ton für die gesamte Feier."
+      },
+      "card2": {
+        "title": "Gästemobilität",
+        "desc": "Koordinierte Flotte für jeden Gast. Von intimen Familiengruppen bis zu großen Hochzeitsgesellschaften über mehrere Fahrzeuge."
+      },
+      "card3": {
+        "title": "Professionelle Chauffeure",
+        "desc": "Jeder Chauffeur ist geprüft, geschult und passend zum Anlass gekleidet. Diskretion, Pünktlichkeit und Eleganz als Standard."
+      },
+      "card4": {
+        "title": "Ganz Portugal",
+        "desc": "Alentejo-Quintas, Douro-Weingüter, Algarve-Klippen, Lissaboner Paläste. Wo immer Ihr Veranstaltungsort ist, wir sind bereits da."
+      }
+    },
+    "stats": {
+      "taglineStart": "Praktisch,",
+      "taglineAccent": "sicher",
+      "taglineEnd": " und mühelos elegant.",
+      "subtitle": "Vertrauen von über zweitausend Paaren in ganz Portugal. Aufgebaut auf Zuverlässigkeit, Liebe zum Detail und dem Verständnis, dass Ihr Hochzeitstag keinen Kompromiss zulässt.",
+      "stat1": {
+        "value": "+2.187",
+        "label": "Hochzeiten\nbedient"
+      },
+      "stat2": {
+        "value": "+7",
+        "label": "Jahre\nErfahrung"
+      },
+      "stat3": {
+        "value": "99%",
+        "label": "Kunden-\nzufriedenheit"
+      },
+      "stat4": {
+        "value": "+300",
+        "label": "Gäste\npro Anlass"
+      }
+    },
+    "testimonials": {
+      "pill": "Exklusiv",
+      "count": "300+",
+      "countLabel": "Paare & Familien",
+      "trustedSubtitle": "Vertraut in Portugal und darüber hinaus",
+      "source": "Google · Verifiziert",
+      "review1": {
+        "name": "Sofia Andrade",
+        "text": "Absolut nahtlos von Anfang bis Ende. Der Mercedes war atemberaubend, der Fahrer perfekt gekleidet und alles lief pünktlich. Alle unsere Gäste waren beeindruckt."
+      },
+      "review2": {
+        "name": "Ricardo Fonseca",
+        "text": "Wir haben LuxMotion für unsere Hochzeit in Sintra gebucht. Außergewöhnlicher Service — immer pünktlich, völlig diskret wenn nötig, und einfach gute Menschen. Vielen Dank!"
+      },
+      "review3": {
+        "name": "Margaret & James",
+        "text": "Als britisches Paar, das im Alentejo geheiratet hat, brauchten wir ein Team, dem wir vollkommen vertrauen können. LuxMotion hat alle Erwartungen übertroffen. Erste Klasse."
+      },
+      "review4": {
+        "name": "Ana Luísa Costa",
+        "text": "Vom ersten Kontakt bis zur letzten Fahrt war das Team makellos. Personalisiert in jedem Schritt. Ich fühlte mich an meinem Hochzeitstag wirklich umsorgt."
+      }
+    },
+    "benefits": {
+      "eyebrow": "Warum LuxMotion",
+      "headingStart": "Warum Paare sich für",
+      "headingAccent": "LuxMotion entscheiden",
+      "benefit1": {
+        "title": "Makellose Standards",
+        "desc": "Jeder Chauffeur ist geschult, in Uniform und über Ihren Hochzeitsablauf informiert, bevor der erste Motor startet."
+      },
+      "benefit2": {
+        "title": "Volle Flottenpalette",
+        "desc": "Vom Executive-Sedan für das Paar bis zu Kleinbussen und Reisebussen für größere Hochzeitsgesellschaften."
+      },
+      "benefit3": {
+        "title": "Flexible Planung",
+        "desc": "Ihr Hochzeitsplan ändert sich. Wir passen uns an. Keine Strafen, keine Starre, keine Überraschungen am Tag."
+      },
+      "benefit4": {
+        "title": "Bewährte Erfahrung",
+        "desc": "Über 2.000 Hochzeiten. Wir kennen die Locations, die Timings und was schiefgehen kann. Damit es nicht passiert."
+      },
+      "benefit5": {
+        "title": "Persönlicher Service",
+        "desc": "Wir lernen Ihre Vorlieben, die Details des Paares und die Bedürfnisse Ihrer Gäste. Nichts Generisches. Alles Ihres."
+      }
+    }
   }
 }

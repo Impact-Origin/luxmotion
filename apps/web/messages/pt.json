@@ -2990,5 +2990,119 @@
     "contactEmailLabel": "Email",
     "contactPhoneLabel": "Telefone",
     "lastUpdated": "Última atualização: 9 de março de 2026"
+  },
+  "wedding": {
+    "hero": {
+      "pill": "Mobilidade Para Casamentos · Portugal",
+      "title1": "O Transporte",
+      "title2": "Perfeito Para",
+      "titleAccent": "O Seu Casamento.",
+      "subtitle": "Feito à medida de cada casal. Um serviço personalizado e impecável, do primeiro acolhimento à última despedida.",
+      "check1": "Veículos com motorista. Apresentação impecável",
+      "check2": "Rotas e horários flexíveis, pensados para o seu dia",
+      "check3": "Disponível em todo o Portugal",
+      "excellentRating": "Avaliação Excelente",
+      "verifiedBy": "Verificado por",
+      "fromReviews": "A partir de 387 Avaliações",
+      "poweredBy": "Suportado por",
+      "ctaPrimary": "Pedir Orçamento",
+      "ctaSecondary": "Ver a Frota",
+      "statValue": "2.187",
+      "statLabel": "Casamentos transportados",
+      "photoAlt": "Noivos junto ao Mosteiro dos Jerónimos",
+      "carsAlt": "Frota de casamento"
+    },
+    "offer": {
+      "eyebrow": "Os Nossos Serviços",
+      "titleStart": "O que ",
+      "titleAccent": "oferecemos",
+      "imageAlt": "Noivos com motorista e sedan de luxo",
+      "card1": {
+        "title": "Veículo dos Noivos",
+        "desc": "Um veículo executivo decorado e dedicado em exclusivo ao casal. A vossa chegada define o tom da celebração."
+      },
+      "card2": {
+        "title": "Mobilidade dos Convidados",
+        "desc": "Frota coordenada para cada convidado. De grupos familiares íntimos a grandes festas com vários veículos."
+      },
+      "card3": {
+        "title": "Motoristas Profissionais",
+        "desc": "Todos os motoristas são selecionados, treinados e vestidos para a ocasião. Discrição, pontualidade e elegância como padrão."
+      },
+      "card4": {
+        "title": "Todo o Portugal",
+        "desc": "Quintas no Alentejo, vinhas do Douro, falésias do Algarve, palácios em Lisboa. Onde quer que seja o local, já estamos lá."
+      }
+    },
+    "stats": {
+      "taglineStart": "Prático,",
+      "taglineAccent": "seguro",
+      "taglineEnd": " e naturalmente elegante.",
+      "subtitle": "Confiável para mais de dois mil casais por todo o Portugal. Construído sobre confiabilidade, atenção ao detalhe, e a certeza de que o seu casamento não admite compromissos.",
+      "stat1": {
+        "value": "+2.187",
+        "label": "Casamentos\nrealizados"
+      },
+      "stat2": {
+        "value": "+7",
+        "label": "Anos de\nexperiência"
+      },
+      "stat3": {
+        "value": "99%",
+        "label": "Satisfação\ndos clientes"
+      },
+      "stat4": {
+        "value": "+300",
+        "label": "Convidados\npor evento"
+      }
+    },
+    "testimonials": {
+      "pill": "Exclusivo",
+      "count": "300+",
+      "countLabel": "Casais e Famílias",
+      "trustedSubtitle": "Confiável em Portugal e além",
+      "source": "Google · Verificado",
+      "review1": {
+        "name": "Sofia Andrade",
+        "text": "Absolutamente impecável do início ao fim. O Mercedes estava deslumbrante, o motorista perfeitamente apresentado e tudo decorreu a horas. Todos os convidados ficaram impressionados."
+      },
+      "review2": {
+        "name": "Ricardo Fonseca",
+        "text": "Contratámos a LuxMotion para o nosso casamento em Sintra. Serviço excepcional — sempre a horas, completamente discretos quando preciso, e pessoas genuinamente boas. Obrigado!"
+      },
+      "review3": {
+        "name": "Margaret & James",
+        "text": "Como casal britânico que casou no Alentejo, precisávamos de uma equipa em quem pudéssemos confiar totalmente. A LuxMotion superou todas as expectativas. Classe total."
+      },
+      "review4": {
+        "name": "Ana Luísa Costa",
+        "text": "Do primeiro contacto até ao último regresso, a equipa foi impecável. Personalizado a cada passo. Senti-me verdadeiramente acarinhada no dia do meu casamento."
+      }
+    },
+    "benefits": {
+      "eyebrow": "Porquê LuxMotion",
+      "headingStart": "Porque os Casais Escolhem",
+      "headingAccent": "LuxMotion",
+      "benefit1": {
+        "title": "Padrões Impecáveis",
+        "desc": "Cada motorista é formado, fardado e informado sobre o cronograma do seu casamento antes de qualquer veículo arrancar."
+      },
+      "benefit2": {
+        "title": "Frota Completa",
+        "desc": "De sedans executivos para o casal a minibuses e autocarros para grupos maiores."
+      },
+      "benefit3": {
+        "title": "Horário Flexível",
+        "desc": "O cronograma do seu casamento muda. Nós adaptamo-nos. Sem penalizações, sem rigidez, sem surpresas no dia."
+      },
+      "benefit4": {
+        "title": "Experiência Comprovada",
+        "desc": "Mais de 2.000 casamentos. Conhecemos os locais, os tempos, e o que pode correr mal. Por isso não corre."
+      },
+      "benefit5": {
+        "title": "Serviço Personalizado",
+        "desc": "Aprendemos as suas preferências, os detalhes do casal e as necessidades dos convidados. Nada genérico. Tudo seu."
+      }
+    }
   }
 }

@@ -2991,5 +2991,119 @@
     "contactEmailLabel": "Email",
     "contactPhoneLabel": "Phone",
     "lastUpdated": "Last updated: March 9, 2026"
+  },
+  "wedding": {
+    "hero": {
+      "pill": "Wedding Mobility · Portugal",
+      "title1": "The Perfect",
+      "title2": "Transport for",
+      "titleAccent": "Your Wedding Day.",
+      "subtitle": "Tailored to every couple. A personalised, flawless service from the first arrival to the last farewell.",
+      "check1": "Chauffeur-driven vehicles. Immaculate presentation",
+      "check2": "Flexible routes and schedules built around your day",
+      "check3": "Available across all of Portugal",
+      "excellentRating": "Excellent Rating",
+      "verifiedBy": "Verified by",
+      "fromReviews": "From 387 Reviews",
+      "poweredBy": "Powered by",
+      "ctaPrimary": "Request a Quote",
+      "ctaSecondary": "Explore the Fleet",
+      "statValue": "2,187",
+      "statLabel": "Weddings transported",
+      "photoAlt": "Bride and groom by Jerónimos Monastery",
+      "carsAlt": "Wedding fleet line-up"
+    },
+    "offer": {
+      "eyebrow": "Our Services",
+      "titleStart": "What we ",
+      "titleAccent": "offer",
+      "imageAlt": "Bridal couple with chauffeur and luxury sedan",
+      "card1": {
+        "title": "Bridal Vehicle",
+        "desc": "A dedicated, decorated executive vehicle exclusively for the couple. Your arrival sets the tone for the entire celebration."
+      },
+      "card2": {
+        "title": "Guest Mobility",
+        "desc": "Coordinated fleet for every guest. From intimate family groups to large wedding parties across multiple vehicles."
+      },
+      "card3": {
+        "title": "Professional Chauffeurs",
+        "desc": "Every chauffeur is vetted, trained, and dressed to match the occasion. Discretion, punctuality, and elegance as standard."
+      },
+      "card4": {
+        "title": "All of Portugal",
+        "desc": "Alentejo quintas, Douro vineyards, Algarve cliffs, Lisbon palaces. Wherever your venue is, we are already there."
+      }
+    },
+    "stats": {
+      "taglineStart": "Practical,",
+      "taglineAccent": "safe",
+      "taglineEnd": " and effortlessly elegant.",
+      "subtitle": "Trusted by over two thousand couples across Portugal. Built on reliability, attention to detail, and the understanding that your wedding day allows zero compromise.",
+      "stat1": {
+        "value": "+2,187",
+        "label": "Weddings\nserved"
+      },
+      "stat2": {
+        "value": "+7",
+        "label": "Years of\nexperience"
+      },
+      "stat3": {
+        "value": "99%",
+        "label": "Client\nsatisfaction"
+      },
+      "stat4": {
+        "value": "+300",
+        "label": "Guests\nper event"
+      }
+    },
+    "testimonials": {
+      "pill": "Exclusive",
+      "count": "300+",
+      "countLabel": "Couples & Families",
+      "trustedSubtitle": "Trusted across Portugal and beyond",
+      "source": "Google · Verified",
+      "review1": {
+        "name": "Sofia Andrade",
+        "text": "Absolutely seamless from start to finish. The Mercedes was stunning, the driver was perfectly presented and everything ran on time. All our guests were impressed."
+      },
+      "review2": {
+        "name": "Ricardo Fonseca",
+        "text": "We hired LuxMotion for our wedding in Sintra. Exceptional service — always on time, completely silent when needed, and genuinely good people. Thank you!"
+      },
+      "review3": {
+        "name": "Margaret & James",
+        "text": "As a British couple married in the Alentejo, we needed a team we could trust completely. LuxMotion delivered beyond all expectations. Total class."
+      },
+      "review4": {
+        "name": "Ana Luísa Costa",
+        "text": "From the first contact to the last drop-off, the team was impeccable. Personalised at every step. I felt genuinely cared for on my wedding day."
+      }
+    },
+    "benefits": {
+      "eyebrow": "Why LuxMotion",
+      "headingStart": "Why Couples Choose",
+      "headingAccent": "LuxMotion",
+      "benefit1": {
+        "title": "Impeccable Standards",
+        "desc": "Every chauffeur is trained, uniformed, and briefed on your wedding timeline before the first engine starts."
+      },
+      "benefit2": {
+        "title": "Full Fleet Range",
+        "desc": "From executive sedans for the couple to minibuses and coaches for larger wedding parties."
+      },
+      "benefit3": {
+        "title": "Flexible Scheduling",
+        "desc": "Your wedding schedule changes. We adapt. No penalties, no rigidity, no surprises on the day."
+      },
+      "benefit4": {
+        "title": "Proven Experience",
+        "desc": "Over 2,000 weddings. We know the venues, the timings, and what can go wrong. So it won't."
+      },
+      "benefit5": {
+        "title": "Personalised Service",
+        "desc": "We learn your preferences, your couple's details, and your guests' needs. Nothing generic. Everything yours."
+      }
+    }
   }
 }

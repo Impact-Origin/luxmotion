@@ -50,7 +50,7 @@ export function HeroSection() {
   const t = useTranslations("aboutPage.hero")
 
   return (
-    <section className="bg-[#0D0D0D] text-white pb-24 lg:pb-32">
+    <section className="bg-[#0D0D0D] text-white pb-8 lg:pb-12">
       <div className="hidden lg:flex items-stretch w-full max-w-[1440px] mx-auto min-h-[782px]">
         <div className="flex flex-col justify-center gap-[29px] px-12 py-20 w-[700px] shrink-0">
           <div className="flex items-center gap-2">
@@ -99,8 +99,7 @@ export function HeroSection() {
           </div>
         </div>
         <div
-          className="relative flex-1 flex items-end justify-center min-h-[782px] overflow-hidden"
-          style={{ backgroundImage: "linear-gradient(139.789deg, #1a1510 0%, #0f0a05 100%)" }}
+          className="relative flex-1 flex items-end justify-center min-h-[782px] overflow-hidden bg-[#0D0D0D]"
         >
           <div className="absolute top-[60px] left-1/2 -translate-x-1/2 z-10">
             <FoundersWatermark size="desktop" />
@@ -124,8 +123,7 @@ export function HeroSection() {
 
       <div className="lg:hidden flex flex-col">
         <div
-          className="relative w-full aspect-[430/411] overflow-hidden"
-          style={{ backgroundImage: "linear-gradient(48.5deg, #0f0a05 68.9%, rgba(26,21,16,0) 96%)" }}
+          className="relative w-full aspect-[430/411] overflow-hidden bg-[#0D0D0D]"
         >
           <div className="absolute top-[31px] left-1/2 -translate-x-1/2 z-10">
             <FoundersWatermark size="mobile" />

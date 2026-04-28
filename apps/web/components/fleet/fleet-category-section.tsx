@@ -28,10 +28,10 @@ export function FleetCategorySection({
       className="bg-[#0d0d0d] w-full px-4 md:px-[82px] pt-12 md:pt-16 scroll-mt-[80px]"
     >
       <div className="max-w-[1280px] mx-auto flex flex-col gap-8">
-        <div className="border-b-[0.8px] border-[rgba(201,169,110,0.1)] pb-4 md:pb-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="border-b-[0.8px] border-[rgba(201,169,110,0.1)] flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
             <span
-              className="self-start bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] px-[14.8px] py-[5.8px] text-[10px] font-semibold tracking-[1.5px] uppercase text-[#c9a96e] whitespace-nowrap"
+              className="self-start md:self-auto bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] px-[14.8px] py-[5.8px] text-[10px] font-semibold tracking-[1.5px] uppercase text-[#c9a96e] whitespace-nowrap"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {t(categoryLabelKey)}

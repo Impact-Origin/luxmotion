@@ -2833,5 +2833,119 @@
     "contactEmailLabel": "Email",
     "contactPhoneLabel": "Teléfono",
     "lastUpdated": "Última actualización: 9 de marzo de 2026"
+  },
+  "wedding": {
+    "hero": {
+      "pill": "Movilidad Para Bodas · Portugal",
+      "title1": "El Transporte",
+      "title2": "Perfecto Para",
+      "titleAccent": "El Día de Tu Boda.",
+      "subtitle": "Hecho a medida para cada pareja. Un servicio personalizado e impecable, desde la primera llegada hasta la última despedida.",
+      "check1": "Vehículos con chófer. Presentación impecable",
+      "check2": "Rutas y horarios flexibles diseñados para tu día",
+      "check3": "Disponible en todo Portugal",
+      "excellentRating": "Excelente Valoración",
+      "verifiedBy": "Verificado por",
+      "fromReviews": "De 387 Reseñas",
+      "poweredBy": "Con tecnología de",
+      "ctaPrimary": "Solicitar Presupuesto",
+      "ctaSecondary": "Ver la Flota",
+      "statValue": "2.187",
+      "statLabel": "Bodas transportadas",
+      "photoAlt": "Novios junto al Monasterio de los Jerónimos",
+      "carsAlt": "Flota de bodas"
+    },
+    "offer": {
+      "eyebrow": "Nuestros Servicios",
+      "titleStart": "Lo que ",
+      "titleAccent": "ofrecemos",
+      "imageAlt": "Pareja de novios con chófer y sedán de lujo",
+      "card1": {
+        "title": "Vehículo Nupcial",
+        "desc": "Un vehículo ejecutivo decorado y dedicado en exclusiva a la pareja. Vuestra llegada marca el tono de toda la celebración."
+      },
+      "card2": {
+        "title": "Movilidad de Invitados",
+        "desc": "Flota coordinada para cada invitado. Desde grupos familiares íntimos hasta grandes celebraciones en varios vehículos."
+      },
+      "card3": {
+        "title": "Chóferes Profesionales",
+        "desc": "Cada chófer es seleccionado, formado y vestido para la ocasión. Discreción, puntualidad y elegancia como estándar."
+      },
+      "card4": {
+        "title": "Todo Portugal",
+        "desc": "Quintas del Alentejo, viñedos del Duero, acantilados del Algarve, palacios de Lisboa. Donde sea vuestro evento, ya estamos allí."
+      }
+    },
+    "stats": {
+      "taglineStart": "Práctico,",
+      "taglineAccent": "seguro",
+      "taglineEnd": " y naturalmente elegante.",
+      "subtitle": "Confianza de más de dos mil parejas en todo Portugal. Construido sobre fiabilidad, atención al detalle y la comprensión de que el día de tu boda no admite compromisos.",
+      "stat1": {
+        "value": "+2.187",
+        "label": "Bodas\nrealizadas"
+      },
+      "stat2": {
+        "value": "+7",
+        "label": "Años de\nexperiencia"
+      },
+      "stat3": {
+        "value": "99%",
+        "label": "Satisfacción\ndel cliente"
+      },
+      "stat4": {
+        "value": "+300",
+        "label": "Invitados\npor evento"
+      }
+    },
+    "testimonials": {
+      "pill": "Exclusivo",
+      "count": "300+",
+      "countLabel": "Parejas y Familias",
+      "trustedSubtitle": "Confianza en Portugal y más allá",
+      "source": "Google · Verificado",
+      "review1": {
+        "name": "Sofia Andrade",
+        "text": "Absolutamente impecable de principio a fin. El Mercedes era espectacular, el chófer perfectamente presentado y todo se desarrolló puntualmente. Todos nuestros invitados quedaron impresionados."
+      },
+      "review2": {
+        "name": "Ricardo Fonseca",
+        "text": "Contratamos a LuxMotion para nuestra boda en Sintra. Servicio excepcional — siempre puntuales, completamente discretos cuando hacía falta, y personas genuinamente buenas. ¡Gracias!"
+      },
+      "review3": {
+        "name": "Margaret & James",
+        "text": "Como pareja británica casada en el Alentejo, necesitábamos un equipo en el que confiar plenamente. LuxMotion superó todas nuestras expectativas. Clase total."
+      },
+      "review4": {
+        "name": "Ana Luísa Costa",
+        "text": "Desde el primer contacto hasta el último trayecto, el equipo fue impecable. Personalizado en cada paso. Me sentí verdaderamente cuidada en el día de mi boda."
+      }
+    },
+    "benefits": {
+      "eyebrow": "Por qué LuxMotion",
+      "headingStart": "Por qué las Parejas Eligen",
+      "headingAccent": "LuxMotion",
+      "benefit1": {
+        "title": "Estándares Impecables",
+        "desc": "Cada chófer está formado, uniformado e informado sobre el cronograma de tu boda antes de que arranque el primer motor."
+      },
+      "benefit2": {
+        "title": "Flota Completa",
+        "desc": "Desde sedanes ejecutivos para la pareja hasta microbuses y autocares para grupos más grandes."
+      },
+      "benefit3": {
+        "title": "Horario Flexible",
+        "desc": "El cronograma de tu boda cambia. Nos adaptamos. Sin penalizaciones, sin rigidez, sin sorpresas el día."
+      },
+      "benefit4": {
+        "title": "Experiencia Comprobada",
+        "desc": "Más de 2.000 bodas. Conocemos los lugares, los tiempos y lo que puede salir mal. Para que no salga mal."
+      },
+      "benefit5": {
+        "title": "Servicio Personalizado",
+        "desc": "Aprendemos tus preferencias, los detalles de la pareja y las necesidades de los invitados. Nada genérico. Todo tuyo."
+      }
+    }
   }
 }
