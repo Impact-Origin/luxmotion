@@ -1,0 +1,117 @@
+"use client"
+
+import { useEffect, useMemo, useState } from "react"
+import { useTranslations } from "next-intl"
+import { extractTocItems } from "@/lib/blog-toc"
+import type { ContentBlock } from "@/components/blogs/blog-article-content"
+
+interface BlogTocProps {
+  blocks: ContentBlock[]
+}
+
+const SCROLL_OFFSET = 96
+
+function scrollToHeading(id: string) {
+  if (typeof window === "undefined") return
+  const attempt = () => {
+    const el = document.getElementById(id)
+    if (!el) return false
+    const top = el.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET
+    window.scrollTo({ top, behavior: "smooth" })
+    if (window.history?.replaceState) {
+      window.history.replaceState(null, "", `#${id}`)
+    }
+    return true
+  }
+  if (attempt()) return
+  requestAnimationFrame(() => {
+    if (attempt()) return
+    setTimeout(attempt, 80)
+  })
+}
+
+export function BlogToc({ blocks }: BlogTocProps) {
+  const t = useTranslations("blogArticle")
+  const items = useMemo(() => extractTocItems(blocks), [blocks])
+  const [activeId, setActiveId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (items.length === 0) return
+    setActiveId(items[0]?.id ?? null)
+
+    const elements = items
+      .map((item) => document.getElementById(item.id))
+      .filter((el): el is HTMLElement => Boolean(el))
+
+    if (elements.length === 0) return
+
+    const compute = () => {
+      const threshold = SCROLL_OFFSET + 24
+      let current: string | null = elements[0]?.id ?? null
+      for (const el of elements) {
+        if (el.getBoundingClientRect().top - threshold <= 0) {
+          current = el.id
+        } else {
+          break
+        }
+      }
+      setActiveId(current)
+    }
+
+    compute()
+    const onScroll = () => requestAnimationFrame(compute)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+    }
+  }, [items])
+
+  if (items.length === 0) return null
+
+  return (
+    <nav
+      aria-label={t("inThisArticle")}
+      className="bg-[#141414] border border-[rgba(247,244,239,0.1)] flex flex-col gap-3 items-stretch px-[25px] py-[17px] w-full"
+    >
+      <div className="h-[2px] w-full bg-gradient-to-r from-[#c9a96e] to-[rgba(201,169,110,0.2)]" />
+      <div className="pt-1">
+        <span className="text-[12px] font-semibold uppercase tracking-[1.8px] text-[#999]">
+          {t("inThisArticle")}
+        </span>
+      </div>
+      <ol className="flex flex-col gap-[6px] items-stretch w-full m-0 p-0 list-none">
+        {items.map((item) => {
+          const active = item.id === activeId
+          return (
+            <li key={item.id} className="w-full">
+              <button
+                type="button"
+                onClick={() => scrollToHeading(item.id)}
+                className="group flex items-center gap-2 w-full text-left transition-colors"
+              >
+                <span
+                  className={`h-px shrink-0 transition-all ${
+                    active
+                      ? "bg-[#c9a96e] w-[24px]"
+                      : "bg-[rgba(255,255,255,0.07)] w-[14px] group-hover:bg-[rgba(201,169,110,0.6)] group-hover:w-[20px]"
+                  }`}
+                />
+                <span
+                  className={`text-[12px] md:text-[14px] leading-[1.45] transition-colors ${
+                    active
+                      ? "text-[#c9a96e]"
+                      : "text-[#999] group-hover:text-white"
+                  }`}
+                >
+                  {item.title}
+                </span>
+              </button>
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  )
+}

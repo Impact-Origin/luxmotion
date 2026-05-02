@@ -16,7 +16,7 @@ interface DateTimePickerProps {
   onChange?: (date: Date | undefined) => void
   placeholder?: string
   label?: string
-  variant?: "default" | "widget" | "new-widget"
+  variant?: "default" | "widget" | "new-widget" | "quote"
   hideLeftIcon?: boolean
 }
 
@@ -254,6 +254,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
 
   const isWidget = variant === "widget"
   const isNewWidget = variant === "new-widget"
+  const isQuote = variant === "quote"
 
   const dark = isNewWidget
 
@@ -329,15 +330,15 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
               type="button"
               onClick={() => !isPast && handleDateSelect(item.date)}
               disabled={isPast}
-              className={`h-9 flex items-center justify-center text-[14px] transition-colors rounded-lg ${
+              className={`h-9 flex items-center justify-center text-[14px] transition-colors ${isQuote ? "rounded-none" : "rounded-lg"} ${
                 isPast
                   ? dark ? "text-[rgba(255,255,255,0.15)] cursor-not-allowed" : "text-[#d1d5db] cursor-not-allowed"
                   : isDateSelected(item.date)
-                  ? dark ? "bg-[#C9A96E] text-[#0D0D0D] font-semibold" : "bg-[#27c7ff] text-white font-semibold"
+                  ? dark ? "bg-[#C9A96E] text-[#0D0D0D] font-semibold" : isQuote ? "bg-[#a08248] text-white font-semibold" : "bg-[#27c7ff] text-white font-semibold"
                   : isDateToday(item.date)
-                  ? dark ? "text-[#C9A96E] font-semibold hover:bg-[rgba(255,255,255,0.08)]" : "text-[#27c7ff] font-semibold hover:bg-[#f3f4f6]"
+                  ? dark ? "text-[#C9A96E] font-semibold hover:bg-[rgba(255,255,255,0.08)]" : isQuote ? "text-[#a08248] font-semibold hover:bg-[rgba(168,131,58,0.08)]" : "text-[#27c7ff] font-semibold hover:bg-[#f3f4f6]"
                   : item.isCurrentMonth
-                  ? dark ? "text-white hover:bg-[rgba(255,255,255,0.08)]" : "text-[#222222] hover:bg-[#f3f4f6]"
+                  ? dark ? "text-white hover:bg-[rgba(255,255,255,0.08)]" : isQuote ? "text-[#1a1612] hover:bg-[rgba(168,131,58,0.06)]" : "text-[#222222] hover:bg-[#f3f4f6]"
                   : dark ? "text-[rgba(255,255,255,0.25)] hover:bg-[rgba(255,255,255,0.05)]" : "text-[#d1d5db] hover:bg-[#f3f4f6]"
               }`}
             >
@@ -357,11 +358,16 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
           type="button"
           onClick={() => setShowClockPicker(true)}
           className={cn(
-            "flex items-center w-full h-12 px-3 border rounded-lg transition-colors",
-            dark ? "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(255,255,255,0.25)]" : "border-[#e0e0e0] bg-white hover:border-[#bfbfbf]"
+            "flex items-center w-full h-12 px-3 border transition-colors",
+            isQuote ? "rounded-none" : "rounded-lg",
+            dark
+              ? "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(255,255,255,0.25)]"
+              : isQuote
+              ? "border-[rgba(154,117,53,0.22)] bg-[#faf7f2] hover:border-[#a08248]"
+              : "border-[#e0e0e0] bg-white hover:border-[#bfbfbf]"
           )}
         >
-          <Clock className={cn("w-5 h-5 flex-shrink-0", dark ? "text-[#C9A96E]" : "text-[#27c7ff]")} />
+          <Clock className={cn("w-5 h-5 flex-shrink-0", dark ? "text-[#C9A96E]" : isQuote ? "text-[#a08248]" : "text-[#27c7ff]")} />
           <div className="flex items-center flex-1 ml-2">
             <span className={cn("text-[15px]", dark ? "text-white" : "text-[#222222]")}>
               {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}
@@ -383,8 +389,13 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         <button
           onClick={() => setOpen(false)}
           className={cn(
-            "w-full mt-6 py-3.5 rounded-xl font-bold transition-colors",
-            dark ? "bg-[#C9A96E] text-[#0D0D0D] active:brightness-90" : "bg-[#29C5F6] text-white active:bg-[#20aadd] shadow-lg shadow-[#29C5F6]/20"
+            "w-full mt-6 py-3.5 font-bold transition-colors",
+            isQuote ? "rounded-none uppercase tracking-[1.1px] text-[14px]" : "rounded-xl",
+            dark
+              ? "bg-[#C9A96E] text-[#0D0D0D] active:brightness-90"
+              : isQuote
+              ? "bg-[#a08248] text-white active:bg-[#8a6f3c]"
+              : "bg-[#29C5F6] text-white active:bg-[#20aadd] shadow-lg shadow-[#29C5F6]/20"
           )}
         >
           Confirm
@@ -403,6 +414,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       onConfirm={() => setShowClockPicker(false)}
       minTime={isSelectedDateToday() ? { hours: now.getHours(), minutes: now.getMinutes() } : undefined}
       headline="Select time"
+      {...(isQuote && !dark ? { luxmotion: true } : {})}
     />
   )
 
@@ -410,7 +422,11 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
     <button
       type="button"
       className={
-        isNewWidget
+        isQuote
+          ? `w-full h-[44px] px-3 bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] flex items-center gap-2 transition-colors hover:border-[#a08248] focus:outline-none focus:border-[#a08248] ${
+              date ? "text-[#0d0d0d]" : "text-[#999]"
+            }`
+          : isNewWidget
           ? `w-full h-full px-0 py-0 bg-transparent border-0 flex items-center gap-2 focus:outline-none focus:ring-0 cursor-pointer`
           : isWidget
           ? `w-full h-full px-6 py-4 md:py-3 bg-transparent border-0 flex items-center gap-3 focus:outline-none focus:ring-0 hover:bg-zinc-50/50 transition-colors`
@@ -424,7 +440,9 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         color: date ? "#222" : "#808080"
       } : undefined}
     >
-      {isNewWidget ? (
+      {isQuote ? (
+        !hideLeftIcon && <CalendarIcon className="w-4 h-4 flex-shrink-0 text-[#a08248]" strokeWidth={2} />
+      ) : isNewWidget ? (
         !hideLeftIcon && <CalendarIcon className="w-6 h-6 flex-shrink-0" strokeWidth={2} style={{ color: "#C9A96E" }} />
       ) : isWidget ? (
         <div
@@ -437,12 +455,18 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       ) : (
         <CalendarIcon className="w-5 h-5 flex-shrink-0 text-[#bfbfbf]" strokeWidth={2.5} />
       )}
-      <span className={`flex-1 text-left ${isNewWidget ? "text-[14px] font-normal leading-tight" : isWidget ? "text-[15px] font-medium leading-tight" : "text-[15px]"}`}>
+      <span className={`flex-1 text-left ${isQuote ? "text-[14px] leading-none" : isNewWidget ? "text-[14px] font-normal leading-tight" : isWidget ? "text-[15px] font-medium leading-tight" : "text-[15px]"}`}>
         {date ? formatDisplay() : placeholder}
       </span>
-      {date && !isWidget && !isNewWidget && (
+      {date && !isWidget && !isNewWidget && !isQuote && (
         <X
           className="w-5 h-5 text-[#bfbfbf] hover:text-[#808080] flex-shrink-0"
+          onClick={handleClear}
+        />
+      )}
+      {date && isQuote && (
+        <X
+          className="w-4 h-4 text-[#999] hover:text-[#0d0d0d] flex-shrink-0"
           onClick={handleClear}
         />
       )}
@@ -498,8 +522,15 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         className={cn(
           "p-0 shadow-lg overflow-hidden transition-all duration-300 ease-out",
           showClockPicker
-            ? cn("w-[328px] border-0", dark ? "bg-transparent rounded-none" : "bg-[#e9f9ff] rounded-[28px]")
-            : cn("w-[280px]", dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)] rounded-none" : "bg-white border-[#e0e0e0] rounded-xl")
+            ? cn("w-[328px] border-0", dark ? "bg-transparent rounded-none" : isQuote ? "bg-[#faf7f2] rounded-none" : "bg-[#e9f9ff] rounded-[28px]")
+            : cn(
+                "w-[280px]",
+                dark
+                  ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)] rounded-none"
+                  : isQuote
+                  ? "bg-white border-[rgba(154,117,53,0.22)] rounded-none"
+                  : "bg-white border-[#e0e0e0] rounded-xl"
+              )
         )}
         align="start"
         sideOffset={8}

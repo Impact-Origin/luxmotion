@@ -85,7 +85,7 @@ export default async function EventDetailsPage({ params }: EventDetailsPageProps
   const seo = event ? resolveEventSeo(event, locale) : null
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       {event && seo && (
         <>
           <JsonLd
@@ -112,8 +112,8 @@ export default async function EventDetailsPage({ params }: EventDetailsPageProps
           />
         </>
       )}
-      <Header />
-      <div className="pt-[46px] md:pt-[46px]">
+      <Header transparentOverHero transparentOverHeroMobileOnly heroScrollThreshold={100} />
+      <div className="pt-0 md:pt-14">
         <EventDetailsWrapper slug={slug} />
       </div>
       <Footer />

@@ -139,7 +139,9 @@
     "privateTransfersDesc": "chauffeurs vérifiés uniquement.",
     "labelFrom": "De",
     "labelTo": "À",
-    "labelDeparture": "Départ"
+    "labelDeparture": "Départ",
+    "travelersCount": "{count} voyageurs",
+    "bookedToday": "Réservé aujourd'hui."
   },
   "features": {
     "title": "Pourquoi réserver avec nous ?",
@@ -1234,7 +1236,22 @@
     "writtenIn": "Écrit en {language}",
     "shareArticle": "Partager l'article",
     "relatedArticles": "Articles connexes",
-    "backToBlogs": "Retour aux blogs"
+    "backToBlogs": "Retour aux blogs",
+    "journal": "Journal",
+    "viewsCount": "{count} vues",
+    "inThisArticle": "Dans cet article",
+    "bookCta": {
+      "title": "Réservez votre",
+      "accent": "transfert aéroport",
+      "subtitle": "Prix fixe · Suivi de vol · Chauffeur attendant aux arrivées.",
+      "button": "Réserver"
+    },
+    "minShort": "min",
+    "authorRoleFallback": "Équipe LuxMotion",
+    "authorBioFallback": "Écrit sur la mobilité privée et les voyages de luxe au Portugal pour LuxMotion.",
+    "shareLabel": "Partager",
+    "previousArticle": "Article précédent",
+    "nextArticle": "Article suivant"
   },
   "languages": {
     "en": "Anglais",
@@ -2195,7 +2212,26 @@
     "meetingPoint": "Point de rencontre",
     "reviews": "Avis",
     "reviewsCount": "avis",
-    "unknownNationality": "Nationalité Inconnue"
+    "unknownNationality": "Nationalité Inconnue",
+    "aboutPrefix": "À propos de cet",
+    "aboutAccent": "Événement",
+    "verifiedBooking": "Réservation vérifiée",
+    "verifiedReviews": "avis vérifiés",
+    "reviewsTitle": "Avis",
+    "meetingLocationLabel": "Lieu de l'Événement",
+    "meetingNote": "Les coordonnées exactes seront partagées après la confirmation de la réservation.",
+    "dateTime": "Date et Heure",
+    "openInMaps": "Ouvrir dans Google Maps",
+    "writeReview": "Écrire un Avis",
+    "yourName": "Votre Nom",
+    "yourReview": "Votre Avis",
+    "yourNationality": "Votre Nationalité (facultatif)",
+    "submitReview": "Soumettre l'Avis",
+    "submitting": "Envoi en cours...",
+    "reviewSubmitted": "Avis envoyé avec succès !",
+    "reviewPending": "Votre avis est en attente d'approbation",
+    "ratingRequired": "Veuillez sélectionner une note",
+    "errorSubmitting": "Échec de l'envoi de l'avis. Veuillez réessayer."
   },
   "adminContacts": {
     "title": "Soumissions de Contact",
@@ -2930,6 +2966,522 @@
         "title": "Service Personnalisé",
         "desc": "Nous apprenons vos préférences, les détails du couple et les besoins de vos invités. Rien de générique. Tout est à vous."
       }
+    },
+    "gallery": {
+      "eyebrow": "Vrais Mariages",
+      "headingStart": "De mariages",
+      "headingAccent": "récents",
+      "photoAlt": "Moment de mariage {index}"
+    },
+    "trustedBy": {
+      "eyebrow": "Approuvé Par"
+    },
+    "diff": {
+      "eyebrow": "Ce Qui Nous Distingue",
+      "headingStart": "Nos",
+      "headingAccent": "différenciels",
+      "photoAlt": "Mariés s'embrassant à côté d'une voiture classique",
+      "review": {
+        "text": "« Merci, LuxMotion ! Remarquable, sympathique, merveilleux. Un voyage à chérir. »",
+        "author": "Ana B. · Avis Google"
+      },
+      "bullet1": {
+        "title": "Fiabilité",
+        "desc": "Chauffeurs expérimentés et courtois. Concentrez-vous sur votre journée. Nous nous occupons de chaque détail."
+      },
+      "bullet2": {
+        "title": "Flotte Premium",
+        "desc": "Une gamme premium de véhicules. Confortables, impeccables et configurés spécifiquement pour votre occasion. De l'intime au grand format."
+      },
+      "bullet3": {
+        "title": "Planification Personnalisée",
+        "desc": "Chaque couple reçoit un plan sur mesure. Nous écoutons votre programme, vos préférences esthétiques et concevons un service qui correspond à la vision de votre mariage."
+      }
+    },
+    "fleet": {
+      "eyebrow": "Notre Flotte",
+      "headingStart": "Explorez la",
+      "headingAccent": "flotte",
+      "ctaLabel": "Voir la Flotte",
+      "ctaHref": "/fleet",
+      "v1": {
+        "name": "Berline",
+        "capacity": "1–4 invités"
+      },
+      "v2": {
+        "name": "Supercar",
+        "capacity": "1–4 invités"
+      },
+      "v3": {
+        "name": "Classique",
+        "capacity": "couple uniquement"
+      },
+      "v4": {
+        "name": "Van",
+        "capacity": "Jusqu'à 9 invités"
+      },
+      "v5": {
+        "name": "Autocar",
+        "capacity": "Jusqu'à 57 invités"
+      }
+    },
+    "payment": {
+      "headingStart": "Méthodes de",
+      "headingAccent": "paiement"
+    },
+    "quote": {
+      "eyebrow": "Commencer",
+      "headingStart": "Demander un",
+      "headingAccent": "devis",
+      "submit": "Envoyer la Demande",
+      "fields": {
+        "fullName": "Nom Complet",
+        "email": "E-mail",
+        "phone": "Téléphone / WhatsApp",
+        "weddingDate": "Date du Mariage",
+        "guests": "Nombre d'Invités",
+        "venue": "Lieu du Mariage",
+        "pickup": "Lieu de Prise en Charge",
+        "numVehicles": "Nombre de Véhicules",
+        "vehicleType": "Type de Véhicule Préféré",
+        "notes": "Notes Supplémentaires"
+      },
+      "placeholders": {
+        "fullName": "Votre nom complet",
+        "email": "Votre meilleur e-mail",
+        "phone": "000 000 000",
+        "weddingDate": "jj/mm/aaaa",
+        "guests": "ex. 80",
+        "venue": "Quinta de …, Lisbonne, Alentejo…",
+        "pickup": "Hôtel, adresse personnelle…",
+        "numVehicles": "Choisir la quantité",
+        "notes": "Demandes spéciales, horaire de la cérémonie, plusieurs arrêts, préférences de décoration…"
+      },
+      "vehicles": {
+        "standard": "Standard",
+        "executive": "Berline",
+        "firstClass": "First Class",
+        "van": "Van",
+        "coach": "Autocar"
+      },
+      "vehiclesScrollNext": "Véhicules suivants",
+      "vehiclesScrollPrev": "Véhicules précédents"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "headingStart": "Encore des",
+      "headingAccent": "questions ?",
+      "photoAlt": "Mariés s'embrassant dans une église ornée",
+      "q1": {
+        "question": "Quels types de véhicules sont disponibles pour les mariages ?",
+        "answer": "Notre flotte de mariage va des élégantes berlines exécutives pour le couple aux voitures classiques anciennes, supercars, vans pour le cortège, et autocars pour les invités. Nous composons la combinaison adaptée à votre journée."
+      },
+      "q2": {
+        "question": "Combien de temps à l'avance faut-il réserver ?",
+        "answer": "Nous recommandons de réserver 6 à 12 mois à l'avance, surtout en haute saison (mai à octobre). Les demandes de dernière minute sont les bienvenues et nous ferons toujours de notre mieux."
+      },
+      "q3": {
+        "question": "Les véhicules sont-ils fournis avec chauffeur ?",
+        "answer": "Oui — chaque véhicule est fourni avec un chauffeur formé et en uniforme. Discrétion, ponctualité et élégance comme standard. Pas d'option d'auto-conduite."
+      },
+      "q4": {
+        "question": "Y a-t-il une durée minimale de location ?",
+        "answer": "Les réservations de mariage commencent généralement à 4 heures par véhicule, bien que des transferts point-à-point plus courts puissent être arrangés. Nous adaptons le timing à votre itinéraire."
+      },
+      "q5": {
+        "question": "Y a-t-il une durée maximale de location ?",
+        "answer": "Pas de maximum fixe. Réservations multi-jours, week-ends complets et nuits incluses sont tous possibles. Dites-nous vos plans et nous concevrons le planning."
+      },
+      "q6": {
+        "question": "Quels modes de paiement acceptez-vous ?",
+        "answer": "Visa, Mastercard, MB Way, Multibanco, PayPal et virement bancaire. Les cartes internationales sont acceptées ; paiement traité en EUR."
+      },
+      "q7": {
+        "question": "Quelles sont les conditions de paiement ?",
+        "answer": "Nous demandons généralement un acompte de 30% pour confirmer la réservation, le solde étant dû avant le jour du mariage. Conditions sur mesure pour les forfaits plus importants — discutées lors de la phase de devis."
+      }
+    }
+  },
+  "driversPage": {
+    "hero": {
+      "eyebrow": "Partenaire Transporteur · LuxMotion",
+      "titleLine1": "Développez votre",
+      "titleLine2Pre": "entreprise avec",
+      "titleLine2Accent": "des trajets premium.",
+      "titleLine3": "Gagnez plus.",
+      "subtitle": "Rejoignez le réseau LuxMotion et recevez des réservations anticipées d'hôtels 4 et 5 étoiles, de particuliers fortunés et de tour-opérateurs de luxe. Paiements hebdomadaires. Sans commissions agressives.",
+      "metric1Value": "€0,70–€0,90",
+      "metric1Label": "Au km sur les longues distances",
+      "metric2Value": "+5",
+      "metric2Label": "Réservations par jour et par chauffeur actif",
+      "metric3Value": "48h",
+      "metric3Label": "Délai moyen des réservations reçues",
+      "tagPayments": "Paiements hebdomadaires",
+      "tagSchedule": "Calendrier flexible",
+      "tagExclusivity": "Sans exclusivité",
+      "tagSupport": "Support dédié",
+      "ctaPrimary": "Postuler comme Partenaire",
+      "ctaSecondary": "Voir comment ça marche"
+    },
+    "earnings": {
+      "eyebrow": "Comparaison des revenus",
+      "titleLine1": "Pourquoi les meilleurs",
+      "titleLine2": "chauffeurs choisissent",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Commissions plus élevées, réservations anticipées, clients à plus forte valeur. La différence en fin de mois est substantielle.",
+      "row1Label": "Revenu par km (ville)",
+      "row2Label": "Revenu par km (long)",
+      "row3Label": "Réservations anticipées",
+      "row3LuxValue": "48h à l'avance",
+      "row4Label": "Clients à forte valeur",
+      "row4LuxValue": "Hôtels 4★–5★",
+      "row5Label": "Support dédié",
+      "row5LuxValue": "Gestionnaire direct",
+      "row6Label": "Pourboires",
+      "row6LuxValue": "Élite",
+      "variable": "Variable",
+      "few": "Peu",
+      "footnote": "* Valeurs moyennes. Les revenus varient selon la zone et le volume de courses."
+    },
+    "howItWorks": {
+      "eyebrow": "Avantages exclusifs",
+      "titleLine1": "Ce que vous gagnez en travaillant",
+      "titlePre": "avec",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Plus qu'un revenu supplémentaire. Un partenariat stratégique pour développer votre activité.",
+      "daysShort": "jours",
+      "card1": {
+        "photoAlt": "Chauffeur au volant",
+        "headingPre": "Jusqu'à ",
+        "headingAccent": "5 réservations",
+        "headingPost": " quotidiennes",
+        "headingLine2": "par chauffeur",
+        "body": "Volume minimum garanti par chauffeur actif. Contrairement aux plateformes de ridesharing, vous recevez les réservations à l'avance avec tous les détails. Aucune surprise, aucune attente.",
+        "pill1": "Réservations 48h avant",
+        "pill2": "Détails complets",
+        "pill3": "Zéro attente",
+        "statLabel1": "courses quotidiennes garanties par",
+        "statLabel2": "chauffeur actif"
+      },
+      "card2": {
+        "photoAlt": "Calendrier sur ordinateur portable",
+        "headingAccent": "Calendrier flexible",
+        "headingLine2": "et gestion intelligente",
+        "body": "La plateforme Dispatcher vous donne un contrôle total sur les chauffeurs, les horaires et les courses. Recevez les demandes, assignez le bon chauffeur et suivez chaque transfert en temps réel. Le tout dans une interface simple et mobile.",
+        "pill1": "App Dispatcher",
+        "pill2": "Gestion de flotte",
+        "pill3": "Suivi en temps réel",
+        "statLabel1": "contrôle sur vos horaires et",
+        "statLabel2": "votre disponibilité"
+      },
+      "card3": {
+        "photoAlt": "Séance de formation",
+        "headingPre": "Une formation qui ",
+        "headingAccent": "valorise",
+        "headingLine2": "votre équipe",
+        "body": "Les chauffeurs reçoivent une formation en hospitalité premium, communication en anglais et protocoles de sécurité. Des chauffeurs bien formés offrent un meilleur service. Et reçoivent plus de pourboires des clients à forte valeur.",
+        "pill1": "Protocole premium",
+        "pill2": "Anglais professionnel",
+        "pill3": "Pourboires fréquents",
+        "statLabel1": "note moyenne des clients sur",
+        "statLabel2": "le réseau LuxMotion"
+      },
+      "card4": {
+        "photoAlt": "Chauffeur avec un café",
+        "headingLine1": "Paiements hebdomadaires,",
+        "headingAccent": "sans retard.",
+        "body": "Recevez à l'heure, chaque semaine, par la méthode de votre choix. Virement bancaire, MB Way ou PayPal. Le gestionnaire dédié est toujours disponible pour toute question sur les paiements ou les opérations.",
+        "pill1": "Chaque semaine",
+        "pill2": "Méthodes multiples",
+        "pill3": "Gestionnaire dédié",
+        "statLabel1": "maximum pour recevoir après",
+        "statLabel2": "chaque course terminée"
+      }
+    },
+    "qualityProcess": {
+      "eyebrow": "Notre processus qualité",
+      "titlePre": "Rigueur dès le",
+      "titleAccent": "premier jour.",
+      "subtitle": "Pour garantir que chaque client LuxMotion bénéficie d'un service d'excellence, tous les chauffeurs partenaires passent par un processus de validation rigoureux avant de recevoir leur première course.",
+      "step1": {
+        "heading": "Entretien en personne",
+        "body": "Rencontre avec le gestionnaire de partenaires pour évaluer le profil de l'entreprise, la flotte disponible et l'alignement avec les standards LuxMotion."
+      },
+      "step2": {
+        "heading": "Documentation et vérification",
+        "body": "Validation de la licence de transport, assurances, inspections, casiers judiciaires et certifications de tous les chauffeurs."
+      },
+      "step3": {
+        "heading": "Formation et protocole",
+        "body": "Atelier sur le protocole de service LuxMotion — hospitalité premium, communication avec les clients internationaux et utilisation de la plateforme Dispatcher."
+      },
+      "step4": {
+        "heading": "Prêt à opérer",
+        "body": "Accès à la plateforme interne. Vous commencez à recevoir des réservations dans les jours suivants, avec un support permanent pendant les premières semaines."
+      }
+    },
+    "operacaoDiaria": {
+      "eyebrow": "Opération quotidienne",
+      "titlePre": "Comment ça marche",
+      "titleAccent": "en pratique.",
+      "subtitle": "Trois étapes simples du moment où vous recevez une réservation jusqu'au paiement hebdomadaire.",
+      "step1": {
+        "headingPre": "Recevez la réservation",
+        "headingAccent": "anticipée",
+        "body": "La plateforme Dispatcher envoie la réservation avec tous les détails : origine, destination, client, heure et instructions spéciales. Délai minimum de 24 à 48 heures."
+      },
+      "step2": {
+        "headingPre": "Assignez un",
+        "headingAccent": "chauffeur",
+        "body": "Choisissez le chauffeur disponible dans votre équipe et assignez le véhicule adéquat. Le client reçoit automatiquement la confirmation avec les données du chauffeur et sa photo."
+      },
+      "step3": {
+        "headingPre": "Recevez le",
+        "headingAccent": "paiement",
+        "body": "Chaque course terminée est enregistrée automatiquement. À la fin de la semaine, le paiement est traité et transféré sur votre compte. Sans bureaucratie, sans retards."
+      }
+    },
+    "trust": {
+      "eyebrow": "Partenaires qui nous font confiance",
+      "titleLine1": "Ce que disent les entreprises",
+      "titlePre": "de notre",
+      "titleAccent": "réseau.",
+      "ratingCount": "+322 avis vérifiés · clients finaux",
+      "statLabel": "Partenaires actifs",
+      "statCaption": "clients et entreprises satisfaits",
+      "t1": {
+        "name": "Miguel Ferreira",
+        "role": "PDG · Ferreira Transportes, Lisbonne · 4 chauffeurs",
+        "quote": "La différence avec Uber est énorme. Les réservations arrivent à l'avance, les clients sont d'un autre niveau et les paiements n'ont jamais failli. En 8 mois nous avons plus que doublé notre chiffre d'affaires."
+      },
+      "t2": {
+        "name": "Carlos Matos",
+        "role": "Associé-gérant · Matos & Filhos Transfers, Porto · 7 chauffeurs",
+        "quote": "Nous avons commencé avec 2 voitures et nous en avons 7 aujourd'hui. La plateforme Dispatcher est simple et l'équipe LuxMotion est toujours disponible. Pour une petite entreprise comme la nôtre, le support fait toute la différence."
+      },
+      "t3": {
+        "name": "Ana Rodrigues",
+        "role": "Gestionnaire · Transfers Algarve Premium · 12 chauffeurs",
+        "quote": "Les clients d'hôtels sont complètement différents. Plus polis, plus ponctuels, et les pourboires sont fréquents. Mes chauffeurs sont plus motivés depuis que nous avons rejoint le réseau LuxMotion."
+      }
+    },
+    "faq": {
+      "eyebrow": "Questions fréquentes",
+      "titlePre": "Tout ce que vous avez besoin de",
+      "titleAccent": "savoir.",
+      "q1": {
+        "question": "Faut-il une licence professionnelle de transport ?",
+        "answer": "Oui. Pour rejoindre le réseau LuxMotion, l'entreprise doit posséder une licence valide de transport de passagers et les chauffeurs ont besoin d'un permis professionnel. Nous nous occupons de la validation lors de l'onboarding."
+      },
+      "q2": {
+        "question": "Comment se déroule le processus de sélection ?",
+        "answer": "Quatre étapes : entretien en personne avec le gestionnaire de partenaires, validation des documents et assurances, formation au protocole LuxMotion et activation du compte sur la plateforme Dispatcher. Compte 2 à 3 semaines."
+      },
+      "q3": {
+        "question": "Comment et quand est-ce que je reçois les paiements ?",
+        "answer": "Paiements hebdomadaires, toujours à la même date. Choisissez virement bancaire, MB Way ou PayPal. Chaque course terminée est enregistrée automatiquement, sans soumission de factures."
+      },
+      "q4": {
+        "question": "Comment LuxMotion gagne-t-il de l'argent ?",
+        "answer": "Nous facturons une commission fixe par réservation au client final, pas au chauffeur. Le prix au km que vous recevez est net. Aucun frais caché ni déduction variable sur vos revenus."
+      },
+      "q5": {
+        "question": "Qu'est-ce qui distingue LuxMotion d'Uber ou Bolt ?",
+        "answer": "Réservations 24-48h à l'avance, clients d'hôtels 4 et 5 étoiles, commissions plus élevées, support humain dédié et aucune exclusivité. Vous pouvez continuer à opérer avec d'autres plateformes en parallèle."
+      },
+      "q6": {
+        "question": "Est-ce un emploi à temps plein ?",
+        "answer": "Non. C'est un partenariat entre entreprises. Vous définissez votre propre planning, choisissez les réservations à accepter et gérez votre flotte comme vous le souhaitez. LuxMotion garantit un volume minimum, sans exiger d'exclusivité."
+      }
+    }
+  },
+  "schools": {
+    "hero": {
+      "pill": "TRANSPORT SCOLAIRE CERTIFIÉ  ·  PORTUGAL",
+      "title1": "Le transport",
+      "titleAccent": "parfait",
+      "title2": "pour",
+      "title3": "votre enfant.",
+      "subtitle": "Nous emmenons votre enfant à l'école en toute sécurité, ponctualité et tranquillité d'esprit. Chauffeurs certifiés, véhicules équipés et un accompagnateur adulte à chaque trajet.",
+      "featureBelts": "Ceintures homologuées",
+      "featureCamera": "Caméra de bord",
+      "featureGps": "GPS en temps réel",
+      "featureInsurance": "Assurance scolaire",
+      "excellentRating": "Excellent Rating",
+      "verifiedBy": "Vérifié par",
+      "fromReviews": "Sur 387 Avis",
+      "poweredBy": "Powered by",
+      "ctaPrimary": "Demander un Devis Gratuit",
+      "ctaSecondary": "Comment ça marche",
+      "trustNoFees": "Sans frais cachés",
+      "trustChaperone": "Accompagnateur certifié",
+      "trustRealtime": "Suivi en temps réel",
+      "photoAlt": "Chauffeur LuxMotion accueillant des enfants à l'entrée de l'école"
+    },
+    "benefits": {
+      "eyebrow": "POURQUOI NOUS CHOISIR",
+      "title1": "Pourquoi les",
+      "titleAccent": "Parents",
+      "title2": "nous font confiance",
+      "subtitle": "Plus de 700 enfants voyagent avec nous chaque jour. Voici ce que vous devez savoir avant de décider.",
+      "items": {
+        "punctual": {
+          "title": "Ponctualité garantie",
+          "body": "Gagnez des heures de trajet par semaine. Votre enfant arrive à l'heure, sort sans file d'attente et sans confusion."
+        },
+        "comfort": {
+          "title": "Confort à chaque trajet",
+          "body": "Sièges adaptés à tous les âges. Votre enfant voyage confortablement, en sécurité et sans stress."
+        },
+        "drivers": {
+          "title": "Chauffeurs certifiés",
+          "body": "Tous les chauffeurs disposent d'une formation spécifique au transport d'enfants et de plusieurs années d'expérience prouvée."
+        },
+        "chaperone": {
+          "title": "Accompagnateur adulte",
+          "body": "Votre enfant ne voyage jamais seul. Un accompagnateur adulte certifié est présent à chaque trajet pour garantir la sécurité et le bien-être."
+        },
+        "support": {
+          "title": "Support direct aux parents",
+          "body": "Ligne directe exclusive pour les parents. Réponse en moins de 30 minutes, toute question, à toute heure. La tranquillité est aussi notre responsabilité."
+        },
+        "pricing": {
+          "title": "Tarifs personnalisés",
+          "body": "Tarif adapté à la distance, à l'horaire et au nombre d'enfants. Devis gratuit en moins de 24 heures. Sans engagement."
+        }
+      }
+    },
+    "stats": {
+      "eyebrow": "NOS CHIFFRES",
+      "title1": "Transport d'enfants,",
+      "titleAccent": "pratique et sûr",
+      "subtitle": "Spécialistes de la mobilité scolaire. École, activités extrascolaires, sorties. Les plus petits arrivent toujours à l'heure, en sécurité et accompagnés.",
+      "fleetAlt": "Flotte LuxMotion : berline, V-Class, sprinter et minibus",
+      "items": {
+        "fleet": {
+          "value": "+67",
+          "label": "Véhicules certifiés et assurés pour le transport d'enfants et d'adultes"
+        },
+        "children": {
+          "value": "+790",
+          "label": "Enfants qui voyagent avec nous chaque jour en toute sécurité"
+        },
+        "trips": {
+          "value": "+183",
+          "label": "Trajets par jour, réalisés en toute sécurité et avec joie"
+        }
+      }
+    },
+    "process": {
+      "eyebrow": "LE PROCESSUS",
+      "title": "Comment ça marche",
+      "subtitle": "Simple, transparent et sans surprises. Trois étapes pour garantir que votre enfant voyage toujours en sécurité.",
+      "photoAlt": "Enfants montant dans le bus scolaire LuxMotion",
+      "steps": {
+        "pickup": {
+          "title": "Les enfants attendent à la maison à l'heure de prise en charge",
+          "body": "Le chauffeur arrive à votre porte à l'heure définie lors de la réservation. Sans file, sans attente, sans stress matinal."
+        },
+        "transit": {
+          "title": "Le chauffeur prend en charge votre enfant en sécurité",
+          "body": "Le chauffeur confirme que l'enfant est accompagné et en sécurité. Vous recevez des notifications WhatsApp automatiques au début et à la fin du trajet."
+        },
+        "arrival": {
+          "title": "Votre enfant arrive à destination en sécurité",
+          "body": "Dépose à la destination convenue : école, activité ou autre lieu. Vous recevez la confirmation d'arrivée en temps réel. Mission accomplie."
+        }
+      }
+    },
+    "reviews": {
+      "eyebrow": "Exclusif",
+      "statValue": "700+",
+      "statLabel": "Familles nous font confiance",
+      "subtitle": "Transport scolaire de référence au Portugal.",
+      "verifiedLabel": "Google · Vérifié"
+    },
+    "payment": {
+      "title": "Modes de",
+      "titleAccent": "paiement"
+    },
+    "quote": {
+      "eyebrow": "COMMENCER",
+      "title": "Demander un",
+      "titleAccent": "devis",
+      "subtitle": "Réponse en moins de 24 heures. Sans engagement, sans frais cachés.",
+      "submit": "Envoyer la demande de devis",
+      "securityNote": "Vos données sont en sécurité. Nous ne partageons jamais d'informations avec des tiers.",
+      "fields": {
+        "name": {
+          "label": "Nom complet",
+          "placeholder": "Votre nom complet"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Votre meilleur e-mail"
+        },
+        "phone": {
+          "label": "Téléphone / WhatsApp"
+        },
+        "children": {
+          "label": "Nombre d'enfants"
+        },
+        "route": {
+          "label": "Itinéraire",
+          "placeholder": "Ex : Lisbonne → École X"
+        },
+        "time": {
+          "label": "Heure de départ",
+          "placeholder": "Sélectionnez date et heure"
+        },
+        "pickup": {
+          "label": "Prise en charge / Adresse",
+          "placeholder": "Rue, N°, Ville"
+        },
+        "dropoff": {
+          "label": "Arrivée / École",
+          "placeholder": "Nom de l'école ou lieu"
+        },
+        "vehicle": {
+          "label": "Type de véhicule préféré",
+          "standard": {
+            "name": "Standard",
+            "capacity": "Jusqu'à 4 places"
+          },
+          "business": {
+            "name": "Business",
+            "capacity": "Jusqu'à 4 places"
+          },
+          "van": {
+            "name": "Van",
+            "capacity": "Jusqu'à 8 places"
+          },
+          "bus": {
+            "name": "Autocar",
+            "capacity": "Jusqu'à 30 places"
+          }
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Parlez-nous du trajet, horaires spéciaux, besoins spécifiques de l'enfant..."
+        }
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "subtitle": "Recevez des conseils de sécurité scolaire, des actualités du service et des offres exclusives pour les familles qui nous font confiance.",
+      "namePlaceholder": "Votre nom complet",
+      "emailPlaceholder": "Votre e-mail",
+      "benefit1": "Recevez des conseils de sécurité pour le transport scolaire",
+      "benefit2": "Informations anticipées sur les changements de service",
+      "benefit3": "Offres exclusives pour les abonnés de la newsletter. Vous pouvez vous désabonner à tout moment.",
+      "submit": "S'abonner",
+      "photoAlt": "Chauffeuse LuxMotion avec un enfant dans le bus scolaire",
+      "submitting": "Envoi...",
+      "subscribeSuccess": "Abonnement confirmé. Bienvenue !",
+      "subscribeError": "Impossible de s'abonner. Veuillez réessayer."
+    },
+    "trustedBy": {
+      "eyebrow": "PARTENAIRES QUI NOUS FONT CONFIANCE"
     }
   }
 }

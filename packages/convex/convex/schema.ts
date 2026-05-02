@@ -595,6 +595,8 @@ export default defineSchema({
 
   newsletterSubscriptions: defineTable({
     email: v.string(),
+    name: v.optional(v.string()),
+    source: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_email", ["email"])

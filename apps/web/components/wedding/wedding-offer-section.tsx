@@ -115,7 +115,7 @@ export function WeddingOfferSection() {
           titleAccent={t("titleAccent")}
         />
 
-        <div className="md:hidden flex flex-col gap-6 items-center pt-2">
+        <div className="xl:hidden flex flex-col gap-6 items-center pt-2">
           <MobileImageBracketed alt={t("imageAlt")} />
           <div className="flex flex-col gap-[2px] w-full">
             {CARDS.map((c, i) => (
@@ -130,7 +130,7 @@ export function WeddingOfferSection() {
           </div>
         </div>
 
-        <div className="hidden md:block relative w-full h-[424px]">
+        <div className="hidden xl:block relative w-full h-[424px]">
           <div className="absolute left-0 top-[42px] w-[460px] flex flex-col gap-[2px] justify-center">
             {CARDS.filter((c) => c.align === "left").map((c, i) => (
               <OfferCardBox

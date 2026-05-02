@@ -4,6 +4,8 @@ import { query, mutation } from "./_generated/server";
 export const subscribe = mutation({
   args: {
     email: v.string(),
+    name: v.optional(v.string()),
+    source: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -13,6 +15,8 @@ export const subscribe = mutation({
     if (existing) return;
     await ctx.db.insert("newsletterSubscriptions", {
       email: args.email,
+      name: args.name,
+      source: args.source,
       createdAt: Date.now(),
     });
   },

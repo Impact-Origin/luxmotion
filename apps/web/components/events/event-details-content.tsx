@@ -2,56 +2,17 @@
 
 import { useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
-import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { Star, Calendar, MapPin, Clock, Users, ArrowRight } from "lucide-react"
-import { RatingStars } from "@/components/shared/rating-stars"
+import { Calendar, Clock, MapPin, Users } from "lucide-react"
+import type { Id } from "@workspace/convex/dataModel"
 import { TipTapRenderer } from "@/components/shared/tiptap-renderer"
 import { TourBookingCard } from "@/components/tours/tour-booking-card"
-import { DailyTravelersBadge } from "@/components/ui/daily-travelers-badge"
 import { useTourCheckout } from "@/components/tours/tour-checkout-context"
 import { TourDetailsHero, type MediaItem } from "@/components/tours/tour-details-hero"
+import { TourIncludedExcluded } from "@/components/tours/tour-included-excluded"
 import { EventLocationMap } from "./event-location-map"
+import { EventReviews } from "./event-reviews"
 import { AddonCarouselSection } from "@/components/shared/addon-carousel-section"
-
-function HeaderStars({ rating }: { rating: number }) {
-  const fullStars = Math.floor(rating)
-  const hasHalf = rating % 1 >= 0.5
-
-  return (
-    <div className="flex">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="relative size-[22px]">
-          {i < fullStars ? (
-            <Star className="size-[22px] text-[#f5a623] fill-[#f5a623]" />
-          ) : i === fullStars && hasHalf ? (
-            <div className="relative size-[22px]">
-              <Star className="absolute size-[22px] text-[#e0e0e0] fill-[#e0e0e0]" />
-              <div className="absolute overflow-hidden w-[11px]">
-                <Star className="size-[22px] text-[#f5a623] fill-[#f5a623]" />
-              </div>
-            </div>
-          ) : (
-            <Star className="size-[22px] text-[#e0e0e0] fill-[#e0e0e0]" />
-          )}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function ReviewStars({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-[2px]">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          className={`size-[18px] ${i < rating ? "text-[#f5a623] fill-[#f5a623]" : "text-[#e0e0e0] fill-[#e0e0e0]"}`}
-        />
-      ))}
-    </div>
-  )
-}
 
 export interface EventDetailsData {
   _id?: string
@@ -108,6 +69,41 @@ interface EventDetailsContentProps {
   event: EventDetailsData
 }
 
+function InfoBox({
+  icon,
+  label,
+  value,
+  size = "desktop",
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+  size?: "desktop" | "mobile"
+}) {
+  const iconSize = size === "mobile" ? "size-[40px] border-[1.667px]" : "size-[32px] border-[1.333px]"
+  return (
+    <div className="flex-1 min-w-0 flex items-center gap-[10px] bg-[#141414] border-[0.8px] border-[rgba(154,117,53,0.22)] pl-[16.8px] pr-[16.8px] py-[8.8px]">
+      <div className={`shrink-0 ${iconSize} bg-[rgba(201,169,110,0.08)] border-[rgba(201,169,110,0.25)] flex items-center justify-center`}>
+        {icon}
+      </div>
+      <div className="flex flex-col gap-[2px] min-w-0">
+        <span
+          className="text-[8px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {label}
+        </span>
+        <span
+          className="text-[12px] font-medium text-white leading-none whitespace-nowrap overflow-hidden text-ellipsis"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {value}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export function EventDetailsContent({ event }: EventDetailsContentProps) {
   const t = useTranslations("eventDetails")
   const { openCheckout } = useTourCheckout()
@@ -119,7 +115,9 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
       hasOpenedCheckout.current = true
       const dateStr = searchParams.get("date")
       const date = dateStr ? new Date(dateStr) : new Date(event.eventDate)
-      const time = searchParams.get("time") || new Date(event.eventDate).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })
+      const time =
+        searchParams.get("time") ||
+        new Date(event.eventDate).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })
       const adults = parseInt(searchParams.get("adults") || "1", 10)
       const children = parseInt(searchParams.get("children") || "0", 10)
       const infants = parseInt(searchParams.get("infants") || "0", 10)
@@ -152,9 +150,21 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
   }, [searchParams, event, openCheckout])
 
   const handleBook = (data: {
-    date: Date | null; time: string | null; adults: number; children: number; infants: number; total: number;
-    selectedAddons?: Array<{ addonId: string; title: string; price: number; pricingType: "per_person" | "flat"; quantity: number; subtotal: number }>;
-    addonsTotal?: number;
+    date: Date | null
+    time: string | null
+    adults: number
+    children: number
+    infants: number
+    total: number
+    selectedAddons?: Array<{
+      addonId: string
+      title: string
+      price: number
+      pricingType: "per_person" | "flat"
+      quantity: number
+      subtotal: number
+    }>
+    addonsTotal?: number
   }) => {
     if (!event._id) return
     openCheckout(
@@ -181,189 +191,143 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
     )
   }
 
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
+  const formatDate = (timestamp: number) =>
+    new Date(timestamp).toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
       day: "numeric",
+      year: "numeric",
     })
-  }
 
-  const formatTime = (timestamp: number) => {
-    return new Date(timestamp).toLocaleTimeString("en-US", {
+  const formatTime = (timestamp: number) =>
+    new Date(timestamp).toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
     })
-  }
 
-  const getCurrencySymbol = (currency: string) => {
-    switch (currency) {
-      case "EUR":
-        return "€"
-      case "USD":
-        return "$"
-      case "GBP":
-        return "£"
-      default:
-        return currency
-    }
-  }
+  const titleWords = event.title.split(" ")
+  const lastTitleWord = titleWords.pop() || ""
+  const restTitle = titleWords.join(" ")
+
+  const timeRange = event.endDate
+    ? `${formatTime(event.eventDate)} - ${formatTime(event.endDate)}`
+    : formatTime(event.eventDate)
+
+  const infoItems = [
+    { key: "date", icon: Calendar, label: t("date"), value: formatDate(event.eventDate) },
+    { key: "time", icon: Clock, label: t("time"), value: timeRange },
+    { key: "location", icon: MapPin, label: t("location"), value: event.venue || event.location },
+    ...(event.maxCapacity
+      ? [
+          {
+            key: "capacity",
+            icon: Users,
+            label: t("capacity"),
+            value: t("maxCapacity", { count: event.maxCapacity }),
+          },
+        ]
+      : []),
+  ]
 
   return (
     <div className="w-full">
       <TourDetailsHero
         image={event.bannerImage}
-        additionalBanners={
-          (event.additionalBannerImages ?? []).map(
-            (url): MediaItem => ({ url, type: "image" })
-          )
-        }
+        additionalBanners={(event.additionalBannerImages ?? []).map(
+          (url): MediaItem => ({ url, type: "image" })
+        )}
         alt={event.title}
       />
 
       <div className="px-4 md:px-5 lg:px-6 xl:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="pt-[50px] pb-[17px]">
-            <h1 className="text-[32px] lg:text-[40px] font-bold text-[#070d0f] leading-[1.3] mb-4 lg:mb-[31px] break-words">
-              {event.title}
-            </h1>
-
-            <div className="hidden lg:flex items-center gap-6">
-              {event.rating !== undefined && event.rating > 0 && (
-                <RatingStars rating={event.rating} />
-              )}
-              <div className="flex flex-wrap gap-4">
-                {event.tags?.map((tag) => (
-                  <div
-                    key={tag}
-                    className="bg-[#e9f9ff] rounded-[5px] px-6 py-[10px] flex items-center justify-center h-[36px] whitespace-nowrap"
-                  >
-                    <span className="text-[#0e4659] text-[12px] lg:text-[14px] font-medium leading-[15px]">
-                      {tag}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:hidden flex flex-col gap-4">
-              {event.rating !== undefined && event.rating > 0 && (
-                <RatingStars rating={event.rating} />
-              )}
-              <div className="overflow-x-auto scrollbar-hide touch-pan-y" style={{ WebkitOverflowScrolling: "touch" }}>
-                <div className="flex gap-3 w-max">
-                  {event.tags?.map((tag) => (
-                    <div
-                      key={tag}
-                      className="bg-[#e9f9ff] rounded-[5px] px-6 py-[10px] flex items-center justify-center h-[36px] whitespace-nowrap"
-                    >
-                      <span className="text-[#0e4659] text-[12px] lg:text-[14px] font-medium leading-[15px]">
-                        {tag}
-                      </span>
-                    </div>
+          <div className="flex flex-col lg:flex-row lg:gap-8">
+            <div className="flex-1 min-w-0">
+              <div className="pt-[20px] md:pt-[28px] pb-[17px] flex flex-col gap-[13.2px] items-start">
+                <div className="hidden md:flex gap-[2px] w-full max-w-[1280px]">
+                  {infoItems.map(({ key, icon: Icon, label, value }) => (
+                    <InfoBox
+                      key={key}
+                      icon={<Icon className="size-[16px] text-[#C9A96E]" strokeWidth={1.5} />}
+                      label={label}
+                      value={value}
+                    />
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:gap-8">
-            <div className="flex-1 min-w-0 pt-6">
-              <div className="flex flex-wrap gap-6 items-start mb-8">
-                <div className="flex gap-[15px] items-center shrink-0">
-                  <div className="size-[42px] rounded-[10px] border border-[#adadad] bg-white flex items-center justify-center shrink-0">
-                    <Calendar className="size-5 text-[#222]" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[13px] font-medium text-[#222] leading-[16px]">{t("date")}</span>
-                    <span className="text-[13px] text-[#808080] leading-[1.2]">{formatDate(event.eventDate)}</span>
-                  </div>
+                <div className="md:hidden grid grid-cols-2 gap-2 w-full">
+                  {infoItems.map(({ key, icon: Icon, label, value }) => (
+                    <InfoBox
+                      key={key}
+                      size="mobile"
+                      icon={<Icon className="size-[20px] text-[#C9A96E]" strokeWidth={1.5} />}
+                      label={label}
+                      value={value}
+                    />
+                  ))}
                 </div>
-                <div className="flex gap-[15px] items-center shrink-0">
-                  <div className="size-[42px] rounded-[10px] border border-[#adadad] bg-white flex items-center justify-center shrink-0">
-                    <Clock className="size-5 text-[#222]" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[13px] font-medium text-[#222] leading-[16px]">{t("time")}</span>
-                    <span className="text-[13px] text-[#808080] leading-[1.2]">
-                      {formatTime(event.eventDate)}
-                      {event.endDate && ` - ${formatTime(event.endDate)}`}
+
+                {event.tags && event.tags.length > 0 && (
+                  <div className="flex items-center gap-[10px] pt-[16px] w-full">
+                    <div className="w-[20px] h-px bg-[#C9A96E]" />
+                    <span
+                      className="text-[9px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
+                      style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                    >
+                      {event.tags.join(" · ")}
                     </span>
                   </div>
-                </div>
-                <div className="flex gap-[15px] items-center shrink-0">
-                  <div className="size-[42px] rounded-[10px] border border-[#adadad] bg-white flex items-center justify-center shrink-0">
-                    <MapPin className="size-5 text-[#222]" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[13px] font-medium text-[#222] leading-[16px]">{t("location")}</span>
-                    <span className="text-[13px] text-[#808080] leading-[1.2]">{event.location}</span>
-                  </div>
-                </div>
-                {event.maxCapacity && (
-                  <div className="flex gap-[15px] items-center shrink-0">
-                    <div className="size-[42px] rounded-[10px] border border-[#adadad] bg-white flex items-center justify-center shrink-0">
-                      <Users className="size-5 text-[#222]" strokeWidth={1.5} />
-                    </div>
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-[13px] font-medium text-[#222] leading-[16px]">{t("capacity")}</span>
-                      <span className="text-[13px] text-[#808080] leading-[1.2]">{t("maxCapacity", { count: event.maxCapacity })}</span>
-                    </div>
-                  </div>
                 )}
+
+                <div className="flex flex-col items-start w-full">
+                  <h1
+                    className="text-[36px] md:text-[48px] text-white leading-[1.17] font-light break-words"
+                    style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                  >
+                    {restTitle}
+                    {restTitle ? " " : ""}
+                    <span className="italic text-[#C9A96E] font-light">{lastTitleWord}</span>
+                  </h1>
+
+                  {event.rating !== undefined && event.rating > 0 && (
+                    <div className="flex items-center gap-[10px] pt-[2.8px] w-full">
+                      <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">★★★★★</span>
+                      <span
+                        className="text-[16px] text-white leading-none font-normal"
+                        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                      >
+                        {event.rating.toFixed(1)}
+                      </span>
+                      <span
+                        className="text-[12px] text-[#999] leading-none"
+                        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                      >
+                        · {event.reviewCount ?? 0} {t("reviewsCount")}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="border-t border-[#dedede] mt-10 pt-10">
-                <h2 className="text-[24px] font-bold text-[#27c7ff] leading-[1.3] mb-4">{t("aboutThisEvent")}</h2>
+              <div className="mt-6">
+                <h2
+                  className="text-[24px] md:text-[32px] text-white leading-[1.3] mb-6"
+                  style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                >
+                  {t("aboutPrefix")}{" "}
+                  <span className="italic text-[#C9A96E]">{t("aboutAccent")}</span>
+                </h2>
                 <TipTapRenderer
                   content={event.description}
-                  className="text-[14px] lg:text-[16px] text-[#5f686c] leading-[1.6]"
+                  className="text-[14px] lg:text-[16px] text-[#999] leading-[1.6]"
                 />
               </div>
 
-              {(event.included?.length || event.excluded?.length) && (
-                <div className="mt-8">
-                  <div className="flex flex-col lg:flex-row gap-6 w-full">
-                    {event.included && event.included.length > 0 && (
-                      <div className="flex-1 bg-[rgba(210,255,226,0.2)] border border-[#bbf7d0] rounded-[8px] p-6">
-                        <h3 className="text-[18px] font-bold text-[#0c171c] leading-none mb-4">{t("included")}</h3>
-                        <div className="flex flex-col gap-4 py-[5px]">
-                          {event.included.map((item, idx) => (
-                            <div key={idx} className="flex gap-[10px] items-center">
-                              <Image
-                                src="/svgs/included_check.svg"
-                                alt=""
-                                width={23}
-                                height={23}
-                                className="shrink-0"
-                              />
-                              <span className="text-[14px] text-[#7a7a7a] leading-[1.2]">{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {event.excluded && event.excluded.length > 0 && (
-                      <div className="flex-1 bg-[#ffeadf] border border-[#ffb188] rounded-[8px] px-6 py-[19px]">
-                        <h3 className="text-[18px] font-bold text-[#0c171c] leading-none mb-4">{t("excluded")}</h3>
-                        <div className="flex flex-col gap-4 py-[5px]">
-                          {event.excluded.map((item, idx) => (
-                            <div key={idx} className="flex gap-[10px] items-center">
-                              <Image
-                                src="/svgs/excluded_cross.svg"
-                                alt=""
-                                width={23}
-                                height={23}
-                                className="shrink-0"
-                              />
-                              <span className="text-[14px] text-[#7a7a7a] leading-[1.2]">{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+              {((event.included?.length ?? 0) > 0 || (event.excluded?.length ?? 0) > 0) && (
+                <div className="mt-10">
+                  <TourIncludedExcluded
+                    included={event.included ?? []}
+                    excluded={event.excluded ?? []}
+                  />
                 </div>
               )}
 
@@ -372,22 +336,38 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
               )}
 
               {event.meetingPoint?.lat && event.meetingPoint?.lng && (
-                <div id="event-location" className="mt-8 border-t border-[#dedede] pt-8 scroll-mt-24">
-                  <h2 className="text-[24px] font-bold text-[#0c171c] leading-[1.3] mb-6">{t("location")}</h2>
-                  <EventLocationMap
-                    title={event.meetingPoint.title}
-                    address={event.meetingPoint.address}
-                    lat={event.meetingPoint.lat}
-                    lng={event.meetingPoint.lng}
-                    className="h-[500px]"
-                  />
+                <div
+                  id="event-location"
+                  className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 scroll-mt-24"
+                >
+                  <h2
+                    className="text-[24px] italic text-[#c9a96e] mb-5 font-medium"
+                    style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                  >
+                    {t("location")}
+                  </h2>
+                  <div className="overflow-hidden border border-[rgba(201,169,110,0.22)]">
+                    <EventLocationMap
+                      title={event.meetingPoint.title}
+                      address={event.meetingPoint.address}
+                      lat={event.meetingPoint.lat}
+                      lng={event.meetingPoint.lng}
+                      className="h-[500px]"
+                    />
+                  </div>
                 </div>
               )}
 
               {event.meetingPoint && (
-                <div className="mt-8 border-t border-[#dedede] pt-8 mb-8">
-                  <h2 className="text-[24px] font-bold text-[#0c171c] leading-[1.3] mb-6">{t("meetingPoint")}</h2>
+                <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10">
+                  <h2
+                    className="text-[24px] italic text-[#c9a96e] mb-5 font-medium"
+                    style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                  >
+                    {t("meetingPoint")}
+                  </h2>
                   <button
+                    type="button"
                     onClick={() => {
                       if (event.meetingPoint?.lat && event.meetingPoint?.lng) {
                         const locationSection = document.getElementById("event-location")
@@ -398,92 +378,66 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                           }, 500)
                         }
                       } else {
-                        const query = encodeURIComponent(event.meetingPoint?.address || event.meetingPoint?.title || "")
-                        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank")
+                        const query = encodeURIComponent(
+                          event.meetingPoint?.address || event.meetingPoint?.title || ""
+                        )
+                        window.open(
+                          `https://www.google.com/maps/search/?api=1&query=${query}`,
+                          "_blank"
+                        )
                       }
                     }}
-                    className="group w-full text-left bg-[#27c7ff] rounded-[20px] px-5 py-6 flex flex-col gap-4 hover:bg-[#20b8ef] transition-colors cursor-pointer"
+                    className="w-full text-left bg-[#1a1a1a] border-l-[1.6px] border-[#c9a96e] p-[24px] flex flex-col gap-[8px] transition-colors hover:bg-[#1f1f1f] cursor-pointer"
                   >
-                    <h3 className="text-[18px] lg:text-[18.6px] font-bold text-[#0e4659] leading-[1.2] tracking-[-0.5px]">
-                      {event.meetingPoint.title}
-                    </h3>
-                    <p className="text-[14px] text-[#0e4659] leading-[22.4px] tracking-[-0.2px]">
-                      {event.meetingPoint.address}
-                    </p>
+                    <div className="size-[24px] rounded-[12px] bg-[rgba(201,169,110,0.15)] border-[0.857px] border-[rgba(201,169,110,0.3)] flex items-center justify-center">
+                      <MapPin className="size-[10px] text-[#c9a96e]" strokeWidth={2} />
+                    </div>
+                    <span
+                      className="text-[8px] font-bold text-[#c9a96e] tracking-[1.2px] uppercase"
+                      style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                    >
+                      {t("meetingLocationLabel")}
+                    </span>
+                    <div className="flex flex-col gap-[2px]">
+                      <span
+                        className="text-[20px] text-white leading-[1.2]"
+                        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+                      >
+                        {event.meetingPoint.title}
+                      </span>
+                      <span
+                        className="text-[12px] text-[#8c8680]"
+                        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                      >
+                        {event.meetingPoint.address}
+                      </span>
+                    </div>
                     {event.meetingPoint.description && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-[15px] lg:text-[15.1px] font-medium text-[#0e4659] leading-[19.2px]">
-                          {event.meetingPoint.description}
-                        </span>
-                        <div className="size-[28px] rounded-full bg-white flex items-center justify-center transition-transform group-hover:translate-x-1">
-                          <ArrowRight className="size-[18px] text-[#0e4659]" />
-                        </div>
-                      </div>
+                      <p
+                        className="text-[11px] text-[rgba(255,255,255,0.3)] leading-[17.6px]"
+                        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                      >
+                        {event.meetingPoint.description}
+                      </p>
                     )}
                   </button>
                 </div>
               )}
 
-              {event.reviews && event.reviews.length > 0 && (
-                <div className="mt-8 border-t border-[#dedede] pt-8 pb-10">
-                  <h2 className="text-[24px] font-bold text-[#0c171c] leading-[1.3] mb-4">{t("reviews")}</h2>
-                  {event.rating !== undefined && event.rating > 0 && (
-                    <div className="flex items-center gap-1 mb-6">
-                      <HeaderStars rating={event.rating} />
-                      <span className="text-[20px] font-bold text-[#0c171c] leading-[22px] ml-1">
-                        {event.rating.toFixed(1)}
-                      </span>
-                      <span className="text-[14px] text-[#5f686c] leading-[22px] ml-1">
-                        ({event.reviewCount} {t("reviewsCount")})
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-4">
-                    {event.reviews.map((review, idx) => (
-                      <div key={idx} className="bg-white border border-[#dedede] rounded-[12px] p-5 flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                          <ReviewStars rating={review.rating} />
-                          <p className="text-[14px] text-[#5f686c] leading-[1.6]">{review.text}</p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          {review.avatar ? (
-                            <Image
-                              src={review.avatar}
-                              alt={review.author}
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                          ) : (
-                            <div className="size-10 rounded-full bg-[#27c7ff] flex items-center justify-center shrink-0">
-                              <span className="text-[16px] font-medium text-[#0e4659]">
-                                {review.source?.charAt(0).toUpperCase() || review.author.charAt(0).toUpperCase()}
-                              </span>
-                            </div>
-                          )}
-                          <div className="flex flex-col">
-                            <span className="text-[14px] font-semibold text-[#0c171c] leading-[1.2]">
-                              {review.source || review.author}
-                            </span>
-                            <span className="text-[12px] text-[#5f686c] leading-[1.2]">
-                              {review.nationality || t("unknownNationality")}
-                            </span>
-                            {review.createdAt && (
-                              <span className="text-[12px] text-[#5f686c] leading-[1.2]">
-                                {new Date(review.createdAt).toLocaleDateString(undefined, { month: "short", year: "numeric" })}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+              {event._id && (
+                <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 pb-10">
+                  <EventReviews
+                    eventId={event._id as Id<"events">}
+                    rating={event.rating ?? 0}
+                    reviewCount={event.reviewCount ?? 0}
+                    initialReviews={event.reviews}
+                  />
                 </div>
               )}
             </div>
 
-            <div className="hidden lg:block w-[29%] min-w-[320px] max-w-[380px] shrink-0 pt-6">
-              <div className="sticky top-[70px] flex flex-col gap-6">
+            <div className="hidden lg:block w-[29%] min-w-[320px] max-w-[380px] shrink-0 pt-[20px] md:pt-[28px]">
+              <div className="sticky top-[70px]">
                 <TourBookingCard
                   price={event.basePrice}
                   rating={event.rating ?? 0}
@@ -497,14 +451,13 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                   addons={event.addons}
                   onBook={handleBook}
                 />
-                <DailyTravelersBadge seedSuffix="tours" min={55} max={125} />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="lg:hidden px-4 pb-8 flex flex-col gap-6">
+      <div className="lg:hidden px-4 pb-8">
         <TourBookingCard
           price={event.basePrice}
           rating={event.rating ?? 0}
@@ -518,7 +471,6 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
           addons={event.addons}
           onBook={handleBook}
         />
-        <DailyTravelersBadge seedSuffix="tours" min={55} max={125} />
       </div>
     </div>
   )

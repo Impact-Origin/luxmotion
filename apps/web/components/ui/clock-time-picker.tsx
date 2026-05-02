@@ -10,6 +10,7 @@ interface ClockTimePickerProps {
   onConfirm?: () => void
   minTime?: { hours: number; minutes: number }
   headline?: string
+  luxmotion?: boolean
 }
 
 type SelectionMode = "hours" | "minutes"
@@ -57,6 +58,7 @@ export function ClockTimePicker({
   onConfirm,
   minTime,
   headline = "Select time",
+  luxmotion = false,
 }: ClockTimePickerProps) {
   const [selectionMode, setSelectionMode] = React.useState<SelectionMode>("hours")
   const [inputMode, setInputMode] = React.useState<InputMode>("dial")
@@ -273,7 +275,7 @@ export function ClockTimePicker({
   const selectedValue = selectionMode === "hours" ? displayHour : value.minutes
 
   return (
-    <div className="bg-[#e9f9ff] flex flex-col items-center rounded-[28px] w-full overflow-hidden">
+    <div className={cn("flex flex-col items-center w-full overflow-hidden", luxmotion ? "bg-[#faf7f2] rounded-none border border-[rgba(154,117,53,0.22)]" : "bg-[#e9f9ff] rounded-[28px]")}>
       <div className="w-full pt-6 px-6 shrink-0">
         <p
           className="text-[14px] text-black leading-[1.55]"
@@ -290,8 +292,9 @@ export function ClockTimePicker({
               <>
                 <div
                   className={cn(
-                    "w-24 rounded-lg flex flex-col items-center overflow-hidden bg-[#bceeff] transition-all duration-200",
-                    isHoursFocused && "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]"
+                    "w-24 flex flex-col items-center overflow-hidden transition-all duration-200",
+                    luxmotion ? "rounded-none bg-[rgba(168,131,58,0.12)]" : "rounded-lg bg-[#bceeff]",
+                    isHoursFocused && (luxmotion ? "ring-2 ring-[#a08248] ring-offset-2 ring-offset-[#faf7f2]" : "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]")
                   )}
                 >
                   <input
@@ -315,7 +318,7 @@ export function ClockTimePicker({
                     }}
                     className={cn(
                       "h-20 w-24 flex flex-col justify-center text-center bg-transparent outline-none transition-colors duration-200",
-                      isHoursFocused ? "text-[#0e4659]" : "text-[#1d1b20]"
+                      isHoursFocused ? (luxmotion ? "text-[#a08248]" : "text-[#0e4659]") : "text-[#1d1b20]"
                     )}
                     style={{
                       fontFamily: "'Roboto', sans-serif",
@@ -341,8 +344,9 @@ export function ClockTimePicker({
 
                 <div
                   className={cn(
-                    "w-24 rounded-lg flex flex-col items-center justify-center overflow-hidden bg-[#bceeff] transition-all duration-200",
-                    isMinutesFocused && "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]"
+                    "w-24 flex flex-col items-center justify-center overflow-hidden transition-all duration-200",
+                    luxmotion ? "rounded-none bg-[rgba(168,131,58,0.12)]" : "rounded-lg bg-[#bceeff]",
+                    isMinutesFocused && (luxmotion ? "ring-2 ring-[#a08248] ring-offset-2 ring-offset-[#faf7f2]" : "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]")
                   )}
                 >
                   <input
@@ -364,7 +368,7 @@ export function ClockTimePicker({
                     }}
                     className={cn(
                       "h-20 w-[97px] flex flex-col justify-center text-center bg-transparent outline-none transition-colors duration-200",
-                      isMinutesFocused ? "text-[#0e4659]" : "text-[#1d1b20]"
+                      isMinutesFocused ? (luxmotion ? "text-[#a08248]" : "text-[#0e4659]") : "text-[#1d1b20]"
                     )}
                     style={{
                       fontFamily: "'Roboto', sans-serif",
@@ -382,14 +386,15 @@ export function ClockTimePicker({
                   type="button"
                   onClick={handleHourInputClick}
                   className={cn(
-                    "w-24 rounded-lg flex flex-col items-center overflow-hidden bg-[#bceeff] transition-all duration-200",
-                    selectionMode === "hours" && "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]"
+                    "w-24 flex flex-col items-center overflow-hidden transition-all duration-200",
+                    luxmotion ? "rounded-none bg-[rgba(168,131,58,0.12)]" : "rounded-lg bg-[#bceeff]",
+                    selectionMode === "hours" && (luxmotion ? "ring-2 ring-[#a08248] ring-offset-2 ring-offset-[#faf7f2]" : "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]")
                   )}
                 >
                   <div
                     className={cn(
                       "h-20 w-24 flex flex-col justify-center text-center transition-colors duration-200",
-                      selectionMode === "hours" ? "text-[#0e4659]" : "text-[#1d1b20]"
+                      selectionMode === "hours" ? (luxmotion ? "text-[#a08248]" : "text-[#0e4659]") : "text-[#1d1b20]"
                     )}
                     style={{
                       fontFamily: "'Roboto', sans-serif",
@@ -419,14 +424,15 @@ export function ClockTimePicker({
                   type="button"
                   onClick={handleMinuteInputClick}
                   className={cn(
-                    "w-24 rounded-lg flex flex-col items-center justify-center overflow-hidden bg-[#bceeff] transition-all duration-200",
-                    selectionMode === "minutes" && "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]"
+                    "w-24 flex flex-col items-center justify-center overflow-hidden transition-all duration-200",
+                    luxmotion ? "rounded-none bg-[rgba(168,131,58,0.12)]" : "rounded-lg bg-[#bceeff]",
+                    selectionMode === "minutes" && (luxmotion ? "ring-2 ring-[#a08248] ring-offset-2 ring-offset-[#faf7f2]" : "ring-2 ring-[#27c7ff] ring-offset-2 ring-offset-[#e9f9ff]")
                   )}
                 >
                   <div
                     className={cn(
                       "h-20 w-[97px] flex flex-col justify-center text-center transition-colors duration-200",
-                      selectionMode === "minutes" ? "text-[#0e4659]" : "text-[#1d1b20]"
+                      selectionMode === "minutes" ? (luxmotion ? "text-[#a08248]" : "text-[#0e4659]") : "text-[#1d1b20]"
                     )}
                     style={{
                       fontFamily: "'Roboto', sans-serif",
@@ -443,20 +449,24 @@ export function ClockTimePicker({
             )}
           </div>
 
-          <div className="h-20 w-[52px] rounded-lg border border-[#79747e] bg-[#e9f9ff] overflow-hidden flex flex-col shrink-0">
+          <div className={cn("h-20 w-[52px] border border-[#79747e] overflow-hidden flex flex-col shrink-0", luxmotion ? "rounded-none bg-[#faf7f2]" : "rounded-lg bg-[#e9f9ff]")}>
             <button
               type="button"
               onClick={() => handlePeriodChange("AM")}
               className={cn(
                 "flex-1 flex flex-col items-center justify-center border-b border-[#79747e] min-h-0 transition-all duration-200",
-                period === "AM" ? "bg-[#0e4659]" : "hover:bg-[#0e4659]/10"
+                period === "AM"
+                  ? luxmotion ? "bg-[#a08248]" : "bg-[#0e4659]"
+                  : luxmotion ? "hover:bg-[#a08248]/10" : "hover:bg-[#0e4659]/10"
               )}
             >
               <div className="flex-1 flex items-center justify-center px-2.5 py-2 w-full min-h-0">
                 <span
                   className={cn(
                     "text-center transition-colors duration-200",
-                    period === "AM" ? "text-[#e9f9ff]" : "text-[#49454f]"
+                    period === "AM"
+                      ? luxmotion ? "text-white" : "text-[#e9f9ff]"
+                      : "text-[#49454f]"
                   )}
                   style={{
                     fontFamily: "'Roboto', sans-serif",
@@ -475,14 +485,18 @@ export function ClockTimePicker({
               onClick={() => handlePeriodChange("PM")}
               className={cn(
                 "flex-1 flex flex-col items-center justify-center border-t border-[#79747e] min-h-0 transition-all duration-200",
-                period === "PM" ? "bg-[#0e4659]" : "hover:bg-[#0e4659]/10"
+                period === "PM"
+                  ? luxmotion ? "bg-[#a08248]" : "bg-[#0e4659]"
+                  : luxmotion ? "hover:bg-[#a08248]/10" : "hover:bg-[#0e4659]/10"
               )}
             >
               <div className="flex-1 flex items-center justify-center px-2.5 py-2 w-full min-h-0">
                 <span
                   className={cn(
                     "text-center transition-colors duration-200",
-                    period === "PM" ? "text-[#e9f9ff]" : "text-[#49454f]"
+                    period === "PM"
+                      ? luxmotion ? "text-white" : "text-[#e9f9ff]"
+                      : "text-[#49454f]"
                   )}
                   style={{
                     fontFamily: "'Roboto', sans-serif",
@@ -503,7 +517,8 @@ export function ClockTimePicker({
           <div
             ref={clockRef}
             className={cn(
-              "relative bg-[#bceeff] rounded-full cursor-pointer select-none shrink-0",
+              "relative rounded-full cursor-pointer select-none shrink-0",
+              luxmotion ? "bg-[rgba(168,131,58,0.12)]" : "bg-[#bceeff]",
               isAnimating && "transition-all duration-200 scale-[0.92] opacity-60",
               isModeTransitioning && "transition-all duration-150 scale-[0.85] opacity-0"
             )}
@@ -516,7 +531,7 @@ export function ClockTimePicker({
             onTouchEnd={handleTouchEnd}
           >
             <div
-              className="absolute rounded-full bg-[#27c7ff]"
+              className={cn("absolute rounded-full", luxmotion ? "bg-[#a08248]" : "bg-[#27c7ff]")}
               style={{
                 width: 8,
                 height: 8,
@@ -528,7 +543,7 @@ export function ClockTimePicker({
             />
 
             <div
-              className="absolute bg-[#27c7ff] origin-left"
+              className={cn("absolute origin-left", luxmotion ? "bg-[#a08248]" : "bg-[#27c7ff]")}
               style={{
                 width: NUMBER_RADIUS - 24,
                 height: 2,
@@ -562,8 +577,8 @@ export function ClockTimePicker({
                     className={cn(
                       "w-12 h-12 rounded-full flex flex-col items-center justify-center overflow-hidden",
                       isSelected
-                        ? "bg-[#27c7ff]"
-                        : "bg-transparent hover:bg-[#27c7ff]/20"
+                        ? luxmotion ? "bg-[#a08248]" : "bg-[#27c7ff]"
+                        : luxmotion ? "bg-transparent hover:bg-[#a08248]/20" : "bg-transparent hover:bg-[#27c7ff]/20"
                     )}
                     style={{
                       transform: isSelected ? (isDragging ? "scale(1.15)" : "scale(1)") : "scale(0.92)",
@@ -661,7 +676,7 @@ export function ClockTimePicker({
             <div className="rounded-full overflow-hidden hover:bg-black/5 active:bg-black/10 active:scale-95 transition-all duration-150">
               <div className="flex gap-2 items-center justify-center px-4 py-2.5">
                 <span
-                  className="text-[#27c7ff]"
+                  className={luxmotion ? "text-[#a08248]" : "text-[#27c7ff]"}
                   style={{
                     fontFamily: "'Roboto', sans-serif",
                     fontSize: "14px",
@@ -683,7 +698,7 @@ export function ClockTimePicker({
             <div className="rounded-full overflow-hidden hover:bg-black/5 active:bg-black/10 active:scale-95 transition-all duration-150">
               <div className="flex gap-2 items-center justify-center px-4 py-2.5">
                 <span
-                  className="text-[#27c7ff]"
+                  className={luxmotion ? "text-[#a08248]" : "text-[#27c7ff]"}
                   style={{
                     fontFamily: "'Roboto', sans-serif",
                     fontSize: "14px",

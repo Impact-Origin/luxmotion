@@ -24,7 +24,7 @@ interface GooglePlacesInputProps {
   /** Shown in the iOS keyboard bar above the input; use e.g. "De onde?" so it doesn't show "home". */
   ariaLabel?: string
   className?: string
-  variant?: "default" | "widget" | "new-widget" | "hero-inline" | "tours-hero" | "tours-hero-dark" | "tours-results"
+  variant?: "default" | "widget" | "new-widget" | "hero-inline" | "tours-hero" | "tours-hero-dark" | "tours-results" | "quote"
   /** When true, render suggestions inline below the input (e.g. inside a bottom drawer). Drawer closes only on selection. */
   inlineDropdown?: boolean
   hideLeftIcon?: boolean
@@ -110,6 +110,7 @@ export function GooglePlacesInput({
   const isToursHero = variant === "tours-hero"
   const isToursHeroDark = variant === "tours-hero-dark"
   const isToursResults = variant === "tours-results"
+  const isQuote = variant === "quote"
 
   const triggerInput = (
     <div className="relative w-full h-full flex items-center">
@@ -149,6 +150,28 @@ export function GooglePlacesInput({
             }}
             placeholder={placeholder}
             className="flex-1 text-[16px] text-[#222] placeholder:text-[#a2a2a2] font-normal outline-none bg-transparent"
+          />
+        </div>
+      ) : isQuote ? (
+        <div className="w-full h-[44px] relative flex items-center bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] focus-within:border-[#a08248] transition-colors">
+          {!hideLeftIcon && (
+            <MapPin className="w-4 h-4 text-[#a08248] shrink-0 ml-3" strokeWidth={2} />
+          )}
+          <input
+            suppressHydrationWarning
+            value={value.location}
+            onChange={handleInputChange}
+            onFocus={() => {
+              if (value.location.trim()) {
+                fetchPredictions(value.location)
+              }
+              setShowDropdown(true)
+            }}
+            placeholder={placeholder}
+            className={cn(
+              "flex-1 min-w-0 h-full bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] text-[#0d0d0d] placeholder:text-[#999] leading-none",
+              hideLeftIcon ? "px-3" : "pl-2 pr-3",
+            )}
           />
         </div>
       ) : isToursHeroDark ? (
@@ -314,6 +337,7 @@ export function GooglePlacesInput({
             isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
             onSelect={handleSelectSuggestion}
             dark={isHeroInline || isToursHeroDark}
+            luxmotion={isQuote}
           />
         </PopoverContent>
       </Popover>

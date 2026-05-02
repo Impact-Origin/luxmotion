@@ -2,20 +2,14 @@
 
 import { useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useTranslations, useLocale } from "next-intl"
+import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import type { Id } from "@workspace/convex/dataModel"
 import { TourReviewForm } from "./tour-review-form"
+import { LuxmotionReviewCard, type LuxmotionReview } from "@/components/shared/luxmotion-review-card"
 
-interface Review {
-  author: string
-  avatar?: string
-  rating: number
-  text: string
-  source?: string
+interface Review extends LuxmotionReview {
   date?: string
-  nationality?: string
-  createdAt?: number
 }
 
 interface TourReviewsProps {
@@ -23,86 +17,6 @@ interface TourReviewsProps {
   rating: number
   reviewCount: number
   reviews: Review[]
-}
-
-const AVATAR_PALETTE = [
-  "#7b1fa2",
-  "#1565c0",
-  "#c62828",
-  "#2e7d32",
-  "#ef6c00",
-  "#4527a0",
-  "#00838f",
-  "#ad1457",
-]
-
-function avatarColorFor(name: string) {
-  const code = (name.charCodeAt(0) || 65) - 65
-  return AVATAR_PALETTE[Math.abs(code) % AVATAR_PALETTE.length]
-}
-
-function formatReviewDate(review: Review, locale: string) {
-  if (review.createdAt) {
-    return new Date(review.createdAt).toLocaleDateString(locale, {
-      month: "long",
-      year: "numeric",
-    })
-  }
-  return review.date || ""
-}
-
-function ReviewCard({ review }: { review: Review }) {
-  const t = useTranslations("tourDetails")
-  const locale = useLocale()
-  const name = review.source || review.author
-  const initial = name.charAt(0).toUpperCase()
-  const dateLabel = formatReviewDate(review, locale)
-
-  return (
-    <div className="bg-[#1a1a1a] border-l-[1.6px] border-transparent hover:border-[#c9a96e] transition-colors p-[24px] flex flex-col gap-[8px] w-full">
-      <div className="flex gap-[12px] items-center">
-        <div
-          className="size-[36px] rounded-[18px] flex items-center justify-center shrink-0"
-          style={{ backgroundColor: avatarColorFor(name) }}
-        >
-          <span
-            className="text-[14px] font-semibold text-white leading-none"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            {initial}
-          </span>
-        </div>
-        <div className="flex flex-col min-w-0">
-          <span
-            className="text-[12px] font-semibold text-white leading-[1.3] truncate"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            {name}
-          </span>
-          <span
-            className="text-[10px] text-[#8c8680] leading-[1.3]"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            {dateLabel}
-            {dateLabel ? " · " : ""}
-            {t("verifiedBooking")}
-          </span>
-        </div>
-      </div>
-      <div
-        className="text-[12px] text-[#c9a96e] tracking-[1px] leading-none pt-[0.8px]"
-        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-      >
-        {"★★★★★".slice(0, review.rating).padEnd(5, "☆")}
-      </div>
-      <p
-        className="text-[12px] text-[rgba(255,255,255,0.45)] leading-[19.8px]"
-        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-      >
-        {review.text}
-      </p>
-    </div>
-  )
 }
 
 function CarouselButton({
@@ -173,7 +87,7 @@ export function TourReviews({ tourId, rating, reviewCount, reviews }: TourReview
         <>
           <div className="hidden md:flex flex-col gap-[3px] pt-[12px]">
             {reviews.map((review, index) => (
-              <ReviewCard key={index} review={review} />
+              <LuxmotionReviewCard key={index} review={review} />
             ))}
           </div>
 
@@ -185,7 +99,7 @@ export function TourReviews({ tourId, rating, reviewCount, reviews }: TourReview
               >
                 {reviews.map((review, index) => (
                   <div key={index} className="w-full shrink-0">
-                    <ReviewCard review={review} />
+                    <LuxmotionReviewCard review={review} />
                   </div>
                 ))}
               </div>
