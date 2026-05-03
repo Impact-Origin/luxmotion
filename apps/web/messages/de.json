@@ -4045,6 +4045,27 @@
       "feat2": "45 Minuten Wartezeit inklusive",
       "feat3": "MwSt. inklusive",
       "feat4": "24/7-Support"
+    },
+    "paymentPlans": {
+      "eyebrow": "FLEXIBLE OPTIONEN",
+      "titleStart": "Zahlungs-",
+      "titleAccent": "pläne",
+      "recommended": "Empfohlen",
+      "p1": {
+        "name": "Option 1",
+        "sub": "Monatliche Überweisung",
+        "text": "Kumulierte Provisionen werden am Monatsende ausgezahlt. Banküberweisung, PayPal"
+      },
+      "p2": {
+        "name": "Option 2",
+        "sub": "Vierteljährliche Überweisung",
+        "text": "Sammeln Sie Provisionen vierteljährlich und erhalten Sie eine konsolidierte Zahlung."
+      },
+      "p3": {
+        "name": "Option 3",
+        "sub": "Jährliche Überweisung",
+        "text": "Sammeln Sie Provisionen jährlich und erhalten Sie eine konsolidierte Zahlung."
+      }
     }
   }
 }

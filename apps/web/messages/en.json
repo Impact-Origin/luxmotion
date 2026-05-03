@@ -4122,6 +4122,27 @@
       "feat2": "45 minutes wait time included",
       "feat3": "VAT included",
       "feat4": "24/7 support"
+    },
+    "paymentPlans": {
+      "eyebrow": "FLEXIBLE OPTIONS",
+      "titleStart": "Payment",
+      "titleAccent": "Plans",
+      "recommended": "Recommended",
+      "p1": {
+        "name": "Option 1",
+        "sub": "Monthly Transfer",
+        "text": "Accumulated commissions paid at the end of each month. Bank transfer, PayPal"
+      },
+      "p2": {
+        "name": "Option 2",
+        "sub": "Quarterly Transfer",
+        "text": "Accumulate commissions quarterly and receive a consolidated payment."
+      },
+      "p3": {
+        "name": "Option 3",
+        "sub": "Annual Transfer",
+        "text": "Accumulate commissions annually and receive a consolidated payment."
+      }
     }
   }
 }

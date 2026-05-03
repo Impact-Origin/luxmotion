@@ -3964,6 +3964,27 @@
       "feat2": "45 minutos de espera incluidos",
       "feat3": "IVA incluido",
       "feat4": "Soporte 24/7"
+    },
+    "paymentPlans": {
+      "eyebrow": "OPCIONES FLEXIBLES",
+      "titleStart": "Planes de",
+      "titleAccent": "Pago",
+      "recommended": "Recomendado",
+      "p1": {
+        "name": "Opción 1",
+        "sub": "Transferencia Mensual",
+        "text": "Comisiones acumuladas pagadas a final de cada mes. Transferencia bancaria, PayPal"
+      },
+      "p2": {
+        "name": "Opción 2",
+        "sub": "Transferencia Trimestral",
+        "text": "Acumula comisiones trimestralmente y recibe un pago consolidado."
+      },
+      "p3": {
+        "name": "Opción 3",
+        "sub": "Transferencia Anual",
+        "text": "Acumula comisiones anualmente y recibe un pago consolidado."
+      }
     }
   }
 }

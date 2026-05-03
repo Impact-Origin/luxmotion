@@ -3948,6 +3948,27 @@
       "feat2": "45 minuten wachttijd inbegrepen",
       "feat3": "Btw inbegrepen",
       "feat4": "24/7 ondersteuning"
+    },
+    "paymentPlans": {
+      "eyebrow": "FLEXIBELE OPTIES",
+      "titleStart": "Betalings-",
+      "titleAccent": "plannen",
+      "recommended": "Aanbevolen",
+      "p1": {
+        "name": "Optie 1",
+        "sub": "Maandelijkse Overschrijving",
+        "text": "Opgebouwde commissies aan het einde van elke maand uitbetaald. Bankoverschrijving, PayPal"
+      },
+      "p2": {
+        "name": "Optie 2",
+        "sub": "Driemaandelijkse Overschrijving",
+        "text": "Bouw commissies per kwartaal op en ontvang een geconsolideerde uitbetaling."
+      },
+      "p3": {
+        "name": "Optie 3",
+        "sub": "Jaarlijkse Overschrijving",
+        "text": "Bouw commissies per jaar op en ontvang een geconsolideerde uitbetaling."
+      }
     }
   }
 }

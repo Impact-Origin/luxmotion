@@ -3948,6 +3948,27 @@
       "feat2": "45 minutes d'attente incluses",
       "feat3": "TVA incluse",
       "feat4": "Support 24/7"
+    },
+    "paymentPlans": {
+      "eyebrow": "OPTIONS FLEXIBLES",
+      "titleStart": "Plans de",
+      "titleAccent": "Paiement",
+      "recommended": "Recommandé",
+      "p1": {
+        "name": "Option 1",
+        "sub": "Virement Mensuel",
+        "text": "Commissions cumulées versées en fin de mois. Virement bancaire, PayPal"
+      },
+      "p2": {
+        "name": "Option 2",
+        "sub": "Virement Trimestriel",
+        "text": "Cumulez les commissions chaque trimestre et recevez un paiement consolidé."
+      },
+      "p3": {
+        "name": "Option 3",
+        "sub": "Virement Annuel",
+        "text": "Cumulez les commissions chaque année et recevez un paiement consolidé."
+      }
     }
   }
 }

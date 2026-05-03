@@ -12,6 +12,7 @@ import { WeddingPlannerCaseStudy } from "@/components/wedding-planner/wedding-pl
 import { WeddingPlannerReviews } from "@/components/wedding-planner/wedding-planner-reviews"
 import { WeddingPlannerWhiteLabel } from "@/components/wedding-planner/wedding-planner-white-label"
 import { WeddingPlannerCommission } from "@/components/wedding-planner/wedding-planner-commission"
+import { WeddingPlannerPaymentPlans } from "@/components/wedding-planner/wedding-planner-payment-plans"
 import { createPageMetadata } from "@/lib/seo"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -43,6 +44,7 @@ export default function WeddingPlannerPage() {
         <WeddingPlannerTestimonial />
         <WeddingPlannerWhiteLabel />
         <WeddingPlannerCommission />
+        <WeddingPlannerPaymentPlans />
         <WeddingPlannerReviews />
         <WeddingPlannerCaseStudy />
       </div>
