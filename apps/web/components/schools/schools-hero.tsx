@@ -250,12 +250,12 @@ export function SchoolsHero() {
 
       <div className="hidden md:block relative">
         <div
-          className="absolute top-0 right-0 h-full w-[55%] pointer-events-none"
+          className="absolute top-0 right-0 h-full w-[42%] max-w-[820px] pointer-events-none"
           style={{ backgroundImage: HERO_GRADIENT }}
           aria-hidden
         />
         <div
-          className="absolute top-0 right-0 h-full w-[55%] pointer-events-none"
+          className="absolute top-0 right-0 h-full w-[42%] max-w-[820px] pointer-events-none"
           aria-hidden
         >
           <Image
@@ -263,13 +263,13 @@ export function SchoolsHero() {
             alt={t("photoAlt")}
             fill
             priority
-            sizes="55vw"
+            sizes="(max-width: 1920px) 42vw, 820px"
             className="object-cover object-right pointer-events-none"
           />
         </div>
 
         <div className="relative max-w-[1280px] mx-auto px-4 md:px-[52px] py-16">
-          <div className="flex flex-col gap-4 items-start justify-center w-[45%] pr-8">
+          <div className="flex flex-col gap-4 items-start justify-center w-[58%] pr-8">
             <HeroPill label={t("pill")} />
 
             <h1 className="flex flex-col" style={SERIF_FONT}>

@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Search, Info, Backpack, Luggage, Briefcase, Plus, X, ArrowLeft, ArrowRight, Minus, PlaneLanding, Clock, MapPin, Users, Baby, ChevronRight } from "lucide-react"
+import { Search, Info, Backpack, Luggage, Briefcase, Plus, X, ArrowLeft, ArrowRight, Minus, PlaneLanding, Clock, MapPin, Users, Baby, ChevronRight, Leaf, Dog, CircleAlert } from "lucide-react"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
 import { AnimatedCollapse } from "@/components/checkout/shared"
@@ -144,7 +144,8 @@ function IconOptionCard({
       )}
     >
       {badge && (
-        <span className="absolute top-3 right-3 text-[9px] font-bold text-[#9A7535] uppercase tracking-[0.72px]">
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[9px] font-bold text-[#9A7535] uppercase tracking-[0.72px]">
+          <CircleAlert className="w-3 h-3" strokeWidth={1.8} />
           {badge}
         </span>
       )}
@@ -402,20 +403,18 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "standard",
       title: t("standardSurfboard"),
       subtitle: t("standardSurfboardSize"),
-      image: "/checkout/surfboard_standard.png",
+      icon: Leaf,
       value: transfer.surfboard.standard,
       onChange: (v: number) => updateSurfboard({ ...transfer.surfboard, standard: v }),
-      imageRotation: "rotate-[330deg] -scale-x-150 scale-y-150",
     },
     {
       id: "upgraded",
       title: t("biggerSurfboard"),
       subtitle: t("biggerSurfboardSize"),
-      image: "/checkout/surfboard_upgraded.png",
+      icon: Leaf,
       value: transfer.surfboard.upgraded,
       onChange: (v: number) => updateSurfboard({ ...transfer.surfboard, upgraded: v }),
-      badge: t("requiresXlVehicle"),
-      imageRotation: "rotate-[235deg] -scale-x-140 scale-y-140",
+      badge: t("requiresXl"),
     },
   ]
 
@@ -428,20 +427,18 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "small",
       title: t("smallPet"),
       subtitle: t("smallPetWeight"),
-      image: "/checkout/pet_small.png",
+      icon: Dog,
       value: transfer.pet.small,
       onChange: (v: number) => updatePet({ ...transfer.pet, small: v }),
-      imageRotation: "-scale-x-[1.4] scale-y-[1.4]",
     },
     {
       id: "large",
       title: t("largePet"),
       subtitle: t("largePetWeight"),
-      image: "/checkout/pet_large.png",
+      icon: Dog,
       value: transfer.pet.large,
       onChange: (v: number) => updatePet({ ...transfer.pet, large: v }),
-      badge: t("requiresXlVehicle"),
-      imageRotation: "-scale-x-[1.1] scale-y-[1.1]",
+      badge: t("requiresXl"),
     },
   ]
 
@@ -1146,17 +1143,16 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         <SectionLabel>{t("surfboard")}</SectionLabel>
         <div className="grid grid-cols-2 gap-3">
           {surfboards.map((item) => (
-            <ImageOptionCard
+            <IconOptionCard
               key={item.id}
-              image={item.image}
-              imageRotation={item.imageRotation}
+              icon={item.icon}
               title={item.title}
               subtitle={item.subtitle}
               badge={item.badge}
               selected={item.value > 0}
             >
               <DarkCounter value={item.value} onChange={item.onChange} min={0} />
-            </ImageOptionCard>
+            </IconOptionCard>
           ))}
         </div>
         {transfer.surfboard.upgraded > 0 && passengerCapacity <= 5 && (
@@ -1166,17 +1162,16 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         <SectionLabel>{t("pet")}</SectionLabel>
         <div className="grid grid-cols-2 gap-3">
           {pets.map((item) => (
-            <ImageOptionCard
+            <IconOptionCard
               key={item.id}
-              image={item.image}
-              imageRotation={item.imageRotation}
+              icon={item.icon}
               title={item.title}
               subtitle={item.subtitle}
               badge={item.badge}
               selected={item.value > 0}
             >
               <DarkCounter value={item.value} onChange={item.onChange} min={0} />
-            </ImageOptionCard>
+            </IconOptionCard>
           ))}
         </div>
         {transfer.pet.large > 0 && passengerCapacity <= 5 && (

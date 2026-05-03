@@ -15,7 +15,22 @@ import {
   Undo,
   Redo,
   RemoveFormatting,
+  Table as TableIcon,
+  Trash2,
+  Columns3,
+  Rows3,
+  ArrowLeftFromLine,
+  ArrowRightFromLine,
+  ArrowUpFromLine,
+  ArrowDownFromLine,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
 import { cn } from "@workspace/ui/lib/utils";
 import { Button } from "@workspace/ui/components/button";
 import { Separator } from "@workspace/ui/components/separator";
@@ -171,6 +186,105 @@ export function BlogEditorToolbar({ editor, onImageUpload }: BlogEditorToolbarPr
           <ImageIcon className="h-4 w-4" />
         </ToolbarButton>
       )}
+
+      <Separator orientation="vertical" className="mx-1 h-6" />
+
+      <DropdownMenu>
+        <TooltipProvider delayDuration={300}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "h-8 w-8 rounded-md",
+                    editor.isActive("table") && "bg-zinc-200 text-zinc-900",
+                  )}
+                >
+                  <TableIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="text-xs">
+              Table
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <DropdownMenuContent align="start" className="w-56">
+          <DropdownMenuItem
+            onClick={() =>
+              editor
+                .chain()
+                .focus()
+                .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+                .run()
+            }
+          >
+            <TableIcon className="h-4 w-4 mr-2" /> Insert table
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={!editor.can().addColumnBefore()}
+            onClick={() => editor.chain().focus().addColumnBefore().run()}
+          >
+            <ArrowLeftFromLine className="h-4 w-4 mr-2" /> Add column before
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!editor.can().addColumnAfter()}
+            onClick={() => editor.chain().focus().addColumnAfter().run()}
+          >
+            <ArrowRightFromLine className="h-4 w-4 mr-2" /> Add column after
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!editor.can().deleteColumn()}
+            onClick={() => editor.chain().focus().deleteColumn().run()}
+          >
+            <Columns3 className="h-4 w-4 mr-2" /> Delete column
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={!editor.can().addRowBefore()}
+            onClick={() => editor.chain().focus().addRowBefore().run()}
+          >
+            <ArrowUpFromLine className="h-4 w-4 mr-2" /> Add row above
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!editor.can().addRowAfter()}
+            onClick={() => editor.chain().focus().addRowAfter().run()}
+          >
+            <ArrowDownFromLine className="h-4 w-4 mr-2" /> Add row below
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!editor.can().deleteRow()}
+            onClick={() => editor.chain().focus().deleteRow().run()}
+          >
+            <Rows3 className="h-4 w-4 mr-2" /> Delete row
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={!editor.can().toggleHeaderRow()}
+            onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+          >
+            Toggle header row
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!editor.can().toggleHeaderColumn()}
+            onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+          >
+            Toggle header column
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={!editor.can().deleteTable()}
+            onClick={() => editor.chain().focus().deleteTable().run()}
+            className="text-red-600 focus:text-red-700"
+          >
+            <Trash2 className="h-4 w-4 mr-2" /> Delete table
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <Separator orientation="vertical" className="mx-1 h-6" />
 

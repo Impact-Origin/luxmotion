@@ -112,7 +112,7 @@ export function FleetCarousel() {
 
   return (
     <section className="relative w-full bg-[#0d0d0d]">
-      <div className="hidden md:flex w-full h-[497px] gap-[2px] relative">
+      <div className="hidden md:flex w-full h-[580px] lg:h-[640px] gap-[2px] relative">
         <Tile offset={0} className="basis-0 grow-[959] shrink min-w-0" />
         <div className="flex flex-col gap-[2px] basis-0 grow-[479] shrink min-w-0">
           <Tile offset={1} className="flex-1 min-h-0" />
@@ -122,7 +122,7 @@ export function FleetCarousel() {
         <Controls />
       </div>
 
-      <div className="md:hidden relative w-full h-[340px]">
+      <div className="md:hidden relative w-full h-[400px]">
         <button
           type="button"
           onClick={() => openLightbox(startIdx)}

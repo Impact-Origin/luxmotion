@@ -23,9 +23,9 @@ const CATEGORIES: { id: Category; labelKey: string }[] = [
 ]
 
 const PHOTOS: Photo[] = [
-  { src: "/about/exp-cabo-da-roca.png", alt: "Cabo da Roca cliffs", cat: "tours" },
-  { src: "/about/exp-websummit.png", alt: "Web Summit Lisbon", cat: "events" },
-  { src: "/about/exp-driver-merc.png", alt: "Driver greeting at hotel", cat: "corporate" },
+  { src: "/about/exp-tennis-cascais.png", alt: "Estoril Open tennis at Cascais", cat: "events" },
+  { src: "/about/exp-websummit.jpg", alt: "Web Summit Lisbon", cat: "corporate" },
+  { src: "/about/exp-golf.jpg", alt: "Golf course at sunset", cat: "tours" },
   { src: "/about/exp-wedding.png", alt: "Wedding ceremony procession", cat: "weddings" },
 ]
 

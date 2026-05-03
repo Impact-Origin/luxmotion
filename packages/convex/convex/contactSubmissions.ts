@@ -11,6 +11,7 @@ export const submit = mutation({
   handler: async (ctx, args) => {
     await ctx.db.insert("contactSubmissions", {
       ...args,
+      status: "new",
       createdAt: Date.now(),
     });
   },
@@ -24,5 +25,26 @@ export const list = query({
       .withIndex("by_created")
       .collect();
     return submissions.reverse();
+  },
+});
+
+export const setStatus = mutation({
+  args: {
+    id: v.id("contactSubmissions"),
+    status: v.union(
+      v.literal("new"),
+      v.literal("read"),
+      v.literal("archived"),
+    ),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { status: args.status });
+  },
+});
+
+export const remove = mutation({
+  args: { id: v.id("contactSubmissions") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
   },
 });

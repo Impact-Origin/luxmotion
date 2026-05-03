@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { useQuery } from "convex/react"
+import { api } from "@workspace/convex/api"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 
@@ -14,7 +16,7 @@ type Driver = {
   image: string
 }
 
-const DRIVERS: Driver[] = [
+const FALLBACK_DRIVERS: Driver[] = [
   { id: "joao", name: "João", location: "Lisboa", image: "/about/driver-joao.png", quote: "“Every guest is a friend I haven't met yet. I love sharing the hidden gems of my city.”" },
   { id: "maria", name: "Maria", location: "Porto", image: "/about/driver-maria.png", quote: "“Safety and comfort are my priorities. I treat every passenger like family.”" },
   { id: "pedro", name: "Pedro", location: "Algarve", image: "/about/driver-pedro.png", quote: "“20 years of driving taught me that the journey matters as much as the destination.”" },
@@ -76,16 +78,37 @@ function CarouselArrow({
 
 export function DriversSection() {
   const t = useTranslations("aboutPage.drivers")
-  const [mobileIdx, setMobileIdx] = useState(0)
+  const [idx, setIdx] = useState(0)
+  const [pageSize, setPageSize] = useState(3)
+  const dbDrivers = useQuery(api.drivers.listPublished)
 
-  const drivers = DRIVERS.map((d) => ({
-    ...d,
-    name: t(`items.${d.id}.name`),
-    location: t(`items.${d.id}.location`),
-    quote: t(`items.${d.id}.quote`),
-  }))
+  useEffect(() => {
+    const update = () => setPageSize(window.innerWidth >= 768 ? 3 : 1)
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
 
-  const mobileMax = drivers.length - 1
+  const drivers: Driver[] =
+    dbDrivers && dbDrivers.length > 0
+      ? dbDrivers.map((d) => ({
+          id: d._id,
+          name: d.name,
+          location: d.location,
+          quote: d.quote,
+          image: d.imageUrl ?? "/about/driver-joao.png",
+        }))
+      : FALLBACK_DRIVERS.map((d) => ({
+          ...d,
+          name: t(`items.${d.id}.name`),
+          location: t(`items.${d.id}.location`),
+          quote: t(`items.${d.id}.quote`),
+        }))
+
+  const maxIdx = Math.max(0, drivers.length - pageSize)
+  const safeIdx = Math.min(idx, maxIdx)
+  const pageCount = Math.max(1, drivers.length - pageSize + 1)
+  const slidePercent = 100 / pageSize
 
   return (
     <section className="bg-[#0D0D0D] flex flex-col items-center px-4 md:px-[82px] py-16 md:py-20">
@@ -112,51 +135,51 @@ export function DriversSection() {
           </h2>
         </div>
 
-        <div className="hidden md:grid grid-cols-3 gap-[2px] bg-[rgba(201,169,110,0.07)] w-full">
-          {drivers.map((d) => (
-            <DriverCard key={d.id} d={d} />
-          ))}
-        </div>
-
-        <div className="md:hidden w-full overflow-hidden">
+        <div className="w-full overflow-hidden bg-[rgba(201,169,110,0.07)]">
           <div
-            className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${mobileIdx * 100}%)` }}
+            className="flex gap-[2px] transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${safeIdx * slidePercent}%)` }}
           >
             {drivers.map((d) => (
-              <div key={d.id} className="shrink-0 w-full">
+              <div
+                key={d.id}
+                className="shrink-0"
+                style={{ width: `calc(${slidePercent}% - ${(2 * (pageSize - 1)) / pageSize}px)` }}
+              >
                 <DriverCard d={d} />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2">
-          <CarouselArrow
-            direction="left"
-            onClick={() => setMobileIdx((i) => Math.max(i - 1, 0))}
-            disabled={mobileIdx === 0}
-          />
-          <div className="flex gap-2 items-center px-4">
-            {drivers.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setMobileIdx(i)}
-                aria-label={`Go to driver ${i + 1}`}
-                className={cn(
-                  "rounded-full transition-all",
-                  i === mobileIdx ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
-                )}
-              />
-            ))}
+        {pageCount > 1 && (
+          <div className="flex items-center justify-center gap-2">
+            <CarouselArrow
+              direction="left"
+              onClick={() => setIdx((i) => Math.max(i - 1, 0))}
+              disabled={safeIdx === 0}
+            />
+            <div className="flex gap-2 items-center px-4">
+              {Array.from({ length: pageCount }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setIdx(i)}
+                  aria-label={`Go to driver ${i + 1}`}
+                  className={cn(
+                    "rounded-full transition-all",
+                    i === safeIdx ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
+                  )}
+                />
+              ))}
+            </div>
+            <CarouselArrow
+              direction="right"
+              onClick={() => setIdx((i) => Math.min(i + 1, maxIdx))}
+              disabled={safeIdx >= maxIdx}
+            />
           </div>
-          <CarouselArrow
-            direction="right"
-            onClick={() => setMobileIdx((i) => Math.min(i + 1, mobileMax))}
-            disabled={mobileIdx >= mobileMax}
-          />
-        </div>
+        )}
       </div>
     </section>
   )

@@ -2,17 +2,34 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Phone, Mail, ChevronDown, Check, ShieldCheck } from "lucide-react"
+import { Phone, Mail, Check, ShieldCheck } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { toast } from "sonner"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select"
+import { PhoneInput } from "@/components/ui/phone-input"
+import { CountryCombobox } from "@/components/ui/country-combobox"
+import { DateTimePicker } from "@/components/checkout/date-time-picker"
 
 const INPUT =
   "w-full h-[44px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] px-[13px] text-[14px] text-white placeholder:text-[#696969] outline-none focus:border-[rgba(201,169,110,0.5)] transition-colors"
 
-const SELECT = cn(INPUT, "appearance-none cursor-pointer pr-[32px]")
+const SELECT_TRIGGER =
+  "w-full h-[44px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] px-[13px] text-[14px] text-white data-[placeholder]:text-[#696969] rounded-none focus:ring-0 focus:border-[rgba(201,169,110,0.5)] focus-visible:ring-0 transition-colors"
+
+const SELECT_CONTENT =
+  "bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-white rounded-none"
+
+const SELECT_ITEM =
+  "text-[14px] text-white data-[highlighted]:bg-[rgba(201,169,110,0.12)] data-[highlighted]:text-white focus:bg-[rgba(201,169,110,0.12)] rounded-none cursor-pointer"
 
 function Label({ text, required }: { text: string; required?: boolean }) {
   return (
@@ -23,12 +40,6 @@ function Label({ text, required }: { text: string; required?: boolean }) {
       {text}
       {required && <span className="text-[#E32828]">*</span>}
     </label>
-  )
-}
-
-function SelectChevron() {
-  return (
-    <ChevronDown className="absolute right-[13px] top-1/2 -translate-y-1/2 size-[14px] text-[rgba(255,255,255,0.5)] pointer-events-none" />
   )
 }
 
@@ -169,77 +180,51 @@ export function ContactSection() {
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 flex flex-col gap-2">
                 <Label text={t("redesign.form.country")} required />
-                <div className="relative">
-                  <select
-                    required
-                    value={form.country}
-                    onChange={(e) => set("country", e.target.value)}
-                    className={SELECT}
-                  >
-                    <option value="">{t("redesign.form.countryPlaceholder")}</option>
-                    <option value="PT">Portugal</option>
-                    <option value="US">United States</option>
-                    <option value="GB">United Kingdom</option>
-                    <option value="DE">Germany</option>
-                    <option value="FR">France</option>
-                    <option value="ES">Spain</option>
-                    <option value="NL">Netherlands</option>
-                    <option value="BR">Brazil</option>
-                    <option value="OTHER">Other</option>
-                  </select>
-                  <SelectChevron />
-                </div>
+                <CountryCombobox
+                  value={form.country}
+                  onChange={(v) => set("country", v)}
+                  placeholder={t("redesign.form.countryPlaceholder")}
+                  emptyLabel={t("redesign.form.countryPlaceholder")}
+                />
               </div>
               <div className="flex-1 flex flex-col gap-2">
                 <Label text={t("redesign.form.phone")} required />
-                <div className="flex">
-                  <div className="flex items-center gap-2 h-[44px] bg-[#1A1A1A] border-l border-t border-b border-[rgba(255,255,255,0.12)] px-[13px] shrink-0">
-                    <span className="text-[20px] leading-none opacity-[0.36]">🇵🇹</span>
-                    <span className="text-[14px] text-white">+351</span>
-                  </div>
-                  <input
-                    type="tel"
-                    required
-                    value={form.phone}
-                    onChange={(e) => set("phone", e.target.value)}
-                    placeholder={t("redesign.form.phonePlaceholder")}
-                    className={cn(INPUT, "border-l-0")}
-                  />
-                </div>
+                <PhoneInput
+                  dark
+                  value={form.phone}
+                  onChange={(v) => set("phone", v)}
+                  placeholder={t("redesign.form.phonePlaceholder")}
+                />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <Label text={t("redesign.form.region")} required />
-              <div className="relative">
-                <select
-                  required
-                  value={form.region}
-                  onChange={(e) => set("region", e.target.value)}
-                  className={SELECT}
-                >
-                  <option value="">{t("redesign.form.regionPlaceholder")}</option>
-                  <option value="lisboa">Lisboa</option>
-                  <option value="porto">Porto</option>
-                  <option value="algarve">Algarve</option>
-                  <option value="alentejo">Alentejo</option>
-                  <option value="madeira">Madeira</option>
-                  <option value="acores">Açores</option>
-                  <option value="sintra">Sintra</option>
-                  <option value="ericeira">Ericeira</option>
-                </select>
-                <SelectChevron />
-              </div>
+              <Select value={form.region} onValueChange={(v) => set("region", v)}>
+                <SelectTrigger className={SELECT_TRIGGER}>
+                  <SelectValue placeholder={t("redesign.form.regionPlaceholder")} />
+                </SelectTrigger>
+                <SelectContent className={SELECT_CONTENT}>
+                  <SelectItem value="lisboa" className={SELECT_ITEM}>Lisboa</SelectItem>
+                  <SelectItem value="porto" className={SELECT_ITEM}>Porto</SelectItem>
+                  <SelectItem value="algarve" className={SELECT_ITEM}>Algarve</SelectItem>
+                  <SelectItem value="alentejo" className={SELECT_ITEM}>Alentejo</SelectItem>
+                  <SelectItem value="madeira" className={SELECT_ITEM}>Madeira</SelectItem>
+                  <SelectItem value="acores" className={SELECT_ITEM}>Açores</SelectItem>
+                  <SelectItem value="sintra" className={SELECT_ITEM}>Sintra</SelectItem>
+                  <SelectItem value="ericeira" className={SELECT_ITEM}>Ericeira</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex flex-col gap-2">
               <Label text={t("redesign.form.date")} required />
-              <input
-                type="date"
-                required={!form.flexibleDates}
-                value={form.date}
-                onChange={(e) => set("date", e.target.value)}
-                className={cn(INPUT, "[color-scheme:dark]")}
+              <DateTimePicker
+                variant="new-widget"
+                value={form.date || null}
+                onChange={(d) => set("date", d ? d.toISOString() : "")}
+                placeholder={t("redesign.form.datePlaceholder")}
+                label={t("redesign.form.datePlaceholder")}
               />
             </div>
 
@@ -264,22 +249,18 @@ export function ContactSection() {
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 flex flex-col gap-2">
                 <Label text={t("redesign.form.travelers")} required />
-                <div className="relative">
-                  <select
-                    required
-                    value={form.travelers}
-                    onChange={(e) => set("travelers", e.target.value)}
-                    className={SELECT}
-                  >
-                    <option value="">{t("redesign.form.travelersPlaceholder")}</option>
-                    <option value="1-2">1-2</option>
-                    <option value="3-5">3-5</option>
-                    <option value="6-10">6-10</option>
-                    <option value="10+">10+</option>
-                    <option value="20+">20+</option>
-                  </select>
-                  <SelectChevron />
-                </div>
+                <Select value={form.travelers} onValueChange={(v) => set("travelers", v)}>
+                  <SelectTrigger className={SELECT_TRIGGER}>
+                    <SelectValue placeholder={t("redesign.form.travelersPlaceholder")} />
+                  </SelectTrigger>
+                  <SelectContent className={SELECT_CONTENT}>
+                    <SelectItem value="1-2" className={SELECT_ITEM}>1-2</SelectItem>
+                    <SelectItem value="3-5" className={SELECT_ITEM}>3-5</SelectItem>
+                    <SelectItem value="6-10" className={SELECT_ITEM}>6-10</SelectItem>
+                    <SelectItem value="10+" className={SELECT_ITEM}>10+</SelectItem>
+                    <SelectItem value="20+" className={SELECT_ITEM}>20+</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex-1 flex flex-col gap-2">
                 <Label text={t("redesign.form.budget")} />
@@ -318,21 +299,18 @@ export function ContactSection() {
 
             <div className="flex flex-col gap-2">
               <Label text={t("redesign.form.ageRange")} />
-              <div className="relative">
-                <select
-                  value={form.ageRange}
-                  onChange={(e) => set("ageRange", e.target.value)}
-                  className={SELECT}
-                >
-                  <option value="">{t("redesign.form.ageRangePlaceholder")}</option>
-                  <option value="18-30">18-30</option>
-                  <option value="30-50">30-50</option>
-                  <option value="50-65">50-65</option>
-                  <option value="65+">65+</option>
-                  <option value="mixed">Mixed</option>
-                </select>
-                <SelectChevron />
-              </div>
+              <Select value={form.ageRange} onValueChange={(v) => set("ageRange", v)}>
+                <SelectTrigger className={SELECT_TRIGGER}>
+                  <SelectValue placeholder={t("redesign.form.ageRangePlaceholder")} />
+                </SelectTrigger>
+                <SelectContent className={SELECT_CONTENT}>
+                  <SelectItem value="18-30" className={SELECT_ITEM}>18-30</SelectItem>
+                  <SelectItem value="30-50" className={SELECT_ITEM}>30-50</SelectItem>
+                  <SelectItem value="50-65" className={SELECT_ITEM}>50-65</SelectItem>
+                  <SelectItem value="65+" className={SELECT_ITEM}>65+</SelectItem>
+                  <SelectItem value="mixed" className={SELECT_ITEM}>Mixed</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <label className="flex items-center gap-2 cursor-pointer bg-[rgba(154,117,53,0.22)] border border-[rgba(255,255,255,0.12)] px-[13px] py-[14px]">

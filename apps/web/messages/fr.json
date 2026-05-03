@@ -614,6 +614,7 @@
     "largePetWeight": "PLUS DE 15KG",
     "fitsStandardVehicle": "Convient au véhicule standard",
     "requiresXlVehicle": "Nécessite un véhicule XL",
+    "requiresXl": "Nécessite XL",
     "surfboardUpgradeNeeded": "Une planche plus grande nécessite un véhicule plus grand",
     "petUpgradeNeeded": "Un grand animal nécessite un véhicule XL",
     "addStop": "Ajouter un arrêt",
@@ -1425,7 +1426,8 @@
         "ageRange": "Tranche d'âge",
         "ageRangePlaceholder": "Sélectionner une option",
         "newsletter": "J'accepte de recevoir des emails de LuxMotion avec des guides de voyage, des conseils et des informations sur des expériences exclusives au Portugal.",
-        "submit": "Envoyer la Demande"
+        "submit": "Envoyer la Demande",
+        "datePlaceholder": "Sélectionner une date"
       },
       "support": {
         "name": "Carolina Pinheiro - Support",
@@ -3066,7 +3068,9 @@
         "coach": "Autocar"
       },
       "vehiclesScrollNext": "Véhicules suivants",
-      "vehiclesScrollPrev": "Véhicules précédents"
+      "vehiclesScrollPrev": "Véhicules précédents",
+      "successToast": "Demande envoyée — nous répondrons sous quelques heures.",
+      "errorToast": "Envoi impossible. Veuillez réessayer."
     },
     "faq": {
       "eyebrow": "FAQ",
@@ -3294,6 +3298,20 @@
         "question": "Est-ce un emploi à temps plein ?",
         "answer": "Non. C'est un partenariat entre entreprises. Vous définissez votre propre planning, choisissez les réservations à accepter et gérez votre flotte comme vous le souhaitez. LuxMotion garantit un volume minimum, sans exiger d'exclusivité."
       }
+    },
+    "ctaFinal": {
+      "eyebrow": "Prêt à grandir ?",
+      "heading": "Postulez aujourd hui.",
+      "headingAccent": "Commencez à gagner cette semaine.",
+      "subtitle": "Un processus simple et rapide. En moins de 5 jours ouvrés, vous saurez si vous êtes éligible pour rejoindre le réseau LuxMotion.",
+      "primaryCta": "Démarrer la candidature",
+      "secondaryCta": "Parler à un manager",
+      "primaryHref": "/work-with-us",
+      "secondaryHref": "/contact",
+      "trust1": "Réponse sous 48h",
+      "trust2": "Aucune exclusivité requise",
+      "trust3": "Processus 100% gratuit",
+      "trust4": "Paiement dès la 1ère semaine"
     }
   },
   "schools": {
@@ -3465,7 +3483,9 @@
           "label": "Message",
           "placeholder": "Parlez-nous du trajet, horaires spéciaux, besoins spécifiques de l'enfant..."
         }
-      }
+      },
+      "successToast": "Demande envoyée — nous répondrons sous quelques heures.",
+      "errorToast": "Envoi impossible. Veuillez réessayer."
     },
     "newsletter": {
       "title": "Newsletter",
@@ -3483,6 +3503,451 @@
     },
     "trustedBy": {
       "eyebrow": "PARTENAIRES QUI NOUS FONT CONFIANCE"
+    }
+  },
+  "blogsPage": {
+    "immersiveTours": {
+      "eyebrow": "Explorer par destination",
+      "headingLead": "Nos",
+      "headingAccent": "tours immersifs",
+      "features": {
+        "authentic": "Expérience locale authentique et VIP",
+        "guides": "Guides professionnels et expérimentés",
+        "flexibility": "Flexibilité dans la création d itinéraires"
+      },
+      "destinations": {
+        "lisboa": {
+          "name": "Lisbonne"
+        },
+        "porto": {
+          "name": "Porto"
+        },
+        "algarve": {
+          "name": "Algarve"
+        },
+        "alentejo": {
+          "name": "Alentejo"
+        },
+        "acores": {
+          "name": "Açores"
+        },
+        "madeira": {
+          "name": "Madère"
+        },
+        "routes": "{count, plural, =0 {Bientôt} one {# tour} other {# tours}}"
+      },
+      "prev": "Précédent",
+      "next": "Suivant",
+      "goTo": "Aller au slide"
+    }
+  },
+  "driversPage2": {
+    "hero": {
+      "eyebrow": "Chauffeur Partenaire · LuxMotion",
+      "titleStart": "Roule quand tu veux.",
+      "titleAccent": "Gagne ce que tu mérites.",
+      "subtitle": "Deviens chauffeur LuxMotion et reçois des réservations anticipées d'hôtels 4 et 5 étoiles, de clients internationaux à haute valeur et d'expériences premium. Flexibilité totale d'horaire. Paiements hebdomadaires garantis.",
+      "metric1Line1": "par km",
+      "metric1Line2": "(vs 0,30 € sur Uber)",
+      "metric2Line1": "courses",
+      "metric2Line2": "par jour",
+      "metric3Line1": "de préavis",
+      "metric3Line2": "sur les réservations",
+      "pillPayments": "Paiements hebdomadaires",
+      "pillSchedule": "Horaires flexibles",
+      "pillExclusivity": "Sans exclusivité",
+      "pillSupport": "Support dédié",
+      "pillApp": "App exclusive pour chauffeurs",
+      "ctaPrimary": "Candidater",
+      "ctaSecondary": "Voir comment ça marche",
+      "phone": {
+        "title": "Réservations",
+        "status": "En ligne",
+        "acceptCta": "Accepter la réservation →",
+        "trip1Chip1": "2 Passagers",
+        "trip1Chip2": "3 Bagages",
+        "trip2Chip1": "4 Personnes",
+        "trip2Chip2": "Tour Premium",
+        "trip3Chip1": "Vol suivi",
+        "footerWeek": "Cette semaine",
+        "footerTrips": "Courses",
+        "footerRating": "Note"
+      }
+    },
+    "earnings": {
+      "eyebrow": "Comparaison des revenus",
+      "titleLine1": "Pourquoi les meilleurs",
+      "titleLine2Pre": "chauffeurs",
+      "titleLine2Accent": "choisissent",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Courses à plus forte valeur, clients qui donnent des pourboires, réservations anticipées. La différence à la fin du mois est réelle",
+      "exampleHeading": "Exemple réel :",
+      "exampleBodyPre": "Un chauffeur avec 5 courses/jour à 0,80 €/km en moyenne, parcourant 60 km par course, gagne env.",
+      "exampleBodyHighlight": "1 200 €/semaine",
+      "exampleBodyPost": " — le double de l'équivalent Uber.",
+      "row1Label": "Revenu par km (ville)",
+      "row2Label": "Revenu par km (longue)",
+      "row3Label": "Réservations anticipées",
+      "row3LuxValue": "48 h avant",
+      "row4Label": "Clients d'hôtels de luxe",
+      "row4LuxValue": "Hôtels 4★–5★",
+      "row5Label": "Pourboires fréquents",
+      "row5CompValue": "Rarement",
+      "row5LuxValue": "High Society",
+      "row6Label": "Support dédié",
+      "row6LuxValue": "Gestionnaire direct",
+      "row7Label": "Formation professionnelle",
+      "row7LuxValue": "Incluse",
+      "footnote": "* Valeurs moyennes. Les revenus varient selon la zone et le volume de courses."
+    },
+    "howItWorks": {
+      "eyebrow": "Avantages exclusifs",
+      "titleLine1": "Ce que tu gagnes en travaillant",
+      "titlePre": "avec",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Plus que des courses. Un partenariat qui te valorise en tant que professionnel",
+      "daysShort": "jours",
+      "card1": {
+        "photoAlt": "Chauffeur au volant",
+        "headingPre": "Jusqu'à ",
+        "headingAccent": "5 réservations",
+        "headingPost": " quotidiennes",
+        "headingLine2": "par chauffeur",
+        "body": "Nous recevons les réservations 24 à 48 heures à l'avance et te les envoyons directement dans l'app. Tu sais toujours ce qui t'attend demain. Pas d'attente en file, pas de courses à l'aveugle, pas d'imprévus.",
+        "pill1": "Réservations 48 h avant",
+        "pill2": "Détails complets",
+        "pill3": "Sans attente en file",
+        "statLabel1": "courses quotidiennes garanties par",
+        "statLabel2": "chauffeur actif"
+      },
+      "card2": {
+        "photoAlt": "Chauffeur regardant sa montre",
+        "headingAccent": "Horaires flexibles",
+        "headingLine2": "et engagements essentiels",
+        "body": "L'app te permet de définir ta disponibilité quotidienne en toute liberté. Rendez-vous médical ? Anniversaire ? Active et désactive quand tu veux. Personne n'exige l'exclusivité. Tu peux continuer en parallèle sur d'autres plateformes.",
+        "pill1": "C'est toi qui décides",
+        "pill2": "Sans exclusivité",
+        "pill3": "App offline/online",
+        "statLabel1": "contrôle sur tes jours et ta",
+        "statLabel2": "disponibilité"
+      },
+      "card3": {
+        "photoAlt": "Session de formation",
+        "headingPre": "Formation qui te ",
+        "headingAccent": "valorise",
+        "headingLine2": "et augmente les pourboires",
+        "body": "Tu reçois une formation en accueil premium, communication en anglais et protocoles de sécurité. Meilleur le service, plus gros les pourboires. Et les clients LuxMotion sont du genre à donner.",
+        "pill1": "Protocole premium",
+        "pill2": "Anglais professionnel",
+        "pill3": "Pourboires fréquents",
+        "statLabel1": "moyenne des chauffeurs LuxMotion",
+        "statLabel2": "dans les évaluations"
+      },
+      "card4": {
+        "photoAlt": "Chauffeur avec un café",
+        "headingLine1": "Paiements hebdomadaires,",
+        "headingAccent": "toujours à l'heure.",
+        "body": "Chaque semaine, sans exception, tu reçois ton paiement par la méthode choisie. Virement bancaire, MB Way ou PayPal. Le gestionnaire dédié est disponible pour toute question, par chat ou téléphone.",
+        "pill1": "Virement · MB Way · PayPal",
+        "pill2": "Aucun retard",
+        "pill3": "Support dédié",
+        "statLabel1": "maximum entre la course terminée",
+        "statLabel2": "et le paiement reçu"
+      }
+    },
+    "qualityProcess": {
+      "eyebrow": "Notre processus qualité",
+      "titleStart": "Rigueur dès le",
+      "titleAccent": "premier jour.",
+      "subtitle": "Chaque chauffeur LuxMotion passe par un processus de validation rigoureux avant de recevoir sa première réservation. C'est ainsi que nous garantissons l'excellence à chaque course.",
+      "step1": {
+        "title": "Entretien en personne",
+        "body": "Rencontre avec l'équipe LuxMotion. Nous évaluons ton profil, ton expérience, ton véhicule et l'alignement avec nos standards de service."
+      },
+      "step2": {
+        "title": "Documentation & vérification",
+        "body": "Validation de ta licence VTC, assurances, contrôle technique, casier judiciaire et certifications."
+      },
+      "step3": {
+        "title": "Formation & protocole",
+        "body": "Formation au protocole de service LuxMotion. Accueil premium, communication avec les clients internationaux et utilisation de l'app Driver."
+      },
+      "step4": {
+        "title": "Prêt à opérer",
+        "body": "App active. Tu commences à recevoir des réservations dans les jours qui suivent, avec un support permanent pendant les premières semaines."
+      }
+    },
+    "dailyOps": {
+      "eyebrow": "Comment ça marche en pratique",
+      "titleStart": "Trois étapes. De la réservation",
+      "titlePre": "au",
+      "titleAccent": "paiement.",
+      "subtitle": "Tout géré par l'app. Pas d'appels inutiles, pas de paperasse, pas de surprises.",
+      "step1": {
+        "headingPre": "Reçois la réservation",
+        "headingAccent": "dans l'app",
+        "body": "L'app Driver t'envoie la réservation avec tous les détails — heure, départ, arrivée, nombre de passagers et instructions spéciales. Tu acceptes ou refuses d'un toucher."
+      },
+      "step2": {
+        "headingPre": "Accepte et",
+        "headingAccent": "termine",
+        "headingPost": "la course",
+        "body": "Arrive au point de rendez-vous, accueille le client, et termine le transfert. L'app te guide à chaque étape — du pick-up au drop-off. Le client reçoit des mises à jour automatiques."
+      },
+      "step3": {
+        "headingPre": "Reçois ton",
+        "headingAccent": "paiement",
+        "body": "Tous les lundis, nous traitons le paiement de toutes les courses de la semaine précédente. Virement automatique vers ton compte préféré, sans paperasse."
+      },
+      "phone": {
+        "step1Title": "Réservations",
+        "step1Cta": "Accepter →",
+        "step2Title": "Course actuelle",
+        "step2Pax": "passagers",
+        "step2Cta1": "Démarrer",
+        "step2Cta2": "transfert",
+        "step2NavMap": "Carte",
+        "step2NavCurrent": "Actuelle",
+        "step3Title": "Gains",
+        "step3StatWeek": "Semaine",
+        "step3StatTrips": "Courses",
+        "step3Payday": "Paiement: lun."
+      }
+    },
+    "trust": {
+      "eyebrow": "Partenaires qui nous font confiance",
+      "titleLine1": "Ce que disent les entreprises",
+      "titlePre": "de notre",
+      "titleAccent": "réseau.",
+      "ratingCount": "+322 avis vérifiés · clients finaux",
+      "statLabel": "Partenaires actifs",
+      "statCaption": "clients et entreprises satisfaits",
+      "t1": {
+        "name": "Miguel Ferreira",
+        "role": "PDG · Ferreira Transportes, Lisbonne · 4 chauffeurs",
+        "quote": "La différence avec Uber est énorme. Les réservations arrivent à l'avance, les clients sont d'un autre niveau et les paiements n'ont jamais failli. En 8 mois nous avons plus que doublé notre chiffre d'affaires."
+      },
+      "t2": {
+        "name": "Carlos Matos",
+        "role": "Associé-gérant · Matos & Filhos Transfers, Porto · 7 chauffeurs",
+        "quote": "Nous avons commencé avec 2 voitures et nous en avons 7 aujourd'hui. La plateforme Dispatcher est simple et l'équipe LuxMotion est toujours disponible. Pour une petite entreprise comme la nôtre, le support fait toute la différence."
+      },
+      "t3": {
+        "name": "Ana Rodrigues",
+        "role": "Gestionnaire · Transfers Algarve Premium · 12 chauffeurs",
+        "quote": "Les clients d'hôtels sont complètement différents. Plus polis, plus ponctuels, et les pourboires sont fréquents. Mes chauffeurs sont plus motivés depuis que nous avons rejoint le réseau LuxMotion."
+      }
+    },
+    "faq": {
+      "eyebrow": "Questions fréquentes",
+      "titlePre": "Tout ce que vous avez besoin de",
+      "titleAccent": "savoir.",
+      "q1": {
+        "question": "Faut-il une licence professionnelle de transport ?",
+        "answer": "Oui. Pour rejoindre le réseau LuxMotion, l'entreprise doit posséder une licence valide de transport de passagers et les chauffeurs ont besoin d'un permis professionnel. Nous nous occupons de la validation lors de l'onboarding."
+      },
+      "q2": {
+        "question": "Comment se déroule le processus de sélection ?",
+        "answer": "Quatre étapes : entretien en personne avec le gestionnaire de partenaires, validation des documents et assurances, formation au protocole LuxMotion et activation du compte sur la plateforme Dispatcher. Compte 2 à 3 semaines."
+      },
+      "q3": {
+        "question": "Comment et quand est-ce que je reçois les paiements ?",
+        "answer": "Paiements hebdomadaires, toujours à la même date. Choisissez virement bancaire, MB Way ou PayPal. Chaque course terminée est enregistrée automatiquement, sans soumission de factures."
+      },
+      "q4": {
+        "question": "Comment LuxMotion gagne-t-il de l'argent ?",
+        "answer": "Nous facturons une commission fixe par réservation au client final, pas au chauffeur. Le prix au km que vous recevez est net. Aucun frais caché ni déduction variable sur vos revenus."
+      },
+      "q5": {
+        "question": "Qu'est-ce qui distingue LuxMotion d'Uber ou Bolt ?",
+        "answer": "Réservations 24-48h à l'avance, clients d'hôtels 4 et 5 étoiles, commissions plus élevées, support humain dédié et aucune exclusivité. Vous pouvez continuer à opérer avec d'autres plateformes en parallèle."
+      },
+      "q6": {
+        "question": "Est-ce un emploi à temps plein ?",
+        "answer": "Non. C'est un partenariat entre entreprises. Vous définissez votre propre planning, choisissez les réservations à accepter et gérez votre flotte comme vous le souhaitez. LuxMotion garantit un volume minimum, sans exiger d'exclusivité."
+      }
+    }
+  },
+  "weddingPlanner": {
+    "hero": {
+      "pill": "PROGRAMME PARTENAIRE  ·  MARIAGES",
+      "titleLine1": "Générez du chiffre",
+      "titleBefore": "avec la mobilité des",
+      "titleAccent": "mariages",
+      "titleAfter": "de vos clients",
+      "subtitle": "Offrez une mobilité premium sous votre marque aux mariés et aux invités. Sans investissement, sans gestion opérationnelle. Commissions de 10 à 20%.",
+      "excellentRating": "Excellent Rating",
+      "verifiedBy": "Verified by",
+      "fromReviews": "Sur 387 Avis",
+      "poweredBy": "Powered by",
+      "ctaPrimary": "Devenir Partenaire",
+      "ctaSecondary": "Calculez vos Revenus",
+      "photoAlt": "Mariée en robe à longue traîne"
+    },
+    "trustedBy": {
+      "eyebrow": "PARTENAIRES QUI NOUS FONT CONFIANCE"
+    },
+    "services": {
+      "eyebrow": "NOS SERVICES",
+      "titleStart": "Tout ce dont vos",
+      "titleAccent": "mariés ont besoin.",
+      "titleEnd": "Un seul partenaire",
+      "card1Title": "Transferts Mariés",
+      "card1Alt": "Mariés montant dans un véhicule de luxe",
+      "card2Title": "Transferts Invités",
+      "card2Alt": "Invités trinquant dans un autocar",
+      "card3Title": "Aéroport International",
+      "card3Alt": "Véhicule Mercedes sur tarmac",
+      "card4Title": "Tours & Lune de Miel",
+      "card4Alt": "Couple trinquant avec vue panoramique",
+      "card5Title": "Autocar & Groupes",
+      "card5Alt": "Autocar à côté de la Tour de Belém"
+    },
+    "advantages": {
+      "eyebrow": "AVANTAGES COMPÉTITIFS",
+      "titleStart": "Pourquoi les meilleurs domaines et wedding planners choisissent",
+      "titleAccent": "LuxMotion",
+      "titleEnd": " ?",
+      "q1": "Vos mariés vous demandent-ils des recommandations de transport ?",
+      "a1": "Avec LuxMotion, vous ne vous contentez pas de recommander. Vous gagnez une commission automatique sur chaque réservation. Transformez une question fréquente en source de revenus.",
+      "q2": "Perdez-vous du temps à coordonner la logistique des invités ?",
+      "a2": "Notre plateforme gère tout automatiquement. Itinéraires, horaires, confirmations, modifications de dernière minute. Zéro e-mail, zéro appel, zéro stress pour vous.",
+      "q3": "Vous inquiétez-vous des retards le jour du mariage ?",
+      "a3": "Nos chauffeurs arrivent toujours en avance. Nous surveillons les vols en temps réel et tenons des chauffeurs de remplacement en standby. Zéro défaillance sur plus de 3 000 prestations.",
+      "q4": "Et si les mariés préfèrent un autre prestataire ?",
+      "a4": "Aucune exclusivité requise. LuxMotion s'intègre comme option premium au sein de votre offre. Si les mariés préfèrent une autre solution, le choix leur revient. Aucun risque pour vous.",
+      "q5": "Vous travaillez déjà avec un autre prestataire de mobilité ?",
+      "a5": "Nous sommes compatibles. Vous pouvez conserver votre prestataire actuel et ajouter LuxMotion comme alternative premium. Ou le remplacer complètement. Sans engagement long.",
+      "q6": "Et si vous disposez déjà de votre propre flotte ?",
+      "a6": "La plateforme LuxMotion complète votre flotte lors des pics de demande ou pour les catégories que vous ne couvrez pas. Vans, autocars, véhicules First Class. Gagnez une commission sur chaque prestation que vous nous confiez."
+    },
+    "founders": {
+      "eyebrow": "QUI SOMMES-NOUS",
+      "titleStart": "Les",
+      "titleAccent": "Fondateurs",
+      "quote1": "« Unis par l'amour du Portugal, deux jeunes passionnés et un septuagénaire d'expérience ont donné vie à notre entreprise.",
+      "quote2": "Animés par la passion de l'exploration, nous avons décidé de créer des expériences inoubliables. En combinant l'énergie de la jeunesse et l'innovation avec la sagesse accumulée au fil des années, nous avons façonné une entreprise qui reflète authenticité et engagement.",
+      "quote3": "Chaque transfert et chaque visite est plus qu'un service ; c'est un récit captivant, fait de découvertes et de liens émotionnels.",
+      "quote4": "Rejoignez-nous dans ce voyage passionnant à travers le Portugal, où chaque kilomètre est une histoire et chaque destination une expérience inoubliable. »",
+      "author": "Afonso, David & Jorge",
+      "role": "Co-Founders",
+      "photoAlt": "Les fondateurs de LuxMotion : Afonso, David et Jorge"
+    },
+    "testimonial": {
+      "quote": "Depuis le début de notre partenariat avec LuxMotion, nous avons totalement éliminé les réclamations liées au transport lors de nos mariages. Les mariés adorent le service et nous recevons des commissions sans rien faire. C'est la définition même du gagnant-gagnant.",
+      "author": "Sara Mendes, Wedding Planner",
+      "role": "Fondatrice, Momentos Únicos — Lisbonne"
+    },
+    "caseStudy": {
+      "eyebrow": "CAS RÉEL",
+      "heading": "Étude de cas",
+      "pill": "PROGRAMME PARTENAIRE PREMIUM",
+      "venueName": "Quinta das Rosas",
+      "venueMeta": "Lieu de mariage · 92 chambres · Sintra",
+      "venueProfileLabel": "Profil du Lieu",
+      "profile1": "42 mariages par an",
+      "profile2": "Moyenne de 120 invités par événement",
+      "profile3": "65 % de couples internationaux",
+      "profile4": "Localisation rurale — 40 min de l'aéroport de Lisbonne",
+      "quote": "« Les couples organisaient le transport eux-mêmes et les invités arrivaient en retard, stressés et dans des taxis aléatoires. Maintenant chaque mariage se déroule à l'heure et nous touchons une commission sans lever le petit doigt. »",
+      "quoteAuthor": "Wedding Coordinator · Quinta das Rosas, Sintra",
+      "resultsLabel": "Résultats après 6 mois",
+      "stat1Label": "Réclamations\nTransport",
+      "stat2Label": "Mariages\nServis",
+      "stat3Label": "Commission\nMoyenne",
+      "stat4Label": "Revenu Passif\nMensuel",
+      "stat5Label": "Invités\nen Retard",
+      "col1Title": "Avant",
+      "col2Title": "Mise en œuvre",
+      "col3TitleStart": "Expérience Invités &",
+      "col3TitleAccent": "Lieu",
+      "before1": "Les couples organisaient le transport de manière indépendante",
+      "before2": "Retards fréquents des invités à la cérémonie",
+      "before3": "Plaintes concernant les taxis et Uber en zone rurale",
+      "before4": "Réception gérant les demandes de transport ad-hoc",
+      "before5": "Aucun revenu issu du transport des invités",
+      "before6": "Aucune coordination de navette entre les lieux",
+      "impl1": "Page de réservation brandée incluse dans les supports de mariage",
+      "impl2": "Emails automatiques aux invités avec lien de réservation",
+      "impl3": "Répétition d'itinéraire en amont avec les chauffeurs",
+      "impl4": "Coordinateur d'opérations dédié le jour du mariage",
+      "impl5": "Coordination multi-véhicules (berlines + vans + autocars)",
+      "impl6": "Notifications d'arrivée en temps réel au personnel du lieu",
+      "exp1": "Les invités arrivent ensemble, à l'heure, détendus",
+      "exp2": "Les cérémonies commencent à l'heure",
+      "exp3": "Les couples mentionnent la qualité du transport dans leurs avis",
+      "exp4": "Lieu positionné comme « full-service » sans personnel supplémentaire",
+      "exp5": "Revenus de commission passifs — zéro coût opérationnel",
+      "exp6": "Scores de satisfaction plus élevés dans les enquêtes post-mariage",
+      "footerStart": "Partenariat activé",
+      "footerEnd": "en moins de 48 heures",
+      "photoAlt": "Lieu de mariage Quinta das Rosas au crépuscule",
+      "prevAria": "Cas précédent",
+      "nextAria": "Cas suivant"
+    },
+    "whiteLabel": {
+      "eyebrow": "RÉSERVATIONS À VOTRE MARQUE",
+      "titleStart": "Les invités réservent directement via",
+      "titleAccent": "votre page personnalisée",
+      "body1": "Chaque partenaire reçoit une page de réservation avec son logo, ses couleurs et son domaine. Les invités ne voient jamais la marque LuxMotion. L'expérience est 100% la vôtre.",
+      "body2": "Partagez le lien dans votre e-mail de confirmation ou dans les supports envoyés aux mariés. Les réservations arrivent automatiquement dans le système.",
+      "feat1": "Page avec votre logo et votre identité visuelle",
+      "feat2": "Lien unique par événement ou partenaire",
+      "feat3": "Réservation en 3 clics. Sans création de compte.",
+      "feat4": "Confirmation automatique par e-mail et WhatsApp",
+      "photoAlt": "Invités trinquant au champagne lors d'un mariage"
+    },
+    "reviews": {
+      "pill": "Exclusif",
+      "headingNumber": "700+",
+      "headingText": "Couples & Partenaires Nous Font Confiance",
+      "subtitle": "Reconnu au Portugal et au-delà",
+      "prevAria": "Avis précédent",
+      "nextAria": "Avis suivant",
+      "r1": {
+        "initial": "S",
+        "name": "Sofia Andrade",
+        "source": "Google · Vérifié",
+        "body": "Parfaitement fluide du début à la fin. La Mercedes était magnifique, le chauffeur impeccable et tout s'est déroulé à l'heure. Tous nos invités ont été impressionnés."
+      },
+      "r2": {
+        "initial": "R",
+        "name": "Ricardo Fonseca",
+        "source": "Google · Vérifié",
+        "body": "Nous avons réservé LuxMotion pour notre mariage à Sintra. Service exceptionnel — toujours à l'heure, parfaitement discrets quand il le fallait, et des gens vraiment bien. Merci !"
+      },
+      "r3": {
+        "initial": "M",
+        "name": "Margaret & James",
+        "source": "Google · Vérifié",
+        "body": "En tant que couple britannique marié dans l'Alentejo, nous avions besoin d'une équipe en qui avoir une confiance totale. LuxMotion a dépassé toutes les attentes. Classe absolue."
+      },
+      "r4": {
+        "initial": "A",
+        "name": "Ana Luísa Costa",
+        "source": "Google · Vérifié",
+        "body": "Du premier contact à la dernière dépose, l'équipe était impeccable. Personnalisé à chaque étape. Je me suis sentie vraiment choyée le jour de mon mariage."
+      }
+    },
+    "commission": {
+      "eyebrow": "STRUCTURE DES COMMISSIONS",
+      "titleStart": "Niveaux de",
+      "titleAccent": "Commission & Paiement",
+      "toggle": {
+        "classic": "Classic",
+        "firstClass": "First Class"
+      },
+      "rows": {
+        "vehicle": "Véhicule",
+        "commission": "Commission",
+        "basePrice": "Prix de base",
+        "clientPrice": "Prix client"
+      },
+      "totalLabel": "VOTRE COMMISSION PAR TRAJET",
+      "feat1": "Péages inclus",
+      "feat2": "45 minutes d'attente incluses",
+      "feat3": "TVA incluse",
+      "feat4": "Support 24/7"
     }
   }
 }

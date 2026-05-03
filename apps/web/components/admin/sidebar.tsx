@@ -19,6 +19,8 @@ import {
   Briefcase,
   UserCheck,
   SlidersHorizontal,
+  Heart,
+  GraduationCap,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -83,6 +85,16 @@ export function AdminSidebar() {
         title: "Contacts",
         url: "/admin/contacts",
         icon: Mail,
+      },
+      {
+        title: "Wedding Quotes",
+        url: "/admin/wedding-quotes",
+        icon: Heart,
+      },
+      {
+        title: "School Quotes",
+        url: "/admin/school-quotes",
+        icon: GraduationCap,
       },
       {
         title: "Newsletter",

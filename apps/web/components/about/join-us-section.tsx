@@ -59,14 +59,16 @@ export function JoinUsSection() {
   return (
     <section className="relative bg-[#0D0D0D] px-4 md:px-[82px] py-20 md:py-24 overflow-hidden">
       <div
-        className="absolute left-1/2 -translate-x-1/2 pointer-events-none w-[1100px] h-[700px] opacity-60"
-        style={{
-          top: "calc(50% + 75px)",
-          transform: "translate(-50%, -50%)",
-          background: "radial-gradient(ellipse, rgba(201,169,110,0.08) 0%, transparent 60%)",
-        }}
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
         aria-hidden
-      />
+      >
+        <div
+          className="w-[1100px] h-[700px] max-w-full opacity-60"
+          style={{
+            background: "radial-gradient(ellipse, rgba(201,169,110,0.08) 0%, transparent 60%)",
+          }}
+        />
+      </div>
       <div className="relative flex flex-col gap-14 items-center w-full max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-6 items-center w-full">
           <div className="flex gap-2 items-center">

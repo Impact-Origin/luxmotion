@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight, Calendar } from "lucide-react"
+import { useMutation } from "convex/react"
+import { api } from "@workspace/convex/api"
+import { toast } from "sonner"
 import {
   Select,
   SelectContent,
@@ -46,15 +49,21 @@ function TextInput({
   placeholder,
   type = "text",
   rightIcon,
+  name,
+  required,
 }: {
   placeholder: string
   type?: string
   rightIcon?: React.ReactNode
+  name?: string
+  required?: boolean
 }) {
   return (
     <div className="bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] h-11 px-[13px] flex items-center w-full focus-within:border-[#a08248] transition-colors">
       <input
         type={type}
+        name={name}
+        required={required}
         placeholder={placeholder}
         className="flex-1 min-w-0 px-2 bg-transparent outline-none text-[14px] text-[#1a1612] placeholder:text-[#999]"
         style={SANS_FONT}
@@ -238,6 +247,44 @@ function SectionHeading({ eyebrow, headingStart, headingAccent }: {
 export function WeddingQuoteSection() {
   const t = useTranslations("wedding.quote")
   const [selectedVehicle, setSelectedVehicle] = useState<string>("standard")
+  const [phone, setPhone] = useState("")
+  const [numVehicles, setNumVehicles] = useState<string>("")
+  const [submitting, setSubmitting] = useState(false)
+  const submitMutation = useMutation(api.weddingQuoteSubmissions.submit)
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (submitting) return
+    setSubmitting(true)
+    const formEl = e.currentTarget
+    const fd = new FormData(formEl)
+    const guestsRaw = fd.get("guests")?.toString() ?? ""
+    const guests = guestsRaw ? Number(guestsRaw) : undefined
+    const numVehiclesNum = numVehicles && numVehicles !== "6+" ? Number(numVehicles) : undefined
+    try {
+      await submitMutation({
+        fullName: (fd.get("fullName") || "").toString(),
+        email: (fd.get("email") || "").toString(),
+        phone,
+        weddingDate: (fd.get("weddingDate") || "").toString() || undefined,
+        guests,
+        venue: (fd.get("venue") || "").toString() || undefined,
+        pickup: (fd.get("pickup") || "").toString() || undefined,
+        numVehicles: numVehiclesNum,
+        vehicle: selectedVehicle,
+        message: (fd.get("notes") || "").toString() || undefined,
+      })
+      toast.success(t("successToast"))
+      formEl.reset()
+      setPhone("")
+      setNumVehicles("")
+      setSelectedVehicle("standard")
+    } catch {
+      toast.error(t("errorToast"))
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <section className="bg-[#f7f4ef] px-4 md:px-12 py-14 md:py-24">
@@ -249,7 +296,7 @@ export function WeddingQuoteSection() {
         />
 
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="bg-white border border-[rgba(168,131,58,0.15)] shadow-[0_4px_40px_rgba(0,0,0,0.07)] flex flex-col gap-4 px-6 md:px-[48.8px] pt-[60px] md:pt-[90.8px] pb-[48.8px] relative overflow-clip"
         >
           <span
@@ -263,14 +310,16 @@ export function WeddingQuoteSection() {
 
           <div className="flex flex-col md:flex-row gap-3 w-full">
             <Field label={t("fields.fullName")} required>
-              <TextInput placeholder={t("placeholders.fullName")} />
+              <TextInput name="fullName" required placeholder={t("placeholders.fullName")} />
             </Field>
             <Field label={t("fields.email")} required>
-              <TextInput placeholder={t("placeholders.email")} type="email" />
+              <TextInput name="email" required placeholder={t("placeholders.email")} type="email" />
             </Field>
             <Field label={t("fields.phone")} required>
               <PhoneInput
                 wedding
+                value={phone}
+                onChange={setPhone}
                 placeholder={t("placeholders.phone")}
                 defaultCountry="pt"
               />
@@ -280,24 +329,26 @@ export function WeddingQuoteSection() {
           <div className="flex flex-col md:flex-row gap-3 w-full">
             <Field label={t("fields.weddingDate")} required>
               <TextInput
+                name="weddingDate"
+                required
                 placeholder={t("placeholders.weddingDate")}
                 rightIcon={<Calendar className="size-4 text-[#7a746e]" strokeWidth={1.5} />}
               />
             </Field>
             <Field label={t("fields.guests")} required>
-              <TextInput placeholder={t("placeholders.guests")} type="number" />
+              <TextInput name="guests" required placeholder={t("placeholders.guests")} type="number" />
             </Field>
             <Field label={t("fields.venue")}>
-              <TextInput placeholder={t("placeholders.venue")} />
+              <TextInput name="venue" placeholder={t("placeholders.venue")} />
             </Field>
           </div>
 
           <div className="flex flex-col md:flex-row gap-3 w-full">
             <Field label={t("fields.pickup")}>
-              <TextInput placeholder={t("placeholders.pickup")} />
+              <TextInput name="pickup" placeholder={t("placeholders.pickup")} />
             </Field>
             <Field label={t("fields.numVehicles")}>
-              <Select>
+              <Select value={numVehicles} onValueChange={setNumVehicles}>
                 <SelectTrigger
                   className="w-full h-11 rounded-none bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] hover:bg-[#f3eee5] data-[state=open]:border-[#a08248] focus-visible:ring-0 focus-visible:border-[#a08248] shadow-none px-[13px] text-[14px] text-[#1a1612] data-[placeholder]:text-[#999] [&_svg]:text-[#7a746e]"
                   style={SANS_FONT}
@@ -341,6 +392,7 @@ export function WeddingQuoteSection() {
             <FieldLabel text={t("fields.notes")} />
             <div className="bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] h-[102px] px-[13px] py-[14px] flex items-start w-full focus-within:border-[#a08248] transition-colors">
               <textarea
+                name="notes"
                 placeholder={t("placeholders.notes")}
                 className="w-full h-full px-2 bg-transparent outline-none text-[14px] text-[#1a1612] placeholder:text-[#999] resize-none"
                 style={SANS_FONT}
@@ -350,13 +402,14 @@ export function WeddingQuoteSection() {
 
           <button
             type="submit"
-            className="self-center h-12 px-[22px] bg-[#a08248] hover:bg-[#8a6f3c] transition-colors inline-flex items-center justify-center gap-2 mt-2"
+            disabled={submitting}
+            className="self-center h-12 px-[22px] bg-[#a08248] hover:bg-[#8a6f3c] disabled:opacity-50 disabled:cursor-not-allowed transition-colors inline-flex items-center justify-center gap-2 mt-2"
           >
             <span
               className="text-[14px] font-medium uppercase tracking-[1.1px] text-white"
               style={SANS_FONT}
             >
-              {t("submit")}
+              {submitting ? "..." : t("submit")}
             </span>
             <ArrowRight className="size-4 text-white" strokeWidth={2} />
           </button>

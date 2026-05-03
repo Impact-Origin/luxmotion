@@ -4,6 +4,9 @@ import { useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight, ShieldCheck, type LucideIcon } from "lucide-react"
+import { useMutation } from "convex/react"
+import { api } from "@workspace/convex/api"
+import { toast } from "sonner"
 import { PhoneInput } from "@/components/ui/phone-input"
 import {
   GooglePlacesInput,
@@ -57,18 +60,22 @@ function TextField({
   placeholder,
   type = "text",
   trailingIcon: Icon,
+  name,
 }: {
   label: string
   required?: boolean
   placeholder: string
   type?: string
   trailingIcon?: LucideIcon
+  name?: string
 }) {
   return (
     <div className="flex flex-col gap-2 w-full">
       <FieldLabel required={required}>{label}</FieldLabel>
       <div className="relative w-full">
         <input
+          name={name}
+          required={required}
           type={type}
           placeholder={placeholder}
           className={INPUT_BASE + (Icon ? " pr-10" : "")}
@@ -105,14 +112,17 @@ function FieldWrapper({
 function TextArea({
   label,
   placeholder,
+  name,
 }: {
   label: string
   placeholder: string
+  name?: string
 }) {
   return (
     <div className="flex flex-col gap-2 w-full">
       <FieldLabel>{label}</FieldLabel>
       <textarea
+        name={name}
         placeholder={placeholder}
         className="w-full h-[102px] bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] px-[13px] py-[14px] text-[14px] text-[#0d0d0d] placeholder:text-[#999] focus:outline-none focus:border-[#a08248] transition-colors resize-none leading-[1.3]"
         style={SANS_FONT}
@@ -180,9 +190,46 @@ export function SchoolsQuote() {
   const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [dropoff, setDropoff] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [departureDate, setDepartureDate] = useState<Date | undefined>(undefined)
+  const [submitting, setSubmitting] = useState(false)
+  const submitMutation = useMutation(api.schoolQuoteSubmissions.submit)
 
   const totalPages = Math.ceil(VEHICLES.length / 2)
   const nextPage = () => setPage((p) => Math.min(p + 1, totalPages - 1))
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (submitting) return
+    setSubmitting(true)
+    const formEl = e.currentTarget
+    const fd = new FormData(formEl)
+    const childrenRaw = fd.get("children")?.toString() ?? ""
+    const children = childrenRaw ? Number(childrenRaw) : undefined
+    try {
+      await submitMutation({
+        name: (fd.get("name") || "").toString(),
+        email: (fd.get("email") || "").toString(),
+        phone,
+        children,
+        route: (fd.get("route") || "").toString() || undefined,
+        departureTime: departureDate ? departureDate.toISOString() : undefined,
+        pickup: pickup.location || undefined,
+        dropoff: dropoff.location || undefined,
+        vehicle,
+        message: (fd.get("message") || "").toString() || undefined,
+      })
+      toast.success(t("successToast"))
+      formEl.reset()
+      setPhone("")
+      setPickup(EMPTY_PLACE)
+      setDropoff(EMPTY_PLACE)
+      setDepartureDate(undefined)
+      setVehicle("standard")
+    } catch {
+      toast.error(t("errorToast"))
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <section className="bg-white px-4 md:px-[80px] py-[72px] md:py-[96px]">
@@ -218,15 +265,17 @@ export function SchoolsQuote() {
         <form
           className="bg-white border border-[rgba(168,131,58,0.15)] flex flex-col gap-4 px-[17px] py-[25px] md:px-[49px] md:py-[41px] w-full"
           style={{ boxShadow: "0 4px 40px rgba(0,0,0,0.07)" }}
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
             <TextField
+              name="name"
               label={t("fields.name.label")}
               required
               placeholder={t("fields.name.placeholder")}
             />
             <TextField
+              name="email"
               label={t("fields.email.label")}
               required
               type="email"
@@ -245,12 +294,14 @@ export function SchoolsQuote() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
             <TextField
+              name="children"
               label={t("fields.children.label")}
               required
               type="number"
               placeholder="1"
             />
             <TextField
+              name="route"
               label={t("fields.route.label")}
               placeholder={t("fields.route.placeholder")}
             />
@@ -337,16 +388,18 @@ export function SchoolsQuote() {
           </div>
 
           <TextArea
+            name="message"
             label={t("fields.message.label")}
             placeholder={t("fields.message.placeholder")}
           />
 
           <button
             type="submit"
-            className="h-12 px-[22px] bg-[#a08248] hover:bg-[#8a6f3c] transition-colors text-white text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 self-center md:self-auto md:px-8 md:w-auto md:mx-auto"
+            disabled={submitting}
+            className="h-12 px-[22px] bg-[#a08248] hover:bg-[#8a6f3c] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 self-center md:self-auto md:px-8 md:w-auto md:mx-auto"
             style={SANS_FONT}
           >
-            <span>{t("submit")}</span>
+            <span>{submitting ? "..." : t("submit")}</span>
             <ArrowRight className="size-4" strokeWidth={2} />
           </button>
 

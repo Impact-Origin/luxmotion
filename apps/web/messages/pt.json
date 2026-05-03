@@ -614,6 +614,7 @@
     "largePetWeight": "MAIS DE 15KG",
     "fitsStandardVehicle": "Cabe em veículo standard",
     "requiresXlVehicle": "Requer veículo XL",
+    "requiresXl": "Requer XL",
     "surfboardUpgradeNeeded": "Prancha maior requer um veículo maior",
     "petUpgradeNeeded": "Pet grande requer um veículo XL",
     "addStop": "Adicionar paragem",
@@ -1426,7 +1427,8 @@
         "ageRange": "Faixa etária",
         "ageRangePlaceholder": "Selecione uma opção",
         "newsletter": "Aceito receber emails da LuxMotion com guias de viagem, dicas e informações sobre experiências exclusivas em Portugal.",
-        "submit": "Enviar Pedido"
+        "submit": "Enviar Pedido",
+        "datePlaceholder": "Selecionar data"
       },
       "support": {
         "name": "Carolina Pinheiro - Support",
@@ -3239,7 +3241,9 @@
         "coach": "Autocarro"
       },
       "vehiclesScrollNext": "Próximos veículos",
-      "vehiclesScrollPrev": "Veículos anteriores"
+      "vehiclesScrollPrev": "Veículos anteriores",
+      "successToast": "Pedido enviado — respondemos em poucas horas.",
+      "errorToast": "Não foi possível enviar. Tente novamente."
     },
     "faq": {
       "eyebrow": "FAQ",
@@ -3467,6 +3471,20 @@
         "question": "Isto é um emprego a tempo inteiro?",
         "answer": "Não. É uma parceria entre empresas. Define o seu próprio calendário, escolhe que reservas aceita e gere a sua frota como preferir. A LuxMotion garante volume mínimo, mas não exige exclusividade."
       }
+    },
+    "ctaFinal": {
+      "eyebrow": "Pronto para crescer?",
+      "heading": "Candidate-se hoje.",
+      "headingAccent": "Comece a ganhar esta semana.",
+      "subtitle": "O processo é simples e rápido. Em menos de 5 dias úteis saberá se é elegível para integrar a rede LuxMotion de parceiros transportadores.",
+      "primaryCta": "Iniciar candidatura",
+      "secondaryCta": "Falar com um gestor",
+      "primaryHref": "/work-with-us",
+      "secondaryHref": "/contact",
+      "trust1": "Resposta em 48h",
+      "trust2": "Sem exclusividade exigida",
+      "trust3": "Processo 100% gratuito",
+      "trust4": "Pagamentos na 1ª semana"
     }
   },
   "schools": {
@@ -3638,7 +3656,9 @@
           "label": "Mensagem",
           "placeholder": "Fale-nos sobre o percurso, horários especiais, necessidades específicas da criança..."
         }
-      }
+      },
+      "successToast": "Pedido enviado — respondemos em poucas horas.",
+      "errorToast": "Não foi possível enviar. Tente novamente."
     },
     "newsletter": {
       "title": "Newsletter",
@@ -3656,6 +3676,451 @@
     },
     "trustedBy": {
       "eyebrow": "PARCEIROS QUE CONFIAM EM NÓS"
+    }
+  },
+  "blogsPage": {
+    "immersiveTours": {
+      "eyebrow": "Explorar por destino",
+      "headingLead": "Os nossos",
+      "headingAccent": "tours imersivos",
+      "features": {
+        "authentic": "Experiência local autêntica e VIP",
+        "guides": "Guias profissionais e experientes",
+        "flexibility": "Flexibilidade nos itinerários"
+      },
+      "destinations": {
+        "lisboa": {
+          "name": "Lisboa"
+        },
+        "porto": {
+          "name": "Porto"
+        },
+        "algarve": {
+          "name": "Algarve"
+        },
+        "alentejo": {
+          "name": "Alentejo"
+        },
+        "acores": {
+          "name": "Açores"
+        },
+        "madeira": {
+          "name": "Madeira"
+        },
+        "routes": "{count, plural, =0 {Em breve} one {# tour} other {# tours}}"
+      },
+      "prev": "Anterior",
+      "next": "Seguinte",
+      "goTo": "Ir para slide"
+    }
+  },
+  "driversPage2": {
+    "hero": {
+      "eyebrow": "Motorista Parceiro · LuxMotion",
+      "titleStart": "Trabalha quando queres.",
+      "titleAccent": "Ganha o que mereces.",
+      "subtitle": "Torna-te motorista LuxMotion e recebe reservas antecipadas de hotéis 4 e 5 estrelas, clientes internacionais de alto valor e experiências premium. Flexibilidade total de horário. Pagamentos semanais garantidos.",
+      "metric1Line1": "por km",
+      "metric1Line2": "(vs €0,30 no Uber)",
+      "metric2Line1": "viagens",
+      "metric2Line2": "por dia",
+      "metric3Line1": "de antecedência",
+      "metric3Line2": "nas reservas",
+      "pillPayments": "Pagamentos semanais",
+      "pillSchedule": "Calendário flexível",
+      "pillExclusivity": "Sem exclusividade",
+      "pillSupport": "Suporte dedicado",
+      "pillApp": "App exclusiva para drivers",
+      "ctaPrimary": "Candidatar-me",
+      "ctaSecondary": "Ver como funciona",
+      "phone": {
+        "title": "Reservas",
+        "status": "Online",
+        "acceptCta": "Aceitar reserva →",
+        "trip1Chip1": "2 Passageiros",
+        "trip1Chip2": "3 Malas",
+        "trip2Chip1": "4 Pessoas",
+        "trip2Chip2": "Tour Premium",
+        "trip3Chip1": "Voo monitorizado",
+        "footerWeek": "Esta semana",
+        "footerTrips": "Viagens",
+        "footerRating": "Rating"
+      }
+    },
+    "earnings": {
+      "eyebrow": "Comparação de rendimento",
+      "titleLine1": "Porque os melhores",
+      "titleLine2Pre": "motoristas",
+      "titleLine2Accent": "escolhem",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Viagens de maior valor, clientes que dão gorjeta, reservas antecipadas. A diferença no final do mês é real",
+      "exampleHeading": "Exemplo real:",
+      "exampleBodyPre": "Um motorista com 5 viagens/dia a €0,80/km médio, percorrendo 60km por viagem, ganha aprox.",
+      "exampleBodyHighlight": "€ 1.200/semana",
+      "exampleBodyPost": " — o dobro do equivalente no Uber.",
+      "row1Label": "Rendimento por km (city)",
+      "row2Label": "Rendimento por km (long)",
+      "row3Label": "Reservas antecipadas",
+      "row3LuxValue": "48h antes",
+      "row4Label": "Clientes de hotéis luxo",
+      "row4LuxValue": "Hotéis 4★–5★",
+      "row5Label": "Gorjetas frequentes",
+      "row5CompValue": "Raramente",
+      "row5LuxValue": "High Society",
+      "row6Label": "Suporte dedicado",
+      "row6LuxValue": "Gestor direto",
+      "row7Label": "Formação profissional",
+      "row7LuxValue": "Incluída",
+      "footnote": "* Valores médios. Rendimentos variam por zona e volume de viagens."
+    },
+    "howItWorks": {
+      "eyebrow": "Vantagens exclusivas",
+      "titleLine1": "O que ganha ao trabalhar",
+      "titlePre": "com a",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Mais do que viagens. Uma parceria que te valoriza como profissional",
+      "daysShort": "dias",
+      "card1": {
+        "photoAlt": "Motorista ao volante",
+        "headingPre": "Até ",
+        "headingAccent": "5 reservas",
+        "headingPost": " diárias",
+        "headingLine2": "por motorista",
+        "body": "Recebemos as reservas com 24 a 48 horas de antecedência e enviamos-tas diretamente na app. Sabes sempre o que tens amanhã. Sem esperar em filas, sem aceitar viagens às cegas, sem imprevistos.",
+        "pill1": "Reservas 48h antes",
+        "pill2": "Detalhes completos",
+        "pill3": "Sem espera em fila",
+        "statLabel1": "viagens diárias garantidas por",
+        "statLabel2": "motorista ativo"
+      },
+      "card2": {
+        "photoAlt": "Motorista a olhar para o relógio",
+        "headingAccent": "Horário flexível",
+        "headingLine2": "e compromissos essenciais",
+        "body": "A app permite-te definir a tua disponibilidade diária com total liberdade. Tens consulta médica? Festa de anos? Liga e desliga quando quiseres. Ninguém te exige exclusividade. Podes continuar noutras plataformas em simultâneo.",
+        "pill1": "Tu decides o horário",
+        "pill2": "Sem exclusividade",
+        "pill3": "App offline/online",
+        "statLabel1": "controlo sobre os teus dias e",
+        "statLabel2": "disponibilidade"
+      },
+      "card3": {
+        "photoAlt": "Sessão de formação",
+        "headingPre": "Formação que te ",
+        "headingAccent": "valoriza",
+        "headingLine2": "e aumenta as gorjetas",
+        "body": "Recebes formação em atendimento premium, comunicação em inglês e protocolos de segurança. Quanto melhor o serviço, maiores as gorjetas. E os clientes LuxMotion são dos que dão gorjeta.",
+        "pill1": "Protocolo premium",
+        "pill2": "Inglês profissional",
+        "pill3": "Gorjetas frequentes",
+        "statLabel1": "média dos motoristas LuxMotion",
+        "statLabel2": "nas avaliações"
+      },
+      "card4": {
+        "photoAlt": "Motorista com café",
+        "headingLine1": "Pagamentos semanais,",
+        "headingAccent": "sempre a horas.",
+        "body": "Todas as semanas, sem exceção, recebes o pagamento pelo método que escolheste. Transferência bancária, MB Way ou PayPal. O gestor dedicado está disponível para qualquer dúvida, no chat ou por telefone.",
+        "pill1": "Transferência · MB Way · PayPal",
+        "pill2": "Sem atrasos",
+        "pill3": "Suporte dedicado",
+        "statLabel1": "máximo entre viagem concluída e",
+        "statLabel2": "pagamento recebido"
+      }
+    },
+    "qualityProcess": {
+      "eyebrow": "O nosso processo de qualidade",
+      "titleStart": "Rigor desde o",
+      "titleAccent": "primeiro dia.",
+      "subtitle": "Cada motorista LuxMotion passa por um processo de validação rigoroso antes de receber a primeira reserva. É assim que garantimos excelência em cada viagem.",
+      "step1": {
+        "title": "Entrevista presencial",
+        "body": "Reunião com a equipa LuxMotion. Avaliamos o teu perfil, experiência, veículo e alinhamento com os nossos padrões de serviço."
+      },
+      "step2": {
+        "title": "Documentação e verificação",
+        "body": "Validação do teu alvará TVDE, seguros, inspeção do veículo, antecedentes criminais e certificações."
+      },
+      "step3": {
+        "title": "Formação e protocolo",
+        "body": "Formação no protocolo de serviço LuxMotion. Atendimento premium, comunicação com clientes internacionais e utilização da app Driver."
+      },
+      "step4": {
+        "title": "Pronto para operar",
+        "body": "App ativa. Começas a receber reservas nos dias seguintes, com suporte permanente durante as primeiras semanas."
+      }
+    },
+    "dailyOps": {
+      "eyebrow": "Como funciona na prática",
+      "titleStart": "Três passos. Da reserva",
+      "titlePre": "ao",
+      "titleAccent": "pagamento.",
+      "subtitle": "Tudo gerido pela app. Sem chamadas desnecessárias, sem burocracia, sem surpresas.",
+      "step1": {
+        "headingPre": "Recebe a reserva",
+        "headingAccent": "na app",
+        "body": "A app Driver envia-te a reserva com todos os detalhes — hora, origem, destino, número de passageiros e instruções especiais. Aceitas ou recusas com um toque."
+      },
+      "step2": {
+        "headingPre": "Aceita e",
+        "headingAccent": "completa",
+        "headingPost": "a viagem",
+        "body": "Chega ao ponto de encontro, recebe o cliente, e completa o transfer. A app guia-te em cada passo — desde o pick-up ao drop-off. O cliente recebe atualizações automáticas."
+      },
+      "step3": {
+        "headingPre": "Recebe o teu",
+        "headingAccent": "pagamento",
+        "body": "Todas as segundas-feiras, processamos o pagamento de todas as viagens da semana anterior. Transferência automática para a tua conta preferida, sem burocracia."
+      },
+      "phone": {
+        "step1Title": "Reservas",
+        "step1Cta": "Aceitar →",
+        "step2Title": "Viagem atual",
+        "step2Pax": "passageiros",
+        "step2Cta1": "Iniciar",
+        "step2Cta2": "transferência",
+        "step2NavMap": "Mapa",
+        "step2NavCurrent": "Atual",
+        "step3Title": "Ganhos",
+        "step3StatWeek": "Semana",
+        "step3StatTrips": "Viagens",
+        "step3Payday": "Pagamento: 2ª feira"
+      }
+    },
+    "trust": {
+      "eyebrow": "Parceiros que confiam em nós",
+      "titleLine1": "O que dizem as empresas",
+      "titlePre": "da nossa",
+      "titleAccent": "rede.",
+      "ratingCount": "+322 avaliações verificadas · clientes finais",
+      "statLabel": "Parceiros activos",
+      "statCaption": "clientes e empresas satisfeitas",
+      "t1": {
+        "name": "Miguel Ferreira",
+        "role": "CEO · Ferreira Transportes, Lisboa · 4 motoristas",
+        "quote": "A diferença face ao Uber é enorme. As reservas chegam com antecedência, os clientes são de outro nível e os pagamentos nunca falharam. Em 8 meses mais que duplicámos a nossa facturação."
+      },
+      "t2": {
+        "name": "Carlos Matos",
+        "role": "Sócio-gerente · Matos & Filhos Transfers, Porto · 7 motoristas",
+        "quote": "Começámos com 2 carros e hoje temos 7. A plataforma Dispatcher é simples e a equipa LuxMotion está sempre disponível. Para uma empresa pequena como a nossa, o suporte faz toda a diferença."
+      },
+      "t3": {
+        "name": "Ana Rodrigues",
+        "role": "Gestora · Transfers Algarve Premium · 12 motoristas",
+        "quote": "Os clientes dos hotéis são completamente diferentes. Mais educados, mais pontuais, e as gorjetas são frequentes. Os meus motoristas estão mais motivados desde que entrámos para a rede LuxMotion."
+      }
+    },
+    "faq": {
+      "eyebrow": "Perguntas frequentes",
+      "titlePre": "Tudo o que precisa de",
+      "titleAccent": "saber.",
+      "q1": {
+        "question": "É necessário ter licença profissional de transporte",
+        "answer": "Sim. Para entrar na rede LuxMotion, a empresa tem de ter alvará de transporte de passageiros válido e os condutores precisam de carta profissional. Tratamos da validação no processo de onboarding."
+      },
+      "q2": {
+        "question": "Como é o processo de seleção?",
+        "answer": "Quatro passos: entrevista presencial com o gestor de parceiros, validação de documentação e seguros, formação no protocolo LuxMotion e activação da conta na plataforma Dispatcher. Demora entre 2 e 3 semanas."
+      },
+      "q3": {
+        "question": "Como e quando recebo os pagamentos?",
+        "answer": "Pagamentos semanais, sempre à mesma data. Pode escolher transferência bancária, MB Way ou PayPal. Cada viagem concluída é registada automaticamente, sem necessidade de submeter facturas."
+      },
+      "q4": {
+        "question": "Como é que a LuxMotion ganha dinheiro?",
+        "answer": "Cobramos uma comissão fixa por reserva ao cliente final, não ao motorista. O preço por km que recebe é líquido. Não há fees escondidos nem deduções variáveis ao seu rendimento."
+      },
+      "q5": {
+        "question": "O que distingue a LuxMotion do Uber ou Bolt?",
+        "answer": "Reservas com 24-48h de antecedência, clientes de hotéis 4 e 5 estrelas, comissões mais altas, suporte humano dedicado e zero exclusividade. Pode continuar a operar com outras plataformas em paralelo."
+      },
+      "q6": {
+        "question": "Isto é um emprego a tempo inteiro?",
+        "answer": "Não. É uma parceria entre empresas. Define o seu próprio calendário, escolhe que reservas aceita e gere a sua frota como preferir. A LuxMotion garante volume mínimo, mas não exige exclusividade."
+      }
+    }
+  },
+  "weddingPlanner": {
+    "hero": {
+      "pill": "PROGRAMA DE PARCERIA  ·  CASAMENTOS",
+      "titleLine1": "Gere receita com a",
+      "titleBefore": "mobilidade dos",
+      "titleAccent": "casamentos",
+      "titleAfter": "dos seus clientes",
+      "subtitle": "Ofereça mobilidade premium com a sua marca aos noivos e convidados. Sem investimento, sem gestão operacional. Comissões de 10 a 20%.",
+      "excellentRating": "Excellent Rating",
+      "verifiedBy": "Verified by",
+      "fromReviews": "De 387 Avaliações",
+      "poweredBy": "Suportado por",
+      "ctaPrimary": "Tornar-me Parceiro",
+      "ctaSecondary": "Calcule a sua Receita",
+      "photoAlt": "Noiva com vestido de cauda comprida"
+    },
+    "trustedBy": {
+      "eyebrow": "PARCEIROS QUE CONFIAM EM NÓS"
+    },
+    "services": {
+      "eyebrow": "OS NOSSOS SERVIÇOS",
+      "titleStart": "Tudo o que",
+      "titleAccent": "os seus noivos precisam.",
+      "titleEnd": "Um só parceiro",
+      "card1Title": "Mobilidade Noivos",
+      "card1Alt": "Noivos a entrar num veículo de luxo",
+      "card2Title": "Mobilidade Convidados",
+      "card2Alt": "Convidados a brindar dentro de um autocarro",
+      "card3Title": "Aeroporto Internacional",
+      "card3Alt": "Veículo Mercedes em pista de aeroporto",
+      "card4Title": "Tours & Lua-de-mel",
+      "card4Alt": "Casal a brindar com vista panorâmica",
+      "card5Title": "Autocarro & Grupos",
+      "card5Alt": "Autocarro junto à Torre de Belém"
+    },
+    "advantages": {
+      "eyebrow": "VANTAGENS COMPETITIVAS",
+      "titleStart": "Porque é que as melhores quintas e planners escolhem a",
+      "titleAccent": "LuxMotion",
+      "titleEnd": "?",
+      "q1": "Os seus noivos pedem-lhe recomendações de transporte?",
+      "a1": "Com a LuxMotion, não precisa apenas de recomendar. Ganha uma comissão automática por cada reserva. Transforme uma pergunta frequente numa fonte de receita.",
+      "q2": "Perde tempo a coordenar a logística de convidados?",
+      "a2": "A nossa plataforma gere tudo automaticamente. Rotas, horários, confirmações, alterações de última hora. Zero emails, zero chamadas, zero stress para si.",
+      "q3": "Preocupa-se com atrasos no dia do casamento?",
+      "a3": "Os nossos chauffeurs chegam sempre antes do horário. Monitorizamos voos em tempo real e temos chauffeurs de substituição em standby. Zero falhas em mais de 3.000 serviços.",
+      "q4": "E se os noivos preferirem outro prestador?",
+      "a4": "Sem exclusividade obrigatória. A LuxMotion integra-se como opção premium dentro da sua oferta. Se os noivos preferirem outra solução, a escolha é deles. Sem risco para si.",
+      "q5": "Já trabalha com outro fornecedor de mobilidade?",
+      "a5": "Somos compatíveis. Pode manter o fornecedor atual e adicionar a LuxMotion como alternativa premium. Ou substituí-lo completamente. Sem contratos longos.",
+      "q6": "E se já tiver frota própria?",
+      "a6": "A plataforma LuxMotion complementa a sua frota em picos de procura ou categorias que não cobre. Vans, autocarros, veículos First Class. Ganha comissão em cada serviço que nos atribui."
+    },
+    "founders": {
+      "eyebrow": "QUEM SOMOS",
+      "titleStart": "Os",
+      "titleAccent": "Fundadores",
+      "quote1": "\"Unidos pelo amor por Portugal, dois jovens dedicados e um experiente septuagenário deram vida à nossa empresa.",
+      "quote2": "Movidos pela paixão pela exploração, propusemo-nos criar experiências inesquecíveis. Combinando energia jovem e inovação com a sabedoria reunida ao longo dos anos, moldámos uma empresa que reflete autenticidade e compromisso.",
+      "quote3": "Cada transfer e tour é mais do que um serviço; é uma narrativa cativante, repleta de descobertas e ligações emocionais.",
+      "quote4": "Junte-se a nós nesta viagem entusiasmante por Portugal, onde cada quilómetro é uma história e cada destino uma experiência inesquecível.\"",
+      "author": "Afonso, David, & Jorge",
+      "role": "Co-Founders",
+      "photoAlt": "Os fundadores da LuxMotion: Afonso, David e Jorge"
+    },
+    "testimonial": {
+      "quote": "Desde que começámos a parceria com a LuxMotion, eliminámos completamente as reclamações de transporte nos nossos casamentos. Os noivos adoram o serviço e nós recebemos comissões sem fazer nada. É a definição de win-win.",
+      "author": "Sara Mendes, Wedding Planner",
+      "role": "Founder, Momentos Únicos — Lisboa"
+    },
+    "caseStudy": {
+      "eyebrow": "CASO REAL",
+      "heading": "Case Study",
+      "pill": "PROGRAMA DE PARCERIA PREMIUM",
+      "venueName": "Quinta das Rosas",
+      "venueMeta": "Wedding Venue · 92 quartos · Sintra",
+      "venueProfileLabel": "Perfil do Espaço",
+      "profile1": "42 casamentos por ano",
+      "profile2": "Média de 120 convidados por evento",
+      "profile3": "65% de casais internacionais",
+      "profile4": "Localização rural — 40 min do Aeroporto de Lisboa",
+      "quote": "“Os noivos costumavam organizar o transporte sozinhos e os convidados chegavam atrasados, stressados e em táxis aleatórios. Agora cada casamento decorre a horas e ganhamos comissão sem mexer uma palha.”",
+      "quoteAuthor": "Wedding Coordinator · Quinta das Rosas, Sintra",
+      "resultsLabel": "Resultados após 6 meses",
+      "stat1Label": "Reclamações\nde Transporte",
+      "stat2Label": "Casamentos\nRealizados",
+      "stat3Label": "Comissão\nMédia",
+      "stat4Label": "Receita Passiva\nMensal",
+      "stat5Label": "Convidados\nAtrasados",
+      "col1Title": "Antes da",
+      "col2Title": "Implementação",
+      "col3TitleStart": "Experiência do",
+      "col3TitleAccent": "Espaço & Convidados",
+      "before1": "Noivos organizavam o transporte por conta própria",
+      "before2": "Atrasos frequentes dos convidados à cerimónia",
+      "before3": "Queixas sobre táxis e Uber em zonas rurais",
+      "before4": "Equipa de receção a gerir pedidos de transporte de última hora",
+      "before5": "Zero receita de transporte de convidados",
+      "before6": "Sem coordenação de shuttle entre espaços",
+      "impl1": "Página de reserva personalizada incluída nos materiais do casamento",
+      "impl2": "Emails automáticos aos convidados com link de reserva",
+      "impl3": "Ensaio prévio do percurso com os motoristas",
+      "impl4": "Coordenador de operações dedicado no dia do casamento",
+      "impl5": "Coordenação multi-veículo (sedans + carrinhas + autocarros)",
+      "impl6": "Notificações de chegada em tempo real para a equipa do espaço",
+      "exp1": "Convidados chegam juntos, a horas e relaxados",
+      "exp2": "Cerimónias começam à hora marcada",
+      "exp3": "Noivos mencionam a qualidade do transporte nas reviews",
+      "exp4": "Espaço posicionado como \"full-service\" sem pessoal extra",
+      "exp5": "Receita de comissão passiva — zero custo operacional",
+      "exp6": "Pontuações de satisfação mais altas nos inquéritos pós-casamento",
+      "footerStart": "Parceria activada",
+      "footerEnd": "em menos de 48 horas",
+      "photoAlt": "Espaço de casamento Quinta das Rosas ao anoitecer",
+      "prevAria": "Caso anterior",
+      "nextAria": "Próximo caso"
+    },
+    "whiteLabel": {
+      "eyebrow": "RESERVAS COM A SUA MARCA",
+      "titleStart": "Os convidados reservam diretamente pela",
+      "titleAccent": "sua página personalizada",
+      "body1": "Cada parceiro recebe uma página de reservas com o seu logótipo, cores e domínio. Os convidados nunca veem a marca LuxMotion. A experiência é 100% sua.",
+      "body2": "Partilhe o link no email de confirmação ou nos materiais que envia aos noivos. As reservas entram automaticamente no sistema.",
+      "feat1": "Página com o seu logótipo e identidade visual",
+      "feat2": "Link único por evento ou parceiro",
+      "feat3": "Reserva em 3 cliques. Sem criar conta.",
+      "feat4": "Confirmação automática por email e WhatsApp",
+      "photoAlt": "Convidados a brindar com champanhe num casamento"
+    },
+    "reviews": {
+      "pill": "Exclusivo",
+      "headingNumber": "700+",
+      "headingText": "Casais e Parceiros Confiam em Nós",
+      "subtitle": "Confiável em Portugal e além",
+      "prevAria": "Review anterior",
+      "nextAria": "Review seguinte",
+      "r1": {
+        "initial": "S",
+        "name": "Sofia Andrade",
+        "source": "Google · Verificado",
+        "body": "Tudo perfeito do início ao fim. O Mercedes estava impecável, o motorista perfeitamente apresentado e tudo decorreu a horas. Todos os nossos convidados ficaram impressionados."
+      },
+      "r2": {
+        "initial": "R",
+        "name": "Ricardo Fonseca",
+        "source": "Google · Verificado",
+        "body": "Contratámos a LuxMotion para o nosso casamento em Sintra. Serviço excepcional — sempre a horas, completamente discretos quando necessário e pessoas genuinamente boas. Obrigado!"
+      },
+      "r3": {
+        "initial": "M",
+        "name": "Margaret & James",
+        "source": "Google · Verificado",
+        "body": "Enquanto casal britânico casado no Alentejo, precisávamos de uma equipa em quem pudéssemos confiar plenamente. A LuxMotion superou todas as expectativas. Classe total."
+      },
+      "r4": {
+        "initial": "A",
+        "name": "Ana Luísa Costa",
+        "source": "Google · Verificado",
+        "body": "Do primeiro contacto até à última paragem, a equipa foi impecável. Personalizado a cada passo. Senti-me genuinamente cuidada no dia do meu casamento."
+      }
+    },
+    "commission": {
+      "eyebrow": "ESTRUTURA DE COMISSÕES",
+      "titleStart": "Níveis de",
+      "titleAccent": "Comissão & Pagamento",
+      "toggle": {
+        "classic": "Classic",
+        "firstClass": "First Class"
+      },
+      "rows": {
+        "vehicle": "Veículo",
+        "commission": "Comissão",
+        "basePrice": "Preço base",
+        "clientPrice": "Preço ao cliente"
+      },
+      "totalLabel": "A SUA COMISSÃO POR VIAGEM",
+      "feat1": "Portagens incluídas",
+      "feat2": "45 minutos de espera incluídos",
+      "feat3": "IVA incluído",
+      "feat4": "Suporte 24/7"
     }
   }
 }

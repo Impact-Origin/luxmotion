@@ -4,16 +4,18 @@ import { useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { useQuery } from "convex/react"
+import { api } from "@workspace/convex/api"
 import { cn } from "@workspace/ui/lib/utils"
 
 type Member = {
   id: string
   image: string
-  nameKey: string
-  roleKey: string
+  name: string
+  role: string
 }
 
-const MEMBERS: Member[] = [
+const FALLBACK_MEMBERS: { id: string; image: string; nameKey: string; roleKey: string }[] = [
   { id: "m1", image: "/about/team-1.png", nameKey: "members.m1.name", roleKey: "members.m1.role" },
   { id: "m2", image: "/about/team-2.png", nameKey: "members.m2.name", roleKey: "members.m2.role" },
   { id: "m3", image: "/about/team-3.png", nameKey: "members.m3.name", roleKey: "members.m3.role" },
@@ -27,12 +29,12 @@ const MEMBERS: Member[] = [
 const PER_PAGE_DESKTOP = 8
 const PER_PAGE_MOBILE = 8
 
-function MemberCard({ member, t }: { member: Member; t: ReturnType<typeof useTranslations> }) {
+function MemberCard({ member }: { member: Member }) {
   return (
     <div className="relative aspect-[3/4] overflow-hidden">
       <Image
         src={member.image}
-        alt={t(member.nameKey)}
+        alt={member.name}
         fill
         className="object-cover"
         sizes="(max-width: 768px) 50vw, 320px"
@@ -46,13 +48,13 @@ function MemberCard({ member, t }: { member: Member; t: ReturnType<typeof useTra
           className="text-[#C9A96E] text-[12px] font-semibold uppercase tracking-[2px]"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
-          {t(member.roleKey)}
+          {member.role}
         </p>
         <p
           className="text-white text-[24px] font-normal leading-none"
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
         >
-          {t(member.nameKey)}
+          {member.name}
         </p>
       </div>
     </div>
@@ -88,12 +90,28 @@ function CarouselArrow({
 export function TeamSection() {
   const t = useTranslations("aboutPage.team")
   const [page, setPage] = useState(0)
+  const dbMembers = useQuery(api.teamMembers.listPublished)
 
-  const totalPages = useMemo(() => Math.ceil(MEMBERS.length / PER_PAGE_DESKTOP), [])
-  const slice = useMemo(
-    () => MEMBERS.slice(page * PER_PAGE_DESKTOP, (page + 1) * PER_PAGE_DESKTOP),
-    [page],
-  )
+  const members: Member[] = useMemo(() => {
+    if (dbMembers && dbMembers.length > 0) {
+      return dbMembers.map((m) => ({
+        id: m._id,
+        image: m.imageUrl ?? "/about/team-1.png",
+        name: m.name,
+        role: m.role,
+      }))
+    }
+    return FALLBACK_MEMBERS.map((m) => ({
+      id: m.id,
+      image: m.image,
+      name: t(m.nameKey),
+      role: t(m.roleKey),
+    }))
+  }, [dbMembers, t])
+
+  const totalPages = Math.max(1, Math.ceil(members.length / PER_PAGE_DESKTOP))
+  const safePage = Math.min(page, totalPages - 1)
+  const slice = members.slice(safePage * PER_PAGE_DESKTOP, (safePage + 1) * PER_PAGE_DESKTOP)
 
   return (
     <section className="bg-[#1a1a1a] flex flex-col items-center px-4 md:px-[82px] py-16 md:py-20">
@@ -128,7 +146,7 @@ export function TeamSection() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
           {slice.map((m) => (
-            <MemberCard key={m.id} member={m} t={t} />
+            <MemberCard key={m.id} member={m} />
           ))}
         </div>
 
@@ -137,7 +155,7 @@ export function TeamSection() {
             <CarouselArrow
               direction="left"
               onClick={() => setPage((p) => Math.max(p - 1, 0))}
-              disabled={page === 0}
+              disabled={safePage === 0}
             />
             <div className="flex gap-2 items-center px-4">
               {Array.from({ length: totalPages }).map((_, i) => (
@@ -148,7 +166,7 @@ export function TeamSection() {
                   aria-label={`Go to page ${i + 1}`}
                   className={cn(
                     "rounded-full transition-all",
-                    i === page ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
+                    i === safePage ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
                   )}
                 />
               ))}
@@ -156,7 +174,7 @@ export function TeamSection() {
             <CarouselArrow
               direction="right"
               onClick={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
-              disabled={page >= totalPages - 1}
+              disabled={safePage >= totalPages - 1}
             />
           </div>
         )}

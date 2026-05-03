@@ -9,6 +9,7 @@ import { QualityProcess } from "@/components/drivers-page/quality-process"
 import { OperacaoDiaria } from "@/components/drivers-page/operacao-diaria"
 import { TrustTestimonials } from "@/components/drivers-page/trust-testimonials"
 import { FaqDrivers } from "@/components/drivers-page/faq"
+import { DriversCtaFinal } from "@/components/drivers-page/cta-final"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createPageMetadata } from "@/lib/seo"
 import { buildBreadcrumbSchema, buildOrganizationSchema } from "@/lib/structured-data"
@@ -48,6 +49,7 @@ export default function DriversCompanyPage() {
         <OperacaoDiaria />
         <TrustTestimonials />
         <FaqDrivers />
+        <DriversCtaFinal />
       </main>
       <Footer />
     </div>

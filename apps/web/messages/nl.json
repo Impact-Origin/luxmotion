@@ -614,6 +614,7 @@
     "largePetWeight": "MEER DAN 15KG",
     "fitsStandardVehicle": "Past in standaard voertuig",
     "requiresXlVehicle": "Vereist XL-voertuig",
+    "requiresXl": "Vereist XL",
     "surfboardUpgradeNeeded": "Grotere surfplank vereist een groter voertuig",
     "petUpgradeNeeded": "Groot huisdier vereist een XL-voertuig",
     "addStop": "Stop toevoegen",
@@ -1425,7 +1426,8 @@
         "ageRange": "Leeftijdsgroep",
         "ageRangePlaceholder": "Selecteer een optie",
         "newsletter": "Ik ga akkoord met het ontvangen van e-mails van LuxMotion met reisgidsen, tips en informatie over exclusieve ervaringen in Portugal.",
-        "submit": "Aanvraag Verzenden"
+        "submit": "Aanvraag Verzenden",
+        "datePlaceholder": "Datum kiezen"
       },
       "support": {
         "name": "Carolina Pinheiro - Support",
@@ -3066,7 +3068,9 @@
         "coach": "Touringcar"
       },
       "vehiclesScrollNext": "Volgende voertuigen",
-      "vehiclesScrollPrev": "Vorige voertuigen"
+      "vehiclesScrollPrev": "Vorige voertuigen",
+      "successToast": "Aanvraag verzonden — we reageren binnen enkele uren.",
+      "errorToast": "Verzenden mislukt. Probeer het opnieuw."
     },
     "faq": {
       "eyebrow": "FAQ",
@@ -3294,6 +3298,20 @@
         "question": "Is dit een fulltime baan?",
         "answer": "Nee. Het is een zakelijk partnerschap. U bepaalt uw eigen schema, kiest welke boekingen u accepteert en beheert uw vloot zoals u wilt. LuxMotion garandeert een minimumvolume, maar vereist geen exclusiviteit."
       }
+    },
+    "ctaFinal": {
+      "eyebrow": "Klaar om te groeien?",
+      "heading": "Solliciteer vandaag.",
+      "headingAccent": "Begin deze week met verdienen.",
+      "subtitle": "Eenvoudig en snel proces. Binnen 5 werkdagen weet je of je in aanmerking komt voor het LuxMotion-partnernetwerk.",
+      "primaryCta": "Start sollicitatie",
+      "secondaryCta": "Met manager praten",
+      "primaryHref": "/work-with-us",
+      "secondaryHref": "/contact",
+      "trust1": "Reactie binnen 48u",
+      "trust2": "Geen exclusiviteit vereist",
+      "trust3": "100% gratis proces",
+      "trust4": "Uitbetaling in week 1"
     }
   },
   "schools": {
@@ -3465,7 +3483,9 @@
           "label": "Bericht",
           "placeholder": "Vertel ons over de route, bijzondere tijden, specifieke behoeften van het kind..."
         }
-      }
+      },
+      "successToast": "Aanvraag verzonden — we reageren binnen enkele uren.",
+      "errorToast": "Verzenden mislukt. Probeer het opnieuw."
     },
     "newsletter": {
       "title": "Newsletter",
@@ -3483,6 +3503,451 @@
     },
     "trustedBy": {
       "eyebrow": "PARTNERS DIE ONS VERTROUWEN"
+    }
+  },
+  "blogsPage": {
+    "immersiveTours": {
+      "eyebrow": "Ontdek per bestemming",
+      "headingLead": "Onze",
+      "headingAccent": "meeslepende tours",
+      "features": {
+        "authentic": "Authentieke en VIP lokale ervaring",
+        "guides": "Professionele en ervaren gidsen",
+        "flexibility": "Flexibiliteit in het samenstellen van routes"
+      },
+      "destinations": {
+        "lisboa": {
+          "name": "Lissabon"
+        },
+        "porto": {
+          "name": "Porto"
+        },
+        "algarve": {
+          "name": "Algarve"
+        },
+        "alentejo": {
+          "name": "Alentejo"
+        },
+        "acores": {
+          "name": "Azoren"
+        },
+        "madeira": {
+          "name": "Madeira"
+        },
+        "routes": "{count, plural, =0 {Binnenkort} one {# tour} other {# tours}}"
+      },
+      "prev": "Vorige",
+      "next": "Volgende",
+      "goTo": "Ga naar slide"
+    }
+  },
+  "driversPage2": {
+    "hero": {
+      "eyebrow": "Partner Chauffeur · LuxMotion",
+      "titleStart": "Rij wanneer je wilt.",
+      "titleAccent": "Verdien wat je verdient.",
+      "subtitle": "Word LuxMotion-chauffeur en ontvang reserveringen vooraf van 4- en 5-sterrenhotels, internationale klanten met hoge waarde en premium ervaringen. Volledige flexibiliteit qua uren. Gegarandeerde wekelijkse uitbetalingen.",
+      "metric1Line1": "per km",
+      "metric1Line2": "(vs €0,30 op Uber)",
+      "metric2Line1": "ritten",
+      "metric2Line2": "per dag",
+      "metric3Line1": "vooraf",
+      "metric3Line2": "op reserveringen",
+      "pillPayments": "Wekelijkse uitbetalingen",
+      "pillSchedule": "Flexibele uren",
+      "pillExclusivity": "Geen exclusiviteit",
+      "pillSupport": "Toegewijde ondersteuning",
+      "pillApp": "Exclusieve chauffeurs-app",
+      "ctaPrimary": "Aanmelden",
+      "ctaSecondary": "Zo werkt het",
+      "phone": {
+        "title": "Reserveringen",
+        "status": "Online",
+        "acceptCta": "Reservering accepteren →",
+        "trip1Chip1": "2 Passagiers",
+        "trip1Chip2": "3 Bagage",
+        "trip2Chip1": "4 Personen",
+        "trip2Chip2": "Premium Tour",
+        "trip3Chip1": "Vlucht gevolgd",
+        "footerWeek": "Deze week",
+        "footerTrips": "Ritten",
+        "footerRating": "Beoordeling"
+      }
+    },
+    "earnings": {
+      "eyebrow": "Inkomstenvergelijking",
+      "titleLine1": "Waarom de beste",
+      "titleLine2Pre": "chauffeurs",
+      "titleLine2Accent": "kiezen",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Hoogwaardigere ritten, klanten die fooien geven, reserveringen vooraf. Het verschil aan het einde van de maand is reëel",
+      "exampleHeading": "Echt voorbeeld:",
+      "exampleBodyPre": "Een chauffeur met 5 ritten/dag tegen gemiddeld €0,80/km, 60 km per rit, verdient ca.",
+      "exampleBodyHighlight": "€ 1.200/week",
+      "exampleBodyPost": " — het dubbele van het Uber-equivalent.",
+      "row1Label": "Inkomen per km (stad)",
+      "row2Label": "Inkomen per km (lang)",
+      "row3Label": "Reserveringen vooraf",
+      "row3LuxValue": "48u vooraf",
+      "row4Label": "Luxehotelklanten",
+      "row4LuxValue": "4★–5★ hotels",
+      "row5Label": "Frequente fooien",
+      "row5CompValue": "Zelden",
+      "row5LuxValue": "High Society",
+      "row6Label": "Toegewijde ondersteuning",
+      "row6LuxValue": "Directe manager",
+      "row7Label": "Professionele training",
+      "row7LuxValue": "Inbegrepen",
+      "footnote": "* Gemiddelde waarden. Inkomsten variëren per zone en ritvolume."
+    },
+    "howItWorks": {
+      "eyebrow": "Exclusieve voordelen",
+      "titleLine1": "Wat je wint door te werken",
+      "titlePre": "met",
+      "titleAccent": "LuxMotion.",
+      "subtitle": "Meer dan ritten. Een partnerschap dat je waardeert als professional",
+      "daysShort": "dagen",
+      "card1": {
+        "photoAlt": "Chauffeur achter het stuur",
+        "headingPre": "Tot ",
+        "headingAccent": "5 dagelijkse",
+        "headingPost": " reserveringen",
+        "headingLine2": "per chauffeur",
+        "body": "We ontvangen reserveringen 24 tot 48 uur vooraf en sturen ze rechtstreeks door naar je app. Je weet altijd wat je morgen te wachten staat. Geen wachten in rijen, geen blinde ritten, geen verrassingen.",
+        "pill1": "Reserveringen 48u vooraf",
+        "pill2": "Volledige details",
+        "pill3": "Geen wachtrij",
+        "statLabel1": "gegarandeerde dagelijkse ritten per",
+        "statLabel2": "actieve chauffeur"
+      },
+      "card2": {
+        "photoAlt": "Chauffeur kijkt op horloge",
+        "headingAccent": "Flexibele uren",
+        "headingLine2": "en essentiële verplichtingen",
+        "body": "De app laat je je dagelijkse beschikbaarheid in alle vrijheid bepalen. Doktersafspraak? Verjaardag? Zet hem aan en uit wanneer je wilt. Niemand eist exclusiviteit. Je kunt parallel op andere platforms blijven werken.",
+        "pill1": "Jij bepaalt de uren",
+        "pill2": "Geen exclusiviteit",
+        "pill3": "App offline/online",
+        "statLabel1": "controle over je dagen en",
+        "statLabel2": "beschikbaarheid"
+      },
+      "card3": {
+        "photoAlt": "Trainingssessie",
+        "headingPre": "Training die je ",
+        "headingAccent": "waardeert",
+        "headingLine2": "en de fooien verhoogt",
+        "body": "Je krijgt training in premium gastvrijheid, Engelse communicatie en veiligheidsprotocollen. Hoe beter de service, hoe hoger de fooien. En LuxMotion-klanten zijn van het soort dat fooi geeft.",
+        "pill1": "Premium-protocol",
+        "pill2": "Professioneel Engels",
+        "pill3": "Frequente fooien",
+        "statLabel1": "gemiddelde van LuxMotion-chauffeurs",
+        "statLabel2": "in beoordelingen"
+      },
+      "card4": {
+        "photoAlt": "Chauffeur met koffie",
+        "headingLine1": "Wekelijkse uitbetalingen,",
+        "headingAccent": "altijd op tijd.",
+        "body": "Elke week, zonder uitzondering, ontvang je betaling volgens de methode die je koos. Bankoverschrijving, MB Way of PayPal. De toegewijde manager is beschikbaar voor elke vraag, via chat of telefoon.",
+        "pill1": "Overschrijving · MB Way · PayPal",
+        "pill2": "Geen vertraging",
+        "pill3": "Toegewijde ondersteuning",
+        "statLabel1": "max. tussen afgeronde rit en",
+        "statLabel2": "ontvangen betaling"
+      }
+    },
+    "qualityProcess": {
+      "eyebrow": "Ons kwaliteitsproces",
+      "titleStart": "Strikt vanaf de",
+      "titleAccent": "eerste dag.",
+      "subtitle": "Elke LuxMotion-chauffeur doorloopt een streng validatieproces voordat hij zijn eerste reservering ontvangt. Zo garanderen wij excellentie bij elke rit.",
+      "step1": {
+        "title": "Persoonlijk gesprek",
+        "body": "Ontmoeting met het LuxMotion-team. We beoordelen je profiel, ervaring, voertuig en aansluiting bij onze servicestandaarden."
+      },
+      "step2": {
+        "title": "Documentatie & verificatie",
+        "body": "Validatie van je taxivergunning, verzekeringen, voertuigkeuring, strafblad en certificeringen."
+      },
+      "step3": {
+        "title": "Training & protocol",
+        "body": "Training in het LuxMotion-serviceprotocol. Premium gastvrijheid, communicatie met internationale klanten en gebruik van de Driver-app."
+      },
+      "step4": {
+        "title": "Klaar om te rijden",
+        "body": "App actief. Je begint binnen enkele dagen reserveringen te ontvangen, met permanente ondersteuning tijdens de eerste weken."
+      }
+    },
+    "dailyOps": {
+      "eyebrow": "Hoe het werkt in de praktijk",
+      "titleStart": "Drie stappen. Van reservering",
+      "titlePre": "tot",
+      "titleAccent": "betaling.",
+      "subtitle": "Alles beheerd via de app. Geen onnodige telefoontjes, geen papierwerk, geen verrassingen.",
+      "step1": {
+        "headingPre": "Ontvang de reservering",
+        "headingAccent": "in de app",
+        "body": "De Driver-app stuurt je de reservering met alle details — tijd, ophaalpunt, bestemming, aantal passagiers en speciale instructies. Accepteer of weiger met één tik."
+      },
+      "step2": {
+        "headingPre": "Accepteer en",
+        "headingAccent": "voltooi",
+        "headingPost": "de rit",
+        "body": "Kom aan op het ontmoetingspunt, ontvang de klant en voltooi de transfer. De app begeleidt je bij elke stap — van pick-up tot drop-off. De klant ontvangt automatische updates."
+      },
+      "step3": {
+        "headingPre": "Ontvang je",
+        "headingAccent": "betaling",
+        "body": "Elke maandag verwerken we de betaling voor alle ritten van de afgelopen week. Automatische overschrijving naar je voorkeursrekening, zonder papierwerk."
+      },
+      "phone": {
+        "step1Title": "Reserveringen",
+        "step1Cta": "Accepteer →",
+        "step2Title": "Huidige rit",
+        "step2Pax": "passagiers",
+        "step2Cta1": "Start",
+        "step2Cta2": "transfer",
+        "step2NavMap": "Kaart",
+        "step2NavCurrent": "Huidig",
+        "step3Title": "Inkomsten",
+        "step3StatWeek": "Week",
+        "step3StatTrips": "Ritten",
+        "step3Payday": "Uitbetaling: ma."
+      }
+    },
+    "trust": {
+      "eyebrow": "Partners die ons vertrouwen",
+      "titleLine1": "Wat de bedrijven",
+      "titlePre": "in ons",
+      "titleAccent": "netwerk zeggen.",
+      "ratingCount": "+322 geverifieerde beoordelingen · eindklanten",
+      "statLabel": "Actieve partners",
+      "statCaption": "tevreden klanten en bedrijven",
+      "t1": {
+        "name": "Miguel Ferreira",
+        "role": "CEO · Ferreira Transportes, Lissabon · 4 chauffeurs",
+        "quote": "Het verschil met Uber is enorm. Boekingen komen vooraf binnen, de klanten zijn van een ander niveau en betalingen hebben nooit gefaald. In 8 maanden hebben we onze omzet meer dan verdubbeld."
+      },
+      "t2": {
+        "name": "Carlos Matos",
+        "role": "Bedrijfsleider · Matos & Filhos Transfers, Porto · 7 chauffeurs",
+        "quote": "We begonnen met 2 auto's en hebben er nu 7. Het Dispatcher-platform is eenvoudig en het LuxMotion-team is altijd beschikbaar. Voor een klein bedrijf als het onze maakt de ondersteuning het verschil."
+      },
+      "t3": {
+        "name": "Ana Rodrigues",
+        "role": "Manager · Transfers Algarve Premium · 12 chauffeurs",
+        "quote": "Hotelklanten zijn compleet anders. Beleefder, stipter, en fooien komen vaak voor. Mijn chauffeurs zijn gemotiveerder sinds we toegetreden zijn tot het LuxMotion-netwerk."
+      }
+    },
+    "faq": {
+      "eyebrow": "Veelgestelde vragen",
+      "titlePre": "Alles wat u moet",
+      "titleAccent": "weten.",
+      "q1": {
+        "question": "Is een professionele vervoersvergunning vereist?",
+        "answer": "Ja. Om lid te worden van het LuxMotion-netwerk moet het bedrijf een geldige passagiersvervoersvergunning hebben en de chauffeurs een professioneel rijbewijs. Wij verzorgen de validatie tijdens het onboarding."
+      },
+      "q2": {
+        "question": "Hoe verloopt het selectieproces?",
+        "answer": "Vier stappen: persoonlijk interview met de partnermanager, validatie van documenten en verzekeringen, training in het LuxMotion-protocol en activering van het account op het Dispatcher-platform. Duurt 2 tot 3 weken."
+      },
+      "q3": {
+        "question": "Hoe en wanneer ontvang ik betalingen?",
+        "answer": "Wekelijkse uitbetalingen, altijd op dezelfde datum. Kies tussen bankoverschrijving, MB Way of PayPal. Elke voltooide rit wordt automatisch geregistreerd — geen facturen indienen nodig."
+      },
+      "q4": {
+        "question": "Hoe verdient LuxMotion geld?",
+        "answer": "Wij rekenen een vaste boekingscommissie aan de eindklant, niet aan de chauffeur. De km-prijs die u ontvangt is netto. Geen verborgen kosten of variabele aftrek van uw inkomsten."
+      },
+      "q5": {
+        "question": "Wat onderscheidt LuxMotion van Uber of Bolt?",
+        "answer": "Boekingen 24-48 uur vooraf, klanten uit 4- en 5-sterrenhotels, hogere commissies, toegewijde menselijke ondersteuning en geen exclusiviteit. U kunt parallel met andere platforms blijven werken."
+      },
+      "q6": {
+        "question": "Is dit een fulltime baan?",
+        "answer": "Nee. Het is een zakelijk partnerschap. U bepaalt uw eigen schema, kiest welke boekingen u accepteert en beheert uw vloot zoals u wilt. LuxMotion garandeert een minimumvolume, maar vereist geen exclusiviteit."
+      }
+    }
+  },
+  "weddingPlanner": {
+    "hero": {
+      "pill": "PARTNERPROGRAMMA  ·  BRUILOFTEN",
+      "titleLine1": "Genereer omzet met",
+      "titleBefore": "de mobiliteit van de",
+      "titleAccent": "bruiloften",
+      "titleAfter": "van uw klanten",
+      "subtitle": "Bied premium mobiliteit onder uw merk aan bruidsparen en gasten. Geen investering, geen operationele rompslomp. Commissies van 10 tot 20%.",
+      "excellentRating": "Excellent Rating",
+      "verifiedBy": "Verified by",
+      "fromReviews": "Op basis van 387 reviews",
+      "poweredBy": "Powered by",
+      "ctaPrimary": "Word Partner",
+      "ctaSecondary": "Bereken uw Omzet",
+      "photoAlt": "Bruid in jurk met lange sleep"
+    },
+    "trustedBy": {
+      "eyebrow": "PARTNERS DIE ONS VERTROUWEN"
+    },
+    "services": {
+      "eyebrow": "ONZE DIENSTEN",
+      "titleStart": "Alles wat uw",
+      "titleAccent": "bruidsparen nodig hebben.",
+      "titleEnd": "Eén partner",
+      "card1Title": "Bruidstransfers",
+      "card1Alt": "Bruidspaar stapt in luxewagen",
+      "card2Title": "Gastentransfers",
+      "card2Alt": "Gasten proosten in touringcar",
+      "card3Title": "Internationale Luchthaven",
+      "card3Alt": "Mercedes voertuig op luchthaven",
+      "card4Title": "Tours & Huwelijksreis",
+      "card4Alt": "Paar proost met panoramisch uitzicht",
+      "card5Title": "Bus & Groepen",
+      "card5Alt": "Touringcar bij de Toren van Belém"
+    },
+    "advantages": {
+      "eyebrow": "CONCURRENTIEVOORDELEN",
+      "titleStart": "Waarom de beste landgoederen en planners kiezen voor",
+      "titleAccent": "LuxMotion",
+      "titleEnd": "?",
+      "q1": "Vragen uw bruidsparen u om vervoersaanbevelingen?",
+      "a1": "Met LuxMotion beveelt u niet alleen aan. U verdient een automatische commissie op elke boeking. Maak van een veelgestelde vraag een inkomstenbron.",
+      "q2": "Verliest u tijd met het coördineren van gastenlogistiek?",
+      "a2": "Ons platform regelt alles automatisch. Routes, tijdschema's, bevestigingen, last-minute wijzigingen. Nul e-mails, nul telefoontjes, nul stress voor u.",
+      "q3": "Maakt u zich zorgen om vertragingen op de trouwdag?",
+      "a3": "Onze chauffeurs zijn altijd ruim op tijd. We volgen vluchten in real time en hebben reservechauffeurs op standby. Nul incidenten in meer dan 3.000 ritten.",
+      "q4": "En als het bruidspaar een andere leverancier verkiest?",
+      "a4": "Geen verplichte exclusiviteit. LuxMotion integreert als premium optie binnen uw aanbod. Verkiest het bruidspaar een andere oplossing, dan is dat hun keuze. Geen risico voor u.",
+      "q5": "Werkt u al met een andere mobiliteitsleverancier?",
+      "a5": "We zijn compatibel. U kunt uw huidige leverancier behouden en LuxMotion toevoegen als premium alternatief. Of volledig vervangen. Geen lange contracten.",
+      "q6": "En als u al een eigen wagenpark heeft?",
+      "a6": "Het LuxMotion-platform vult uw wagenpark aan tijdens piekmomenten of in categorieën die u niet dekt. Vans, touringcars, First Class voertuigen. Verdien commissie op elke rit die u aan ons toewijst."
+    },
+    "founders": {
+      "eyebrow": "WIE WE ZIJN",
+      "titleStart": "De",
+      "titleAccent": "Oprichters",
+      "quote1": "\"Verbonden door liefde voor Portugal hebben twee toegewijde jongemannen en een ervaren zeventiger ons bedrijf tot leven gebracht.",
+      "quote2": "Gedreven door een passie voor ontdekking gingen we aan de slag om onvergetelijke ervaringen te creëren. Door jeugdige energie en innovatie te combineren met de wijsheid van jaren bouwden we een bedrijf dat authenticiteit en betrokkenheid weerspiegelt.",
+      "quote3": "Elke transfer en tour is meer dan een dienst; het is een meeslepend verhaal vol ontdekkingen en emotionele connecties.",
+      "quote4": "Reis met ons mee op deze spannende ontdekkingstocht door Portugal, waar elke kilometer een verhaal is en elke bestemming een onvergetelijke ervaring.\"",
+      "author": "Afonso, David & Jorge",
+      "role": "Co-Founders",
+      "photoAlt": "De oprichters van LuxMotion: Afonso, David en Jorge"
+    },
+    "testimonial": {
+      "quote": "Sinds we de samenwerking met LuxMotion zijn aangegaan, hebben we de transportklachten op onze bruiloften volledig geëlimineerd. De bruidsparen zijn dol op de service en wij ontvangen commissies zonder er iets voor te doen. De ultieme win-win.",
+      "author": "Sara Mendes, Wedding Planner",
+      "role": "Founder, Momentos Únicos — Lissabon"
+    },
+    "caseStudy": {
+      "eyebrow": "ECHTE CASE",
+      "heading": "Case Study",
+      "pill": "PREMIUM PARTNERPROGRAMMA",
+      "venueName": "Quinta das Rosas",
+      "venueMeta": "Trouwlocatie · 92 kamers · Sintra",
+      "venueProfileLabel": "Locatieprofiel",
+      "profile1": "42 bruiloften per jaar",
+      "profile2": "Gemiddeld 120 gasten per evenement",
+      "profile3": "65% internationale stellen",
+      "profile4": "Landelijke locatie — 40 min van luchthaven Lissabon",
+      "quote": "“Stellen regelden zelf het vervoer en gasten kwamen te laat, gestrest en in willekeurige taxi's. Nu loopt elke bruiloft op tijd en verdienen we commissie zonder een vinger uit te steken.”",
+      "quoteAuthor": "Wedding Coordinator · Quinta das Rosas, Sintra",
+      "resultsLabel": "Resultaten na 6 maanden",
+      "stat1Label": "Vervoers-\nKlachten",
+      "stat2Label": "Bediende\nBruiloften",
+      "stat3Label": "Gemiddelde\nCommissie",
+      "stat4Label": "Maandelijkse Passieve\nOmzet",
+      "stat5Label": "Te Laat\nGekomen Gasten",
+      "col1Title": "Vóór",
+      "col2Title": "Implementatie",
+      "col3TitleStart": "Gast- & Locatie-",
+      "col3TitleAccent": "ervaring",
+      "before1": "Stellen regelden vervoer zelfstandig",
+      "before2": "Frequente late aankomsten bij de ceremonie",
+      "before3": "Klachten over taxi's en Uber in landelijke gebieden",
+      "before4": "Receptiepersoneel beheerde ad-hoc vervoersverzoeken",
+      "before5": "Geen inkomsten uit gastvervoer",
+      "before6": "Geen shuttlecoördinatie tussen locaties",
+      "impl1": "Branded boekingspagina opgenomen in trouwmaterialen",
+      "impl2": "Automatische gastmails met boekingslink",
+      "impl3": "Routetraining vooraf met chauffeurs",
+      "impl4": "Toegewijde operationeel coördinator op de trouwdag",
+      "impl5": "Multi-voertuigcoördinatie (sedans + busjes + bussen)",
+      "impl6": "Realtime aankomstmeldingen voor het locatiepersoneel",
+      "exp1": "Gasten komen samen, op tijd en ontspannen aan",
+      "exp2": "Ceremonies beginnen op schema",
+      "exp3": "Stellen vermelden de kwaliteit van het vervoer in reviews",
+      "exp4": "Locatie gepositioneerd als \"full-service\" zonder extra personeel",
+      "exp5": "Passieve commissie-inkomsten — nul operationele kosten",
+      "exp6": "Hogere tevredenheidsscores in post-bruiloftsenquêtes",
+      "footerStart": "Partnerschap geactiveerd",
+      "footerEnd": "in minder dan 48 uur",
+      "photoAlt": "Trouwlocatie Quinta das Rosas in de schemering",
+      "prevAria": "Vorige case",
+      "nextAria": "Volgende case"
+    },
+    "whiteLabel": {
+      "eyebrow": "BOEKINGEN ONDER UW MERK",
+      "titleStart": "Gasten boeken rechtstreeks via",
+      "titleAccent": "uw persoonlijke pagina",
+      "body1": "Elke partner krijgt een boekingspagina met eigen logo, kleuren en domein. Gasten zien het merk LuxMotion nooit. De ervaring is 100% van u.",
+      "body2": "Deel de link in uw bevestigingsmail of in het materiaal dat u naar bruidsparen stuurt. Boekingen lopen automatisch het systeem in.",
+      "feat1": "Pagina met uw logo en huisstijl",
+      "feat2": "Unieke link per evenement of partner",
+      "feat3": "Boeken in 3 klikken. Geen account nodig.",
+      "feat4": "Automatische bevestiging per e-mail en WhatsApp",
+      "photoAlt": "Bruiloftsgasten proosten met champagne"
+    },
+    "reviews": {
+      "pill": "Exclusief",
+      "headingNumber": "700+",
+      "headingText": "Stellen & Partners Vertrouwen Op Ons",
+      "subtitle": "Vertrouwd in Portugal en daarbuiten",
+      "prevAria": "Vorige review",
+      "nextAria": "Volgende review",
+      "r1": {
+        "initial": "S",
+        "name": "Sofia Andrade",
+        "source": "Google · Geverifieerd",
+        "body": "Van begin tot eind volledig naadloos. De Mercedes was prachtig, de chauffeur perfect verzorgd en alles liep op tijd. Al onze gasten waren onder de indruk."
+      },
+      "r2": {
+        "initial": "R",
+        "name": "Ricardo Fonseca",
+        "source": "Google · Geverifieerd",
+        "body": "We hebben LuxMotion ingehuurd voor onze bruiloft in Sintra. Uitzonderlijke service — altijd op tijd, volledig discreet wanneer nodig en oprecht aardige mensen. Bedankt!"
+      },
+      "r3": {
+        "initial": "M",
+        "name": "Margaret & James",
+        "source": "Google · Geverifieerd",
+        "body": "Als Brits stel getrouwd in de Alentejo hadden we een team nodig dat we volledig konden vertrouwen. LuxMotion overtrof alle verwachtingen. Absolute klasse."
+      },
+      "r4": {
+        "initial": "A",
+        "name": "Ana Luísa Costa",
+        "source": "Google · Geverifieerd",
+        "body": "Vanaf het eerste contact tot de laatste afzet was het team onberispelijk. Bij elke stap persoonlijk. Ik voelde me oprecht verzorgd op mijn trouwdag."
+      }
+    },
+    "commission": {
+      "eyebrow": "COMMISSIESTRUCTUUR",
+      "titleStart": "Niveaus van",
+      "titleAccent": "Commissie & Betaling",
+      "toggle": {
+        "classic": "Classic",
+        "firstClass": "First Class"
+      },
+      "rows": {
+        "vehicle": "Voertuig",
+        "commission": "Commissie",
+        "basePrice": "Basisprijs",
+        "clientPrice": "Prijs voor de klant"
+      },
+      "totalLabel": "UW COMMISSIE PER RIT",
+      "feat1": "Tol inbegrepen",
+      "feat2": "45 minuten wachttijd inbegrepen",
+      "feat3": "Btw inbegrepen",
+      "feat4": "24/7 ondersteuning"
     }
   }
 }

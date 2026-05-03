@@ -176,9 +176,9 @@ export function EarningsComparison() {
     },
   ]
 
-  const colCls =
-    "w-[71px] lg:w-[125px] shrink-0 self-stretch border-b border-[rgba(255,255,255,0.12)]"
+  const colCls = "w-[71px] lg:w-[125px] shrink-0 self-stretch"
   const luxColCls = "w-[126px] lg:w-[220px] shrink-0 self-stretch"
+  const rowDividerCls = "border-b border-[rgba(255,255,255,0.12)]"
 
   return (
     <section className="relative bg-[#111110] py-14 lg:py-[56px] px-4 lg:px-[82px]">
@@ -216,7 +216,7 @@ export function EarningsComparison() {
         </div>
 
         <div className="flex flex-col items-end w-full lg:w-[850px] shrink-0">
-          <div className="flex h-[48px] lg:h-[57px] items-stretch">
+          <div className={`flex h-[48px] lg:h-[57px] items-stretch ${rowDividerCls}`}>
             <div className="w-[128px] lg:w-[200px] shrink-0" />
             <div className={colCls}>
               <div className="h-full flex items-center justify-center">
@@ -255,7 +255,7 @@ export function EarningsComparison() {
             return (
               <div
                 key={i}
-                className="flex h-[46px] lg:h-[54px] items-stretch"
+                className={`flex h-[46px] lg:h-[54px] items-stretch ${isLast ? "" : rowDividerCls}`}
               >
                 <LabelCell>{row.label}</LabelCell>
                 <div className={colCls}>

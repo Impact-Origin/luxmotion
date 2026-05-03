@@ -273,9 +273,35 @@ export function WeddingHero() {
         </div>
       </div>
 
-      <div className="hidden md:block">
-        <div className="relative w-full max-w-[1440px] mx-auto h-[800px] flex gap-12 items-center pl-12">
-          <div className="flex-1 min-w-0 h-full flex flex-col gap-5 items-start justify-center py-20">
+      <div className="hidden md:block relative h-[800px]">
+        <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
+          <Image
+            src="/wedding/couple.png"
+            alt={t("photoAlt")}
+            fill
+            priority
+            sizes="1058px"
+            className="object-cover"
+            style={{ objectPosition: "center" }}
+          />
+        </div>
+
+        <div className="absolute right-0 bottom-[-2px] w-[403px] h-[139px] pointer-events-none">
+          <Image
+            src="/wedding/cars.png"
+            alt={t("carsAlt")}
+            fill
+            sizes="403px"
+            className="object-contain object-right-bottom"
+          />
+        </div>
+
+        <div className="absolute right-[544px] bottom-[71px] z-10">
+          <StatCard value={t("statValue")} label={t("statLabel")} />
+        </div>
+
+        <div className="relative w-full max-w-[1440px] mx-auto h-[800px] flex items-center pl-12">
+          <div className="flex-1 min-w-0 max-w-[640px] h-full flex flex-col gap-5 items-start justify-center py-20">
             <HeroPill label={t("pill")} />
 
             <h1 className="flex flex-col" style={SERIF_FONT}>
@@ -308,34 +334,6 @@ export function WeddingHero() {
             />
 
             <CtaButtons primary={t("ctaPrimary")} secondary={t("ctaSecondary")} layout="desktop" />
-          </div>
-
-          <div className="relative shrink-0 w-[774px] h-full">
-            <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
-              <Image
-                src="/wedding/couple.png"
-                alt={t("photoAlt")}
-                fill
-                priority
-                sizes="1058px"
-                className="object-cover"
-                style={{ objectPosition: "center" }}
-              />
-            </div>
-
-            <div className="absolute left-[41px] bottom-[71px] z-10">
-              <StatCard value={t("statValue")} label={t("statLabel")} />
-            </div>
-
-            <div className="absolute right-0 bottom-[-2px] w-[403px] h-[139px]">
-              <Image
-                src="/wedding/cars.png"
-                alt={t("carsAlt")}
-                fill
-                sizes="403px"
-                className="object-contain object-right-bottom"
-              />
-            </div>
           </div>
         </div>
       </div>

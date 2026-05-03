@@ -590,8 +590,51 @@ export default defineSchema({
     email: v.string(),
     phone: v.optional(v.string()),
     message: v.string(),
+    status: v.optional(
+      v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
+    ),
     createdAt: v.number(),
-  }).index("by_created", ["createdAt"]),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
+  weddingQuoteSubmissions: defineTable({
+    fullName: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    weddingDate: v.optional(v.string()),
+    guests: v.optional(v.number()),
+    venue: v.optional(v.string()),
+    pickup: v.optional(v.string()),
+    numVehicles: v.optional(v.number()),
+    vehicle: v.optional(v.string()),
+    message: v.optional(v.string()),
+    status: v.optional(
+      v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
+    ),
+    createdAt: v.number(),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
+  schoolQuoteSubmissions: defineTable({
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    children: v.optional(v.number()),
+    route: v.optional(v.string()),
+    departureTime: v.optional(v.string()),
+    pickup: v.optional(v.string()),
+    dropoff: v.optional(v.string()),
+    vehicle: v.optional(v.string()),
+    message: v.optional(v.string()),
+    status: v.optional(
+      v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
+    ),
+    createdAt: v.number(),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
 
   newsletterSubscriptions: defineTable({
     email: v.string(),

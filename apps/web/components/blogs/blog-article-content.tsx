@@ -315,6 +315,62 @@ function HorizontalRuleNode() {
   return <hr className="border-t border-[rgba(255,255,255,0.07)] w-full" />
 }
 
+function TableCellContent({ nodes }: { nodes: TipTapNode[] | undefined }) {
+  if (!nodes) return null
+  return (
+    <>
+      {nodes.map((para, idx) => {
+        if (para.type !== "paragraph") return null
+        return (
+          <span key={idx} className="block leading-[18px]">
+            {renderInlineContent(para.content) || " "}
+          </span>
+        )
+      })}
+    </>
+  )
+}
+
+function TableNode({ node }: { node: TipTapNode }) {
+  const rows = node.content ?? []
+  return (
+    <div className="w-full overflow-x-auto pt-[6.4px] pb-[0.4px]">
+      <table className="w-full border-collapse">
+        <tbody>
+          {rows.map((row, rIdx) => {
+            if (row.type !== "tableRow") return null
+            return (
+              <tr key={rIdx} className="flex w-full">
+                {row.content?.map((cell, cIdx) => {
+                  const isHeader = cell.type === "tableHeader"
+                  const colspan = cell.attrs?.colspan ?? 1
+                  const colwidth = cell.attrs?.colwidth as number[] | null | undefined
+                  const width = colwidth && colwidth[0] ? `${colwidth[0]}px` : undefined
+                  const Tag = isHeader ? "th" : "td"
+                  return (
+                    <Tag
+                      key={cIdx}
+                      colSpan={colspan}
+                      style={width ? { width } : undefined}
+                      className={
+                        isHeader
+                          ? "flex flex-col items-start bg-[#1c1c1c] border border-[rgba(255,255,255,0.07)] px-[14.8px] pt-[9.4px] pb-[10.5px] text-[#C9A96E] text-[9px] md:text-[10px] tracking-[1.26px] uppercase font-bold leading-[17.1px] flex-1 min-w-[110px]"
+                          : "flex flex-col items-start border border-[rgba(255,255,255,0.07)] px-[14.8px] pt-[9.8px] pb-[11px] text-[12px] text-[#999] leading-[18px] flex-1 min-w-[110px]"
+                      }
+                    >
+                      <TableCellContent nodes={cell.content} />
+                    </Tag>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 type AssignId = (text: string) => string
 
 function renderTipTapNode(
@@ -343,6 +399,8 @@ function renderTipTapNode(
       return <ImageNode key={index} node={node} />
     case "horizontalRule":
       return <HorizontalRuleNode key={index} />
+    case "table":
+      return <TableNode key={index} node={node} />
     default:
       return null
   }

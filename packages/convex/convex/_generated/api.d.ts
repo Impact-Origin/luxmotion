@@ -24,6 +24,7 @@ import type * as orders from "../orders.js";
 import type * as partnerships from "../partnerships.js";
 import type * as pastExperiences from "../pastExperiences.js";
 import type * as payments from "../payments.js";
+import type * as schoolQuoteSubmissions from "../schoolQuoteSubmissions.js";
 import type * as seedReviews from "../seedReviews.js";
 import type * as teamMembers from "../teamMembers.js";
 import type * as tourAddons from "../tourAddons.js";
@@ -34,6 +35,7 @@ import type * as tourStops from "../tourStops.js";
 import type * as tours from "../tours.js";
 import type * as vehicles from "../vehicles.js";
 import type * as webhooks from "../webhooks.js";
+import type * as weddingQuoteSubmissions from "../weddingQuoteSubmissions.js";
 
 import type {
   ApiFromModules,
@@ -58,6 +60,7 @@ declare const fullApi: ApiFromModules<{
   partnerships: typeof partnerships;
   pastExperiences: typeof pastExperiences;
   payments: typeof payments;
+  schoolQuoteSubmissions: typeof schoolQuoteSubmissions;
   seedReviews: typeof seedReviews;
   teamMembers: typeof teamMembers;
   tourAddons: typeof tourAddons;
@@ -68,6 +71,7 @@ declare const fullApi: ApiFromModules<{
   tours: typeof tours;
   vehicles: typeof vehicles;
   webhooks: typeof webhooks;
+  weddingQuoteSubmissions: typeof weddingQuoteSubmissions;
 }>;
 
 /**
