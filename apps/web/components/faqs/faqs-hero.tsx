@@ -24,7 +24,7 @@ export function FaqsHero({ onSearch, initialQuery = "" }: FaqsHeroProps) {
   }
 
   return (
-    <section className="bg-[#111110] pt-20 pb-[60px] px-4 md:px-[82px]">
+    <section className="bg-[#111110] pt-24 md:pt-28 pb-[80px] md:pb-[100px] px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-[15.2px]">
         <nav
           className="flex items-center gap-2 pb-2 text-[12px]"
@@ -53,8 +53,11 @@ export function FaqsHero({ onSearch, initialQuery = "" }: FaqsHeroProps) {
             className="max-w-[800px] text-[48px] md:text-[56px] font-normal leading-[0.96] text-white"
             style={serif}
           >
-            {t("headingLead")}{" "}
-            <span className="text-[#C4973E]">{t("headingAccent")}</span>
+            <span className="block">{t("headingLine1")}</span>
+            <span className="block">
+              {t("headingLine2Pre")}{" "}
+              <span className="text-[#C4973E]">{t("headingAccent")}</span>
+            </span>
           </h1>
         </div>
 

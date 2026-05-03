@@ -448,8 +448,9 @@
       "breadcrumbHome": "Accueil",
       "breadcrumbCurrent": "FAQ",
       "eyebrow": "Questions Fréquentes",
-      "headingLead": "Tout ce que vous devez",
       "headingAccent": "savoir.",
+      "headingLine1": "Tout ce que vous",
+      "headingLine2Pre": "devez",
       "subtitle": "Réponses aux questions les plus courantes sur nos transferts, tours et services. Vous ne trouvez pas ce que vous cherchez ? Contactez-nous — nous répondons en quelques minutes.",
       "searchPlaceholder": "Rechercher dans les FAQ — ex. 'aéroport', 'mariages', 'paiement'...",
       "searchButton": "Rechercher"

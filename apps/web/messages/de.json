@@ -448,8 +448,9 @@
       "breadcrumbHome": "Startseite",
       "breadcrumbCurrent": "FAQs",
       "eyebrow": "Häufig gestellte Fragen",
-      "headingLead": "Alles, was Sie wissen",
       "headingAccent": "müssen.",
+      "headingLine1": "Alles, was Sie",
+      "headingLine2Pre": "wissen",
       "subtitle": "Antworten auf die häufigsten Fragen zu unseren Transfers, Touren und Services. Sie finden nicht, was Sie suchen? Schreiben Sie uns — wir antworten innerhalb von Minuten.",
       "searchPlaceholder": "FAQs durchsuchen — z. B. 'Flughafen', 'Hochzeiten', 'Zahlung'...",
       "searchButton": "Suchen"
