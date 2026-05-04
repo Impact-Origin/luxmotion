@@ -23,9 +23,9 @@ function PlanCard({ plan }: { plan: Plan }) {
       }`}
     >
       {plan.recommended && plan.badge && (
-        <div className="absolute left-1/2 -translate-x-1/2 -top-px bg-[#9a7535] px-3 py-[6px]">
+        <div className="absolute left-1/2 -translate-x-1/2 -top-px bg-[#9a7535] px-[8px] py-[4px]">
           <span
-            className="text-[10px] font-semibold text-white text-center tracking-[1.25px] uppercase leading-none whitespace-nowrap"
+            className="text-[9px] font-semibold text-white text-center tracking-[1px] uppercase leading-none whitespace-nowrap"
             style={SANS}
           >
             {plan.badge}

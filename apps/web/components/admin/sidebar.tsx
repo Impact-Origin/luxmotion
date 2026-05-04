@@ -21,6 +21,7 @@ import {
   SlidersHorizontal,
   Heart,
   GraduationCap,
+  Handshake,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -100,6 +101,11 @@ export function AdminSidebar() {
         title: "Newsletter",
         url: "/admin/newsletter",
         icon: Newspaper,
+      },
+      {
+        title: "Partner Applications",
+        url: "/admin/partner-applications",
+        icon: Handshake,
       },
     ],
     [tNumbers],

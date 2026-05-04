@@ -3969,6 +3969,678 @@
         "sub": "Jaarlijkse Overschrijving",
         "text": "Bouw commissies per jaar op en ontvang een geconsolideerde uitbetaling."
       }
+    },
+    "calculator": {
+      "eyebrow": "INKOMSTENCALCULATOR",
+      "titleStart": "Bereken de",
+      "titleAccent": "potentiële inkomsten",
+      "body1": "Elke bruiloft is een inkomstenkans.",
+      "body2": "Geen operationeel beheer aan uw kant.",
+      "weddingsLabel": "Bruiloften per maand",
+      "guestsLabel": "Gemiddeld aantal gasten per bruiloft",
+      "commissionLabel": "Commissie (%)",
+      "placeholderSelect": "Selecteren",
+      "monthlyLabel": "Geschatte maandelijkse inkomsten",
+      "yearlyLabel": "Geschatte jaarlijkse inkomsten",
+      "photoAlt": "Wedding planner die de evenementdetails doorneemt"
+    },
+    "ctaBand": {
+      "titleStart": "Klaar voor een",
+      "titleAccent": "succesvol partnerschap?",
+      "subtitle": "Sluit u aan bij het netwerk van locaties en wedding planners die gastenmobiliteit in inkomsten omzetten.",
+      "cta": "Partner worden"
+    }
+  },
+  "partnerApplication": {
+    "intro": {
+      "badge": "Sollicitatie Partnerbedrijf",
+      "headingPrefix": "Breid uw vloot uit met",
+      "headingAccent": "LuxMotion",
+      "subtitle": "Registreer uw transportbedrijf, voeg chauffeurs en voertuigen toe en begin met het ontvangen van boekingen van de beste hotels en agentschappen.",
+      "benefits": {
+        "drivers": "Beheer meerdere chauffeurs en voertuigen",
+        "bookings": "Beheer meerdere chauffeurs en voertuigen",
+        "billing": "Gecentraliseerde en transparante facturering",
+        "dashboard": "Toegewijd beheerdashboard"
+      },
+      "cta": "Sollicitatie Starten"
+    },
+    "steps": {
+      "company": "Bedrijfsgegevens",
+      "representative": "Gegevens Vertegenwoordiger",
+      "verification": "E-mailverificatie",
+      "introVideo": "Introductievideo",
+      "drivers": "Chauffeurs",
+      "vehicles": "Voertuigen",
+      "documents": "Documenten",
+      "billing": "Facturatie",
+      "priceAgreement": "Prijsovereenkomst",
+      "confirmation": "Bevestiging"
+    },
+    "stepCompany": {
+      "title": "Bedrijfsgegevens",
+      "subtitle": "Basisinformatie over uw transportbedrijf.",
+      "zones": {
+        "label": "Operatiegebieden",
+        "sublabel": "Zoek en voeg alle steden of regio's toe waar uw bedrijf actief is.",
+        "placeholder": "Zoek stad of regio..."
+      },
+      "driverCount": {
+        "label": "Hoeveel chauffeurs heeft uw bedrijf?",
+        "placeholder": "Selecteer het aantal chauffeurs",
+        "options": {
+          "s1to5": "1 tot 5 chauffeurs",
+          "s6to15": "6 tot 15 chauffeurs",
+          "s16to30": "16 tot 30 chauffeurs",
+          "s31to50": "31 tot 50 chauffeurs",
+          "s50plus": "Meer dan 50 chauffeurs"
+        }
+      },
+      "mobileApp": {
+        "label": "Uw chauffeurs gebruiken een mobiele app. Voelen zij zich daar comfortabel bij?"
+      }
+    },
+    "stepRepresentative": {
+      "title": "Gegevens vertegenwoordiger",
+      "subtitle": "Contactgegevens van de verantwoordelijke voor het partnerschap.",
+      "companyName": {
+        "label": "Bedrijfsnaam",
+        "placeholder": "Wettelijke bedrijfsnaam"
+      },
+      "fullName": {
+        "label": "Volledige naam vertegenwoordiger",
+        "placeholder": "Naam verantwoordelijke"
+      },
+      "email": {
+        "label": "E-mail vertegenwoordiger",
+        "placeholder": "naam@bedrijf.com"
+      },
+      "phone": {
+        "label": "Mobiel"
+      },
+      "whatsapp": {
+        "label": "WhatsApp"
+      }
+    },
+    "stepVerification": {
+      "title": "Verifieer uw e-mail",
+      "subtitle": "Voer de 6-cijferige code in die we naar het e-mailadres van de vertegenwoordiger hebben gestuurd.",
+      "emailFallback": "naam@bedrijf.com",
+      "resend": "Code opnieuw verzenden",
+      "resending": "Verzenden…",
+      "verify": "Verifiëren"
+    },
+    "stepIntroVideo": {
+      "title": "Introductievideo",
+      "subtitle": "Voordat u chauffeurs toevoegt, ziet u hoe het werkt. Elke chauffeur moet een video opnemen — bekijk eerst ons voorbeeld.",
+      "section1": {
+        "label": "Bekijk onze video",
+        "description": "Maak kennis met LuxMotion, hoe het platform werkt en bekijk een echt voorbeeld van hoe een chauffeur de videovragen beantwoordt."
+      },
+      "section2": {
+        "label": "Vragen voor chauffeurs",
+        "durationBadge": "Ideale duur per chauffeur: 40 tot 50 seconden",
+        "questionPrefix": "Vraag"
+      },
+      "questions": {
+        "q1": {
+          "question": "Stel uzelf kort voor en vertel ons wat u het leukst vindt aan uw werk als chauffeur.",
+          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+        },
+        "q2": {
+          "question": "Wat zijn twee van uw favoriete plekken in uw stad en waarom raadt u deze aan reizigers aan?",
+          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+        }
+      },
+      "section3": {
+        "label": "Voorgestelde structuur",
+        "description": "Uw chauffeurs moeten deze structuur volgen bij het opnemen van de video."
+      },
+      "structure": {
+        "s1": {
+          "title": "Persoonlijke introductie",
+          "detail": "Naam · Stad · Ervaring als chauffeur · Gesproken talen"
+        },
+        "s2": {
+          "title": "Persoonlijke introductie",
+          "detail": "Mensen ontmoeten · Toeristen helpen · Stad laten zien"
+        },
+        "s3": {
+          "title": "Persoonlijke introductie",
+          "detail": "Plaatsnaam · Wat te doen · Waarom u het aanbeveelt"
+        },
+        "s4": {
+          "title": "Favoriete plek",
+          "detail": "Plaatsnaam · Wat te doen · Waarom u het aanbeveelt"
+        }
+      }
+    },
+    "stepDrivers": {
+      "title": "Chauffeurs van het bedrijf",
+      "subtitle": "Voeg de chauffeurs toe die voor uw bedrijf zullen werken. Elke chauffeur kan zijn introductievideo toevoegen. U kunt later meer toevoegen in het dashboard.",
+      "addDriver": "Chauffeur toevoegen",
+      "removeDriver": "Chauffeur verwijderen",
+      "hasVideoYes": "Video geüpload",
+      "hasVideoNo": "Geen video"
+    },
+    "stepVehicles": {
+      "title": "Voertuigen van het bedrijf",
+      "subtitle": "Voeg de voertuigen toe die beschikbaar zijn in uw vloot. U kunt later meer toevoegen.",
+      "addVehicle": "Voertuig toevoegen",
+      "removeVehicle": "Voertuig verwijderen",
+      "untitledVehicle": "Naamloos voertuig"
+    },
+    "stepDocuments": {
+      "title": "Bedrijfsdocumenten",
+      "subtitle": "Juridische en operationele documenten van uw transportbedrijf.",
+      "idleSubtitle": "jpg, png of pdf · max. 10mb",
+      "removeFile": "Bestand verwijderen",
+      "sizeError": "Bestand is groter dan 10MB",
+      "fields": {
+        "license": {
+          "label": "Vergunning / Exploitatievergunning",
+          "idleTitle": "Vergunning of TVDE-licentie uploaden"
+        },
+        "addressProofPrimary": {
+          "label": "Adresbewijs van het hoofdkantoor",
+          "idleTitle": "Adresbewijs uploaden"
+        },
+        "addressProofSecondary": {
+          "label": "Adresbewijs van het hoofdkantoor",
+          "idleTitle": "Adresbewijs uploaden"
+        },
+        "liabilityInsurance": {
+          "label": "Aansprakelijkheidsverzekering",
+          "idleTitle": "Bedrijfsverzekering uploaden"
+        }
+      }
+    },
+    "stepBilling": {
+      "title": "Factuurgegevens",
+      "subtitle": "Bank- en belastinggegevens van het bedrijf voor de betalingsverwerking.",
+      "accountHolder": {
+        "label": "Rekeninghouder",
+        "placeholder": "Bedrijfs- of houdernaam"
+      },
+      "invoiceName": {
+        "label": "Naam voor facturatie",
+        "placeholder": "Naam op de factuur"
+      },
+      "swiftBic": {
+        "label": "SWIFT/BIC",
+        "placeholder": "Swift/bic"
+      },
+      "iban": {
+        "label": "IBAN",
+        "placeholder": "NL00 BANK 0000 0000 00"
+      },
+      "taxId": {
+        "label": "BTW-nummer / KvK",
+        "placeholder": "000 000 000"
+      },
+      "taxOffice": {
+        "label": "Belastingkantoor",
+        "placeholder": "Bijv. Amsterdam 3"
+      },
+      "billingAddress": {
+        "label": "Factuuradres",
+        "placeholder": "Straat, nr., postcode, stad"
+      },
+      "bankProof": {
+        "label": "Bankbewijs",
+        "idleTitle": "Bankbewijs uploaden",
+        "idleSubtitle": "jpg, png of pdf · max. 10mb",
+        "removeFile": "Bestand verwijderen",
+        "sizeError": "Bestand is groter dan 10MB"
+      }
+    },
+    "stepPriceAgreement": {
+      "title": "Prijsovereenkomst",
+      "subtitle": "Bekijk de basistarieven van de belangrijkste routes. Om het partnerschap te starten, moet u deze tabel accepteren.",
+      "table": {
+        "title": "Routetabel - Lissabon",
+        "subtitle": "Bedrag dat het bedrijf per service ontvangt",
+        "cols": {
+          "route": "Route",
+          "period": "Periode",
+          "amount": "Ontvangt"
+        },
+        "day": "Dag",
+        "night": "Nacht"
+      },
+      "confirmCta": "Ik bevestig dat ik deze tabel heb gelezen"
+    },
+    "stepConfirmation": {
+      "title": "Bevestiging en voorwaarden",
+      "subtitle": "Bekijk en accepteer de voorwaarden om de bedrijfsaanvraag in te dienen.",
+      "acceptText": "Door deze aanvraag in te dienen, bevestig ik dat ik de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy> van LuxMotion by EasyTransfer heb gelezen en accepteer, namens het bedrijf dat ik vertegenwoordig.",
+      "disclaimer": "Het partnerschap is niet gegarandeerd — de aanvraag wordt geanalyseerd en moet worden goedgekeurd door het LuxMotion-team. We nemen binnen 5 werkdagen contact met u op.",
+      "submitCta": "Aanvraag indienen",
+      "submitted": {
+        "title": "Aanvraag ingediend",
+        "subtitle": "De aanvraag van uw bedrijf is ontvangen. Het LuxMotion-team zal de gegevens controleren en spoedig contact opnemen.",
+        "queueDescription": "Uw bedrijf staat op positie {position} van onze lijst.\nWe nemen contact op zodra er een opening is in uw zone.",
+        "summaryHeader": "Samenvatting van de aanvraag",
+        "summary": {
+          "companyAndRepresentative": "Gegevens van bedrijf en vertegenwoordiger",
+          "emailVerified": "E-mail geverifieerd",
+          "driversAdded": "{count} chauffeur(s) toegevoegd",
+          "vehiclesAdded": "{count} voertuig(en) toegevoegd",
+          "documentsAndBilling": "Documenten en facturatie",
+          "priceAgreement": "Prijsovereenkomst",
+          "introVideo": "Introductievideo"
+        },
+        "backHome": "Terug naar de startpagina"
+      },
+      "submittingCta": "Verzenden…",
+      "submissionError": "We konden de aanvraag niet indienen. Controleer uw verbinding en probeer het opnieuw."
+    }
+  },
+  "driverApplication": {
+    "intro": {
+      "badge": "Chauffeur Sollicitatie",
+      "headingPrefix": "Rijd met",
+      "headingAccent": "LuxMotion",
+      "headingSuffix": " en verdien meer op jouw schema",
+      "subtitle": "Sluit je aan bij het premium chauffeursnetwerk dat de beste hotels en reisbureaus in Portugal bedient.",
+      "preview": {
+        "now": "Nu",
+        "route": "Luchthaven → 5★-hotel",
+        "paid": "Betaald"
+      },
+      "benefits": {
+        "earn": "Verdien meer met premium transfers",
+        "bookings": "Ontvang boekingen vooraf",
+        "schedule": "Kies wanneer je wilt werken",
+        "payout": "Gegarandeerde wekelijkse uitbetaling"
+      },
+      "cta": "Sollicitatie starten"
+    },
+    "steps": {
+      "zone": "Operatiegebied",
+      "contact": "Persoonlijke Gegevens",
+      "verifyEmail": "E-mail verifiëren",
+      "vehicleCategory": "Voertuigtype",
+      "vehicleDetails": "Voertuigdetails",
+      "documents": "Documenten",
+      "billing": "Facturering",
+      "availability": "Beschikbaarheid",
+      "videoIntro": "Introductievideo",
+      "terms": "Bevestiging"
+    },
+    "stepZone": {
+      "title": "Waar wil je werken?",
+      "subtitle": "Selecteer de stad of regio waar je transportdiensten zult leveren.",
+      "zone": {
+        "label": "Operatiegebied",
+        "placeholder": "Selecteer een regio"
+      },
+      "zones": {
+        "lisboa": "Lissabon",
+        "porto": "Porto",
+        "algarve": "Algarve",
+        "madeira": "Madeira",
+        "acores": "Azoren",
+        "coimbra": "Coimbra",
+        "braga": "Braga",
+        "aveiro": "Aveiro",
+        "evora": "Évora",
+        "setubal": "Setúbal"
+      }
+    },
+    "stepContact": {
+      "title": "Persoonlijke gegevens en contact",
+      "subtitle": "We gebruiken deze informatie om contact met je op te nemen en je account in te stellen.",
+      "fullName": {
+        "label": "Volledige naam",
+        "placeholder": "Je volledige naam"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "naam@voorbeeld.com"
+      },
+      "representativeEmail": {
+        "label": "E-mail van vertegenwoordiger",
+        "placeholder": "naam@bedrijf.com"
+      },
+      "phone": {
+        "label": "Mobiel"
+      },
+      "whatsapp": {
+        "label": "WhatsApp"
+      },
+      "languages": {
+        "label": "Talen die je spreekt en niveau",
+        "placeholder": "Taal toevoegen...",
+        "pt": "Portugees",
+        "en": "Engels",
+        "es": "Spaans",
+        "fr": "Frans",
+        "de": "Duits",
+        "it": "Italiaans",
+        "nl": "Nederlands"
+      },
+      "levels": {
+        "survival": "Basis",
+        "intermediate": "Gemiddeld",
+        "fluent": "Vloeiend"
+      },
+      "referral": {
+        "label": "Doorverwezen door een LuxMotion-chauffeur?",
+        "optional": "(Optioneel)",
+        "placeholder": "Naam chauffeur of laat leeg"
+      }
+    },
+    "stepVerifyEmail": {
+      "title": "Verifieer je e-mail",
+      "subtitle": "Voer de 6-cijferige code in die we naar het e-mailadres van de vertegenwoordiger hebben gestuurd.",
+      "placeholderEmail": "naam@voorbeeld.com",
+      "resend": "Code opnieuw versturen",
+      "verify": "Verifiëren"
+    },
+    "stepVehicleCategory": {
+      "title": "Welk type voertuig rij je?",
+      "subtitle": "Selecteer de categorie die je voertuig het beste beschrijft.",
+      "categories": {
+        "classic": {
+          "title": "Classic",
+          "description": "Tot 4 passagiers — Rolls-Royce, Chrysler Windsor, Mercedes Benz 300S..."
+        },
+        "supercar": {
+          "title": "Super car",
+          "description": "Tot 2 passagiers — Porsche Panamera, Ferrari"
+        },
+        "firstClass": {
+          "title": "First Class",
+          "description": "Tot 4 passagiers — Mercedes V-Klasse, VW Caravelle"
+        },
+        "businessClass": {
+          "title": "Business Class",
+          "description": "Tot 4 passagiers — Mercedes V-Klasse, VW Caravelle"
+        },
+        "van": {
+          "title": "Van",
+          "description": "Tot 8 passagiers — Mercedes V-Klasse, VW Caravelle"
+        },
+        "firstClassVan": {
+          "title": "First Class Van",
+          "description": "Tot 8 passagiers — Mercedes V-Klasse, VW Caravelle"
+        },
+        "vanLuxury": {
+          "title": "Van Luxury",
+          "description": "Tot 8 passagiers — Mercedes V-Klasse, VW Caravelle"
+        },
+        "minibus": {
+          "title": "Minibus",
+          "description": "Tot 16 passagiers — Mercedes Sprinter, Iveco Daily"
+        },
+        "autocarro": {
+          "title": "Bus",
+          "description": "Tot 56 passagiers — Mercedes, Iveco..."
+        }
+      }
+    },
+    "stepVehicleDetails": {
+      "title": "Voertuigdetails",
+      "subtitle": "Gedetailleerde informatie over het voertuig dat je gaat gebruiken voor LuxMotion-diensten.",
+      "selectPlaceholder": "Selecteer",
+      "section": {
+        "info": "Voertuiginformatie",
+        "photos": "Foto's van het voertuig",
+        "childSeats": "Kinderzitjes",
+        "special": "Speciale uitrusting",
+        "amenities": "Voertuigvoorzieningen"
+      },
+      "fields": {
+        "brand": "Merk",
+        "model": "Model",
+        "plate": "Kenteken",
+        "color": "Kleur",
+        "year": "Bouwjaar",
+        "ownership": "Eigendom",
+        "passengerCapacity": "Passagierscapaciteit",
+        "luggageCapacity": "Bagagecapaciteit",
+        "tvde": {
+          "label": "Is het een TVDE-gelicenseerd voertuig?",
+          "hint": "Selecteer 'Ja' alleen als het voertuig al een actieve TVDE-licentie heeft."
+        }
+      },
+      "brands": {
+        "mercedes": "Mercedes",
+        "bmw": "BMW",
+        "audi": "Audi",
+        "tesla": "Tesla",
+        "porsche": "Porsche",
+        "volkswagen": "Volkswagen",
+        "rollsRoyce": "Rolls-Royce",
+        "ferrari": "Ferrari",
+        "other": "Anders"
+      },
+      "colors": {
+        "black": "Zwart",
+        "white": "Wit",
+        "silver": "Zilver",
+        "grey": "Grijs",
+        "blue": "Blauw",
+        "red": "Rood",
+        "other": "Anders"
+      },
+      "ownership": {
+        "owned": "Eigendom",
+        "leased": "Leasing",
+        "rented": "Gehuurd",
+        "company": "Bedrijf"
+      },
+      "photos": {
+        "intro": "Upload 3 interieurfoto's: achterbank, dashboard en detail.",
+        "interior": "Interieurfoto's (3)",
+        "exterior": "Exterieurfoto's (3)",
+        "hint": "jpg of png - max. 5mb"
+      },
+      "childSeats": {
+        "intro": "Geef aan welke stoeltjes je beschikbaar hebt en hoeveel van elk.",
+        "baby": {
+          "title": "Babyzitje",
+          "age": "0-12 maanden"
+        },
+        "child": {
+          "title": "Kinderzitje",
+          "age": "1-4 jaar"
+        },
+        "booster": {
+          "title": "Zitverhoger",
+          "age": "4-12 jaar"
+        }
+      },
+      "special": {
+        "surfboardRack": "Surfplankhouder"
+      },
+      "amenities": {
+        "label": "Licentietype",
+        "usbCharger": "USB-oplader",
+        "wifi": "Wi-Fi",
+        "pos": "POS / Kaartlezer",
+        "magazines": "Tijdschriften / Kranten",
+        "refreshTowels": "Verfrissende doekjes"
+      }
+    },
+    "stepDocuments": {
+      "title": "Documenten en foto's",
+      "subtitle": "Documenten die worden gebruikt tijdens de beoordeling van je aanvraag.",
+      "documentHint": "jpg, png of pdf - max. 10mb",
+      "sizeError": "Bestand overschrijdt de maximale grootte.",
+      "photo": {
+        "label": "Professionele foto",
+        "sublabel": "Deze foto is zichtbaar voor passagiers. Volg onderstaande richtlijnen.",
+        "viewModel": "Voorbeeld bekijken",
+        "hint": "jpg of png - max. 5mb",
+        "guidelines": {
+          "upright": "Rechte houding",
+          "smile": "Natuurlijke glimlach",
+          "shirt": "Wit of zwart overhemd",
+          "background": "Neutrale achtergrond (wit/grijs)"
+        }
+      },
+      "license": {
+        "label": "TVDE Beroepslicentie",
+        "idleTitle": "Beroepslicentie uploaden"
+      },
+      "insurance": {
+        "label": "Voertuigverzekering (2 foto's)",
+        "idleTitle": "Verzekeringspolis uploaden"
+      },
+      "address": {
+        "label": "Bewijs van Adres",
+        "idleTitle": "Adresbewijs uploaden",
+        "hint": "Energierekening, bankafschrift of belastingaanslag met zichtbaar adres."
+      }
+    },
+    "stepBilling": {
+      "title": "Factureringsgegevens",
+      "subtitle": "Bank- en belastinginformatie voor betalingsverwerking.",
+      "documentHint": "jpg, png of pdf - max. 10mb",
+      "sizeError": "Bestand overschrijdt de maximale grootte.",
+      "accountHolder": {
+        "label": "Rekeninghouder",
+        "placeholder": "Naam rekeninghouder"
+      },
+      "invoiceName": {
+        "label": "Factuurnaam",
+        "placeholder": "Naam op de factuur"
+      },
+      "swiftBic": {
+        "label": "SWIFT/BIC",
+        "placeholder": "Swift/BIC"
+      },
+      "iban": {
+        "label": "IBAN",
+        "placeholder": "PT50 0000 0000 0000 000"
+      },
+      "nif": {
+        "label": "Belastingnummer (NIF)",
+        "placeholder": "000 000 000"
+      },
+      "taxOffice": {
+        "label": "Belastingkantoor",
+        "placeholder": "bv. Lisboa 3"
+      },
+      "billingAddress": {
+        "label": "Factuuradres",
+        "placeholder": "Straat, nr., postcode, stad"
+      },
+      "bankProof": {
+        "label": "Bankbewijs",
+        "idleTitle": "Bankbewijs uploaden"
+      }
+    },
+    "stepAvailability": {
+      "title": "Prijsovereenkomst en beschikbaarheid",
+      "subtitle": "Bekijk de basistarieven en geef je voorkeursbeschikbaarheid aan.",
+      "tableTitle": "Routetabel - {city}",
+      "tableSubtitle": "Bedragen die het bedrijf per dienst ontvangt",
+      "cityLisboa": "Lissabon",
+      "table": {
+        "route": "Route",
+        "period": "Periode",
+        "receive": "Ontvangt"
+      },
+      "periods": {
+        "day": "Dag",
+        "night": "Nacht"
+      },
+      "preferences": {
+        "title": "Voorkeursplanning",
+        "subtitle": "Kies wanneer je beschikbaar bent om met ons te werken."
+      },
+      "days": {
+        "label": "Beschikbare dagen",
+        "all": "Alle",
+        "mon": "Ma",
+        "tue": "Di",
+        "wed": "Wo",
+        "thu": "Do",
+        "fri": "Vr",
+        "sat": "Za",
+        "sun": "Zo"
+      },
+      "shifts": {
+        "label": "Voorkeursdienst",
+        "allDay": "Hele dag",
+        "morning": "Ochtend",
+        "afternoon": "Middag",
+        "night": "Nacht"
+      },
+      "confirmCta": "Ik bevestig dat ik deze tabel heb gelezen"
+    },
+    "stepVideoIntro": {
+      "title": "Introductievideo",
+      "subtitle": "Stel jezelf voor aan ons team met een korte video. Bekijk eerst onze intro en het voorbeeld, neem dan jouw video op.",
+      "watch": {
+        "label": "Bekijk onze video",
+        "subtitle": "Leer LuxMotion kennen, hoe het platform werkt, en bekijk een echt voorbeeld van een chauffeur die de videovragen beantwoordt."
+      },
+      "questions": {
+        "label": "Vragen voor chauffeurs",
+        "duration": "Ideale duur per chauffeur: 40 tot 50 seconden",
+        "eyebrow": "Vraag {index}",
+        "q1": {
+          "prompt": "Stel jezelf kort voor en vertel wat je het leukst vindt aan je werk als chauffeur.",
+          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+        },
+        "q2": {
+          "prompt": "Wat zijn twee van je favoriete plekken in je stad en waarom raad je ze aan reizigers aan?",
+          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+        }
+      },
+      "structure": {
+        "label": "Voorgestelde structuur",
+        "subtitle": "Volg deze structuur om het opnemen makkelijker te maken. Het hoeft niet perfect te zijn — wees natuurlijk.",
+        "s1": {
+          "title": "Persoonlijke introductie",
+          "description": "Naam · Stad · Ervaring als chauffeur · Talen die je spreekt"
+        },
+        "s2": {
+          "title": "Wat je leuk vindt aan het werk",
+          "description": "Mensen ontmoeten · Toeristen helpen · De stad laten zien"
+        },
+        "s3": {
+          "title": "Favoriete plek 1",
+          "description": "Naam van de plek · Wat te doen · Waarom je het aanraadt"
+        },
+        "s4": {
+          "title": "Favoriete plek 2",
+          "description": "Naam van de plek · Wat te doen · Waarom je het aanraadt"
+        }
+      },
+      "upload": {
+        "label": "Upload je video",
+        "idleTitle": "Introductievideo uploaden",
+        "hint": "mp4, mov - tot 2min en max. 100mb",
+        "sizeError": "Video overschrijdt de maximale grootte."
+      }
+    },
+    "stepTerms": {
+      "title": "Bevestiging en voorwaarden",
+      "subtitle": "Controleer en accepteer de voorwaarden om je aanvraag in te dienen.",
+      "acceptance": "Door deze aanvraag in te dienen, bevestig ik dat ik de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy> van LuxMotion by EasyTransfer heb gelezen en accepteer, namens het bedrijf dat ik vertegenwoordig.",
+      "disclaimer": "Een partnerschap is niet gegarandeerd — je aanvraag wordt beoordeeld en moet worden goedgekeurd door het LuxMotion-team. We nemen binnen 5 werkdagen contact met je op.",
+      "submitCta": "Aanvraag indienen"
+    },
+    "success": {
+      "title": "Aanvraag ingediend",
+      "subtitle": "Je aanvraag is succesvol ontvangen. Het LuxMotion-team zal je gegevens beoordelen en binnenkort contact met je opnemen.",
+      "queueMessage": "Je staat op positie <position></position> van onze wachtlijst. We nemen contact op zodra we meer chauffeurs in jouw gebied nodig hebben.",
+      "summaryLabel": "Samenvatting aanvraag",
+      "summary": {
+        "personal": "Persoonlijke gegevens",
+        "emailVerified": "E-mail geverifieerd",
+        "vehicle": "Voertuigdetails",
+        "documents": "Documenten en professionele foto",
+        "billing": "Factureringsgegevens",
+        "availability": "Prijsovereenkomst en beschikbaarheid",
+        "videoIntro": "Introductievideo"
+      },
+      "backHome": "Terug naar de startpagina"
     }
   }
 }

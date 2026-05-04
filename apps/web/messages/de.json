@@ -4066,6 +4066,678 @@
         "sub": "Jährliche Überweisung",
         "text": "Sammeln Sie Provisionen jährlich und erhalten Sie eine konsolidierte Zahlung."
       }
+    },
+    "calculator": {
+      "eyebrow": "UMSATZRECHNER",
+      "titleStart": "Berechnen Sie den",
+      "titleAccent": "potenziellen Umsatz",
+      "body1": "Jede Hochzeit ist eine Umsatzchance.",
+      "body2": "Kein operativer Aufwand auf Ihrer Seite.",
+      "weddingsLabel": "Hochzeiten pro Monat",
+      "guestsLabel": "Durchschnittliche Gäste pro Hochzeit",
+      "commissionLabel": "Provision (%)",
+      "placeholderSelect": "Auswählen",
+      "monthlyLabel": "Geschätzter monatlicher Umsatz",
+      "yearlyLabel": "Geschätzter jährlicher Umsatz",
+      "photoAlt": "Wedding-Plannerin überprüft Veranstaltungsdetails"
+    },
+    "ctaBand": {
+      "titleStart": "Bereit für eine",
+      "titleAccent": "erfolgreiche Partnerschaft?",
+      "subtitle": "Schließen Sie sich dem Netzwerk aus Locations und Wedding Plannern an, die Gästemobilität in Umsatz verwandelt haben.",
+      "cta": "Partner werden"
+    }
+  },
+  "partnerApplication": {
+    "intro": {
+      "badge": "Bewerbung Partnerunternehmen",
+      "headingPrefix": "Erweitern Sie Ihre Flotte mit",
+      "headingAccent": "LuxMotion",
+      "subtitle": "Registrieren Sie Ihr Transportunternehmen, fügen Sie Fahrer und Fahrzeuge hinzu und erhalten Sie Buchungen von den besten Hotels und Agenturen.",
+      "benefits": {
+        "drivers": "Mehrere Fahrer und Fahrzeuge verwalten",
+        "bookings": "Mehrere Fahrer und Fahrzeuge verwalten",
+        "billing": "Zentralisierte und transparente Abrechnung",
+        "dashboard": "Dediziertes Verwaltungsdashboard"
+      },
+      "cta": "Bewerbung starten"
+    },
+    "steps": {
+      "company": "Unternehmensdaten",
+      "representative": "Daten des Vertreters",
+      "verification": "E-Mail-Bestätigung",
+      "introVideo": "Vorstellungsvideo",
+      "drivers": "Fahrer",
+      "vehicles": "Fahrzeuge",
+      "documents": "Dokumente",
+      "billing": "Abrechnung",
+      "priceAgreement": "Preisvereinbarung",
+      "confirmation": "Bestätigung"
+    },
+    "stepCompany": {
+      "title": "Unternehmensdaten",
+      "subtitle": "Grundinformationen zu Ihrem Transportunternehmen.",
+      "zones": {
+        "label": "Einsatzgebiete",
+        "sublabel": "Suchen und fügen Sie alle Städte oder Regionen hinzu, in denen Ihr Unternehmen tätig ist.",
+        "placeholder": "Stadt oder Region suchen..."
+      },
+      "driverCount": {
+        "label": "Wie viele Fahrer hat Ihr Unternehmen?",
+        "placeholder": "Anzahl der Fahrer auswählen",
+        "options": {
+          "s1to5": "1 bis 5 Fahrer",
+          "s6to15": "6 bis 15 Fahrer",
+          "s16to30": "16 bis 30 Fahrer",
+          "s31to50": "31 bis 50 Fahrer",
+          "s50plus": "Mehr als 50 Fahrer"
+        }
+      },
+      "mobileApp": {
+        "label": "Ihre Fahrer nutzen eine mobile App. Sind sie damit vertraut?"
+      }
+    },
+    "stepRepresentative": {
+      "title": "Daten des Vertreters",
+      "subtitle": "Kontaktinformationen der für die Partnerschaft verantwortlichen Person.",
+      "companyName": {
+        "label": "Firmenname",
+        "placeholder": "Rechtlicher Firmenname"
+      },
+      "fullName": {
+        "label": "Vollständiger Name des Vertreters",
+        "placeholder": "Name der verantwortlichen Person"
+      },
+      "email": {
+        "label": "E-Mail des Vertreters",
+        "placeholder": "name@firma.com"
+      },
+      "phone": {
+        "label": "Mobil"
+      },
+      "whatsapp": {
+        "label": "WhatsApp"
+      }
+    },
+    "stepVerification": {
+      "title": "Bestätigen Sie Ihre E-Mail",
+      "subtitle": "Geben Sie den 6-stelligen Code ein, den wir an die E-Mail des Vertreters gesendet haben.",
+      "emailFallback": "name@firma.com",
+      "resend": "Code erneut senden",
+      "resending": "Wird gesendet…",
+      "verify": "Bestätigen"
+    },
+    "stepIntroVideo": {
+      "title": "Vorstellungsvideo",
+      "subtitle": "Bevor Sie Fahrer hinzufügen, sehen Sie, wie es funktioniert. Jeder Fahrer muss ein Video aufnehmen — sehen Sie zuerst unser Beispiel.",
+      "section1": {
+        "label": "Sehen Sie unser Video",
+        "description": "Lernen Sie LuxMotion kennen, wie die Plattform funktioniert, und sehen Sie ein echtes Beispiel, wie ein Fahrer die Videofragen beantwortet."
+      },
+      "section2": {
+        "label": "Fragen für Fahrer",
+        "durationBadge": "Ideale Dauer pro Fahrer: 40 bis 50 Sekunden",
+        "questionPrefix": "Frage"
+      },
+      "questions": {
+        "q1": {
+          "question": "Stellen Sie sich kurz vor und sagen Sie uns, was Ihnen an Ihrer Arbeit als Fahrer am meisten gefällt.",
+          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+        },
+        "q2": {
+          "question": "Welche zwei Lieblingsorte haben Sie in Ihrer Stadt und warum empfehlen Sie sie Reisenden?",
+          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+        }
+      },
+      "section3": {
+        "label": "Empfohlene Struktur",
+        "description": "Ihre Fahrer sollten beim Aufnehmen des Videos dieser Struktur folgen."
+      },
+      "structure": {
+        "s1": {
+          "title": "Persönliche Vorstellung",
+          "detail": "Name · Stadt · Erfahrung als Fahrer · Sprachen"
+        },
+        "s2": {
+          "title": "Persönliche Vorstellung",
+          "detail": "Menschen kennenlernen · Touristen helfen · Stadt zeigen"
+        },
+        "s3": {
+          "title": "Persönliche Vorstellung",
+          "detail": "Name des Ortes · Was man dort tun kann · Warum Sie ihn empfehlen"
+        },
+        "s4": {
+          "title": "Lieblingsort",
+          "detail": "Name des Ortes · Was man dort tun kann · Warum Sie ihn empfehlen"
+        }
+      }
+    },
+    "stepDrivers": {
+      "title": "Fahrer des Unternehmens",
+      "subtitle": "Fügen Sie die Fahrer hinzu, die für Ihr Unternehmen tätig sein werden. Jeder Fahrer kann sein Vorstellungsvideo einschließen. Sie können später im Dashboard weitere hinzufügen.",
+      "addDriver": "Fahrer hinzufügen",
+      "removeDriver": "Fahrer entfernen",
+      "hasVideoYes": "Video hochgeladen",
+      "hasVideoNo": "Kein Video"
+    },
+    "stepVehicles": {
+      "title": "Fahrzeuge des Unternehmens",
+      "subtitle": "Fügen Sie die Fahrzeuge hinzu, die in Ihrer Flotte verfügbar sind. Sie können später weitere hinzufügen.",
+      "addVehicle": "Fahrzeug hinzufügen",
+      "removeVehicle": "Fahrzeug entfernen",
+      "untitledVehicle": "Unbenanntes Fahrzeug"
+    },
+    "stepDocuments": {
+      "title": "Unternehmensdokumente",
+      "subtitle": "Rechtliche und operative Dokumente Ihres Transportunternehmens.",
+      "idleSubtitle": "jpg, png oder pdf · max. 10 MB",
+      "removeFile": "Datei entfernen",
+      "sizeError": "Datei überschreitet 10 MB",
+      "fields": {
+        "license": {
+          "label": "Genehmigung / Betriebslizenz",
+          "idleTitle": "Genehmigung oder TVDE-Lizenz hochladen"
+        },
+        "addressProofPrimary": {
+          "label": "Adressnachweis des Firmensitzes",
+          "idleTitle": "Adressnachweis hochladen"
+        },
+        "addressProofSecondary": {
+          "label": "Adressnachweis des Firmensitzes",
+          "idleTitle": "Adressnachweis hochladen"
+        },
+        "liabilityInsurance": {
+          "label": "Haftpflichtversicherung",
+          "idleTitle": "Versicherungsnachweis hochladen"
+        }
+      }
+    },
+    "stepBilling": {
+      "title": "Abrechnungsdaten",
+      "subtitle": "Bank- und Steuerinformationen Ihres Unternehmens zur Zahlungsabwicklung.",
+      "accountHolder": {
+        "label": "Kontoinhaber",
+        "placeholder": "Firma oder Inhabername"
+      },
+      "invoiceName": {
+        "label": "Rechnungsname",
+        "placeholder": "Name für die Rechnungsstellung"
+      },
+      "swiftBic": {
+        "label": "SWIFT/BIC",
+        "placeholder": "Swift/bic"
+      },
+      "iban": {
+        "label": "IBAN",
+        "placeholder": "DE00 0000 0000 0000 0000 00"
+      },
+      "taxId": {
+        "label": "Steuernummer / USt-ID",
+        "placeholder": "000 000 000"
+      },
+      "taxOffice": {
+        "label": "Finanzamt",
+        "placeholder": "z. B. Berlin 3"
+      },
+      "billingAddress": {
+        "label": "Rechnungsadresse",
+        "placeholder": "Straße, Nr., PLZ, Stadt"
+      },
+      "bankProof": {
+        "label": "Bankbeleg",
+        "idleTitle": "Bankbeleg hochladen",
+        "idleSubtitle": "jpg, png oder pdf · max. 10 MB",
+        "removeFile": "Datei entfernen",
+        "sizeError": "Datei überschreitet 10 MB"
+      }
+    },
+    "stepPriceAgreement": {
+      "title": "Preisvereinbarung",
+      "subtitle": "Sehen Sie die Grundpreise der wichtigsten Strecken ein. Um die Partnerschaft zu starten, müssen Sie dieser Tabelle zustimmen.",
+      "table": {
+        "title": "Streckentabelle - Lissabon",
+        "subtitle": "Betrag, den das Unternehmen pro Service erhält",
+        "cols": {
+          "route": "Strecke",
+          "period": "Zeitraum",
+          "amount": "Erhält"
+        },
+        "day": "Tag",
+        "night": "Nacht"
+      },
+      "confirmCta": "Ich bestätige, diese Tabelle gelesen zu haben"
+    },
+    "stepConfirmation": {
+      "title": "Bestätigung und Bedingungen",
+      "subtitle": "Überprüfen und akzeptieren Sie die Bedingungen, um die Unternehmensbewerbung einzureichen.",
+      "acceptText": "Mit dem Absenden dieser Bewerbung bestätige ich, dass ich die <terms>Nutzungsbedingungen</terms> und die <privacy>Datenschutzerklärung</privacy> von LuxMotion by EasyTransfer im Namen des Unternehmens, das ich vertrete, gelesen habe und akzeptiere.",
+      "disclaimer": "Eine Partnerschaft wird nicht garantiert — die Bewerbung wird geprüft und muss vom LuxMotion-Team genehmigt werden. Wir melden uns innerhalb von 5 Werktagen.",
+      "submitCta": "Bewerbung absenden",
+      "submitted": {
+        "title": "Bewerbung eingereicht",
+        "subtitle": "Die Bewerbung Ihres Unternehmens ist eingegangen. Das LuxMotion-Team prüft die Daten und meldet sich in Kürze.",
+        "queueDescription": "Ihr Unternehmen ist auf Position {position} unserer Liste.\nWir melden uns, sobald in Ihrer Zone ein Platz frei wird.",
+        "summaryHeader": "Zusammenfassung der Bewerbung",
+        "summary": {
+          "companyAndRepresentative": "Unternehmens- und Vertreterdaten",
+          "emailVerified": "E-Mail bestätigt",
+          "driversAdded": "{count} Fahrer hinzugefügt",
+          "vehiclesAdded": "{count} Fahrzeug(e) hinzugefügt",
+          "documentsAndBilling": "Dokumente und Abrechnung",
+          "priceAgreement": "Preisvereinbarung",
+          "introVideo": "Vorstellungsvideo"
+        },
+        "backHome": "Zurück zur Startseite"
+      },
+      "submittingCta": "Wird gesendet…",
+      "submissionError": "Die Bewerbung konnte nicht gesendet werden. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+    }
+  },
+  "driverApplication": {
+    "intro": {
+      "badge": "Fahrer-Bewerbung",
+      "headingPrefix": "Fahren Sie mit",
+      "headingAccent": "LuxMotion",
+      "headingSuffix": " und verdienen Sie mehr nach Ihrem Zeitplan",
+      "subtitle": "Treten Sie dem Premium-Fahrernetzwerk bei, das die besten Hotels und Reisebüros in Portugal bedient.",
+      "preview": {
+        "now": "Jetzt",
+        "route": "Flughafen → 5★-Hotel",
+        "paid": "Bezahlt"
+      },
+      "benefits": {
+        "earn": "Verdienen Sie mehr mit Premium-Transfers",
+        "bookings": "Buchungen im Voraus erhalten",
+        "schedule": "Wählen Sie, wann Sie arbeiten möchten",
+        "payout": "Garantierte wöchentliche Auszahlung"
+      },
+      "cta": "Bewerbung starten"
+    },
+    "steps": {
+      "zone": "Einsatzgebiet",
+      "contact": "Persönliche Daten",
+      "verifyEmail": "E-Mail bestätigen",
+      "vehicleCategory": "Fahrzeugtyp",
+      "vehicleDetails": "Fahrzeugdetails",
+      "documents": "Dokumente",
+      "billing": "Abrechnung",
+      "availability": "Verfügbarkeit",
+      "videoIntro": "Vorstellungsvideo",
+      "terms": "Bestätigung"
+    },
+    "stepZone": {
+      "title": "Wo möchten Sie tätig sein?",
+      "subtitle": "Wählen Sie die Stadt oder Region, in der Sie Transportdienste anbieten werden.",
+      "zone": {
+        "label": "Einsatzgebiet",
+        "placeholder": "Region auswählen"
+      },
+      "zones": {
+        "lisboa": "Lissabon",
+        "porto": "Porto",
+        "algarve": "Algarve",
+        "madeira": "Madeira",
+        "acores": "Azoren",
+        "coimbra": "Coimbra",
+        "braga": "Braga",
+        "aveiro": "Aveiro",
+        "evora": "Évora",
+        "setubal": "Setúbal"
+      }
+    },
+    "stepContact": {
+      "title": "Persönliche Daten und Kontakt",
+      "subtitle": "Wir verwenden diese Informationen, um Sie zu kontaktieren und Ihr Konto einzurichten.",
+      "fullName": {
+        "label": "Vollständiger Name",
+        "placeholder": "Ihr vollständiger Name"
+      },
+      "email": {
+        "label": "E-Mail",
+        "placeholder": "name@beispiel.com"
+      },
+      "representativeEmail": {
+        "label": "E-Mail des Vertreters",
+        "placeholder": "name@unternehmen.com"
+      },
+      "phone": {
+        "label": "Mobil"
+      },
+      "whatsapp": {
+        "label": "WhatsApp"
+      },
+      "languages": {
+        "label": "Sprachen und Niveau",
+        "placeholder": "Sprache hinzufügen...",
+        "pt": "Portugiesisch",
+        "en": "Englisch",
+        "es": "Spanisch",
+        "fr": "Französisch",
+        "de": "Deutsch",
+        "it": "Italienisch",
+        "nl": "Niederländisch"
+      },
+      "levels": {
+        "survival": "Grundkenntnisse",
+        "intermediate": "Mittelstufe",
+        "fluent": "Fließend"
+      },
+      "referral": {
+        "label": "Von einem LuxMotion-Fahrer empfohlen?",
+        "optional": "(Optional)",
+        "placeholder": "Fahrername oder leer lassen"
+      }
+    },
+    "stepVerifyEmail": {
+      "title": "Bestätigen Sie Ihre E-Mail",
+      "subtitle": "Geben Sie den 6-stelligen Code ein, den wir an die E-Mail des Vertreters gesendet haben.",
+      "placeholderEmail": "name@beispiel.com",
+      "resend": "Code erneut senden",
+      "verify": "Bestätigen"
+    },
+    "stepVehicleCategory": {
+      "title": "Welche Art von Fahrzeug fahren Sie?",
+      "subtitle": "Wählen Sie die Kategorie, die Ihr Fahrzeug am besten beschreibt.",
+      "categories": {
+        "classic": {
+          "title": "Classic",
+          "description": "Bis zu 4 Fahrgäste — Rolls-Royce, Chrysler Windsor, Mercedes Benz 300S..."
+        },
+        "supercar": {
+          "title": "Super Car",
+          "description": "Bis zu 2 Fahrgäste — Porsche Panamera, Ferrari"
+        },
+        "firstClass": {
+          "title": "First Class",
+          "description": "Bis zu 4 Fahrgäste — Mercedes V-Klasse, VW Caravelle"
+        },
+        "businessClass": {
+          "title": "Business Class",
+          "description": "Bis zu 4 Fahrgäste — Mercedes V-Klasse, VW Caravelle"
+        },
+        "van": {
+          "title": "Van",
+          "description": "Bis zu 8 Fahrgäste — Mercedes V-Klasse, VW Caravelle"
+        },
+        "firstClassVan": {
+          "title": "First Class Van",
+          "description": "Bis zu 8 Fahrgäste — Mercedes V-Klasse, VW Caravelle"
+        },
+        "vanLuxury": {
+          "title": "Van Luxury",
+          "description": "Bis zu 8 Fahrgäste — Mercedes V-Klasse, VW Caravelle"
+        },
+        "minibus": {
+          "title": "Minibus",
+          "description": "Bis zu 16 Fahrgäste — Mercedes Sprinter, Iveco Daily"
+        },
+        "autocarro": {
+          "title": "Bus",
+          "description": "Bis zu 56 Fahrgäste — Mercedes, Iveco..."
+        }
+      }
+    },
+    "stepVehicleDetails": {
+      "title": "Fahrzeugdetails",
+      "subtitle": "Detaillierte Informationen über das Fahrzeug, das Sie für LuxMotion-Dienste verwenden werden.",
+      "selectPlaceholder": "Auswählen",
+      "section": {
+        "info": "Fahrzeuginformationen",
+        "photos": "Fahrzeugfotos",
+        "childSeats": "Kindersitze",
+        "special": "Sonderausstattung",
+        "amenities": "Fahrzeugausstattung"
+      },
+      "fields": {
+        "brand": "Marke",
+        "model": "Modell",
+        "plate": "Kennzeichen",
+        "color": "Farbe",
+        "year": "Baujahr",
+        "ownership": "Eigentumsverhältnis",
+        "passengerCapacity": "Passagierkapazität",
+        "luggageCapacity": "Gepäckkapazität",
+        "tvde": {
+          "label": "Ist es ein TVDE-lizenziertes Fahrzeug?",
+          "hint": "Wählen Sie 'Ja' nur, wenn das Fahrzeug bereits eine aktive TVDE-Lizenz hat."
+        }
+      },
+      "brands": {
+        "mercedes": "Mercedes",
+        "bmw": "BMW",
+        "audi": "Audi",
+        "tesla": "Tesla",
+        "porsche": "Porsche",
+        "volkswagen": "Volkswagen",
+        "rollsRoyce": "Rolls-Royce",
+        "ferrari": "Ferrari",
+        "other": "Andere"
+      },
+      "colors": {
+        "black": "Schwarz",
+        "white": "Weiß",
+        "silver": "Silber",
+        "grey": "Grau",
+        "blue": "Blau",
+        "red": "Rot",
+        "other": "Andere"
+      },
+      "ownership": {
+        "owned": "Eigentum",
+        "leased": "Leasing",
+        "rented": "Gemietet",
+        "company": "Firma"
+      },
+      "photos": {
+        "intro": "Laden Sie 3 Innenraumfotos hoch: Rücksitze, Armaturenbrett und Detail.",
+        "interior": "Innenraumfotos (3)",
+        "exterior": "Außenfotos (3)",
+        "hint": "jpg oder png - max. 5mb"
+      },
+      "childSeats": {
+        "intro": "Geben Sie an, welche Sitztypen Sie verfügbar haben und die Menge jedes einzelnen.",
+        "baby": {
+          "title": "Babyschale",
+          "age": "0-12 Monate"
+        },
+        "child": {
+          "title": "Kindersitz",
+          "age": "1-4 Jahre"
+        },
+        "booster": {
+          "title": "Sitzerhöhung",
+          "age": "4-12 Jahre"
+        }
+      },
+      "special": {
+        "surfboardRack": "Surfbrett-Halterung"
+      },
+      "amenities": {
+        "label": "Lizenztyp",
+        "usbCharger": "USB-Ladegerät",
+        "wifi": "WLAN",
+        "pos": "POS / Kartenleser",
+        "magazines": "Zeitschriften / Zeitungen",
+        "refreshTowels": "Erfrischungstücher"
+      }
+    },
+    "stepDocuments": {
+      "title": "Dokumente und Fotos",
+      "subtitle": "Dokumente, die während der Bewertung Ihrer Bewerbung verwendet werden.",
+      "documentHint": "jpg, png oder pdf - max. 10mb",
+      "sizeError": "Datei überschreitet die maximal zulässige Größe.",
+      "photo": {
+        "label": "Berufsfoto",
+        "sublabel": "Dieses Foto ist für Fahrgäste sichtbar. Beachten Sie die folgenden Hinweise.",
+        "viewModel": "Beispiel ansehen",
+        "hint": "jpg oder png - max. 5mb",
+        "guidelines": {
+          "upright": "Aufrechte Haltung",
+          "smile": "Natürliches Lächeln",
+          "shirt": "Weißes oder schwarzes Hemd",
+          "background": "Neutraler Hintergrund (weiß/grau)"
+        }
+      },
+      "license": {
+        "label": "TVDE-Berufslizenz",
+        "idleTitle": "Berufslizenz hochladen"
+      },
+      "insurance": {
+        "label": "Fahrzeugversicherung (2 Fotos)",
+        "idleTitle": "Versicherungspolice hochladen"
+      },
+      "address": {
+        "label": "Wohnsitznachweis",
+        "idleTitle": "Adressnachweis hochladen",
+        "hint": "Versorgungsrechnung, Kontoauszug oder Steuerbescheid mit sichtbarer Adresse."
+      }
+    },
+    "stepBilling": {
+      "title": "Abrechnungsdaten",
+      "subtitle": "Bank- und Steuerinformationen für die Zahlungsabwicklung.",
+      "documentHint": "jpg, png oder pdf - max. 10mb",
+      "sizeError": "Datei überschreitet die maximal zulässige Größe.",
+      "accountHolder": {
+        "label": "Kontoinhaber",
+        "placeholder": "Name des Kontoinhabers"
+      },
+      "invoiceName": {
+        "label": "Rechnungsname",
+        "placeholder": "Name auf der Rechnung"
+      },
+      "swiftBic": {
+        "label": "SWIFT/BIC",
+        "placeholder": "Swift/BIC"
+      },
+      "iban": {
+        "label": "IBAN",
+        "placeholder": "PT50 0000 0000 0000 000"
+      },
+      "nif": {
+        "label": "Steuernummer (NIF)",
+        "placeholder": "000 000 000"
+      },
+      "taxOffice": {
+        "label": "Finanzamt",
+        "placeholder": "z. B. Lisboa 3"
+      },
+      "billingAddress": {
+        "label": "Rechnungsadresse",
+        "placeholder": "Straße, Nr., PLZ, Stadt"
+      },
+      "bankProof": {
+        "label": "Bankbestätigung",
+        "idleTitle": "Bankbestätigung hochladen"
+      }
+    },
+    "stepAvailability": {
+      "title": "Preisvereinbarung und Verfügbarkeit",
+      "subtitle": "Sehen Sie die Grundtarife ein und geben Sie Ihre bevorzugte Verfügbarkeit an.",
+      "tableTitle": "Routentabelle - {city}",
+      "tableSubtitle": "Beträge, die das Unternehmen pro Service erhält",
+      "cityLisboa": "Lissabon",
+      "table": {
+        "route": "Route",
+        "period": "Zeitraum",
+        "receive": "Erhält"
+      },
+      "periods": {
+        "day": "Tag",
+        "night": "Nacht"
+      },
+      "preferences": {
+        "title": "Zeitpräferenz",
+        "subtitle": "Wählen Sie, wann Sie für uns arbeiten möchten."
+      },
+      "days": {
+        "label": "Verfügbare Tage",
+        "all": "Alle",
+        "mon": "Mo",
+        "tue": "Di",
+        "wed": "Mi",
+        "thu": "Do",
+        "fri": "Fr",
+        "sat": "Sa",
+        "sun": "So"
+      },
+      "shifts": {
+        "label": "Bevorzugte Schicht",
+        "allDay": "Ganztags",
+        "morning": "Morgen",
+        "afternoon": "Nachmittag",
+        "night": "Nacht"
+      },
+      "confirmCta": "Ich bestätige, diese Tabelle gelesen zu haben"
+    },
+    "stepVideoIntro": {
+      "title": "Vorstellungsvideo",
+      "subtitle": "Stellen Sie sich unserem Team mit einem kurzen Video vor. Sehen Sie zuerst unser Intro und Beispiel an, dann nehmen Sie Ihres auf.",
+      "watch": {
+        "label": "Sehen Sie unser Video",
+        "subtitle": "Lernen Sie LuxMotion kennen, wie die Plattform funktioniert, und sehen Sie ein echtes Beispiel, wie ein Fahrer die Videofragen beantwortet."
+      },
+      "questions": {
+        "label": "Fragen an die Fahrer",
+        "duration": "Ideale Dauer pro Fahrer: 40 bis 50 Sekunden",
+        "eyebrow": "Frage {index}",
+        "q1": {
+          "prompt": "Stellen Sie sich kurz vor und erzählen Sie, was Ihnen an Ihrer Arbeit als Fahrer am meisten gefällt.",
+          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+        },
+        "q2": {
+          "prompt": "Was sind zwei Ihrer Lieblingsplätze in Ihrer Stadt und warum empfehlen Sie sie Reisenden?",
+          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+        }
+      },
+      "structure": {
+        "label": "Vorgeschlagene Struktur",
+        "subtitle": "Folgen Sie dieser Struktur, um die Aufnahme zu erleichtern. Es muss nicht perfekt sein — bleiben Sie natürlich.",
+        "s1": {
+          "title": "Persönliche Vorstellung",
+          "description": "Name · Stadt · Fahrer-Erfahrung · Gesprochene Sprachen"
+        },
+        "s2": {
+          "title": "Was Sie am Job mögen",
+          "description": "Menschen treffen · Touristen helfen · Stadt zeigen"
+        },
+        "s3": {
+          "title": "Lieblingsplatz 1",
+          "description": "Name des Ortes · Was zu tun · Warum empfehlen"
+        },
+        "s4": {
+          "title": "Lieblingsplatz 2",
+          "description": "Name des Ortes · Was zu tun · Warum empfehlen"
+        }
+      },
+      "upload": {
+        "label": "Laden Sie Ihr Video hoch",
+        "idleTitle": "Vorstellungsvideo hochladen",
+        "hint": "mp4, mov - bis 2min und max. 100mb",
+        "sizeError": "Video überschreitet die maximal zulässige Größe."
+      }
+    },
+    "stepTerms": {
+      "title": "Bestätigung und Bedingungen",
+      "subtitle": "Überprüfen und akzeptieren Sie die Bedingungen, um Ihre Bewerbung einzureichen.",
+      "acceptance": "Mit dem Absenden dieser Bewerbung bestätige ich, dass ich die <terms>Nutzungsbedingungen</terms> und die <privacy>Datenschutzrichtlinie</privacy> von LuxMotion by EasyTransfer im Namen des von mir vertretenen Unternehmens gelesen habe und akzeptiere.",
+      "disclaimer": "Eine Partnerschaft ist nicht garantiert — Ihre Bewerbung wird vom LuxMotion-Team geprüft und muss genehmigt werden. Wir werden Sie innerhalb von 5 Werktagen kontaktieren.",
+      "submitCta": "Bewerbung einreichen"
+    },
+    "success": {
+      "title": "Bewerbung eingereicht",
+      "subtitle": "Ihre Bewerbung wurde erfolgreich empfangen. Das LuxMotion-Team wird Ihre Daten prüfen und sich in Kürze bei Ihnen melden.",
+      "queueMessage": "Sie sind auf Position <position></position> unserer Warteliste. Wir kontaktieren Sie, sobald wir weitere Fahrer in Ihrer Region benötigen.",
+      "summaryLabel": "Bewerbungsübersicht",
+      "summary": {
+        "personal": "Persönliche Daten",
+        "emailVerified": "E-Mail bestätigt",
+        "vehicle": "Fahrzeugdetails",
+        "documents": "Dokumente und Berufsfoto",
+        "billing": "Abrechnungsdaten",
+        "availability": "Preisvereinbarung und Verfügbarkeit",
+        "videoIntro": "Vorstellungsvideo"
+      },
+      "backHome": "Zurück zur Startseite"
     }
   }
 }

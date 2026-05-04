@@ -84,15 +84,19 @@ export function FaqDrivers() {
           <span className="italic text-[#9A7535]">{t("titleAccent")}</span>
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 grid-flow-row lg:grid-flow-col gap-x-0 lg:gap-x-[2.64px] gap-y-[2.3px] mt-8 lg:mt-10">
-          {FAQ_KEYS.map((key) => (
-            <FaqItem
-              key={key}
-              question={t(`${key}.question`)}
-              answer={t(`${key}.answer`)}
-              isOpen={openKey === key}
-              onToggle={() => setOpenKey(openKey === key ? null : key)}
-            />
+        <div className="flex flex-col lg:flex-row gap-y-[2.3px] lg:gap-x-[2.64px] mt-8 lg:mt-10 lg:items-start">
+          {[0, 1].map((col) => (
+            <div key={col} className="flex flex-col gap-y-[2.3px] flex-1 min-w-0">
+              {FAQ_KEYS.slice(col * 3, col * 3 + 3).map((key) => (
+                <FaqItem
+                  key={key}
+                  question={t(`${key}.question`)}
+                  answer={t(`${key}.answer`)}
+                  isOpen={openKey === key}
+                  onToggle={() => setOpenKey(openKey === key ? null : key)}
+                />
+              ))}
+            </div>
           ))}
         </div>
       </div>

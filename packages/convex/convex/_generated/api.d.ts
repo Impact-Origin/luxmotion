@@ -21,6 +21,7 @@ import type * as lib_utils from "../lib/utils.js";
 import type * as marketingStats from "../marketingStats.js";
 import type * as newsletterSubscriptions from "../newsletterSubscriptions.js";
 import type * as orders from "../orders.js";
+import type * as partnerApplications from "../partnerApplications.js";
 import type * as partnerships from "../partnerships.js";
 import type * as pastExperiences from "../pastExperiences.js";
 import type * as payments from "../payments.js";
@@ -57,6 +58,7 @@ declare const fullApi: ApiFromModules<{
   marketingStats: typeof marketingStats;
   newsletterSubscriptions: typeof newsletterSubscriptions;
   orders: typeof orders;
+  partnerApplications: typeof partnerApplications;
   partnerships: typeof partnerships;
   pastExperiences: typeof pastExperiences;
   payments: typeof payments;

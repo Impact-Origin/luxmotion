@@ -13,6 +13,10 @@ import { WeddingPlannerReviews } from "@/components/wedding-planner/wedding-plan
 import { WeddingPlannerWhiteLabel } from "@/components/wedding-planner/wedding-planner-white-label"
 import { WeddingPlannerCommission } from "@/components/wedding-planner/wedding-planner-commission"
 import { WeddingPlannerPaymentPlans } from "@/components/wedding-planner/wedding-planner-payment-plans"
+import { WeddingPlannerCalculator } from "@/components/wedding-planner/wedding-planner-calculator"
+import { WeddingPlannerCtaBand } from "@/components/wedding-planner/wedding-planner-cta-band"
+import { Fleet } from "@/components/new-landing-page/fleet"
+import { WeddingPlannerFleetGallery } from "@/components/wedding-planner/wedding-planner-fleet-gallery"
 import { createPageMetadata } from "@/lib/seo"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,7 +48,11 @@ export default function WeddingPlannerPage() {
         <WeddingPlannerTestimonial />
         <WeddingPlannerWhiteLabel />
         <WeddingPlannerCommission />
+        <WeddingPlannerCalculator />
         <WeddingPlannerPaymentPlans />
+        <WeddingPlannerCtaBand />
+        <Fleet showControls={false} />
+        <WeddingPlannerFleetGallery />
         <WeddingPlannerReviews />
         <WeddingPlannerCaseStudy />
       </div>

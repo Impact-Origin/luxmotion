@@ -24,14 +24,14 @@ const FEATURED: readonly { id: FeaturedId; image: string }[] = [
   { id: "mercedesSClass2", image: "/fleet/featured-mercedes-2.png" },
 ] as const
 
-export function Fleet() {
+export function Fleet({ showControls = true }: { showControls?: boolean } = {}) {
   const t = useTranslations("fleet")
   const [activeCategory, setActiveCategory] = useState<CategoryId>("standard")
 
   return (
     <section
       id="fleet"
-      className="bg-[#0D0D0D] pt-10 pb-16 px-4 md:px-[82px] 2xl:px-[300px]"
+      className={`bg-[#0D0D0D] pt-10 px-4 md:px-[82px] 2xl:px-[300px] ${showControls ? "pb-16" : "pb-2"}`}
     >
       <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-6">
         <div
@@ -82,42 +82,46 @@ export function Fleet() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mt-2">
-          <button
-            type="button"
-            aria-label={t("previousSlide")}
-            className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
-          >
-            <ArrowRight className="size-[18px] rotate-180" strokeWidth={1.7} />
-          </button>
-          <div className="flex items-center gap-[6px] px-2">
-            <span className="size-[6px] rounded-full bg-[#C9A96E]" />
-            <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
-            <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
-            <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
-          </div>
-          <button
-            type="button"
-            aria-label={t("nextSlide")}
-            className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
-          >
-            <ArrowRight className="size-[18px]" strokeWidth={1.7} />
-          </button>
-        </div>
+        {showControls && (
+          <>
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <button
+                type="button"
+                aria-label={t("previousSlide")}
+                className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
+              >
+                <ArrowRight className="size-[18px] rotate-180" strokeWidth={1.7} />
+              </button>
+              <div className="flex items-center gap-[6px] px-2">
+                <span className="size-[6px] rounded-full bg-[#C9A96E]" />
+                <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+                <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+                <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+              </div>
+              <button
+                type="button"
+                aria-label={t("nextSlide")}
+                className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
+              >
+                <ArrowRight className="size-[18px]" strokeWidth={1.7} />
+              </button>
+            </div>
 
-        <Link
-          href="/fleet"
-          className="group inline-flex items-center justify-center gap-2 border border-[#C9A96E] h-12 px-6 mt-2 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
-          style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
-        >
-          <span className="text-[14px] font-medium tracking-[1.1px] uppercase">
-            {t("exploreFleet")}
-          </span>
-          <ArrowUpRight
-            className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            strokeWidth={2}
-          />
-        </Link>
+            <Link
+              href="/fleet"
+              className="group inline-flex items-center justify-center gap-2 border border-[#C9A96E] h-12 px-6 mt-2 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+              style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+            >
+              <span className="text-[14px] font-medium tracking-[1.1px] uppercase">
+                {t("exploreFleet")}
+              </span>
+              <ArrowUpRight
+                className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={2}
+              />
+            </Link>
+          </>
+        )}
       </div>
     </section>
   )

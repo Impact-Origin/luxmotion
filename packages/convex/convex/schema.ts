@@ -598,6 +598,74 @@ export default defineSchema({
     .index("by_created", ["createdAt"])
     .index("by_status", ["status"]),
 
+  partnerApplications: defineTable({
+    // company step
+    operatingZones: v.array(v.string()),
+    driverCount: v.string(),
+    driversComfortableWithMobile: v.union(v.literal("yes"), v.literal("no")),
+
+    // representative step
+    companyName: v.string(),
+    representativeFullName: v.string(),
+    representativeEmail: v.string(),
+    representativePhone: v.string(),
+    representativeWhatsapp: v.string(),
+
+    // drivers step
+    drivers: v.array(
+      v.object({
+        fullName: v.string(),
+        email: v.string(),
+        phone: v.string(),
+        hasVideo: v.boolean(),
+      }),
+    ),
+
+    // vehicles step
+    vehicles: v.array(
+      v.object({
+        make: v.string(),
+        model: v.string(),
+        licensePlate: v.string(),
+        category: v.string(),
+      }),
+    ),
+
+    // documents step
+    documentLicenseId: v.optional(v.id("_storage")),
+    documentAddressProofPrimaryId: v.optional(v.id("_storage")),
+    documentAddressProofSecondaryId: v.optional(v.id("_storage")),
+    documentLiabilityInsuranceId: v.optional(v.id("_storage")),
+
+    // billing step
+    billingAccountHolder: v.string(),
+    billingInvoiceName: v.string(),
+    billingSwiftBic: v.string(),
+    billingIban: v.string(),
+    billingTaxId: v.string(),
+    billingTaxOffice: v.string(),
+    billingAddress: v.string(),
+    billingBankProofId: v.optional(v.id("_storage")),
+
+    // agreement / consent
+    priceAgreementAcknowledged: v.boolean(),
+    termsAccepted: v.boolean(),
+
+    // metadata
+    status: v.union(
+      v.literal("submitted"),
+      v.literal("reviewing"),
+      v.literal("approved"),
+      v.literal("rejected"),
+    ),
+    queuePosition: v.number(),
+    createdAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    internalNotes: v.optional(v.string()),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
   weddingQuoteSubmissions: defineTable({
     fullName: v.string(),
     email: v.string(),

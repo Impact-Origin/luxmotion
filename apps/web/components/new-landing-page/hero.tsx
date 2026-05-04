@@ -165,7 +165,7 @@ export function Hero() {
               Portugal,
             </span>
             <span
-              className="italic text-[#C9A96E] text-[48px] lg:text-[96px] leading-[1.2] lg:leading-none block whitespace-nowrap"
+              className="italic text-[#C9A96E] text-[48px] lg:text-[96px] leading-[1.2] lg:leading-none block"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {t("titleHighlight")}

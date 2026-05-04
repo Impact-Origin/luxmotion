@@ -13,6 +13,7 @@ interface PhoneInputProps {
   autoComplete?: string
   dark?: boolean
   wedding?: boolean
+  partner?: boolean
 }
 
 const allCountries = defaultCountries.map((country) => parseCountry(country))
@@ -32,6 +33,7 @@ export function PhoneInput({
   autoComplete = "tel",
   dark = false,
   wedding = false,
+  partner = false,
 }: PhoneInputProps) {
   const defaultSelectedCountry =
     allCountries.find((c) => c.iso2 === defaultCountry) || allCountries.find((c) => c.iso2 === "pt")!
@@ -130,7 +132,9 @@ export function PhoneInput({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={
-            wedding
+            partner
+              ? "h-[44px] pl-3 pr-2 border border-r-0 border-[rgba(28,27,24,0.08)] bg-white text-[#0d0d0d] text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#f7f4ef] transition-colors focus:outline-none shrink-0"
+              : wedding
               ? "h-[44px] pl-3 pr-2 border border-r-0 border-[rgba(154,117,53,0.22)] bg-[#faf7f2] text-[#1a1612] text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#f3eee5] transition-colors focus:outline-none shrink-0"
               : dark
               ? "h-[44px] pl-2 pr-3 border border-r-0 border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] text-white text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#23221F] transition-colors focus:outline-none shrink-0"
@@ -139,16 +143,16 @@ export function PhoneInput({
         >
           <FlagImage iso2={selectedCountry.iso2} size={20} />
           <span className="font-normal">+{selectedCountry.dialCode}</span>
-          <ChevronDown className={`w-4 h-4 ${wedding ? "text-[#7a746e]" : dark ? "text-[#F7F4EF]" : "text-[#666]"} transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 h-4 ${partner ? "text-[#0d0d0d]" : wedding ? "text-[#7a746e]" : dark ? "text-[#F7F4EF]" : "text-[#666]"} transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
         </button>
 
         {isOpen && mounted && popoverPos && createPortal(
           <div
             ref={popoverRef}
             style={{ position: "fixed", top: popoverPos.top, left: popoverPos.left }}
-            className={`w-[280px] max-h-[320px] ${wedding ? "bg-white border-[rgba(154,117,53,0.22)]" : dark ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
+            className={`w-[280px] max-h-[320px] ${partner ? "bg-white border-[rgba(28,27,24,0.08)]" : wedding ? "bg-white border-[rgba(154,117,53,0.22)]" : dark ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
           >
-            <div className={`p-2 border-b ${wedding ? "border-[rgba(154,117,53,0.15)]" : dark ? "border-[rgba(255,255,255,0.12)]" : "border-[#e0e0e0]"}`}>
+            <div className={`p-2 border-b ${partner ? "border-[rgba(28,27,24,0.08)]" : wedding ? "border-[rgba(154,117,53,0.15)]" : dark ? "border-[rgba(255,255,255,0.12)]" : "border-[#e0e0e0]"}`}>
               <input
                 ref={searchInputRef}
                 type="text"
@@ -156,7 +160,9 @@ export function PhoneInput({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search country..."
                 className={
-                  wedding
+                  partner
+                    ? "w-full h-9 px-3 bg-white border border-[rgba(28,27,24,0.08)] text-[14px] text-[#1c1b18] placeholder:text-[rgba(140,134,128,0.6)] focus:outline-none focus:border-[#a08248] transition-colors"
+                    : wedding
                     ? "w-full h-9 px-3 bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] text-[14px] text-[#1a1612] placeholder:text-[#999] focus:outline-none focus:border-[#a08248] transition-colors"
                     : dark
                     ? "w-full h-9 px-3 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
@@ -171,7 +177,9 @@ export function PhoneInput({
                   type="button"
                   onClick={() => handleCountrySelect(country)}
                   className={`w-full px-3 py-2.5 flex items-center gap-3 transition-colors text-left ${
-                    wedding
+                    partner
+                      ? `hover:bg-[rgba(154,117,53,0.06)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(154,117,53,0.1)]" : ""}`
+                      : wedding
                       ? `hover:bg-[rgba(168,131,58,0.06)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(168,131,58,0.1)]" : ""}`
                       : dark
                       ? `hover:bg-[rgba(255,255,255,0.04)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(201,169,110,0.08)]" : ""}`
@@ -179,12 +187,12 @@ export function PhoneInput({
                   }`}
                 >
                   <FlagImage iso2={country.iso2} size={24} />
-                  <span className={`flex-1 text-[14px] truncate ${wedding ? "text-[#1a1612]" : dark ? "text-[#F7F4EF]" : "text-[#222222]"}`}>{country.name}</span>
-                  <span className={`text-[14px] font-medium ${wedding ? "text-[#7a746e]" : dark ? "text-[#999]" : "text-[#808080]"}`}>+{country.dialCode}</span>
+                  <span className={`flex-1 text-[14px] truncate ${partner ? "text-[#1c1b18]" : wedding ? "text-[#1a1612]" : dark ? "text-[#F7F4EF]" : "text-[#222222]"}`}>{country.name}</span>
+                  <span className={`text-[14px] font-medium ${partner ? "text-[#696969]" : wedding ? "text-[#7a746e]" : dark ? "text-[#999]" : "text-[#808080]"}`}>+{country.dialCode}</span>
                 </button>
               ))}
               {filteredCountries.length === 0 && (
-                <div className={`px-3 py-4 text-center text-[14px] ${wedding ? "text-[#7a746e]" : dark ? "text-[#999]" : "text-[#808080]"}`}>
+                <div className={`px-3 py-4 text-center text-[14px] ${partner ? "text-[#696969]" : wedding ? "text-[#7a746e]" : dark ? "text-[#999]" : "text-[#808080]"}`}>
                   No countries found
                 </div>
               )}
@@ -200,7 +208,9 @@ export function PhoneInput({
           placeholder={placeholder}
           autoComplete={autoComplete}
           className={
-            wedding
+            partner
+              ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-white border border-[rgba(28,27,24,0.08)] text-[14px] text-[#1c1b18] placeholder:text-[rgba(140,134,128,0.6)] focus:outline-none focus:border-[#a08248] transition-colors"
+              : wedding
               ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] text-[14px] text-[#1a1612] placeholder:text-[#999] focus:outline-none focus:border-[#a08248] transition-colors"
               : dark
               ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
