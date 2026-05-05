@@ -130,7 +130,7 @@ export function HeroSection() {
           </div>
           <div
             className="absolute left-1/2 -translate-x-1/2 w-[370px] h-[370px]"
-            style={{ top: 10 }}
+            style={{ top: 40 }}
           >
             <Image
               src="/about/founders.png"

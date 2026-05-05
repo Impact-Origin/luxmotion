@@ -190,7 +190,7 @@ export function ConfirmationModal() {
             </h2>
           </div>
 
-          <div className="px-12 py-12 flex flex-col gap-6">
+          <div className="px-5 py-8 md:px-12 md:py-12 flex flex-col gap-6">
             <p className="text-[14px] leading-[1.6] text-[#F7F4EF]">
               <span className="font-bold">{t("thankYou")} </span>
               <span className="text-[#C9A96E]">{t("emailWhatsapp")}</span>

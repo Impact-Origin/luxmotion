@@ -121,7 +121,7 @@ export function Hero() {
 
   return (
     <section className="relative bg-[#0D0D0D]">
-      <div className="absolute top-0 right-0 w-[42%] aspect-[4096/3223] hidden lg:block">
+      <div className="absolute top-0 right-0 w-[55%] xl:w-[48%] 2xl:w-[42%] aspect-[4096/3223] hidden lg:block">
         <Image
           src="/hero-bg.png"
           alt=""

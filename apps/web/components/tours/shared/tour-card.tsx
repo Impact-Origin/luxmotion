@@ -95,7 +95,7 @@ export function TourCard({ tour, className }: TourCardProps) {
           {tour.title}
         </h3>
 
-        <div className="flex flex-wrap items-center gap-x-[12px] gap-y-[4px] pt-[2px]">
+        <div className="flex flex-col items-start gap-[6px] pt-[2px]">
           <div className="flex items-center gap-[5px]">
             <MapPin className="size-[14px] text-[#999]" strokeWidth={1.6} />
             <span

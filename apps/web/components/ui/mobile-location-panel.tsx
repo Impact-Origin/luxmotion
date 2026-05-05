@@ -36,6 +36,8 @@ export interface MobileLocationPanelProps {
   trigger: React.ReactNode
   children: React.ReactNode
   className?: string
+  /** When true, applies LuxMotion dark theme to the panel chrome */
+  dark?: boolean
 }
 
 export function MobileLocationPanel({
@@ -45,6 +47,7 @@ export function MobileLocationPanel({
   trigger,
   children,
   className,
+  dark = false,
 }: MobileLocationPanelProps) {
   const [rect, setRect] = React.useState<ViewportRect | null>(null)
   const [mounted, setMounted] = React.useState(false)
@@ -126,7 +129,8 @@ export function MobileLocationPanel({
               zIndex: 101,
             }}
             className={cn(
-              "flex flex-col bg-white outline-none overflow-hidden",
+              "flex flex-col outline-none overflow-hidden",
+              dark ? "bg-[#1e1d1b] border-t border-[rgba(201,169,110,0.18)]" : "bg-white",
               !useViewportPosition && "fixed bottom-0 left-0 right-0 rounded-t-[20px] min-h-0 max-h-[92vh] h-[92vh]",
               useViewportPosition && "rounded-none",
               className
@@ -136,11 +140,19 @@ export function MobileLocationPanel({
             aria-labelledby="mobile-location-panel-title"
           >
             <div className="relative shrink-0">
-              <div className="mx-auto mt-3 mb-2 h-1.5 w-12 rounded-full bg-gray-300" />
+              <div className={cn(
+                "mx-auto mt-3 mb-2 h-1.5 w-12 rounded-full",
+                dark ? "bg-[rgba(255,255,255,0.2)]" : "bg-gray-300"
+              )} />
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
-                className="absolute top-1 right-1 p-1.5 rounded-full text-[#222] bg-gray-100 hover:bg-gray-200 active:bg-gray-300 transition-colors touch-manipulation"
+                className={cn(
+                  "absolute top-1 right-1 p-1.5 rounded-full transition-colors touch-manipulation",
+                  dark
+                    ? "text-white bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(255,255,255,0.14)] active:bg-[rgba(255,255,255,0.2)]"
+                    : "text-[#222] bg-gray-100 hover:bg-gray-200 active:bg-gray-300"
+                )}
                 aria-label="Fechar"
               >
                 <X className="w-5 h-5" strokeWidth={2.5} />
@@ -149,7 +161,10 @@ export function MobileLocationPanel({
             <div className="flex flex-col flex-1 px-4 pb-8 overflow-hidden min-h-0">
               <h2
                 id="mobile-location-panel-title"
-                className="text-xl font-bold text-[#222222] shrink-0 mb-1 pr-12"
+                className={cn(
+                  "text-xl font-bold shrink-0 mb-1 pr-12",
+                  dark ? "text-white" : "text-[#222222]"
+                )}
               >
                 {title}
               </h2>

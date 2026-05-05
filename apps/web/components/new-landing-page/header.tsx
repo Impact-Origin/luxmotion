@@ -227,8 +227,8 @@ export function Header({
         { href: "/events", label: t("events") },
         { href: "https://easytoursportugal.com/", label: t("luxuryTours") },
         { href: "https://easytoursportugal.com/premium-corporate-transfers-portugal/", label: t("corporate") },
-        { href: "https://easytransferservices.site/casamentos/", label: t("weddings") },
-        { href: "https://easytransferservices.site/escola/", label: t("school") },
+        { href: "/wedding", label: t("weddings") },
+        { href: "/schools", label: t("school") },
       ]
     },
     {
@@ -243,8 +243,8 @@ export function Header({
       label: t("forDrivers"),
       hasDropdown: true,
       items: [
-        { href: "#", label: t("individualDrivers") },
-        { href: "#", label: t("driverCompanies") },
+        { href: "/drivers", label: t("individualDrivers") },
+        { href: "/drivers-2", label: t("driverCompanies") },
       ]
     },
     { href: "/blogs", label: t("blog"), hasDropdown: false, items: [] },

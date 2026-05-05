@@ -440,11 +440,11 @@ export function BookingWidget({ className }: BookingWidgetProps) {
 
           <div className="flex lg:hidden flex-col gap-2">
             <div className="flex items-center gap-2">
-              <BadgeCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
-              <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
-              <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
-              <ShieldCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
-              <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+              <BadgeCheck className="size-3.5 text-[#C9A96E]" />
+              <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+              <div className="h-3 w-px bg-[rgba(201,169,110,0.25)]" />
+              <ShieldCheck className="size-3.5 text-[#C9A96E]" />
+              <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
             </div>
             <div className="flex flex-wrap items-start gap-2">
               <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.excellent}</span>
@@ -461,11 +461,11 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       {mounted && !isTransferMode && (
         <div className="mt-2 flex flex-col gap-2 items-start px-0.5">
           <div className="flex items-center gap-2">
-            <BadgeCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
-            <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
-            <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
-            <ShieldCheck className="size-3.5 text-[rgba(255,255,255,0.7)]" />
-            <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+            <BadgeCheck className="size-3.5 text-[#C9A96E]" />
+            <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+            <div className="h-3 w-px bg-[rgba(201,169,110,0.25)]" />
+            <ShieldCheck className="size-3.5 text-[#C9A96E]" />
+            <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
           </div>
         </div>
       )}

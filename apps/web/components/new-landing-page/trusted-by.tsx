@@ -25,7 +25,7 @@ export function TrustedBy() {
           {t("eyebrow")}
         </p>
 
-        <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-8 items-center opacity-50">
+        <div className="hidden sm:grid w-full sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-8 items-center opacity-50">
           {logos.map((logo) => (
             <div
               key={logo.name}
@@ -39,6 +39,31 @@ export function TrustedBy() {
                 className="object-contain"
                 style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
               />
+            </div>
+          ))}
+        </div>
+
+        <div className="sm:hidden w-full flex flex-col gap-6 opacity-50">
+          {[logos.slice(0, 3), logos.slice(3, 6)].map((row, rowIdx) => (
+            <div
+              key={rowIdx}
+              className="flex gap-8 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {row.map((logo) => (
+                <div
+                  key={logo.name}
+                  className="relative h-[60px] w-[140px] shrink-0 snap-center"
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.name}
+                    fill
+                    sizes="140px"
+                    className="object-contain"
+                    style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
+                  />
+                </div>
+              ))}
             </div>
           ))}
         </div>

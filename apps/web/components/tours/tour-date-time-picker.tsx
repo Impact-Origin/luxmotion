@@ -474,6 +474,7 @@ export function TourDateTimePicker({
   if (isMobile) {
     return (
       <MobileDrawer
+        dark
         open={open}
         onOpenChange={setOpen}
         trigger={trigger}

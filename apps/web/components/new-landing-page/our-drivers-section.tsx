@@ -83,7 +83,7 @@ export function OurDriversSection() {
   const swipeHandlers = useSwipe(goNext, goPrev)
 
   return (
-    <section id="drivers" className="bg-[#0D0D0D] pt-6 pb-16">
+    <section id="drivers" className="bg-[#0D0D0D] pt-16 lg:pt-6 pb-16">
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center gap-6">
         <div className="flex flex-col items-center gap-2">
           <div
@@ -139,7 +139,7 @@ export function OurDriversSection() {
             type="button"
             onClick={goPrev}
             aria-label={t("prevDriver")}
-            className={`absolute left-0 lg:left-0 top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
+            className={`absolute left-6 lg:left-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
               current === 0 ? "opacity-0 pointer-events-none" : ""
             }`}
           >
@@ -149,7 +149,7 @@ export function OurDriversSection() {
             type="button"
             onClick={goNext}
             aria-label={t("nextDriver")}
-            className={`absolute right-0 lg:right-0 top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
+            className={`absolute right-6 lg:right-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
               current === total - 1 ? "opacity-0 pointer-events-none" : ""
             }`}
           >
@@ -175,8 +175,8 @@ export function OurDriversSection() {
 
         <div className="w-full max-w-[960px] mt-4">
           <div className="bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] px-6 sm:px-10 lg:px-[48.8px] py-8 lg:py-[40.8px] flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-center">
-            <div className="w-full lg:w-[272px] lg:shrink-0 text-center lg:text-left">
-              <p className="text-[14px] font-semibold text-white leading-[21px]">
+            <div className="w-full lg:w-[272px] lg:shrink-0 text-left">
+              <p className="text-[14px] font-semibold text-white leading-[21px] max-w-[245px] lg:max-w-none text-balance">
                 {t("vettingHeading")}
               </p>
               <p className="italic text-[12px] text-[#C9A96E] leading-[25.2px] mt-1">
@@ -184,7 +184,7 @@ export function OurDriversSection() {
               </p>
             </div>
             <div className="w-full lg:w-[574px] lg:shrink-0 relative flex justify-between items-start gap-2 sm:gap-4">
-              <div className="hidden sm:block absolute top-[22px] lg:top-[28px] left-[12.5%] right-[12.5%] h-0 border-t-2 border-dashed border-[#C9A96E]" />
+              <div className="absolute top-[22px] lg:top-[28px] left-[12.5%] right-[12.5%] h-0 border-t-2 border-dashed border-[#C9A96E]" />
               {VETTING_STEPS.map((step) => {
                 const Icon = step.icon
                 return (
@@ -240,22 +240,20 @@ function DriverSlide({
   const ease = "cubic-bezier(0.22,1,0.36,1)"
 
   return (
-    <div className="w-full shrink-0 px-12 sm:px-16">
+    <div className="w-full shrink-0 px-0 sm:px-16">
       <div className="mx-auto max-w-[960px] flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-0">
-        <div className="relative w-[280px] sm:w-[320px] lg:w-[380px] h-[280px] lg:h-[300px] flex items-start justify-center shrink-0">
+        <div className="relative w-[260px] sm:w-[320px] lg:w-[380px] h-[260px] sm:h-[280px] lg:h-[300px] flex items-start justify-center shrink-0">
           <div
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[260px] rounded-full bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.2)] transition-all duration-[700ms] ${
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[220px] sm:size-[260px] rounded-full bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.2)] transition-all duration-[700ms] ${
               active ? "opacity-100 scale-100" : "opacity-0 scale-[0.9]"
             }`}
             style={{ transitionTimingFunction: ease, transitionDelay: active ? "80ms" : "0ms" }}
           />
           <div
-            className={`relative w-[200px] sm:w-[220px] h-[280px] sm:h-[300px] border border-[#C9A96E] overflow-hidden z-10 transition-all duration-[700ms] ${imgMotion}`}
+            className={`relative w-[176px] sm:w-[220px] h-[248px] sm:h-[300px] rounded-t-[88px] sm:rounded-t-[100px] border border-[#C9A96E] overflow-hidden z-10 transition-all duration-[700ms] ${imgMotion}`}
             style={{
               transitionTimingFunction: ease,
               transitionDelay: active ? "120ms" : "0ms",
-              borderTopLeftRadius: "100px",
-              borderTopRightRadius: "100px",
               backgroundImage:
                 "linear-gradient(rgba(15, 15, 15, 1) 0%, rgba(25, 25, 25, 1) 87.98%, rgba(201, 169, 110, 0.04) 94.71%)",
             }}
@@ -271,7 +269,7 @@ function DriverSlide({
         </div>
 
         <div
-          className={`flex-1 lg:w-[580px] lg:mt-16 flex flex-col gap-[10px] items-center lg:items-start text-center lg:text-left transition-all duration-[650ms] ${textMotion}`}
+          className={`w-full flex-1 lg:w-[580px] lg:mt-16 flex flex-col gap-[10px] items-start text-left transition-all duration-[650ms] ${textMotion}`}
           style={{ transitionTimingFunction: ease, transitionDelay: active ? "200ms" : "0ms" }}
         >
           <h3
@@ -284,7 +282,7 @@ function DriverSlide({
             {driver.description}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 pt-4 items-center sm:items-start justify-center lg:justify-start w-full">
+          <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 pt-4 items-start justify-start lg:justify-start w-full">
             <div className="flex items-start gap-2">
               <div className="relative w-16 h-12 shrink-0 mt-1">
                 <Image

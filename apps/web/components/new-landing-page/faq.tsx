@@ -82,13 +82,17 @@ export function FAQ() {
         </div>
 
         <div className="w-full md:w-[480px] xl:w-[605px] shrink-0 aspect-[605/577] rounded-[4px] overflow-hidden relative">
-          <Image
-            src="/faq/driver-photo.png"
-            alt={t("photoAlt")}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 605px"
-          />
+          <div className="absolute w-[160.19%] h-[154.34%] left-[-9.86%] top-[-33.34%]">
+            <Image
+              src="/faq/driver-photo.png"
+              alt={t("photoAlt")}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 160vw, 970px"
+              priority={false}
+              quality={90}
+            />
+          </div>
         </div>
       </div>
     </section>

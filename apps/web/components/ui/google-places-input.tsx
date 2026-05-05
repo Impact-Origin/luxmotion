@@ -28,6 +28,8 @@ interface GooglePlacesInputProps {
   /** When true, render suggestions inline below the input (e.g. inside a bottom drawer). Drawer closes only on selection. */
   inlineDropdown?: boolean
   hideLeftIcon?: boolean
+  /** When true, applies LuxMotion dark theme (only meaningful for new-widget variant). */
+  dark?: boolean
 }
 
 export function GooglePlacesInput({
@@ -39,6 +41,7 @@ export function GooglePlacesInput({
   variant = "default",
   inlineDropdown = false,
   hideLeftIcon = false,
+  dark = false,
 }: GooglePlacesInputProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [defaultSuggestions, setDefaultSuggestions] = useState<LocationSuggestion[]>([])
@@ -212,11 +215,13 @@ export function GooglePlacesInput({
       ) : isNewWidget ? (
         <div
           className={cn(
-            "w-full min-h-[52px] rounded-xl flex items-center gap-3 pl-4 pr-4 py-2 border bg-white",
-            "border-[#e0e0e0] focus-within:border-[#27C7FF] focus-within:ring-2 focus-within:ring-[#27C7FF]/20 transition-colors"
+            "w-full min-h-[52px] rounded-xl flex items-center gap-3 pl-4 pr-4 py-2 border transition-colors",
+            dark
+              ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)] focus-within:border-[#C9A96E] focus-within:ring-2 focus-within:ring-[#C9A96E]/20"
+              : "bg-white border-[#e0e0e0] focus-within:border-[#27C7FF] focus-within:ring-2 focus-within:ring-[#27C7FF]/20"
           )}
         >
-          <Search className="w-5 h-5 text-[#a2a2a2] shrink-0" aria-hidden />
+          <Search className={cn("w-5 h-5 shrink-0", dark ? "text-[#C9A96E]" : "text-[#a2a2a2]")} aria-hidden />
           <input
             suppressHydrationWarning
             value={value.location}
@@ -233,13 +238,14 @@ export function GooglePlacesInput({
             autoFocus={inlineDropdown}
             aria-label={ariaLabel}
             className={cn(
-              "flex-1 min-w-0 bg-transparent border-0 focus:outline-none focus:ring-0 font-medium leading-[1.4] placeholder:text-[#808080]",
+              "flex-1 min-w-0 bg-transparent border-0 focus:outline-none focus:ring-0 font-medium leading-[1.4]",
+              dark ? "placeholder:text-[#696969]" : "placeholder:text-[#808080]",
               inlineDropdown ? "text-[16px]" : "text-[14px] md:text-[15px]",
               !inlineDropdown && "truncate"
             )}
             style={{
-              color: "#222",
-              caretColor: "#27C7FF"
+              color: dark ? "white" : "#222",
+              caretColor: dark ? "#C9A96E" : "#27C7FF"
             }}
           />
         </div>
@@ -302,6 +308,7 @@ export function GooglePlacesInput({
           <div className="relative w-full mt-2 flex-1 min-h-[200px] overflow-hidden flex flex-col">
             <LocationDropdown
               inline
+              dark={dark}
               suggestions={value.location.trim() ? predictions : defaultSuggestions}
               isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
               onSelect={handleSelectSuggestion}

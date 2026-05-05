@@ -14,7 +14,7 @@ export function ProfessionalDriversSection() {
       className="bg-[#1A1A1A] py-10 md:py-24 px-4 md:px-[82px] 2xl:px-[300px]"
     >
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-20">
-        <div className="flex-1 relative order-2 md:order-1">
+        <div className="flex-1 relative mb-32 md:mb-0">
           <div className="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden">
             <Image
               src="/b2b/professional-drivers.png"
@@ -27,7 +27,7 @@ export function ProfessionalDriversSection() {
           <DriverScheduleCard />
         </div>
 
-        <div className="flex-1 flex flex-col gap-4 order-1 md:order-2">
+        <div className="flex-1 flex flex-col gap-4">
           <div className="flex items-center gap-[10px]">
             <div className="w-8 h-px bg-[#C9A96E]" />
             <span

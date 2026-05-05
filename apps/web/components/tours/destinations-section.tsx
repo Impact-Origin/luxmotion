@@ -153,7 +153,7 @@ export function DestinationsSection() {
           <button
             onClick={prev}
             className={cn(
-              "hidden md:flex absolute left-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] rounded-full items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              "hidden md:flex absolute left-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
               offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             aria-label="Previous"
@@ -163,7 +163,7 @@ export function DestinationsSection() {
           <button
             onClick={next}
             className={cn(
-              "hidden md:flex absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] rounded-full items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              "hidden md:flex absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
               offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             aria-label="Next"
@@ -176,7 +176,7 @@ export function DestinationsSection() {
           <button
             onClick={prev}
             className={cn(
-              "md:hidden size-[36px] rounded-full flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              "md:hidden size-[36px] flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
               offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             aria-label="Previous"
@@ -203,7 +203,7 @@ export function DestinationsSection() {
           <button
             onClick={next}
             className={cn(
-              "md:hidden size-[36px] rounded-full flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+              "md:hidden size-[36px] flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
               offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             aria-label="Next"

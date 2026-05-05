@@ -476,6 +476,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
   if (isMobile) {
     return (
       <MobileDrawer
+        dark={isNewWidget}
         open={open}
         onOpenChange={(newOpen) => {
           setOpen(newOpen)

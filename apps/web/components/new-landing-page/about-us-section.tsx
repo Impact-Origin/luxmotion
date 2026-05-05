@@ -11,28 +11,28 @@ export function AboutUsSection() {
   return (
     <section id="about" className="bg-[#0D0D0D] pt-6 pb-0 lg:pb-0">
       <div className="max-w-[1280px] mx-auto px-4">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-6 xl:gap-8">
-          <div className="relative w-full max-w-[578px] lg:w-[45%] lg:max-w-none lg:shrink-0 xl:w-[578px] xl:max-w-[578px] h-[460px] sm:h-[520px] lg:h-[520px] xl:h-[562px]">
-            <div className="absolute left-1/2 -translate-x-1/2 top-[40px] lg:top-[52px] z-10 flex items-center gap-[10px]">
-              <div className="relative size-[60.73px] border-[2.556px] border-[#C9A96E] flex items-center justify-center shrink-0">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-0 lg:gap-6 xl:gap-8">
+          <div className="relative w-full max-w-[578px] lg:w-[45%] lg:max-w-none lg:shrink-0 xl:w-[578px] xl:max-w-[578px] h-[380px] sm:h-[520px] lg:h-[520px] xl:h-[562px]">
+            <div className="absolute left-1/2 -translate-x-1/2 top-[20px] lg:top-[52px] z-10 flex items-center gap-[8px] lg:gap-[10px]">
+              <div className="relative size-[44px] lg:size-[60.73px] border-[2px] lg:border-[2.556px] border-[#C9A96E] flex items-center justify-center shrink-0">
                 <Image
                   src="/svgs/lm-monogram.svg"
                   alt=""
                   width={30}
                   height={17}
-                  className="w-[30px] h-auto"
+                  className="w-[22px] lg:w-[30px] h-auto"
                 />
               </div>
-              <div className="flex flex-col gap-[4px]">
+              <div className="flex flex-col gap-[3px] lg:gap-[4px]">
                 <Image
                   src="/svgs/luxmotion-text.svg"
                   alt="LuxMotion"
                   width={110}
                   height={13}
-                  className="w-[110px] h-auto"
+                  className="w-[80px] lg:w-[110px] h-auto"
                 />
                 <span
-                  className="text-[9.57px] tracking-[1.34px] text-[#999] font-normal leading-none"
+                  className="text-[7px] lg:text-[9.57px] tracking-[1.1px] lg:tracking-[1.34px] text-[#999] font-normal leading-none"
                   style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
                 >
                   BY EASYTRANSFER
@@ -40,7 +40,7 @@ export function AboutUsSection() {
               </div>
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 top-[60px] lg:top-[62px] origin-bottom scale-[1.18] -translate-x-3 lg:-translate-x-5">
+            <div className="absolute inset-x-0 bottom-0 top-[40px] lg:top-[62px] origin-bottom scale-[1.18] -translate-x-3 lg:-translate-x-5">
               <Image
                 src="/about/founders.png"
                 alt={t("imageAlt")}
@@ -53,7 +53,7 @@ export function AboutUsSection() {
           </div>
 
           <div
-            className="w-full max-w-[646px] lg:flex-1 lg:max-w-none lg:min-w-0 xl:max-w-[646px] flex flex-col gap-6"
+            className="w-full max-w-[646px] lg:flex-1 lg:max-w-none lg:min-w-0 xl:max-w-[646px] flex flex-col gap-6 -mt-10 lg:mt-0"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
             <div className="flex flex-col gap-2">

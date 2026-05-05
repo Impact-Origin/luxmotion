@@ -44,7 +44,7 @@ interface PaymentStepProps {
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center w-full">
-      <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+      <span className="text-[12px] font-bold text-[#C9A96E] uppercase tracking-[1.152px] leading-none">
         {children}
       </span>
     </div>
@@ -53,7 +53,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SubLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+    <span className="text-[12px] font-bold text-[#C9A96E] uppercase tracking-[1.152px] leading-none">
       {children}
     </span>
   )
@@ -804,7 +804,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
               </span>
             }
           >
-            <Banknote className="w-6 h-6 text-white" strokeWidth={2} />
+            <Banknote className="w-6 h-6 text-[#C9A96E]" strokeWidth={2} />
             <span className="text-[14px] text-white">{t("cash")}</span>
           </MethodRow>
         </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Users,
   Briefcase,
+  Car,
   ChevronDown,
   CalendarClock,
   MapPinCheckInside,
@@ -13,6 +14,7 @@ import {
   CheckCircle2,
   Pencil,
   PawPrint,
+  type LucideIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getDailyNumber } from "@/lib/daily-number";
@@ -33,7 +35,12 @@ import { cn } from "@workspace/ui/lib/utils";
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" };
 
-export function OrderSummarySidebar() {
+interface OrderSummarySidebarProps {
+  /** When true, renders a compact header by default and expands the body on tap. */
+  collapsible?: boolean;
+}
+
+export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebarProps = {}) {
   const t = useTranslations("orderSummary");
   const tCommon = useTranslations("common");
   const { checkoutBookedTodayMin, checkoutBookedTodayMax } = useMarketingStats();
@@ -41,6 +48,7 @@ export function OrderSummarySidebar() {
   const { state, setStep, setShowTransferForm } = useCheckout();
   const { selectedVehicle, transfer, orderId, payment, experiences } = state;
 
+  const [isExpanded, setIsExpanded] = useState(!collapsible);
   const [isItineraryExpanded, setIsItineraryExpanded] = useState(false);
   const [isInvoiceExpanded, setIsInvoiceExpanded] = useState(false);
   const [routeDistance, setRouteDistance] = useState<number | null>(null);
@@ -185,9 +193,9 @@ export function OrderSummarySidebar() {
   const euros = Math.floor(totalPriceWithExtras);
   const finalAmount = totalPriceWithExtras.toFixed(0);
 
-  return (
-    <div className="flex flex-col gap-3 px-6 py-8 text-[#F7F4EF] border-x border-b border-[rgba(255,255,255,0.12)]">
-      <header className="flex flex-col gap-3.5 w-full">
+  const headerNode = (
+    <div className="flex items-start justify-between w-full gap-3">
+      <div className="flex flex-col gap-3.5 min-w-0 flex-1">
         <h2
           className="text-[24px] font-semibold text-[#F7F4EF] leading-none"
           style={SERIF_FONT}
@@ -197,8 +205,63 @@ export function OrderSummarySidebar() {
         <p className="text-[12px] text-[rgba(247,244,239,0.38)] leading-[14.85px]">
           {t("orderNumber")} <span>{orderId || "—"}</span>
         </p>
-      </header>
+      </div>
+      {collapsible && (
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-baseline text-[#C9A96E]">
+            <span className="text-[18px] font-medium leading-none">€</span>
+            <span className="text-[18px] font-bold leading-none">{euros}</span>
+          </div>
+          <span className="flex size-9 items-center justify-center border border-[rgba(201,169,110,0.4)] bg-[rgba(154,117,53,0.12)] transition-colors">
+            <ChevronDown
+              className={cn(
+                "size-4 text-[#C9A96E] transition-transform duration-300",
+                isExpanded && "rotate-180",
+              )}
+              strokeWidth={1.75}
+            />
+          </span>
+        </div>
+      )}
+    </div>
+  );
 
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-3 px-6 pt-8 text-[#F7F4EF] border-x border-b border-[rgba(255,255,255,0.12)]",
+        collapsible && !isExpanded ? "pb-4" : "pb-8",
+      )}
+    >
+      {collapsible ? (
+        <button
+          type="button"
+          onClick={() => setIsExpanded((v) => !v)}
+          className="w-full text-left"
+          aria-expanded={isExpanded}
+        >
+          {headerNode}
+        </button>
+      ) : (
+        <header className="w-full">{headerNode}</header>
+      )}
+
+      {collapsible && !isExpanded && (
+        <div className="flex flex-wrap items-center gap-1.5 w-full">
+          <CompactBadge icon={Users} label={String(passengers)} />
+          <CompactBadge icon={Briefcase} label={String(luggage)} />
+          {selectedVehicle && (
+            <CompactBadge icon={Car} label={selectedVehicle.name} />
+          )}
+          <CompactBadge
+            icon={MapPinCheckInside}
+            label={`${stopsCount} ${t("stopsLabel")}`}
+          />
+        </div>
+      )}
+
+      <AnimatedCollapse isOpen={isExpanded}>
+        <div className="flex flex-col gap-3 pt-1">
       <section className="bg-[#1a1918] flex flex-col gap-2 px-4 py-3 w-full">
         <div className="flex items-center justify-between w-full">
           <span className="text-[12px] font-semibold text-[#F7F4EF] leading-none">
@@ -474,6 +537,25 @@ export function OrderSummarySidebar() {
           }}
         />
       </section>
+        </div>
+      </AnimatedCollapse>
+    </div>
+  );
+}
+
+function CompactBadge({
+  icon: Icon,
+  label,
+}: {
+  icon: LucideIcon;
+  label: string;
+}) {
+  return (
+    <div className="bg-[rgba(154,117,53,0.22)] inline-flex items-center pl-2 py-1">
+      <Icon className="size-4 text-[#C9A96E]" strokeWidth={1.5} />
+      <span className="px-2 text-[14px] font-medium text-[#C9A96E] leading-none">
+        {label}
+      </span>
     </div>
   );
 }

@@ -137,7 +137,7 @@ function IconOptionCard({
   return (
     <div
       className={cn(
-        "relative border p-4 flex flex-col gap-2 items-center transition-colors",
+        "relative border p-4 pt-8 md:pt-4 flex flex-col gap-2 items-center transition-colors",
         selected
           ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
           : "bg-[#1A1918] border-[rgba(255,255,255,0.06)]",
@@ -150,8 +150,8 @@ function IconOptionCard({
         </span>
       )}
       <div className="flex items-center justify-center gap-2">
-        <Icon className="w-6 h-6 text-[#C9A96E]" strokeWidth={1.6} />
-        <div className="flex flex-col gap-0.5">
+        <Icon className="w-6 h-6 text-[#C9A96E] shrink-0" strokeWidth={1.6} />
+        <div className="flex flex-col gap-0.5 min-w-0">
           <span className="text-[12px] font-bold text-[#F7F4EF] leading-[19.2px]">{title}</span>
           {subtitle && (
             <span className="text-[10px] font-medium text-[rgba(247,244,239,0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
@@ -160,7 +160,7 @@ function IconOptionCard({
           )}
         </div>
       </div>
-      <div className="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center w-full mt-auto">
         {children}
       </div>
     </div>

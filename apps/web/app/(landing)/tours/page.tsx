@@ -3,7 +3,6 @@ import { ToursHero } from "@/components/tours/tours-hero"
 import { TourStory } from "@/components/tours/tour-story"
 import { DestinationsSection } from "@/components/tours/destinations-section"
 import { TopPicksSection } from "@/components/tours/top-picks-section"
-import { GuidesSection } from "@/components/new-landing-page/guides-section"
 import { ContactSection } from "@/components/new-landing-page/contact-section"
 import { ToursTestimonials } from "@/components/tours/tours-testimonials"
 import { SocialSection } from "@/components/new-landing-page/social-section"
@@ -54,7 +53,6 @@ export default function ToursPage() {
         <DestinationsSection />
         <ToursTestimonials />
         <TopPicksSection />
-        <GuidesSection />
         <ContactSection />
         <SocialSection />
       </div>

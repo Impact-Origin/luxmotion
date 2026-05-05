@@ -4,7 +4,6 @@ import { CheckoutHeader } from "@/components/checkout/checkout-header"
 import { VehicleCard } from "@/components/checkout/vehicle-card"
 import { TransferInfoStep } from "@/components/checkout/transfer-info-step"
 import { OrderSummarySidebar } from "@/components/checkout/order-summary-sidebar"
-import { OrderSummaryMobile } from "@/components/checkout/order-summary-mobile"
 import { Footer } from "@/components/new-landing-page/footer"
 import { PassengerInfoForm } from "@/components/checkout/passenger-info-form"
 import { PaymentStep } from "@/components/checkout/payment-step"
@@ -286,7 +285,9 @@ function VehicleSelectionStep({
   if (showTransferForm && selectedVehicle) {
     return (
       <div className="max-w-[1200px] mx-auto px-6 pb-6">
-        <OrderSummaryMobile />
+        <div className="lg:hidden mb-6 -mx-6">
+          <OrderSummarySidebar collapsible />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-0 mt-6 lg:mt-0 items-start">
           <div className="pt-8 lg:pr-6">
             <TransferInfoStep onContinue={onContinue} />
@@ -301,12 +302,15 @@ function VehicleSelectionStep({
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 pb-6">
-      <div className="lg:hidden mb-6">
-        <OrderSummaryMobile />
+      <div className="lg:hidden mb-6 -mx-6">
+        <OrderSummarySidebar collapsible />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-0 items-start">
         <div className="flex flex-col pt-8 lg:pr-6">
-          <h2 className="text-[22px] lg:text-[24px] font-normal text-[#F7F4EF] mb-5">
+          <h2
+            className="text-[28px] lg:text-[36px] font-normal text-[#F7F4EF] mb-5 leading-none"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
             {t("chooseYourVehicle")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

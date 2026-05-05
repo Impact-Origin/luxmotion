@@ -239,6 +239,7 @@ export function EventsTourForm({
 
           {isMobile && (
             <MobileDrawer
+              dark
               open={showEventDropdown}
               onOpenChange={setShowEventDropdown}
               title={isEvents ? t.chooseEvent : t.chooseTour}
