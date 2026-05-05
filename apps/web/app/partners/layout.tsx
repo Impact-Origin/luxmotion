@@ -26,7 +26,7 @@ export default function PartnersLayout({
     <div
       className={`${fontSans.variable} ${fontTitle.variable} font-sans bg-[#f7f4ef] text-[#1c1b18] min-h-screen flex flex-col`}
     >
-      <Header />
+      <Header variant="light" />
       <main className="flex-1 pt-[60px] lg:pt-[72px] flex flex-col">
         {children}
       </main>

@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function WeddingPage() {
   return (
     <div className="min-h-screen bg-[#EFE8DC]">
-      <Header />
+      <Header variant="light" />
       <div className="pt-[72px]">
         <WeddingHero />
         <WeddingOfferSection />

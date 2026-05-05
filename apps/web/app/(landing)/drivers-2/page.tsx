@@ -39,7 +39,7 @@ export default function DriversTwoPage() {
           { name: "Drivers", url: "/drivers-2" },
         ])}
       />
-      <Header />
+      <Header variant="light" />
       <main className="pt-[60px] lg:pt-[72px]">
         <DriversHero2 />
         <EarningsComparison2 />

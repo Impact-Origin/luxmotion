@@ -40,7 +40,7 @@ export default function DriversCompanyPage() {
           { name: "Drivers", url: "/drivers" },
         ])}
       />
-      <Header />
+      <Header variant="light" />
       <main className="pt-[60px] lg:pt-[72px]">
         <DriversHero />
         <EarningsComparison />

@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function SchoolsPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <Header variant="light" />
       <div className="pt-[72px]">
         <SchoolsHero />
         <SchoolsBenefits />
