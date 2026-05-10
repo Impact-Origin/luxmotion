@@ -4797,7 +4797,9 @@
       "subtitle": "Reveja e aceite os termos para submeter a sua candidatura.",
       "acceptance": "Ao submeter esta candidatura, confirmo que li e aceito os <terms>Termos de Serviço</terms> e a <privacy>Política de Privacidade</privacy> da LuxMotion by EasyTransfer, em nome da empresa que represento.",
       "disclaimer": "A parceria não é garantida — a sua candidatura será analisada e deverá ser aprovada pela equipa LuxMotion. Entraremos em contacto consigo no prazo de 5 dias úteis.",
-      "submitCta": "Submeter candidatura"
+      "submitCta": "Submeter candidatura",
+      "submittingCta": "A submeter…",
+      "submissionError": "Não foi possível submeter a sua candidatura. Verifique a sua ligação e tente novamente."
     },
     "success": {
       "title": "Candidatura submetida",

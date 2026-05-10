@@ -4624,7 +4624,9 @@
       "subtitle": "Controleer en accepteer de voorwaarden om je aanvraag in te dienen.",
       "acceptance": "Door deze aanvraag in te dienen, bevestig ik dat ik de <terms>Servicevoorwaarden</terms> en het <privacy>Privacybeleid</privacy> van LuxMotion by EasyTransfer heb gelezen en accepteer, namens het bedrijf dat ik vertegenwoordig.",
       "disclaimer": "Een partnerschap is niet gegarandeerd — je aanvraag wordt beoordeeld en moet worden goedgekeurd door het LuxMotion-team. We nemen binnen 5 werkdagen contact met je op.",
-      "submitCta": "Aanvraag indienen"
+      "submitCta": "Aanvraag indienen",
+      "submittingCta": "Bezig met indienen…",
+      "submissionError": "We konden je aanvraag niet indienen. Controleer je verbinding en probeer het opnieuw."
     },
     "success": {
       "title": "Aanvraag ingediend",

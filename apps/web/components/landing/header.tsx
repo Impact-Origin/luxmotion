@@ -211,7 +211,7 @@ export function Header({
             <div className="flex gap-[12px] 2xl:gap-[16px] items-center">
               {navLinks.map((link) => (
                 link.hasDropdown && mounted ? (
-                  <DropdownMenu key={link.label}>
+                  <DropdownMenu key={link.label} modal={false}>
                     <DropdownMenuTrigger asChild>
                       <button
                         data-theme-color="landingHeaderText"

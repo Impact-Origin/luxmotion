@@ -323,20 +323,20 @@ export function TransferForm({
                 }}
               >
                 <div className="flex items-center gap-2">
-                  <Users className="w-6 h-6" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                  <Users className="w-6 h-6" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
                   <span className="text-[14px] font-medium leading-[21px] text-white">
                     {totalPassengers}
                   </span>
                 </div>
                 <div className="h-6 w-px bg-[rgba(255,255,255,0.1)]" />
                 <div className="flex items-center gap-2">
-                  <Briefcase className="w-6 h-6" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
-                  <Luggage className="w-6 h-6" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                  <Briefcase className="w-6 h-6" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
+                  <Luggage className="w-6 h-6" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
                   <span className="text-[14px] font-medium leading-[21px] text-white">
                     {totalLuggage}
                   </span>
                 </div>
-                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={3} />
+                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
               </button>
             }
           >
@@ -363,20 +363,20 @@ export function TransferForm({
               >
                 <div className="flex items-center gap-5 text-[#C9A96E]">
                   <div className="flex items-center gap-2">
-                    <Users className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <Users className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
                     <span className="text-[14px] font-medium leading-[21px] text-white">
                       {totalPassengers}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
-                    <Luggage className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                    <Briefcase className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
+                    <Luggage className="w-[22px] h-[22px]" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
                     <span className="text-[14px] font-medium leading-[21px] text-white">
                       {totalLuggage}
                     </span>
                   </div>
                 </div>
-                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={3} />
+                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
               </button>
             </PopoverTrigger>
             <PopoverContent
@@ -408,7 +408,7 @@ export function TransferForm({
           <span className="text-[14px] font-semibold uppercase tracking-[1.1px] text-[rgba(13,13,13,0.96)]">
             {t.continue}
           </span>
-          <CircleCheckBig className="w-5 h-5 stroke-[2.5] text-[rgba(13,13,13,0.96)]" />
+          <CircleCheckBig className="w-5 h-5 stroke-[1.2] text-[rgba(13,13,13,0.96)]" />
         </button>
       </motion.div>
     </div>

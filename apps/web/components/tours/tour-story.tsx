@@ -78,7 +78,7 @@ export function TourStory() {
   const t = useTranslations("tourStory")
 
   return (
-    <section className="bg-[#0D0D0D] pt-12 pb-16 px-4 md:px-[82px] 2xl:px-[300px]">
+    <section className="bg-[#0D0D0D] pt-12 pb-16 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto relative">
         <div className="flex flex-col gap-[29px] md:max-w-[640px] md:min-h-[457px] md:justify-center">
           <div className="flex items-center gap-2">

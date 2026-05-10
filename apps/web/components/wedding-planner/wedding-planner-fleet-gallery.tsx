@@ -28,7 +28,7 @@ function StarRow() {
 
 export function WeddingPlannerFleetGallery() {
   return (
-    <section className="bg-[#0D0D0D] px-4 md:px-[82px] 2xl:px-[300px] pb-16">
+    <section className="bg-[#0D0D0D] px-4 md:px-[82px] pb-16">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-2">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
           {VEHICLES.map((v, i) => (

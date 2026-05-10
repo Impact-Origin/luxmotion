@@ -277,7 +277,7 @@ export function Header({
           <nav className="hidden xl:flex items-center gap-[18px]">
             {navLinks.map((link) =>
               link.hasDropdown && mounted ? (
-                <DropdownMenu key={link.label}>
+                <DropdownMenu key={link.label} modal={false}>
                   <DropdownMenuTrigger asChild>
                     <button className={cn(linkClasses(link.href || "", link.hasDropdown, link.items), "flex items-center gap-[8px] outline-none cursor-pointer")}>
                       {link.label}

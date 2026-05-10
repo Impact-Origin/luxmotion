@@ -405,7 +405,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
                   onClick={removeDestination}
                   className="flex items-center gap-2 text-[14px] font-medium text-[#C9A96E] hover:text-[#C9A96E]/80 transition-colors cursor-pointer shrink-0"
                 >
-                  <CircleMinus className="w-4 h-4" strokeWidth={2.5} />
+                  <CircleMinus className="w-4 h-4" strokeWidth={1.2} />
                   {t("removeStop")}
                 </button>
               )}

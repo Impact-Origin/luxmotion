@@ -37,18 +37,18 @@ function ApplicationView() {
   const t = useTranslations("driverApplication.steps")
   const { state } = useDriverApplication()
 
-  if (state.step === 0) {
+  if (state.terms.submitted) {
     return (
-      <div className="flex-1 flex items-center justify-center px-4 py-20 md:py-32 md:px-[82px]">
-        <DriverIntro />
+      <div className="flex-1 flex items-start justify-center px-4 pt-10 pb-32 md:pt-16 md:pb-48 md:px-[82px]">
+        <DriverSuccess />
       </div>
     )
   }
 
-  if (state.step > DRIVER_TOTAL_STEPS) {
+  if (state.step === 0) {
     return (
-      <div className="flex-1 flex items-start justify-center px-4 pt-10 pb-32 md:pt-16 md:pb-48 md:px-[82px]">
-        <DriverSuccess />
+      <div className="flex-1 flex items-center justify-center px-4 py-20 md:py-32 md:px-[82px]">
+        <DriverIntro />
       </div>
     )
   }

@@ -60,7 +60,7 @@ export default function SitePrincipal() {
       <CinematicBanner />
       <TrustedBy />
       <AboutUsSection />
-      <div className="bg-[#0D0D0D] hidden lg:flex justify-center px-4 md:px-[82px] 2xl:px-[300px]">
+      <div className="bg-[#0D0D0D] hidden lg:flex justify-center px-4 md:px-[82px]">
         <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent" />
       </div>
       <OurDriversSection />

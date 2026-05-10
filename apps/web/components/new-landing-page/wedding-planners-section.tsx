@@ -11,7 +11,7 @@ export function WeddingPlannersSection() {
   return (
     <section
       id="b2b-wedding-planners"
-      className="bg-[#0D0D0D] py-10 md:py-24 px-4 md:px-[82px] 2xl:px-[300px]"
+      className="bg-[#0D0D0D] py-10 md:py-24 px-4 md:px-[82px]"
     >
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-20">
         <div className="flex-1 flex flex-col gap-4">

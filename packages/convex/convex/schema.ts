@@ -598,6 +598,79 @@ export default defineSchema({
     .index("by_created", ["createdAt"])
     .index("by_status", ["status"]),
 
+  driverApplications: defineTable({
+    operatingZone: v.string(),
+
+    fullName: v.string(),
+    email: v.string(),
+    representativeEmail: v.string(),
+    phone: v.string(),
+    whatsapp: v.string(),
+    languages: v.array(
+      v.object({
+        code: v.string(),
+        level: v.union(
+          v.literal("survival"),
+          v.literal("intermediate"),
+          v.literal("fluent"),
+        ),
+      }),
+    ),
+    referral: v.string(),
+
+    vehicleCategory: v.string(),
+    vehicleBrand: v.string(),
+    vehicleModel: v.string(),
+    vehiclePlate: v.string(),
+    vehicleColor: v.string(),
+    vehicleYear: v.string(),
+    vehicleOwnership: v.string(),
+    vehiclePassengerCapacity: v.string(),
+    vehicleLuggageCapacity: v.string(),
+    vehicleTvdeLicensed: v.string(),
+    vehicleInteriorPhotoIds: v.array(v.id("_storage")),
+    vehicleExteriorPhotoIds: v.array(v.id("_storage")),
+    childSeatBaby: v.number(),
+    childSeatChild: v.number(),
+    childSeatBooster: v.number(),
+    surfboardRack: v.boolean(),
+    amenities: v.array(v.string()),
+
+    professionalPhotoId: v.optional(v.id("_storage")),
+    professionalLicenseId: v.optional(v.id("_storage")),
+    vehicleInsuranceId: v.optional(v.id("_storage")),
+    proofOfAddressId: v.optional(v.id("_storage")),
+
+    billingAccountHolder: v.string(),
+    billingInvoiceName: v.string(),
+    billingSwiftBic: v.string(),
+    billingIban: v.string(),
+    billingNif: v.string(),
+    billingTaxOffice: v.string(),
+    billingAddress: v.string(),
+    billingBankProofId: v.optional(v.id("_storage")),
+
+    availabilityDays: v.array(v.string()),
+    availabilityShifts: v.array(v.string()),
+
+    introVideoId: v.optional(v.id("_storage")),
+
+    termsAccepted: v.boolean(),
+
+    status: v.union(
+      v.literal("submitted"),
+      v.literal("reviewing"),
+      v.literal("approved"),
+      v.literal("rejected"),
+    ),
+    queuePosition: v.number(),
+    createdAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    internalNotes: v.optional(v.string()),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
   partnerApplications: defineTable({
     // company step
     operatingZones: v.array(v.string()),

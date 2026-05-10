@@ -4721,7 +4721,9 @@
       "subtitle": "Überprüfen und akzeptieren Sie die Bedingungen, um Ihre Bewerbung einzureichen.",
       "acceptance": "Mit dem Absenden dieser Bewerbung bestätige ich, dass ich die <terms>Nutzungsbedingungen</terms> und die <privacy>Datenschutzrichtlinie</privacy> von LuxMotion by EasyTransfer im Namen des von mir vertretenen Unternehmens gelesen habe und akzeptiere.",
       "disclaimer": "Eine Partnerschaft ist nicht garantiert — Ihre Bewerbung wird vom LuxMotion-Team geprüft und muss genehmigt werden. Wir werden Sie innerhalb von 5 Werktagen kontaktieren.",
-      "submitCta": "Bewerbung einreichen"
+      "submitCta": "Bewerbung einreichen",
+      "submittingCta": "Wird gesendet…",
+      "submissionError": "Ihre Bewerbung konnte nicht übermittelt werden. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut."
     },
     "success": {
       "title": "Bewerbung eingereicht",

@@ -4798,7 +4798,9 @@
       "subtitle": "Review and accept the terms to submit your application.",
       "acceptance": "By submitting this application, I confirm that I have read and accept the <terms>Terms of Service</terms> and the <privacy>Privacy Policy</privacy> of LuxMotion by EasyTransfer, on behalf of the company I represent.",
       "disclaimer": "Partnership is not guaranteed — your application will be reviewed and must be approved by the LuxMotion team. We will contact you within 5 business days.",
-      "submitCta": "Submit application"
+      "submitCta": "Submit application",
+      "submittingCta": "Submitting…",
+      "submissionError": "We couldn't submit your application. Please check your connection and try again."
     },
     "success": {
       "title": "Application submitted",

@@ -35,7 +35,7 @@ export function Footer() {
   const r = useTranslations("footer.redesign")
 
   return (
-    <footer className="bg-[#0D0D0D] pt-8 px-4 md:px-[82px] 2xl:px-[300px]">
+    <footer className="bg-[#0D0D0D] pt-8 px-4 md:px-[82px] border-t border-[rgba(255,255,255,0.05)]">
       <div className="max-w-[1280px] mx-auto">
         <div className="border-b border-[rgba(255,255,255,0.05)] pb-11 grid grid-cols-1 md:grid-cols-[2.2fr_1fr_1fr_1fr] gap-10 md:gap-[60px]">
           <BrandColumn tagline1={r("tagline1")} tagline2={r("tagline2")} />
@@ -241,7 +241,7 @@ function SupportColumn({ followLabel }: { followLabel: string }) {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-[#C9A96E] transition-colors"
+              className="text-[#999] hover:text-[#C9A96E] transition-colors"
               aria-label={s.label}
             >
               <s.icon className="w-7 h-7" />

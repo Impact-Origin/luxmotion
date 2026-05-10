@@ -97,9 +97,14 @@ export interface DriverVideoIntroData {
 
 export interface DriverTermsData {
   accepted: boolean
+  submitting: boolean
+  submitted: boolean
+  submissionId: string | null
+  queuePosition: number | null
+  submissionError: string | null
 }
 
-interface DriverApplicationState {
+export interface DriverApplicationState {
   step: number
   zone: DriverZoneData
   contact: DriverContactData
@@ -168,6 +173,11 @@ const INITIAL_STATE: DriverApplicationState = {
   },
   terms: {
     accepted: false,
+    submitting: false,
+    submitted: false,
+    submissionId: null,
+    queuePosition: null,
+    submissionError: null,
   },
 }
 
@@ -185,6 +195,9 @@ interface DriverApplicationContextValue {
   updateAvailability: (patch: Partial<DriverAvailabilityData>) => void
   updateVideoIntro: (patch: Partial<DriverVideoIntroData>) => void
   updateTerms: (patch: Partial<DriverTermsData>) => void
+  setSubmitting: (submitting: boolean) => void
+  setSubmissionError: (message: string | null) => void
+  markSubmitted: (payload: { submissionId: string; queuePosition: number }) => void
 }
 
 const DriverApplicationContext = createContext<DriverApplicationContextValue | null>(null)
@@ -240,9 +253,78 @@ export function DriverApplicationProvider({ children }: { children: ReactNode })
     setState((prev) => ({ ...prev, terms: { ...prev.terms, ...patch } }))
   }, [])
 
+  const setSubmitting = useCallback((submitting: boolean) => {
+    setState((prev) => ({
+      ...prev,
+      terms: {
+        ...prev.terms,
+        submitting,
+        submissionError: submitting ? null : prev.terms.submissionError,
+      },
+    }))
+  }, [])
+
+  const setSubmissionError = useCallback((message: string | null) => {
+    setState((prev) => ({
+      ...prev,
+      terms: { ...prev.terms, submissionError: message, submitting: false },
+    }))
+  }, [])
+
+  const markSubmitted = useCallback(
+    ({ submissionId, queuePosition }: { submissionId: string; queuePosition: number }) => {
+      setState((prev) => ({
+        ...prev,
+        terms: {
+          ...prev.terms,
+          submitted: true,
+          submitting: false,
+          submissionId,
+          queuePosition,
+          submissionError: null,
+        },
+      }))
+    },
+    [],
+  )
+
   const value = useMemo<DriverApplicationContextValue>(
-    () => ({ state, startApplication, goToStep, nextStep, prevStep, updateZone, updateContact, updateVehicle, updateDocuments, updateBilling, updateAvailability, updateVideoIntro, updateTerms }),
-    [state, startApplication, goToStep, nextStep, prevStep, updateZone, updateContact, updateVehicle, updateDocuments, updateBilling, updateAvailability, updateVideoIntro, updateTerms],
+    () => ({
+      state,
+      startApplication,
+      goToStep,
+      nextStep,
+      prevStep,
+      updateZone,
+      updateContact,
+      updateVehicle,
+      updateDocuments,
+      updateBilling,
+      updateAvailability,
+      updateVideoIntro,
+      updateTerms,
+      setSubmitting,
+      setSubmissionError,
+      markSubmitted,
+    }),
+    [
+      state,
+      startApplication,
+      goToStep,
+      nextStep,
+      prevStep,
+      updateZone,
+      updateContact,
+      updateVehicle,
+      updateDocuments,
+      updateBilling,
+      updateAvailability,
+      updateVideoIntro,
+      updateTerms,
+      setSubmitting,
+      setSubmissionError,
+      markSubmitted,
+    ],
   )
 
   return (

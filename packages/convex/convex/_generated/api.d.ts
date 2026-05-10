@@ -11,6 +11,7 @@
 import type * as admin from "../admin.js";
 import type * as blogs from "../blogs.js";
 import type * as contactSubmissions from "../contactSubmissions.js";
+import type * as driverApplications from "../driverApplications.js";
 import type * as drivers from "../drivers.js";
 import type * as events from "../events.js";
 import type * as flights from "../flights.js";
@@ -48,6 +49,7 @@ declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   blogs: typeof blogs;
   contactSubmissions: typeof contactSubmissions;
+  driverApplications: typeof driverApplications;
   drivers: typeof drivers;
   events: typeof events;
   flights: typeof flights;

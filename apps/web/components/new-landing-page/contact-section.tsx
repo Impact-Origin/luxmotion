@@ -104,7 +104,7 @@ export function ContactSection() {
   }
 
   return (
-    <section className="bg-[#0D0D0D] pt-[100px] pb-[60px] px-4 md:px-[82px] 2xl:px-[300px]">
+    <section className="bg-[#0D0D0D] pt-[100px] pb-[60px] px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row items-stretch gap-0 md:gap-12">
         <div className="relative w-full md:flex-1 h-[300px] md:h-auto md:min-h-[800px] overflow-hidden">
           <Image

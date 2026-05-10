@@ -9,7 +9,7 @@ export function CTABanner() {
 
   return (
     <section
-      className="relative overflow-hidden pt-10 pb-16 px-4 md:px-[82px] 2xl:px-[300px] flex flex-col items-center justify-center gap-6 bg-[#0D0D0D]"
+      className="relative overflow-hidden pt-10 pb-16 px-4 md:px-[82px] flex flex-col items-center justify-center gap-6 bg-[#0D0D0D]"
     >
       <div
         aria-hidden

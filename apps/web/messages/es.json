@@ -4640,7 +4640,9 @@
       "subtitle": "Revise y acepte los términos para enviar su candidatura.",
       "acceptance": "Al enviar esta candidatura, confirmo que he leído y acepto los <terms>Términos de Servicio</terms> y la <privacy>Política de Privacidad</privacy> de LuxMotion by EasyTransfer, en nombre de la empresa que represento.",
       "disclaimer": "La asociación no está garantizada — su candidatura será analizada y deberá ser aprobada por el equipo de LuxMotion. Nos pondremos en contacto con usted en un plazo de 5 días hábiles.",
-      "submitCta": "Enviar candidatura"
+      "submitCta": "Enviar candidatura",
+      "submittingCta": "Enviando…",
+      "submissionError": "No se pudo enviar su candidatura. Verifique su conexión e inténtelo de nuevo."
     },
     "success": {
       "title": "Candidatura enviada",

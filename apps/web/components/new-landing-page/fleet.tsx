@@ -31,7 +31,7 @@ export function Fleet({ showControls = true }: { showControls?: boolean } = {}) 
   return (
     <section
       id="fleet"
-      className={`bg-[#0D0D0D] pt-10 px-4 md:px-[82px] 2xl:px-[300px] ${showControls ? "pb-16" : "pb-2"}`}
+      className={`bg-[#0D0D0D] pt-10 px-4 md:px-[82px] ${showControls ? "pb-16" : "pb-2"}`}
     >
       <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-6">
         <div

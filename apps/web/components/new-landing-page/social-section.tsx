@@ -58,7 +58,7 @@ export function SocialSection() {
     n >= 1000 ? `${(n / 1000).toFixed(1)}K` : String(n)
 
   return (
-    <section className="bg-[#0D0D0D] py-6 px-4 md:px-[82px] 2xl:px-[300px]">
+    <section className="bg-[#0D0D0D] py-6 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
         <div className="flex items-end justify-between">
           <div className="flex items-center gap-3">

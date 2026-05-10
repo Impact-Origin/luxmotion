@@ -22,6 +22,7 @@ import {
   Heart,
   GraduationCap,
   Handshake,
+  IdCard,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -106,6 +107,11 @@ export function AdminSidebar() {
         title: "Partner Applications",
         url: "/admin/partner-applications",
         icon: Handshake,
+      },
+      {
+        title: "Driver Applications",
+        url: "/admin/driver-applications",
+        icon: IdCard,
       },
     ],
     [tNumbers],

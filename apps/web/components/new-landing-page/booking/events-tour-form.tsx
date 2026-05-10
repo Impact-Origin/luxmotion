@@ -192,16 +192,13 @@ export function EventsTourForm({
     <div className="flex flex-col">
       <div className="flex flex-col lg:flex-row items-stretch min-h-[64px]" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
         <div className="relative flex-[1.6] min-w-0 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] min-h-[64px] booking-section focus-within:z-30 " style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
-            <MapPinned className="w-5 h-5" strokeWidth={2.5} style={{ color: "#C9A96E" }} />
-          </div>
-
           <Popover open={!isMobile && showEventDropdown} onOpenChange={setShowEventDropdown}>
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="w-full h-full pl-14 pr-10 py-4 md:py-3 bg-transparent cursor-pointer flex items-center outline-none hover:bg-white/5 transition-colors"
+                className="w-full h-full pl-6 pr-12 py-3 bg-transparent cursor-pointer flex items-center gap-3 outline-none hover:bg-white/5 transition-colors"
               >
+                <MapPinned className="w-5 h-5 shrink-0" strokeWidth={1.2} style={{ color: "#C9A96E" }} />
                 <span className={cn("text-[15px] font-medium leading-tight text-left flex-1 min-w-0 truncate", selectedItem ? "text-white" : "text-[#696969]")}>
                   {selectedItem ? selectedItem.title : (isEvents ? t.chooseEvent : t.chooseTour)}
                 </span>
@@ -231,7 +228,7 @@ export function EventsTourForm({
                 title={t.clearSelection}
                 aria-label={t.clearSelection}
               >
-                <X className="w-4 h-4" strokeWidth={2.5} />
+                <X className="w-4 h-4" strokeWidth={1.2} />
               </button>
             )}
             <ChevronDown className={cn("w-4 h-4 pointer-events-none transition-transform duration-200", showEventDropdown && "rotate-180")} style={{ color: "#C9A96E" }} />
@@ -279,7 +276,7 @@ export function EventsTourForm({
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="relative flex items-center justify-center gap-4 px-4 py-3 w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
+                className="relative flex items-center justify-center gap-4 px-6 py-3 w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
                 style={{
                   backgroundColor: "transparent",
                   color: "#C9A96E",
@@ -287,10 +284,10 @@ export function EventsTourForm({
                 }}
               >
                 <div className="flex items-center gap-[8px] text-[#C9A96E]">
-                  <Users className="w-5 h-5" style={{ color: "#C9A96E" }} strokeWidth={2.5} />
+                  <Users className="w-5 h-5" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
                   <span className="text-[14px] font-black leading-none" style={{ color: "#C9A96E" }}>{totalPassengers}</span>
                 </div>
-                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={3} />
+                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
               </button>
             </PopoverTrigger>
             <PopoverContent
@@ -320,7 +317,7 @@ export function EventsTourForm({
             <span className="text-[14px] font-semibold uppercase tracking-[1.1px] text-[rgba(13,13,13,0.96)]">
               {t.continue}
             </span>
-            <BadgeCheck className="w-5 h-5 stroke-[2.5] text-[rgba(13,13,13,0.96)]" />
+            <BadgeCheck className="w-5 h-5 stroke-[1.2] text-[rgba(13,13,13,0.96)]" />
           </button>
         </div>
       </div>
@@ -365,7 +362,7 @@ export function EventsTourForm({
                   title={t.clearSelection}
                   aria-label={t.clearSelection}
                 >
-                  <X className="w-5 h-5" strokeWidth={2.5} />
+                  <X className="w-5 h-5" strokeWidth={1.2} />
                 </button>
               </div>
             </div>

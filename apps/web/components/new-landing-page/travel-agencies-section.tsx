@@ -11,7 +11,7 @@ export function TravelAgenciesSection() {
   return (
     <section
       id="b2b-travel-agencies"
-      className="bg-[#1A1A1A] pt-10 pb-14 px-4 md:px-[82px] 2xl:px-[300px]"
+      className="bg-[#1A1A1A] pt-10 pb-14 px-4 md:px-[82px]"
     >
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-20">
         <div className="flex-1 relative order-2 md:order-1">

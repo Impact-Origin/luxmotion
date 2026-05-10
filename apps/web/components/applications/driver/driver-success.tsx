@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Check } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { LightButton, SERIF_FONT } from "@/components/applications/shared"
+import { useDriverApplication } from "./driver-application-context"
 
 const SUMMARY_KEYS = [
   "personal",
@@ -15,10 +16,10 @@ const SUMMARY_KEYS = [
   "videoIntro",
 ] as const
 
-const QUEUE_POSITION = 74
-
 export function DriverSuccess() {
   const t = useTranslations("driverApplication.success")
+  const { state } = useDriverApplication()
+  const queuePosition = state.terms.queuePosition ?? 0
 
   return (
     <div className="w-full max-w-[600px] mx-auto flex flex-col gap-6 items-center">
@@ -42,12 +43,12 @@ export function DriverSuccess() {
           className="text-[#a08248] text-[44px] leading-none"
           style={SERIF_FONT}
         >
-          #{QUEUE_POSITION}
+          #{queuePosition}
         </span>
         <p className="text-[13px] italic text-[rgba(255,255,255,0.7)] text-center leading-[1.4]">
           {t.rich("queueMessage", {
             position: () => (
-              <span className="font-semibold not-italic text-white">{QUEUE_POSITION}</span>
+              <span className="font-semibold not-italic text-white">{queuePosition}</span>
             ),
           })}
         </p>

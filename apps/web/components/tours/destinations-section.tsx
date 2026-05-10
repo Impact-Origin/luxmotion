@@ -106,7 +106,7 @@ export function DestinationsSection() {
   const currentDot = offset
 
   return (
-    <section className="bg-[#0D0D0D] pt-10 pb-10 px-4 md:px-[82px] 2xl:px-[300px]">
+    <section className="bg-[#0D0D0D] pt-10 pb-10 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-9">
         <div className="flex flex-col gap-2">
           <h2

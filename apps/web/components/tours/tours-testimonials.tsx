@@ -132,7 +132,7 @@ export function ToursTestimonials() {
   const mPhotoIdx = currentPage % REVIEW_PHOTOS.length
 
   return (
-    <section className="bg-[#0D0D0D] pt-[60px] pb-6 px-4 md:px-[82px] 2xl:px-[300px] relative overflow-hidden">
+    <section className="bg-[#0D0D0D] pt-[60px] pb-6 px-4 md:px-[82px] relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/3 w-[867px] h-[499px] pointer-events-none">
         <div className="absolute inset-[-80%_-46%] opacity-40">
           <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(ellipse, rgba(201,169,110,0.15) 0%, transparent 70%)" }} />

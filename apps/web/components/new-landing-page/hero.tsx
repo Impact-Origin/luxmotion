@@ -120,8 +120,8 @@ export function Hero() {
   const t = useTranslations("hero")
 
   return (
-    <section className="relative bg-[#0D0D0D]">
-      <div className="absolute top-0 right-0 w-[55%] xl:w-[48%] 2xl:w-[42%] aspect-[4096/3223] hidden lg:block">
+    <section className="relative bg-[#0D0D0D] overflow-hidden">
+      <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] aspect-[4096/3223] hidden lg:block">
         <Image
           src="/hero-bg.png"
           alt=""

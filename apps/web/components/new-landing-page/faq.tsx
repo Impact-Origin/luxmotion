@@ -20,7 +20,7 @@ export function FAQ() {
   return (
     <section
       id="faq"
-      className="bg-[#0D0D0D] py-10 md:py-16 px-4 md:px-[82px] 2xl:px-[300px]"
+      className="bg-[#0D0D0D] py-10 md:py-16 px-4 md:px-[82px]"
     >
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-start gap-8 md:gap-20">
         <div className="flex-1 flex flex-col gap-4">

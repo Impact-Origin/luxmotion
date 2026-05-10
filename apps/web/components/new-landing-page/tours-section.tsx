@@ -222,7 +222,7 @@ function TourCard({
               {name}
             </span>
             <p
-              className="text-[14px] leading-[1.2] text-[#999] tracking-[0.14px] max-w-[287px]"
+              className="text-[12px] leading-[1.2] text-[#999] tracking-[0.14px] max-w-[287px]"
               style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
             >
               {description}

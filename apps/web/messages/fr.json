@@ -4624,7 +4624,9 @@
       "subtitle": "Vérifiez et acceptez les conditions pour soumettre votre candidature.",
       "acceptance": "En soumettant cette candidature, je confirme avoir lu et accepté les <terms>Conditions de Service</terms> et la <privacy>Politique de Confidentialité</privacy> de LuxMotion by EasyTransfer, au nom de l'entreprise que je représente.",
       "disclaimer": "Le partenariat n'est pas garanti — votre candidature sera examinée et devra être approuvée par l'équipe LuxMotion. Nous vous contacterons dans un délai de 5 jours ouvrables.",
-      "submitCta": "Soumettre la candidature"
+      "submitCta": "Soumettre la candidature",
+      "submittingCta": "Envoi en cours…",
+      "submissionError": "Impossible d'envoyer votre candidature. Veuillez vérifier votre connexion et réessayer."
     },
     "success": {
       "title": "Candidature soumise",
