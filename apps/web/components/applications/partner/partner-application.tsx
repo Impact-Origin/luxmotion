@@ -53,7 +53,7 @@ function ApplicationView() {
         currentStep={state.step}
         totalSteps={PARTNER_TOTAL_STEPS}
       />
-      <div className="flex-1 flex items-start justify-center px-4 pt-10 md:pt-14 pb-16 md:pb-24 md:px-[82px]">
+      <div className="flex-1 flex items-start justify-center px-4 pt-6 md:pt-10 pb-16 md:pb-24 md:px-[82px]">
         {state.step === 1 ? <PartnerStepCompany /> : null}
         {state.step === 2 ? <PartnerStepRepresentative /> : null}
         {state.step === 3 ? <PartnerStepVerification /> : null}

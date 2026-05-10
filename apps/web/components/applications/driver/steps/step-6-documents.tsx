@@ -77,9 +77,9 @@ function ProfessionalPhotoUploader({
 
 function GuidelinePill({ label }: { label: string }) {
   return (
-    <span className="bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] flex items-center gap-2 px-3 py-2 min-h-[44px]">
-      <Check size={12} strokeWidth={2.5} className="text-[#9a7535] shrink-0" />
-      <span className="text-[12px] font-semibold text-[#9a7535] leading-[1.25]">
+    <span className="bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] flex items-center gap-[6px] px-[9px] py-[7px]">
+      <Check size={12} strokeWidth={1.25} className="text-[#9a7535] shrink-0" />
+      <span className="text-[12px] font-medium text-[#9a7535] leading-normal">
         {label}
       </span>
     </span>
@@ -140,7 +140,7 @@ export function DriverStepDocuments() {
           />
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-[9px] w-full">
           {guidelines.map((g) => (
             <GuidelinePill key={g} label={t(`photo.guidelines.${g}`)} />
           ))}

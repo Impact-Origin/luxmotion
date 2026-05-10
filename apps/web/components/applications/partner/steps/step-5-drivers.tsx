@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Plus, Trash2, Video, VideoOff } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -8,18 +9,17 @@ import {
   StepHeader,
 } from "@/components/applications/shared"
 import { usePartnerApplication } from "../partner-application-context"
+import { DriverFormModal } from "./driver-form-modal"
 
 export function PartnerStepDrivers() {
   const t = useTranslations("partnerApplication.stepDrivers")
   const tCommon = useTranslations("common")
-  const { state, removeDriver, nextStep, prevStep } = usePartnerApplication()
+  const { state, addDriver, removeDriver, nextStep, prevStep } = usePartnerApplication()
   const drivers = state.drivers
-
-  function handleAddDriver() {
-    // Driver creation modal will land in a future step.
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
+    <>
     <form
       className="w-full max-w-[600px] mx-auto flex flex-col gap-6"
       onSubmit={(e) => {
@@ -70,7 +70,7 @@ export function PartnerStepDrivers() {
       <LightButton
         variant="softGold"
         size="lg"
-        onClick={handleAddDriver}
+        onClick={() => setModalOpen(true)}
         iconRight={<Plus size={18} strokeWidth={1.6} />}
         className="w-full"
       >
@@ -84,5 +84,14 @@ export function PartnerStepDrivers() {
         canContinue
       />
     </form>
+    <DriverFormModal
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      onSave={(entry) => {
+        addDriver(entry)
+        setModalOpen(false)
+      }}
+    />
+    </>
   )
 }

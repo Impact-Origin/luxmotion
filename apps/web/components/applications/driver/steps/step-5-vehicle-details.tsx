@@ -1,8 +1,8 @@
 "use client"
 
-import { useRef, type ReactNode } from "react"
+import { useRef } from "react"
 import Image from "next/image"
-import { Check, Minus, Plus, Upload, Waves } from "lucide-react"
+import { Check, Minus, Plus, Upload } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   ApplicationBottomBar,
@@ -77,25 +77,27 @@ function CounterControl({
   max?: number
 }) {
   return (
-    <div className="flex items-center justify-between w-full border border-[rgba(28,27,24,0.08)] h-[36px]">
+    <div className="flex items-stretch">
       <button
         type="button"
         onClick={() => onChange(Math.max(min, value - 1))}
-        className="size-9 flex items-center justify-center text-[#a08248] hover:bg-[rgba(154,117,53,0.07)] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="size-8 flex items-center justify-center bg-white border border-[rgba(28,27,24,0.08)] text-[#a08248] hover:bg-[rgba(154,117,53,0.07)] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         disabled={value <= min}
         aria-label="decrement"
       >
-        <Minus size={14} strokeWidth={2} />
+        <Minus size={14} strokeWidth={1.6} />
       </button>
-      <span className="text-[14px] font-semibold text-[#1c1b18]">{value}</span>
+      <div className="w-10 flex items-center justify-center border-y-[1.56px] border-[rgba(28,27,24,0.08)]">
+        <span className="text-[14px] font-medium text-[#696969] leading-[21px]">{value}</span>
+      </div>
       <button
         type="button"
         onClick={() => onChange(Math.min(max, value + 1))}
-        className="size-9 flex items-center justify-center text-[#a08248] hover:bg-[rgba(154,117,53,0.07)] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="size-8 flex items-center justify-center bg-white border border-[rgba(28,27,24,0.08)] text-[#a08248] hover:bg-[rgba(154,117,53,0.07)] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         disabled={value >= max}
         aria-label="increment"
       >
-        <Plus size={14} strokeWidth={2} />
+        <Plus size={14} strokeWidth={1.6} />
       </button>
     </div>
   )
@@ -130,35 +132,54 @@ function ChildSeatCard({
   )
 }
 
-function CheckboxRow({
+function SurfboardIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 18 18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={0.872727}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M15.9986 1.45703L1.88949 15.5661M8.45676 14.7661C6.72822 15.6037 4.82829 16.027 2.90767 16.0025C2.5219 16.0025 2.15193 15.8492 1.87915 15.5765C1.60637 15.3037 1.45313 14.9337 1.45312 14.5479C1.45312 7.34794 7.34403 1.45703 14.544 1.45703H15.9986V2.91158C16.011 5.1064 15.4713 7.26911 14.4292 9.20081C13.3871 11.1325 11.876 12.7712 10.0349 13.9661" />
+      <path d="M5.08984 12.3683C7.05348 12.3683 8.65348 14.0411 8.72621 16.0047C9.22221 15.543 9.61648 14.983 9.88382 14.3604C10.1512 13.7377 10.2857 13.0662 10.2789 12.3886C10.272 11.7111 10.1239 11.0424 9.84407 10.4253C9.56421 9.80817 9.15871 9.25623 8.65348 8.80469" />
+    </svg>
+  )
+}
+
+function SurfboardOptionRow({
   checked,
   onToggle,
-  icon,
   label,
 }: {
   checked: boolean
   onToggle: () => void
-  icon: ReactNode
   label: string
 }) {
   return (
     <button
       type="button"
       onClick={onToggle}
-      className="w-full bg-white border border-[rgba(28,27,24,0.08)] flex items-center gap-3 px-4 py-4 text-left hover:border-[rgba(28,27,24,0.18)] transition-colors"
       aria-pressed={checked}
+      className="w-full bg-white flex items-center gap-2 p-4 text-left hover:bg-[rgba(28,27,24,0.02)] transition-colors"
     >
-      <span
-        className={
-          checked
-            ? "size-[18px] shrink-0 bg-[#a08248] border border-[#a08248] flex items-center justify-center"
-            : "size-[18px] shrink-0 bg-white border border-[rgba(28,27,24,0.18)]"
-        }
-      >
-        {checked ? <Check size={12} strokeWidth={3} className="text-white" /> : null}
+      <span className="size-6 shrink-0 relative flex items-center justify-center">
+        <span className="size-[18px] rounded-[2px] border border-[rgba(28,27,24,0.08)] bg-white flex items-center justify-center">
+          {checked ? <Check size={12} strokeWidth={2.5} className="text-[#a08248]" /> : null}
+        </span>
       </span>
-      <span className="text-[#a08248] flex items-center">{icon}</span>
-      <span className="text-[14px] font-medium text-[#1c1b18]">{label}</span>
+      <span className="flex-1 min-w-0 flex items-center gap-4">
+        <span className="size-8 shrink-0 bg-[rgba(201,169,110,0.08)] border-[0.727px] border-[rgba(201,169,110,0.18)] flex items-center justify-center text-[#a08248]">
+          <SurfboardIcon size={17} />
+        </span>
+        <span className="flex-1 min-w-0 text-[12px] font-semibold text-[#1a1a1a] leading-none">
+          {label}
+        </span>
+      </span>
     </button>
   )
 }
@@ -176,17 +197,16 @@ function AmenityChip({
     <button
       type="button"
       onClick={onToggle}
-      className="bg-white border border-[rgba(28,27,24,0.08)] flex items-center gap-2 px-3 h-[36px] hover:border-[rgba(28,27,24,0.18)] transition-colors"
+      className={
+        "bg-white flex items-center gap-2 px-3 h-[36px] transition-colors border " +
+        (selected
+          ? "border-[#a08248]"
+          : "border-[rgba(28,27,24,0.08)] hover:border-[rgba(28,27,24,0.18)]")
+      }
       aria-pressed={selected}
     >
-      <span
-        className={
-          selected
-            ? "size-[16px] shrink-0 bg-[#a08248] border border-[#a08248] flex items-center justify-center"
-            : "size-[16px] shrink-0 bg-white border border-[rgba(28,27,24,0.18)]"
-        }
-      >
-        {selected ? <Check size={10} strokeWidth={3} className="text-white" /> : null}
+      <span className="size-[16px] shrink-0 rounded-[2px] bg-[rgba(154,117,53,0.22)] border border-[rgba(154,117,53,0.22)] flex items-center justify-center">
+        {selected ? <Check size={10} strokeWidth={3} className="text-[#a08248]" /> : null}
       </span>
       <span className="text-[13px] text-[#1c1b18]">{label}</span>
     </button>
@@ -422,10 +442,9 @@ export function DriverStepVehicleDetails() {
       </div>
 
       <SectionLabel index={4} label={t("section.special")} />
-      <CheckboxRow
+      <SurfboardOptionRow
         checked={vehicle.surfboardRack}
         onToggle={() => updateVehicle({ surfboardRack: !vehicle.surfboardRack })}
-        icon={<Waves size={18} strokeWidth={1.6} />}
         label={t("special.surfboardRack")}
       />
 

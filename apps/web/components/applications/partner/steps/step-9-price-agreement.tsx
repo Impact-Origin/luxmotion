@@ -90,7 +90,7 @@ export function PartnerStepPriceAgreement() {
                 <p className="text-[12px] text-[#0d0d0d] truncate">{row.route}</p>
               </div>
               <div className="shrink-0 w-[120px] flex items-center justify-center gap-2 p-[10px]">
-                <Icon size={16} strokeWidth={1.6} className="text-[#0d0d0d]" />
+                <Icon size={16} strokeWidth={1.25} className="text-[#a08248]" />
                 <span className="text-[12px] text-[#0d0d0d]">{periodLabel}</span>
               </div>
               <div className="shrink-0 w-[100px] flex items-center justify-center p-[10px]">

@@ -14,6 +14,7 @@
     "add": "Añadir",
     "remove": "Eliminar",
     "cancel": "Cancelar",
+    "close": "Cerrar",
     "confirm": "Confirmar",
     "back": "Volver",
     "next": "Siguiente",
@@ -4137,14 +4138,32 @@
       "addDriver": "Añadir conductor",
       "removeDriver": "Eliminar conductor",
       "hasVideoYes": "Vídeo cargado",
-      "hasVideoNo": "Sin vídeo"
+      "hasVideoNo": "Sin vídeo",
+      "modalTitle": "Añadir un conductor",
+      "modalSubtitle": "Indique los datos de contacto del conductor. Recibirá un correo de incorporación.",
+      "saveDriver": "Guardar conductor",
+      "fields": {
+        "fullName": { "label": "Nombre completo", "placeholder": "ej. Juan Pérez" },
+        "email": { "label": "Email", "placeholder": "nombre@empresa.com" },
+        "phone": { "label": "Teléfono", "placeholder": "+34 600 000 000" },
+        "hasVideo": { "label": "Vídeo de presentación" }
+      }
     },
     "stepVehicles": {
       "title": "Vehículos de la empresa",
       "subtitle": "Añada los vehículos disponibles en su flota. Puede añadir más tarde.",
       "addVehicle": "Añadir vehículo",
       "removeVehicle": "Eliminar vehículo",
-      "untitledVehicle": "Vehículo sin nombre"
+      "untitledVehicle": "Vehículo sin nombre",
+      "modalTitle": "Añadir un vehículo",
+      "modalSubtitle": "Indique los datos del vehículo para registrarlo en su flota.",
+      "saveVehicle": "Guardar vehículo",
+      "fields": {
+        "make": { "label": "Marca", "placeholder": "ej. Mercedes-Benz" },
+        "model": { "label": "Modelo", "placeholder": "ej. Clase E" },
+        "licensePlate": { "label": "Matrícula", "placeholder": "AA-00-AA" },
+        "category": { "label": "Categoría", "placeholder": "Seleccione una categoría" }
+      }
     },
     "stepDocuments": {
       "title": "Documentos de la empresa",

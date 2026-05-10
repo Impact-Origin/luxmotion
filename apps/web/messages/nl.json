@@ -14,6 +14,7 @@
     "add": "Toevoegen",
     "remove": "Verwijderen",
     "cancel": "Annuleren",
+    "close": "Sluiten",
     "confirm": "Bevestigen",
     "back": "Terug",
     "next": "Volgende",
@@ -4121,14 +4122,32 @@
       "addDriver": "Chauffeur toevoegen",
       "removeDriver": "Chauffeur verwijderen",
       "hasVideoYes": "Video geüpload",
-      "hasVideoNo": "Geen video"
+      "hasVideoNo": "Geen video",
+      "modalTitle": "Chauffeur toevoegen",
+      "modalSubtitle": "Geef de contactgegevens van de chauffeur op. Hij ontvangt een onboarding-e-mail.",
+      "saveDriver": "Chauffeur opslaan",
+      "fields": {
+        "fullName": { "label": "Volledige naam", "placeholder": "bijv. Jan Jansen" },
+        "email": { "label": "E-mail", "placeholder": "naam@bedrijf.nl" },
+        "phone": { "label": "Telefoon", "placeholder": "+31 6 12345678" },
+        "hasVideo": { "label": "Introductievideo" }
+      }
     },
     "stepVehicles": {
       "title": "Voertuigen van het bedrijf",
       "subtitle": "Voeg de voertuigen toe die beschikbaar zijn in uw vloot. U kunt later meer toevoegen.",
       "addVehicle": "Voertuig toevoegen",
       "removeVehicle": "Voertuig verwijderen",
-      "untitledVehicle": "Naamloos voertuig"
+      "untitledVehicle": "Naamloos voertuig",
+      "modalTitle": "Voertuig toevoegen",
+      "modalSubtitle": "Geef de gegevens van het voertuig op om het te registreren in uw vloot.",
+      "saveVehicle": "Voertuig opslaan",
+      "fields": {
+        "make": { "label": "Merk", "placeholder": "bijv. Mercedes-Benz" },
+        "model": { "label": "Model", "placeholder": "bijv. E-klasse" },
+        "licensePlate": { "label": "Kenteken", "placeholder": "AA-00-AA" },
+        "category": { "label": "Categorie", "placeholder": "Selecteer een categorie" }
+      }
     },
     "stepDocuments": {
       "title": "Bedrijfsdocumenten",

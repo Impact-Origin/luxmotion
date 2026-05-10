@@ -29,10 +29,10 @@ export function DriverIntro() {
   const { startApplication } = useDriverApplication()
 
   const benefits = [
-    { icon: <Euro size={24} strokeWidth={1.6} />, label: t("benefits.earn") },
-    { icon: <Calendar size={24} strokeWidth={1.6} />, label: t("benefits.bookings") },
-    { icon: <Clock size={24} strokeWidth={1.6} />, label: t("benefits.schedule") },
-    { icon: <CircleCheckBig size={24} strokeWidth={1.6} />, label: t("benefits.payout") },
+    { icon: <Euro size={24} strokeWidth={1.25} />, label: t("benefits.earn") },
+    { icon: <Calendar size={24} strokeWidth={1.25} />, label: t("benefits.bookings") },
+    { icon: <Clock size={24} strokeWidth={1.25} />, label: t("benefits.schedule") },
+    { icon: <CircleCheckBig size={24} strokeWidth={1.25} />, label: t("benefits.payout") },
   ]
 
   return (

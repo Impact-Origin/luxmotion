@@ -62,7 +62,7 @@ function ApplicationView() {
         currentStep={state.step}
         totalSteps={DRIVER_TOTAL_STEPS}
       />
-      <div className="flex-1 flex items-start justify-center px-4 pt-10 pb-32 md:pt-16 md:pb-48 md:px-[82px]">
+      <div className="flex-1 flex items-start justify-center px-4 pt-6 pb-32 md:pt-10 md:pb-48 md:px-[82px]">
         {state.step === 1 ? <DriverStepZone /> : null}
         {state.step === 2 ? <DriverStepContact /> : null}
         {state.step === 3 ? <DriverStepVerifyEmail /> : null}

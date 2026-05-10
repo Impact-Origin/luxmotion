@@ -10,10 +10,10 @@ export function PartnerIntro() {
   const { startApplication } = usePartnerApplication()
 
   const benefits = [
-    { icon: <Users size={24} strokeWidth={1.6} />, label: t("benefits.drivers") },
-    { icon: <Calendar size={24} strokeWidth={1.6} />, label: t("benefits.bookings") },
-    { icon: <Euro size={24} strokeWidth={1.6} />, label: t("benefits.billing") },
-    { icon: <CircleCheckBig size={24} strokeWidth={1.6} />, label: t("benefits.dashboard") },
+    { icon: <Users size={24} strokeWidth={1.25} />, label: t("benefits.drivers") },
+    { icon: <Calendar size={24} strokeWidth={1.25} />, label: t("benefits.bookings") },
+    { icon: <Euro size={24} strokeWidth={1.25} />, label: t("benefits.billing") },
+    { icon: <CircleCheckBig size={24} strokeWidth={1.25} />, label: t("benefits.dashboard") },
   ]
 
   return (
@@ -26,6 +26,8 @@ export function PartnerIntro() {
       benefits={benefits}
       ctaLabel={t("cta")}
       onCta={startApplication}
+      benefitIconClassName="text-[#a08248]"
+      accentOnNewLine
     />
   )
 }

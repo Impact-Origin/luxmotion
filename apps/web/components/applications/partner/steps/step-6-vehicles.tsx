@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Car, Plus, X } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -8,6 +9,7 @@ import {
   StepHeader,
 } from "@/components/applications/shared"
 import { usePartnerApplication, type PartnerVehicleEntry } from "../partner-application-context"
+import { VehicleFormModal } from "./vehicle-form-modal"
 
 function vehicleDisplayName(vehicle: PartnerVehicleEntry, fallback: string): string {
   return [vehicle.make, vehicle.model].filter(Boolean).join(" ").trim() || fallback
@@ -16,14 +18,12 @@ function vehicleDisplayName(vehicle: PartnerVehicleEntry, fallback: string): str
 export function PartnerStepVehicles() {
   const t = useTranslations("partnerApplication.stepVehicles")
   const tCommon = useTranslations("common")
-  const { state, removeVehicle, nextStep, prevStep } = usePartnerApplication()
+  const { state, addVehicle, removeVehicle, nextStep, prevStep } = usePartnerApplication()
   const vehicles = state.vehicles
-
-  function handleAddVehicle() {
-    // Vehicle creation modal will land in a future step.
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
+    <>
     <form
       className="w-full max-w-[600px] mx-auto flex flex-col gap-6"
       onSubmit={(e) => {
@@ -61,7 +61,7 @@ export function PartnerStepVehicles() {
         <LightButton
           variant="softGold"
           size="lg"
-          onClick={handleAddVehicle}
+          onClick={() => setModalOpen(true)}
           iconRight={<Plus size={18} strokeWidth={1.6} />}
           className="w-full"
         >
@@ -75,6 +75,16 @@ export function PartnerStepVehicles() {
         onBack={prevStep}
         canContinue
       />
+
     </form>
+    <VehicleFormModal
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      onSave={(entry) => {
+        addVehicle(entry)
+        setModalOpen(false)
+      }}
+    />
+    </>
   )
 }

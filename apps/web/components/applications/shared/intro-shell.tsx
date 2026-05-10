@@ -23,6 +23,7 @@ interface IntroShellProps {
   onCta: () => void
   extra?: ReactNode
   benefitIconClassName?: string
+  accentOnNewLine?: boolean
 }
 
 export function IntroShell({
@@ -37,6 +38,7 @@ export function IntroShell({
   onCta,
   extra,
   benefitIconClassName,
+  accentOnNewLine,
 }: IntroShellProps) {
   return (
     <div className="w-full max-w-[800px] mx-auto flex flex-col items-center gap-6">
@@ -51,7 +53,8 @@ export function IntroShell({
           className="text-center text-[40px] md:text-[48px] leading-none text-[#1c1b18]"
           style={SERIF_FONT}
         >
-          <span className="font-normal">{headingPrefix} </span>
+          <span className="font-normal">{headingPrefix}</span>
+          {accentOnNewLine ? <br /> : " "}
           <span className="italic text-[#a08248]">{headingAccent}</span>
           {headingSuffix ? <span className="font-normal">{headingSuffix}</span> : null}
         </h1>

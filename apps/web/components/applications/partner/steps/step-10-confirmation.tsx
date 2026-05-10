@@ -38,14 +38,23 @@ function TermsCheckbox({
       className="size-6 shrink-0 flex items-center justify-center"
     >
       <span
-        className={
-          "size-[18px] rounded-[2px] border flex items-center justify-center transition-colors " +
-          (checked
-            ? "bg-[#a08248] border-[#a08248]"
-            : "bg-[rgba(154,117,53,0.22)] border-[rgba(154,117,53,0.22)]")
-        }
+        className="size-[18px] rounded-[2px] border bg-[rgba(154,117,53,0.22)] border-[rgba(154,117,53,0.22)] flex items-center justify-center transition-colors"
       >
-        {checked ? <Check size={12} strokeWidth={3} className="text-white" /> : null}
+        {checked ? (
+          <svg
+            width="10"
+            height="8"
+            viewBox="0 0 10.4062 7.7793"
+            fill="none"
+            stroke="#A08248"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M9.40625 1L3.62695 6.7793L1 4.15234" />
+          </svg>
+        ) : null}
       </span>
     </button>
   )

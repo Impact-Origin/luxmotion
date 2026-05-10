@@ -14,6 +14,7 @@
     "add": "Ajouter",
     "remove": "Supprimer",
     "cancel": "Annuler",
+    "close": "Fermer",
     "confirm": "Confirmer",
     "back": "Retour",
     "next": "Suivant",
@@ -4121,14 +4122,32 @@
       "addDriver": "Ajouter un chauffeur",
       "removeDriver": "Supprimer le chauffeur",
       "hasVideoYes": "Vidéo téléchargée",
-      "hasVideoNo": "Aucune vidéo"
+      "hasVideoNo": "Aucune vidéo",
+      "modalTitle": "Ajouter un chauffeur",
+      "modalSubtitle": "Fournissez les coordonnées du chauffeur. Il recevra un e-mail d'intégration.",
+      "saveDriver": "Enregistrer le chauffeur",
+      "fields": {
+        "fullName": { "label": "Nom complet", "placeholder": "ex. Jean Dupont" },
+        "email": { "label": "E-mail", "placeholder": "nom@entreprise.com" },
+        "phone": { "label": "Téléphone", "placeholder": "+33 6 00 00 00 00" },
+        "hasVideo": { "label": "Vidéo de présentation" }
+      }
     },
     "stepVehicles": {
       "title": "Véhicules de l'entreprise",
       "subtitle": "Ajoutez les véhicules disponibles dans votre flotte. Vous pouvez en ajouter plus tard.",
       "addVehicle": "Ajouter un véhicule",
       "removeVehicle": "Supprimer le véhicule",
-      "untitledVehicle": "Véhicule sans nom"
+      "untitledVehicle": "Véhicule sans nom",
+      "modalTitle": "Ajouter un véhicule",
+      "modalSubtitle": "Fournissez les informations du véhicule pour l'enregistrer dans votre flotte.",
+      "saveVehicle": "Enregistrer le véhicule",
+      "fields": {
+        "make": { "label": "Marque", "placeholder": "ex. Mercedes-Benz" },
+        "model": { "label": "Modèle", "placeholder": "ex. Classe E" },
+        "licensePlate": { "label": "Plaque d'immatriculation", "placeholder": "AA-00-AA" },
+        "category": { "label": "Catégorie", "placeholder": "Sélectionnez une catégorie" }
+      }
     },
     "stepDocuments": {
       "title": "Documents de l'entreprise",

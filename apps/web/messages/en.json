@@ -14,6 +14,7 @@
     "add": "Add",
     "remove": "Remove",
     "cancel": "Cancel",
+    "close": "Close",
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
@@ -4295,14 +4296,32 @@
       "addDriver": "Add driver",
       "removeDriver": "Remove driver",
       "hasVideoYes": "Video uploaded",
-      "hasVideoNo": "No video"
+      "hasVideoNo": "No video",
+      "modalTitle": "Add a driver",
+      "modalSubtitle": "Provide the driver's contact details. They will receive an onboarding email.",
+      "saveDriver": "Save driver",
+      "fields": {
+        "fullName": { "label": "Full name", "placeholder": "e.g. João Silva" },
+        "email": { "label": "Email", "placeholder": "name@company.com" },
+        "phone": { "label": "Phone", "placeholder": "+351 900 000 000" },
+        "hasVideo": { "label": "Introduction video" }
+      }
     },
     "stepVehicles": {
       "title": "Company vehicles",
       "subtitle": "Add the vehicles available in your fleet. You can add more later.",
       "addVehicle": "Add vehicle",
       "removeVehicle": "Remove vehicle",
-      "untitledVehicle": "Untitled vehicle"
+      "untitledVehicle": "Untitled vehicle",
+      "modalTitle": "Add a vehicle",
+      "modalSubtitle": "Provide the vehicle details to register it in your fleet.",
+      "saveVehicle": "Save vehicle",
+      "fields": {
+        "make": { "label": "Make", "placeholder": "e.g. Mercedes-Benz" },
+        "model": { "label": "Model", "placeholder": "e.g. E-Class" },
+        "licensePlate": { "label": "License plate", "placeholder": "AA-00-AA" },
+        "category": { "label": "Category", "placeholder": "Select a category" }
+      }
     },
     "stepDocuments": {
       "title": "Company documents",
