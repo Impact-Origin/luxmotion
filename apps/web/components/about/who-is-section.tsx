@@ -19,7 +19,7 @@ const STATS: Stat[] = [
 function StatCell({ icon: Icon, value, label }: { icon: LucideIcon; value: string; label: string }) {
   return (
     <div className="bg-[#1a1a1a] flex flex-col items-center justify-center gap-[6px] h-[170px] px-8 py-9">
-      <Icon className="w-6 h-6 text-[#C9A96E]" strokeWidth={1.5} />
+      <Icon size={24} className="text-[#C9A96E] shrink-0" strokeWidth={1.5} />
       <p
         className="text-[#C9A96E] text-[42px] font-light leading-[42px] text-center whitespace-nowrap"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}

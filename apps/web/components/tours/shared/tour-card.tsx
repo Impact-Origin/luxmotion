@@ -128,7 +128,7 @@ export function TourCard({ tour, className }: TourCardProps) {
         </div>
 
         <div className="mt-auto pt-[12.8px] border-t-[0.8px] border-[rgba(255,255,255,0.12)] flex items-center justify-between">
-          <div className="flex flex-col items-start">
+          <div className="flex flex-row items-baseline gap-2">
             <span
               className="text-[12px] font-semibold text-[#8c8680] tracking-[0.9px] uppercase leading-none"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
@@ -136,7 +136,7 @@ export function TourCard({ tour, className }: TourCardProps) {
               {t("fromShort")}
             </span>
             <span
-              className="text-[20px] font-semibold text-[#c9a96e] leading-[1.2]"
+              className="text-[32px] font-semibold text-[#c9a96e] leading-[1.2]"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {formattedPrice}

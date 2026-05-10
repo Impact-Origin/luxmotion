@@ -99,7 +99,7 @@ export function ServicesSection() {
         </div>
 
         <div className="md:hidden relative w-full">
-          <div className="overflow-hidden rounded-[10px]" {...swipeHandlers}>
+          <div className="overflow-hidden" {...swipeHandlers}>
             <div
               className="flex transition-transform duration-300 ease-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -112,7 +112,7 @@ export function ServicesSection() {
                       title={t(service.id)}
                       image={service.image}
                       href={service.href}
-                      className="rounded-[3px]"
+                      className=""
                     />
                   ))}
                 </div>
@@ -123,7 +123,7 @@ export function ServicesSection() {
           <button
             onClick={prevSlide}
             className={cn(
-              "absolute left-2 top-1/2 -translate-y-1/2 size-12 rounded-full bg-[#0D0D0D] border-[1.333px] border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-opacity",
+              "absolute left-2 top-1/2 -translate-y-1/2 size-12 bg-[#0D0D0D] border-[1.333px] border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-opacity",
               currentSlide === 0 && "opacity-0 pointer-events-none"
             )}
             aria-label="Previous"
@@ -133,7 +133,7 @@ export function ServicesSection() {
           <button
             onClick={nextSlide}
             className={cn(
-              "absolute right-2 top-1/2 -translate-y-1/2 size-12 rounded-full bg-[#0D0D0D] border-[1.333px] border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-opacity",
+              "absolute right-2 top-1/2 -translate-y-1/2 size-12 bg-[#0D0D0D] border-[1.333px] border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-opacity",
               currentSlide >= maxSlide && "opacity-0 pointer-events-none"
             )}
             aria-label="Next"

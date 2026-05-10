@@ -35,7 +35,7 @@ export function Footer() {
   const r = useTranslations("footer.redesign")
 
   return (
-    <footer className="bg-[#0D0D0D] pt-8 px-4 md:px-[82px] border-t border-[rgba(255,255,255,0.05)]">
+    <footer className="bg-[#0D0D0D] pt-8 px-4 md:px-[82px] min-[1440px]:px-[300px] border-t border-[rgba(255,255,255,0.05)]">
       <div className="max-w-[1280px] mx-auto">
         <div className="border-b border-[rgba(255,255,255,0.05)] pb-11 grid grid-cols-1 md:grid-cols-[2.2fr_1fr_1fr_1fr] gap-10 md:gap-[60px]">
           <BrandColumn tagline1={r("tagline1")} tagline2={r("tagline2")} />

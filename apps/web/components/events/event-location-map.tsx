@@ -131,14 +131,14 @@ export function EventLocationMap({ title, address, lat, lng, className }: EventL
 
   if (!hasKey) {
     return (
-      <div className={`bg-zinc-100 rounded-[20px] flex items-center justify-center ${className}`}>
+      <div className={`bg-zinc-100 flex items-center justify-center ${className}`}>
         <span className="text-zinc-500">Map unavailable</span>
       </div>
     )
   }
 
   return (
-    <div className={`relative rounded-[20px] overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${className}`}>
       <style>{`
         .gm-style-iw-c {
           padding: 0 !important;

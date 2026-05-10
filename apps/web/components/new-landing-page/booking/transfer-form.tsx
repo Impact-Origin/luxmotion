@@ -132,7 +132,7 @@ export function TransferForm({
                   {t.labelFrom}
                 </span>
                 <div className="flex items-center gap-2 min-w-0 w-full">
-                  <MapPin className="w-6 h-6 shrink-0 text-[#C9A96E]" />
+                  <MapPin className="w-6 h-6 shrink-0 text-[#C9A96E]" strokeWidth={1.2} />
                   <span className={fromLocation.text ? "text-[14px] font-medium text-white truncate" : "text-[14px] text-[#696969] truncate"}>
                     {fromLocation.text || t.placeholderFrom}
                   </span>
@@ -163,7 +163,7 @@ export function TransferForm({
             <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[1.08px] uppercase leading-none" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>{t.labelFrom}</span>
             <div className="relative flex items-center mt-3 h-[24px]">
               <div className="absolute left-0 z-10 pointer-events-none text-[#C9A96E]">
-                <MapPin className="w-6 h-6" />
+                <MapPin className="w-6 h-6" strokeWidth={1.2} />
               </div>
               <GooglePlacesInput
                 value={{
@@ -223,7 +223,7 @@ export function TransferForm({
                       {t.labelTo}
                     </span>
                     <div className="flex items-center gap-2 min-w-0 w-full">
-                      <MapPin className="w-6 h-6 shrink-0 text-[#C9A96E]" />
+                      <MapPin className="w-6 h-6 shrink-0 text-[#C9A96E]" strokeWidth={1.2} />
                       <span className={dest.text ? "text-[14px] font-medium text-white truncate" : "text-[14px] text-[#696969] truncate"}>
                         {dest.text || t.placeholderTo}
                       </span>
@@ -254,7 +254,7 @@ export function TransferForm({
                 <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[1.08px] uppercase leading-none" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>{t.labelTo}</span>
                 <div className="relative flex items-center mt-3 h-[24px]">
                   <div className="absolute left-0 z-10 pointer-events-none text-[#C9A96E]">
-                    <MapPin className="w-6 h-6" />
+                    <MapPin className="w-6 h-6" strokeWidth={1.2} />
                   </div>
                   <GooglePlacesInput
                     value={{

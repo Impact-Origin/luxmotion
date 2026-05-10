@@ -103,7 +103,7 @@ function ArrowButton({ direction, onClick, className }: { direction: "left" | "r
     <button
       onClick={onClick}
       className={cn(
-        "size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-colors hover:border-[#C9A96E]",
+        "size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-colors hover:border-[#C9A96E]",
         className
       )}
       aria-label={direction === "left" ? "Previous" : "Next"}
@@ -210,8 +210,8 @@ export function Testimonials() {
                 </div>
               ))}
             </div>
-            <ArrowButton direction="left" onClick={prevPage} className="absolute -left-[52px] top-1/2 -translate-y-1/2" />
-            <ArrowButton direction="right" onClick={nextPage} className="absolute -right-[52px] top-1/2 -translate-y-1/2" />
+            <ArrowButton direction="left" onClick={prevPage} className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10" />
+            <ArrowButton direction="right" onClick={nextPage} className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10" />
           </div>
 
           <div className="relative">
@@ -227,12 +227,12 @@ export function Testimonials() {
                 <ArrowButton
                   direction="left"
                   onClick={() => setCurrentPage((p) => (p - 1 + desktopPages) % desktopPages)}
-                  className="absolute -left-[52px] top-1/2 -translate-y-1/2"
+                  className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10"
                 />
                 <ArrowButton
                   direction="right"
                   onClick={() => setCurrentPage((p) => (p + 1) % desktopPages)}
-                  className="absolute -right-[52px] top-1/2 -translate-y-1/2"
+                  className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10"
                 />
               </>
             )}

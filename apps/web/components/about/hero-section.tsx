@@ -50,8 +50,8 @@ export function HeroSection() {
   const t = useTranslations("aboutPage.hero")
 
   return (
-    <section className="bg-[#0D0D0D] text-white pb-8 lg:pb-12">
-      <div className="hidden lg:flex items-stretch w-full max-w-[1440px] mx-auto min-h-[782px]">
+    <section className="bg-[#0D0D0D] text-white pb-8 xl:pb-12">
+      <div className="hidden xl:flex items-stretch w-full max-w-[1440px] mx-auto min-h-[782px]">
         <div className="flex flex-col justify-center gap-[29px] px-12 py-20 w-[700px] shrink-0">
           <div className="flex items-center gap-2">
             <div className="w-[82px] h-px bg-[#C9A96E]" />
@@ -121,7 +121,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="lg:hidden flex flex-col">
+      <div className="xl:hidden flex flex-col">
         <div
           className="relative w-full aspect-[430/411] overflow-hidden bg-[#0D0D0D]"
         >

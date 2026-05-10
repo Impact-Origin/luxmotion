@@ -78,16 +78,16 @@ function DriverScheduleCard() {
   ]
 
   return (
-    <div className="absolute bottom-[-20px] right-[-10px] md:right-[-20px] w-[304px] backdrop-blur-[6px] bg-[rgba(20,20,20,0.95)] border border-[rgba(201,169,110,0.15)] px-4 pt-4 pb-2 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
+    <div className="absolute bottom-[-16px] right-[-8px] md:right-[-16px] w-[208px] xl:w-[252px] backdrop-blur-[6px] bg-[rgba(20,20,20,0.95)] border border-[rgba(201,169,110,0.15)] px-3.5 pt-3.5 pb-1.5 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
       <div className="flex items-center gap-1 mb-3">
         <span
-          className="text-[12px] text-[#999]"
+          className="text-[11px] text-[#999]"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {t("dateLabel")}
         </span>
         <span
-          className="text-[12px] text-[#C9A96E]"
+          className="text-[11px] text-[#C9A96E]"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {t("ridesCount")}
@@ -100,13 +100,13 @@ function DriverScheduleCard() {
           className={`flex items-center gap-2 py-2 ${i < rides.length - 1 ? "border-b border-[rgba(255,255,255,0.06)]" : ""}`}
         >
           <span
-            className="text-[13px] font-semibold text-white min-w-[40px]"
+            className="text-[12px] font-semibold text-white min-w-[36px]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {ride.time}
           </span>
           <span
-            className={`text-[8px] font-bold tracking-[0.64px] uppercase text-center min-w-[60px] px-[11px] py-[3px] border ${
+            className={`text-[7px] font-bold tracking-[0.64px] uppercase text-center min-w-[50px] px-[9px] py-[2px] border ${
               ride.status === "ontime"
                 ? "bg-[rgba(76,175,80,0.15)] border-[rgba(76,175,80,0.25)] text-[#4CAF50]"
                 : "bg-[rgba(201,169,110,0.1)] border-[rgba(201,169,110,0.2)] text-[#C9A96E]"
@@ -116,7 +116,7 @@ function DriverScheduleCard() {
             {ride.badge}
           </span>
           <span
-            className="text-[11px] text-[rgba(255,255,255,0.45)] whitespace-nowrap"
+            className="text-[10px] text-[rgba(255,255,255,0.45)] whitespace-nowrap"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {ride.route}

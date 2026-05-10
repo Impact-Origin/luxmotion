@@ -33,7 +33,7 @@ function Cell({
   const baseTextCls =
     variant === "luxmotion"
       ? "text-[12px] lg:text-[18px] font-medium uppercase text-[#A08248]"
-      : "text-[12px] lg:text-[14px] uppercase text-[#999]"
+      : "text-[14px] uppercase text-[#999]"
   const xIconCls = "size-[15px] lg:size-[18px] text-[#999]"
   const checkIconCls = "size-[15px] lg:size-[18px] text-[#A08248]"
 
@@ -125,7 +125,7 @@ function LabelCell({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-full flex items-center px-2 w-[128px] lg:w-[200px] shrink-0">
       <span
-        className="text-[12px] lg:text-[14px] leading-[1.2] text-[#999] lg:whitespace-nowrap"
+        className="text-[14px] leading-[1.2] text-[#999] lg:whitespace-nowrap"
         style={SANS_FONT}
       >
         {children}
@@ -221,7 +221,7 @@ export function EarningsComparison() {
             <div className={colCls}>
               <div className="h-full flex items-center justify-center">
                 <span
-                  className="text-[12px] lg:text-[14px] font-bold uppercase tracking-[1.44px] text-[#999]"
+                  className="text-[14px] font-bold uppercase tracking-[1.44px] text-[#999]"
                   style={SANS_FONT}
                 >
                   Uber
@@ -231,7 +231,7 @@ export function EarningsComparison() {
             <div className={colCls}>
               <div className="h-full flex items-center justify-center">
                 <span
-                  className="text-[12px] lg:text-[14px] font-bold uppercase tracking-[1.44px] text-[#999]"
+                  className="text-[14px] font-bold uppercase tracking-[1.44px] text-[#999]"
                   style={SANS_FONT}
                 >
                   Bolt

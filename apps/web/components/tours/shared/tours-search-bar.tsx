@@ -31,12 +31,12 @@ export function ToursSearchBar({ value, onChange, onSearch, placeholder, classNa
   return (
     <div
       className={cn(
-        "flex items-stretch w-full max-w-[552px]",
+        "flex flex-col w-full max-w-[552px]",
         className
       )}
       onKeyDown={handleKeyDown}
     >
-      <div className="flex-1 min-w-0 h-[56px] bg-[#1e1d1b] border border-r-0 border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-[12px]">
+      <div className="w-full min-w-0 h-[56px] bg-[#1e1d1b] border border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-[12px]">
         <GooglePlacesInput
           value={value}
           onChange={handleChange}
@@ -47,7 +47,7 @@ export function ToursSearchBar({ value, onChange, onSearch, placeholder, classNa
       </div>
       <button
         onClick={() => onSearch()}
-        className="shrink-0 h-[56px] bg-[#c9a96e] border border-[#c9a96e] px-[22px] flex items-center justify-center transition-colors hover:bg-[#b8954f]"
+        className="w-full h-[56px] bg-[#c9a96e] border border-[#c9a96e] flex items-center justify-center transition-colors hover:bg-[#b8954f]"
       >
         <span className="text-[14px] font-medium text-[#0d0d0d] tracking-[1.1px] uppercase whitespace-nowrap">
           {t("redesign.searchButton")}

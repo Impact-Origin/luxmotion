@@ -3,7 +3,7 @@ import { Providers } from "@/components/providers";
 import { getLocale, getMessages, getTimeZone } from "next-intl/server";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Poppins, Geist_Mono } from "next/font/google";
+import { Poppins, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import type { Metadata } from "next";
 import { absoluteUrl, getSiteUrl } from "@/lib/seo";
 
@@ -16,6 +16,13 @@ const fontSans = Poppins({
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+});
+
+const fontTitle = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-title",
 });
 
 export const metadata: Metadata = {
@@ -84,7 +91,7 @@ export default async function RootLayout({
         <html
           lang={locale}
           suppressHydrationWarning
-          className={`${fontSans.variable} ${fontMono.variable}`}
+          className={`${fontSans.variable} ${fontMono.variable} ${fontTitle.variable}`}
         >
           <body className="antialiased font-sans">
             <Providers

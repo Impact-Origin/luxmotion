@@ -27,8 +27,20 @@ export function CounterRow({
           {icon}
         </div>
         <div>
-          <span className="text-[14px] font-bold text-white">{label}</span>
-          {sublabel && <p className="text-[11px] text-[#696969] leading-none mt-0.5">{sublabel}</p>}
+          <span
+            className="text-[14px] font-semibold text-white"
+            style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+          >
+            {label}
+          </span>
+          {sublabel && (
+            <p
+              className="text-[12px] text-[#696969] leading-none mt-0.5"
+              style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+            >
+              {sublabel}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-3">

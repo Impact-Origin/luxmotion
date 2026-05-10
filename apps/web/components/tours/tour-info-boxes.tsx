@@ -16,15 +16,15 @@ function InfoBox({ icon, label, value }: { icon: React.ReactNode; label: string;
       <div className="shrink-0 size-[32px] md:size-[32px] bg-[rgba(201,169,110,0.08)] border-[1.333px] border-[rgba(201,169,110,0.25)] flex items-center justify-center">
         {icon}
       </div>
-      <div className="flex flex-col gap-[2px] min-w-0">
+      <div className="flex flex-col gap-[8px] min-w-0">
         <span
-          className="text-[8px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
+          className="text-[10px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {label}
         </span>
         <span
-          className="text-[12px] font-medium text-white leading-none whitespace-nowrap"
+          className="text-[14px] font-medium text-white leading-none whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {value}
@@ -40,15 +40,15 @@ function InfoBoxMobile({ icon, label, value }: { icon: React.ReactNode; label: s
       <div className="shrink-0 size-[40px] bg-[rgba(201,169,110,0.08)] border-[1.667px] border-[rgba(201,169,110,0.25)] flex items-center justify-center">
         {icon}
       </div>
-      <div className="flex flex-col gap-[2px] min-w-0">
+      <div className="flex flex-col gap-[8px] min-w-0">
         <span
-          className="text-[8px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
+          className="text-[10px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {label}
         </span>
         <span
-          className="text-[12px] font-medium text-white leading-none whitespace-nowrap"
+          className="text-[14px] font-medium text-white leading-none whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {value}

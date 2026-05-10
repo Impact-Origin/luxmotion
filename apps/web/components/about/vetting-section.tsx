@@ -109,7 +109,7 @@ export function VettingSection() {
           </p>
         </div>
 
-        <div className="hidden md:flex items-start w-full pt-3">
+        <div className="hidden lg:flex items-start justify-center w-full pt-3">
           {STEPS.map((s, i) => (
             <Fragment key={s.titleKey}>
               <StepNode step={s} t={t} />
@@ -118,8 +118,11 @@ export function VettingSection() {
           ))}
         </div>
 
-        <div className="md:hidden w-full overflow-x-auto no-scrollbar">
-          <div className="flex items-start min-w-max pt-3">
+        <div
+          className="lg:hidden w-full overflow-x-auto no-scrollbar"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          <div className="flex items-start justify-center min-w-max mx-auto pt-3">
             {STEPS.map((s, i) => (
               <Fragment key={s.titleKey}>
                 <div className="w-[200px] shrink-0 flex justify-center">

@@ -36,7 +36,12 @@ export function PassengersDropdownContent({
   return (
     <div className="bg-[#1e1d1b] p-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[15px] font-black text-white">{t.passengers}</h3>
+        <h3
+          className="text-[20px] font-semibold text-white"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {t.passengers}
+        </h3>
         <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
           <X className="w-4 h-4 text-[#696969]" />
         </button>
@@ -170,7 +175,12 @@ export function PassengersDropdownSimple({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[15px] font-black text-white">{t.passengers}</h3>
+        <h3
+          className="text-[20px] font-semibold text-white"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {t.passengers}
+        </h3>
         <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
           <X className="w-4 h-4 text-[#696969]" />
         </button>

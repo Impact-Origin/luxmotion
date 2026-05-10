@@ -21,7 +21,11 @@ export function FleetCategoryFilter({ value, onChange }: Props) {
     onChange?.(cat)
     if (typeof window !== "undefined") {
       const el = document.getElementById(`fleet-category-${cat}`)
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+      if (el) {
+        const headerOffset = 46 + 16
+        const target = el.getBoundingClientRect().top + window.scrollY - headerOffset
+        window.scrollTo({ top: target, behavior: "smooth" })
+      }
     }
   }
 

@@ -84,7 +84,7 @@ function ArrowButton({ direction, onClick, className }: { direction: "left" | "r
     <button
       onClick={onClick}
       className={cn(
-        "size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center hover:border-[#C9A96E] transition-colors",
+        "size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center hover:border-[#C9A96E] transition-colors",
         className
       )}
       aria-label={direction === "left" ? "Previous" : "Next"}

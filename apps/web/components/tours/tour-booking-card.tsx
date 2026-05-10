@@ -186,13 +186,13 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
       <div className="px-6 py-6 flex flex-col gap-[10px]">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <CalendarClock className="size-4 text-[#999]" />
+            <CalendarClock className="size-4 text-[#999]" strokeWidth={1.2} />
             <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("dateAndTime")}</span>
           </div>
           {fixedDateTime ? (
             <div className="w-full h-[44px] px-[13px] border border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] flex items-center gap-3">
               <span className="flex-1 text-[14px] text-[#999]">{formatFixedDateTime()}</span>
-              <CalendarClock className="size-6 text-[#999]" />
+              <CalendarClock className="size-6 text-[#999]" strokeWidth={1.2} />
             </div>
           ) : (
             <TourDateTimePicker
@@ -207,7 +207,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         </div>
 
         <div className="flex items-center gap-2 pt-3">
-          <Users className="size-4 text-[#999]" />
+          <Users className="size-4 text-[#999]" strokeWidth={1.2} />
           <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("passengers")}</span>
         </div>
 
@@ -220,7 +220,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         {addons && addons.length > 0 && (
           <>
             <div className="flex items-center gap-2 pt-3">
-              <Layers className="size-4 text-[#999]" />
+              <Layers className="size-4 text-[#999]" strokeWidth={1.2} />
               <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("addOns")}</span>
             </div>
             <BookingAddonsSelector
@@ -256,14 +256,14 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
           }`}
         >
           <div className="overflow-hidden">
-            <p className="text-[10px] text-[#999] text-center pt-1">
+            <p className="text-[12px] text-[#999] text-center pt-1">
               {t("minPassengersRequired", { count: minPassengers ?? 1 })}
             </p>
           </div>
         </div>
 
         <div className="border-t border-[rgba(255,255,255,0.04)] pt-4 flex items-center justify-center gap-2">
-          <Users className="size-3 text-[#999]" />
+          <Users className="size-3 text-[#999]" strokeWidth={1.2} />
           <span className="text-[10px] font-semibold text-[#C9A96E]">141 {t("travelers")}</span>
           <span className="text-[10px] text-[#999]">{t("bookedToday")}</span>
           <Star className="size-[10px] text-[#C9A96E] fill-[#C9A96E]" />

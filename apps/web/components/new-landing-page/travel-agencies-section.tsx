@@ -71,7 +71,7 @@ function WhiteLabelBookingCard() {
   const t = useTranslations("travelAgencies.card")
 
   return (
-    <div className="absolute bottom-[-20px] right-[-10px] md:right-[-20px] w-[260px] backdrop-blur-[6px] bg-[rgba(20,20,20,0.95)] border border-[rgba(201,169,110,0.15)] px-4 pt-4 pb-3 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
+    <div className="absolute bottom-[-16px] right-[-8px] md:right-[-16px] w-[184px] xl:w-[216px] backdrop-blur-[6px] bg-[rgba(20,20,20,0.95)] border border-[rgba(201,169,110,0.15)] px-3.5 pt-3.5 pb-2.5 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
       <span
         className="text-[9px] tracking-[1.08px] uppercase text-[#C9A96E] font-semibold"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
@@ -82,7 +82,7 @@ function WhiteLabelBookingCard() {
       <div className="flex items-center gap-2 mt-2">
         <MapPin className="w-3 h-3 text-[rgba(255,255,255,0.7)] shrink-0" />
         <span
-          className="text-[12px] text-[rgba(255,255,255,0.7)] whitespace-nowrap"
+          className="text-[11px] text-[rgba(255,255,255,0.7)] whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {t("route")}
@@ -92,7 +92,7 @@ function WhiteLabelBookingCard() {
       <div className="flex items-center gap-2 mt-2.5">
         <Calendar className="w-3 h-3 text-[#999] shrink-0" />
         <span
-          className="text-[12px] text-[#999]"
+          className="text-[11px] text-[#999]"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {t("date")}
@@ -101,7 +101,7 @@ function WhiteLabelBookingCard() {
 
       <button
         type="button"
-        className="mt-4 bg-[#C9A96E] text-[#0D0D0D] text-[11px] tracking-[1.1px] uppercase font-bold py-[10px] px-[31px]"
+        className="mt-3 bg-[#C9A96E] text-[#0D0D0D] text-[10px] tracking-[1.1px] uppercase font-bold py-[8px] px-[24px]"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         ⊕ {t("button")}

@@ -86,15 +86,15 @@ function InfoBox({
       <div className={`shrink-0 ${iconSize} bg-[rgba(201,169,110,0.08)] border-[rgba(201,169,110,0.25)] flex items-center justify-center`}>
         {icon}
       </div>
-      <div className="flex flex-col gap-[2px] min-w-0">
+      <div className="flex flex-col gap-[8px] min-w-0">
         <span
-          className="text-[8px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
+          className="text-[10px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {label}
         </span>
         <span
-          className="text-[12px] font-medium text-white leading-none whitespace-nowrap overflow-hidden text-ellipsis"
+          className="text-[14px] font-medium text-white leading-none whitespace-nowrap overflow-hidden text-ellipsis"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {value}
@@ -270,7 +270,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                   <div className="flex items-center gap-[10px] pt-[16px] w-full">
                     <div className="w-[20px] h-px bg-[#C9A96E]" />
                     <span
-                      className="text-[9px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
+                      className="text-[12px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
                       style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                     >
                       {event.tags.join(" · ")}

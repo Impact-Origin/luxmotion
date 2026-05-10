@@ -20,8 +20,18 @@ function GuestRow({ icon, label, description, count, onDecrement, onIncrement, m
       <div className="flex gap-[10px] items-start">
         <div className="size-5" style={{ color: "#C9A96E" }}>{icon}</div>
         <div className="flex flex-col">
-          <span className="text-[14px] font-semibold text-white leading-[20px]">{label}</span>
-          <span className="text-[12px] text-[#696969] leading-[16px]">{description}</span>
+          <span
+            className="text-[14px] font-semibold text-white leading-[20px]"
+            style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+          >
+            {label}
+          </span>
+          <span
+            className="text-[12px] text-[#696969] leading-[16px]"
+            style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+          >
+            {description}
+          </span>
         </div>
       </div>
       <div className="flex items-center gap-3">
@@ -76,7 +86,12 @@ export function TourGuestsDropdownContent({
   return (
     <div className="bg-[#1e1d1b] p-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[15px] font-bold text-white">{t.passengers}</h3>
+        <h3
+          className="text-[20px] font-semibold text-white"
+          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        >
+          {t.passengers}
+        </h3>
         <button type="button" onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
           <X className="w-4 h-4 text-[#696969]" />
         </button>

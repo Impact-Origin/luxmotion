@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, type RefObject, type Dispatch, type SetStateAction } from "react"
-import { ChevronDown, Users, BadgeCheck, MapPinned, X, Calendar, ExternalLink } from "lucide-react"
+import { ChevronDown, Users, CircleCheckBig, MapPinned, X, Calendar, ExternalLink } from "lucide-react"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { TourGuestsDropdownContent } from "./tour-guests-dropdown"
 import type { TripType, TourPassengerState, WidgetProductItem } from "./types"
@@ -151,7 +151,7 @@ export function EventsTourForm({
           >
             <div
               onClick={() => handleSelectItem(item)}
-              className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+              className="w-20 h-14 overflow-hidden flex-shrink-0 cursor-pointer"
             >
               {item.image ? (
                 <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
@@ -191,12 +191,12 @@ export function EventsTourForm({
   return (
     <div className="flex flex-col">
       <div className="flex flex-col lg:flex-row items-stretch min-h-[64px]" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-        <div className="relative flex-[1.6] min-w-0 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] min-h-[64px] booking-section focus-within:z-30 " style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
+        <div className="relative flex-[1.6] min-w-0 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] min-h-[56px] lg:min-h-[64px] flex items-center booking-section focus-within:z-30 " style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
           <Popover open={!isMobile && showEventDropdown} onOpenChange={setShowEventDropdown}>
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="w-full h-full pl-6 pr-12 py-3 bg-transparent cursor-pointer flex items-center gap-3 outline-none hover:bg-white/5 transition-colors"
+                className="w-full h-full pl-2 pr-12 py-[10px] lg:pl-6 lg:py-3 bg-transparent cursor-pointer flex items-center gap-3 outline-none hover:bg-white/5 transition-colors"
               >
                 <MapPinned className="w-5 h-5 shrink-0" strokeWidth={1.2} style={{ color: "#C9A96E" }} />
                 <span className={cn("text-[15px] font-medium leading-tight text-left flex-1 min-w-0 truncate", selectedItem ? "text-white" : "text-[#696969]")}>
@@ -246,10 +246,10 @@ export function EventsTourForm({
           )}
         </div>
 
-        <div className="flex-1 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] flex items-center booking-section" style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
+        <div className="flex-1 min-h-[56px] lg:min-h-[64px] border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] flex items-center booking-section" style={{ backgroundColor: "transparent", borderColor: "rgba(255,255,255,0.08)" }}>
           {selectedItem?.productType === "event" && selectedItem.eventDate ? (
-            <div className="w-full h-full px-6 py-3 flex items-center gap-3">
-              <Calendar className="w-5 h-5 shrink-0" style={{ color: "#C9A96E" }} />
+            <div className="w-full h-full pl-2 pr-4 py-[10px] lg:px-6 lg:py-3 flex items-center gap-3">
+              <Calendar className="w-5 h-5 shrink-0" strokeWidth={1.2} style={{ color: "#C9A96E" }} />
               <span className="text-[15px] font-medium text-white">{formatEventDate(selectedItem.eventDate)}</span>
             </div>
           ) : selectedItem ? (
@@ -264,38 +264,36 @@ export function EventsTourForm({
               />
             </div>
           ) : (
-            <div className="w-full h-full px-6 py-3 flex items-center gap-3">
-              <Calendar className="w-5 h-5 shrink-0" style={{ color: "#C9A96E" }} />
+            <div className="w-full h-full pl-2 pr-4 py-[10px] lg:px-6 lg:py-3 flex items-center gap-3">
+              <Calendar className="w-5 h-5 shrink-0" strokeWidth={1.2} style={{ color: "#C9A96E" }} />
               <span className="text-[15px] text-[#696969]">{t.placeholderDeparture}</span>
             </div>
           )}
         </div>
 
-        <div className="relative flex-[0.7] flex items-center border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)]" ref={passengersRef} style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-          <Popover open={showPassengersDropdown} onOpenChange={setShowPassengersDropdown}>
-            <PopoverTrigger asChild>
-              <button
-                type="button"
-                className="relative flex items-center justify-center gap-4 px-6 py-3 w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
-                style={{
-                  backgroundColor: "transparent",
-                  color: "#C9A96E",
-                  borderColor: "rgba(255,255,255,0.08)"
-                }}
-              >
-                <div className="flex items-center gap-[8px] text-[#C9A96E]">
-                  <Users className="w-5 h-5" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
-                  <span className="text-[14px] font-black leading-none" style={{ color: "#C9A96E" }}>{totalPassengers}</span>
-                </div>
-                <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent
-              side="bottom"
-              align="end"
-              sideOffset={8}
-              className="w-80 p-0 border border-[rgba(255,255,255,0.12)] bg-[#1e1d1b] shadow-xl rounded-none z-50"
-              onOpenAutoFocus={(e) => e.preventDefault()}
+        <div className="relative flex-[0.7] min-h-[56px] lg:min-h-[64px] flex items-center border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)]" ref={passengersRef} style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+          {isMobile ? (
+            <MobileDrawer
+              dark
+              open={showPassengersDropdown}
+              onOpenChange={setShowPassengersDropdown}
+              trigger={
+                <button
+                  type="button"
+                  className="relative flex items-center justify-start gap-4 pl-2 pr-4 py-[17px] w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "#C9A96E",
+                    borderColor: "rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <div className="flex items-center gap-[8px] text-[#C9A96E]">
+                    <Users className="w-5 h-5" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
+                    <span className="text-[14px] font-black leading-none" style={{ color: "#C9A96E" }}>{totalPassengers}</span>
+                  </div>
+                  <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
+                </button>
+              }
             >
               <TourGuestsDropdownContent
                 passengers={passengers}
@@ -304,8 +302,43 @@ export function EventsTourForm({
                 maxPassengers={selectedItem?.maxPassengers}
                 translations={t}
               />
-            </PopoverContent>
-          </Popover>
+            </MobileDrawer>
+          ) : (
+            <Popover open={showPassengersDropdown} onOpenChange={setShowPassengersDropdown}>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  className="relative flex items-center justify-start gap-4 lg:px-6 lg:py-3 w-full h-full cursor-pointer transition-colors hover:bg-white/5 booking-section outline-none"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "#C9A96E",
+                    borderColor: "rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <div className="flex items-center gap-[8px] text-[#C9A96E]">
+                    <Users className="w-5 h-5" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
+                    <span className="text-[14px] font-black leading-none" style={{ color: "#C9A96E" }}>{totalPassengers}</span>
+                  </div>
+                  <ChevronDown className="w-4 h-4" style={{ color: "#C9A96E" }} strokeWidth={1.2} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                side="bottom"
+                align="end"
+                sideOffset={8}
+                className="w-80 p-0 border border-[rgba(255,255,255,0.12)] bg-[#1e1d1b] shadow-xl rounded-none z-50"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <TourGuestsDropdownContent
+                  passengers={passengers}
+                  setPassengers={setPassengers}
+                  onClose={() => setShowPassengersDropdown(false)}
+                  maxPassengers={selectedItem?.maxPassengers}
+                  translations={t}
+                />
+              </PopoverContent>
+            </Popover>
+          )}
         </div>
 
         <div className="flex items-center self-stretch w-full lg:w-auto shrink-0">
@@ -317,14 +350,14 @@ export function EventsTourForm({
             <span className="text-[14px] font-semibold uppercase tracking-[1.1px] text-[rgba(13,13,13,0.96)]">
               {t.continue}
             </span>
-            <BadgeCheck className="w-5 h-5 stroke-[1.2] text-[rgba(13,13,13,0.96)]" />
+            <CircleCheckBig className="w-5 h-5 stroke-[2.5] text-[rgba(13,13,13,0.96)]" />
           </button>
         </div>
       </div>
 
       {selectedItem && (
-        <div className="flex flex-col md:flex-row gap-4 p-4 border-b border-[rgba(255,255,255,0.08)]">
-          <div className="w-full md:w-72 h-44 rounded-xl overflow-hidden flex-shrink-0">
+        <div className="flex flex-col md:flex-row gap-4 p-4 border-t border-b border-[rgba(255,255,255,0.08)]">
+          <div className="w-full md:w-72 h-44 overflow-hidden flex-shrink-0">
             {selectedItem.image ? (
               <img src={selectedItem.image} alt={selectedItem.title} className="w-full h-full object-cover" />
             ) : (

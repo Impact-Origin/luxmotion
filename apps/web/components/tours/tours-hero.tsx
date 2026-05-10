@@ -122,16 +122,16 @@ export function ToursHero() {
           {t("redesign.subtitle")}
         </p>
 
-        <div className="flex flex-col gap-2 w-full md:w-auto">
+        <div className="flex flex-col gap-2 w-full max-w-[552px]">
           <div
             className={cn(
-              "flex items-center w-full",
+              "flex flex-col w-full",
               "transition-all duration-700 ease-out delay-150",
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             )}
             onKeyDown={handleKeyDown}
           >
-            <div className="flex-1 md:flex-none md:w-[384px] h-[56px] bg-[#1E1D1B] border-l border-t border-b border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-3">
+            <div className="w-full h-[56px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-3">
               <GooglePlacesInput
                 value={placeValue}
                 onChange={handlePlaceChange}
@@ -142,7 +142,7 @@ export function ToursHero() {
             </div>
             <button
               onClick={() => handleSearch()}
-              className="h-[56px] px-[22px] bg-[#C9A96E] border border-[#C9A96E] shrink-0 hover:bg-[#b8954f] transition-colors"
+              className="w-full h-[56px] bg-[#C9A96E] border border-[#C9A96E] flex items-center justify-center hover:bg-[#b8954f] transition-colors"
             >
               <span
                 className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"

@@ -139,7 +139,7 @@ export function OurDriversSection() {
             type="button"
             onClick={goPrev}
             aria-label={t("prevDriver")}
-            className={`absolute left-6 lg:left-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
+            className={`absolute left-6 lg:left-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
               current === 0 ? "opacity-0 pointer-events-none" : ""
             }`}
           >
@@ -149,7 +149,7 @@ export function OurDriversSection() {
             type="button"
             onClick={goNext}
             aria-label={t("nextDriver")}
-            className={`absolute right-6 lg:right-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
+            className={`absolute right-6 lg:right-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
               current === total - 1 ? "opacity-0 pointer-events-none" : ""
             }`}
           >

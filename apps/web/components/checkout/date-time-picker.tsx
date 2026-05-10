@@ -430,7 +430,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
           ? `w-full h-full px-0 py-0 bg-transparent border-0 flex items-center gap-2 focus:outline-none focus:ring-0 cursor-pointer`
           : isWidget
           ? `w-full h-full px-6 py-4 md:py-3 bg-transparent border-0 flex items-center gap-3 focus:outline-none focus:ring-0 hover:bg-zinc-50/50 transition-colors`
-          : `w-full h-12 px-4 border border-[#e0e0e0] rounded-lg bg-white flex items-center gap-3 transition-all hover:border-[#bfbfbf] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] ${
+          : `w-full h-12 px-4 border border-[#e0e0e0] bg-white flex items-center gap-3 transition-all hover:border-[#bfbfbf] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] ${
               date ? "text-[#222222]" : "text-[#a2a2a2]"
             }`
       }

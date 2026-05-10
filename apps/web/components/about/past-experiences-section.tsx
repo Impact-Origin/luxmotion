@@ -114,7 +114,10 @@ export function PastExperiencesSection() {
           </p>
         </div>
 
-        <div className="flex gap-2 items-center overflow-x-auto no-scrollbar w-full md:w-auto md:justify-center">
+        <div
+          className="flex gap-2 items-center overflow-x-auto no-scrollbar w-full md:w-auto md:justify-center"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {CATEGORIES.map((c) => {
             const isActive = active === c.id
             return (

@@ -41,7 +41,7 @@ function MemberCard({ member }: { member: Member }) {
       />
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 41.9%, rgba(0,0,0,0.7) 82.4%)" }}
+        style={{ background: "rgba(0, 0, 0, 0.4)" }}
       />
       <div className="absolute inset-x-0 bottom-0 px-6 py-8 flex flex-col gap-2">
         <p
@@ -144,7 +144,7 @@ export function TeamSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full px-4 py-4">
           {slice.map((m) => (
             <MemberCard key={m.id} member={m} />
           ))}

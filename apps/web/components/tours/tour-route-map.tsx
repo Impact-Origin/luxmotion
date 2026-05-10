@@ -240,7 +240,7 @@ export function TourRouteMap({ pickup, dropoff, stops, className }: TourRouteMap
 
   if (!hasKey) {
     return (
-      <div className={`bg-zinc-100 rounded-2xl flex items-center justify-center ${className}`}>
+      <div className={`bg-zinc-100 flex items-center justify-center ${className}`}>
         <span className="text-zinc-500">Map unavailable</span>
       </div>
     )
@@ -248,14 +248,14 @@ export function TourRouteMap({ pickup, dropoff, stops, className }: TourRouteMap
 
   if (locations.length === 0) {
     return (
-      <div className={`bg-zinc-100 rounded-2xl flex items-center justify-center ${className}`}>
+      <div className={`bg-zinc-100 flex items-center justify-center ${className}`}>
         <span className="text-zinc-500">No locations to display</span>
       </div>
     )
   }
 
   return (
-    <div className={`relative rounded-2xl overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${className}`}>
       <style>{`
         .gm-style-iw-c {
           padding: 0 !important;

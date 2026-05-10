@@ -143,7 +143,7 @@ function StepCard({ step }: { step: Step }) {
       </div>
       <div className="flex flex-col gap-2 p-6 pb-7 flex-1">
         <h3
-          className="text-[24px] lg:text-[18px] leading-tight text-[#1C1B18]"
+          className="text-[24px] leading-tight text-[#1C1B18]"
           style={SERIF_FONT}
         >
           {step.headingPre}{" "}

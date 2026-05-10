@@ -40,7 +40,7 @@ export function TourDetailsHeader({
         <div className="flex items-center gap-[10px] pt-[16px] w-full">
           <div className="w-[20px] h-px bg-[#C9A96E]" />
           <span
-            className="text-[9px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
+            className="text-[12px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {tags.join(" · ")}

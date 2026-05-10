@@ -95,15 +95,24 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
 
         <div className="border-t-[0.8px] border-[rgba(255,255,255,0.12)] pt-[12.8px] flex items-center justify-between mt-auto">
           <span
-            className="text-[12px] font-semibold tracking-[0.9px] uppercase text-[#8c8680]"
+            className="text-[12px] font-semibold tracking-[0.9px] uppercase text-[#8c8680] leading-[1.15] md:leading-none"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
-            {t("bookVehicle")}
+            {(() => {
+              const [first, ...rest] = t("bookVehicle").split(" ")
+              return (
+                <>
+                  {first}{" "}
+                  <br className="md:hidden" />
+                  {rest.join(" ")}
+                </>
+              )
+            })()}
           </span>
           <button
             type="button"
             aria-label={t("bookVehicle")}
-            className="size-8 border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center hover:border-[#c9a96e] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+            className="size-8 shrink-0 aspect-square border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center hover:border-[#c9a96e] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
           >
             <ArrowRight className="size-[18px] text-white" strokeWidth={1.5} />
           </button>

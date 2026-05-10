@@ -99,7 +99,7 @@ export function MobileDrawer({
           className={cn(
             "z-[101] flex flex-col outline-none overflow-hidden",
             dark ? "bg-[#1e1d1b] border-t border-[rgba(201,169,110,0.18)]" : "bg-white",
-            !useViewportPosition && "fixed bottom-0 left-0 right-0 rounded-t-[20px]",
+            !useViewportPosition && "fixed bottom-0 left-0 right-0",
             useViewportPosition && "rounded-none",
             !useViewportPosition && (fullHeight ? "h-[92vh] max-h-[92vh]" : "max-h-[96vh]"),
             className

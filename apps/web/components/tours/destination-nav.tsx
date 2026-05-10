@@ -19,7 +19,10 @@ const DESTINATIONS: { slug: string; label: string }[] = [
 export function DestinationNav({ currentSlug }: DestinationNavProps) {
   return (
     <nav className="w-full bg-[#0d0d0d] border-b-[0.8px] border-[rgba(201,169,110,0.1)]">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-[60px] overflow-x-auto scrollbar-none">
+      <div
+        className="max-w-[1440px] mx-auto px-4 md:px-[60px] overflow-x-auto scrollbar-none no-scrollbar"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         <ul className="flex items-start justify-start md:justify-center min-w-max">
           {DESTINATIONS.map((d) => {
             const isActive = d.slug === currentSlug

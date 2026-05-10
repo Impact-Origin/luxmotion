@@ -45,7 +45,7 @@ export function FleetCategorySection({
             </h2>
           </div>
           <span
-            className="text-[10px] tracking-[0.66px] text-[#696969] self-end md:self-auto"
+            className="text-[10px] tracking-[0.66px] text-[#696969] self-start md:self-auto pb-2 md:pb-0"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("vehicleCount", { count: vehicles.length })}

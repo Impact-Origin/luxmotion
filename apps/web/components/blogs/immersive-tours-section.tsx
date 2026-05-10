@@ -189,7 +189,7 @@ export function ImmersiveToursSection() {
             type="button"
             onClick={() => setPage((p) => Math.max(p - 1, 0))}
             aria-label={t("prev")}
-            className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] items-center justify-center text-[#C9A96E] hover:bg-[rgba(201,169,110,0.1)] transition-colors disabled:opacity-30"
+            className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] items-center justify-center text-[#C9A96E] hover:bg-[rgba(201,169,110,0.1)] transition-colors disabled:opacity-30"
             disabled={page === 0}
           >
             <ArrowLeft className="size-[14px]" strokeWidth={2} />
@@ -198,7 +198,7 @@ export function ImmersiveToursSection() {
             type="button"
             onClick={() => setPage((p) => Math.min(p + 1, totalPagesDesktop - 1))}
             aria-label={t("next")}
-            className="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 size-9 rounded-full bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] items-center justify-center text-[#C9A96E] hover:bg-[rgba(201,169,110,0.1)] transition-colors disabled:opacity-30"
+            className="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] items-center justify-center text-[#C9A96E] hover:bg-[rgba(201,169,110,0.1)] transition-colors disabled:opacity-30"
             disabled={page >= totalPagesDesktop - 1}
           >
             <ArrowRight className="size-[14px]" strokeWidth={2} />
@@ -226,7 +226,7 @@ export function ImmersiveToursSection() {
               onClick={() => setPage((p) => Math.max(p - 1, 0))}
               aria-label={t("prev")}
               disabled={page === 0}
-              className="size-9 rounded-full bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] disabled:opacity-30"
+              className="size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] disabled:opacity-30"
             >
               <ArrowLeft className="size-[14px]" strokeWidth={2} />
             </button>
@@ -248,7 +248,7 @@ export function ImmersiveToursSection() {
               onClick={() => setPage((p) => Math.min(p + 1, totalPagesMobile - 1))}
               aria-label={t("next")}
               disabled={page >= totalPagesMobile - 1}
-              className="size-9 rounded-full bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] disabled:opacity-30"
+              className="size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] disabled:opacity-30"
             >
               <ArrowRight className="size-[14px]" strokeWidth={2} />
             </button>
