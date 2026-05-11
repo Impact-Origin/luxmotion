@@ -31,8 +31,15 @@ export function FaqsHero({ onSearch, initialQuery = "" }: FaqsHeroProps) {
           aria-label="Breadcrumb"
           style={sans}
         >
-          <Link href="/" className="text-[#999] hover:text-white transition-colors">
+          <Link
+            href="/"
+            className="group relative text-[#C9A96E] hover:text-[#e8d5a8] transition-colors duration-300 ease-out"
+          >
             {t("breadcrumbHome")}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-0 right-0 -bottom-0.5 h-px origin-left scale-x-0 group-hover:scale-x-100 bg-[#C9A96E] transition-transform duration-300 ease-out"
+            />
           </Link>
           <span className="text-[#999] font-medium">›</span>
           <span className="text-white">{t("breadcrumbCurrent")}</span>

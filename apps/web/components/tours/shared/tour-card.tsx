@@ -52,10 +52,19 @@ export function TourCard({ tour, className }: TourCardProps) {
   return (
     <div
       className={cn(
-        "group relative bg-[#1a1a1a] border border-[rgba(255,255,255,0.12)] flex flex-col overflow-hidden h-full transition-colors hover:border-[rgba(201,169,110,0.4)]",
+        "group relative bg-[#1a1a1a] border border-[rgba(255,255,255,0.12)] flex flex-col overflow-hidden h-full transition-colors duration-500 ease-out hover:bg-[#1c1b1a]",
         className
       )}
     >
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[1.5px] w-full origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out z-[4]"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
+        }}
+      />
+
       {savePercent > 0 && (
         <div className="absolute top-[11px] left-[11px] z-[3] bg-[rgba(201,169,110,0.92)] px-[8px] py-[5px] inline-flex items-center leading-none">
           <span
@@ -67,12 +76,12 @@ export function TourCard({ tour, className }: TourCardProps) {
         </div>
       )}
 
-      <div className="relative w-full h-[210px] bg-[#0d0d0d] z-[2]">
+      <div className="relative w-full h-[210px] bg-[#0d0d0d] z-[2] overflow-hidden">
         <Image
           src={tour.image}
           alt={tour.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover"
           sizes="(max-width: 768px) 50vw, 33vw"
         />
       </div>
@@ -89,7 +98,7 @@ export function TourCard({ tour, className }: TourCardProps) {
         </div>
 
         <h3
-          className="text-[20px] md:text-[24px] font-semibold text-white leading-[1.3]"
+          className="text-[20px] md:text-[24px] font-semibold text-white leading-[1.3] transition-colors duration-300 group-hover:text-[#c9a96e]"
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
         >
           {tour.title}
@@ -142,8 +151,8 @@ export function TourCard({ tour, className }: TourCardProps) {
               {formattedPrice}
             </span>
           </div>
-          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center transition-colors group-hover:border-[#c9a96e] group-hover:bg-[rgba(201,169,110,0.08)]">
-            <ArrowRight className="size-[18px] text-white transition-colors group-hover:text-[#c9a96e]" strokeWidth={1.5} />
+          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center transition-colors duration-300 group-hover:border-[#c9a96e] group-hover:bg-[#c9a96e]">
+            <ArrowRight className="size-[18px] text-white transition-colors duration-300 group-hover:text-[#0d0d0d]" strokeWidth={1.5} />
           </div>
         </div>
       </div>

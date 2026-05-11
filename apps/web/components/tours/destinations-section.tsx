@@ -68,8 +68,8 @@ function DestinationCard({
               {subtitle}
             </span>
           </div>
-          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 group-hover:border-[#C9A96E] transition-colors">
-            <ChevronRight className="size-[18px] text-[#C9A96E]" />
+          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:border-[#C9A96E] group-hover:bg-[#C9A96E]">
+            <ChevronRight className="size-[18px] text-[#C9A96E] transition-colors duration-300 group-hover:text-[#0d0d0d]" />
           </div>
         </div>
       </div>
