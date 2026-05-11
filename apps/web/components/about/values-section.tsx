@@ -21,12 +21,12 @@ const VALUES: Value[] = [
 
 function ValueCard({ icon: Icon, title, desc }: { icon: LucideIcon; title: string; desc: string }) {
   return (
-    <div className="bg-[#1a1a1a] border border-[rgba(154,117,53,0.22)] flex flex-col gap-[15px] items-start px-6 md:px-9 py-10">
+    <div className="group relative bg-[#1a1a1a] hover:bg-[#222020] transition-colors duration-500 ease-out border border-[rgba(154,117,53,0.22)] flex flex-col gap-[15px] items-start px-6 md:px-9 py-10 overflow-hidden">
       <div className="flex items-center justify-center size-10">
         <Icon className="size-7 text-[#C9A96E]" strokeWidth={1.5} />
       </div>
       <h3
-        className="text-white text-[24px] font-medium leading-none"
+        className="text-white text-[24px] font-medium leading-none transition-colors duration-500 ease-out group-hover:text-[#C9A96E]"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
       >
         {title}
@@ -37,6 +37,19 @@ function ValueCard({ icon: Icon, title, desc }: { icon: LucideIcon; title: strin
       >
         {desc}
       </p>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 bottom-0 h-px w-full -translate-x-1/2 origin-center scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
+        }}
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 bottom-[-2px] h-[5px] w-[5px] rounded-full bg-[#C9A96E] -translate-x-1/2 opacity-0 scale-0 transition-all duration-500 ease-out delay-100 group-hover:opacity-100 group-hover:scale-100"
+        style={{ boxShadow: "0 0 8px rgba(201,169,110,0.6)" }}
+      />
     </div>
   )
 }

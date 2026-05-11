@@ -24,7 +24,15 @@ const FALLBACK_DRIVERS: Driver[] = [
 
 function DriverCard({ d }: { d: Driver }) {
   return (
-    <div className="bg-[#0D0D0D] border border-[rgba(154,117,53,0.22)] flex flex-col items-center px-9 py-12 h-full w-full">
+    <div className="group relative bg-[#0D0D0D] hover:bg-[#161412] transition-colors duration-500 ease-out border border-[rgba(154,117,53,0.22)] flex flex-col items-center px-9 py-12 h-full w-full">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 h-px w-full -translate-x-1/2 origin-center scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
+        }}
+      />
       <div className="size-20 rounded-full overflow-hidden bg-[#1a1a1a] border border-[rgba(201,169,110,0.2)] mb-5">
         <Image src={d.image} alt={d.name} width={80} height={80} className="object-cover size-full" />
       </div>

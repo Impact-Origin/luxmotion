@@ -31,31 +31,46 @@ const PER_PAGE_MOBILE = 8
 
 function MemberCard({ member }: { member: Member }) {
   return (
-    <div className="relative aspect-[3/4] overflow-hidden">
-      <Image
-        src={member.image}
-        alt={member.name}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 50vw, 320px"
+    <div className="group relative aspect-[3/4]">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 h-px w-full -translate-x-1/2 origin-center scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100 z-20"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
+        }}
       />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "rgba(0, 0, 0, 0.4)" }}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[-2px] h-[5px] w-[5px] rounded-full bg-[#C9A96E] -translate-x-1/2 opacity-0 scale-0 transition-all duration-500 ease-out delay-100 group-hover:opacity-100 group-hover:scale-100 z-20"
+        style={{ boxShadow: "0 0 8px rgba(201,169,110,0.6)" }}
       />
-      <div className="absolute inset-x-0 bottom-0 px-6 py-8 flex flex-col gap-2">
-        <p
-          className="text-[#C9A96E] text-[12px] font-semibold uppercase tracking-[2px]"
-          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-        >
-          {member.role}
-        </p>
-        <p
-          className="text-white text-[24px] font-normal leading-none"
-          style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
-        >
-          {member.name}
-        </p>
+      <div className="relative aspect-[3/4] overflow-hidden">
+        <Image
+          src={member.image}
+          alt={member.name}
+          fill
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          sizes="(max-width: 768px) 50vw, 320px"
+        />
+        <div
+          className="absolute inset-0 pointer-events-none transition-colors duration-500 ease-out group-hover:bg-black/55"
+          style={{ background: "rgba(0, 0, 0, 0.4)" }}
+        />
+        <div className="absolute inset-x-0 bottom-0 px-6 py-8 flex flex-col gap-2">
+          <p
+            className="text-[#C9A96E] text-[12px] font-semibold uppercase tracking-[2px]"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {member.role}
+          </p>
+          <p
+            className="text-white text-[24px] font-normal leading-none"
+            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+          >
+            {member.name}
+          </p>
+        </div>
       </div>
     </div>
   )

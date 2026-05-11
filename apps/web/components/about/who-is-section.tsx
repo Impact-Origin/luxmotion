@@ -18,7 +18,7 @@ const STATS: Stat[] = [
 
 function StatCell({ icon: Icon, value, label }: { icon: LucideIcon; value: string; label: string }) {
   return (
-    <div className="bg-[#1a1a1a] flex flex-col items-center justify-center gap-[6px] h-[170px] px-8 py-9">
+    <div className="group relative bg-[#1a1a1a] hover:bg-[#222020] transition-colors duration-500 ease-out flex flex-col items-center justify-center gap-[6px] h-[170px] px-8 py-9 overflow-hidden">
       <Icon size={24} className="text-[#C9A96E] shrink-0" strokeWidth={1.5} />
       <p
         className="text-[#C9A96E] text-[42px] font-light leading-[42px] text-center whitespace-nowrap"
@@ -32,6 +32,19 @@ function StatCell({ icon: Icon, value, label }: { icon: LucideIcon; value: strin
       >
         {label}
       </p>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 bottom-0 h-px w-full -translate-x-1/2 origin-center scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
+        }}
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 bottom-[-2px] h-[5px] w-[5px] rounded-full bg-[#C9A96E] -translate-x-1/2 opacity-0 scale-0 transition-all duration-500 ease-out delay-100 group-hover:opacity-100 group-hover:scale-100"
+        style={{ boxShadow: "0 0 8px rgba(201,169,110,0.6)" }}
+      />
     </div>
   )
 }
@@ -76,7 +89,7 @@ export function WhoIsSection() {
           </p>
         </div>
 
-        <div className="flex-1 w-full grid grid-cols-2 gap-x-0 gap-y-px bg-[rgba(201,169,110,0.08)]">
+        <div className="flex-1 w-full grid grid-cols-2 gap-px bg-[rgba(201,169,110,0.08)]">
           {STATS.map((s) => (
             <StatCell
               key={s.labelKey}

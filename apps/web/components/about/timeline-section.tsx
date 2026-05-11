@@ -67,14 +67,14 @@ type Milestone = {
 
 function TimelineNode({ m }: { m: Milestone }) {
   return (
-    <div className="flex flex-col items-center gap-4 px-2 shrink-0">
+    <div className="group flex flex-col items-center gap-4 px-2 shrink-0">
       <div
         className="text-[#C9A96E] text-[28px] font-light leading-[28px] whitespace-nowrap"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
       >
         {m.year}
       </div>
-      <div className="size-10 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.3)] flex items-center justify-center">
+      <div className="size-10 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.3)] flex items-center justify-center transition-colors duration-500 ease-out group-hover:bg-[rgba(201,169,110,0.6)]">
         <span className="text-[#C9A96E] text-[11px] tracking-[0.55px]">◆</span>
       </div>
       <div

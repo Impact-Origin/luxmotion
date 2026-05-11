@@ -52,7 +52,8 @@ type Review = { name: string; date: string; color: string; text: string }
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className="bg-[#1a1a1a] border-t-2 border-transparent flex flex-col gap-[11px] px-5 py-6 h-full">
+    <div className="relative bg-[#1a1a1a] flex flex-col gap-[11px] px-5 py-6 h-full group overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
       <div className="flex items-center gap-[10px]">
         <div
           className="size-9 rounded-full flex items-center justify-center shrink-0"

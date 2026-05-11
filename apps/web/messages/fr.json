@@ -2406,6 +2406,12 @@
         "corporate": "Entreprise",
         "events": "Événements",
         "tours": "Excursions"
+      },
+      "photos": {
+        "tennisCascais": "Événement · Estoril Open",
+        "webSummit": "Entreprise · Web Summit Lisbon",
+        "golfAlgarve": "Excursion · Algarve Golf",
+        "weddingPenhaLonga": "Mariage · Penha Longa"
       }
     },
     "drivers": {

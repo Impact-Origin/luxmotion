@@ -18,7 +18,15 @@ const CARDS: JoinCard[] = [
 function JoinCardBlock({ card, t }: { card: JoinCard; t: ReturnType<typeof useTranslations> }) {
   const Icon = card.icon
   return (
-    <div className="bg-[#1a1a1a] flex flex-col gap-5 items-start px-6 md:px-12 py-10 md:py-14 flex-1 overflow-hidden">
+    <div className="group relative bg-[#1a1a1a] hover:bg-[#222020] transition-colors duration-500 ease-out flex flex-col gap-5 items-start px-6 md:px-12 py-10 md:py-14 flex-1">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"
+        style={{
+          background:
+            "linear-gradient(to right, #C9A96E 0%, rgba(201,169,110,0.4) 50%, transparent 85%)",
+        }}
+      />
       <div className="size-14 border border-[rgba(201,169,110,0.2)] flex items-center justify-center shrink-0">
         <Icon className="size-6 text-[#C9A96E]" strokeWidth={1.5} />
       </div>

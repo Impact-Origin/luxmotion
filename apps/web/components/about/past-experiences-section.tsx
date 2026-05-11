@@ -12,6 +12,7 @@ type Photo = {
   src: string
   alt: string
   cat: Exclude<Category, "all">
+  labelKey: string
 }
 
 const CATEGORIES: { id: Category; labelKey: string }[] = [
@@ -23,16 +24,31 @@ const CATEGORIES: { id: Category; labelKey: string }[] = [
 ]
 
 const PHOTOS: Photo[] = [
-  { src: "/about/exp-tennis-cascais.png", alt: "Estoril Open tennis at Cascais", cat: "events" },
-  { src: "/about/exp-websummit.jpg", alt: "Web Summit Lisbon", cat: "corporate" },
-  { src: "/about/exp-golf.jpg", alt: "Golf course at sunset", cat: "tours" },
-  { src: "/about/exp-wedding.png", alt: "Wedding ceremony procession", cat: "weddings" },
+  { src: "/about/exp-tennis-cascais.png", alt: "Estoril Open tennis at Cascais", cat: "events", labelKey: "photos.tennisCascais" },
+  { src: "/about/exp-websummit.jpg", alt: "Web Summit Lisbon", cat: "corporate", labelKey: "photos.webSummit" },
+  { src: "/about/exp-golf.jpg", alt: "Golf course at sunset", cat: "tours", labelKey: "photos.golfAlgarve" },
+  { src: "/about/exp-wedding.png", alt: "Wedding ceremony procession", cat: "weddings", labelKey: "photos.weddingPenhaLonga" },
 ]
 
-function PhotoTile({ photo, className }: { photo: Photo; className?: string }) {
+function PhotoTile({ photo, label, className }: { photo: Photo; label: string; className?: string }) {
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 950px" />
+    <div className={cn("group relative overflow-hidden", className)}>
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        sizes="(max-width: 768px) 100vw, 950px"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-black/0 group-hover:bg-black/55 transition-colors duration-500 ease-out" />
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6">
+        <span
+          className="text-[#C9A96E] text-[14px] md:text-[15px] font-semibold uppercase tracking-[2px] text-center opacity-0 translate-y-2 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {label}
+        </span>
+      </div>
     </div>
   )
 }
@@ -143,12 +159,12 @@ export function PastExperiencesSection() {
           {showAsymmetric ? (
             <div className="flex flex-col gap-[2px] w-full">
               <div className="flex gap-[2px] w-full h-[394px]">
-                <PhotoTile photo={filtered[0]!} className="w-[950px] h-full shrink-0" />
-                <PhotoTile photo={filtered[1]!} className="flex-1 h-full" />
+                <PhotoTile photo={filtered[0]!} label={t(filtered[0]!.labelKey)} className="w-[950px] h-full shrink-0" />
+                <PhotoTile photo={filtered[1]!} label={t(filtered[1]!.labelKey)} className="flex-1 h-full" />
               </div>
               <div className="flex gap-[2px] w-full h-[394px]">
-                <PhotoTile photo={filtered[2]!} className="w-[509px] h-full shrink-0" />
-                <PhotoTile photo={filtered[3]!} className="flex-1 h-full" />
+                <PhotoTile photo={filtered[2]!} label={t(filtered[2]!.labelKey)} className="w-[509px] h-full shrink-0" />
+                <PhotoTile photo={filtered[3]!} label={t(filtered[3]!.labelKey)} className="flex-1 h-full" />
               </div>
             </div>
           ) : filtered.length === 0 ? (
@@ -156,7 +172,7 @@ export function PastExperiencesSection() {
           ) : (
             <div className="grid grid-cols-2 gap-[2px] w-full">
               {filtered.map((p) => (
-                <PhotoTile key={p.src} photo={p} className="h-[394px]" />
+                <PhotoTile key={p.src} photo={p} label={t(p.labelKey)} className="h-[394px]" />
               ))}
             </div>
           )}
@@ -174,7 +190,7 @@ export function PastExperiencesSection() {
                 >
                   {filtered.map((p) => (
                     <div key={p.src} className="shrink-0 w-full">
-                      <PhotoTile photo={p} className="w-full h-[340px]" />
+                      <PhotoTile photo={p} label={t(p.labelKey)} className="w-full h-[340px]" />
                     </div>
                   ))}
                 </div>
