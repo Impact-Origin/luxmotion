@@ -131,7 +131,7 @@ export function ToursHero() {
             )}
             onKeyDown={handleKeyDown}
           >
-            <div className="w-full h-[56px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] flex items-center gap-2 pl-[13px] pr-3">
+            <div className="w-full h-[56px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] flex items-center">
               <GooglePlacesInput
                 value={placeValue}
                 onChange={handlePlaceChange}

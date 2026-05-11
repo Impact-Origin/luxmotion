@@ -99,16 +99,21 @@ export function SocialSection() {
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative aspect-[1/1.1] md:aspect-square md:min-h-[300px] md:flex-1 bg-[#1A1A1A] overflow-hidden hover:opacity-80 transition-opacity"
+              className="group relative aspect-[1/1.1] md:aspect-square md:min-h-[300px] md:flex-1 bg-[#1A1A1A] overflow-hidden"
             >
               <Image
                 src={post.media_url}
                 alt="Instagram post"
                 fill
-                className="object-cover"
+                className="object-cover transition-opacity duration-300 group-hover:opacity-70"
                 sizes="(max-width: 768px) 50vw, 16vw"
                 unoptimized={post.media_url.startsWith("http")}
               />
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="size-[44px] border border-[rgba(201,169,110,0.6)] flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
+                  <Instagram className="size-[20px] text-[#C9A96E]" strokeWidth={1.6} />
+                </div>
+              </div>
             </a>
           ))}
         </div>

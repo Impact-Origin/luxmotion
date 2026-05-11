@@ -10,7 +10,7 @@ export function ApplicationProgress({ label, currentStep, totalSteps }: Applicat
   const pct = Math.max(0, Math.min(1, currentStep / totalSteps))
 
   return (
-    <div className="bg-white w-full flex flex-col items-center px-4 py-[10px]">
+    <div className="sticky top-[60px] lg:top-[72px] z-40 bg-white w-full flex flex-col items-center px-4 py-[10px]">
       <div className="w-full max-w-[600px] flex flex-col gap-2">
         <div className="flex items-center justify-between text-[12px] font-medium uppercase tracking-[1.1px] text-[#696969]">
           <span>{label}</span>

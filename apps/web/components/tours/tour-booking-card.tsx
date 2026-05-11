@@ -132,9 +132,10 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
       .reduce((sum, a) => sum + (a.pricingType === "per_person" ? a.price * (totalGuests || 1) : a.price), 0)
   }, [addons, selectedAddonIds, totalGuests])
 
+  const payingGuests = adults + children
   const total = price * (totalGuests || 1) + addonsTotal
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
-  const isBelowMin = minPassengers ? totalGuests < minPassengers : false
+  const isBelowMin = minPassengers ? payingGuests < minPassengers : false
 
   const formatPrice = (value: number) => value.toLocaleString("de-DE")
 

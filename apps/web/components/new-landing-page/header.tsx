@@ -337,12 +337,8 @@ export function Header({
 
           <div className="hidden xl:flex items-center gap-[8px]">
             <LangSwitcher variant={variant} />
-            <a
-              href="#booking"
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
-              }}
+            <Link
+              href="/checkout"
               className={cn(
                 "h-[40px] px-[22px] flex items-center justify-center text-[14px] font-medium uppercase tracking-[1.1px] transition-all cursor-pointer",
                 isLight
@@ -351,7 +347,7 @@ export function Header({
               )}
             >
               {t("reserve")}
-            </a>
+            </Link>
           </div>
 
           <div className="xl:hidden flex items-center gap-[8px]">
@@ -501,24 +497,18 @@ export function Header({
               "p-4 border-t sticky bottom-0 shrink-0",
               isLight ? "bg-[#F0EDE8] border-[rgba(28,27,24,0.08)]" : "bg-[#0D0D0D] border-[#2A2A2A]"
             )}>
-              <a
-                href="#booking"
+              <Link
+                href="/checkout"
                 className={cn(
                   "w-full h-12 flex items-center justify-center font-medium text-[14px] uppercase tracking-[1.1px] active:scale-[0.98] transition-all",
                   isLight
                     ? "bg-[#0D0D0D] text-white hover:bg-[#1f1f1f]"
                     : "border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#0D0D0D]"
                 )}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setMobileMenuOpen(false)
-                  setTimeout(() => {
-                    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
-                  }, 300)
-                }}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 {t("reserve")}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

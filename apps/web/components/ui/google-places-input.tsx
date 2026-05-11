@@ -178,7 +178,7 @@ export function GooglePlacesInput({
           />
         </div>
       ) : isToursHeroDark ? (
-        <div className="w-full h-full relative flex items-center gap-2">
+        <div className="w-full h-full relative flex items-center gap-2 pl-[13px] pr-[12px]">
           {!hideLeftIcon && <Search className="w-[24px] h-[24px] text-[#C9A96E] shrink-0" />}
           <input
             suppressHydrationWarning
@@ -335,7 +335,7 @@ export function GooglePlacesInput({
         <PopoverContent
           side="bottom"
           align="start"
-          sideOffset={8}
+          sideOffset={isToursHeroDark ? 0 : 8}
           className="p-0 border-none bg-transparent shadow-none w-[var(--radix-popover-trigger-width)] min-w-[300px]"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
