@@ -43,10 +43,10 @@ export function FleetCategoryFilter({ value, onChange }: Props) {
                 key={cat}
                 type="button"
                 onClick={() => handleClick(cat)}
-                className={`shrink-0 px-[28px] py-[16px] text-[12px] font-semibold uppercase tracking-[1.2px] whitespace-nowrap transition-colors ${
+                className={`shrink-0 px-[28px] py-[16px] text-[12px] font-semibold uppercase tracking-[1.2px] whitespace-nowrap transition-colors duration-300 ease-out ${
                   isActive
                     ? "bg-[#c9a96e] text-[#0d0d0d]"
-                    : "text-[#8c8680] hover:text-white border-b-[1.6px] border-transparent"
+                    : "text-[#8c8680] hover:bg-[#c9a96e] hover:text-[#0d0d0d]"
                 }`}
                 style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
               >

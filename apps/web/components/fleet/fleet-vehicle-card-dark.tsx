@@ -29,7 +29,15 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
   const t = useTranslations("fleetPage")
 
   return (
-    <div className="bg-[#1a1a1a] flex flex-col overflow-clip relative group">
+    <div className="bg-[#1a1a1a] group-hover:bg-[#1e1c1a] hover:bg-[#1e1c1a] transition-colors duration-500 ease-out flex flex-col overflow-clip relative group">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[1.5px] w-full origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out z-[4]"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
+        }}
+      />
       <div className="absolute top-3 left-3 right-3 flex gap-[2px] z-[3]">
         {vehicle.badges.map((b) => (
           <span
@@ -47,7 +55,7 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
           src={vehicle.image}
           alt={vehicle.name}
           fill
-          className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+          className="object-contain transition-transform duration-500 group-hover:scale-[1.015]"
           sizes="(min-width: 768px) 25vw, 50vw"
         />
         <div
@@ -61,7 +69,7 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
 
       <div className="flex flex-col gap-3 px-5 pt-[18px] pb-6 flex-1 z-[1]">
         <h3
-          className="text-[24px] leading-[1.3] text-white font-semibold"
+          className="text-[24px] leading-[1.3] text-white font-semibold transition-colors duration-500 ease-out group-hover:text-[#C9A96E]"
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
         >
           {vehicle.name}
@@ -112,9 +120,9 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
           <button
             type="button"
             aria-label={t("bookVehicle")}
-            className="size-8 shrink-0 aspect-square border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center hover:border-[#c9a96e] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+            className="size-8 shrink-0 aspect-square border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center transition-colors duration-500 ease-out group-hover:border-[#C9A96E] group-hover:bg-[#C9A96E] hover:border-[#C9A96E] hover:bg-[#C9A96E]"
           >
-            <ArrowRight className="size-[18px] text-white" strokeWidth={1.5} />
+            <ArrowRight className="size-[18px] text-white group-hover:text-[#0D0D0D] transition-colors duration-500 ease-out" strokeWidth={1.5} />
           </button>
         </div>
       </div>
