@@ -18,10 +18,10 @@ const CARDS: JoinCard[] = [
 function JoinCardBlock({ card, t }: { card: JoinCard; t: ReturnType<typeof useTranslations> }) {
   const Icon = card.icon
   return (
-    <div className="group relative bg-[#1a1a1a] hover:bg-[#222020] transition-colors duration-500 ease-out flex flex-col gap-5 items-start px-6 md:px-12 py-10 md:py-14 flex-1">
+    <div className="group relative bg-[#1a1a1a] hover:bg-[#221f1c] transition-colors duration-500 ease-out flex flex-col gap-5 items-start px-6 md:px-12 py-10 md:py-14 flex-1">
       <span
         aria-hidden
-        className="pointer-events-none absolute top-0 left-0 right-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[1.5px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"
         style={{
           background:
             "linear-gradient(to right, #C9A96E 0%, rgba(201,169,110,0.4) 50%, transparent 85%)",
@@ -50,7 +50,7 @@ function JoinCardBlock({ card, t }: { card: JoinCard; t: ReturnType<typeof useTr
       </div>
       <Link
         href={card.href}
-        className="h-10 px-[22px] flex items-center gap-2 border border-[#C9A96E] text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+        className="h-10 px-[22px] flex items-center gap-2 border border-[#C9A96E] text-[#C9A96E] bg-transparent group-hover:bg-[#C9A96E] group-hover:text-[#0D0D0D] hover:bg-[#C9A96E] hover:text-[#0D0D0D] transition-colors duration-500 ease-out"
       >
         <span className="px-2 text-[14px] font-medium uppercase tracking-[1.1px]">
           {t(`${card.id}.cta`)}
