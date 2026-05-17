@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Search } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -13,6 +13,12 @@ export function BlogsHero() {
   const t = useTranslations("blogsHero")
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 80)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -44,14 +50,23 @@ export function BlogsHero() {
 
       <div className="relative flex items-center justify-center px-4 md:px-[48px] py-16 md:py-[72px] min-h-[480px] md:min-h-[620px]">
         <div className="flex flex-col items-center md:items-start gap-6 w-full max-w-[1280px]">
-          <div className="flex items-center gap-2">
+          <div
+            className={`flex items-center gap-2 transition-all duration-500 ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
             <div className="w-8 md:w-[82px] h-px bg-[#C9A96E]" />
             <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={sans}>
               {t("eyebrow")}
             </span>
           </div>
 
-          <div style={serif} className="text-center md:text-left">
+          <div
+            style={serif}
+            className={`text-center md:text-left transition-all duration-500 ease-out delay-100 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
             <p className="text-[48px] md:text-[96px] font-normal leading-[0.95] text-[#f5f5f5] whitespace-pre-line">
               {t("headingMain")}
             </p>
@@ -60,7 +75,11 @@ export function BlogsHero() {
             </p>
           </div>
 
-          <div className="flex items-center w-full md:w-auto">
+          <div
+            className={`flex items-center w-full md:w-auto transition-all duration-500 ease-out delay-200 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
             <div
               className="flex items-center h-[56px] bg-[#1e1d1b] border-y border-l border-[rgba(255,255,255,0.12)] px-[13px] gap-2 flex-1 md:flex-none md:w-[384px]"
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}

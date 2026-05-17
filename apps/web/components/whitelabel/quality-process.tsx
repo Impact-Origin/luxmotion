@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react"
 import {
   ArrowRight,
-  CircleCheck,
+  CircleCheckBig,
+  ClipboardCheck,
   FileText,
-  GraduationCap,
   Users,
   type LucideIcon,
 } from "lucide-react"
@@ -68,7 +68,7 @@ function ArrowConnector({ leftPercent }: { leftPercent: number }) {
 }
 
 export function QualityProcess() {
-  const t = useTranslations("driversPage.qualityProcess")
+  const t = useTranslations("whitelabel.qualityProcess")
   const marqueeRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -103,54 +103,46 @@ export function QualityProcess() {
     },
     {
       num: "03",
-      Icon: GraduationCap,
+      Icon: ClipboardCheck,
       heading: t("step3.heading"),
       body: t("step3.body"),
     },
     {
       num: "04",
-      Icon: CircleCheck,
+      Icon: CircleCheckBig,
       heading: t("step4.heading"),
       body: t("step4.body"),
     },
   ]
 
   return (
-    <section className="relative bg-[#1C1B18] px-4 lg:px-[82px] pt-14 lg:pt-20 pb-8 lg:pb-20 overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 1425px 917px at 30% 0%, rgba(154,117,53,0.08), rgba(154,117,53,0) 50%)",
-        }}
-      />
-
-      <div className="relative max-w-[1280px] mx-auto flex flex-col gap-13 lg:gap-[52px]">
+    <section className="bg-[#0D0D0D] px-4 lg:px-[82px] pt-8 lg:pt-10 pb-8 lg:pb-20">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-[52px]">
         <div
           ref={headerRef}
-          className={`flex flex-col gap-4 items-start transition-all duration-700 ease-out ${
-            isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"
+          className={`flex flex-col gap-4 items-center text-center transition-opacity duration-700 ease-out ${
+            isVisible ? "opacity-100" : "opacity-0"
           }`}
         >
           <div className="flex items-center gap-2">
-            <div className="h-px w-[82px] bg-[#9A7535]" />
+            <div className="h-px w-8 bg-[#C9A96E]" />
             <span
-              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#9A7535] leading-none"
+              className="text-[12px] font-medium uppercase tracking-[2px] text-[#C9A96E] leading-none"
               style={SANS_FONT}
             >
               {t("eyebrow")}
             </span>
+            <div className="h-px w-8 bg-[#C9A96E]" />
           </div>
           <h2
-            className="text-[40px] lg:text-[48px] font-light leading-[1.05] text-white"
+            className="text-[36px] lg:text-[48px] font-light leading-[1.05] text-white"
             style={SERIF_FONT}
           >
             {t("titlePre")}{" "}
-            <span className="italic text-[#C4973E]">{t("titleAccent")}</span>
+            <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
           </h2>
           <p
-            className="text-[14px] leading-[1.2] text-[#999] max-w-[520px]"
+            className="text-[16px] lg:text-[18px] leading-[1.3] text-[rgba(255,255,255,0.55)] max-w-[926px]"
             style={SANS_FONT}
           >
             {t("subtitle")}

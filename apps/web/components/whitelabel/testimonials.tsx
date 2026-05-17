@@ -1,0 +1,255 @@
+"use client"
+
+import { useMemo } from "react"
+import Image from "next/image"
+import { Star } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useQuery } from "convex/react"
+import { api } from "@workspace/convex/api"
+
+const SERIF_FONT = {
+  fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+} as const
+
+const SANS_FONT = {
+  fontFamily: "var(--font-sans), system-ui, sans-serif",
+} as const
+
+const REVIEW_PHOTOS = [
+  "/reviews/review-1.png",
+  "/reviews/review-2.png",
+  "/reviews/review-3.png",
+] as const
+
+const AVATAR_COLORS = ["#9c27b0", "#1976d2", "#43a047"] as const
+
+const FALLBACK_REVIEWS = [
+  {
+    name: "Yasminn Rezende",
+    date: "23/11/2025",
+    text: "On time, really attentive and nice music. Exactly what you want after a long flight.",
+  },
+  {
+    name: "Ricardo van Mildert",
+    date: "21/11/2025",
+    text: "Had some delay with my plane, but it was absolutely no problem. Great conversation, great service!",
+  },
+  {
+    name: "Rebecca P.",
+    date: "13/11/2025",
+    text: "Flawless. Driver was professional, courteous and the car was immaculate. Would book again without hesitation.",
+  },
+] as const
+
+type Review = {
+  name: string
+  date: string
+  text: string
+}
+
+function ReviewCard({ review, color }: { review: Review; color: string }) {
+  const initial = review.name.charAt(0).toUpperCase()
+  return (
+    <div className="relative bg-[#1a1a1a] flex flex-col gap-[10px] p-5 group overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+      <div className="flex items-center gap-[10px]">
+        <div
+          className="size-9 rounded-full flex items-center justify-center shrink-0"
+          style={{ backgroundColor: color }}
+        >
+          <span className="text-[14px] text-white" style={SANS_FONT}>
+            {initial}
+          </span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <p
+            className="text-[14px] font-semibold text-white leading-none"
+            style={SANS_FONT}
+          >
+            {review.name}
+          </p>
+          <p
+            className="text-[12px] text-[#8c8680] leading-none mt-1"
+            style={SANS_FONT}
+          >
+            {review.date}
+          </p>
+        </div>
+      </div>
+      <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">
+        ★★★★★
+      </span>
+      <p
+        className="text-[13px] text-[rgba(255,255,255,0.55)] leading-[1.35]"
+        style={SANS_FONT}
+      >
+        {review.text}
+      </p>
+    </div>
+  )
+}
+
+function LogoPill({
+  src,
+  alt,
+  width,
+  height,
+  label,
+}: {
+  src: string
+  alt: string
+  width: number
+  height: number
+  label?: string
+}) {
+  return (
+    <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] flex items-center gap-1.5 px-2.5 h-7">
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className="h-3 w-auto"
+        unoptimized
+      />
+      {label ? (
+        <span
+          className="text-[11px] font-medium text-[rgba(255,255,255,0.75)] leading-none"
+          style={SANS_FONT}
+        >
+          {label}
+        </span>
+      ) : null}
+    </div>
+  )
+}
+
+function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
+  return (
+    <div className="flex items-center gap-4">
+      <span
+        className="text-[64px] leading-none text-[#C9A96E] font-light"
+        style={SERIF_FONT}
+      >
+        4.9
+      </span>
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center gap-0.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              className="size-[14px] text-[#C9A96E] fill-[#C9A96E]"
+              strokeWidth={0}
+            />
+          ))}
+        </div>
+        <p
+          className="text-[12px] text-[rgba(255,255,255,0.55)] leading-none"
+          style={SANS_FONT}
+        >
+          {reviewsCount}
+        </p>
+        <div className="flex items-center gap-1.5 mt-1">
+          <LogoPill
+            src="/svgs/google-icon.svg"
+            alt="Google"
+            width={12}
+            height={12}
+            label="Google"
+          />
+          <LogoPill
+            src="/svgs/trustpilot-logo.svg"
+            alt="Trustpilot"
+            width={56}
+            height={12}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function Testimonials() {
+  const t = useTranslations("whitelabel.testimonials")
+  const featuredReviews = useQuery(api.tourReviews.listFeatured)
+
+  const reviews: Review[] = useMemo(() => {
+    const dbReviews: Review[] = (featuredReviews ?? []).slice(0, 3).map((r) => ({
+      name: r.author,
+      date: new Date(r.createdAt).toLocaleDateString("en-GB"),
+      text: r.text,
+    }))
+    return dbReviews.length > 0 ? dbReviews : [...FALLBACK_REVIEWS]
+  }, [featuredReviews])
+
+  return (
+    <section className="bg-[#141414] px-4 lg:px-[82px] pt-14 lg:pt-20 pb-14 lg:pb-20">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-12">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="flex items-center gap-2">
+            <div className="h-px w-8 bg-[#C9A96E]" />
+            <span
+              className="text-[12px] font-medium uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              style={SANS_FONT}
+            >
+              {t("eyebrow")}
+            </span>
+            <div className="h-px w-8 bg-[#C9A96E]" />
+          </div>
+          <h2
+            className="text-[32px] lg:text-[48px] font-light leading-[1.1] text-white"
+            style={SERIF_FONT}
+          >
+            {t("titlePre")}{" "}
+            <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14">
+          <div className="grid grid-cols-2 grid-rows-2 gap-[3px] h-[420px] lg:h-[560px]">
+            <div className="relative row-span-2">
+              <Image
+                src={REVIEW_PHOTOS[0]}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative">
+              <Image
+                src={REVIEW_PHOTOS[1]}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative">
+              <Image
+                src={REVIEW_PHOTOS[2]}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-5">
+            <RatingBlock reviewsCount={t("reviewsCount")} />
+            <div className="flex flex-col gap-[3px]">
+              {reviews.map((review, i) => (
+                <ReviewCard
+                  key={`${review.name}-${i}`}
+                  review={review}
+                  color={AVATAR_COLORS[i % AVATAR_COLORS.length] ?? "#5f6368"}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

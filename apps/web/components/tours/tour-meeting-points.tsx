@@ -61,7 +61,7 @@ export function TourMeetingPoints({ pickup, dropoff, hasMapSection }: TourMeetin
         <button
           type="button"
           onClick={() => handleClick(pickup, "pickup")}
-          className="flex-1 text-left bg-[#1a1a1a] border-l-[1.6px] border-[#c9a96e] p-[24px] flex flex-col gap-[8px] transition-colors hover:bg-[#1f1f1f] cursor-pointer"
+          className="flex-1 text-left bg-[#1a1a1a] border-l-[1.6px] border-transparent p-[24px] flex flex-col gap-[8px] transition-colors hover:bg-[#1f1f1f] hover:border-[#c9a96e] cursor-pointer"
         >
           <div className="size-[24px] rounded-[12px] bg-[rgba(201,169,110,0.15)] border-[0.857px] border-[rgba(201,169,110,0.3)] flex items-center justify-center">
             <MapPin className="size-[10px] text-[#c9a96e]" strokeWidth={2} />

@@ -4149,10 +4149,21 @@
       "modalSubtitle": "Indique los datos de contacto del conductor. Recibirá un correo de incorporación.",
       "saveDriver": "Guardar conductor",
       "fields": {
-        "fullName": { "label": "Nombre completo", "placeholder": "ej. Juan Pérez" },
-        "email": { "label": "Email", "placeholder": "nombre@empresa.com" },
-        "phone": { "label": "Teléfono", "placeholder": "+34 600 000 000" },
-        "hasVideo": { "label": "Vídeo de presentación" }
+        "fullName": {
+          "label": "Nombre completo",
+          "placeholder": "ej. Juan Pérez"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "nombre@empresa.com"
+        },
+        "phone": {
+          "label": "Teléfono",
+          "placeholder": "+34 600 000 000"
+        },
+        "hasVideo": {
+          "label": "Vídeo de presentación"
+        }
       }
     },
     "stepVehicles": {
@@ -4165,10 +4176,22 @@
       "modalSubtitle": "Indique los datos del vehículo para registrarlo en su flota.",
       "saveVehicle": "Guardar vehículo",
       "fields": {
-        "make": { "label": "Marca", "placeholder": "ej. Mercedes-Benz" },
-        "model": { "label": "Modelo", "placeholder": "ej. Clase E" },
-        "licensePlate": { "label": "Matrícula", "placeholder": "AA-00-AA" },
-        "category": { "label": "Categoría", "placeholder": "Seleccione una categoría" }
+        "make": {
+          "label": "Marca",
+          "placeholder": "ej. Mercedes-Benz"
+        },
+        "model": {
+          "label": "Modelo",
+          "placeholder": "ej. Clase E"
+        },
+        "licensePlate": {
+          "label": "Matrícula",
+          "placeholder": "AA-00-AA"
+        },
+        "category": {
+          "label": "Categoría",
+          "placeholder": "Seleccione una categoría"
+        }
       }
     },
     "stepDocuments": {
@@ -4684,6 +4707,113 @@
         "videoIntro": "Vídeo de presentación"
       },
       "backHome": "Volver a la página principal"
+    }
+  },
+  "whitelabel": {
+    "qualityProcess": {
+      "eyebrow": "El proceso",
+      "titlePre": "Cómo",
+      "titleAccent": "funciona",
+      "subtitle": "Cuatro pasos simples. Desde la reserva hasta la llegada, todo gestionado por nosotros.",
+      "step1": {
+        "heading": "Reserva en 60 segundos",
+        "body": "Elige origen, destino, fecha y hora. Precio fijo calculado al instante — sin negociación, sin sorpresas."
+      },
+      "step2": {
+        "heading": "Conoce a tu conductor",
+        "body": "48 horas antes, recibe el nombre, foto y contacto directo del conductor. Sin incógnitas a la llegada."
+      },
+      "step3": {
+        "heading": "Encuentro garantizado",
+        "body": "El conductor espera en el lugar acordado con tu nombre — incluso si tu vuelo se retrasa. El tiempo de espera está incluido."
+      },
+      "step4": {
+        "heading": "Relájate. Llegarás con comodidad.",
+        "body": "Siéntate, conéctate al Wi-Fi, disfruta. El hotel es notificado de tu llegada en tiempo real."
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Reseñas reales",
+      "titlePre": "Con la confianza de",
+      "titleAccent": "+300 clientes",
+      "reviewsCount": "322 reseñas verificadas"
+    },
+    "benefits": {
+      "eyebrow": "Por qué reservar con nosotros",
+      "titlePre": "Todo incluido,",
+      "titleAccent": "sin excepciones.",
+      "reliable": {
+        "title": "Servicio 100% fiable",
+        "body": "Más de 300 reseñas de 5 estrellas en la zona de Lisboa. La empresa de traslados privados mejor valorada de la región."
+      },
+      "certified": {
+        "title": "Conductores certificados",
+        "body": "Formación específica, verificaciones de antecedentes, uniforme. Tu destino es nuestro compromiso — personal y profesional."
+      },
+      "always": {
+        "title": "365 días · 24/7",
+        "body": "Lluvia, nieve, festivo o madrugada — siempre estamos disponibles para garantizar tu viaje."
+      },
+      "cancellation": {
+        "title": "Cancelación gratuita",
+        "body": "Los planes cambian. Cancela sin coste hasta 24 horas antes. Sin preguntas, sin tarifas — libertad total."
+      },
+      "support": {
+        "title": "Soporte directo",
+        "body": "Línea dedicada en portugués, inglés, español y francés. Respuesta en menos de 15 minutos por WhatsApp."
+      },
+      "meetingPoint": {
+        "title": "Punto de encuentro confirmado",
+        "body": "Información detallada de dónde te esperará el conductor — sin confusión, sin llamadas de última hora."
+      }
+    },
+    "payment": {
+      "eyebrow": "Formas de pago",
+      "titlePre": "Paga como",
+      "titleAccent": "prefieras.",
+      "subtitle": "Para garantizar que tu viaje sea lo más tranquilo posible, aceptamos diversas formas de pago — todas seguras, todas encriptadas.",
+      "secure": "Pago seguro",
+      "ssl": "Encriptación SSL",
+      "imageAlt": "Terminal de pago en el coche mostrando pago exitoso"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "titlePre": "Preguntas",
+      "titleAccent": "frecuentes",
+      "items": {
+        "payment": {
+          "question": "¿Cuáles son las formas de pago?",
+          "answer": "Aceptamos Visa, Mastercard, MB Way, Multibanco y PayPal. Todos los pagos se procesan de forma segura con encriptación SSL."
+        },
+        "flightDelay": {
+          "question": "¿Y si mi vuelo se retrasa?",
+          "answer": "Monitoreamos tu vuelo en tiempo real y ajustamos la hora de llegada del conductor. El tiempo de espera está siempre incluido."
+        },
+        "booking": {
+          "question": "¿Cómo puedo reservar mi viaje?",
+          "answer": "Puedes reservar directamente en nuestra web en 60 segundos — elige origen, destino, fecha y hora y recibe el precio final al instante."
+        },
+        "shareDiscount": {
+          "question": "¿Cuál es el descuento al compartir un viaje?",
+          "answer": "Las reservas compartidas con otros pasajeros tienen hasta un 30% de descuento. Contáctanos para más información."
+        },
+        "roundTrip": {
+          "question": "¿Cómo funciona un viaje de ida y vuelta?",
+          "answer": "Selecciona la opción 'ida y vuelta' al reservar y añade la fecha y hora de regreso. Beneficiate de un descuento automático."
+        },
+        "outsideLisbon": {
+          "question": "¿Viajan a otros lugares además de Lisboa?",
+          "answer": "Sí, ofrecemos traslados y tours por todo Portugal continental — Oporto, Algarve, Sintra, Évora y más."
+        }
+      }
+    },
+    "ctaFinal": {
+      "eyebrow": "¿Listo para partir?",
+      "titleLine1": "Reserva ahora,",
+      "titleLine2": "llega con comodidad.",
+      "subtitle": "Tu conductor privado está disponible hoy. Precio fijo, confirmación inmediata, sin sorpresas.",
+      "cta": "Ver precios y reservar ahora",
+      "note": "Cancelación gratuita · Sin tarjeta de crédito obligatoria"
     }
   }
 }

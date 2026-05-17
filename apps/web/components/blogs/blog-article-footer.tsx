@@ -70,7 +70,7 @@ export function BlogArticleFooter({ tags, shareTitle }: BlogArticleFooterProps) 
       <ul className="flex flex-wrap gap-2 md:gap-x-[6px] md:gap-y-2 list-none m-0 p-0">
         {tags.map((tag) => (
           <li key={tag}>
-            <span className="inline-flex items-center bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.18)] px-[13.8px] py-[5.8px] text-[10px] font-semibold uppercase tracking-[0.8px] text-[#C9A96E]">
+            <span className="group/tag inline-flex items-center bg-[rgba(201,169,110,0.08)] hover:bg-[#C9A96E] border border-[rgba(201,169,110,0.18)] hover:border-[#C9A96E] px-[13.8px] py-[5.8px] text-[10px] font-semibold uppercase tracking-[0.8px] text-[#C9A96E] hover:!text-[#0D0D0D] transition-colors duration-200 cursor-pointer">
               {tag}
             </span>
           </li>

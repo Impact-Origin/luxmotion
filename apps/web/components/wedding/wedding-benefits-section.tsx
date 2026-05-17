@@ -37,7 +37,8 @@ function BenefitCard({
   desc: string
 }) {
   return (
-    <div className="bg-white border border-[rgba(168,131,58,0.1)] shadow-[0_2px_12px_rgba(0,0,0,0.04)] flex flex-col items-center gap-2 px-[22.8px] py-[32.8px] overflow-clip h-full w-full self-stretch">
+    <div className="group relative bg-white hover:bg-[#fbf4e3] border border-[rgba(168,131,58,0.1)] shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-colors duration-200 flex flex-col items-center gap-2 px-[22.8px] py-[32.8px] overflow-clip h-full w-full self-stretch">
+      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1.5px] w-0 group-hover:w-[70%] bg-gradient-to-r from-transparent via-[#a08248] to-transparent transition-[width] duration-300 ease-out" />
       <div className="size-12 bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.15)] flex items-center justify-center shrink-0">
         <Icon className="size-6 text-[#a08248]" strokeWidth={1.5} />
       </div>

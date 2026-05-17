@@ -10,14 +10,14 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const PHOTOS = [
-  "/wedding/gallery-1.png",
-  "/wedding/gallery-2.png",
-  "/wedding/gallery-3.png",
+  { src: "/wedding/gallery-1.png", caption: "Douro · 2024" },
+  { src: "/wedding/gallery-2.png", caption: "Sintra · 2024" },
+  { src: "/wedding/gallery-3.png", caption: "Algarve · 2024" },
 ] as const
 
-function GalleryCard({ src, alt }: { src: string; alt: string }) {
+function GalleryCard({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
-    <div className="relative bg-white overflow-clip flex-1 min-w-0 self-stretch">
+    <div className="group relative bg-white overflow-clip flex-1 min-w-0 self-stretch">
       <Image
         src={src}
         alt={alt}
@@ -26,6 +26,12 @@ function GalleryCard({ src, alt }: { src: string; alt: string }) {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.7)] from-0% to-[rgba(13,13,13,0)] to-50% pointer-events-none" />
+      <span
+        className="absolute bottom-4 left-4 text-[14px] italic text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none"
+        style={SERIF_FONT}
+      >
+        {caption}
+      </span>
     </div>
   )
 }
@@ -118,21 +124,27 @@ export function WeddingGallerySection() {
         />
 
         <div className="hidden md:flex gap-[3px] items-stretch justify-center w-full pt-[42px] h-[608.21px]">
-          {PHOTOS.map((src, i) => (
-            <GalleryCard key={i} src={src} alt={t("photoAlt", { index: i + 1 })} />
+          {PHOTOS.map((p, i) => (
+            <GalleryCard key={i} src={p.src} caption={p.caption} alt={t("photoAlt", { index: i + 1 })} />
           ))}
         </div>
 
         <div className="md:hidden w-full pt-2" {...swipe}>
           <div className="relative h-[531.21px] w-full bg-white overflow-clip">
             <Image
-              src={PHOTOS[page]!}
+              src={PHOTOS[page]!.src}
               alt={t("photoAlt", { index: page + 1 })}
               fill
               sizes="100vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.7)] from-0% to-[rgba(13,13,13,0)] to-50% pointer-events-none" />
+            <span
+              className="absolute bottom-4 left-4 text-[14px] italic text-white"
+              style={SERIF_FONT}
+            >
+              {PHOTOS[page]!.caption}
+            </span>
           </div>
         </div>
 

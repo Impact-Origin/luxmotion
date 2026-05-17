@@ -33,7 +33,8 @@ function ReviewCard({
   textSizeCls: string
 }) {
   return (
-    <div className="bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col gap-2 px-[24.8px] pt-[25.6px] pb-[24.8px] flex-1 min-w-0 self-stretch">
+    <div className="group relative bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col gap-2 px-[24.8px] pt-[25.6px] pb-[24.8px] flex-1 min-w-0 self-stretch">
+      <span className="absolute top-0 inset-x-0 h-[2px] bg-[#a8833a] opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out" />
       <div className="flex gap-[10px] items-center">
         <div
           className="size-[34px] rounded-full flex items-center justify-center shrink-0"

@@ -1,7 +1,9 @@
 "use client"
 
+import { useRef } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
@@ -34,6 +36,8 @@ function LogoCell({ src, alt }: { src: string; alt: string }) {
 
 export function WeddingPlannerTrustedBy() {
   const t = useTranslations("weddingPlanner.trustedBy")
+  const marqueeRef = useRef<HTMLDivElement>(null)
+  useAutoScrollMarquee(marqueeRef)
 
   return (
     <section className="bg-white border-y border-[rgba(0,0,0,0.08)] px-4 md:px-12 pt-6 pb-[50px]">
@@ -51,10 +55,13 @@ export function WeddingPlannerTrustedBy() {
           ))}
         </div>
 
-        <div className="md:hidden w-full overflow-x-auto -mx-4 px-4 scrollbar-hide">
+        <div
+          ref={marqueeRef}
+          className="md:hidden w-full overflow-x-auto -mx-4 px-4 scrollbar-hide"
+        >
           <div className="flex items-center gap-10 w-max">
-            {LOGOS.map((l) => (
-              <LogoCell key={l.src} src={l.src} alt={l.alt} />
+            {[...LOGOS, ...LOGOS].map((l, i) => (
+              <LogoCell key={`${l.src}-${i}`} src={l.src} alt={l.alt} />
             ))}
           </div>
         </div>

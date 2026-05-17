@@ -4,16 +4,17 @@ import Image from "next/image"
 import Link from "next/link"
 import { Facebook, Instagram, Linkedin, Lock } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
-const BADGES = [
-  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe" },
-  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%" },
-  { src: "/footer/badges/pme.png", alt: "PME Líder" },
-  { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice" },
-  { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3" },
-  { src: "/footer/badges/turismo-portugal.png", alt: "Turismo de Portugal" },
-  { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510" },
-  { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações" },
+const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean }> = [
+  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 34, h: 34 },
+  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 36, h: 37 },
+  { src: "/footer/badges/pme.png", alt: "PME Líder", w: 32, h: 37 },
+  { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 34, h: 35 },
+  { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 33, h: 36 },
+  { src: "/footer/badges/turismo-portugal.png", alt: "Turismo de Portugal", w: 68, h: 31, mask: true },
+  { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510", w: 29, h: 18 },
+  { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações", w: 70, h: 32, mask: true },
 ]
 
 const PAYMENTS = [
@@ -30,7 +31,7 @@ const SOCIALS = [
   { href: "https://www.linkedin.com/company/luxmotion-easytransferportugal/", icon: Linkedin, label: "LinkedIn" },
 ]
 
-export function Footer() {
+export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
   const t = useTranslations("footer")
   const r = useTranslations("footer.redesign")
 
@@ -38,7 +39,7 @@ export function Footer() {
     <footer className="bg-[#0D0D0D] pt-8 px-4 md:px-[82px] min-[1440px]:px-[300px] border-t border-[rgba(255,255,255,0.05)]">
       <div className="max-w-[1280px] mx-auto">
         <div className="border-b border-[rgba(255,255,255,0.05)] pb-11 grid grid-cols-1 md:grid-cols-[2.2fr_1fr_1fr_1fr] gap-10 md:gap-[60px]">
-          <BrandColumn tagline1={r("tagline1")} tagline2={r("tagline2")} />
+          <BrandColumn tagline1={r("tagline1")} tagline2={r("tagline2")} whitelabel={whitelabel} />
 
           <NavColumn
             title={t("navigation")}
@@ -107,34 +108,40 @@ export function Footer() {
   )
 }
 
-function BrandColumn({ tagline1, tagline2 }: { tagline1: string; tagline2: string }) {
+function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: string; tagline2: string; whitelabel?: boolean }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-[13px]">
-        <div className="flex items-center gap-3">
-          <div className="size-[41px] border-[1.7px] border-[#C9A96E] flex items-center justify-center">
-            <Image src="/footer/logo-lm.svg" alt="LM" width={20} height={11} />
+        {whitelabel ? (
+          <LogoPlaceholder />
+        ) : (
+          <div className="flex items-center gap-3">
+            <div className="size-[41px] border-[1.7px] border-[#C9A96E] flex items-center justify-center">
+              <Image src="/footer/logo-lm.svg" alt="LM" width={20} height={11} />
+            </div>
+            <div className="flex flex-col">
+              <Image src="/footer/logo-luxmotion.svg" alt="LuxMotion" width={73} height={8} />
+              <span
+                className="text-[6.4px] text-[#999] tracking-[0.9px] mt-1"
+                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+              >
+                BY EASYTRANSFER
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <Image src="/footer/logo-luxmotion.svg" alt="LuxMotion" width={73} height={8} />
-            <span
-              className="text-[6.4px] text-[#999] tracking-[0.9px] mt-1"
+        )}
+        {whitelabel ? null : (
+          <div className="max-w-[260px]">
+            <p
+              className="text-[12px] leading-[1.3] text-[#999]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
-              BY EASYTRANSFER
-            </span>
+              {tagline1}
+              <br />
+              {tagline2}
+            </p>
           </div>
-        </div>
-        <div className="max-w-[260px]">
-          <p
-            className="text-[12px] leading-[1.3] text-[#999]"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            {tagline1}
-            <br />
-            {tagline2}
-          </p>
-        </div>
+        )}
       </div>
 
       <div className="grid grid-cols-3 gap-x-4 gap-y-3 max-w-[341px]">
@@ -143,13 +150,34 @@ function BrandColumn({ tagline1, tagline2 }: { tagline1: string; tagline2: strin
             key={badge.alt}
             className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] h-[52px] flex items-center justify-center px-[11px]"
           >
-            <Image
-              src={badge.src}
-              alt={badge.alt}
-              width={40}
-              height={40}
-              className="object-contain max-h-[36px]"
-            />
+            {badge.mask ? (
+              <span
+                role="img"
+                aria-label={badge.alt}
+                className="block bg-white"
+                style={{
+                  width: `${badge.w}px`,
+                  height: `${badge.h}px`,
+                  WebkitMaskImage: `url(${badge.src})`,
+                  maskImage: `url(${badge.src})`,
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  maskPosition: "center",
+                  WebkitMaskSize: "contain",
+                  maskSize: "contain",
+                }}
+              />
+            ) : (
+              <Image
+                src={badge.src}
+                alt={badge.alt}
+                width={badge.w}
+                height={badge.h}
+                className="object-contain"
+                style={{ width: `${badge.w}px`, height: `${badge.h}px` }}
+              />
+            )}
           </div>
         ))}
       </div>

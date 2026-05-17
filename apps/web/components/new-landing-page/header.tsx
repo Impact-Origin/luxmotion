@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
+import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
 const HERO_SCROLL_THRESHOLD = 320
 const MOBILE_MAX_WIDTH = 767
@@ -27,6 +28,7 @@ export interface HeaderProps {
   transparentOverHeroMobileOnly?: boolean
   heroScrollThreshold?: number
   variant?: HeaderVariant
+  whitelabel?: boolean
 }
 
 function LuxMotionLogo({ className, variant = "dark" }: { className?: string; variant?: HeaderVariant }) {
@@ -137,6 +139,7 @@ export function Header({
   transparentOverHeroMobileOnly = false,
   heroScrollThreshold = HERO_SCROLL_THRESHOLD,
   variant = "dark",
+  whitelabel = false,
 }: HeaderProps = {}) {
   const isLight = variant === "light"
   const t = useTranslations("header")
@@ -272,7 +275,7 @@ export function Header({
         )}
       >
         <div className="max-w-[1440px] mx-auto px-4 md:px-[48px] flex items-center justify-between h-[60px] md:h-[72px]">
-          <LuxMotionLogo variant={variant} />
+          {whitelabel ? <LogoPlaceholder /> : <LuxMotionLogo variant={variant} />}
 
           <nav className="hidden xl:flex items-center gap-[18px]">
             {navLinks.map((link) =>
@@ -386,7 +389,7 @@ export function Header({
               "px-4 h-[60px] flex items-center justify-between border-b sticky top-0 z-10 shrink-0",
               isLight ? "bg-[#F0EDE8] border-[rgba(28,27,24,0.08)]" : "bg-[#0D0D0D] border-[#2A2A2A]"
             )}>
-              <LuxMotionLogo variant={variant} />
+              {whitelabel ? <LogoPlaceholder /> : <LuxMotionLogo variant={variant} />}
               <button
                 onClick={() => { setMobileMenuOpen(false); setMobileExpandedDropdown(null) }}
                 className={cn(

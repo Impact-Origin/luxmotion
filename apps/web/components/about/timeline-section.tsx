@@ -1,63 +1,9 @@
 "use client"
 
-import { Fragment, useEffect, useRef } from "react"
+import { Fragment, useRef } from "react"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
-
-function useAutoScroll(speedPxPerSec = 18, resumeAfterMs = 2200) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-    let raf = 0
-    let lastTs = performance.now()
-    let pausedUntil = 0
-    let direction: 1 | -1 = 1
-
-    const onInteract = () => {
-      pausedUntil = performance.now() + resumeAfterMs
-    }
-
-    const tick = (ts: number) => {
-      const dt = ts - lastTs
-      lastTs = ts
-      if (ts >= pausedUntil) {
-        const max = el.scrollWidth - el.clientWidth
-        if (max > 0) {
-          let next = el.scrollLeft + direction * speedPxPerSec * (dt / 1000)
-          if (next >= max) {
-            next = max
-            direction = -1
-            pausedUntil = ts + 1200
-          } else if (next <= 0) {
-            next = 0
-            direction = 1
-            pausedUntil = ts + 1200
-          }
-          el.scrollLeft = next
-        }
-      }
-      raf = requestAnimationFrame(tick)
-    }
-
-    el.addEventListener("pointerdown", onInteract)
-    el.addEventListener("wheel", onInteract, { passive: true })
-    el.addEventListener("touchstart", onInteract, { passive: true })
-    raf = requestAnimationFrame(tick)
-
-    return () => {
-      cancelAnimationFrame(raf)
-      el.removeEventListener("pointerdown", onInteract)
-      el.removeEventListener("wheel", onInteract)
-      el.removeEventListener("touchstart", onInteract)
-    }
-  }, [speedPxPerSec, resumeAfterMs])
-
-  return ref
-}
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 type Milestone = {
   year: string
@@ -107,7 +53,8 @@ function Connector({ flexBased = true }: { flexBased?: boolean }) {
 
 export function TimelineSection() {
   const t = useTranslations("aboutPage.timeline")
-  const scrollRef = useAutoScroll()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  useAutoScrollMarquee(scrollRef, { activeBelow: 768 })
 
   const milestones: Milestone[] = [
     { year: t("year1"), title: t("label1"), desc: t("desc1") },
@@ -139,16 +86,15 @@ export function TimelineSection() {
       <div className="md:hidden relative">
         <div
           ref={scrollRef}
-          className="overflow-x-auto no-scrollbar"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="overflow-x-auto scrollbar-hide"
         >
           <div className="flex items-start min-w-max px-4">
-            {milestones.map((m, i) => (
-              <Fragment key={m.year}>
+            {[...milestones, ...milestones].map((m, i) => (
+              <Fragment key={`${m.year}-${i}`}>
                 <div className="w-[240px] shrink-0 flex justify-center">
                   <TimelineNode m={m} />
                 </div>
-                {i < milestones.length - 1 && <Connector flexBased={false} />}
+                {i < milestones.length * 2 - 1 && <Connector flexBased={false} />}
               </Fragment>
             ))}
           </div>

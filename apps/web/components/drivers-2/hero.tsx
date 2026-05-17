@@ -375,7 +375,7 @@ export function DriversHero2() {
             <div className="flex flex-col-reverse lg:flex-row gap-3 items-stretch lg:items-center">
               <Link
                 href="/drivers/apply"
-                className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#c9a96e] text-[#0d0d0d] hover:bg-[#b89558] transition-colors"
+                className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#c9a96e] text-[#0d0d0d] hover:bg-[#b89558] hover:-translate-y-0.5 transition-[background-color,transform] duration-200"
               >
                 <span
                   className="px-2 text-[14px] font-medium uppercase tracking-[1.1px]"
@@ -390,7 +390,7 @@ export function DriversHero2() {
               </Link>
               <Link
                 href="#how-it-works"
-                className="group h-12 inline-flex items-center justify-center gap-2 px-6 py-[9px] border border-[rgba(140,134,128,0.6)] text-[#999] hover:text-white hover:border-white/40 transition-colors"
+                className="group h-12 inline-flex items-center justify-center gap-2 px-6 py-[9px] border border-[rgba(140,134,128,0.6)] text-[#999] hover:text-[#C9A96E] hover:border-[#C9A96E] transition-colors duration-200"
               >
                 <span
                   className="px-2 text-[14px] font-medium uppercase tracking-[1.1px]"

@@ -1,8 +1,9 @@
 "use client"
 
-import { Fragment } from "react"
+import { Fragment, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { User, Search, Shield, Check, type LucideIcon } from "lucide-react"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 type Step = {
   icon: LucideIcon
@@ -69,6 +70,8 @@ function Connector({ flexBased }: { flexBased: boolean }) {
 
 export function VettingSection() {
   const t = useTranslations("aboutPage.vetting")
+  const marqueeRef = useRef<HTMLDivElement>(null)
+  useAutoScrollMarquee(marqueeRef, { activeBelow: 1024 })
 
   return (
     <section className="bg-[#0D0D0D] flex flex-col items-center px-4 md:px-[120px] pt-4 pb-20">
@@ -119,16 +122,16 @@ export function VettingSection() {
         </div>
 
         <div
-          className="lg:hidden w-full overflow-x-auto no-scrollbar"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          ref={marqueeRef}
+          className="lg:hidden w-full overflow-x-auto scrollbar-hide"
         >
-          <div className="flex items-start justify-center min-w-max mx-auto pt-3">
-            {STEPS.map((s, i) => (
-              <Fragment key={s.titleKey}>
+          <div className="flex items-start min-w-max pt-3">
+            {[...STEPS, ...STEPS].map((s, i) => (
+              <Fragment key={`${s.titleKey}-${i}`}>
                 <div className="w-[200px] shrink-0 flex justify-center">
                   <StepNode step={s} t={t} />
                 </div>
-                {i < STEPS.length - 1 && <Connector flexBased={false} />}
+                {i < STEPS.length * 2 - 1 && <Connector flexBased={false} />}
               </Fragment>
             ))}
           </div>

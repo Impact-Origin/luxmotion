@@ -1,7 +1,9 @@
 "use client"
 
+import { useRef } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const logos = [
   { name: "Bentley", src: "/trustedby/figma/bentley.png" },
@@ -14,6 +16,8 @@ const logos = [
 
 export function TrustedBy() {
   const t = useTranslations("trustedBy")
+  const marqueeRef = useRef<HTMLDivElement>(null)
+  useAutoScrollMarquee(marqueeRef, { activeBelow: 640 })
 
   return (
     <section className="bg-[#0D0D0D] border-y border-[rgba(255,255,255,0.12)]">
@@ -43,29 +47,27 @@ export function TrustedBy() {
           ))}
         </div>
 
-        <div className="sm:hidden w-full flex flex-col gap-6 opacity-50">
-          {[logos.slice(0, 3), logos.slice(3, 6)].map((row, rowIdx) => (
-            <div
-              key={rowIdx}
-              className="flex gap-8 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-            >
-              {row.map((logo) => (
-                <div
-                  key={logo.name}
-                  className="relative h-[60px] w-[140px] shrink-0 snap-center"
-                >
-                  <Image
-                    src={logo.src}
-                    alt={logo.name}
-                    fill
-                    sizes="140px"
-                    className="object-contain"
-                    style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
+        <div
+          ref={marqueeRef}
+          className="sm:hidden w-full overflow-x-auto -mx-4 px-4 opacity-50 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
+          <div className="flex items-center gap-8 w-max">
+            {[...logos, ...logos].map((logo, i) => (
+              <div
+                key={`${logo.name}-${i}`}
+                className="relative h-[60px] w-[140px] shrink-0"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.name}
+                  fill
+                  sizes="140px"
+                  className="object-contain"
+                  style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

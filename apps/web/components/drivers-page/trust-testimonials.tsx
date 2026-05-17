@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { Star } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -126,6 +127,31 @@ function TestimonialCard({ t: data }: { t: Testimonial }) {
 
 export function TrustTestimonials() {
   const t = useTranslations("driversPage.trust")
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const fadeLeft = (delay: string) =>
+    `transition-all duration-700 ease-out ${delay} ${
+      isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"
+    }`
+  const fadeRight = (delay: string) =>
+    `transition-all duration-700 ease-out ${delay} ${
+      isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
+    }`
 
   const testimonials: Testimonial[] = [
     {
@@ -152,9 +178,9 @@ export function TrustTestimonials() {
   ]
 
   return (
-    <section className="bg-white border-t border-[rgba(28,27,24,0.08)] px-4 lg:px-[82px] pt-14 pb-6 lg:pt-[72px] lg:pb-[72px]">
+    <section ref={sectionRef} className="bg-white border-t border-[rgba(28,27,24,0.08)] px-4 lg:px-[82px] pt-14 pb-6 lg:pt-[72px] lg:pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-2">
-        <div className="flex items-center gap-2">
+        <div className={`flex items-center gap-2 ${fadeLeft("")}`}>
           <div className="h-px w-[82px] bg-[#9A7535]" />
           <span
             className="text-[12px] font-semibold uppercase tracking-[2px] text-[#9A7535] leading-none"
@@ -164,7 +190,7 @@ export function TrustTestimonials() {
           </span>
         </div>
         <h2
-          className="text-[32px] lg:text-[44px] font-light leading-[1.2] text-[#1C1B18]"
+          className={`text-[32px] lg:text-[44px] font-light leading-[1.2] text-[#1C1B18] ${fadeLeft("delay-100")}`}
           style={SERIF_FONT}
         >
           {t("titleLine1")}
@@ -174,7 +200,7 @@ export function TrustTestimonials() {
         </h2>
 
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-14 mt-1 lg:mt-2">
-          <div className="flex flex-col gap-1 w-full lg:w-[381px] shrink-0">
+          <div className={`flex flex-col gap-1 w-full lg:w-[381px] shrink-0 ${fadeLeft("delay-200")}`}>
             <p
               className="text-[72px] font-light leading-none text-[#A08248]"
               style={SERIF_FONT}
@@ -223,7 +249,14 @@ export function TrustTestimonials() {
 
           <div className="flex-1 flex flex-col gap-[3px] min-w-0">
             {testimonials.map((tm, i) => (
-              <TestimonialCard key={i} t={tm} />
+              <div
+                key={i}
+                className={fadeRight(
+                  i === 0 ? "delay-200" : i === 1 ? "delay-300" : "delay-[400ms]"
+                )}
+              >
+                <TestimonialCard t={tm} />
+              </div>
             ))}
           </div>
         </div>

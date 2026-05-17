@@ -43,7 +43,11 @@ function AccordionItem({
         >
           {question}
         </span>
-        <span className="size-8 shrink-0 flex items-center justify-center border-[1.143px] border-[rgba(28,27,24,0.08)]">
+        <span
+          className={`size-8 shrink-0 flex items-center justify-center border-[1.143px] transition-colors duration-200 ${
+            open ? "border-[#a08248]" : "border-[rgba(28,27,24,0.08)]"
+          }`}
+        >
           <Plus
             className={`size-[18px] transition-all duration-300 ${
               open ? "rotate-45 text-[#a08248]" : "rotate-0 text-[#1a1612]"

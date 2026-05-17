@@ -1,8 +1,10 @@
 "use client"
 
+import { useRef } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight } from "lucide-react"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -54,6 +56,8 @@ function ServiceCard({
 
 export function WeddingPlannerServices() {
   const t = useTranslations("weddingPlanner.services")
+  const marqueeRef = useRef<HTMLDivElement>(null)
+  useAutoScrollMarquee(marqueeRef)
 
   const cards = CARDS.map((c, i) => ({
     ...c,
@@ -93,11 +97,14 @@ export function WeddingPlannerServices() {
           ))}
         </div>
 
-        <div className="md:hidden flex gap-[5px] overflow-x-auto scrollbar-hide -mx-4 px-4 snap-x snap-mandatory">
-          {cards.map((c) => (
+        <div
+          ref={marqueeRef}
+          className="md:hidden flex gap-[5px] overflow-x-auto scrollbar-hide -mx-4 px-4"
+        >
+          {[...cards, ...cards].map((c, i) => (
             <div
-              key={c.id}
-              className="shrink-0 w-[calc((100vw-37px)/2)] snap-start"
+              key={`${c.id}-${i}`}
+              className="shrink-0 w-[calc((100vw-37px)/2)]"
             >
               <ServiceCard src={c.src} title={c.title} alt={c.alt} />
             </div>

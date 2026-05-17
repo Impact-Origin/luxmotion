@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight, BadgeCheck, CircleCheckBig, Star } from "lucide-react"
@@ -150,7 +151,7 @@ function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
     <button
       className={
-        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] transition-colors px-6 " +
+        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 px-6 " +
         (full ? "w-full" : "")
       }
     >
@@ -169,7 +170,7 @@ function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
     <button
       className={
-        "h-12 inline-flex items-center justify-center border border-[#999] hover:border-[#1a1612] hover:text-[#1a1612] transition-colors px-6 " +
+        "h-12 inline-flex items-center justify-center border border-[#999] hover:border-[#9A7535] hover:text-[#9A7535] transition-colors duration-200 px-6 " +
         (full ? "w-full" : "")
       }
     >
@@ -186,6 +187,15 @@ function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
 
 export function SchoolsHero() {
   const t = useTranslations("schools.hero")
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 80)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const fadeUp = (delay: string) =>
+    `transition-all duration-500 ease-out ${delay} ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`
 
   const features = [
     t("featureBelts"),
@@ -217,30 +227,32 @@ export function SchoolsHero() {
         </div>
 
         <div className="flex flex-col gap-4 items-start px-4 py-6">
-          <HeroPill label={t("pill")} />
+          <div className={fadeUp("")}>
+            <HeroPill label={t("pill")} />
+          </div>
 
-          <h1 className="text-[48px] leading-none text-[#0d0d0d] font-normal" style={SERIF_FONT}>
+          <h1 className={`text-[48px] leading-none text-[#0d0d0d] font-normal ${fadeUp("delay-100")}`} style={SERIF_FONT}>
             {t("title1")}{" "}
             <span className="italic text-[#a08248]">{t("titleAccent")}</span>{" "}
             {t("title2")} {t("title3")}
           </h1>
 
-          <p className="text-[18px] leading-[1.3] text-[#696969]" style={SANS_FONT}>
+          <p className={`text-[18px] leading-[1.3] text-[#696969] ${fadeUp("delay-200")}`} style={SANS_FONT}>
             {t("subtitle")}
           </p>
 
-          <div className="grid grid-cols-2 gap-2 w-full">
+          <div className={`grid grid-cols-2 gap-2 w-full ${fadeUp("delay-[300ms]")}`}>
             {features.map((label) => (
               <FeaturePill key={label} label={label} />
             ))}
           </div>
 
-          <div className="flex flex-col gap-3 w-full pt-1">
+          <div className={`flex flex-col gap-3 w-full pt-1 ${fadeUp("delay-[400ms]")}`}>
             <SecondaryCta label={t("ctaSecondary")} full />
             <PrimaryCta label={t("ctaPrimary")} full />
           </div>
 
-          <div className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
+          <div className={`flex flex-wrap gap-x-4 gap-y-2 pt-1 ${fadeUp("delay-[500ms]")}`}>
             {trustItems.map((item) => (
               <TrustDot key={item} label={item} />
             ))}
@@ -270,9 +282,11 @@ export function SchoolsHero() {
 
         <div className="relative max-w-[1280px] mx-auto px-4 md:px-[52px] py-16">
           <div className="flex flex-col gap-4 items-start justify-center w-[58%] pr-8">
-            <HeroPill label={t("pill")} />
+            <div className={fadeUp("")}>
+              <HeroPill label={t("pill")} />
+            </div>
 
-            <h1 className="flex flex-col" style={SERIF_FONT}>
+            <h1 className={`flex flex-col ${fadeUp("delay-100")}`} style={SERIF_FONT}>
               <span className="text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
                 {t("title1")}
               </span>
@@ -285,26 +299,28 @@ export function SchoolsHero() {
             </h1>
 
             <p
-              className="text-[18px] leading-[1.3] text-[#696969] max-w-[560px]"
+              className={`text-[18px] leading-[1.3] text-[#696969] max-w-[560px] ${fadeUp("delay-200")}`}
               style={SANS_FONT}
             >
               {t("subtitle")}
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className={`flex flex-wrap gap-2 ${fadeUp("delay-[300ms]")}`}>
               {features.map((label) => (
                 <FeaturePill key={label} label={label} />
               ))}
             </div>
 
-            <TrustStrip
-              excellent={t("excellentRating")}
-              verifiedBy={t("verifiedBy")}
-              fromReviews={t("fromReviews")}
-              poweredBy={t("poweredBy")}
-            />
+            <div className={fadeUp("delay-[400ms]")}>
+              <TrustStrip
+                excellent={t("excellentRating")}
+                verifiedBy={t("verifiedBy")}
+                fromReviews={t("fromReviews")}
+                poweredBy={t("poweredBy")}
+              />
+            </div>
 
-            <div className="flex flex-col gap-4 w-full">
+            <div className={`flex flex-col gap-4 w-full ${fadeUp("delay-[500ms]")}`}>
               <div className="flex items-center gap-3">
                 <PrimaryCta label={t("ctaPrimary")} />
                 <SecondaryCta label={t("ctaSecondary")} />

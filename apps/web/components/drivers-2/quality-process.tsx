@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import {
   ArrowRight,
   CircleCheck,
@@ -9,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
@@ -64,6 +66,24 @@ function StepArrow() {
 
 export function QualityProcess2() {
   const t = useTranslations("driversPage2.qualityProcess")
+  const marqueeRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+  useAutoScrollMarquee(marqueeRef, { activeBelow: 1024 })
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (headerRef.current) observer.observe(headerRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   const steps: Step[] = [
     {
@@ -104,7 +124,12 @@ export function QualityProcess2() {
       />
 
       <div className="relative px-4 lg:px-[82px]">
-        <div className="max-w-[1280px] mx-auto flex flex-col gap-4">
+        <div
+          ref={headerRef}
+          className={`max-w-[1280px] mx-auto flex flex-col gap-4 transition-all duration-700 ease-out ${
+            isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"
+          }`}
+        >
           <div className="flex items-center gap-2">
             <div className="h-px w-[82px] bg-[#9A7535]" />
             <span
@@ -131,10 +156,18 @@ export function QualityProcess2() {
       </div>
 
       <div className="relative mt-[52px] lg:px-[82px]">
-        <div className="max-w-[1280px] mx-auto relative flex gap-[3px] overflow-x-auto lg:overflow-visible scrollbar-hide px-4 lg:px-0 snap-x snap-mandatory">
+        <div
+          ref={marqueeRef}
+          className="max-w-[1280px] mx-auto relative flex gap-[3px] overflow-x-auto lg:overflow-visible scrollbar-hide px-4 lg:px-0"
+        >
           {steps.map((step, i) => (
-            <StepCard key={i} step={step} />
+            <StepCard key={`primary-${i}`} step={step} />
           ))}
+          <div className="lg:hidden flex gap-[3px]" aria-hidden>
+            {steps.map((step, i) => (
+              <StepCard key={`clone-${i}`} step={step} />
+            ))}
+          </div>
 
           <div className="hidden lg:block pointer-events-none absolute inset-0">
             {[25, 50, 75].map((pct) => (

@@ -49,7 +49,7 @@ export function LuxmotionReviewCard({
     : ""
 
   return (
-    <div className="bg-[#1a1a1a] border-l-[1.6px] border-transparent hover:border-[#c9a96e] transition-colors p-[24px] flex flex-col gap-[8px] w-full">
+    <div className="bg-[#1a1a1a] border-l-[1.6px] border-transparent hover:border-[#c9a96e] hover:bg-[#1f1f1f] transition-colors p-[24px] flex flex-col gap-[8px] w-full">
       <div className="flex gap-[12px] items-center">
         <div
           className="size-[36px] rounded-[18px] flex items-center justify-center shrink-0"

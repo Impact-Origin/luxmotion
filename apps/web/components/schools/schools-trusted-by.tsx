@@ -1,7 +1,9 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
@@ -30,12 +32,31 @@ function PartnerLogo({ src, alt }: { src: string; alt: string }) {
 
 export function SchoolsTrustedBy() {
   const t = useTranslations("schools.trustedBy")
+  const marqueeRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLParagraphElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+  useAutoScrollMarquee(marqueeRef)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (headerRef.current) observer.observe(headerRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section className="bg-[#fafafa] border-y border-[rgba(28,27,24,0.08)]">
       <div className="max-w-[1280px] mx-auto px-4 md:px-12 py-6 flex flex-col gap-6 items-center">
         <p
-          className="text-[12px] font-semibold uppercase tracking-[2px] text-[#a08248] whitespace-nowrap leading-none text-center"
+          ref={headerRef}
+          className={`text-[12px] font-semibold uppercase tracking-[2px] text-[#a08248] whitespace-nowrap leading-none text-center transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
           style={SANS_FONT}
         >
           {t("eyebrow")}
@@ -47,10 +68,13 @@ export function SchoolsTrustedBy() {
           ))}
         </div>
 
-        <div className="md:hidden w-full overflow-x-auto scrollbar-hide -mx-4 px-4">
+        <div
+          ref={marqueeRef}
+          className="md:hidden w-full overflow-x-auto scrollbar-hide -mx-4 px-4"
+        >
           <div className="flex items-center gap-6 w-max">
-            {PARTNERS.map((p) => (
-              <PartnerLogo key={p.alt} {...p} />
+            {[...PARTNERS, ...PARTNERS].map((p, i) => (
+              <PartnerLogo key={`${p.alt}-${i}`} {...p} />
             ))}
           </div>
         </div>

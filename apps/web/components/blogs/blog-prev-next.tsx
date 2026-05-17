@@ -38,7 +38,7 @@ export function BlogPrevNext({ previous, next }: BlogPrevNextProps) {
               </span>
             </div>
             <p
-              className="text-[18px] lg:text-[24px] font-medium text-white leading-[1.2] lg:leading-[21.6px] m-0"
+              className="text-[18px] lg:text-[24px] font-medium text-white group-hover:text-[#C9A96E] transition-colors duration-200 leading-[1.2] lg:leading-[21.6px] m-0"
               style={SERIF_FONT}
             >
               {previous.title}
@@ -60,7 +60,7 @@ export function BlogPrevNext({ previous, next }: BlogPrevNextProps) {
               <ArrowRight className="size-3 text-[#999] group-hover:text-[#C9A96E] transition-colors" strokeWidth={2} />
             </div>
             <p
-              className="text-[18px] lg:text-[24px] font-medium text-white leading-[1.2] lg:leading-[21.6px] text-right m-0"
+              className="text-[18px] lg:text-[24px] font-medium text-white group-hover:text-[#C9A96E] transition-colors duration-200 leading-[1.2] lg:leading-[21.6px] text-right m-0"
               style={SERIF_FONT}
             >
               {next.title}

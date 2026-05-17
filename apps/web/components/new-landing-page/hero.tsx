@@ -116,11 +116,19 @@ function FeatureCard({
   )
 }
 
-export function Hero() {
+const WHITELABEL_BG = "linear-gradient(180deg, rgba(13,13,13,0.20) 0%, rgba(13,13,13,0.55) 50%, rgba(13,13,13,0.96) 82%, #0D0D0D 100%, #14100A 0%, #0D0D0D 60%, #0A0A08 100%)"
+
+const WHITELABEL_DESCRIPTION =
+  "O {{HOTEL_NAME}} tem o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido."
+
+export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
   const t = useTranslations("hero")
 
   return (
-    <section className="relative bg-[#0D0D0D] overflow-hidden">
+    <section
+      className="relative bg-[#0D0D0D] overflow-hidden"
+      style={whitelabel ? { background: WHITELABEL_BG } : undefined}
+    >
       <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] aspect-[4096/3223] hidden lg:block">
         <Image
           src="/hero-bg.png"
@@ -173,7 +181,7 @@ export function Hero() {
           </h1>
 
           <p className="text-[18px] font-light leading-[1.3] text-[#999] max-w-[591px]">
-            {t("description")}
+            {whitelabel ? WHITELABEL_DESCRIPTION : t("description")}
           </p>
 
           <SocialProofBar />

@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 
@@ -33,12 +34,29 @@ function PaymentPill({ src, alt, w, h }: { src: string; alt: string; w: number; 
 
 export function SchoolsPayment() {
   const t = useTranslations("schools.payment")
+  const headerRef = useRef<HTMLHeadingElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (headerRef.current) observer.observe(headerRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section className="bg-[#fafafa] px-4 md:px-[80px] py-[56px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-7 items-center">
         <h2
-          className="text-[32px] md:text-[44px] leading-[1.1] text-[#1a1612] text-center font-normal whitespace-nowrap"
+          ref={headerRef}
+          className={`text-[32px] md:text-[44px] leading-[1.1] text-[#1a1612] text-center font-normal whitespace-nowrap transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
           style={SERIF_FONT}
         >
           {t("title")}{" "}

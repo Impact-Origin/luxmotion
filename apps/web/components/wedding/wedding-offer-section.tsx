@@ -38,13 +38,13 @@ function OfferCardBox({
 
   return (
     <div
-      className={`bg-white border border-[rgba(168,131,58,0.1)] shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col gap-[5.4px] justify-center px-[28.8px] py-[32.8px] w-full md:h-[189.5px] ${alignCls}`}
+      className={`group bg-white hover:bg-[#f5efe2] border border-[rgba(168,131,58,0.1)] hover:border-[rgba(168,131,58,0.55)] shadow-[0_2px_6px_rgba(0,0,0,0.04)] transition-colors duration-200 flex flex-col gap-[5.4px] justify-center px-[28.8px] py-[32.8px] w-full md:h-[189.5px] ${alignCls}`}
     >
-      <div className="size-[44px] border border-[rgba(154,117,53,0.22)] flex items-center justify-center shrink-0">
+      <div className="size-[44px] border border-[rgba(154,117,53,0.22)] group-hover:border-[#a08248] transition-colors duration-200 flex items-center justify-center shrink-0">
         <Icon className="size-5 text-[#a08248]" strokeWidth={1.5} />
       </div>
       <div className="pt-[10.6px] w-full">
-        <h3 className="text-[24px] leading-tight font-medium text-[#1a1612]" style={SERIF_FONT}>
+        <h3 className="text-[24px] leading-tight font-medium text-[#1a1612] group-hover:text-[#a08248] transition-colors duration-200" style={SERIF_FONT}>
           {title}
         </h3>
       </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight, BadgeCheck, Star } from "lucide-react"
@@ -77,7 +77,7 @@ function ReviewCard({
 }) {
   return (
     <div
-      className="bg-white border-[0.8px] border-[rgba(28,27,24,0.08)] border-t-[1.6px] border-t-[rgba(154,117,53,0.22)] flex flex-col gap-2 items-start pt-[25.6px] pb-[24.8px] px-[24.8px] h-full"
+      className="bg-white border-[0.8px] border-[rgba(28,27,24,0.08)] border-t-[1.6px] border-t-[rgba(154,117,53,0.22)] hover:border-[rgba(154,117,53,0.4)] hover:border-t-[#a08248] transition-colors duration-200 flex flex-col gap-2 items-start pt-[25.6px] pb-[24.8px] px-[24.8px] h-full"
       style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.04))" }}
     >
       <div className="flex gap-[10px] items-center w-full">
@@ -126,7 +126,7 @@ function ArrowButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={direction}
-      className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center hover:border-[#a08248] disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+      className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center hover:border-[#a08248] hover:text-[#9A7535] disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200 shrink-0"
     >
       <Icon className="size-[18px] text-[#a08248]" strokeWidth={2} />
     </button>
@@ -136,6 +136,25 @@ function ArrowButton({
 export function SchoolsReviews() {
   const t = useTranslations("schools.reviews")
   const [index, setIndex] = useState(0)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (headerRef.current) observer.observe(headerRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const fadeLeft = (delay: string) =>
+    `transition-all duration-700 ease-out ${delay} ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`
 
   const next = () => setIndex((i) => Math.min(i + 1, REVIEWS.length - 1))
   const prev = () => setIndex((i) => Math.max(i - 1, 0))
@@ -144,7 +163,8 @@ export function SchoolsReviews() {
     <section className="bg-white px-4 md:px-[80px] py-[56px] md:py-[96px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6 md:gap-8 items-center">
         <div
-          className="inline-flex items-center justify-center gap-2 border border-[#a08248] px-4 py-2"
+          ref={headerRef}
+          className={`inline-flex items-center justify-center gap-2 border border-[#a08248] px-4 py-2 ${fadeLeft("")}`}
           style={{ backdropFilter: "blur(2px)" }}
         >
           <BadgeCheck className="size-6 text-[#a08248]" strokeWidth={1.75} />
@@ -156,7 +176,7 @@ export function SchoolsReviews() {
           </span>
         </div>
 
-        <div className="flex flex-col gap-2 items-center w-full">
+        <div className={`flex flex-col gap-2 items-center w-full ${fadeLeft("delay-100")}`}>
           <h2
             className="text-center font-light text-[#0d0d0d] flex flex-col md:block"
             style={SERIF_FONT}
@@ -170,7 +190,7 @@ export function SchoolsReviews() {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-2 items-center">
+        <div className={`flex flex-col gap-2 items-center ${fadeLeft("delay-200")}`}>
           <div className="flex items-center gap-1">
             {[0, 1, 2, 3, 4].map((i) => (
               <Star

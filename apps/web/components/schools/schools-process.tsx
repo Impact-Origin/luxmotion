@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 
@@ -73,11 +74,30 @@ function ProcessStep({
 
 export function SchoolsProcess() {
   const t = useTranslations("schools.process")
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (headerRef.current) observer.observe(headerRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section className="bg-[#fafafa] px-4 md:px-[82px] pt-[72px] pb-[56px] md:pb-[101px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-[7.1px] items-center">
-        <div className="flex flex-col gap-2 items-center w-full">
+        <div
+          ref={headerRef}
+          className={`flex flex-col gap-2 items-center w-full transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
+        >
           <div className="flex items-center justify-center gap-2">
             <div className="h-px w-8 bg-[#a08248]" />
             <span
@@ -98,7 +118,7 @@ export function SchoolsProcess() {
         </div>
 
         <p
-          className="text-[14px] leading-[1.2] text-[#696969] text-center max-w-[480px] px-2"
+          className={`text-[14px] leading-[1.2] text-[#696969] text-center max-w-[480px] px-2 transition-all duration-700 ease-out delay-100 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
           style={SANS_FONT}
         >
           {t("subtitle")}

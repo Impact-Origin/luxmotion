@@ -73,15 +73,15 @@ export function DriversCtaFinal() {
           </Link>
           <Link
             href={t("secondaryHref")}
-            className="h-12 inline-flex items-center justify-center border border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.06)] transition-colors px-6"
+            className="group h-12 inline-flex items-center justify-center border border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.06)] transition-colors duration-200 px-6"
           >
             <span
-              className="px-2 text-[14px] font-medium uppercase tracking-[1.1px] text-[#999]"
+              className="px-2 text-[14px] font-medium uppercase tracking-[1.1px] text-[#999] group-hover:text-[#C9A96E] transition-colors duration-200"
               style={SANS_FONT}
             >
               {t("secondaryCta")}
             </span>
-            <MessageSquare className="size-[18px] text-[#999]" strokeWidth={2} />
+            <MessageSquare className="size-[18px] text-[#999] group-hover:text-[#C9A96E] transition-colors duration-200" strokeWidth={2} />
           </Link>
         </div>
 

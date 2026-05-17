@@ -185,16 +185,12 @@ function VehicleCard({
 export function SchoolsQuote() {
   const t = useTranslations("schools.quote")
   const [vehicle, setVehicle] = useState<VehicleKey>("standard")
-  const [page, setPage] = useState(0)
   const [phone, setPhone] = useState("")
   const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [dropoff, setDropoff] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [departureDate, setDepartureDate] = useState<Date | undefined>(undefined)
   const [submitting, setSubmitting] = useState(false)
   const submitMutation = useMutation(api.schoolQuoteSubmissions.submit)
-
-  const totalPages = Math.ceil(VEHICLES.length / 2)
-  const nextPage = () => setPage((p) => Math.min(p + 1, totalPages - 1))
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -351,39 +347,20 @@ export function SchoolsQuote() {
               ))}
             </div>
 
-            <div className="md:hidden relative w-full">
-              <div className="overflow-hidden w-full">
-                <div
-                  className="flex transition-transform duration-300 ease-out gap-2"
-                  style={{ transform: `translateX(-${page * 100}%)` }}
-                >
-                  {Array.from({ length: totalPages }).map((_, p) => (
-                    <div key={p} className="grid grid-cols-2 gap-2 w-full shrink-0">
-                      {VEHICLES.slice(p * 2, p * 2 + 2).map((v) => (
-                        <div key={v.key} className="h-[130.6px]">
-                          <VehicleCard
-                            imgSrc={v.src}
-                            name={t(`fields.vehicle.${v.key}.name`)}
-                            capacity={t(`fields.vehicle.${v.key}.capacity`)}
-                            selected={vehicle === v.key}
-                            onClick={() => setVehicle(v.key)}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+            <div className="md:hidden w-full overflow-x-auto scrollbar-hide snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex w-max">
+                {VEHICLES.map((v) => (
+                  <div key={v.key} className="w-[110px] h-[130.6px] snap-start shrink-0 -ml-[2px] first:ml-0">
+                    <VehicleCard
+                      imgSrc={v.src}
+                      name={t(`fields.vehicle.${v.key}.name`)}
+                      capacity={t(`fields.vehicle.${v.key}.capacity`)}
+                      selected={vehicle === v.key}
+                      onClick={() => setVehicle(v.key)}
+                    />
+                  </div>
+                ))}
               </div>
-              {page < totalPages - 1 ? (
-                <button
-                  type="button"
-                  onClick={nextPage}
-                  aria-label="next"
-                  className="absolute right-[-12px] top-1/2 -translate-y-1/2 size-8 bg-white border border-[rgba(154,117,53,0.22)] flex items-center justify-center hover:border-[#a08248] transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                >
-                  <ArrowRight className="size-[18px] text-[#a08248]" strokeWidth={2} />
-                </button>
-              ) : null}
             </div>
           </div>
 
@@ -396,7 +373,7 @@ export function SchoolsQuote() {
           <button
             type="submit"
             disabled={submitting}
-            className="h-12 px-[22px] bg-[#a08248] hover:bg-[#8a6f3c] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 self-center md:self-auto md:px-8 md:w-auto md:mx-auto"
+            className="h-12 px-[22px] bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-[background-color,transform] duration-200 text-white text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 self-center md:self-auto md:px-8 md:w-auto md:mx-auto"
             style={SANS_FONT}
           >
             <span>{submitting ? "..." : t("submit")}</span>

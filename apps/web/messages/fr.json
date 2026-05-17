@@ -4133,10 +4133,21 @@
       "modalSubtitle": "Fournissez les coordonnées du chauffeur. Il recevra un e-mail d'intégration.",
       "saveDriver": "Enregistrer le chauffeur",
       "fields": {
-        "fullName": { "label": "Nom complet", "placeholder": "ex. Jean Dupont" },
-        "email": { "label": "E-mail", "placeholder": "nom@entreprise.com" },
-        "phone": { "label": "Téléphone", "placeholder": "+33 6 00 00 00 00" },
-        "hasVideo": { "label": "Vidéo de présentation" }
+        "fullName": {
+          "label": "Nom complet",
+          "placeholder": "ex. Jean Dupont"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "nom@entreprise.com"
+        },
+        "phone": {
+          "label": "Téléphone",
+          "placeholder": "+33 6 00 00 00 00"
+        },
+        "hasVideo": {
+          "label": "Vidéo de présentation"
+        }
       }
     },
     "stepVehicles": {
@@ -4149,10 +4160,22 @@
       "modalSubtitle": "Fournissez les informations du véhicule pour l'enregistrer dans votre flotte.",
       "saveVehicle": "Enregistrer le véhicule",
       "fields": {
-        "make": { "label": "Marque", "placeholder": "ex. Mercedes-Benz" },
-        "model": { "label": "Modèle", "placeholder": "ex. Classe E" },
-        "licensePlate": { "label": "Plaque d'immatriculation", "placeholder": "AA-00-AA" },
-        "category": { "label": "Catégorie", "placeholder": "Sélectionnez une catégorie" }
+        "make": {
+          "label": "Marque",
+          "placeholder": "ex. Mercedes-Benz"
+        },
+        "model": {
+          "label": "Modèle",
+          "placeholder": "ex. Classe E"
+        },
+        "licensePlate": {
+          "label": "Plaque d'immatriculation",
+          "placeholder": "AA-00-AA"
+        },
+        "category": {
+          "label": "Catégorie",
+          "placeholder": "Sélectionnez une catégorie"
+        }
       }
     },
     "stepDocuments": {
@@ -4668,6 +4691,113 @@
         "videoIntro": "Vidéo de présentation"
       },
       "backHome": "Retour à l'accueil"
+    }
+  },
+  "whitelabel": {
+    "qualityProcess": {
+      "eyebrow": "Le processus",
+      "titlePre": "Comment ça",
+      "titleAccent": "fonctionne",
+      "subtitle": "Quatre étapes simples. De la réservation à l'arrivée, tout est géré par nous.",
+      "step1": {
+        "heading": "Réservez en 60 secondes",
+        "body": "Choisissez l'origine, la destination, la date et l'heure. Prix fixe calculé instantanément — sans négociation, sans surprise."
+      },
+      "step2": {
+        "heading": "Rencontrez votre chauffeur",
+        "body": "48 heures avant, recevez le nom, la photo et le contact direct de votre chauffeur. Aucune inconnue à l'arrivée."
+      },
+      "step3": {
+        "heading": "Rencontre garantie",
+        "body": "Le chauffeur attend au lieu convenu avec votre nom — même si votre vol est retardé. Le temps d'attente est inclus."
+      },
+      "step4": {
+        "heading": "Détendez-vous. Arrivée en confort.",
+        "body": "Asseyez-vous, connectez-vous au Wi-Fi, profitez. L'hôtel est informé de votre arrivée en temps réel."
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Avis réels",
+      "titlePre": "La confiance de",
+      "titleAccent": "+300 clients",
+      "reviewsCount": "322 avis vérifiés"
+    },
+    "benefits": {
+      "eyebrow": "Pourquoi réserver chez nous",
+      "titlePre": "Tout inclus,",
+      "titleAccent": "sans exceptions.",
+      "reliable": {
+        "title": "Service 100% fiable",
+        "body": "Plus de 300 avis 5 étoiles dans la zone de Lisbonne. L'entreprise de transferts privés la mieux notée de la région."
+      },
+      "certified": {
+        "title": "Chauffeurs certifiés",
+        "body": "Formation spécifique, vérifications d'antécédents, uniforme. Votre destination est notre engagement — personnel et professionnel."
+      },
+      "always": {
+        "title": "365 jours · 24h/24",
+        "body": "Pluie, neige, jour férié ou aube — nous sommes toujours disponibles pour garantir votre voyage."
+      },
+      "cancellation": {
+        "title": "Annulation gratuite",
+        "body": "Les plans changent. Annulez sans frais jusqu'à 24 heures avant. Sans questions, sans frais — liberté totale."
+      },
+      "support": {
+        "title": "Support direct",
+        "body": "Ligne dédiée en portugais, anglais, espagnol et français. Réponse en moins de 15 minutes via WhatsApp."
+      },
+      "meetingPoint": {
+        "title": "Point de rencontre confirmé",
+        "body": "Informations détaillées sur l'endroit où le chauffeur vous attendra — sans confusion, sans appels de dernière minute."
+      }
+    },
+    "payment": {
+      "eyebrow": "Modes de paiement",
+      "titlePre": "Payez comme vous",
+      "titleAccent": "préférez.",
+      "subtitle": "Pour garantir que votre voyage soit aussi serein que possible, nous acceptons divers modes de paiement — tous sécurisés, tous cryptés.",
+      "secure": "Paiement sécurisé",
+      "ssl": "Chiffrement SSL",
+      "imageAlt": "Terminal de paiement dans le véhicule affichant un paiement réussi"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "titlePre": "Questions",
+      "titleAccent": "fréquentes",
+      "items": {
+        "payment": {
+          "question": "Quels sont les modes de paiement ?",
+          "answer": "Nous acceptons Visa, Mastercard, MB Way, Multibanco et PayPal. Tous les paiements sont traités en toute sécurité avec un chiffrement SSL."
+        },
+        "flightDelay": {
+          "question": "Et si mon vol est retardé ?",
+          "answer": "Nous surveillons votre vol en temps réel et ajustons l'heure d'arrivée du chauffeur. Le temps d'attente est toujours inclus."
+        },
+        "booking": {
+          "question": "Comment puis-je réserver mon voyage ?",
+          "answer": "Vous pouvez réserver directement sur notre site en 60 secondes — choisissez l'origine, la destination, la date et l'heure et recevez le prix final instantanément."
+        },
+        "shareDiscount": {
+          "question": "Quelle est la réduction pour partager un voyage ?",
+          "answer": "Les réservations partagées avec d'autres passagers bénéficient jusqu'à 30% de réduction. Contactez-nous pour plus d'informations."
+        },
+        "roundTrip": {
+          "question": "Comment fonctionne un aller-retour ?",
+          "answer": "Sélectionnez l'option 'aller-retour' lors de la réservation et ajoutez la date et l'heure de retour. Vous bénéficiez d'une réduction automatique."
+        },
+        "outsideLisbon": {
+          "question": "Vous voyagez vers d'autres endroits que Lisbonne ?",
+          "answer": "Oui, nous proposons des transferts et des tours dans tout le Portugal continental — Porto, Algarve, Sintra, Évora et plus."
+        }
+      }
+    },
+    "ctaFinal": {
+      "eyebrow": "Prêt à partir ?",
+      "titleLine1": "Réservez maintenant,",
+      "titleLine2": "arrivez en confort.",
+      "subtitle": "Votre chauffeur privé est disponible aujourd'hui. Prix fixe, confirmation immédiate, sans surprises.",
+      "cta": "Voir les prix & réserver",
+      "note": "Annulation gratuite · Pas de carte de crédit requise"
     }
   }
 }

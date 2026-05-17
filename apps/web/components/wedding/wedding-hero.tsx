@@ -165,7 +165,7 @@ function CtaButtons({
   const primaryBtn = (
     <button
       className={
-        "h-12 px-6 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] transition-colors " +
+        "group h-12 px-6 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 " +
         (layout === "desktop" ? "w-[300px]" : "w-full")
       }
     >
@@ -182,17 +182,17 @@ function CtaButtons({
   const secondaryBtn = (
     <button
       className={
-        "h-12 px-6 inline-flex items-center justify-center border border-[#999] hover:border-[#1a1612] hover:text-[#1a1612] transition-colors " +
+        "group h-12 px-6 inline-flex items-center justify-center border border-[#999] hover:border-[#a08248] hover:text-[#a08248] transition-colors duration-200 " +
         (layout === "desktop" ? "" : "w-full")
       }
     >
       <span
-        className="px-2 text-[14px] font-medium uppercase tracking-[1.1px] text-[#999]"
+        className="px-2 text-[14px] font-medium uppercase tracking-[1.1px] text-[#999] group-hover:text-[#a08248] transition-colors duration-200"
         style={SANS_FONT}
       >
         {secondary}
       </span>
-      <ArrowRight className="size-[14px] text-[#999]" strokeWidth={2} />
+      <ArrowRight className="size-[14px] text-[#999] group-hover:text-[#a08248] transition-colors duration-200" strokeWidth={2} />
     </button>
   )
 

@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Instagram } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useAction } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const fallbackPosts = [
   { id: "1", media_url: "/instagram/post-1.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
@@ -19,6 +20,9 @@ const fallbackPosts = [
 export function SocialSection() {
   const t = useTranslations("social")
   const getInstagramData = useAction(api.instagram.getInstagramData)
+
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  useAutoScrollMarquee(scrollerRef)
 
   const [posts, setPosts] = useState(fallbackPosts)
   const [profile, setProfile] = useState({
@@ -57,6 +61,8 @@ export function SocialSection() {
   const formatCount = (n: number) =>
     n >= 1000 ? `${(n / 1000).toFixed(1)}K` : String(n)
 
+  const marqueePosts = [...posts.slice(0, 6), ...posts.slice(0, 6)]
+
   return (
     <section className="bg-[#0D0D0D] py-6 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
@@ -92,21 +98,21 @@ export function SocialSection() {
           </a>
         </div>
 
-        <div className="grid grid-cols-2 md:flex gap-[2px]">
+        <div className="hidden md:flex gap-[2px]">
           {posts.slice(0, 6).map((post) => (
             <a
               key={post.id}
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative aspect-[1/1.1] md:aspect-square md:min-h-[300px] md:flex-1 bg-[#1A1A1A] overflow-hidden"
+              className="group relative aspect-square min-h-[300px] flex-1 bg-[#1A1A1A] overflow-hidden"
             >
               <Image
                 src={post.media_url}
                 alt="Instagram post"
                 fill
                 className="object-cover transition-opacity duration-300 group-hover:opacity-70"
-                sizes="(max-width: 768px) 50vw, 16vw"
+                sizes="16vw"
                 unoptimized={post.media_url.startsWith("http")}
               />
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -114,6 +120,30 @@ export function SocialSection() {
                   <Instagram className="size-[20px] text-[#C9A96E]" strokeWidth={1.6} />
                 </div>
               </div>
+            </a>
+          ))}
+        </div>
+
+        <div
+          ref={scrollerRef}
+          className="md:hidden flex gap-[2px] overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-4"
+        >
+          {marqueePosts.map((post, i) => (
+            <a
+              key={`${post.id}-${i}`}
+              href={post.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative aspect-[1/1.1] w-[60vw] max-w-[280px] shrink-0 bg-[#1A1A1A] overflow-hidden first:ml-4 last:mr-4"
+            >
+              <Image
+                src={post.media_url}
+                alt="Instagram post"
+                fill
+                className="object-cover"
+                sizes="60vw"
+                unoptimized={post.media_url.startsWith("http")}
+              />
             </a>
           ))}
         </div>

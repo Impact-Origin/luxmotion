@@ -4133,10 +4133,21 @@
       "modalSubtitle": "Geef de contactgegevens van de chauffeur op. Hij ontvangt een onboarding-e-mail.",
       "saveDriver": "Chauffeur opslaan",
       "fields": {
-        "fullName": { "label": "Volledige naam", "placeholder": "bijv. Jan Jansen" },
-        "email": { "label": "E-mail", "placeholder": "naam@bedrijf.nl" },
-        "phone": { "label": "Telefoon", "placeholder": "+31 6 12345678" },
-        "hasVideo": { "label": "Introductievideo" }
+        "fullName": {
+          "label": "Volledige naam",
+          "placeholder": "bijv. Jan Jansen"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "naam@bedrijf.nl"
+        },
+        "phone": {
+          "label": "Telefoon",
+          "placeholder": "+31 6 12345678"
+        },
+        "hasVideo": {
+          "label": "Introductievideo"
+        }
       }
     },
     "stepVehicles": {
@@ -4149,10 +4160,22 @@
       "modalSubtitle": "Geef de gegevens van het voertuig op om het te registreren in uw vloot.",
       "saveVehicle": "Voertuig opslaan",
       "fields": {
-        "make": { "label": "Merk", "placeholder": "bijv. Mercedes-Benz" },
-        "model": { "label": "Model", "placeholder": "bijv. E-klasse" },
-        "licensePlate": { "label": "Kenteken", "placeholder": "AA-00-AA" },
-        "category": { "label": "Categorie", "placeholder": "Selecteer een categorie" }
+        "make": {
+          "label": "Merk",
+          "placeholder": "bijv. Mercedes-Benz"
+        },
+        "model": {
+          "label": "Model",
+          "placeholder": "bijv. E-klasse"
+        },
+        "licensePlate": {
+          "label": "Kenteken",
+          "placeholder": "AA-00-AA"
+        },
+        "category": {
+          "label": "Categorie",
+          "placeholder": "Selecteer een categorie"
+        }
       }
     },
     "stepDocuments": {
@@ -4668,6 +4691,113 @@
         "videoIntro": "Introductievideo"
       },
       "backHome": "Terug naar de startpagina"
+    }
+  },
+  "whitelabel": {
+    "qualityProcess": {
+      "eyebrow": "Het proces",
+      "titlePre": "Hoe het",
+      "titleAccent": "werkt",
+      "subtitle": "Vier eenvoudige stappen. Van boeking tot aankomst — alles door ons geregeld.",
+      "step1": {
+        "heading": "Boek in 60 seconden",
+        "body": "Kies vertrek, bestemming, datum en tijd. Vaste prijs direct berekend — geen onderhandeling, geen verrassingen."
+      },
+      "step2": {
+        "heading": "Maak kennis met uw chauffeur",
+        "body": "48 uur vooraf ontvangt u naam, foto en direct contact van uw chauffeur. Geen onbekenden bij aankomst."
+      },
+      "step3": {
+        "heading": "Gegarandeerde ontmoeting",
+        "body": "De chauffeur wacht op de afgesproken locatie met uw naam — zelfs als uw vlucht vertraagd is. Wachttijd is inbegrepen."
+      },
+      "step4": {
+        "heading": "Ontspan. Aankomst in comfort.",
+        "body": "Ga zitten, verbind met wifi, geniet. Het hotel wordt in real-time op de hoogte gebracht van uw aankomst."
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Echte beoordelingen",
+      "titlePre": "Vertrouwd door",
+      "titleAccent": "+300 klanten",
+      "reviewsCount": "322 geverifieerde beoordelingen"
+    },
+    "benefits": {
+      "eyebrow": "Waarom bij ons boeken",
+      "titlePre": "Alles inbegrepen,",
+      "titleAccent": "zonder uitzonderingen.",
+      "reliable": {
+        "title": "100% betrouwbare service",
+        "body": "Meer dan 300 vijfsterrenbeoordelingen in de regio Lissabon. Het hoogst gewaardeerde private transferbedrijf in de regio."
+      },
+      "certified": {
+        "title": "Gecertificeerde chauffeurs",
+        "body": "Specifieke training, antecedentenonderzoek, uniform. Uw bestemming is onze toewijding — persoonlijk en professioneel."
+      },
+      "always": {
+        "title": "365 dagen · 24/7",
+        "body": "Regen, sneeuw, feestdag of dageraad — we zijn altijd beschikbaar om uw reis te garanderen."
+      },
+      "cancellation": {
+        "title": "Gratis annulering",
+        "body": "Plannen veranderen. Annuleer kosteloos tot 24 uur van tevoren. Geen vragen, geen kosten — totale vrijheid."
+      },
+      "support": {
+        "title": "Directe ondersteuning",
+        "body": "Speciale lijn in Portugees, Engels, Spaans en Frans. Antwoord binnen 15 minuten via WhatsApp."
+      },
+      "meetingPoint": {
+        "title": "Bevestigd ontmoetingspunt",
+        "body": "Gedetailleerde informatie over waar de chauffeur zal wachten — geen verwarring, geen last-minute oproepen."
+      }
+    },
+    "payment": {
+      "eyebrow": "Betaalmethoden",
+      "titlePre": "Betaal zoals u",
+      "titleAccent": "wilt.",
+      "subtitle": "Om ervoor te zorgen dat uw reis zo soepel mogelijk verloopt, accepteren wij verschillende betaalmethoden — allemaal veilig, allemaal versleuteld.",
+      "secure": "Veilige betaling",
+      "ssl": "SSL-versleuteling",
+      "imageAlt": "Betaalterminal in voertuig toont succesvolle betaling"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "titlePre": "Veelgestelde",
+      "titleAccent": "vragen",
+      "items": {
+        "payment": {
+          "question": "Wat zijn de betaalmethoden?",
+          "answer": "We accepteren Visa, Mastercard, MB Way, Multibanco en PayPal. Alle betalingen worden veilig verwerkt met SSL-versleuteling."
+        },
+        "flightDelay": {
+          "question": "Wat als mijn vlucht vertraging heeft?",
+          "answer": "We volgen uw vlucht in real-time en passen de aankomsttijd van de chauffeur aan. Wachttijd is altijd inbegrepen."
+        },
+        "booking": {
+          "question": "Hoe kan ik mijn reis boeken?",
+          "answer": "U kunt direct boeken op onze website in 60 seconden — kies vertrek, bestemming, datum en tijd en ontvang direct de eindprijs."
+        },
+        "shareDiscount": {
+          "question": "Wat is de korting bij het delen van een rit?",
+          "answer": "Gedeelde boekingen met andere passagiers krijgen tot 30% korting. Neem contact met ons op voor meer informatie."
+        },
+        "roundTrip": {
+          "question": "Hoe werkt een retourreis?",
+          "answer": "Selecteer de optie 'retour' bij het boeken en voeg de retourdatum en -tijd toe. U profiteert van een automatische korting."
+        },
+        "outsideLisbon": {
+          "question": "Reizen jullie naar andere plaatsen dan Lissabon?",
+          "answer": "Ja, we bieden transfers en tours door heel het vasteland van Portugal aan — Porto, Algarve, Sintra, Évora en meer."
+        }
+      }
+    },
+    "ctaFinal": {
+      "eyebrow": "Klaar om te gaan?",
+      "titleLine1": "Boek nu,",
+      "titleLine2": "kom comfortabel aan.",
+      "subtitle": "Uw privéchauffeur is vandaag beschikbaar. Vaste prijs, directe bevestiging, geen verrassingen.",
+      "cta": "Bekijk prijzen & boek nu",
+      "note": "Gratis annulering · Geen creditcard vereist"
     }
   }
 }

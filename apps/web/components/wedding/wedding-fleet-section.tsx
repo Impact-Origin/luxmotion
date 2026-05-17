@@ -26,7 +26,8 @@ function VehicleCard({
   capacity: string
 }) {
   return (
-    <div className="bg-white border border-[rgba(28,27,24,0.08)] shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center self-stretch w-full pt-6">
+    <div className="group relative bg-white hover:bg-[#fbf4e3] border border-[rgba(28,27,24,0.08)] shadow-[0_2px_6px_rgba(0,0,0,0.04)] transition-colors duration-200 flex flex-col items-center self-stretch w-full pt-6 cursor-pointer">
+      <span className="absolute top-0 inset-x-0 h-[2px] bg-[#a8833a] opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out" />
       <div className="relative h-[118.354px] w-[180px] max-w-full">
         <Image
           src={src}

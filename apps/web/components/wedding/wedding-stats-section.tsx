@@ -14,7 +14,8 @@ const STAT_KEYS = [
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-center gap-2 px-[28.8px] pt-[37.6px] pb-[36.8px] flex-1 min-w-0 self-stretch">
+    <div className="group relative bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-center gap-2 px-[28.8px] pt-[37.6px] pb-[36.8px] flex-1 min-w-0 self-stretch">
+      <span className="absolute top-0 inset-x-0 h-[2px] bg-[#a8833a] opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out" />
       <div
         className="text-[60px] leading-[60px] font-light text-[#a8833a] text-center whitespace-nowrap"
         style={SERIF_FONT}

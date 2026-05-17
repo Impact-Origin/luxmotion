@@ -4307,10 +4307,21 @@
       "modalSubtitle": "Provide the driver's contact details. They will receive an onboarding email.",
       "saveDriver": "Save driver",
       "fields": {
-        "fullName": { "label": "Full name", "placeholder": "e.g. João Silva" },
-        "email": { "label": "Email", "placeholder": "name@company.com" },
-        "phone": { "label": "Phone", "placeholder": "+351 900 000 000" },
-        "hasVideo": { "label": "Introduction video" }
+        "fullName": {
+          "label": "Full name",
+          "placeholder": "e.g. João Silva"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "name@company.com"
+        },
+        "phone": {
+          "label": "Phone",
+          "placeholder": "+351 900 000 000"
+        },
+        "hasVideo": {
+          "label": "Introduction video"
+        }
       }
     },
     "stepVehicles": {
@@ -4323,10 +4334,22 @@
       "modalSubtitle": "Provide the vehicle details to register it in your fleet.",
       "saveVehicle": "Save vehicle",
       "fields": {
-        "make": { "label": "Make", "placeholder": "e.g. Mercedes-Benz" },
-        "model": { "label": "Model", "placeholder": "e.g. E-Class" },
-        "licensePlate": { "label": "License plate", "placeholder": "AA-00-AA" },
-        "category": { "label": "Category", "placeholder": "Select a category" }
+        "make": {
+          "label": "Make",
+          "placeholder": "e.g. Mercedes-Benz"
+        },
+        "model": {
+          "label": "Model",
+          "placeholder": "e.g. E-Class"
+        },
+        "licensePlate": {
+          "label": "License plate",
+          "placeholder": "AA-00-AA"
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "Select a category"
+        }
       }
     },
     "stepDocuments": {
@@ -4842,6 +4865,113 @@
         "videoIntro": "Introduction video"
       },
       "backHome": "Back to homepage"
+    }
+  },
+  "whitelabel": {
+    "qualityProcess": {
+      "eyebrow": "The process",
+      "titlePre": "How it",
+      "titleAccent": "works",
+      "subtitle": "Four simple steps. From booking to arrival, everything handled by us.",
+      "step1": {
+        "heading": "Book in 60 seconds",
+        "body": "Choose pickup, destination, date and time. Fixed price calculated instantly — no negotiation, no surprises."
+      },
+      "step2": {
+        "heading": "Meet your driver",
+        "body": "48 hours before, receive the name, photo and direct contact of your driver. No unknowns on arrival."
+      },
+      "step3": {
+        "heading": "Guaranteed meeting",
+        "body": "The driver waits at the agreed location with your name — even if your flight is delayed. Wait time is included."
+      },
+      "step4": {
+        "heading": "Relax. Arrive in comfort.",
+        "body": "Sit back, connect to Wi-Fi, enjoy. The hotel is notified of your arrival in real time."
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Real reviews",
+      "titlePre": "Trusted by",
+      "titleAccent": "+300 clients",
+      "reviewsCount": "322 verified reviews"
+    },
+    "benefits": {
+      "eyebrow": "Why book with us",
+      "titlePre": "Everything included,",
+      "titleAccent": "no exceptions.",
+      "reliable": {
+        "title": "100% reliable service",
+        "body": "Over 300 five-star reviews in the Lisbon area. The highest-rated private transfer company in the region."
+      },
+      "certified": {
+        "title": "Certified drivers",
+        "body": "Specific training, background checks, uniform. Your destination is our commitment — personal and professional."
+      },
+      "always": {
+        "title": "365 days · 24/7",
+        "body": "Rain, snow, holiday or dawn — we are always available to guarantee your trip."
+      },
+      "cancellation": {
+        "title": "Free cancellation",
+        "body": "Plans change. Cancel free of charge up to 24 hours before. No questions, no fees — total freedom."
+      },
+      "support": {
+        "title": "Direct support",
+        "body": "Dedicated line in Portuguese, English, Spanish and French. Reply in less than 15 minutes via WhatsApp."
+      },
+      "meetingPoint": {
+        "title": "Confirmed meeting point",
+        "body": "Detailed information on where the driver will wait — no confusion, no last-minute calls."
+      }
+    },
+    "payment": {
+      "eyebrow": "Payment methods",
+      "titlePre": "Pay how you",
+      "titleAccent": "prefer.",
+      "subtitle": "To ensure your trip is as smooth as possible, we accept various payment methods — all secure, all encrypted.",
+      "secure": "Secure payment",
+      "ssl": "SSL encryption",
+      "imageAlt": "In-car payment terminal showing successful payment"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "titlePre": "Frequently asked",
+      "titleAccent": "questions",
+      "items": {
+        "payment": {
+          "question": "What are the payment methods?",
+          "answer": "We accept Visa, Mastercard, MB Way, Multibanco and PayPal. All payments are processed securely with SSL encryption."
+        },
+        "flightDelay": {
+          "question": "What if my flight is delayed?",
+          "answer": "We monitor your flight in real time and adjust the driver's arrival time. Waiting time is always included."
+        },
+        "booking": {
+          "question": "How can I book my trip?",
+          "answer": "You can book directly on our website in 60 seconds — choose pickup, destination, date and time and receive the final price instantly."
+        },
+        "shareDiscount": {
+          "question": "What's the discount for sharing a ride?",
+          "answer": "Shared bookings with other passengers receive up to 30% discount. Contact us for more information."
+        },
+        "roundTrip": {
+          "question": "How does a round-trip work?",
+          "answer": "Select the 'round-trip' option when booking and add the return date and time. You benefit from an automatic discount."
+        },
+        "outsideLisbon": {
+          "question": "Do you travel to places outside Lisbon?",
+          "answer": "Yes, we offer transfers and tours throughout mainland Portugal — Porto, Algarve, Sintra, Évora and more."
+        }
+      }
+    },
+    "ctaFinal": {
+      "eyebrow": "Ready to go?",
+      "titleLine1": "Book now,",
+      "titleLine2": "arrive in comfort.",
+      "subtitle": "Your private driver is available today. Fixed price, instant confirmation, no surprises.",
+      "cta": "See prices & book now",
+      "note": "Free cancellation · No credit card required"
     }
   }
 }

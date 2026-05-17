@@ -1401,11 +1401,11 @@
     "submitSuccess": "Mensagem enviada com sucesso!",
     "submitError": "Falha ao enviar mensagem. Tente novamente.",
     "redesign": {
-      "label": "Entre em Contato",
-      "heading": "Planeje seu dia perfeito",
+      "label": "Entre em Contacto",
+      "heading": "Planeie o seu dia perfeito",
       "heroLine1": "Planeie o seu",
       "heroLine2": "dia perfeito",
-      "subtitle": "Diga-nos para onde você quer ir, quando e por quantos. Criaremos algo memorável para você.",
+      "subtitle": "Diga-nos para onde quer ir, quando e para quantas pessoas. Criaremos algo memorável para si.",
       "form": {
         "name": "Nome",
         "namePlaceholder": "Nome e apelido",
@@ -1432,12 +1432,12 @@
         "datePlaceholder": "Selecionar data"
       },
       "support": {
-        "name": "Carolina Pinheiro - Support",
+        "name": "Carolina Pinheiro - Suporte",
         "role": "Especialista em turismo LuxMotion",
         "phone": "+351 963 650 278",
         "email": "geral@easytransferericeira.com"
       },
-      "responseTime": "Resposta em no máximo 24 horas. Sem taxas surpresas."
+      "responseTime": "Resposta no máximo em 24 horas. Sem taxas escondidas."
     }
   },
   "topPicks": {
@@ -4306,10 +4306,21 @@
       "modalSubtitle": "Forneça os dados de contacto do motorista. Receberá um email de integração.",
       "saveDriver": "Guardar motorista",
       "fields": {
-        "fullName": { "label": "Nome completo", "placeholder": "ex. João Silva" },
-        "email": { "label": "Email", "placeholder": "nome@empresa.com" },
-        "phone": { "label": "Telefone", "placeholder": "+351 900 000 000" },
-        "hasVideo": { "label": "Vídeo de apresentação" }
+        "fullName": {
+          "label": "Nome completo",
+          "placeholder": "ex. João Silva"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "nome@empresa.com"
+        },
+        "phone": {
+          "label": "Telefone",
+          "placeholder": "+351 900 000 000"
+        },
+        "hasVideo": {
+          "label": "Vídeo de apresentação"
+        }
       }
     },
     "stepVehicles": {
@@ -4322,10 +4333,22 @@
       "modalSubtitle": "Forneça os dados do veículo para o registar na sua frota.",
       "saveVehicle": "Guardar veículo",
       "fields": {
-        "make": { "label": "Marca", "placeholder": "ex. Mercedes-Benz" },
-        "model": { "label": "Modelo", "placeholder": "ex. Classe E" },
-        "licensePlate": { "label": "Matrícula", "placeholder": "AA-00-AA" },
-        "category": { "label": "Categoria", "placeholder": "Selecione uma categoria" }
+        "make": {
+          "label": "Marca",
+          "placeholder": "ex. Mercedes-Benz"
+        },
+        "model": {
+          "label": "Modelo",
+          "placeholder": "ex. Classe E"
+        },
+        "licensePlate": {
+          "label": "Matrícula",
+          "placeholder": "AA-00-AA"
+        },
+        "category": {
+          "label": "Categoria",
+          "placeholder": "Selecione uma categoria"
+        }
       }
     },
     "stepDocuments": {
@@ -4841,6 +4864,113 @@
         "videoIntro": "Vídeo de apresentação"
       },
       "backHome": "Voltar à página inicial"
+    }
+  },
+  "whitelabel": {
+    "qualityProcess": {
+      "eyebrow": "O processo",
+      "titlePre": "Como",
+      "titleAccent": "funciona",
+      "subtitle": "Quatro passos simples. Da reserva à chegada, tudo tratado por nós.",
+      "step1": {
+        "heading": "Reserve em 60 segundos",
+        "body": "Escolha origem, destino, data e hora. Preço fixo calculado instantaneamente — sem negociação, sem surpresas."
+      },
+      "step2": {
+        "heading": "Conheça o seu motorista",
+        "body": "48 horas antes, recebe o nome, foto e contacto direto do motorista. Sem incógnitas na chegada."
+      },
+      "step3": {
+        "heading": "Encontro garantido",
+        "body": "O motorista aguarda no local combinado com o seu nome — mesmo que o voo atrase. O tempo de espera está incluído."
+      },
+      "step4": {
+        "heading": "Relaxe. Chegará em conforto.",
+        "body": "Sente-se, ligue o Wi-Fi, desfrute. O hotel é notificado da sua chegada em tempo real."
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Avaliações reais",
+      "titlePre": "Com a confiança de",
+      "titleAccent": "+300 clientes",
+      "reviewsCount": "322 avaliações verificadas"
+    },
+    "benefits": {
+      "eyebrow": "Porquê reservar connosco",
+      "titlePre": "Tudo incluído,",
+      "titleAccent": "sem exceções.",
+      "reliable": {
+        "title": "Serviço 100% fiável",
+        "body": "Mais de 300 avaliações de 5 estrelas na zona de Lisboa. A empresa de transfers privados mais bem avaliada da região."
+      },
+      "certified": {
+        "title": "Motoristas certificados",
+        "body": "Formação específica, background checks, uniforme. O seu destino é o nosso compromisso — pessoal e profissional."
+      },
+      "always": {
+        "title": "365 dias · 24/7",
+        "body": "Chuva, neve, feriado ou madrugada — estamos sempre disponíveis para garantir a sua viagem."
+      },
+      "cancellation": {
+        "title": "Cancelamento gratuito",
+        "body": "Planos mudam. Cancele sem custos até 24 horas antes. Sem perguntas, sem taxas — liberdade total."
+      },
+      "support": {
+        "title": "Suporte direto",
+        "body": "Linha dedicada em português, inglês, espanhol e francês. Resposta em menos de 15 minutos por WhatsApp."
+      },
+      "meetingPoint": {
+        "title": "Ponto de encontro confirmado",
+        "body": "Informação detalhada de onde o motorista vai aguardar — sem confusão, sem chamadas de última hora."
+      }
+    },
+    "payment": {
+      "eyebrow": "Formas de pagamento",
+      "titlePre": "Pague como",
+      "titleAccent": "preferir.",
+      "subtitle": "Para garantir que a sua viagem seja a mais tranquila possível, aceitamos diversas formas de pagamento — todas seguras, todas encriptadas.",
+      "secure": "Pagamento seguro",
+      "ssl": "Encriptação SSL",
+      "imageAlt": "Terminal de pagamento no carro mostrando pagamento bem-sucedido"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "titlePre": "Dúvidas",
+      "titleAccent": "frequentes",
+      "items": {
+        "payment": {
+          "question": "Quais as formas de pagamento?",
+          "answer": "Aceitamos Visa, Mastercard, MB Way, Multibanco e PayPal. Todos os pagamentos são processados de forma segura com encriptação SSL."
+        },
+        "flightDelay": {
+          "question": "E se o meu voo atrasar?",
+          "answer": "Monitorizamos o seu voo em tempo real e ajustamos a hora de chegada do motorista. O tempo de espera está sempre incluído."
+        },
+        "booking": {
+          "question": "Como posso agendar a minha viagem?",
+          "answer": "Pode reservar diretamente no nosso site em 60 segundos — escolha origem, destino, data e hora e receba o preço final no momento."
+        },
+        "shareDiscount": {
+          "question": "Qual o desconto se dividir uma viagem?",
+          "answer": "Reservas partilhadas com outros passageiros têm um desconto até 30%. Contacte-nos para mais informações."
+        },
+        "roundTrip": {
+          "question": "Como funciona uma viagem de ida e volta?",
+          "answer": "Selecione a opção 'ida e volta' no momento da reserva e adicione a data e hora do regresso. Beneficia de um desconto automático."
+        },
+        "outsideLisbon": {
+          "question": "Fazem viagens para outros sítios além de Lisboa?",
+          "answer": "Sim, oferecemos transfers e tours por todo Portugal continental — Porto, Algarve, Sintra, Évora e mais."
+        }
+      }
+    },
+    "ctaFinal": {
+      "eyebrow": "Pronto para partir?",
+      "titleLine1": "Reserve agora,",
+      "titleLine2": "chegue em conforto.",
+      "subtitle": "O seu motorista privado está disponível hoje. Preço fixo, confirmação imediata, sem surpresas.",
+      "cta": "Ver preços & reservar agora",
+      "note": "Cancelamento gratuito · Sem cartão de crédito obrigatório"
     }
   }
 }

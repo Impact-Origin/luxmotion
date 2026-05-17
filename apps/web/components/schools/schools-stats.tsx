@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Award, Baby, Shield, type LucideIcon } from "lucide-react"
@@ -25,7 +26,7 @@ function StatCard({
   label: string
 }) {
   return (
-    <div className="bg-white border border-[rgba(28,27,24,0.08)] flex flex-col gap-4 items-center px-[24.8px] py-[32.8px] w-full md:w-[411.34px] md:h-full">
+    <div className="bg-white border border-[rgba(28,27,24,0.08)] hover:border-[rgba(154,117,53,0.4)] hover:bg-[rgba(154,117,53,0.04)] transition-colors duration-200 flex flex-col gap-4 items-center px-[24.8px] py-[32.8px] w-full md:w-[411.34px] md:h-full">
       <div className="size-12 bg-[rgba(154,117,53,0.07)] flex items-center justify-center shrink-0">
         <Icon className="size-6 text-[#a08248]" strokeWidth={1.75} />
       </div>
@@ -38,7 +39,7 @@ function StatCard({
         </span>
       </div>
       <p
-        className="text-[14px] leading-[1.2] text-[#696969] text-center w-full"
+        className="text-[14px] leading-[1.2] text-[#696969] text-center w-full md:min-h-[34px]"
         style={SANS_FONT}
       >
         {label}
@@ -49,6 +50,22 @@ function StatCard({
 
 export function SchoolsStats() {
   const t = useTranslations("schools.stats")
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (headerRef.current) observer.observe(headerRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section className="relative overflow-hidden px-4 md:px-[52px] py-[96px] md:py-[120px] bg-white">
@@ -59,7 +76,10 @@ export function SchoolsStats() {
         className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[1905px] min-w-[100vw] max-w-none h-[686px] mix-blend-multiply"
       />
       <div className="relative max-w-[1280px] mx-auto flex flex-col gap-6 items-center">
-        <div className="flex flex-col gap-2 items-center w-full">
+        <div
+          ref={headerRef}
+          className={`flex flex-col gap-2 items-center w-full transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
+        >
           <div className="flex items-center justify-center gap-2">
             <div className="h-px w-8 bg-[#a08248]" />
             <span
@@ -81,7 +101,7 @@ export function SchoolsStats() {
         </div>
 
         <p
-          className="text-[18px] leading-[1.3] text-[#696969] text-center max-w-[1080px] px-2"
+          className={`text-[18px] leading-[1.3] text-[#696969] text-center max-w-[1080px] px-2 transition-all duration-700 ease-out delay-100 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
           style={SANS_FONT}
         >
           {t("subtitle")}

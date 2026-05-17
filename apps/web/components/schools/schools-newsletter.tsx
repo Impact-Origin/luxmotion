@@ -119,7 +119,7 @@ export function SchoolsNewsletter() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-12 w-full bg-white hover:bg-[#f5f5f5] disabled:opacity-60 disabled:cursor-not-allowed transition-colors text-[#0d0d0d] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 px-[22px]"
+              className="h-12 w-full bg-white hover:bg-[#f5f5f5] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-[background-color,transform] duration-200 text-[#0d0d0d] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 px-[22px]"
               style={SANS_FONT}
             >
               <span>{isSubmitting ? t("submitting") : t("submit")}</span>
@@ -191,7 +191,7 @@ export function SchoolsNewsletter() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-12 w-full bg-white hover:bg-[#f5f5f5] disabled:opacity-60 disabled:cursor-not-allowed transition-colors text-[#0d0d0d] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 px-[22px] mt-2"
+              className="h-12 w-full bg-white hover:bg-[#f5f5f5] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-[background-color,transform] duration-200 text-[#0d0d0d] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 px-[22px] mt-2"
               style={SANS_FONT}
             >
               <span>{isSubmitting ? t("submitting") : t("submit")}</span>

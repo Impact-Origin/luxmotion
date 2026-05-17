@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Minus, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { AnimatedCollapse } from "@/components/checkout/shared/animated-collapse"
 
@@ -32,20 +32,25 @@ function FaqItem({
         type="button"
         aria-expanded={isOpen}
         onClick={onToggle}
-        className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left"
+        className="group w-full flex items-center justify-between gap-4 px-6 py-4 text-left"
       >
         <span
-          className="text-[14px] lg:text-[12px] font-medium text-[#1C1B18] leading-[1.2] flex-1"
+          className="text-[14px] lg:text-[12px] font-medium text-[#1C1B18] group-hover:text-[#9A7535] transition-colors duration-200 leading-[1.2] flex-1"
           style={SANS_FONT}
         >
           {question}
         </span>
-        <span className="size-8 border border-[rgba(160,159,158,0.19)] flex items-center justify-center shrink-0 transition-colors hover:border-[#9A7535]">
-          {isOpen ? (
-            <Minus className="size-[18px] text-[#1C1B18]" strokeWidth={1.5} />
-          ) : (
-            <Plus className="size-[18px] text-[#1C1B18]" strokeWidth={1.5} />
-          )}
+        <span
+          className={`size-8 border flex items-center justify-center shrink-0 transition-all duration-300 ${
+            isOpen
+              ? "rotate-45 bg-[#1C1B18] border-[#1C1B18]"
+              : "border-[rgba(160,159,158,0.19)] group-hover:border-[#9A7535]"
+          }`}
+        >
+          <Plus
+            className={`size-[18px] transition-colors duration-200 ${isOpen ? "text-white" : "text-[#1C1B18]"}`}
+            strokeWidth={1.5}
+          />
         </span>
       </button>
       <AnimatedCollapse isOpen={isOpen}>

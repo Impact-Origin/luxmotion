@@ -111,7 +111,7 @@ function HeroBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleL
         src={imageUrl}
         alt={blog.title}
         fill
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
         sizes="(max-width: 768px) 100vw, 60vw"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[63%] to-[rgba(0,0,0,0.8)] to-[76%]" />
@@ -132,8 +132,8 @@ function HeroBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleL
           <span className="text-[12px] font-medium text-[#C9A96E] uppercase tracking-[1px]" style={sans}>
             {readArticleLabel}
           </span>
-          <div className="size-8 border-[1.143px] border-[rgba(154,117,53,0.22)] flex items-center justify-center">
-            <ArrowRight className="size-[18px] text-[#C9A96E]" strokeWidth={1.5} />
+          <div className="size-8 border-[1.143px] border-[rgba(154,117,53,0.22)] flex items-center justify-center transition-colors duration-200 group-hover:bg-[#C9A96E] group-hover:border-[#C9A96E]">
+            <ArrowRight className="size-[18px] text-[#C9A96E] group-hover:text-[#0D0D0D] transition-colors duration-200" strokeWidth={1.5} />
           </div>
         </div>
       </div>
@@ -145,13 +145,13 @@ function SideBlogCard({ blog }: { blog: BlogData }) {
   const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
 
   return (
-    <Link href={`/blogs/${blog.slug}`} className="bg-[#1e1e1e] flex-1 flex flex-col overflow-clip group">
+    <Link href={`/blogs/${blog.slug}`} className="bg-[#1e1e1e] flex-1 flex flex-col overflow-clip group border-[0.5px] border-[rgba(201,169,110,0.08)] hover:border-[rgba(201,169,110,0.55)] transition-colors duration-200">
       <div className="relative flex-1 min-h-[120px] overflow-clip">
         <Image
           src={imageUrl}
           alt={blog.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
           sizes="(max-width: 768px) 100vw, 35vw"
         />
       </div>
@@ -174,13 +174,13 @@ function GridBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleL
   const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
 
   return (
-    <Link href={`/blogs/${blog.slug}`} className="bg-[#1e1e1e] flex flex-col md:h-[420px] overflow-clip group">
+    <Link href={`/blogs/${blog.slug}`} className="bg-[#1e1e1e] flex flex-col md:h-[420px] overflow-clip group border-[0.5px] border-[rgba(201,169,110,0.08)] hover:border-[rgba(201,169,110,0.55)] transition-colors duration-200">
       <div className="relative flex-1 min-h-[160px] overflow-clip">
         <Image
           src={imageUrl}
           alt={blog.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
         <div className="absolute bottom-3 left-4 bg-[#C9A96E] border border-[rgba(154,117,53,0.22)] px-[9.8px] py-[3.8px]">
@@ -190,7 +190,7 @@ function GridBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleL
         </div>
       </div>
       <div className="flex flex-col gap-2 px-5 md:px-6 py-3 md:py-4">
-        <h3 className="text-[20px] md:text-[24px] font-semibold text-white leading-[1.2] pb-[6px]" style={serif}>
+        <h3 className="text-[20px] md:text-[24px] font-semibold text-white group-hover:text-[#C9A96E] transition-colors duration-200 leading-[1.2] pb-[6px]" style={serif}>
           {blog.title}
         </h3>
         <p className="text-[14px] text-[#999] leading-[17.6px] line-clamp-2" style={sans}>
@@ -273,10 +273,10 @@ export function FeaturedBlogsSection() {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`h-8 px-[14.8px] text-[12px] uppercase tracking-[0.7px] whitespace-nowrap transition-colors shrink-0 ${
+                    className={`h-8 px-[14.8px] text-[12px] uppercase tracking-[0.7px] whitespace-nowrap transition-colors duration-200 shrink-0 ${
                       activeCategory === cat
                         ? "bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.18)] text-[#C9A96E]"
-                        : "border border-[rgba(255,255,255,0.12)] text-[#999] hover:text-white"
+                        : "border border-[rgba(255,255,255,0.12)] text-[#999] hover:text-[#C9A96E] hover:border-[rgba(201,169,110,0.55)]"
                     }`}
                     style={sans}
                   >
