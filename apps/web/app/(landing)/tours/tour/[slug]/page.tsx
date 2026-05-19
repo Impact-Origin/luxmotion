@@ -177,7 +177,7 @@ export default async function TourDetailsPage({ params }: TourDetailsPageProps) 
         </>
       )}
       <Header transparentOverHero transparentOverHeroMobileOnly heroScrollThreshold={100} />
-      <div className="pt-0 md:pt-14">
+      <div className="pt-0">
         <TourDetailsWrapper slug={slug} />
       </div>
       <Footer />

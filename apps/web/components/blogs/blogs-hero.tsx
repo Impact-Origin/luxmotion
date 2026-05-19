@@ -67,10 +67,10 @@ export function BlogsHero() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <p className="text-[48px] md:text-[96px] font-normal leading-[0.95] text-[#f5f5f5] whitespace-pre-line">
+            <p className="text-[48px] md:text-[96px] min-[1440px]:text-[82px] min-[1920px]:text-[96px] font-normal leading-[0.95] text-[#f5f5f5] whitespace-pre-line">
               {t("headingMain")}
             </p>
-            <p className="text-[48px] md:text-[96px] font-normal italic leading-[0.95] text-[#C9A96E]">
+            <p className="text-[48px] md:text-[96px] min-[1440px]:text-[82px] min-[1920px]:text-[96px] font-normal italic leading-[0.95] text-[#C9A96E]">
               {t("headingAccent")}
             </p>
           </div>

@@ -1,6 +1,8 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -38,11 +40,12 @@ function AdvantageCard({
 
 export function WeddingPlannerAdvantages() {
   const t = useTranslations("weddingPlanner.advantages")
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-white px-4 md:px-12 pt-10 pb-14">
+    <section ref={ref} className="bg-white px-4 md:px-12 pt-10 pb-14">
       <div className="max-w-[1100px] mx-auto flex flex-col">
-        <div className="flex flex-col items-center gap-2">
+        <div className={cn("flex flex-col items-center gap-2", reveal())}>
           <div className="flex items-center gap-2">
             <div className="w-8 h-px bg-[#a08248]" />
             <span
@@ -64,13 +67,18 @@ export function WeddingPlannerAdvantages() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-[2px] mt-8">
-          {ITEMS.map((n) => (
-            <AdvantageCard
+          {ITEMS.map((n, i) => (
+            <div
               key={n}
-              n={n}
-              question={t(`q${n}`)}
-              answer={t(`a${n}`)}
-            />
+              className={reveal()}
+              style={{ transitionDelay: `${160 + i * 90}ms` }}
+            >
+              <AdvantageCard
+                n={n}
+                question={t(`q${n}`)}
+                answer={t(`a${n}`)}
+              />
+            </div>
           ))}
         </div>
       </div>

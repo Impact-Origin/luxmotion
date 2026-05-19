@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select"
 import { PhoneInput } from "@/components/ui/phone-input"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -145,7 +147,7 @@ function VehiclePicker({
               key={o.id}
               type="button"
               onClick={() => onSelect(o.id)}
-              className={`shrink-0 w-[158px] flex flex-col gap-2 px-[12.8px] pt-[16.8px] pb-[16.8px] border transition-colors ${
+              className={`shrink-0 w-[200px] flex flex-col gap-2 px-[12.8px] pt-[16.8px] pb-[16.8px] border transition-colors ${
                 selected
                   ? "bg-[rgba(168,131,58,0.08)] border-[#a8833a]"
                   : "bg-[rgba(168,131,58,0.04)] border-[rgba(168,131,58,0.4)] hover:border-[#a8833a]"
@@ -244,13 +246,24 @@ function SectionHeading({ eyebrow, headingStart, headingAccent }: {
   )
 }
 
+const BUDGET_MIN = 150
+const BUDGET_MAX = 50000
+const BUDGET_STEP = 50
+
+function formatBudget(value: number, locale: string) {
+  return value.toLocaleString(locale, { style: "currency", currency: "EUR", maximumFractionDigits: 0 })
+}
+
 export function WeddingQuoteSection() {
   const t = useTranslations("wedding.quote")
   const [selectedVehicle, setSelectedVehicle] = useState<string>("standard")
   const [phone, setPhone] = useState("")
   const [numVehicles, setNumVehicles] = useState<string>("")
+  const [budget, setBudget] = useState<number>(BUDGET_MIN)
   const [submitting, setSubmitting] = useState(false)
   const submitMutation = useMutation(api.weddingQuoteSubmissions.submit)
+  const budgetPct = ((budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100
+  const { ref: revealRef, reveal } = useScrollReveal<HTMLDivElement>()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -271,6 +284,7 @@ export function WeddingQuoteSection() {
         venue: (fd.get("venue") || "").toString() || undefined,
         pickup: (fd.get("pickup") || "").toString() || undefined,
         numVehicles: numVehiclesNum,
+        budget,
         vehicle: selectedVehicle,
         message: (fd.get("notes") || "").toString() || undefined,
       })
@@ -278,6 +292,7 @@ export function WeddingQuoteSection() {
       formEl.reset()
       setPhone("")
       setNumVehicles("")
+      setBudget(BUDGET_MIN)
       setSelectedVehicle("standard")
     } catch {
       toast.error(t("errorToast"))
@@ -287,17 +302,20 @@ export function WeddingQuoteSection() {
   }
 
   return (
-    <section className="bg-[#f7f4ef] px-4 md:px-12 py-14 md:py-24">
-      <div className="max-w-[900px] mx-auto flex flex-col gap-6">
-        <SectionHeading
-          eyebrow={t("eyebrow")}
-          headingStart={t("headingStart")}
-          headingAccent={t("headingAccent")}
-        />
+    <section id="wedding-quote" className="scroll-mt-[80px] bg-[#f7f4ef] px-4 md:px-12 py-14 md:py-24">
+      <div ref={revealRef} className="max-w-[900px] mx-auto flex flex-col gap-6">
+        <div className={reveal()}>
+          <SectionHeading
+            eyebrow={t("eyebrow")}
+            headingStart={t("headingStart")}
+            headingAccent={t("headingAccent")}
+          />
+        </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white border border-[rgba(168,131,58,0.15)] shadow-[0_4px_40px_rgba(0,0,0,0.07)] flex flex-col gap-4 px-6 md:px-[48.8px] pt-[60px] md:pt-[90.8px] pb-[48.8px] relative overflow-clip"
+          className={cn("bg-white border border-[rgba(168,131,58,0.15)] shadow-[0_4px_40px_rgba(0,0,0,0.07)] flex flex-col gap-4 px-6 md:px-[48.8px] pt-[60px] md:pt-[90.8px] pb-[48.8px] relative overflow-clip", reveal())}
+          style={{ transitionDelay: "180ms" }}
         >
           <span
             aria-hidden
@@ -344,9 +362,6 @@ export function WeddingQuoteSection() {
           </div>
 
           <div className="flex flex-col md:flex-row gap-3 w-full">
-            <Field label={t("fields.pickup")}>
-              <TextInput name="pickup" placeholder={t("placeholders.pickup")} />
-            </Field>
             <Field label={t("fields.numVehicles")}>
               <Select value={numVehicles} onValueChange={setNumVehicles}>
                 <SelectTrigger
@@ -371,6 +386,47 @@ export function WeddingQuoteSection() {
                 </SelectContent>
               </Select>
             </Field>
+            <Field label={t("fields.budget")} required>
+              <div className="flex flex-col gap-2 w-full h-11 justify-center">
+                <div
+                  className="relative h-[6px] w-full bg-[#1a1612]"
+                  style={{ borderRadius: "0px" }}
+                >
+                  <div
+                    className="absolute left-0 top-0 bottom-0 bg-[#a08248]"
+                    style={{ width: `${budgetPct}%` }}
+                  />
+                  <input
+                    type="range"
+                    min={BUDGET_MIN}
+                    max={BUDGET_MAX}
+                    step={BUDGET_STEP}
+                    value={budget}
+                    onChange={(e) => setBudget(Number(e.target.value))}
+                    aria-label={t("fields.budget")}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                  <span
+                    aria-hidden
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-4 rounded-full bg-[#a08248] border-2 border-[#faf7f2] shadow-[0_1px_3px_rgba(0,0,0,0.2)] pointer-events-none"
+                    style={{ left: `${budgetPct}%` }}
+                  />
+                </div>
+                <div
+                  className="flex justify-between text-[11px] text-[#7a746e] leading-none"
+                  style={SANS_FONT}
+                >
+                  <span>{formatBudget(BUDGET_MIN, "pt-PT")}</span>
+                  <span className="text-[#1a1612] font-semibold">{formatBudget(budget, "pt-PT")}</span>
+                  <span>+{formatBudget(BUDGET_MAX, "pt-PT")}</span>
+                </div>
+              </div>
+            </Field>
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <FieldLabel text={t("fields.pickup")} />
+            <TextInput name="pickup" placeholder={t("placeholders.pickup")} />
           </div>
 
           <div className="flex flex-col gap-2 w-full">

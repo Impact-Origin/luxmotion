@@ -163,9 +163,10 @@ function CtaButtons({
       : "flex md:hidden flex-col gap-3 w-full"
 
   const primaryBtn = (
-    <button
+    <a
+      href="#wedding-quote"
       className={
-        "group h-12 px-6 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 " +
+        "group h-12 px-6 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 cursor-pointer " +
         (layout === "desktop" ? "w-[300px]" : "w-full")
       }
     >
@@ -176,13 +177,14 @@ function CtaButtons({
         {primary}
       </span>
       <MessageSquare className="size-4 text-white" strokeWidth={2} />
-    </button>
+    </a>
   )
 
   const secondaryBtn = (
-    <button
+    <a
+      href="/fleet"
       className={
-        "group h-12 px-6 inline-flex items-center justify-center border border-[#999] hover:border-[#a08248] hover:text-[#a08248] transition-colors duration-200 " +
+        "group h-12 px-6 inline-flex items-center justify-center border border-[#999] hover:border-[#a08248] hover:text-[#a08248] transition-colors duration-200 cursor-pointer " +
         (layout === "desktop" ? "" : "w-full")
       }
     >
@@ -193,7 +195,7 @@ function CtaButtons({
         {secondary}
       </span>
       <ArrowRight className="size-[14px] text-[#999] group-hover:text-[#a08248] transition-colors duration-200" strokeWidth={2} />
-    </button>
+    </a>
   )
 
   return (
@@ -305,13 +307,13 @@ export function WeddingHero() {
             <HeroPill label={t("pill")} />
 
             <h1 className="flex flex-col" style={SERIF_FONT}>
-              <span className="text-[76px] leading-none text-[#1a1612] font-normal whitespace-nowrap">
+              <span className="text-[76px] min-[1440px]:text-[82px] min-[1920px]:text-[76px] leading-none text-[#1a1612] font-normal whitespace-nowrap">
                 {t("title1")}
               </span>
-              <span className="text-[76px] leading-none text-[#1a1612] font-normal whitespace-nowrap">
+              <span className="text-[76px] min-[1440px]:text-[82px] min-[1920px]:text-[76px] leading-none text-[#1a1612] font-normal whitespace-nowrap">
                 {t("title2")}
               </span>
-              <span className="text-[76px] leading-none italic font-light text-[#a08248] whitespace-nowrap">
+              <span className="text-[76px] min-[1440px]:text-[82px] min-[1920px]:text-[76px] leading-none italic font-light text-[#a08248] whitespace-nowrap">
                 {t("titleAccent")}
               </span>
             </h1>
@@ -325,13 +327,6 @@ export function WeddingHero() {
               <CheckRow>{t("check2")}</CheckRow>
               <CheckRow>{t("check3")}</CheckRow>
             </div>
-
-            <TrustStrip
-              excellent={t("excellentRating")}
-              verifiedBy={t("verifiedBy")}
-              fromReviews={t("fromReviews")}
-              poweredBy={t("poweredBy")}
-            />
 
             <CtaButtons primary={t("ctaPrimary")} secondary={t("ctaSecondary")} layout="desktop" />
           </div>

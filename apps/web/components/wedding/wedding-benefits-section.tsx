@@ -9,6 +9,8 @@ import {
   Shield,
   type LucideIcon,
 } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -94,6 +96,7 @@ function SectionHeading({
 
 export function WeddingBenefitsSection() {
   const t = useTranslations("wedding.benefits")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#faf7f2] px-4 md:px-20 py-14 md:py-24 relative overflow-hidden">
@@ -106,16 +109,22 @@ export function WeddingBenefitsSection() {
         }}
       />
 
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-[14px] relative">
-        <SectionHeading
-          eyebrow={t("eyebrow")}
-          headingStart={t("headingStart")}
-          headingAccent={t("headingAccent")}
-        />
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-[14px] relative">
+        <div className={reveal()}>
+          <SectionHeading
+            eyebrow={t("eyebrow")}
+            headingStart={t("headingStart")}
+            headingAccent={t("headingAccent")}
+          />
+        </div>
 
         <div className="hidden md:flex gap-[3px] items-stretch justify-center pt-[42px]">
           {BENEFITS.map((b, i) => (
-            <div key={i} className="flex-1 min-w-0 flex">
+            <div
+              key={i}
+              className={cn("flex-1 min-w-0 flex", reveal())}
+              style={{ transitionDelay: `${160 + i * 100}ms` }}
+            >
               <BenefitCard Icon={b.icon} title={t(b.titleKey)} desc={t(b.descKey)} />
             </div>
           ))}
@@ -123,7 +132,11 @@ export function WeddingBenefitsSection() {
 
         <div className="md:hidden grid grid-cols-2 gap-[2px] pt-6">
           {BENEFITS.map((b, i) => (
-            <div key={i} className="flex">
+            <div
+              key={i}
+              className={cn("flex", reveal())}
+              style={{ transitionDelay: `${160 + i * 90}ms` }}
+            >
               <BenefitCard Icon={b.icon} title={t(b.titleKey)} desc={t(b.descKey)} />
             </div>
           ))}

@@ -11,6 +11,7 @@ export const submit = mutation({
     venue: v.optional(v.string()),
     pickup: v.optional(v.string()),
     numVehicles: v.optional(v.number()),
+    budget: v.optional(v.number()),
     vehicle: v.optional(v.string()),
     message: v.optional(v.string()),
   },

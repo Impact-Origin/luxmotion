@@ -8,7 +8,7 @@ export function PaymentMethods() {
   const t = useTranslations("paymentMethods")
 
   return (
-    <section id="payment-methods" className="py-[40px] md:py-[64px] px-4 md:px-8 lg:px-[60px] xl:px-[100px] bg-white">
+    <section id="payment-methods" className="scroll-mt-24 py-[40px] md:py-[64px] px-4 md:px-8 lg:px-[60px] xl:px-[100px] bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-center mb-2 lg:hidden">
           <ExclusiveBadge />

@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
@@ -34,29 +35,13 @@ function PaymentPill({ src, alt, w, h }: { src: string; alt: string; w: number; 
 
 export function SchoolsPayment() {
   const t = useTranslations("schools.payment")
-  const headerRef = useRef<HTMLHeadingElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (headerRef.current) observer.observe(headerRef.current)
-    return () => observer.disconnect()
-  }, [])
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#fafafa] px-4 md:px-[80px] py-[56px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-7 items-center">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-7 items-center">
         <h2
-          ref={headerRef}
-          className={`text-[32px] md:text-[44px] leading-[1.1] text-[#1a1612] text-center font-normal whitespace-nowrap transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
+          className={cn("text-[32px] md:text-[44px] leading-[1.1] text-[#1a1612] text-center font-normal whitespace-nowrap", reveal())}
           style={SERIF_FONT}
         >
           {t("title")}{" "}
@@ -64,14 +49,26 @@ export function SchoolsPayment() {
         </h2>
 
         <div className="hidden md:flex items-center gap-[10px]">
-          {METHODS.map((m) => (
-            <PaymentPill key={m.alt} {...m} />
+          {METHODS.map((m, i) => (
+            <div
+              key={m.alt}
+              className={reveal()}
+              style={{ transitionDelay: `${160 + i * 80}ms` }}
+            >
+              <PaymentPill {...m} />
+            </div>
           ))}
         </div>
 
         <div className="md:hidden grid grid-cols-2 gap-[2px] w-[186.281px]">
-          {METHODS.map((m) => (
-            <PaymentPill key={m.alt} {...m} />
+          {METHODS.map((m, i) => (
+            <div
+              key={m.alt}
+              className={reveal()}
+              style={{ transitionDelay: `${160 + i * 80}ms` }}
+            >
+              <PaymentPill {...m} />
+            </div>
           ))}
         </div>
       </div>

@@ -113,7 +113,7 @@ export function TourStory() {
         </div>
 
         <div className="md:hidden relative mt-10 flex justify-center">
-          <div className="w-[333px] h-[305px] relative">
+          <div className="w-[333px] h-[305px] relative ml-8">
             <PhotoComposition t={t} />
           </div>
         </div>

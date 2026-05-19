@@ -13,6 +13,8 @@ import {
   type GooglePlaceValue,
 } from "@/components/ui/google-places-input"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -184,6 +186,7 @@ function VehicleCard({
 
 export function SchoolsQuote() {
   const t = useTranslations("schools.quote")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
   const [vehicle, setVehicle] = useState<VehicleKey>("standard")
   const [phone, setPhone] = useState("")
   const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
@@ -228,9 +231,9 @@ export function SchoolsQuote() {
   }
 
   return (
-    <section className="bg-white px-4 md:px-[80px] py-[72px] md:py-[96px]">
-      <div className="max-w-[900px] mx-auto flex flex-col gap-6">
-        <div className="flex flex-col gap-2 items-center w-full">
+    <section id="schools-quote" className="scroll-mt-24 bg-white px-4 md:px-[80px] py-[72px] md:py-[96px]">
+      <div ref={ref} className="max-w-[900px] mx-auto flex flex-col gap-6">
+        <div className={cn("flex flex-col gap-2 items-center w-full", reveal())}>
           <div className="flex items-center justify-center gap-2">
             <div className="h-px w-8 bg-[#a08248]" />
             <span
@@ -259,8 +262,8 @@ export function SchoolsQuote() {
         </div>
 
         <form
-          className="bg-white border border-[rgba(168,131,58,0.15)] flex flex-col gap-4 px-[17px] py-[25px] md:px-[49px] md:py-[41px] w-full"
-          style={{ boxShadow: "0 4px 40px rgba(0,0,0,0.07)" }}
+          className={cn("bg-white border border-[rgba(168,131,58,0.15)] flex flex-col gap-4 px-[17px] py-[25px] md:px-[49px] md:py-[41px] w-full", reveal())}
+          style={{ boxShadow: "0 4px 40px rgba(0,0,0,0.07)", transitionDelay: "180ms" }}
           onSubmit={handleSubmit}
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">

@@ -748,6 +748,7 @@ export default defineSchema({
     venue: v.optional(v.string()),
     pickup: v.optional(v.string()),
     numVehicles: v.optional(v.number()),
+    budget: v.optional(v.number()),
     vehicle: v.optional(v.string()),
     message: v.optional(v.string()),
     status: v.optional(
@@ -815,6 +816,7 @@ export default defineSchema({
   teamMembers: defineTable({
     name: v.string(),
     role: v.string(),
+    bio: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     status: v.union(v.literal("draft"), v.literal("published")),
     order: v.number(),

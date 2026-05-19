@@ -5,6 +5,8 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight } from "lucide-react"
 import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -58,6 +60,7 @@ export function WeddingPlannerServices() {
   const t = useTranslations("weddingPlanner.services")
   const marqueeRef = useRef<HTMLDivElement>(null)
   useAutoScrollMarquee(marqueeRef)
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   const cards = CARDS.map((c, i) => ({
     ...c,
@@ -66,9 +69,9 @@ export function WeddingPlannerServices() {
   }))
 
   return (
-    <section className="bg-[#f7f4ef] px-4 md:px-[82px] py-16 md:pt-14 md:pb-16">
+    <section ref={ref} className="bg-[#f7f4ef] px-4 md:px-[82px] py-16 md:pt-14 md:pb-16">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6 md:gap-10">
-        <div className="flex flex-col items-center gap-2">
+        <div className={cn("flex flex-col items-center gap-2", reveal())}>
           <div className="flex items-center gap-2">
             <div className="w-8 h-px bg-[#a08248]" />
             <span
@@ -90,8 +93,12 @@ export function WeddingPlannerServices() {
         </div>
 
         <div className="hidden md:flex gap-[5px] w-full">
-          {cards.map((c) => (
-            <div key={c.id} className="flex-1 min-w-0">
+          {cards.map((c, i) => (
+            <div
+              key={c.id}
+              className={cn("flex-1 min-w-0", reveal())}
+              style={{ transitionDelay: `${160 + i * 110}ms` }}
+            >
               <ServiceCard src={c.src} title={c.title} alt={c.alt} />
             </div>
           ))}

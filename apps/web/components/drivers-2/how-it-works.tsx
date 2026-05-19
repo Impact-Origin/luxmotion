@@ -175,7 +175,7 @@ export function HowItWorks2() {
   const cards: CardConfig[] = [
     {
       num: "01",
-      photo: "/drivers-2/adv-1.jpg",
+      photo: "/drivers-2/adv-1.png",
       photoAlt: t("card1.photoAlt"),
       heading: (
         <>

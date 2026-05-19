@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -61,9 +63,10 @@ function AvatarRow() {
 
 export function WeddingPlannerFounders() {
   const t = useTranslations("weddingPlanner.founders")
+  const { ref, revealFromLeft, revealFromRight } = useScrollReveal<HTMLElement>()
 
   const photoBlock = (
-    <div className="relative w-full max-w-[578px] mx-auto md:mx-0 aspect-[578/562]">
+    <div className={cn("relative w-full max-w-[578px] mx-auto md:mx-0 aspect-[578/562]", revealFromLeft())}>
       <div className="absolute top-[14%] left-0 right-0 bottom-0">
         <Image
           src="/wedding-planner/founders/team.png"
@@ -80,7 +83,7 @@ export function WeddingPlannerFounders() {
   )
 
   const contentBlock = (
-    <div className="flex flex-col gap-6 items-start w-full md:max-w-[646px]">
+    <div className={cn("flex flex-col gap-6 items-start w-full md:max-w-[646px]", revealFromRight("delay-150"))}>
       <div className="flex flex-col gap-2 items-start w-full">
         <div className="flex items-center gap-2">
           <div className="w-8 h-px bg-[#a08248]" />
@@ -131,7 +134,7 @@ export function WeddingPlannerFounders() {
   )
 
   return (
-    <section className="bg-[#f7f4ef] px-4 md:px-[82px] pt-6 pb-10 md:pb-0">
+    <section ref={ref} className="bg-[#f7f4ef] px-4 md:px-[82px] pt-6 pb-10 md:pb-0">
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
         {photoBlock}
         {contentBlock}

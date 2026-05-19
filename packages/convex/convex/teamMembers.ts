@@ -44,6 +44,7 @@ export const create = mutation({
   args: {
     name: v.string(),
     role: v.string(),
+    bio: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     status: v.union(v.literal("draft"), v.literal("published")),
     order: v.number(),
@@ -63,6 +64,7 @@ export const update = mutation({
     id: v.id("teamMembers"),
     name: v.string(),
     role: v.string(),
+    bio: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     status: v.union(v.literal("draft"), v.literal("published")),
     order: v.number(),

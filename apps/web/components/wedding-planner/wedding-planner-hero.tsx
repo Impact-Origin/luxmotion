@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight, BadgeCheck, Star } from "lucide-react"
+import { cn } from "@workspace/ui/lib/utils"
+import { useEnterAnimation } from "@/hooks/use-enter-animation"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -164,9 +166,10 @@ function TrustStripMobile({
 
 function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
-    <button
+    <a
+      href="/partners/apply?type=wedding"
       className={
-        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] transition-colors px-6 " +
+        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] transition-colors px-6 cursor-pointer " +
         (full ? "w-full" : "")
       }
     >
@@ -177,15 +180,16 @@ function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
         {label}
       </span>
       <ArrowRight className="size-[14px] text-white" strokeWidth={2} />
-    </button>
+    </a>
   )
 }
 
 function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
-    <button
+    <a
+      href="#wedding-revenue-calculator"
       className={
-        "h-12 inline-flex items-center justify-center border border-[#999] text-[#999] hover:border-white hover:text-white transition-colors px-6 " +
+        "h-12 inline-flex items-center justify-center border border-[#999] text-[#999] hover:border-white hover:text-white transition-colors px-6 cursor-pointer " +
         (full ? "w-full" : "")
       }
     >
@@ -196,12 +200,13 @@ function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
         {label}
       </span>
       <ArrowRight className="size-[14px]" strokeWidth={2} />
-    </button>
+    </a>
   )
 }
 
 export function WeddingPlannerHero() {
   const t = useTranslations("weddingPlanner.hero")
+  const { enter } = useEnterAnimation()
 
   return (
     <section className="bg-[#111110] relative overflow-hidden">
@@ -218,7 +223,7 @@ export function WeddingPlannerHero() {
         </div>
 
         <div className="flex flex-col gap-6 items-start px-4 py-6">
-          <div className="flex flex-col gap-2 items-start w-full">
+          <div className={cn("flex flex-col gap-2 items-start w-full", enter("delay-0"))}>
             <HeroPill label={t("pill")} />
             <h1
               className="text-[48px] leading-none font-normal text-[#f7f4ef] pt-1"
@@ -230,18 +235,11 @@ export function WeddingPlannerHero() {
             </h1>
           </div>
 
-          <p className="text-[18px] leading-[1.3] text-[#999] max-w-[520px]" style={SANS_FONT}>
+          <p className={cn("text-[18px] leading-[1.3] text-[#999] max-w-[520px]", enter("delay-200"))} style={SANS_FONT}>
             {t("subtitle")}
           </p>
 
-          <TrustStripMobile
-            excellent={t("excellentRating")}
-            verifiedBy={t("verifiedBy")}
-            fromReviews={t("fromReviews")}
-            poweredBy={t("poweredBy")}
-          />
-
-          <div className="flex flex-col gap-2 w-full">
+          <div className={cn("flex flex-col gap-2 w-full", enter("delay-[400ms]"))}>
             <SecondaryCta label={t("ctaSecondary")} full />
             <PrimaryCta label={t("ctaPrimary")} full />
           </div>
@@ -250,7 +248,7 @@ export function WeddingPlannerHero() {
 
       <div className="hidden md:flex items-stretch">
         <div className="flex-1 min-w-0 pl-[16vw] pr-8 max-w-[1100px] flex flex-col gap-6 items-start justify-center py-12">
-          <div className="flex flex-col gap-2 items-start">
+          <div className={cn("flex flex-col gap-2 items-start", enter("delay-0"))}>
             <HeroPill label={t("pill")} />
             <h1
               className="flex flex-col text-[#f7f4ef] font-normal pt-1 max-w-[600px]"
@@ -264,18 +262,11 @@ export function WeddingPlannerHero() {
             </h1>
           </div>
 
-          <p className="text-[18px] leading-[1.3] text-[#999] max-w-[520px]" style={SANS_FONT}>
+          <p className={cn("text-[18px] leading-[1.3] text-[#999] max-w-[520px]", enter("delay-200"))} style={SANS_FONT}>
             {t("subtitle")}
           </p>
 
-          <TrustStripDesktop
-            excellent={t("excellentRating")}
-            verifiedBy={t("verifiedBy")}
-            fromReviews={t("fromReviews")}
-            poweredBy={t("poweredBy")}
-          />
-
-          <div className="flex items-center gap-3">
+          <div className={cn("flex items-center gap-3", enter("delay-[400ms]"))}>
             <PrimaryCta label={t("ctaPrimary")} />
             <SecondaryCta label={t("ctaSecondary")} />
           </div>

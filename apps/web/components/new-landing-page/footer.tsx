@@ -7,8 +7,8 @@ import { useTranslations } from "next-intl"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
 const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean }> = [
-  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 34, h: 34 },
-  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 36, h: 37 },
+  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 44, h: 44 },
+  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 46, h: 47 },
   { src: "/footer/badges/pme.png", alt: "PME Líder", w: 32, h: 37 },
   { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 34, h: 35 },
   { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 33, h: 36 },
@@ -48,7 +48,7 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
               { href: "/about-us", label: t("aboutUs") },
               { href: "/#services", label: t("services") },
               { href: "/fleet", label: t("fleet") },
-              { href: "/#reviews", label: t("whoTrustsUs") },
+              { href: "/#companies", label: t("whoTrustsUs") },
             ]}
           />
 
@@ -249,9 +249,16 @@ function SupportColumn({ followLabel }: { followLabel: string }) {
           <a href="mailto:geral@easytransferportugal.com" className="text-[11px] text-[#999] hover:text-white transition-colors">
             geral@easytransferportugal.com
           </a>
-          <span className="text-[12px] text-[#999]">
-            Ericeira Business Factory, Portugal
-          </span>
+          <a
+            href="https://maps.google.com/?q=Rua+Prud%C3%AAncio+Franco+da+Trindade+4,+2655-344+Ericeira,+Portugal"
+            target="_blank"
+            rel="noreferrer"
+            className="text-[12px] text-[#999] hover:text-white transition-colors leading-[1.4]"
+          >
+            Ericeira Business Factory<br />
+            Rua Prudêncio Franco da Trindade 4<br />
+            2655-344 Ericeira, Portugal
+          </a>
         </div>
       </div>
 

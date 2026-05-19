@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { ArrowRight, Check, Info, Smartphone } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { cn } from "@workspace/ui/lib/utils"
+import { useEnterAnimation } from "@/hooks/use-enter-animation"
 
 const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
@@ -275,6 +277,7 @@ function FooterStat({ value, label }: { value: string; label: string }) {
 
 export function DriversHero2() {
   const t = useTranslations("driversPage2.hero")
+  const { enter } = useEnterAnimation()
 
   return (
     <section className="relative isolate overflow-hidden" style={{ backgroundImage: HERO_BG }}>
@@ -283,10 +286,15 @@ export function DriversHero2() {
       <div className="relative px-4 lg:px-[82px]">
         <div className="max-w-[1276px] mx-auto flex flex-col lg:flex-row items-stretch lg:items-center justify-between py-10 lg:py-[80px] gap-12 lg:gap-8">
           <div className="flex flex-col gap-5 lg:gap-6 w-full lg:w-[684px] max-w-full shrink-0">
-            <Eyebrow label={t("eyebrow")} />
+            <div className={enter("delay-0")}>
+              <Eyebrow label={t("eyebrow")} />
+            </div>
 
             <h1
-              className="text-white font-light text-[44px] lg:text-[82px] leading-none"
+              className={cn(
+                "text-white font-light text-[44px] lg:text-[82px] leading-none",
+                enter("delay-100")
+              )}
               style={SERIF_FONT}
             >
               <span>{t("titleStart")} </span>
@@ -294,13 +302,19 @@ export function DriversHero2() {
             </h1>
 
             <p
-              className="text-[15px] lg:text-[14px] leading-[1.3] text-[rgba(255,255,255,0.62)] lg:text-[rgba(255,255,255,0.52)] max-w-full lg:max-w-[428px]"
+              className={cn(
+                "text-[15px] lg:text-[14px] leading-[1.3] text-[rgba(255,255,255,0.62)] lg:text-[rgba(255,255,255,0.52)] max-w-full lg:max-w-[428px]",
+                enter("delay-200")
+              )}
               style={SANS_FONT}
             >
               {t("subtitle")}
             </p>
 
-            <div className="bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.06)] grid grid-cols-3 gap-px p-px lg:flex lg:gap-px lg:h-[93px] lg:max-w-[527px]">
+            <div className={cn(
+              "bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.06)] grid grid-cols-3 gap-px p-px lg:flex lg:gap-px lg:h-[93px] lg:max-w-[527px]",
+              enter("delay-300")
+            )}>
               <MetricCard
                 value={
                   <>
@@ -346,7 +360,7 @@ export function DriversHero2() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-2 w-full lg:hidden">
+            <div className={cn("grid grid-cols-2 gap-2 w-full lg:hidden", enter("delay-[400ms]"))}>
               <Pill icon={<Check className="size-3" strokeWidth={2.5} />}>
                 {t("pillPayments")}
               </Pill>
@@ -360,7 +374,7 @@ export function DriversHero2() {
                 {t("pillSupport")}
               </Pill>
             </div>
-            <div className="hidden lg:flex flex-wrap gap-2">
+            <div className={cn("hidden lg:flex flex-wrap gap-2", enter("delay-[400ms]"))}>
               <Pill icon={<Check className="size-3" strokeWidth={2.5} />}>
                 {t("pillPayments")}
               </Pill>
@@ -372,7 +386,10 @@ export function DriversHero2() {
               </Pill>
             </div>
 
-            <div className="flex flex-col-reverse lg:flex-row gap-3 items-stretch lg:items-center">
+            <div className={cn(
+              "flex flex-col-reverse lg:flex-row gap-3 items-stretch lg:items-center",
+              enter("delay-[500ms]")
+            )}>
               <Link
                 href="/drivers/apply"
                 className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#c9a96e] text-[#0d0d0d] hover:bg-[#b89558] hover:-translate-y-0.5 transition-[background-color,transform] duration-200"

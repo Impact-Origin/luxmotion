@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { ArrowLeft, ArrowRight, Check } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -50,10 +52,11 @@ function Bullet({ text, dim = true }: { text: string; dim?: boolean }) {
 
 export function WeddingPlannerCaseStudy() {
   const t = useTranslations("weddingPlanner.caseStudy")
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-[#F7F4EF] px-4 md:px-[82px] py-16 md:py-24">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-10">
+    <section ref={ref} className="bg-[#F7F4EF] px-4 md:px-[82px] py-16 md:py-24">
+      <div className={cn("max-w-[1280px] mx-auto flex flex-col gap-10", reveal())}>
         <div className="flex flex-col gap-2 items-center w-full">
           <div className="flex gap-2 items-center justify-center w-full">
             <div className="w-8 h-px bg-[#a08248]" />
@@ -166,8 +169,10 @@ export function WeddingPlannerCaseStudy() {
                   ))}
                 </div>
 
-                <div className="flex-1 flex flex-col md:flex-row items-start justify-between gap-6 md:gap-4 pb-6">
-                  <div className="flex flex-col gap-3 items-start w-full md:w-[180px]">
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(201,169,110,0.35)] to-transparent my-2" />
+
+                <div className="flex-1 flex flex-col md:flex-row items-stretch justify-between gap-6 md:gap-6 pb-6">
+                  <div className="flex flex-col gap-3 items-start w-full md:flex-1 md:min-w-0">
                     <h4
                       className="text-[24px] font-semibold leading-[1.2] text-[#999]"
                       style={SERIF}
@@ -181,7 +186,9 @@ export function WeddingPlannerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-3 items-start w-full md:w-[180px]">
+                  <div className="hidden md:block w-px self-stretch bg-gradient-to-b from-transparent via-[rgba(201,169,110,0.35)] to-transparent" />
+
+                  <div className="flex flex-col gap-3 items-start w-full md:flex-1 md:min-w-0">
                     <h4
                       className="text-[24px] font-semibold leading-[1.2] text-[#c9a96e]"
                       style={SERIF}
@@ -195,7 +202,9 @@ export function WeddingPlannerCaseStudy() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-3 items-start w-full md:w-[180px]">
+                  <div className="hidden md:block w-px self-stretch bg-gradient-to-b from-transparent via-[rgba(201,169,110,0.35)] to-transparent" />
+
+                  <div className="flex flex-col gap-3 items-start w-full md:flex-1 md:min-w-0">
                     <h4
                       className="text-[24px] font-semibold leading-[1.2]"
                       style={SERIF}

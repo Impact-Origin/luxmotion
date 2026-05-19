@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Check } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -94,11 +96,12 @@ export function WeddingPlannerCommission() {
   const t = useTranslations("weddingPlanner.commission")
   const [tier, setTier] = useState<Tier>("classic")
   const data = TIER_DATA[tier]
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-white px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
+    <section ref={ref} className="bg-white px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-6">
-        <div className="flex flex-col items-center gap-2">
+        <div className={cn("flex flex-col items-center gap-2", reveal())}>
           <div className="flex items-center gap-2">
             <div className="w-8 h-px bg-[#a08248]" />
             <span

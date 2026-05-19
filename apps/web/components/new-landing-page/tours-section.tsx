@@ -84,7 +84,7 @@ export function ToursSection() {
             {t("titleRest")}
           </h2>
           <p
-            className="text-[15px] lg:text-[18px] leading-[1.3] text-[#999] max-w-[995px] mt-1"
+            className="text-[13px] lg:text-[14px] leading-[1.4] text-[#999] max-w-[995px] mt-1"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
             {t("description")}
@@ -92,7 +92,7 @@ export function ToursSection() {
         </div>
 
         <div
-          className="w-full overflow-hidden mt-2"
+          className="w-full overflow-hidden mt-10 lg:mt-16"
           {...swipeHandlers}
         >
           <div

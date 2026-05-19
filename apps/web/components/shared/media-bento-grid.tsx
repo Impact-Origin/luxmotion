@@ -29,7 +29,7 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
 
   if (count === 1) {
     return (
-      <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden bg-[#0D0D0D]">
+      <div className="relative w-full h-[220px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#0D0D0D]">
         {first.type === "video" ? (
           <video
             src={first.url}
@@ -57,7 +57,7 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
   }
 
   return (
-    <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden bg-[#0D0D0D]">
+    <div className="relative w-full h-[220px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#0D0D0D]">
       <div className={`${mobileHidden} h-full`}>
         <MobileMediaCarousel
           media={media}

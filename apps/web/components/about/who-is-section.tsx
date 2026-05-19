@@ -53,7 +53,7 @@ export function WhoIsSection() {
   const t = useTranslations("aboutPage.whoIsSection")
 
   return (
-    <section className="bg-[#1a1a1a] border-y border-[rgba(201,169,110,0.08)] px-4 md:px-[82px] py-20">
+    <section id="our-story" className="scroll-mt-[56px] bg-[#1a1a1a] border-y border-[rgba(201,169,110,0.08)] px-4 md:px-[82px] py-20">
       <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row gap-20 items-center">
         <div className="w-full lg:w-[598px] shrink-0 flex flex-col gap-[26px]">
           <div className="flex items-center gap-2">

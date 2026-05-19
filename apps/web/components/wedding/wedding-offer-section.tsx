@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Globe, Shield, User, Users, type LucideIcon } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -105,27 +107,37 @@ function SectionHeading({ eyebrow, titleStart, titleAccent }: { eyebrow: string;
 
 export function WeddingOfferSection() {
   const t = useTranslations("wedding.offer")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#f7f4ef] border-t border-t-[rgba(168,131,58,0.1)] px-4 md:px-[82px] py-10 md:py-[96px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-8 md:gap-2">
-        <SectionHeading
-          eyebrow={t("eyebrow")}
-          titleStart={t("titleStart")}
-          titleAccent={t("titleAccent")}
-        />
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-8 md:gap-2">
+        <div className={reveal()}>
+          <SectionHeading
+            eyebrow={t("eyebrow")}
+            titleStart={t("titleStart")}
+            titleAccent={t("titleAccent")}
+          />
+        </div>
 
         <div className="xl:hidden flex flex-col gap-6 items-center pt-2">
-          <MobileImageBracketed alt={t("imageAlt")} />
+          <div className={reveal()} style={{ transitionDelay: "120ms" }}>
+            <MobileImageBracketed alt={t("imageAlt")} />
+          </div>
           <div className="flex flex-col gap-[2px] w-full">
             {CARDS.map((c, i) => (
-              <OfferCardBox
+              <div
                 key={i}
-                Icon={c.icon}
-                title={t(c.titleKey)}
-                desc={t(c.descKey)}
-                align="left"
-              />
+                className={reveal()}
+                style={{ transitionDelay: `${240 + i * 100}ms` }}
+              >
+                <OfferCardBox
+                  Icon={c.icon}
+                  title={t(c.titleKey)}
+                  desc={t(c.descKey)}
+                  align="left"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -133,25 +145,35 @@ export function WeddingOfferSection() {
         <div className="hidden xl:block relative w-full h-[424px]">
           <div className="absolute left-0 top-[42px] w-[460px] flex flex-col gap-[2px] justify-center">
             {CARDS.filter((c) => c.align === "left").map((c, i) => (
-              <OfferCardBox
+              <div
                 key={`l-${i}`}
-                Icon={c.icon}
-                title={t(c.titleKey)}
-                desc={t(c.descKey)}
-                align="left"
-              />
+                className={reveal()}
+                style={{ transitionDelay: `${240 + i * 120}ms` }}
+              >
+                <OfferCardBox
+                  Icon={c.icon}
+                  title={t(c.titleKey)}
+                  desc={t(c.descKey)}
+                  align="left"
+                />
+              </div>
             ))}
           </div>
 
           <div className="absolute right-0 top-[42px] w-[460px] flex flex-col gap-[2px] justify-center">
             {CARDS.filter((c) => c.align === "right").map((c, i) => (
-              <OfferCardBox
+              <div
                 key={`r-${i}`}
-                Icon={c.icon}
-                title={t(c.titleKey)}
-                desc={t(c.descKey)}
-                align="right"
-              />
+                className={reveal()}
+                style={{ transitionDelay: `${240 + i * 120}ms` }}
+              >
+                <OfferCardBox
+                  Icon={c.icon}
+                  title={t(c.titleKey)}
+                  desc={t(c.descKey)}
+                  align="right"
+                />
+              </div>
             ))}
           </div>
 

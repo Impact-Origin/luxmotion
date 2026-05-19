@@ -60,10 +60,10 @@ export function EventsHero() {
         </div>
 
         <div style={serif}>
-          <p className="text-[48px] md:text-[96px] font-light leading-none text-white">
+          <p className="text-[48px] md:text-[96px] min-[1440px]:text-[82px] min-[1920px]:text-[96px] font-light leading-none text-white">
             {t("headingLine1")}
           </p>
-          <p className="text-[48px] md:text-[96px] font-light italic leading-none text-[#C9A96E]">
+          <p className="text-[48px] md:text-[96px] min-[1440px]:text-[82px] min-[1920px]:text-[96px] font-light italic leading-none text-[#C9A96E]">
             {t("headingLine2")}
           </p>
         </div>

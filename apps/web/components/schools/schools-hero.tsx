@@ -149,9 +149,10 @@ function TrustStrip({
 
 function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
-    <button
+    <a
+      href="#schools-quote"
       className={
-        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 px-6 " +
+        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 px-6 cursor-pointer " +
         (full ? "w-full" : "")
       }
     >
@@ -162,15 +163,16 @@ function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
         {label}
       </span>
       <ArrowRight className="size-[14px] text-white" strokeWidth={2} />
-    </button>
+    </a>
   )
 }
 
 function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
-    <button
+    <a
+      href="#schools-process"
       className={
-        "h-12 inline-flex items-center justify-center border border-[#999] hover:border-[#9A7535] hover:text-[#9A7535] transition-colors duration-200 px-6 " +
+        "h-12 inline-flex items-center justify-center border border-[#999] hover:border-[#9A7535] hover:text-[#9A7535] transition-colors duration-200 px-6 cursor-pointer " +
         (full ? "w-full" : "")
       }
     >
@@ -181,7 +183,7 @@ function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
         {label}
       </span>
       <ArrowRight className="size-[14px] text-[#999]" strokeWidth={2} />
-    </button>
+    </a>
   )
 }
 
@@ -287,13 +289,13 @@ export function SchoolsHero() {
             </div>
 
             <h1 className={`flex flex-col ${fadeUp("delay-100")}`} style={SERIF_FONT}>
-              <span className="text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
+              <span className="text-[56px] min-[1440px]:text-[82px] min-[1920px]:text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
                 {t("title1")}
               </span>
-              <span className="text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
+              <span className="text-[56px] min-[1440px]:text-[82px] min-[1920px]:text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
                 <span className="italic text-[#a08248]">{t("titleAccent")}</span> {t("title2")}
               </span>
-              <span className="text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
+              <span className="text-[56px] min-[1440px]:text-[82px] min-[1920px]:text-[56px] leading-none text-[#0d0d0d] font-normal whitespace-nowrap">
                 {t("title3")}
               </span>
             </h1>
@@ -309,15 +311,6 @@ export function SchoolsHero() {
               {features.map((label) => (
                 <FeaturePill key={label} label={label} />
               ))}
-            </div>
-
-            <div className={fadeUp("delay-[400ms]")}>
-              <TrustStrip
-                excellent={t("excellentRating")}
-                verifiedBy={t("verifiedBy")}
-                fromReviews={t("fromReviews")}
-                poweredBy={t("poweredBy")}
-              />
             </div>
 
             <div className={`flex flex-col gap-4 w-full ${fadeUp("delay-[500ms]")}`}>

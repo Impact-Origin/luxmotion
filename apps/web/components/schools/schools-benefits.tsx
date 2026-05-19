@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import { useTranslations } from "next-intl"
 import {
   Clock,
@@ -11,6 +10,8 @@ import {
   User,
   type LucideIcon,
 } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -63,30 +64,12 @@ function BenefitCard({
 
 export function SchoolsBenefits() {
   const t = useTranslations("schools.benefits")
-  const headerRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (headerRef.current) observer.observe(headerRef.current)
-    return () => observer.disconnect()
-  }, [])
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#fafafa] px-4 md:px-[52px] py-[72px]">
-      <div className="flex flex-col gap-6 items-center max-w-[1280px] mx-auto">
-        <div
-          ref={headerRef}
-          className={`flex flex-col gap-2 items-center w-full transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
-        >
+      <div ref={ref} className="flex flex-col gap-6 items-center max-w-[1280px] mx-auto">
+        <div className={cn("flex flex-col gap-2 items-center w-full", reveal())}>
           <div className="flex items-center justify-center gap-2">
             <div className="h-px w-8 md:w-[82px] bg-[#a08248]" />
             <span
@@ -109,20 +92,25 @@ export function SchoolsBenefits() {
         </div>
 
         <p
-          className={`text-[18px] leading-[1.3] text-[#696969] text-center max-w-[820px] px-2 transition-all duration-700 ease-out delay-100 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
-          style={SANS_FONT}
+          className={cn("text-[18px] leading-[1.3] text-[#696969] text-center max-w-[820px] px-2", reveal())}
+          style={{ ...SANS_FONT, transitionDelay: "120ms" }}
         >
           {t("subtitle")}
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px] w-full">
-          {BENEFITS.map(({ key, Icon }) => (
-            <BenefitCard
+          {BENEFITS.map(({ key, Icon }, i) => (
+            <div
               key={key}
-              Icon={Icon}
-              title={t(`items.${key}.title`)}
-              body={t(`items.${key}.body`)}
-            />
+              className={reveal()}
+              style={{ transitionDelay: `${240 + i * 90}ms` }}
+            >
+              <BenefitCard
+                Icon={Icon}
+                title={t(`items.${key}.title`)}
+                body={t(`items.${key}.body`)}
+              />
+            </div>
           ))}
         </div>
       </div>

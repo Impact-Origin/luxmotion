@@ -2447,6 +2447,10 @@
     "team": {
       "title": "Ontmoet het team",
       "subtitle": "Het leiderschapsteam dat het succes van LuxMotion leidt.",
+      "bioFallback": "Biografie binnenkort beschikbaar.",
+      "modalClose": "Sluiten",
+      "modalPrev": "Vorig lid",
+      "modalNext": "Volgend lid",
       "eyebrow": "Ontmoet het Team",
       "heading": "Ons Team",
       "members": {
@@ -3053,6 +3057,7 @@
         "venue": "Trouwlocatie",
         "pickup": "Ophaallocatie",
         "numVehicles": "Aantal Voertuigen",
+        "budget": "Welk budget heeft u beschikbaar?",
         "vehicleType": "Voorkeursvoertuig",
         "notes": "Aanvullende Notities"
       },
@@ -3313,8 +3318,8 @@
       "subtitle": "Eenvoudig en snel proces. Binnen 5 werkdagen weet je of je in aanmerking komt voor het LuxMotion-partnernetwerk.",
       "primaryCta": "Start sollicitatie",
       "secondaryCta": "Met manager praten",
-      "primaryHref": "/work-with-us",
-      "secondaryHref": "/contact",
+      "primaryHref": "/drivers/apply",
+      "secondaryHref": "/#contact",
       "trust1": "Reactie binnen 48u",
       "trust2": "Geen exclusiviteit vereist",
       "trust3": "100% gratis proces",

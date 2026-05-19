@@ -2463,6 +2463,10 @@
     "team": {
       "title": "Conoce al equipo",
       "subtitle": "El equipo directivo que guía el éxito de LuxMotion.",
+      "bioFallback": "Biografía próximamente.",
+      "modalClose": "Cerrar",
+      "modalPrev": "Miembro anterior",
+      "modalNext": "Siguiente miembro",
       "eyebrow": "Conoce al Equipo",
       "heading": "Nuestro Equipo",
       "members": {
@@ -3069,6 +3073,7 @@
         "venue": "Lugar de la Boda",
         "pickup": "Lugar de Recogida",
         "numVehicles": "Número de Vehículos",
+        "budget": "¿Qué presupuesto tiene disponible?",
         "vehicleType": "Tipo de Vehículo Preferido",
         "notes": "Notas Adicionales"
       },
@@ -3329,8 +3334,8 @@
       "subtitle": "Proceso simple y rápido. En menos de 5 días hábiles sabrás si reúnes los requisitos para unirte a la red de socios LuxMotion.",
       "primaryCta": "Iniciar solicitud",
       "secondaryCta": "Hablar con un gestor",
-      "primaryHref": "/work-with-us",
-      "secondaryHref": "/contact",
+      "primaryHref": "/drivers/apply",
+      "secondaryHref": "/#contact",
       "trust1": "Respuesta en 48h",
       "trust2": "Sin exclusividad obligatoria",
       "trust3": "Proceso 100% gratuito",

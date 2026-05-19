@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, X } from "lucide-react"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { cn } from "@workspace/ui/lib/utils"
@@ -13,6 +13,7 @@ type Member = {
   image: string
   name: string
   role: string
+  bio?: string
 }
 
 const FALLBACK_MEMBERS: { id: string; image: string; nameKey: string; roleKey: string }[] = [
@@ -29,9 +30,14 @@ const FALLBACK_MEMBERS: { id: string; image: string; nameKey: string; roleKey: s
 const PER_PAGE_DESKTOP = 8
 const PER_PAGE_MOBILE = 8
 
-function MemberCard({ member }: { member: Member }) {
+function MemberCard({ member, onClick }: { member: Member; onClick: () => void }) {
   return (
-    <div className="group relative aspect-[3/4]">
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={`${member.name} — ${member.role}`}
+      className="group relative aspect-[3/4] block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A96E]"
+    >
       <span
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-0 h-px w-full -translate-x-1/2 origin-center scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100 z-20"
@@ -72,6 +78,122 @@ function MemberCard({ member }: { member: Member }) {
           </p>
         </div>
       </div>
+    </button>
+  )
+}
+
+function MemberModal({
+  member,
+  bioFallback,
+  closeLabel,
+  prevLabel,
+  nextLabel,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  member: Member
+  bioFallback: string
+  closeLabel: string
+  prevLabel: string
+  nextLabel: string
+  onClose: () => void
+  onPrev: () => void
+  onNext: () => void
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+      if (e.key === "ArrowLeft") onPrev()
+      if (e.key === "ArrowRight") onNext()
+    }
+    document.addEventListener("keydown", onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.removeEventListener("keydown", onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [onClose, onPrev, onNext])
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={member.name}
+      className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-[960px] max-h-[90vh] overflow-y-auto bg-[#1a1a1a] border border-[rgba(201,169,110,0.22)] shadow-[0_24px_80px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label={closeLabel}
+          className="absolute top-4 right-4 z-10 size-9 flex items-center justify-center border border-[rgba(201,169,110,0.4)] text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+        >
+          <X className="size-[18px]" strokeWidth={1.5} />
+        </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+          <div className="relative aspect-[3/4] md:aspect-auto md:min-h-[480px] bg-[#0D0D0D]">
+            <Image
+              src={member.image}
+              alt={member.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 480px"
+            />
+          </div>
+
+          <div className="flex flex-col gap-6 p-8 md:p-12">
+            <div className="flex flex-col gap-2">
+              <p
+                className="text-[#C9A96E] text-[12px] font-semibold uppercase tracking-[2px]"
+                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+              >
+                {member.role}
+              </p>
+              <h3
+                className="text-white text-[36px] md:text-[44px] font-normal leading-[1.1]"
+                style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+              >
+                {member.name}
+              </h3>
+            </div>
+
+            <div className="h-px w-12 bg-[#C9A96E]" />
+
+            <p
+              className="text-[#999] text-[14px] leading-[1.6] whitespace-pre-line"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {member.bio?.trim() ? member.bio : bioFallback}
+            </p>
+
+            <div className="mt-auto flex items-center gap-2 pt-6">
+              <button
+                type="button"
+                onClick={onPrev}
+                aria-label={prevLabel}
+                className="size-11 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+              >
+                <ArrowLeft className="size-[18px]" strokeWidth={1.5} />
+              </button>
+              <button
+                type="button"
+                onClick={onNext}
+                aria-label={nextLabel}
+                className="size-11 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+              >
+                <ArrowRight className="size-[18px]" strokeWidth={1.5} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -105,6 +227,7 @@ function CarouselArrow({
 export function TeamSection() {
   const t = useTranslations("aboutPage.team")
   const [page, setPage] = useState(0)
+  const [activeId, setActiveId] = useState<string | null>(null)
   const dbMembers = useQuery(api.teamMembers.listPublished)
 
   const members: Member[] = useMemo(() => {
@@ -114,6 +237,7 @@ export function TeamSection() {
         image: m.imageUrl ?? "/about/team-1.png",
         name: m.name,
         role: m.role,
+        bio: m.bio,
       }))
     }
     return FALLBACK_MEMBERS.map((m) => ({
@@ -128,8 +252,27 @@ export function TeamSection() {
   const safePage = Math.min(page, totalPages - 1)
   const slice = members.slice(safePage * PER_PAGE_DESKTOP, (safePage + 1) * PER_PAGE_DESKTOP)
 
+  const activeIndex = activeId ? members.findIndex((m) => m.id === activeId) : -1
+  const activeMember = activeIndex >= 0 ? members[activeIndex] : null
+  const goPrev = useCallback(() => {
+    if (members.length === 0) return
+    setActiveId((id) => {
+      const i = members.findIndex((m) => m.id === id)
+      const next = (i - 1 + members.length) % members.length
+      return members[next]?.id ?? null
+    })
+  }, [members])
+  const goNext = useCallback(() => {
+    if (members.length === 0) return
+    setActiveId((id) => {
+      const i = members.findIndex((m) => m.id === id)
+      const next = (i + 1) % members.length
+      return members[next]?.id ?? null
+    })
+  }, [members])
+
   return (
-    <section className="bg-[#1a1a1a] flex flex-col items-center px-4 md:px-[82px] py-16 md:py-20">
+    <section id="team" className="scroll-mt-[56px] bg-[#1a1a1a] flex flex-col items-center px-4 md:px-[82px] py-16 md:py-20">
       <div className="flex flex-col gap-6 items-center w-full max-w-[1280px]">
         <div className="flex flex-col gap-[14px] items-center w-full">
           <div className="flex gap-2 items-center">
@@ -161,7 +304,7 @@ export function TeamSection() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full px-4 py-4">
           {slice.map((m) => (
-            <MemberCard key={m.id} member={m} />
+            <MemberCard key={m.id} member={m} onClick={() => setActiveId(m.id)} />
           ))}
         </div>
 
@@ -194,6 +337,19 @@ export function TeamSection() {
           </div>
         )}
       </div>
+
+      {activeMember && (
+        <MemberModal
+          member={activeMember}
+          bioFallback={t("bioFallback")}
+          closeLabel={t("modalClose")}
+          prevLabel={t("modalPrev")}
+          nextLabel={t("modalNext")}
+          onClose={() => setActiveId(null)}
+          onPrev={goPrev}
+          onNext={goNext}
+        />
+      )}
     </section>
   )
 }

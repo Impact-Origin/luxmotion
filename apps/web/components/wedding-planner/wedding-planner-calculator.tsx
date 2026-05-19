@@ -4,6 +4,8 @@ import { useState, useMemo } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { LightSelect } from "@/components/applications/shared"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -32,9 +34,9 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 export function WeddingPlannerCalculator() {
   const t = useTranslations("weddingPlanner.calculator")
 
-  const [weddings, setWeddings] = useState("2")
-  const [guests, setGuests] = useState("")
-  const [commission, setCommission] = useState("")
+  const [weddings, setWeddings] = useState("4")
+  const [guests, setGuests] = useState("100")
+  const [commission, setCommission] = useState("15")
 
   const monthly = useMemo(() => {
     const w = Number(weddings)
@@ -45,10 +47,11 @@ export function WeddingPlannerCalculator() {
   }, [weddings, guests, commission])
 
   const yearly = monthly * 12
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-[#f7f4ef] px-4 md:px-[82px] pt-[71px] pb-[72px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-2 items-stretch">
+    <section id="wedding-revenue-calculator" ref={ref} className="scroll-mt-[80px] bg-[#f7f4ef] px-4 md:px-[82px] pt-[71px] pb-[72px]">
+      <div className={cn("max-w-[1280px] mx-auto flex flex-col gap-2 items-stretch", reveal())}>
         <div className="flex gap-2 items-center justify-center">
           <div className="w-8 h-px bg-[#a08248]" />
           <span

@@ -1,9 +1,11 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight, BadgeCheck, Star } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -136,35 +138,16 @@ function ArrowButton({
 export function SchoolsReviews() {
   const t = useTranslations("schools.reviews")
   const [index, setIndex] = useState(0)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (headerRef.current) observer.observe(headerRef.current)
-    return () => observer.disconnect()
-  }, [])
-
-  const fadeLeft = (delay: string) =>
-    `transition-all duration-700 ease-out ${delay} ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`
+  const { ref, reveal, revealFromLeft } = useScrollReveal<HTMLDivElement>()
 
   const next = () => setIndex((i) => Math.min(i + 1, REVIEWS.length - 1))
   const prev = () => setIndex((i) => Math.max(i - 1, 0))
 
   return (
     <section className="bg-white px-4 md:px-[80px] py-[56px] md:py-[96px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-6 md:gap-8 items-center">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-6 md:gap-8 items-center">
         <div
-          ref={headerRef}
-          className={`inline-flex items-center justify-center gap-2 border border-[#a08248] px-4 py-2 ${fadeLeft("")}`}
+          className={cn("inline-flex items-center justify-center gap-2 border border-[#a08248] px-4 py-2", revealFromLeft())}
           style={{ backdropFilter: "blur(2px)" }}
         >
           <BadgeCheck className="size-6 text-[#a08248]" strokeWidth={1.75} />
@@ -176,7 +159,10 @@ export function SchoolsReviews() {
           </span>
         </div>
 
-        <div className={`flex flex-col gap-2 items-center w-full ${fadeLeft("delay-100")}`}>
+        <div
+          className={cn("flex flex-col gap-2 items-center w-full", reveal())}
+          style={{ transitionDelay: "120ms" }}
+        >
           <h2
             className="text-center font-light text-[#0d0d0d] flex flex-col md:block"
             style={SERIF_FONT}
@@ -190,7 +176,10 @@ export function SchoolsReviews() {
           </h2>
         </div>
 
-        <div className={`flex flex-col gap-2 items-center ${fadeLeft("delay-200")}`}>
+        <div
+          className={cn("flex flex-col gap-2 items-center", reveal())}
+          style={{ transitionDelay: "240ms" }}
+        >
           <div className="flex items-center gap-1">
             {[0, 1, 2, 3, 4].map((i) => (
               <Star
@@ -226,12 +215,17 @@ export function SchoolsReviews() {
         </div>
 
         <div className="hidden md:grid grid-cols-4 gap-[3px] w-full">
-          {REVIEWS.map((review) => (
-            <ReviewCard
+          {REVIEWS.map((review, i) => (
+            <div
               key={review.name}
-              review={review}
-              verifiedLabel={t("verifiedLabel")}
-            />
+              className={reveal()}
+              style={{ transitionDelay: `${360 + i * 110}ms` }}
+            >
+              <ReviewCard
+                review={review}
+                verifiedLabel={t("verifiedLabel")}
+              />
+            </div>
           ))}
         </div>
 

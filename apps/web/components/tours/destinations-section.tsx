@@ -125,7 +125,7 @@ export function DestinationsSection() {
         </div>
 
         <div className="relative">
-          <div className="overflow-hidden touch-pan-y" {...swipeHandlers}>
+          <div className="overflow-hidden touch-pan-y select-none cursor-grab active:cursor-grabbing" {...swipeHandlers}>
             <div
               className="flex gap-[2px] transition-transform duration-500 ease-out"
               style={{

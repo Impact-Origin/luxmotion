@@ -4,6 +4,8 @@ import { useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Plus } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -104,11 +106,12 @@ function Heading({ start, accent }: { start: string; accent: string }) {
 export function WeddingFaqSection() {
   const t = useTranslations("wedding.faq")
   const [openIndex, setOpenIndex] = useState<number>(0)
+  const { ref, reveal, revealFromLeft, revealFromRight } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#faf7f2] px-4 md:px-12 py-14 md:py-24">
-      <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-start">
-        <div className="w-full md:flex-1 md:min-w-0 md:sticky md:top-24">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-start">
+        <div className={cn("w-full md:flex-1 md:min-w-0 md:sticky md:top-24", revealFromLeft())}>
           <div className="relative w-full aspect-[600/750] border border-[rgba(168,131,58,0.15)] overflow-hidden">
             <Image
               src="/wedding/faq-couple.png"
@@ -121,18 +124,28 @@ export function WeddingFaqSection() {
         </div>
 
         <div className="w-full md:flex-1 md:min-w-0 flex flex-col gap-2">
-          <Eyebrow label={t("eyebrow")} />
-          <Heading start={t("headingStart")} accent={t("headingAccent")} />
+          <div
+            className={cn("flex flex-col gap-2", revealFromRight())}
+            style={{ transitionDelay: "120ms" }}
+          >
+            <Eyebrow label={t("eyebrow")} />
+            <Heading start={t("headingStart")} accent={t("headingAccent")} />
+          </div>
 
           <div className="flex flex-col pt-4 w-full">
             {FAQ_KEYS.map((item, i) => (
-              <AccordionItem
+              <div
                 key={item.qKey}
-                question={t(item.qKey)}
-                answer={t(item.aKey)}
-                open={openIndex === i}
-                onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
-              />
+                className={reveal()}
+                style={{ transitionDelay: `${240 + i * 70}ms` }}
+              >
+                <AccordionItem
+                  question={t(item.qKey)}
+                  answer={t(item.aKey)}
+                  open={openIndex === i}
+                  onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+                />
+              </div>
             ))}
           </div>
         </div>

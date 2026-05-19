@@ -20,7 +20,7 @@ export function TrustedBy() {
   useAutoScrollMarquee(marqueeRef, { activeBelow: 640 })
 
   return (
-    <section className="bg-[#0D0D0D] border-y border-[rgba(255,255,255,0.12)]">
+    <section id="companies" className="scroll-mt-24 bg-[#0D0D0D] border-y border-[rgba(255,255,255,0.12)]">
       <div className="max-w-[1280px] mx-auto px-4 md:px-[82px] pt-6 pb-[50px] flex flex-col items-center gap-6">
         <p
           className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] text-center"
@@ -29,19 +29,18 @@ export function TrustedBy() {
           {t("eyebrow")}
         </p>
 
-        <div className="hidden sm:grid w-full sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-8 items-center opacity-50">
+        <div className="hidden sm:grid w-full sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-8 items-center">
           {logos.map((logo) => (
             <div
               key={logo.name}
-              className="relative h-[60px] md:h-[90px] w-full max-w-[172px] mx-auto"
+              className="group relative h-[60px] md:h-[90px] w-full max-w-[172px] mx-auto opacity-50 hover:opacity-100 transition-opacity duration-500 ease-out cursor-pointer"
             >
               <Image
                 src={logo.src}
                 alt={logo.name}
                 fill
                 sizes="172px"
-                className="object-contain"
-                style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
+                className="object-contain transition-all duration-500 ease-out grayscale brightness-0 invert group-hover:grayscale-0 group-hover:invert-0 group-hover:brightness-100 group-hover:scale-105 group-hover:drop-shadow-[0_0_18px_rgba(201,169,110,0.45)]"
               />
             </div>
           ))}
@@ -49,21 +48,20 @@ export function TrustedBy() {
 
         <div
           ref={marqueeRef}
-          className="sm:hidden w-full overflow-x-auto -mx-4 px-4 opacity-50 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="sm:hidden w-full overflow-x-auto -mx-4 px-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           <div className="flex items-center gap-8 w-max">
             {[...logos, ...logos].map((logo, i) => (
               <div
                 key={`${logo.name}-${i}`}
-                className="relative h-[60px] w-[140px] shrink-0"
+                className="group relative h-[60px] w-[140px] shrink-0 opacity-50 hover:opacity-100 transition-opacity duration-500 ease-out"
               >
                 <Image
                   src={logo.src}
                   alt={logo.name}
                   fill
                   sizes="140px"
-                  className="object-contain"
-                  style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
+                  className="object-contain transition-all duration-500 ease-out grayscale brightness-0 invert group-hover:grayscale-0 group-hover:invert-0 group-hover:brightness-100 group-hover:scale-105 group-hover:drop-shadow-[0_0_18px_rgba(201,169,110,0.45)]"
                 />
               </div>
             ))}

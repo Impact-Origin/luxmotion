@@ -1,6 +1,8 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -10,35 +12,36 @@ const SHADOW =
 
 export function WeddingPlannerTestimonial() {
   const t = useTranslations("weddingPlanner.testimonial")
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-white px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
+    <section ref={ref} className="bg-white px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex justify-center">
         <div
           className="w-full max-w-[700px] bg-white border border-[rgba(28,27,24,0.08)] p-6 md:p-[40px] flex flex-col items-center text-center"
           style={{ boxShadow: SHADOW }}
         >
           <span
-            className="text-[40px] leading-none text-[#9a7535] font-medium"
+            className={cn("text-[40px] leading-none text-[#9a7535] font-medium", reveal())}
             style={SERIF_FONT}
           >
             &ldquo;
           </span>
           <p
-            className="text-[18px] md:text-[24px] leading-[1.2] italic font-semibold text-[#1c1b18]"
-            style={SERIF_FONT}
+            className={cn("text-[18px] md:text-[24px] leading-[1.2] italic font-semibold text-[#1c1b18]", reveal())}
+            style={{ ...SERIF_FONT, transitionDelay: "180ms" }}
           >
             {t("quote")}
           </p>
           <p
-            className="mt-4 text-[14px] font-semibold text-[#9a7535] leading-[20.59px]"
-            style={SANS_FONT}
+            className={cn("mt-4 text-[14px] font-semibold text-[#9a7535] leading-[20.59px]", reveal())}
+            style={{ ...SANS_FONT, transitionDelay: "320ms" }}
           >
             {t("author")}
           </p>
           <p
-            className="text-[12px] text-[rgba(28,27,24,0.38)] leading-[17.95px]"
-            style={SANS_FONT}
+            className={cn("text-[12px] text-[rgba(28,27,24,0.38)] leading-[17.95px]", reveal())}
+            style={{ ...SANS_FONT, transitionDelay: "400ms" }}
           >
             {t("role")}
           </p>

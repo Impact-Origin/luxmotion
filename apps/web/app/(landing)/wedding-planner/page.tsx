@@ -47,8 +47,8 @@ export default function WeddingPlannerPage() {
         <WeddingPlannerFounders />
         <WeddingPlannerTestimonial />
         <WeddingPlannerWhiteLabel />
-        <WeddingPlannerCommission />
         <WeddingPlannerCalculator />
+        <WeddingPlannerCommission />
         <WeddingPlannerPaymentPlans />
         <WeddingPlannerCtaBand />
         <Fleet showControls={false} />

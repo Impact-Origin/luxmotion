@@ -4,6 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Check, Info } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { cn } from "@workspace/ui/lib/utils"
+import { useEnterAnimation } from "@/hooks/use-enter-animation"
 
 const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
@@ -68,15 +70,21 @@ function Tag({ children }: { children: React.ReactNode }) {
 
 export function DriversHero() {
   const t = useTranslations("driversPage.hero")
+  const { enter } = useEnterAnimation()
 
   return (
     <section className="relative isolate bg-white lg:min-h-[856px]">
       <div className="relative flex flex-col lg:flex-row items-stretch lg:min-h-[856px]">
         <div className="relative z-[3] flex flex-1 min-w-0 flex-col items-start justify-center px-4 py-10 lg:px-12 lg:py-[120px]">
-          <Eyebrow label={t("eyebrow")} />
+          <div className={enter("delay-0")}>
+            <Eyebrow label={t("eyebrow")} />
+          </div>
 
           <h1
-            className="mt-4 lg:mt-6 mb-6 lg:mb-[22px] text-[#1C1B18] font-light text-[48px] lg:text-[82px] leading-none"
+            className={cn(
+              "mt-4 lg:mt-6 mb-6 lg:mb-[22px] text-[#1C1B18] font-light text-[48px] lg:text-[82px] leading-none",
+              enter("delay-100")
+            )}
             style={SERIF_FONT}
           >
             <span className="block">{t("titleLine1")}</span>
@@ -93,13 +101,19 @@ export function DriversHero() {
 
           <div className="flex flex-col gap-6 w-full">
             <p
-              className="text-[18px] leading-[1.3] text-[#696969]"
+              className={cn(
+                "text-[18px] leading-[1.3] text-[#696969]",
+                enter("delay-200")
+              )}
               style={SANS_FONT}
             >
               {t("subtitle")}
             </p>
 
-            <div className="bg-[rgba(28,27,24,0.08)] border border-[rgba(28,27,24,0.08)] grid grid-cols-3 gap-px p-px">
+            <div className={cn(
+              "bg-[rgba(28,27,24,0.08)] border border-[rgba(28,27,24,0.08)] grid grid-cols-3 gap-px p-px",
+              enter("delay-300")
+            )}>
               <MetricCard
                 value={
                   <span className="italic text-[#9A7535]">
@@ -124,7 +138,10 @@ export function DriversHero() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 lg:gap-6 w-full mt-6 lg:mt-10">
+          <div className={cn(
+            "flex flex-col gap-4 lg:gap-6 w-full mt-6 lg:mt-10",
+            enter("delay-[400ms]")
+          )}>
             <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-2 lg:gap-[9px]">
               <Tag>{t("tagPayments")}</Tag>
               <Tag>{t("tagSchedule")}</Tag>

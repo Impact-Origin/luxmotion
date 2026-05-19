@@ -13,7 +13,6 @@ import type { TripType, PassengerState, TourPassengerState, LuggageState, Widget
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { getDailyNumber } from "@/lib/daily-number"
-import { useMarketingStats } from "@/hooks/use-marketing-stats"
 
 interface BookingWidgetProps {
   className?: string
@@ -46,7 +45,6 @@ export function BookingWidget({ className }: BookingWidgetProps) {
   const [tourPassengers, setTourPassengers] = useState<TourPassengerState>({ adults: 1, children: 0, infants: 0 })
   const [luggage, setLuggage] = useState<LuggageState>({ backpack: 0, handLuggage: 0, checkedBaggage: 0 })
   const passengersRef = useRef<HTMLDivElement | null>(null)
-  const { trustpilotReviewCount } = useMarketingStats()
   const [reservationCount, setReservationCount] = useState<number | null>(null)
 
   const toursFromApi = useQuery(api.tours.listPublished)
@@ -196,8 +194,6 @@ export function BookingWidget({ className }: BookingWidgetProps) {
   const trustTranslations = {
     exclusive: t("exclusive"),
     flexibleCancellation: t("flexibleCancellation"),
-    excellent: tCommon("excellent"),
-    reviewsOn: tCommon("reviewsOn"),
   }
 
   const STORAGE_KEY = "easytransfer_checkout"
@@ -417,18 +413,14 @@ export function BookingWidget({ className }: BookingWidgetProps) {
                 <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
                 <ShieldCheck className="size-3.5 text-[#C9A96E]" />
                 <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
-                <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
-                <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.excellent}</span>
-                <span className="text-[11px] text-[rgba(255,255,255,0.45)]">★★★★★</span>
-                <span className="text-[12px] text-[rgba(255,255,255,0.45)]">
-                  {trustpilotReviewCount} {trustTranslations.reviewsOn}
-                </span>
-                <span className="text-[12px] font-bold text-[rgba(255,255,255,0.45)]">Trustpilot & Google</span>
               </div>
             </div>
 
             <div className="flex items-center gap-1 shrink-0">
-              <div className="size-2 rounded-full bg-[#4ADE80]" />
+              <span className="relative inline-flex size-2 mr-0.5">
+                <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
+                <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80]" />
+              </span>
               <span className="text-[11px] lg:text-[12px] font-semibold text-[#C9A96E]">
                 {t("reservations", { count: reservationCount ?? 12 })}
               </span>
@@ -445,14 +437,6 @@ export function BookingWidget({ className }: BookingWidgetProps) {
               <div className="h-3 w-px bg-[rgba(201,169,110,0.25)]" />
               <ShieldCheck className="size-3.5 text-[#C9A96E]" />
               <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
-            </div>
-            <div className="flex flex-wrap items-start gap-2">
-              <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.excellent}</span>
-              <span className="text-[11px] text-[#696969]">★★★★★</span>
-              <span className="text-[12px] text-[#696969]">
-                {trustpilotReviewCount} {trustTranslations.reviewsOn}
-              </span>
-              <span className="text-[12px] font-bold text-[#696969]">Trustpilot & Google</span>
             </div>
           </div>
         </div>

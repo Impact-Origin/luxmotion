@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { ArrowRight, Users } from "lucide-react"
+import { cn } from "@workspace/ui/lib/utils"
+import { useEnterAnimation } from "@/hooks/use-enter-animation"
 
 function FoundersWatermark({ size = "desktop" }: { size?: "desktop" | "mobile" }) {
   const isDesktop = size === "desktop"
@@ -48,12 +50,13 @@ function FoundersWatermark({ size = "desktop" }: { size?: "desktop" | "mobile" }
 
 export function HeroSection() {
   const t = useTranslations("aboutPage.hero")
+  const { enter } = useEnterAnimation()
 
   return (
     <section className="bg-[#0D0D0D] text-white pb-8 xl:pb-12">
       <div className="hidden xl:flex items-stretch w-full max-w-[1440px] mx-auto min-h-[782px]">
         <div className="flex flex-col justify-center gap-[29px] px-12 py-20 w-[700px] shrink-0">
-          <div className="flex items-center gap-2">
+          <div className={cn("flex items-center gap-2", enter("delay-0"))}>
             <div className="w-[82px] h-px bg-[#C9A96E]" />
             <span
               className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
@@ -63,7 +66,7 @@ export function HeroSection() {
             </span>
           </div>
           <h1
-            className="text-white font-normal leading-[1.02]"
+            className={cn("text-white font-normal leading-[1.02]", enter("delay-100"))}
             style={{
               fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
               fontSize: "clamp(2.5rem, 4vw, 4.5rem)",
@@ -76,12 +79,12 @@ export function HeroSection() {
             </span>
           </h1>
           <p
-            className="text-[18px] leading-[1.3] text-[#999]"
+            className={cn("text-[13px] lg:text-[14px] leading-[1.5] text-[#999] max-w-[560px]", enter("delay-200"))}
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("subtitle")}
           </p>
-          <div className="flex items-center gap-3">
+          <div className={cn("flex items-center gap-3", enter("delay-300"))}>
             <a
               href="#our-story"
               className="h-12 px-6 flex items-center gap-2 bg-[#C9A96E] text-[#0D0D0D] hover:bg-[#d4b67e] transition-colors"
@@ -143,7 +146,7 @@ export function HeroSection() {
           </div>
         </div>
         <div className="flex flex-col gap-[29px] pt-6 pb-10 px-4 bg-[#0D0D0D]">
-          <div className="flex items-center gap-2">
+          <div className={cn("flex items-center gap-2", enter("delay-0"))}>
             <div className="w-[82px] h-px bg-[#C9A96E]" />
             <span
               className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
@@ -153,7 +156,7 @@ export function HeroSection() {
             </span>
           </div>
           <h1
-            className="text-white font-normal leading-[1.05]"
+            className={cn("text-white font-normal leading-[1.05]", enter("delay-100"))}
             style={{
               fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
               fontSize: "clamp(2.25rem, 10vw, 3rem)",
@@ -166,12 +169,12 @@ export function HeroSection() {
             </span>
           </h1>
           <p
-            className="text-[18px] leading-[1.3] text-[#999]"
+            className={cn("text-[13px] lg:text-[14px] leading-[1.5] text-[#999] max-w-[560px]", enter("delay-200"))}
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("subtitle")}
           </p>
-          <div className="flex flex-col gap-3 w-full">
+          <div className={cn("flex flex-col gap-3 w-full", enter("delay-300"))}>
             <a
               href="#team"
               className="h-12 w-full flex items-center justify-center gap-2 border border-[rgba(255,255,255,0.12)] text-[#999] hover:text-white hover:border-[rgba(255,255,255,0.3)] transition-colors"

@@ -194,6 +194,10 @@ export function WeddingTestimonials() {
 
   const source = t("source")
   const mobileReview = REVIEWS[page]!
+  const DESKTOP_PER_PAGE = 3
+  const visibleDesktop = Array.from({ length: DESKTOP_PER_PAGE }, (_, i) => {
+    return REVIEWS[(page + i) % REVIEWS.length]!
+  })
 
   return (
     <section className="bg-[#f7f4ef] px-4 md:px-20 py-14 md:py-24">
@@ -206,10 +210,13 @@ export function WeddingTestimonials() {
         />
 
         <div className="hidden md:flex flex-col gap-4 w-full pt-2">
-          <div className="flex gap-[3px] items-stretch justify-center w-full">
-            {REVIEWS.map((r, i) => (
+          <div
+            key={page}
+            className="flex gap-[3px] items-stretch justify-center w-full animate-in fade-in slide-in-from-bottom-2 duration-500"
+          >
+            {visibleDesktop.map((r, i) => (
               <ReviewCard
-                key={i}
+                key={`${page}-${i}`}
                 review={{
                   initial: r.initial,
                   color: r.color,

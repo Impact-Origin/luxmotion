@@ -66,7 +66,7 @@ export function FleetHero() {
           <h1
             className={cn(
               "text-center text-white mix-blend-screen transition-all duration-700 ease-out",
-              "text-[40px] md:text-[72px] leading-[1.3] md:leading-[72px]",
+              "text-[40px] md:text-[72px] min-[1440px]:text-[82px] min-[1920px]:text-[72px] leading-[1.3] md:leading-[72px]",
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             )}
           >

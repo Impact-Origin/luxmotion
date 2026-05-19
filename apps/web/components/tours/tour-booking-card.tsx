@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useEffect, useMemo } from "react"
-import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight, Star } from "lucide-react"
+import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { useTourAvailability } from "@/hooks/use-tour-data"
@@ -264,10 +264,12 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         </div>
 
         <div className="border-t border-[rgba(255,255,255,0.04)] pt-4 flex items-center justify-center gap-2">
-          <Users className="size-3 text-[#999]" strokeWidth={1.2} />
+          <span className="relative inline-flex size-2">
+            <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
+            <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80]" />
+          </span>
           <span className="text-[10px] font-semibold text-[#C9A96E]">141 {t("travelers")}</span>
           <span className="text-[10px] text-[#999]">{t("bookedToday")}</span>
-          <Star className="size-[10px] text-[#C9A96E] fill-[#C9A96E]" />
         </div>
       </div>
     </div>

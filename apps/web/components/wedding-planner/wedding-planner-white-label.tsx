@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Check } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -28,11 +30,12 @@ function FeatureRow({ label }: { label: string }) {
 
 export function WeddingPlannerWhiteLabel() {
   const t = useTranslations("weddingPlanner.whiteLabel")
+  const { ref, revealFromLeft, revealFromRight } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-[#f7f4ef] px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
+    <section ref={ref} className="bg-[#f7f4ef] px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center gap-8 md:gap-10">
-        <div className="flex-1 min-w-0 flex flex-col gap-2 items-start">
+        <div className={cn("flex-1 min-w-0 flex flex-col gap-2 items-start", revealFromLeft())}>
           <div className="flex items-center gap-2">
             <div className="w-[82px] h-px bg-[#a08248]" />
             <span
@@ -71,7 +74,7 @@ export function WeddingPlannerWhiteLabel() {
           </div>
         </div>
 
-        <div className="flex-1 min-w-0 self-stretch min-h-[260px] md:min-h-[340px] relative border border-[rgba(28,27,24,0.08)]">
+        <div className={cn("flex-1 min-w-0 self-stretch min-h-[260px] md:min-h-[340px] relative border border-[rgba(28,27,24,0.08)]", revealFromRight("delay-150"))}>
           <Image
             src="/wedding-planner/white-label/toast.png"
             alt={t("photoAlt")}

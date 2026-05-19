@@ -2621,6 +2621,10 @@
     "team": {
       "title": "Meet the team",
       "subtitle": "The leadership team guiding LuxMotion’s success.",
+      "bioFallback": "Bio coming soon.",
+      "modalClose": "Close",
+      "modalPrev": "Previous member",
+      "modalNext": "Next member",
       "eyebrow": "Meet the Team",
       "heading": "Our Friendly Drivers",
       "members": {
@@ -3227,6 +3231,7 @@
         "venue": "Wedding Venue",
         "pickup": "Pickup Location",
         "numVehicles": "Number of Vehicles",
+        "budget": "What budget do you have available?",
         "vehicleType": "Preferred Vehicle Type",
         "notes": "Additional Notes"
       },
@@ -3487,8 +3492,8 @@
       "subtitle": "A simple, fast process. In under 5 business days you will know if you qualify to join the LuxMotion partner network.",
       "primaryCta": "Start application",
       "secondaryCta": "Talk to a manager",
-      "primaryHref": "/work-with-us",
-      "secondaryHref": "/contact",
+      "primaryHref": "/drivers/apply",
+      "secondaryHref": "/#contact",
       "trust1": "Reply within 48h",
       "trust2": "No exclusivity required",
       "trust3": "100% free process",

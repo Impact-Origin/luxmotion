@@ -4,6 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { ArrowRight } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -101,18 +103,23 @@ function FleetCta({ label, href }: { label: string; href: string }) {
 
 export function WeddingFleetSection() {
   const t = useTranslations("wedding.fleet")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#f7f4ef] border-t border-t-[rgba(168,131,58,0.1)] px-4 md:px-20 py-14 md:py-24">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
-        <div className="flex flex-col gap-2 items-center w-full">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-6">
+        <div className={cn("flex flex-col gap-2 items-center w-full", reveal())}>
           <Eyebrow label={t("eyebrow")} />
           <Heading start={t("headingStart")} accent={t("headingAccent")} />
         </div>
 
         <div className="hidden md:flex gap-[2px] items-stretch w-full">
           {VEHICLES.map((v, i) => (
-            <div key={i} className="flex-1 min-w-0 flex">
+            <div
+              key={i}
+              className={cn("flex-1 min-w-0 flex", reveal())}
+              style={{ transitionDelay: `${160 + i * 100}ms` }}
+            >
               <VehicleCard
                 src={v.src}
                 name={t(v.nameKey)}
@@ -124,7 +131,11 @@ export function WeddingFleetSection() {
 
         <div className="md:hidden grid grid-cols-2 gap-[2px]">
           {VEHICLES.map((v, i) => (
-            <div key={i} className="flex">
+            <div
+              key={i}
+              className={cn("flex", reveal())}
+              style={{ transitionDelay: `${160 + i * 90}ms` }}
+            >
               <VehicleCard
                 src={v.src}
                 name={t(v.nameKey)}
@@ -134,7 +145,10 @@ export function WeddingFleetSection() {
           ))}
         </div>
 
-        <div className="flex justify-center pt-[22px] w-full">
+        <div
+          className={cn("flex justify-center pt-[22px] w-full", reveal())}
+          style={{ transitionDelay: "680ms" }}
+        >
           <FleetCta label={t("ctaLabel")} href={t("ctaHref")} />
         </div>
       </div>

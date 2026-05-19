@@ -2620,6 +2620,10 @@
     "team": {
       "title": "Conheça a equipa",
       "subtitle": "A equipa de liderança que guia o sucesso da LuxMotion.",
+      "bioFallback": "Biografia em breve.",
+      "modalClose": "Fechar",
+      "modalPrev": "Membro anterior",
+      "modalNext": "Próximo membro",
       "eyebrow": "Conheça a Equipa",
       "heading": "A Nossa Equipa",
       "members": {
@@ -3226,6 +3230,7 @@
         "venue": "Local do Casamento",
         "pickup": "Local de Recolha",
         "numVehicles": "Número de Veículos",
+        "budget": "Qual o budget que tem disponível?",
         "vehicleType": "Tipo de Veículo Preferido",
         "notes": "Notas Adicionais"
       },
@@ -3486,8 +3491,8 @@
       "subtitle": "O processo é simples e rápido. Em menos de 5 dias úteis saberá se é elegível para integrar a rede LuxMotion de parceiros transportadores.",
       "primaryCta": "Iniciar candidatura",
       "secondaryCta": "Falar com um gestor",
-      "primaryHref": "/work-with-us",
-      "secondaryHref": "/contact",
+      "primaryHref": "/drivers/apply",
+      "secondaryHref": "/#contact",
       "trust1": "Resposta em 48h",
       "trust2": "Sem exclusividade exigida",
       "trust3": "Processo 100% gratuito",

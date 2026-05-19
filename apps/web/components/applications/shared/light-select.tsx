@@ -35,7 +35,7 @@ export function LightSelect({
   id,
 }: LightSelectProps) {
   return (
-    <Select value={value || undefined} onValueChange={onChange} name={name}>
+    <Select value={value || undefined} onValueChange={onChange} name={name} {...({ modal: false } as Record<string, unknown>)}>
       <SelectTrigger
         id={id}
         className={cn(

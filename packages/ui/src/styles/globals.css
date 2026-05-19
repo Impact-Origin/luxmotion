@@ -17,6 +17,15 @@ body {
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(201, 169, 110, 0.55) #0d0d0d;
+  scrollbar-gutter: stable;
+}
+
+html.custom-cursor-active,
+html.custom-cursor-active body,
+html.custom-cursor-active *,
+html.custom-cursor-active *::before,
+html.custom-cursor-active *::after {
+  cursor: none !important;
 }
 
 html::-webkit-scrollbar {

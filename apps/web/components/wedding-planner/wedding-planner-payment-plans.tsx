@@ -1,6 +1,8 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -62,11 +64,12 @@ export function WeddingPlannerPaymentPlans() {
     { name: t("p2.name"), sub: t("p2.sub"), text: t("p2.text"), recommended: true, badge: t("recommended") },
     { name: t("p3.name"), sub: t("p3.sub"), text: t("p3.text") },
   ]
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-white px-4 md:px-[82px] pt-[71px] pb-[72px]">
+    <section ref={ref} className="bg-white px-4 md:px-[82px] pt-[71px] pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-2 items-center">
-        <div className="flex gap-2 items-center justify-center">
+        <div className={cn("flex gap-2 items-center justify-center", reveal())}>
           <div className="w-8 h-px bg-[#a08248]" />
           <span
             className="text-[12px] font-semibold uppercase tracking-[2px] text-[#a08248] whitespace-nowrap"
@@ -77,15 +80,21 @@ export function WeddingPlannerPaymentPlans() {
           <div className="w-8 h-px bg-[#a08248]" />
         </div>
         <h2
-          className="text-[36px] md:text-[48px] text-[#1c1b18] text-center leading-none"
-          style={SERIF}
+          className={cn("text-[36px] md:text-[48px] text-[#1c1b18] text-center leading-none", reveal())}
+          style={{ ...SERIF, transitionDelay: "120ms" }}
         >
           {t("titleStart")} <em className="not-italic italic text-[#a08248]" style={SERIF}>{t("titleAccent")}</em>
         </h2>
 
         <div className="w-full max-w-[800px] flex flex-col md:flex-row gap-6 md:gap-4 items-stretch justify-center pt-8">
           {plans.map((p, i) => (
-            <PlanCard key={i} plan={p} />
+            <div
+              key={i}
+              className={cn("flex flex-1 min-w-0", reveal())}
+              style={{ transitionDelay: `${240 + i * 130}ms` }}
+            >
+              <PlanCard plan={p} />
+            </div>
           ))}
         </div>
       </div>

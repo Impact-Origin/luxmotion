@@ -31,7 +31,7 @@ export function WhyScheduleSection() {
           >
             {t("heading")}
           </h2>
-          <p className="text-[16px] md:text-[18px] text-white/55 leading-[1.3] max-w-[900px]">
+          <p className="text-[13px] md:text-[14px] text-white/55 leading-[1.4] max-w-[900px]">
             {t("subtitle")}
           </p>
         </div>

@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { CinematicBanner } from "@/components/new-landing-page/cinematic-banner"
 import { TrustedBy } from "@/components/new-landing-page/trusted-by"
 import { Fleet } from "@/components/new-landing-page/fleet"
+import { PaymentMethods } from "@/components/new-landing-page/payment-methods"
 import { B2BSection } from "@/components/new-landing-page/b2b-section"
 import { TravelAgenciesSection } from "@/components/new-landing-page/travel-agencies-section"
 import { WeddingPlannersSection } from "@/components/new-landing-page/wedding-planners-section"
@@ -72,6 +73,7 @@ export default function SitePrincipal() {
       <WeddingPlannersSection />
       <ProfessionalDriversSection />
       <FAQ />
+      <PaymentMethods />
       <SocialSection />
       <Footer />
     </div>

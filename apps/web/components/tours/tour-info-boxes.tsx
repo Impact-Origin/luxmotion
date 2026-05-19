@@ -70,7 +70,7 @@ export function TourInfoBoxes({ duration, tourType, groupSize, languages }: Tour
 
   return (
     <>
-      <div className="hidden md:flex gap-[2px] w-full max-w-[1280px]">
+      <div className="hidden md:flex gap-4 w-full max-w-[1280px]">
         {items.map(({ key, icon: Icon, label, value }) => (
           <InfoBox
             key={key}
@@ -80,7 +80,7 @@ export function TourInfoBoxes({ duration, tourType, groupSize, languages }: Tour
           />
         ))}
       </div>
-      <div className="md:hidden grid grid-cols-2 gap-2 w-full">
+      <div className="md:hidden grid grid-cols-2 gap-3 w-full">
         {items.map(({ key, icon: Icon, label, value }) => (
           <InfoBoxMobile
             key={key}

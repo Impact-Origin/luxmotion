@@ -1,6 +1,8 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -34,12 +36,13 @@ function StatCard({ value, label }: { value: string; label: string }) {
 
 export function WeddingStatsSection() {
   const t = useTranslations("wedding.stats")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#faf7f2] border-y border-y-[rgba(168,131,58,0.1)] px-4 md:px-20 py-10 md:py-20">
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-2">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col items-center gap-2">
         <h2
-          className="text-[32px] md:text-[48px] leading-[1.1] md:leading-[52.8px] font-normal md:font-light text-[#1a1612] text-center"
+          className={cn("text-[32px] md:text-[48px] leading-[1.1] md:leading-[52.8px] font-normal md:font-light text-[#1a1612] text-center", reveal())}
           style={SERIF_FONT}
         >
           <span className="md:whitespace-nowrap">{t("taglineStart")} </span>
@@ -50,15 +53,21 @@ export function WeddingStatsSection() {
         </h2>
 
         <p
-          className="text-[18px] leading-[1.3] text-[#696969] text-center max-w-[520px] md:max-w-[760px] text-balance"
-          style={SANS_FONT}
+          className={cn("text-[18px] leading-[1.3] text-[#696969] text-center max-w-[520px] md:max-w-[760px] text-balance", reveal())}
+          style={{ ...SANS_FONT, transitionDelay: "120ms" }}
         >
           {t("subtitle")}
         </p>
 
         <div className="w-full pt-12 flex flex-col md:flex-row md:items-stretch gap-[3px]">
           {STAT_KEYS.map((s, i) => (
-            <StatCard key={i} value={t(s.value)} label={t(s.label)} />
+            <div
+              key={i}
+              className={cn("flex flex-1 min-w-0", reveal())}
+              style={{ transitionDelay: `${240 + i * 110}ms` }}
+            >
+              <StatCard value={t(s.value)} label={t(s.label)} />
+            </div>
           ))}
         </div>
       </div>

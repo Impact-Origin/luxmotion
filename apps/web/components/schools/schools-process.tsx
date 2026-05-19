@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -74,30 +75,12 @@ function ProcessStep({
 
 export function SchoolsProcess() {
   const t = useTranslations("schools.process")
-  const headerRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (headerRef.current) observer.observe(headerRef.current)
-    return () => observer.disconnect()
-  }, [])
+  const { ref, reveal, revealFromLeft, revealFromRight } = useScrollReveal<HTMLDivElement>()
 
   return (
-    <section className="bg-[#fafafa] px-4 md:px-[82px] pt-[72px] pb-[56px] md:pb-[101px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-[7.1px] items-center">
-        <div
-          ref={headerRef}
-          className={`flex flex-col gap-2 items-center w-full transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
-        >
+    <section id="schools-process" className="scroll-mt-24 bg-[#fafafa] px-4 md:px-[82px] pt-[72px] pb-[56px] md:pb-[101px]">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-[7.1px] items-center">
+        <div className={cn("flex flex-col gap-2 items-center w-full", reveal())}>
           <div className="flex items-center justify-center gap-2">
             <div className="h-px w-8 bg-[#a08248]" />
             <span
@@ -118,8 +101,8 @@ export function SchoolsProcess() {
         </div>
 
         <p
-          className={`text-[14px] leading-[1.2] text-[#696969] text-center max-w-[480px] px-2 transition-all duration-700 ease-out delay-100 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
-          style={SANS_FONT}
+          className={cn("text-[14px] leading-[1.2] text-[#696969] text-center max-w-[480px] px-2", reveal())}
+          style={{ ...SANS_FONT, transitionDelay: "120ms" }}
         >
           {t("subtitle")}
         </p>
@@ -127,18 +110,26 @@ export function SchoolsProcess() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-14 items-center pt-[40.9px] w-full">
           <div className="flex flex-col w-full md:max-w-[604px]">
             {STEP_KEYS.map((key, i) => (
-              <ProcessStep
+              <div
                 key={key}
-                n={i + 1}
-                title={t(`steps.${key}.title`)}
-                body={t(`steps.${key}.body`)}
-                divider={i < STEP_KEYS.length - 1}
-                withTrail={i < STEP_KEYS.length - 1}
-              />
+                className={revealFromLeft()}
+                style={{ transitionDelay: `${240 + i * 140}ms` }}
+              >
+                <ProcessStep
+                  n={i + 1}
+                  title={t(`steps.${key}.title`)}
+                  body={t(`steps.${key}.body`)}
+                  divider={i < STEP_KEYS.length - 1}
+                  withTrail={i < STEP_KEYS.length - 1}
+                />
+              </div>
             ))}
           </div>
 
-          <div className="relative w-full md:w-[648.572px] aspect-[648/401] mx-auto">
+          <div
+            className={cn("relative w-full md:w-[648.572px] aspect-[648/401] mx-auto", revealFromRight())}
+            style={{ transitionDelay: "300ms" }}
+          >
             <Image
               src="/schools/process-bus.png"
               alt={t("photoAlt")}

@@ -2544,6 +2544,10 @@
     "team": {
       "title": "Lernen Sie das Team kennen",
       "subtitle": "Das Führungsteam, das den Erfolg von LuxMotion lenkt.",
+      "bioFallback": "Biografie folgt in Kürze.",
+      "modalClose": "Schließen",
+      "modalPrev": "Vorheriges Mitglied",
+      "modalNext": "Nächstes Mitglied",
       "eyebrow": "Lernen Sie das Team kennen",
       "heading": "Unser Team",
       "members": {
@@ -3150,6 +3154,7 @@
         "venue": "Hochzeitsort",
         "pickup": "Abholort",
         "numVehicles": "Anzahl Fahrzeuge",
+        "budget": "Welches Budget steht zur Verfügung?",
         "vehicleType": "Bevorzugter Fahrzeugtyp",
         "notes": "Zusätzliche Hinweise"
       },
@@ -3410,8 +3415,8 @@
       "subtitle": "Einfacher, schneller Prozess. In weniger als 5 Werktagen wissen Sie, ob Sie für das LuxMotion-Partnernetz qualifiziert sind.",
       "primaryCta": "Bewerbung starten",
       "secondaryCta": "Mit Manager sprechen",
-      "primaryHref": "/work-with-us",
-      "secondaryHref": "/contact",
+      "primaryHref": "/drivers/apply",
+      "secondaryHref": "/#contact",
       "trust1": "Antwort in 48h",
       "trust2": "Keine Exklusivität nötig",
       "trust3": "100% kostenloser Prozess",

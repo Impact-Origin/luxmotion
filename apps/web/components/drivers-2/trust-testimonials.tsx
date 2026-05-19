@@ -36,12 +36,17 @@ function StarRow({ size, className }: { size: number; className?: string }) {
   )
 }
 
-function PlatformBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="bg-[#F7F4EF] border border-[rgba(28,27,24,0.08)] flex items-center justify-center px-4 py-2.5 w-full h-[44px]">
-      {children}
-    </div>
-  )
+function PlatformBadge({ children, href }: { children: React.ReactNode; href?: string }) {
+  const className =
+    "bg-[#F7F4EF] border border-[rgba(28,27,24,0.08)] flex items-center justify-center px-4 py-2.5 w-full h-[44px] transition-all duration-200 hover:bg-white hover:border-[rgba(28,27,24,0.18)] hover:shadow-sm"
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer noopener" className={className}>
+        {children}
+      </a>
+    )
+  }
+  return <div className={className}>{children}</div>
 }
 
 function StatBox({
@@ -210,7 +215,7 @@ export function TrustTestimonials2() {
             </p>
 
             <div className="flex flex-col gap-2 mt-5 mb-4">
-              <PlatformBadge>
+              <PlatformBadge href="https://share.google/ZHPvwa5jT1Z4Z4dlQ">
                 <Image
                   src="/google-logo.png"
                   alt="Google"
@@ -219,7 +224,7 @@ export function TrustTestimonials2() {
                   className="h-[24px] w-auto"
                 />
               </PlatformBadge>
-              <PlatformBadge>
+              <PlatformBadge href="https://www.trustpilot.com/review/easytransferericeira.com">
                 <Image
                   src="/trustpilot-logo.png"
                   alt="Trustpilot"

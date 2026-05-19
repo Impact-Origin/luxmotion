@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -152,11 +154,12 @@ function BulletRow({
 
 export function WeddingDiffSection() {
   const t = useTranslations("wedding.diff")
+  const { ref, reveal, revealFromLeft, revealFromRight } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#faf7f2] px-4 md:px-20 py-14 md:py-24">
-      <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-center">
-        <div className="w-full md:flex-1 md:min-w-0">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+        <div className={cn("w-full md:flex-1 md:min-w-0", revealFromLeft())}>
           <PhotoBlock
             reviewText={t("review.text")}
             reviewAuthor={t("review.author")}
@@ -165,19 +168,27 @@ export function WeddingDiffSection() {
         </div>
 
         <div className="w-full md:flex-1 md:min-w-0 flex flex-col gap-2">
-          <div className="flex flex-col gap-2 w-full md:items-start items-center">
+          <div
+            className={cn("flex flex-col gap-2 w-full md:items-start items-center", revealFromRight())}
+            style={{ transitionDelay: "120ms" }}
+          >
             <Eyebrow label={t("eyebrow")} />
             <Heading start={t("headingStart")} accent={t("headingAccent")} />
           </div>
 
           <div className="flex flex-col pt-4 w-full">
-            {BULLET_KEYS.map((b) => (
-              <BulletRow
+            {BULLET_KEYS.map((b, i) => (
+              <div
                 key={b.num}
-                num={b.num}
-                title={t(b.titleKey)}
-                desc={t(b.descKey)}
-              />
+                className={revealFromRight()}
+                style={{ transitionDelay: `${240 + i * 130}ms` }}
+              >
+                <BulletRow
+                  num={b.num}
+                  title={t(b.titleKey)}
+                  desc={t(b.descKey)}
+                />
+              </div>
             ))}
           </div>
         </div>

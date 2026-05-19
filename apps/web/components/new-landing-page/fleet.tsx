@@ -2,12 +2,20 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useTranslations } from "next-intl"
+import {
+  STANDARD_VEHICLES,
+  XL_VEHICLES,
+  EXECUTIVE_VEHICLES,
+  VAN_VEHICLES,
+  MINIBUS_VEHICLES,
+  COACH_VEHICLES,
+} from "@/lib/fleet-vehicles-data"
+import type { FleetVehicle } from "@/components/fleet/fleet-vehicle-card-dark"
 
 type CategoryId = "standard" | "xl" | "executivo" | "van" | "minibus" | "bus"
-type FeaturedId = "fiatTipo" | "mercedesSClass1" | "mercedesSClass2"
 
 const CATEGORIES: readonly { id: CategoryId; image: string; active?: boolean }[] = [
   { id: "standard", image: "/fleet/cat-standard.png", active: true },
@@ -18,15 +26,44 @@ const CATEGORIES: readonly { id: CategoryId; image: string; active?: boolean }[]
   { id: "bus", image: "/fleet/cat-bus.png" },
 ] as const
 
-const FEATURED: readonly { id: FeaturedId; image: string }[] = [
-  { id: "fiatTipo", image: "/fleet/featured-fiat-tipo.png" },
-  { id: "mercedesSClass1", image: "/fleet/cat-standard.png" },
-  { id: "mercedesSClass2", image: "/fleet/featured-mercedes-2.png" },
-] as const
+const VEHICLES_BY_CATEGORY: Record<CategoryId, FleetVehicle[]> = {
+  standard: STANDARD_VEHICLES,
+  xl: XL_VEHICLES,
+  executivo: EXECUTIVE_VEHICLES,
+  van: VAN_VEHICLES,
+  minibus: MINIBUS_VEHICLES,
+  bus: COACH_VEHICLES,
+}
 
 export function Fleet({ showControls = true }: { showControls?: boolean } = {}) {
   const t = useTranslations("fleet")
   const [activeCategory, setActiveCategory] = useState<CategoryId>("standard")
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const vehicles = useMemo(() => VEHICLES_BY_CATEGORY[activeCategory], [activeCategory])
+  const categoryLabel = t(`categories.${activeCategory}.label`)
+
+  useEffect(() => {
+    if (scrollerRef.current) scrollerRef.current.scrollLeft = 0
+    setActiveIndex(0)
+  }, [activeCategory])
+
+  const scrollByCards = (dir: 1 | -1) => {
+    const el = scrollerRef.current
+    if (!el) return
+    const first = el.querySelector<HTMLElement>("[data-card]")
+    const step = first ? first.offsetWidth + 2 : el.clientWidth
+    el.scrollBy({ left: dir * step, behavior: "smooth" })
+  }
+
+  const onScroll = () => {
+    const el = scrollerRef.current
+    if (!el) return
+    const first = el.querySelector<HTMLElement>("[data-card]")
+    const step = first ? first.offsetWidth + 2 : 1
+    setActiveIndex(Math.round(el.scrollLeft / step))
+  }
 
   return (
     <section
@@ -69,14 +106,19 @@ export function Fleet({ showControls = true }: { showControls?: boolean } = {}) 
             ))}
           </div>
 
-          <div className="flex flex-col md:flex-row gap-[2px] md:h-[340px] w-full">
-            {FEATURED.map((car) => (
+          <div
+            ref={scrollerRef}
+            onScroll={onScroll}
+            key={activeCategory}
+            className="flex md:h-[340px] w-full overflow-x-auto snap-x snap-mandatory scroll-smooth gap-[2px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden animate-in fade-in duration-300"
+          >
+            {vehicles.map((v) => (
               <FeaturedCard
-                key={car.id}
-                image={car.image}
-                label={t(`featured.${car.id}.label`)}
-                name={t(`featured.${car.id}.name`)}
-                specs={t(`featured.${car.id}.specs`)}
+                key={v.id}
+                image={v.image}
+                label={categoryLabel}
+                name={v.name}
+                specs={`${v.paxMin}-${v.paxMax} pax · ${v.bags} ${v.bags === 1 ? "bag" : "bags"}`}
               />
             ))}
           </div>
@@ -87,21 +129,29 @@ export function Fleet({ showControls = true }: { showControls?: boolean } = {}) 
             <div className="flex items-center justify-center gap-2 mt-2">
               <button
                 type="button"
+                onClick={() => scrollByCards(-1)}
                 aria-label={t("previousSlide")}
-                className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
+                className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition cursor-pointer"
               >
                 <ArrowRight className="size-[18px] rotate-180" strokeWidth={1.7} />
               </button>
               <div className="flex items-center gap-[6px] px-2">
-                <span className="size-[6px] rounded-full bg-[#C9A96E]" />
-                <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
-                <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
-                <span className="size-[5px] rounded-full bg-[rgba(201,169,110,0.35)]" />
+                {vehicles.map((v, i) => (
+                  <span
+                    key={v.id}
+                    className={`rounded-full transition-all duration-300 ${
+                      i === activeIndex
+                        ? "size-[6px] bg-[#C9A96E]"
+                        : "size-[5px] bg-[rgba(201,169,110,0.35)]"
+                    }`}
+                  />
+                ))}
               </div>
               <button
                 type="button"
+                onClick={() => scrollByCards(1)}
                 aria-label={t("nextSlide")}
-                className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition"
+                className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition cursor-pointer"
               >
                 <ArrowRight className="size-[18px]" strokeWidth={1.7} />
               </button>
@@ -190,7 +240,10 @@ function FeaturedCard({
   specs: string
 }) {
   return (
-    <div className="flex-1 min-w-0 border border-[rgba(255,255,255,0.12)] flex flex-col overflow-hidden">
+    <div
+      data-card
+      className="snap-start shrink-0 basis-full md:basis-1/3 min-w-0 border border-[rgba(255,255,255,0.12)] flex flex-col overflow-hidden"
+    >
       <div className="relative h-[200px] md:h-auto md:flex-1">
         <div className="absolute inset-0 bg-gradient-to-b from-[33.22%] from-[rgba(0,0,0,0.1)] to-[rgba(201,169,110,0.1)] z-[1] pointer-events-none" />
         <Image

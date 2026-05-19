@@ -101,7 +101,7 @@ export function ToursHero() {
 
         <h1
           className={cn(
-            "text-center text-[48px] md:text-[96px] leading-[1.2] md:leading-[0.95] transition-all duration-700 ease-out",
+            "text-center text-[48px] md:text-[96px] min-[1440px]:text-[82px] min-[1920px]:text-[96px] leading-[1.2] md:leading-[0.95] transition-all duration-700 ease-out",
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           )}
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}

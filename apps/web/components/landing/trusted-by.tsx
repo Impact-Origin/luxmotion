@@ -19,26 +19,21 @@ const logos = [
   { name: "Vila Galé", src: "/trustedby/vila-gale-easy-transfer.png" },
 ]
 
-const logoStyle = {
-  filter: "grayscale(100%) brightness(0.38) contrast(1.5)",
-}
-
 function LogoStrip() {
   return (
     <div className="flex gap-[24px] md:gap-[48px] px-4 py-2 shrink-0">
       {logos.map((logo, index) => (
         <div
           key={index}
-          className="relative w-[140px] md:w-[160px] lg:w-[180px] h-[70px] md:h-[80px] lg:h-[90px] shrink-0 select-none"
+          className="group relative w-[140px] md:w-[160px] lg:w-[180px] h-[70px] md:h-[80px] lg:h-[90px] shrink-0 select-none cursor-pointer"
           draggable={false}
         >
           <Image
             src={logo.src}
             alt={logo.name}
             fill
-            className="object-contain pointer-events-none"
+            className="object-contain pointer-events-none transition-all duration-500 ease-out [filter:grayscale(100%)_brightness(0.38)_contrast(1.5)] group-hover:[filter:none] group-hover:scale-105 group-hover:drop-shadow-[0_0_18px_rgba(201,169,110,0.45)]"
             draggable={false}
-            style={logoStyle}
           />
         </div>
       ))}

@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Award, Baby, Shield, type LucideIcon } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -50,22 +51,7 @@ function StatCard({
 
 export function SchoolsStats() {
   const t = useTranslations("schools.stats")
-  const headerRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (headerRef.current) observer.observe(headerRef.current)
-    return () => observer.disconnect()
-  }, [])
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="relative overflow-hidden px-4 md:px-[52px] py-[96px] md:py-[120px] bg-white">
@@ -75,11 +61,8 @@ export function SchoolsStats() {
         alt=""
         className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[1905px] min-w-[100vw] max-w-none h-[686px] mix-blend-multiply"
       />
-      <div className="relative max-w-[1280px] mx-auto flex flex-col gap-6 items-center">
-        <div
-          ref={headerRef}
-          className={`flex flex-col gap-2 items-center w-full transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
-        >
+      <div ref={ref} className="relative max-w-[1280px] mx-auto flex flex-col gap-6 items-center">
+        <div className={cn("flex flex-col gap-2 items-center w-full", reveal())}>
           <div className="flex items-center justify-center gap-2">
             <div className="h-px w-8 bg-[#a08248]" />
             <span
@@ -101,13 +84,16 @@ export function SchoolsStats() {
         </div>
 
         <p
-          className={`text-[18px] leading-[1.3] text-[#696969] text-center max-w-[1080px] px-2 transition-all duration-700 ease-out delay-100 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}
-          style={SANS_FONT}
+          className={cn("text-[18px] leading-[1.3] text-[#696969] text-center max-w-[1080px] px-2", reveal())}
+          style={{ ...SANS_FONT, transitionDelay: "120ms" }}
         >
           {t("subtitle")}
         </p>
 
-        <div className="relative w-full flex justify-center pt-12 md:pt-24">
+        <div
+          className={cn("relative w-full flex justify-center pt-12 md:pt-24", reveal())}
+          style={{ transitionDelay: "240ms" }}
+        >
           <div className="relative w-[280px] sm:w-[398px] md:w-[648px] aspect-[648/308]">
             <Image
               src="/schools/fleet-lineup.png"
@@ -121,13 +107,18 @@ export function SchoolsStats() {
         </div>
 
         <div className="flex flex-col md:flex-row md:justify-center gap-[2px] md:gap-[3px] w-full pt-[17px] md:items-stretch">
-          {STATS.map(({ key, Icon }) => (
-            <StatCard
+          {STATS.map(({ key, Icon }, i) => (
+            <div
               key={key}
-              Icon={Icon}
-              value={t(`items.${key}.value`)}
-              label={t(`items.${key}.label`)}
-            />
+              className={cn("flex md:flex-1 md:max-w-[411.34px]", reveal())}
+              style={{ transitionDelay: `${360 + i * 110}ms` }}
+            >
+              <StatCard
+                Icon={Icon}
+                value={t(`items.${key}.value`)}
+                label={t(`items.${key}.label`)}
+              />
+            </div>
           ))}
         </div>
       </div>

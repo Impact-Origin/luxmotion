@@ -149,7 +149,7 @@ export const MINIBUS_VEHICLES: FleetVehicle[] = [
     image: "/fleet/vehicles/ford-transit.png",
     badges: ["available"],
     paxMin: 1,
-    paxMax: 16,
+    paxMax: 22,
     bags: 0,
     hasAc: true,
     hasWifi: true,

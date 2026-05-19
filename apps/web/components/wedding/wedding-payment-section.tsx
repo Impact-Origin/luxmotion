@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
@@ -40,12 +42,13 @@ function PaymentPill({
 
 export function WeddingPaymentSection() {
   const t = useTranslations("wedding.payment")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
 
   return (
     <section className="bg-[#faf7f2] px-4 md:px-20 py-14 md:py-14">
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-7">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col items-center gap-7">
         <h2
-          className="text-[36px] md:text-[44px] leading-tight font-normal text-[#1a1612] text-center"
+          className={cn("text-[36px] md:text-[44px] leading-tight font-normal text-[#1a1612] text-center", reveal())}
           style={SERIF_FONT}
         >
           <span>{t("headingStart")} </span>
@@ -53,14 +56,26 @@ export function WeddingPaymentSection() {
         </h2>
 
         <div className="hidden md:flex gap-[10px] items-center justify-center">
-          {METHODS.map((m) => (
-            <PaymentPill key={m.alt} src={m.src} alt={m.alt} w={m.w} h={m.h} />
+          {METHODS.map((m, i) => (
+            <div
+              key={m.alt}
+              className={reveal()}
+              style={{ transitionDelay: `${140 + i * 80}ms` }}
+            >
+              <PaymentPill src={m.src} alt={m.alt} w={m.w} h={m.h} />
+            </div>
           ))}
         </div>
 
         <div className="md:hidden grid grid-cols-2 gap-[10px] place-items-center">
-          {METHODS.map((m) => (
-            <PaymentPill key={m.alt} src={m.src} alt={m.alt} w={m.w} h={m.h} />
+          {METHODS.map((m, i) => (
+            <div
+              key={m.alt}
+              className={reveal()}
+              style={{ transitionDelay: `${140 + i * 80}ms` }}
+            >
+              <PaymentPill src={m.src} alt={m.alt} w={m.w} h={m.h} />
+            </div>
           ))}
         </div>
       </div>

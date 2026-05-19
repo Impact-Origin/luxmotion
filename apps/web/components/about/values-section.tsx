@@ -45,11 +45,6 @@ function ValueCard({ icon: Icon, title, desc }: { icon: LucideIcon; title: strin
             "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)",
         }}
       />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 bottom-[-2px] h-[5px] w-[5px] rounded-full bg-[#C9A96E] -translate-x-1/2 opacity-0 scale-0 transition-all duration-500 ease-out delay-100 group-hover:opacity-100 group-hover:scale-100"
-        style={{ boxShadow: "0 0 8px rgba(201,169,110,0.6)" }}
-      />
     </div>
   )
 }

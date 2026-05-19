@@ -4,6 +4,8 @@ import { useState } from "react"
 import Image from "next/image"
 import { ArrowLeft, ArrowRight, BadgeCheck } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -61,11 +63,12 @@ export function WeddingPlannerReviews() {
     source: t(`${k}.source`),
     body: t(`${k}.body`),
   }))
+  const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section className="bg-white px-4 md:px-[80px] py-16 md:py-24">
+    <section ref={ref} className="bg-white px-4 md:px-[80px] py-16 md:py-24">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-8 items-center">
-        <div className="border border-[#a08248] backdrop-blur-[2px] flex gap-2 items-center justify-center px-4 py-2">
+        <div className={cn("border border-[#a08248] backdrop-blur-[2px] flex gap-2 items-center justify-center px-4 py-2", reveal())}>
           <BadgeCheck className="w-6 h-6 text-[#a08248]" strokeWidth={1.75} />
           <span
             className="text-[14px] tracking-[0.28px] text-[#a08248]"
@@ -75,7 +78,10 @@ export function WeddingPlannerReviews() {
           </span>
         </div>
 
-        <div className="flex flex-col gap-6 items-center w-full">
+        <div
+          className={cn("flex flex-col gap-6 items-center w-full", reveal())}
+          style={{ transitionDelay: "120ms" }}
+        >
           <h2
             className="text-center text-[#0d0d0d] leading-none"
             style={SERIF}
@@ -117,7 +123,11 @@ export function WeddingPlannerReviews() {
 
         <div className="hidden md:flex gap-[3px] w-full">
           {reviews.map((r, i) => (
-            <div key={i} className="flex-1 min-w-0">
+            <div
+              key={i}
+              className={cn("flex-1 min-w-0", reveal())}
+              style={{ transitionDelay: `${280 + i * 110}ms` }}
+            >
               <ReviewCard r={r} />
             </div>
           ))}

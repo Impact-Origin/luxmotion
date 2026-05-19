@@ -2447,6 +2447,10 @@
     "team": {
       "title": "Rencontrez l'équipe",
       "subtitle": "L'équipe dirigeante qui guide le succès de LuxMotion.",
+      "bioFallback": "Biographie à venir.",
+      "modalClose": "Fermer",
+      "modalPrev": "Membre précédent",
+      "modalNext": "Membre suivant",
       "eyebrow": "Rencontrez l'Équipe",
       "heading": "Notre Équipe",
       "members": {
@@ -3053,6 +3057,7 @@
         "venue": "Lieu du Mariage",
         "pickup": "Lieu de Prise en Charge",
         "numVehicles": "Nombre de Véhicules",
+        "budget": "Quel budget avez-vous disponible ?",
         "vehicleType": "Type de Véhicule Préféré",
         "notes": "Notes Supplémentaires"
       },
@@ -3313,8 +3318,8 @@
       "subtitle": "Un processus simple et rapide. En moins de 5 jours ouvrés, vous saurez si vous êtes éligible pour rejoindre le réseau LuxMotion.",
       "primaryCta": "Démarrer la candidature",
       "secondaryCta": "Parler à un manager",
-      "primaryHref": "/work-with-us",
-      "secondaryHref": "/contact",
+      "primaryHref": "/drivers/apply",
+      "secondaryHref": "/#contact",
       "trust1": "Réponse sous 48h",
       "trust2": "Aucune exclusivité requise",
       "trust3": "Processus 100% gratuit",

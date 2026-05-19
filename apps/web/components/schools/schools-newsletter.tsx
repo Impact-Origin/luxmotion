@@ -7,6 +7,8 @@ import { ArrowRight, Check } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { toast } from "sonner"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -33,6 +35,7 @@ function CheckRow({ children }: { children: React.ReactNode }) {
 
 export function SchoolsNewsletter() {
   const t = useTranslations("schools.newsletter")
+  const { ref, reveal, revealFromLeft, revealFromRight } = useScrollReveal<HTMLDivElement>()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -59,7 +62,7 @@ export function SchoolsNewsletter() {
   }
 
   return (
-    <section className="bg-[#0d0d0d]">
+    <section ref={ref} className="bg-[#0d0d0d]">
       <div className="md:hidden flex flex-col">
         <div className="relative w-full h-[300px]">
           <Image
@@ -130,7 +133,7 @@ export function SchoolsNewsletter() {
       </div>
 
       <div className="hidden md:grid grid-cols-2 items-stretch min-h-[500px]">
-        <div className="relative w-full min-h-[500px]">
+        <div className={cn("relative w-full min-h-[500px]", revealFromLeft())}>
           <Image
             src="/schools/newsletter.png"
             alt={t("photoAlt")}
@@ -141,7 +144,10 @@ export function SchoolsNewsletter() {
         </div>
 
         <div className="flex flex-col justify-center gap-6 px-12 lg:px-16 py-16 w-full">
-          <div className="flex flex-col gap-3 w-full">
+          <div
+            className={cn("flex flex-col gap-3 w-full", revealFromRight())}
+            style={{ transitionDelay: "120ms" }}
+          >
             <h2
               className="text-[40px] italic text-white leading-tight"
               style={SERIF_FONT}
@@ -157,7 +163,8 @@ export function SchoolsNewsletter() {
           </div>
 
           <form
-            className="flex flex-col gap-2 w-full max-w-[520px]"
+            className={cn("flex flex-col gap-2 w-full max-w-[520px]", revealFromRight())}
+            style={{ transitionDelay: "240ms" }}
             onSubmit={handleSubmit}
           >
             <input
