@@ -11,8 +11,8 @@ type JoinCard = {
 }
 
 const CARDS: JoinCard[] = [
-  { id: "partner", icon: HeartHandshake, href: "/partnerships" },
-  { id: "chauffeur", icon: Car, href: "/work-with-us" },
+  { id: "partner", icon: HeartHandshake, href: "/partners/apply" },
+  { id: "chauffeur", icon: Car, href: "/drivers/apply" },
 ]
 
 function JoinCardBlock({ card, t }: { card: JoinCard; t: ReturnType<typeof useTranslations> }) {

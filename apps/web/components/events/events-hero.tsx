@@ -89,7 +89,7 @@ export function EventsHero() {
             { num: String(citiesCount), label: t("citiesCovered") },
             { num: "24h", label: t("bookingAvailable") },
           ].map((s) => (
-            <div key={s.num} className="flex flex-col items-center">
+            <div key={s.label} className="flex flex-col items-center">
               <span className="text-[32px] leading-none text-[#C9A96E]" style={serif}>{s.num}</span>
               <span className="text-[14px] text-[#999]" style={sans}>{s.label}</span>
             </div>

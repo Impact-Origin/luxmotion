@@ -144,7 +144,7 @@ export function TourCheckoutProvider({ children }: { children: ReactNode }) {
         productType,
         tour: product,
         bookingData,
-        tipPercent: 10,
+        tipPercent: 0,
         tipAmount: 0,
         totalAmount: baseTotal + addonsTotal,
         selectedPickup: pickup,

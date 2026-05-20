@@ -244,7 +244,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
           <div className="flex flex-col lg:flex-row lg:gap-8">
             <div className="flex-1 min-w-0">
               <div className="pt-[20px] md:pt-[28px] pb-[17px] flex flex-col gap-[13.2px] items-start">
-                <div className="hidden md:flex gap-[2px] w-full max-w-[1280px]">
+                <div className="hidden md:flex gap-4 w-full max-w-[1280px]">
                   {infoItems.map(({ key, icon: Icon, label, value }) => (
                     <InfoBox
                       key={key}
@@ -254,7 +254,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                     />
                   ))}
                 </div>
-                <div className="md:hidden grid grid-cols-2 gap-2 w-full">
+                <div className="md:hidden grid grid-cols-2 gap-3 w-full">
                   {infoItems.map(({ key, icon: Icon, label, value }) => (
                     <InfoBox
                       key={key}
