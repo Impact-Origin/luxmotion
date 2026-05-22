@@ -2687,6 +2687,8 @@
       "nameRequired": "Naam is verplicht",
       "roleLabel": "Functie",
       "rolePlaceholder": "bijv. CEO, Operations Manager",
+      "bioLabel": "Beschrijving",
+      "bioPlaceholder": "Schrijf een korte beschrijving over dit teamlid...",
       "photoLabel": "Foto",
       "statusLabel": "Status",
       "orderLabel": "Weergavevolgorde",

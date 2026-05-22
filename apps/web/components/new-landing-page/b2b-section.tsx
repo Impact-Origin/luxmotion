@@ -82,7 +82,10 @@ function GuestCheckInCard() {
         >
           {t("label")}
         </span>
-        <span className="w-2 h-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
+        <span className="relative inline-flex size-2">
+          <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
+          <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
+        </span>
       </div>
 
       <div className="flex items-center gap-2.5 mb-3">

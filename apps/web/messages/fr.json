@@ -2687,6 +2687,8 @@
       "nameRequired": "Le nom est obligatoire",
       "roleLabel": "Poste",
       "rolePlaceholder": "ex., PDG, Directeur des Opérations",
+      "bioLabel": "Description",
+      "bioPlaceholder": "Rédigez une brève description de ce membre de l'équipe...",
       "photoLabel": "Photo",
       "statusLabel": "Statut",
       "orderLabel": "Ordre d'Affichage",

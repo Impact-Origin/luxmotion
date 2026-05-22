@@ -2861,6 +2861,8 @@
       "nameRequired": "Name is required",
       "roleLabel": "Role",
       "rolePlaceholder": "e.g., CEO, Operations Manager",
+      "bioLabel": "Description",
+      "bioPlaceholder": "Write a short description about this team member...",
       "photoLabel": "Photo",
       "statusLabel": "Status",
       "orderLabel": "Display Order",

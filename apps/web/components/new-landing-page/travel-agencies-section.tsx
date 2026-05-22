@@ -82,7 +82,7 @@ function WhiteLabelBookingCard() {
       <div className="flex items-center gap-2 mt-2">
         <MapPin className="w-3 h-3 text-[rgba(255,255,255,0.7)] shrink-0" />
         <span
-          className="text-[11px] text-[rgba(255,255,255,0.7)] whitespace-nowrap"
+          className="text-[9px] xl:text-[11px] text-[rgba(255,255,255,0.7)] whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {t("route")}

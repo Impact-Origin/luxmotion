@@ -2703,6 +2703,8 @@
       "nameRequired": "El nombre es obligatorio",
       "roleLabel": "Cargo",
       "rolePlaceholder": "ej., CEO, Director de Operaciones",
+      "bioLabel": "Descripción",
+      "bioPlaceholder": "Escribe una breve descripción sobre este miembro del equipo...",
       "photoLabel": "Foto",
       "statusLabel": "Estado",
       "orderLabel": "Orden de Visualización",

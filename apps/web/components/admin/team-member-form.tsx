@@ -12,6 +12,7 @@ import {
 } from "@workspace/ui/components/dialog"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
+import { Textarea } from "@workspace/ui/components/textarea"
 import { Label } from "@workspace/ui/components/label"
 import {
   Select,
@@ -37,6 +38,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
 
   const [name, setName] = React.useState("")
   const [role, setRole] = React.useState("")
+  const [bio, setBio] = React.useState("")
   const [imageId, setImageId] = React.useState<string | undefined>()
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
   const [status, setStatus] = React.useState<"draft" | "published">("draft")
@@ -49,6 +51,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
     if (initialData) {
       setName(initialData.name || "")
       setRole(initialData.role || "")
+      setBio(initialData.bio || "")
       setImageId(initialData.imageId)
       setPreviewUrl(initialData.imageUrl || null)
       setStatus(initialData.status || "draft")
@@ -61,6 +64,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
   const resetForm = () => {
     setName("")
     setRole("")
+    setBio("")
     setImageId(undefined)
     setPreviewUrl(null)
     setStatus("draft")
@@ -81,6 +85,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
       const data = {
         name,
         role,
+        bio: bio.trim() || undefined,
         imageId: imageId as any,
         status,
         order: parseInt(order) || 0,
@@ -140,6 +145,19 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
                   className="h-11"
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bio">{t("form.bioLabel")}</Label>
+              <Textarea
+                id="bio"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder={t("form.bioPlaceholder")}
+                disabled={isSubmitting}
+                rows={5}
+                className="resize-none"
+              />
             </div>
 
             <div className="space-y-2">
