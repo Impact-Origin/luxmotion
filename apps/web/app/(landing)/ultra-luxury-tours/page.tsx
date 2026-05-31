@@ -7,7 +7,6 @@ import { UltraLuxuryApproachSection } from "@/components/ultra-luxury-tours/appr
 import { UltraLuxuryDestinationsSection } from "@/components/ultra-luxury-tours/destinations-section"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { UltraLuxuryScarcitySection } from "@/components/ultra-luxury-tours/scarcity-section"
-import { CustomToursInquiry } from "@/components/ultra-luxury-tours/custom-tours-inquiry"
 
 export default function UltraLuxuryToursPage() {
   return (
@@ -21,7 +20,6 @@ export default function UltraLuxuryToursPage() {
         <UltraLuxuryDestinationsSection />
         <Testimonials />
         <UltraLuxuryScarcitySection />
-        <CustomToursInquiry />
       </div>
       <Footer />
     </div>
