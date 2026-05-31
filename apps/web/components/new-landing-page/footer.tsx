@@ -55,6 +55,7 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
           <NavColumn
             title={t("usefulLinks")}
             links={[
+              { href: "/corporate/contact", label: t("corporateContact") },
               { href: "/faqs", label: t("faqs") },
               { href: "/terms-and-conditions", label: t("termsAndConditions") },
               { href: "/refund", label: t("refund") },

@@ -15,6 +15,7 @@ interface MediaGalleryModalProps {
   onOpenChange: (open: boolean) => void
   currentIndex: number
   onIndexChange: (index: number) => void
+  light?: boolean
 }
 
 export function MediaGalleryModal({
@@ -24,7 +25,25 @@ export function MediaGalleryModal({
   onOpenChange,
   currentIndex,
   onIndexChange,
+  light = false,
 }: MediaGalleryModalProps) {
+  const ui = light
+    ? {
+        content: "bg-[#f7f4ef]",
+        topText: "text-[#1c1b18]",
+        close: "text-[#696969] hover:text-[#1c1b18]",
+        nav: "bg-[rgba(28,27,24,0.06)] hover:bg-[rgba(28,27,24,0.12)]",
+        navIcon: "text-[#a08248]",
+        thumbActive: "ring-2 ring-[#a08248] opacity-100",
+      }
+    : {
+        content: "bg-black/95",
+        topText: "text-white/80",
+        close: "text-white/70 hover:text-white",
+        nav: "bg-white/10 hover:bg-white/20",
+        navIcon: "text-white",
+        thumbActive: "ring-2 ring-white opacity-100",
+      }
   const goToPrev = useCallback(() => {
     onIndexChange((currentIndex - 1 + media.length) % media.length)
   }, [currentIndex, media.length, onIndexChange])
@@ -94,15 +113,15 @@ export function MediaGalleryModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 bg-black/95 border-none flex flex-col [&>button]:hidden">
+      <DialogContent className={cn("max-w-[95vw] max-h-[95vh] w-full h-full p-0 border-none flex flex-col [&>button]:hidden", ui.content)}>
         <DialogTitle className="sr-only">{alt}</DialogTitle>
         <div className="flex items-center justify-between px-4 py-3 shrink-0">
-          <span className="text-white/80 text-sm font-medium">
+          <span className={cn("text-sm font-medium", ui.topText)}>
             {currentIndex + 1} / {media.length}
           </span>
           <button
             onClick={() => onOpenChange(false)}
-            className="text-white/70 hover:text-white transition-colors p-1"
+            className={cn("transition-colors p-1", ui.close)}
           >
             <X className="h-6 w-6" />
           </button>
@@ -136,15 +155,15 @@ export function MediaGalleryModal({
             <>
               <button
                 onClick={goToPrev}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                className={cn("absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-colors", ui.nav)}
               >
-                <ChevronLeft className="h-6 w-6 text-white" />
+                <ChevronLeft className={cn("h-6 w-6", ui.navIcon)} />
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                className={cn("absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-colors", ui.nav)}
               >
-                <ChevronRight className="h-6 w-6 text-white" />
+                <ChevronRight className={cn("h-6 w-6", ui.navIcon)} />
               </button>
             </>
           )}
@@ -176,9 +195,7 @@ export function MediaGalleryModal({
                   draggable={false}
                   className={cn(
                     "relative w-16 h-12 rounded-lg overflow-hidden shrink-0 transition-all duration-200",
-                    index === currentIndex
-                      ? "ring-2 ring-white opacity-100"
-                      : "opacity-50 hover:opacity-75"
+                    index === currentIndex ? ui.thumbActive : "opacity-50 hover:opacity-75"
                   )}
                 >
                   {item.type === "video" ? (

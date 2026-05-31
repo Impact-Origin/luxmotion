@@ -25,6 +25,15 @@ export interface TourData {
   isFeatured: boolean
   isBestSeller: boolean
   isActive: boolean
+  isUltraLuxury?: boolean
+  tourTypeTag?:
+    | "half-day"
+    | "full-day"
+    | "multi-day"
+    | "river-cruise"
+    | "private-yacht"
+    | "helicopter"
+  durationDays?: number
   status: "draft" | "published" | "archived"
   duration: string
   durationMinutes?: number
@@ -72,7 +81,25 @@ export interface TourData {
   availableLanguages: string[]
 }
 
+export interface ItineraryDay {
+  title: string
+  titleAccent?: string
+  hoursActive?: string
+  nights?: number
+  hotel?: string
+  stops: Array<{
+    time?: string
+    label?: string
+    title: string
+    description?: string
+    imageUrl?: string | null
+    lat?: number
+    lng?: number
+  }>
+}
+
 export interface TourWithDetails extends TourData {
+  itineraryDays?: ItineraryDay[]
   translations: Array<{
     _id: string
     tourId: string
@@ -169,6 +196,25 @@ export function usePublishedTours() {
     const published = MOCK_TOURS.filter(t => t.status === "published")
     return {
       tours: published as unknown as TourData[],
+      isLoading: false,
+    }
+  }
+
+  return {
+    tours: (data as TourData[] | undefined) ?? [],
+    isLoading: data === undefined,
+  }
+}
+
+export function useUltraLuxuryTours() {
+  const data = useQuery(api.tours.listUltraLuxury, USE_MOCK ? "skip" : {})
+
+  if (USE_MOCK) {
+    const ultra = MOCK_TOURS.filter(
+      (t) => t.status === "published" && (t as { isUltraLuxury?: boolean }).isUltraLuxury === true,
+    )
+    return {
+      tours: ultra as unknown as TourData[],
       isLoading: false,
     }
   }

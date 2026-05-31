@@ -15,9 +15,11 @@ interface MediaBentoGridProps {
   onShowAll: () => void
   /** Breakpoint até ao qual se usa o carrossel mobile (uma imagem, dots). "md" = <768px, "lg" = <1024px. Default "md". */
   mobileUntil?: "md" | "lg"
+  /** Light theme variant (cream gaps + light controls) for the ultra-luxury pages. */
+  light?: boolean
 }
 
-export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUntil = "md" }: MediaBentoGridProps) {
+export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUntil = "md", light = false }: MediaBentoGridProps) {
   const count = media.length
 
   if (count === 0) return null
@@ -26,10 +28,11 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
 
   const mobileHidden = mobileUntil === "lg" ? "lg:hidden" : "md:hidden"
   const desktopHidden = mobileUntil === "lg" ? "hidden lg:block" : "hidden md:block"
+  const surfaceBg = light ? "bg-[#e7e0d4]" : "bg-[#0D0D0D]"
 
   if (count === 1) {
     return (
-      <div className="relative w-full h-[220px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#0D0D0D]">
+      <div className={cn("relative w-full h-[220px] md:h-[340px] lg:h-[420px] overflow-hidden", surfaceBg)}>
         {first.type === "video" ? (
           <video
             src={first.url}
@@ -57,7 +60,7 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
   }
 
   return (
-    <div className="relative w-full h-[220px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#0D0D0D]">
+    <div className={cn("relative w-full h-[220px] md:h-[340px] lg:h-[420px] overflow-hidden", surfaceBg)}>
       <div className={`${mobileHidden} h-full`}>
         <MobileMediaCarousel
           media={media}
@@ -77,6 +80,7 @@ export function MediaBentoGrid({ media, alt, onMediaClick, onShowAll, mobileUnti
             onMediaClick={onMediaClick}
             onShowAll={onShowAll}
             totalCount={count}
+            light={light}
           />
         )}
       </div>
@@ -401,13 +405,19 @@ function ScrollableMediaLayout({
   onMediaClick,
   onShowAll,
   totalCount,
+  light = false,
 }: {
   media: MediaItem[]
   alt: string
   onMediaClick: (i: number) => void
   onShowAll: () => void
   totalCount: number
+  light?: boolean
 }) {
+  const ctrlBase = light
+    ? "bg-[#f7f4ef] border border-[rgba(154,117,53,0.5)] hover:border-[#a08248] text-[#a08248]"
+    : "bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E] text-[#C9A96E]"
+  const chevronColor = light ? "text-[#a08248]" : "text-[#C9A96E]"
   const t = useTranslations("tourDetails")
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(true)
@@ -487,27 +497,29 @@ function ScrollableMediaLayout({
           type="button"
           onClick={scrollToPrev}
           className={cn(
-            "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E]",
+            "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer",
+            ctrlBase,
             !canScrollLeft && "opacity-40"
           )}
           aria-label="Anterior"
         >
-          <ChevronLeft className="h-[14px] w-[14px] text-[#C9A96E]" />
+          <ChevronLeft className={cn("h-[14px] w-[14px]", chevronColor)} />
         </button>
         <button
           type="button"
           onClick={scrollToNext}
           className={cn(
-            "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E]",
+            "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer",
+            ctrlBase,
             !canScrollRight && "opacity-40"
           )}
           aria-label="Seguinte"
         >
-          <ChevronRight className="h-[14px] w-[14px] text-[#C9A96E]" />
+          <ChevronRight className={cn("h-[14px] w-[14px]", chevronColor)} />
         </button>
         <button
           onClick={onShowAll}
-          className="bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] hover:border-[#C9A96E] text-[#C9A96E] text-xs font-semibold px-3 py-2 transition-colors uppercase tracking-[1px]"
+          className={cn("text-xs font-semibold px-3 py-2 transition-colors uppercase tracking-[1px]", ctrlBase)}
         >
           {t("showAllPhotos", { count: totalCount })}
         </button>

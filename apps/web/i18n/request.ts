@@ -1,3 +1,4 @@
+// messages reloaded: tourDetails.inquiry.confirmation added
 import { getRequestConfig } from "next-intl/server"
 import { cookies } from "next/headers"
 import { defaultLocale, locales, type Locale } from "./config"

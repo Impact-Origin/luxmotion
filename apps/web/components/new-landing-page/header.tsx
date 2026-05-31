@@ -230,6 +230,7 @@ export function Header({
         { href: "/events", label: t("events") },
         { href: "https://easytoursportugal.com/", label: t("luxuryTours") },
         { href: "https://easytoursportugal.com/premium-corporate-transfers-portugal/", label: t("corporate") },
+        { href: "/corporate/contact", label: t("corporateContact") },
         { href: "/wedding", label: t("weddings") },
         { href: "/schools", label: t("school") },
       ]

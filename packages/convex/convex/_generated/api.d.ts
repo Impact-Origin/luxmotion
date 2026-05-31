@@ -10,7 +10,10 @@
 
 import type * as admin from "../admin.js";
 import type * as blogs from "../blogs.js";
+import type * as contactQuotes from "../contactQuotes.js";
 import type * as contactSubmissions from "../contactSubmissions.js";
+import type * as corporateExperiences from "../corporateExperiences.js";
+import type * as corporateRequests from "../corporateRequests.js";
 import type * as driverApplications from "../driverApplications.js";
 import type * as drivers from "../drivers.js";
 import type * as events from "../events.js";
@@ -31,7 +34,9 @@ import type * as seedReviews from "../seedReviews.js";
 import type * as teamMembers from "../teamMembers.js";
 import type * as tourAddons from "../tourAddons.js";
 import type * as tourBookings from "../tourBookings.js";
+import type * as tourInquiries from "../tourInquiries.js";
 import type * as tourReviews from "../tourReviews.js";
+import type * as tourScarcity from "../tourScarcity.js";
 import type * as tourSchedules from "../tourSchedules.js";
 import type * as tourStops from "../tourStops.js";
 import type * as tours from "../tours.js";
@@ -48,7 +53,10 @@ import type {
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   blogs: typeof blogs;
+  contactQuotes: typeof contactQuotes;
   contactSubmissions: typeof contactSubmissions;
+  corporateExperiences: typeof corporateExperiences;
+  corporateRequests: typeof corporateRequests;
   driverApplications: typeof driverApplications;
   drivers: typeof drivers;
   events: typeof events;
@@ -69,7 +77,9 @@ declare const fullApi: ApiFromModules<{
   teamMembers: typeof teamMembers;
   tourAddons: typeof tourAddons;
   tourBookings: typeof tourBookings;
+  tourInquiries: typeof tourInquiries;
   tourReviews: typeof tourReviews;
+  tourScarcity: typeof tourScarcity;
   tourSchedules: typeof tourSchedules;
   tourStops: typeof tourStops;
   tours: typeof tours;

@@ -67,7 +67,9 @@ export const listPublished = query({
       .withIndex("by_status", (q) => q.eq("status", "published"))
       .collect();
     const toursWithUrls = await Promise.all(
-      tours.map(async (tour) => {
+      tours
+        .filter((t) => t.isUltraLuxury !== true)
+        .map(async (tour) => {
         const bannerImageUrl = tour.bannerImageId
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
@@ -101,7 +103,9 @@ export const listByDestination = query({
       .query("tours")
       .withIndex("by_destination", (q) => q.eq("destination", args.destination))
       .collect();
-    const publishedTours = tours.filter((t) => t.status === "published");
+    const publishedTours = tours.filter(
+      (t) => t.status === "published" && t.isUltraLuxury !== true,
+    );
 
     const toursWithUrls = await Promise.all(
       publishedTours.map(async (tour) => {
@@ -134,7 +138,9 @@ export const listByCategory = query({
       .query("tours")
       .withIndex("by_category", (q) => q.eq("category", args.category))
       .collect();
-    const publishedTours = tours.filter((t) => t.status === "published");
+    const publishedTours = tours.filter(
+      (t) => t.status === "published" && t.isUltraLuxury !== true,
+    );
 
     const toursWithUrls = await Promise.all(
       publishedTours.map(async (tour) => {
@@ -170,7 +176,9 @@ export const listByDestinationAndCategory = query({
         q.eq("destination", args.destination).eq("category", args.category),
       )
       .collect();
-    const publishedTours = tours.filter((t) => t.status === "published");
+    const publishedTours = tours.filter(
+      (t) => t.status === "published" && t.isUltraLuxury !== true,
+    );
 
     const toursWithUrls = await Promise.all(
       publishedTours.map(async (tour) => {
@@ -197,7 +205,7 @@ export const listFeatured = query({
       .withIndex("by_featured", (q) => q.eq("isFeatured", true))
       .collect();
     const publishedFeatured = tours
-      .filter((t) => t.status === "published")
+      .filter((t) => t.status === "published" && t.isUltraLuxury !== true)
       .slice(0, args.limit ?? 6);
 
     const toursWithUrls = await Promise.all(
@@ -225,7 +233,7 @@ export const listBestsellers = query({
       .withIndex("by_bestseller", (q) => q.eq("isBestSeller", true))
       .collect();
     const publishedBestsellers = tours
-      .filter((t) => t.status === "published")
+      .filter((t) => t.status === "published" && t.isUltraLuxury !== true)
       .slice(0, args.limit ?? 6);
 
     const toursWithUrls = await Promise.all(
@@ -242,6 +250,43 @@ export const listBestsellers = query({
     );
 
     return toursWithUrls;
+  },
+});
+
+export const listUltraLuxury = query({
+  args: {},
+  handler: async (ctx) => {
+    const tours = await ctx.db
+      .query("tours")
+      .withIndex("by_status", (q) => q.eq("status", "published"))
+      .collect();
+    const toursWithUrls = await Promise.all(
+      tours
+        .filter((t) => t.isUltraLuxury === true)
+        .map(async (tour) => {
+          const bannerImageUrl = tour.bannerImageId
+            ? await ctx.storage.getUrl(tour.bannerImageId)
+            : null;
+
+          const translations = await ctx.db
+            .query("tourTranslations")
+            .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+            .collect();
+
+          return withDisplayedReviewCount({
+            ...tour,
+            bannerImageUrl,
+            availableLanguages: [
+              tour.originalLanguage,
+              ...translations.map((t) => t.locale),
+            ],
+          });
+        }),
+    );
+
+    return toursWithUrls.sort(
+      (a, b) => (b.publishedAt ?? 0) - (a.publishedAt ?? 0),
+    );
   },
 });
 
@@ -335,6 +380,20 @@ export const getBySlug = query({
       }),
     );
 
+    const itineraryDays = tour.itineraryDays
+      ? await Promise.all(
+          tour.itineraryDays.map(async (day) => ({
+            ...day,
+            stops: await Promise.all(
+              day.stops.map(async (stop) => ({
+                ...stop,
+                imageUrl: stop.imageId ? await ctx.storage.getUrl(stop.imageId) : null,
+              })),
+            ),
+          })),
+        )
+      : undefined
+
     return withDisplayedReviewCount({
       ...tour,
       bannerImageUrl,
@@ -342,6 +401,7 @@ export const getBySlug = query({
       additionalBanners,
       galleryImageUrls: galleryImageUrls.filter(Boolean),
       translations,
+      itineraryDays,
       stops: stopsWithImages.sort((a, b) => a.order - b.order),
       reviews: approvedReviews,
       addons: addonsWithData,
@@ -406,6 +466,20 @@ export const getById = query({
       }),
     );
 
+    const itineraryDays = tour.itineraryDays
+      ? await Promise.all(
+          tour.itineraryDays.map(async (day) => ({
+            ...day,
+            stops: await Promise.all(
+              day.stops.map(async (stop) => ({
+                ...stop,
+                imageUrl: stop.imageId ? await ctx.storage.getUrl(stop.imageId) : null,
+              })),
+            ),
+          })),
+        )
+      : undefined
+
     return withDisplayedReviewCount({
       ...tour,
       bannerImageUrl,
@@ -413,6 +487,7 @@ export const getById = query({
       additionalBanners,
       galleryImageUrls: galleryImageUrls.filter(Boolean),
       translations,
+      itineraryDays,
       stops: stopsWithImages.sort((a, b) => a.order - b.order),
       availableLanguages: [
         tour.originalLanguage,
@@ -456,6 +531,7 @@ export const listNearCoordinates = query({
     }
 
     const toursWithDistance = tours
+      .filter((t) => t.isUltraLuxury !== true)
       .map((tour) => {
         const tourLat = tour.pickup?.lat ?? tour.mapCenter?.lat;
         const tourLng = tour.pickup?.lng ?? tour.mapCenter?.lng;
@@ -516,7 +592,13 @@ export const getDestinations = query({
   args: {},
   handler: async (ctx) => {
     const tours = await ctx.db.query("tours").collect();
-    const destinations = [...new Set(tours.map((t) => t.destination))];
+    const destinations = [
+      ...new Set(
+        tours
+          .filter((t) => t.isUltraLuxury !== true)
+          .map((t) => t.destination),
+      ),
+    ];
     return destinations.sort();
   },
 });
@@ -584,6 +666,40 @@ export const create = mutation({
     isFeatured: v.boolean(),
     isBestSeller: v.boolean(),
     isActive: v.boolean(),
+    isUltraLuxury: v.optional(v.boolean()),
+    tourTypeTag: v.optional(
+      v.union(
+        v.literal("half-day"),
+        v.literal("full-day"),
+        v.literal("multi-day"),
+        v.literal("river-cruise"),
+        v.literal("private-yacht"),
+        v.literal("helicopter"),
+      ),
+    ),
+    durationDays: v.optional(v.number()),
+    itineraryDays: v.optional(
+      v.array(
+        v.object({
+          title: v.string(),
+          titleAccent: v.optional(v.string()),
+          hoursActive: v.optional(v.string()),
+          nights: v.optional(v.number()),
+          hotel: v.optional(v.string()),
+          stops: v.array(
+            v.object({
+              time: v.optional(v.string()),
+              label: v.optional(v.string()),
+              title: v.string(),
+              description: v.optional(v.string()),
+              imageId: v.optional(v.id("_storage")),
+              lat: v.optional(v.number()),
+              lng: v.optional(v.number()),
+            }),
+          ),
+        }),
+      ),
+    ),
     status: v.union(
       v.literal("draft"),
       v.literal("published"),
@@ -695,6 +811,40 @@ export const update = mutation({
     isFeatured: v.boolean(),
     isBestSeller: v.boolean(),
     isActive: v.boolean(),
+    isUltraLuxury: v.optional(v.boolean()),
+    tourTypeTag: v.optional(
+      v.union(
+        v.literal("half-day"),
+        v.literal("full-day"),
+        v.literal("multi-day"),
+        v.literal("river-cruise"),
+        v.literal("private-yacht"),
+        v.literal("helicopter"),
+      ),
+    ),
+    durationDays: v.optional(v.number()),
+    itineraryDays: v.optional(
+      v.array(
+        v.object({
+          title: v.string(),
+          titleAccent: v.optional(v.string()),
+          hoursActive: v.optional(v.string()),
+          nights: v.optional(v.number()),
+          hotel: v.optional(v.string()),
+          stops: v.array(
+            v.object({
+              time: v.optional(v.string()),
+              label: v.optional(v.string()),
+              title: v.string(),
+              description: v.optional(v.string()),
+              imageId: v.optional(v.id("_storage")),
+              lat: v.optional(v.number()),
+              lng: v.optional(v.number()),
+            }),
+          ),
+        }),
+      ),
+    ),
     status: v.union(
       v.literal("draft"),
       v.literal("published"),

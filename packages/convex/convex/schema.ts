@@ -359,6 +359,40 @@ export default defineSchema({
     isFeatured: v.boolean(),
     isBestSeller: v.boolean(),
     isActive: v.boolean(),
+    isUltraLuxury: v.optional(v.boolean()),
+    tourTypeTag: v.optional(
+      v.union(
+        v.literal("half-day"),
+        v.literal("full-day"),
+        v.literal("multi-day"),
+        v.literal("river-cruise"),
+        v.literal("private-yacht"),
+        v.literal("helicopter"),
+      ),
+    ),
+    durationDays: v.optional(v.number()),
+    itineraryDays: v.optional(
+      v.array(
+        v.object({
+          title: v.string(),
+          titleAccent: v.optional(v.string()),
+          hoursActive: v.optional(v.string()),
+          nights: v.optional(v.number()),
+          hotel: v.optional(v.string()),
+          stops: v.array(
+            v.object({
+              time: v.optional(v.string()),
+              label: v.optional(v.string()),
+              title: v.string(),
+              description: v.optional(v.string()),
+              imageId: v.optional(v.id("_storage")),
+              lat: v.optional(v.number()),
+              lng: v.optional(v.number()),
+            }),
+          ),
+        }),
+      ),
+    ),
     status: v.union(
       v.literal("draft"),
       v.literal("published"),
@@ -427,6 +461,7 @@ export default defineSchema({
     .index("by_category", ["category"])
     .index("by_featured", ["isFeatured"])
     .index("by_bestseller", ["isBestSeller"])
+    .index("by_ultra_luxury", ["isUltraLuxury"])
     .index("by_destination_category", ["destination", "category"]),
 
   tourTranslations: defineTable({
@@ -585,6 +620,28 @@ export default defineSchema({
     .index("by_event", ["eventId"])
     .index("by_event_locale", ["eventId", "locale"]),
 
+  tourInquiries: defineTable({
+    tourId: v.optional(v.id("tours")),
+    tourTitle: v.optional(v.string()),
+    tourSlug: v.optional(v.string()),
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    country: v.optional(v.string()),
+    date: v.optional(v.string()),
+    datesFlexible: v.boolean(),
+    people: v.optional(v.string()),
+    ageRange: v.optional(v.string()),
+    budgetMin: v.optional(v.number()),
+    budgetMax: v.optional(v.number()),
+    interests: v.string(),
+    marketingOptIn: v.boolean(),
+    status: v.optional(
+      v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
+    ),
+    createdAt: v.number(),
+  }).index("by_created", ["createdAt"]),
+
   contactSubmissions: defineTable({
     name: v.string(),
     email: v.string(),
@@ -739,6 +796,85 @@ export default defineSchema({
     .index("by_created", ["createdAt"])
     .index("by_status", ["status"]),
 
+  corporateExperiences: defineTable({
+    titlePrefix: v.string(),
+    titleAccent: v.string(),
+    shortDescription: v.string(),
+    duration: v.union(
+      v.literal("halfDay"),
+      v.literal("fullDay"),
+      v.literal("multiDay"),
+    ),
+    pillar: v.union(
+      v.literal("standard"),
+      v.literal("experiences"),
+      v.literal("logistics"),
+    ),
+    subcategory: v.string(),
+    groupSize: v.string(),
+    durationLabel: v.string(),
+    location: v.string(),
+    description: v.string(),
+    experienceBody: v.string(),
+    experienceItems: v.array(
+      v.object({ strong: v.string(), body: v.string() }),
+    ),
+    routeHighlights: v.array(v.string()),
+    whatsIncluded: v.array(v.string()),
+    coverImageId: v.optional(v.id("_storage")),
+    galleryImageIds: v.array(v.id("_storage")),
+    status: v.union(v.literal("draft"), v.literal("published")),
+    sortOrder: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_pillar", ["pillar"])
+    .index("by_sort", ["sortOrder"]),
+
+  corporateRequests: defineTable({
+    fullName: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    companyName: v.string(),
+    eventDate: v.optional(v.number()),
+    guests: v.optional(v.number()),
+    budget: v.optional(v.number()),
+    vehicleType: v.optional(v.string()),
+    notes: v.optional(v.string()),
+
+    status: v.union(
+      v.literal("submitted"),
+      v.literal("reviewing"),
+      v.literal("approved"),
+      v.literal("rejected"),
+    ),
+    queuePosition: v.number(),
+    createdAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    internalNotes: v.optional(v.string()),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
+  contactQuotes: defineTable({
+    fullName: v.string(),
+    company: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    subject: v.string(),
+    message: v.string(),
+    status: v.union(
+      v.literal("new"),
+      v.literal("inProgress"),
+      v.literal("resolved"),
+      v.literal("archived"),
+    ),
+    createdAt: v.number(),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
   weddingQuoteSubmissions: defineTable({
     fullName: v.string(),
     email: v.string(),
@@ -797,6 +933,26 @@ export default defineSchema({
     detailDailyTravelersMax: v.number(),
     checkoutBookedTodayMin: v.number(),
     checkoutBookedTodayMax: v.number(),
+    updatedAt: v.number(),
+  }).index("by_key", ["key"]),
+
+  tourScarcity: defineTable({
+    key: v.string(),
+    year: v.number(),
+    totalCapacity: v.number(),
+    confirmedBookings: v.number(),
+    inquiriesToday: v.number(),
+    reservedThisWeek: v.number(),
+    months: v.array(
+      v.object({
+        status: v.union(
+          v.literal("booked"),
+          v.literal("almost"),
+          v.literal("available"),
+        ),
+        spotsLeft: v.number(),
+      }),
+    ),
     updatedAt: v.number(),
   }).index("by_key", ["key"]),
 

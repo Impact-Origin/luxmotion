@@ -29,9 +29,64 @@ interface TourDateTimePickerProps {
   bookingDeadlineHours?: number
   isLoading?: boolean
   onMonthChange?: (startDate: number, endDate: number) => void
+  light?: boolean
+  /** Date-only mode: hides the time panel, allows any future date, closes on date pick. */
+  hideTime?: boolean
+  /** Placeholder shown in the trigger when nothing selected. */
+  placeholder?: string
 }
 
 const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+
+const DARK = {
+  surface: "bg-[#1e1d1b] border border-[rgba(255,255,255,0.12)]",
+  triggerBorder: "border-[rgba(255,255,255,0.12)]",
+  triggerBg: "bg-[#1E1D1B]",
+  triggerHover: "hover:border-[rgba(201,169,110,0.4)] focus:border-[rgba(201,169,110,0.6)]",
+  valueText: "text-white",
+  placeholder: "text-[#999]",
+  iconMuted: "text-[#999]",
+  accent: "#C9A96E",
+  navBorder: "border-[rgba(247,244,239,0.08)]",
+  navText: "text-[rgba(247,244,239,0.62)]",
+  navTextDim: "text-[rgba(247,244,239,0.2)]",
+  monthText: "text-white",
+  dayHeader: "text-[rgba(247,244,239,0.38)]",
+  dayDisabled: "text-[rgba(247,244,239,0.25)]",
+  dayAvailable: "text-[rgba(247,244,239,0.62)] font-medium hover:text-[#C9A96E] hover:bg-[rgba(201,169,110,0.06)]",
+  daySelected: "text-[#9a7535] font-bold bg-[rgba(201,169,110,0.08)]",
+  dayToday: "text-[#C9A96E] font-bold border border-[rgba(201,169,110,0.4)]",
+  divider: "border-[rgba(255,255,255,0.08)]",
+  timeLabel: "text-[#f7f4ef]",
+  emptyBox: "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.02)] text-[rgba(247,244,239,0.5)]",
+  slot: "bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.08)] text-[rgba(247,244,239,0.75)] hover:border-[rgba(201,169,110,0.4)] hover:text-[#C9A96E]",
+  slotSelected: "bg-[rgba(201,169,110,0.12)] border-[#C9A96E] text-[#C9A96E]",
+}
+
+const LIGHT: typeof DARK = {
+  surface: "bg-[#f7f4ef] border border-[rgba(28,27,24,0.12)]",
+  triggerBorder: "border-[rgba(28,27,24,0.12)]",
+  triggerBg: "bg-white",
+  triggerHover: "hover:border-[#a08248] focus:border-[#a08248]",
+  valueText: "text-[#1c1b18]",
+  placeholder: "text-[#8c8680]",
+  iconMuted: "text-[#8c8680]",
+  accent: "#a08248",
+  navBorder: "border-[rgba(28,27,24,0.12)]",
+  navText: "text-[#696969]",
+  navTextDim: "text-[rgba(28,27,24,0.25)]",
+  monthText: "text-[#1c1b18]",
+  dayHeader: "text-[rgba(28,27,24,0.4)]",
+  dayDisabled: "text-[rgba(28,27,24,0.25)]",
+  dayAvailable: "text-[#4a4a4a] font-medium hover:text-[#a08248] hover:bg-[rgba(160,130,72,0.08)]",
+  daySelected: "text-[#8a6f3c] font-bold bg-[rgba(160,130,72,0.12)]",
+  dayToday: "text-[#a08248] font-bold border border-[rgba(160,130,72,0.5)]",
+  divider: "border-[rgba(28,27,24,0.08)]",
+  timeLabel: "text-[#1c1b18]",
+  emptyBox: "border-[rgba(28,27,24,0.16)] bg-transparent text-[#696969]",
+  slot: "bg-[#fbfaf7] border-[rgba(28,27,24,0.08)] text-[#4a4a4a] hover:border-[#a08248] hover:text-[#a08248]",
+  slotSelected: "bg-[rgba(160,130,72,0.12)] border-[#a08248] text-[#a08248]",
+}
 
 export function TourDateTimePicker({
   value,
@@ -39,9 +94,13 @@ export function TourDateTimePicker({
   availability,
   bookingDeadlineHours,
   isLoading,
-  onMonthChange
+  onMonthChange,
+  light = false,
+  hideTime = false,
+  placeholder,
 }: TourDateTimePickerProps) {
   const t = useTranslations("tourDetails")
+  const c = light ? LIGHT : DARK
   const [open, setOpen] = React.useState(false)
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(value?.date || null)
   const [selectedTime, setSelectedTime] = React.useState<string | null>(value?.time || null)
@@ -177,6 +236,7 @@ export function TourDateTimePicker({
     setSelectedDate(date)
     setSelectedTime(null)
     onChange?.({ date, time: null })
+    if (hideTime) setOpen(false)
   }
 
   const handleTimeSelect = (time: string) => {
@@ -220,6 +280,7 @@ export function TourDateTimePicker({
 
   const isDateAvailable = (d: Date) => {
     if (isDateInPast(d)) return false
+    if (hideTime) return true
     const availability = getAvailabilityForDate(d)
     if (!availability) return false
     if (availability.isCancelled) return false
@@ -250,19 +311,20 @@ export function TourDateTimePicker({
   const timePanel = (
     <div
       className={cn(
-        "pt-4 border-t border-[rgba(255,255,255,0.08)]",
-        !isMobile && "pt-0 border-t-0 border-l border-[rgba(255,255,255,0.08)] pl-5 min-h-[332px] flex flex-col"
+        "pt-4 border-t",
+        c.divider,
+        !isMobile && "pt-0 border-t-0 border-l pl-5 min-h-[332px] flex flex-col"
       )}
     >
       <div className="flex items-center gap-2 mb-3">
-        <Clock className="w-4 h-4 text-[#C9A96E]" />
-        <span className="text-[12px] font-semibold text-[#f7f4ef] tracking-[1.35px] uppercase">
+        <Clock className="w-4 h-4" style={{ color: c.accent }} />
+        <span className={cn("text-[12px] font-semibold tracking-[1.35px] uppercase", c.timeLabel)}>
           {t("selectTime")}
         </span>
       </div>
 
       {!selectedDate && (
-        <div className="flex-1 min-h-[140px] border border-dashed border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.02)] px-4 py-6 text-[13px] text-[rgba(247,244,239,0.5)]">
+        <div className={cn("flex-1 min-h-[140px] border border-dashed px-4 py-6 text-[13px]", c.emptyBox)}>
           {t("selectDateAndTime")}
         </div>
       )}
@@ -282,9 +344,7 @@ export function TourDateTimePicker({
                 onClick={() => handleTimeSelect(slot.startTime)}
                 className={cn(
                   "w-full px-3 py-2.5 text-[13px] font-medium text-center whitespace-nowrap transition-colors border",
-                  selectedTime === slot.startTime
-                    ? "bg-[rgba(201,169,110,0.12)] border-[#C9A96E] text-[#C9A96E]"
-                    : "bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.08)] text-[rgba(247,244,239,0.75)] hover:border-[rgba(201,169,110,0.4)] hover:text-[#C9A96E]"
+                  selectedTime === slot.startTime ? c.slotSelected : c.slot
                 )}
               >
                 {slot.startTime}
@@ -294,7 +354,10 @@ export function TourDateTimePicker({
           </div>
 
           {selectedDateAvailability.isSpecial && selectedDateAvailability.reason && (
-            <p className="text-[12px] text-[#C9A96E] bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] px-3 py-1.5">
+            <p
+              className="text-[12px] px-3 py-1.5 border"
+              style={{ color: c.accent, backgroundColor: "rgba(160,130,72,0.08)", borderColor: "rgba(160,130,72,0.2)" }}
+            >
               {selectedDateAvailability.reason}
             </p>
           )}
@@ -302,7 +365,7 @@ export function TourDateTimePicker({
       )}
 
       {selectedDate && (!selectedDateAvailability || selectedDateSlots.length === 0) && !isLoading && (
-        <div className="flex-1 min-h-[140px] border border-dashed border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.02)] px-4 py-6 text-[13px] text-[rgba(247,244,239,0.5)]">
+        <div className={cn("flex-1 min-h-[140px] border border-dashed px-4 py-6 text-[13px]", c.emptyBox)}>
           {t("noTimesAvailable")}
         </div>
       )}
@@ -311,7 +374,7 @@ export function TourDateTimePicker({
 
   const pickerContent = (
     <div className={cn("p-4 overflow-y-auto", isMobile ? "px-2" : "max-h-[80vh]")}>
-      <div className={cn(!isMobile && "grid grid-cols-[320px_minmax(240px,1fr)] gap-5 items-start")}>
+      <div className={cn(!isMobile && !hideTime && "grid grid-cols-[320px_minmax(240px,1fr)] gap-5 items-start")}>
         <div>
           <div className="flex items-center justify-between mb-3">
             <button
@@ -319,10 +382,9 @@ export function TourDateTimePicker({
               onClick={handlePrevMonth}
               disabled={!canNavigateToPrevMonth()}
               className={cn(
-                "size-[32px] border border-[rgba(247,244,239,0.08)] flex items-center justify-center transition-colors",
-                canNavigateToPrevMonth()
-                  ? "text-[rgba(247,244,239,0.62)] hover:text-[#C9A96E] hover:border-[rgba(201,169,110,0.4)]"
-                  : "text-[rgba(247,244,239,0.2)] cursor-not-allowed"
+                "size-[32px] border flex items-center justify-center transition-colors",
+                c.navBorder,
+                canNavigateToPrevMonth() ? cn(c.navText, "hover:border-[rgba(160,130,72,0.4)]") : cn(c.navTextDim, "cursor-not-allowed")
               )}
             >
               <ChevronLeft className="size-[14px]" />
@@ -330,16 +392,16 @@ export function TourDateTimePicker({
 
             <div className="flex items-center gap-2">
               <span
-                className="text-[18px] font-semibold text-white"
+                className={cn("text-[18px] font-semibold", c.monthText)}
                 style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
               >
                 {months[viewMonth]} {viewYear}
               </span>
-              <div className="flex flex-col border border-[rgba(247,244,239,0.08)]">
+              <div className={cn("flex flex-col border", c.navBorder)}>
                 <button
                   type="button"
                   onClick={handleNextYear}
-                  className="px-1 text-[rgba(247,244,239,0.62)] hover:text-[#C9A96E] transition-colors"
+                  className={cn("px-1 transition-colors", c.navText)}
                 >
                   <ChevronUp className="size-[10px]" />
                 </button>
@@ -347,12 +409,7 @@ export function TourDateTimePicker({
                   type="button"
                   onClick={handlePrevYear}
                   disabled={!canNavigateToPrevYear()}
-                  className={cn(
-                    "px-1 transition-colors",
-                    canNavigateToPrevYear()
-                      ? "text-[rgba(247,244,239,0.62)] hover:text-[#C9A96E]"
-                      : "text-[rgba(247,244,239,0.2)] cursor-not-allowed"
-                  )}
+                  className={cn("px-1 transition-colors", canNavigateToPrevYear() ? c.navText : cn(c.navTextDim, "cursor-not-allowed"))}
                 >
                   <ChevronDown className="size-[10px]" />
                 </button>
@@ -362,7 +419,7 @@ export function TourDateTimePicker({
             <button
               type="button"
               onClick={handleNextMonth}
-              className="size-[32px] border border-[rgba(247,244,239,0.08)] flex items-center justify-center text-[rgba(247,244,239,0.62)] hover:text-[#C9A96E] hover:border-[rgba(201,169,110,0.4)] transition-colors"
+              className={cn("size-[32px] border flex items-center justify-center transition-colors hover:border-[rgba(160,130,72,0.4)]", c.navBorder, c.navText)}
             >
               <ChevronRight className="size-[14px]" />
             </button>
@@ -372,7 +429,7 @@ export function TourDateTimePicker({
             {DAYS.map((day) => (
               <div
                 key={day}
-                className="h-8 flex items-center justify-center text-[10px] font-bold text-[rgba(247,244,239,0.38)] tracking-[0.79px] uppercase"
+                className={cn("h-8 flex items-center justify-center text-[10px] font-bold tracking-[0.79px] uppercase", c.dayHeader)}
               >
                 {day}
               </div>
@@ -396,14 +453,14 @@ export function TourDateTimePicker({
                     "h-10 w-full flex items-center justify-center text-[14px] transition-colors",
                     !item.isCurrentMonth && "opacity-40",
                     isPast || !isAvailable
-                      ? "text-[rgba(247,244,239,0.25)] cursor-not-allowed"
+                      ? cn(c.dayDisabled, "cursor-not-allowed")
                       : isSelected
-                      ? "text-[#9a7535] font-bold bg-[rgba(201,169,110,0.08)]"
+                      ? c.daySelected
                       : isToday
-                      ? "text-[#C9A96E] font-bold border border-[rgba(201,169,110,0.4)]"
+                      ? c.dayToday
                       : isAvailable
-                      ? "text-[rgba(247,244,239,0.62)] font-medium hover:text-[#C9A96E] hover:bg-[rgba(201,169,110,0.06)]"
-                      : "text-[rgba(247,244,239,0.25)]"
+                      ? c.dayAvailable
+                      : c.dayDisabled
                   )}
                 >
                   {item.day}
@@ -414,18 +471,19 @@ export function TourDateTimePicker({
 
           {isLoading && (
             <div className="flex items-center justify-center py-4">
-              <div className="w-5 h-5 border-2 border-[#C9A96E] border-t-transparent rounded-full animate-spin" />
+              <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: c.accent, borderTopColor: "transparent" }} />
             </div>
           )}
         </div>
 
-        {timePanel}
+        {!hideTime && timePanel}
       </div>
 
-      {isMobile && selectedDate && selectedTime && (
+      {isMobile && selectedDate && (hideTime || selectedTime) && (
         <button
           onClick={() => setOpen(false)}
-          className="w-full mt-6 bg-[#C9A96E] text-[#0D0D0D] py-3.5 font-bold tracking-[1.1px] uppercase text-[13px] transition-colors hover:bg-[#b8954f]"
+          className={cn("w-full mt-6 py-3.5 font-bold tracking-[1.1px] uppercase text-[13px] transition-colors", light ? "text-[#f7f4ef]" : "text-[#0D0D0D]")}
+          style={{ backgroundColor: c.accent }}
         >
           {t("confirm")}
         </button>
@@ -443,21 +501,23 @@ export function TourDateTimePicker({
     <button
       type="button"
       className={cn(
-        "w-full h-[44px] px-[13px] py-[14px] border border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] flex items-center gap-2 transition-colors",
-        "hover:border-[rgba(201,169,110,0.4)] focus:outline-none focus:border-[rgba(201,169,110,0.6)]"
+        "w-full h-[44px] px-[13px] py-[14px] border flex items-center gap-2 transition-colors focus:outline-none",
+        c.triggerBorder,
+        c.triggerBg,
+        c.triggerHover
       )}
     >
       <span
         className={cn(
           "flex-1 text-left text-[14px] leading-none truncate",
-          displayValue ? "text-white" : "text-[#999]"
+          displayValue ? c.valueText : c.placeholder
         )}
       >
-        {displayValue || "00/00/00, 00:00"}
+        {displayValue || placeholder || (hideTime ? "00/00/00" : "00/00/00, 00:00")}
       </span>
       {displayValue ? (
         <X
-          className="size-[18px] text-[#999] hover:text-white shrink-0"
+          className={cn("size-[18px] shrink-0", c.iconMuted)}
           onClick={(e) => {
             e.stopPropagation()
             setSelectedDate(null)
@@ -466,7 +526,7 @@ export function TourDateTimePicker({
           }}
         />
       ) : (
-        <CalendarClock className="size-6 text-[#999] shrink-0" />
+        <CalendarClock className={cn("size-6 shrink-0", c.iconMuted)} />
       )}
     </button>
   )
@@ -474,7 +534,7 @@ export function TourDateTimePicker({
   if (isMobile) {
     return (
       <MobileDrawer
-        dark
+        dark={!light}
         open={open}
         onOpenChange={setOpen}
         trigger={trigger}
@@ -491,7 +551,7 @@ export function TourDateTimePicker({
         {trigger}
       </PopoverTrigger>
       <PopoverContent
-        className="max-h-[80vh] overflow-hidden p-0 bg-[#1e1d1b] border border-[rgba(255,255,255,0.12)] rounded-none shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]"
+        className={cn("max-h-[80vh] overflow-hidden p-0 rounded-none shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]", c.surface)}
         align="start"
         sideOffset={8}
         style={{

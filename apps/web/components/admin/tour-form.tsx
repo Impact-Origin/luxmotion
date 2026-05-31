@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select"
 import { ImageUpload } from "./image-upload"
+import { UltraItineraryEditor, type EditorDay as ItineraryEditorDay } from "./ultra-itinerary-editor"
 import { MultiMediaUpload, type MediaItem } from "./multi-media-upload"
 import { BlogEditor } from "./blog-editor"
 import { TourStopsBuilder } from "./tour-stops-builder"
@@ -79,6 +80,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
   const [excluded, setExcluded] = React.useState("")
 
   const [stops, setStops] = React.useState<any[]>([])
+  const [itineraryDays, setItineraryDays] = React.useState<ItineraryEditorDay[]>([])
 
   const [pickup, setPickup] = React.useState<any>(null)
   const [dropoff, setDropoff] = React.useState<any>(null)
@@ -110,6 +112,9 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
   const [isFeatured, setIsFeatured] = React.useState(false)
   const [isBestSeller, setIsBestSeller] = React.useState(false)
   const [isActive, setIsActive] = React.useState(true)
+  const [isUltraLuxury, setIsUltraLuxury] = React.useState(false)
+  const [tourTypeTag, setTourTypeTag] = React.useState<string>("")
+  const [durationDays, setDurationDays] = React.useState("")
   const [cancellationPolicy, setCancellationPolicy] = React.useState("")
   const [tags, setTags] = React.useState("")
 
@@ -168,6 +173,25 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
       setIncluded(initialData.included?.join("\n") || "")
       setExcluded(initialData.excluded?.join("\n") || "")
       setStops(initialData.stops || [])
+      setItineraryDays(
+        (initialData.itineraryDays || []).map((day: any) => ({
+          title: day.title || "",
+          titleAccent: day.titleAccent || "",
+          hoursActive: day.hoursActive || "",
+          nights: day.nights != null ? String(day.nights) : "",
+          hotel: day.hotel || "",
+          stops: (day.stops || []).map((s: any) => ({
+            time: s.time || "",
+            label: s.label || "",
+            title: s.title || "",
+            description: s.description || "",
+            imageId: s.imageId,
+            imageUrl: s.imageUrl ?? undefined,
+            lat: s.lat != null ? String(s.lat) : "",
+            lng: s.lng != null ? String(s.lng) : "",
+          })),
+        })),
+      )
       setPickup(initialData.pickup || null)
       setDropoff(initialData.dropoff || null)
       setBasePrice(initialData.basePrice?.toString() || "")
@@ -179,6 +203,9 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
       setIsFeatured(initialData.isFeatured || false)
       setIsBestSeller(initialData.isBestSeller || false)
       setIsActive(initialData.isActive ?? true)
+      setIsUltraLuxury(initialData.isUltraLuxury || false)
+      setTourTypeTag(initialData.tourTypeTag || "")
+      setDurationDays(initialData.durationDays?.toString() || "")
       setBookingDeadlineHours(initialData.bookingDeadlineHours?.toString() || "")
       setCancellationPolicy(initialData.cancellationPolicy || "")
       setTags(initialData.tags?.join(", ") || "")
@@ -222,6 +249,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
     setIncluded("")
     setExcluded("")
     setStops([])
+    setItineraryDays([])
     setPickup(null)
     setDropoff(null)
     setBasePrice("")
@@ -239,6 +267,9 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
     setIsFeatured(false)
     setIsBestSeller(false)
     setIsActive(true)
+    setIsUltraLuxury(false)
+    setTourTypeTag("")
+    setDurationDays("")
     setBookingDeadlineHours("")
     setCancellationPolicy("")
     setTags("")
@@ -294,6 +325,32 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
         isFeatured,
         isBestSeller,
         isActive,
+        isUltraLuxury,
+        tourTypeTag: isUltraLuxury && tourTypeTag ? (tourTypeTag as any) : undefined,
+        durationDays: isUltraLuxury && durationDays ? parseInt(durationDays) : undefined,
+        itineraryDays:
+          isUltraLuxury && itineraryDays.length > 0
+            ? itineraryDays
+                .map((day) => ({
+                  title: day.title,
+                  titleAccent: day.titleAccent || undefined,
+                  hoursActive: day.hoursActive || undefined,
+                  nights: day.nights ? parseInt(day.nights) : undefined,
+                  hotel: day.hotel || undefined,
+                  stops: day.stops
+                    .filter((s) => s.title.trim())
+                    .map((s) => ({
+                      time: s.time || undefined,
+                      label: s.label || undefined,
+                      title: s.title,
+                      description: s.description || undefined,
+                      imageId: (s.imageId as any) || undefined,
+                      lat: s.lat ? parseFloat(s.lat) : undefined,
+                      lng: s.lng ? parseFloat(s.lng) : undefined,
+                    })),
+                }))
+                .filter((day) => day.title.trim() || day.stops.length > 0)
+            : undefined,
         status,
         duration,
         groupSize,
@@ -691,12 +748,20 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
               </TabsContent>
 
               <TabsContent value="itinerary" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
-                <TourStopsBuilder
-                  tourId={initialData?._id}
-                  stops={stops}
-                  onChange={setStops}
-                  disabled={isSubmitting}
-                />
+                <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                  <p className="text-xs leading-relaxed text-amber-800">{t("form.itinerarySeparationWarning")}</p>
+                </div>
+                {isUltraLuxury ? (
+                  <UltraItineraryEditor days={itineraryDays} onChange={setItineraryDays} disabled={isSubmitting} />
+                ) : (
+                  <TourStopsBuilder
+                    tourId={initialData?._id}
+                    stops={stops}
+                    onChange={setStops}
+                    disabled={isSubmitting}
+                  />
+                )}
               </TabsContent>
 
               <TabsContent value="meeting" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
@@ -914,6 +979,53 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         <p className="text-xs text-zinc-500">{t("form.activeHelp")}</p>
                       </div>
                     </label>
+
+                    <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-zinc-200 hover:bg-zinc-50 transition-colors">
+                      <Checkbox
+                        checked={isUltraLuxury}
+                        onCheckedChange={(checked) => setIsUltraLuxury(checked as boolean)}
+                        disabled={isSubmitting}
+                        className="size-5"
+                      />
+                      <div>
+                        <span className="font-semibold text-sm text-zinc-700">{t("form.ultraLuxuryLabel")}</span>
+                        <p className="text-xs text-zinc-500">{t("form.ultraLuxuryHelp")}</p>
+                      </div>
+                    </label>
+
+                    {isUltraLuxury && (
+                      <div className="space-y-4 rounded-lg border border-amber-200 bg-amber-50/40 p-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="tourTypeTag">{t("form.tourTypeTagLabel")}</Label>
+                          <Select value={tourTypeTag} onValueChange={setTourTypeTag} disabled={isSubmitting}>
+                            <SelectTrigger className="h-11">
+                              <SelectValue placeholder={t("form.tourTypeTagPlaceholder")} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="half-day">{t("form.tourTypes.halfDay")}</SelectItem>
+                              <SelectItem value="full-day">{t("form.tourTypes.fullDay")}</SelectItem>
+                              <SelectItem value="multi-day">{t("form.tourTypes.multiDay")}</SelectItem>
+                              <SelectItem value="river-cruise">{t("form.tourTypes.riverCruise")}</SelectItem>
+                              <SelectItem value="private-yacht">{t("form.tourTypes.privateYacht")}</SelectItem>
+                              <SelectItem value="helicopter">{t("form.tourTypes.helicopter")}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="durationDays">{t("form.durationDaysLabel")}</Label>
+                          <Input
+                            id="durationDays"
+                            type="number"
+                            min={1}
+                            value={durationDays}
+                            onChange={(e) => setDurationDays(e.target.value)}
+                            disabled={isSubmitting}
+                            className="h-11"
+                            placeholder={t("form.durationDaysPlaceholder")}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 

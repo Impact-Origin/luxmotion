@@ -23,6 +23,9 @@ import {
   GraduationCap,
   Handshake,
   IdCard,
+  CalendarClock,
+  Gem,
+  Send,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -30,6 +33,7 @@ import { UserNav } from "./user-nav";
 export function AdminSidebar() {
   const pathname = usePathname();
   const tNumbers = useTranslations("adminNumbers");
+  const tAvailability = useTranslations("adminAvailability");
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const items = React.useMemo(
     () => [
@@ -84,9 +88,24 @@ export function AdminSidebar() {
         icon: SlidersHorizontal,
       },
       {
+        title: tAvailability("title"),
+        url: "/admin/availability",
+        icon: CalendarClock,
+      },
+      {
         title: "Contacts",
         url: "/admin/contacts",
         icon: Mail,
+      },
+      {
+        title: "Quote Requests",
+        url: "/admin/contact-quotes",
+        icon: Send,
+      },
+      {
+        title: "Ultra-Luxury Inquiries",
+        url: "/admin/tour-inquiries",
+        icon: Gem,
       },
       {
         title: "Wedding Quotes",

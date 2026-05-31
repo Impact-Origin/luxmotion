@@ -18,6 +18,7 @@ export function Providers({ children, locale, messages, timeZone }: ProvidersPro
       <NextThemesProvider
         attribute="class"
         defaultTheme="light"
+        forcedTheme="light"
         enableSystem={false}
         disableTransitionOnChange
       >

@@ -78,7 +78,8 @@
     "reviews": "Reviews",
     "faq": "FAQ",
     "bookNow": "Book Now",
-    "reserve": "Reserve"
+    "reserve": "Reserve",
+    "corporateContact": "Corporate Contact"
   },
   "hero": {
     "title1": "Safe, reliable and always on time,",
@@ -123,7 +124,7 @@
     "adultAge": "Over 13+",
     "infant": "Infant",
     "infantAge": "Under 3",
-    "label": "Private Mobility · Portugal",
+    "label": "Private Mobility Â· Portugal",
     "titleHighlight": "On Your Terms.",
     "description": "Private chauffeur transfers and curated experiences for guests who expect more than a journey.",
     "excellentRating": "Excellent Rating",
@@ -194,15 +195,15 @@
     "categories": {
       "standard": {
         "label": "Standard",
-        "passengers": "1–3 passengers"
+        "passengers": "1â€“3 passengers"
       },
       "xl": {
         "label": "XL",
-        "passengers": "1–5 passengers"
+        "passengers": "1â€“5 passengers"
       },
       "executivo": {
         "label": "Executive",
-        "passengers": "1–4 passengers"
+        "passengers": "1â€“4 passengers"
       },
       "van": {
         "label": "Van",
@@ -221,17 +222,17 @@
       "fiatTipo": {
         "label": "Standard",
         "name": "Fiat Tipo Station",
-        "specs": "1–4 passengers · 3 bags"
+        "specs": "1â€“4 passengers Â· 3 bags"
       },
       "mercedesSClass1": {
         "label": "Standard",
         "name": "Mercedes S-Class",
-        "specs": "1–4 passengers · 3 bags"
+        "specs": "1â€“4 passengers Â· 3 bags"
       },
       "mercedesSClass2": {
         "label": "Standard",
         "name": "Mercedes S-Class",
-        "specs": "1–4 passengers · 3 bags"
+        "specs": "1â€“4 passengers Â· 3 bags"
       }
     }
   },
@@ -287,7 +288,7 @@
     "titleSubtitle": "Every vehicle handpicked for comfort, safety, and the standard that Portugal's finest guests deserve.",
     "bookVehicle": "Book this vehicle",
     "meta": {
-      "pax": "{min}–{max} pax",
+      "pax": "{min}â€“{max} pax",
       "bags": "{count} bags",
       "ac": "A/C",
       "wifi": "Wi-Fi",
@@ -365,15 +366,15 @@
       "items": {
         "booking": {
           "question": "How far in advance should I book?",
-          "answer": "We recommend booking at least 24 hours in advance to guarantee availability. However, we accommodate same-day requests whenever possible. For peak season, holidays, or large group transfers, booking 48–72 hours ahead ensures the best vehicle selection."
+          "answer": "We recommend booking at least 24 hours in advance to guarantee availability. However, we accommodate same-day requests whenever possible. For peak season, holidays, or large group transfers, booking 48â€“72 hours ahead ensures the best vehicle selection."
         },
         "flightDelay": {
           "question": "What happens if my flight is delayed?",
-          "answer": "We monitor every flight in real time. If your flight is delayed, your driver’s schedule adjusts automatically — no calls, no stress. There’s no extra charge for flight delays, and your chauffeur will be waiting when you land, regardless of the time."
+          "answer": "We monitor every flight in real time. If your flight is delayed, your driverâ€™s schedule adjusts automatically â€” no calls, no stress. Thereâ€™s no extra charge for flight delays, and your chauffeur will be waiting when you land, regardless of the time."
         },
         "private": {
           "question": "Are all transfers truly private?",
-          "answer": "Yes. Every booking is a private service — you will never share your vehicle with other passengers. Your chauffeur, your vehicle, your schedule. No exceptions."
+          "answer": "Yes. Every booking is a private service â€” you will never share your vehicle with other passengers. Your chauffeur, your vehicle, your schedule. No exceptions."
         },
         "vehicles": {
           "question": "Which vehicles are available?",
@@ -424,7 +425,7 @@
     "a7": "Yes. We operate across Portugal and also organise trips to Spain. Price and availability must be agreed in advance.",
     "q8": "Do you offer tourist tours?",
     "a8_intro": "Yes. LuxMotion / Easy Transfer offers exclusive, customised tours:",
-    "a8_1": "Half-day or full-day tours (Lisbon, Sintra, Cascais, Fátima, Nazaré, Óbidos, etc.)",
+    "a8_1": "Half-day or full-day tours (Lisbon, Sintra, Cascais, FÃ¡tima, NazarÃ©, Ã“bidos, etc.)",
     "a8_2": "Premium tours across Portugal (Douro, Alentejo, Algarve, Porto)",
     "a8_3": "Tailored experiences (gastronomy, wine, surf trips, art & culture, adventure, wellness, etc.)",
     "a8_outro": "All tours include an experienced driver, premium vehicle and itinerary tailored to your preferences.",
@@ -452,8 +453,8 @@
       "headingAccent": "know.",
       "headingLine1": "Everything you need",
       "headingLine2Pre": "to",
-      "subtitle": "Answers to the most common questions about our transfers, tours, and services. Can't find what you're looking for? Reach out — we reply within minutes.",
-      "searchPlaceholder": "Search FAQs — e.g. 'airport', 'weddings', 'payment'...",
+      "subtitle": "Answers to the most common questions about our transfers, tours, and services. Can't find what you're looking for? Reach out â€” we reply within minutes.",
+      "searchPlaceholder": "Search FAQs â€” e.g. 'airport', 'weddings', 'payment'...",
       "searchButton": "Search"
     },
     "categories": {
@@ -472,10 +473,10 @@
       "subtitle": "Our team is available 24/7 to help with any question about transfers, tours, weddings, or bespoke experiences in Portugal.",
       "whatsapp": "WhatsApp Us",
       "proposal": "Request a Proposal",
-      "phoneLabel": "Phone · WhatsApp",
+      "phoneLabel": "Phone Â· WhatsApp",
       "emailLabel": "Email",
       "availabilityLabel": "Availability",
-      "availabilityValue": "24/7 · Always Here"
+      "availabilityValue": "24/7 Â· Always Here"
     }
   },
   "footer": {
@@ -483,7 +484,7 @@
     "socialNetworks": "Social:",
     "email": "Email:",
     "phones": "Phones:",
-    "copyright": "Copyright © 2020 - {year} EasyTransfer. All rights reserved.",
+    "copyright": "Copyright Â© 2020 - {year} EasyTransfer. All rights reserved.",
     "navigation": "Navigation",
     "home": "Home",
     "aboutUs": "About Us",
@@ -504,9 +505,10 @@
       "tagline2": "Where every arrival is a first impression.",
       "follow": "Follow",
       "acceptedPayments": "Accepted Payments",
-      "securePayments": "Secure payments · SSL encrypted",
-      "copyright": "© 2026 LuxMotion by EasyTransfer. All rights reserved."
-    }
+      "securePayments": "Secure payments Â· SSL encrypted",
+      "copyright": "Â© 2026 LuxMotion by EasyTransfer. All rights reserved."
+    },
+    "corporateContact": "Corporate Contact"
   },
   "checkout": {
     "steps": {
@@ -527,7 +529,7 @@
       "bestDriversDesc": "We handpick the friendliest, professional, English-speaking drivers",
       "alwaysOnTime": "Always on time",
       "alwaysOnTimeDesc": "Our drivers monitor the flights in case of delays",
-      "shortRating": "4.98/5 — 3000+ reviews",
+      "shortRating": "4.98/5 â€” 3000+ reviews",
       "shortDrivers": "Best drivers",
       "shortFlight": "Flight monitoring"
     },
@@ -564,7 +566,7 @@
     "wifiOnBoard": "Wi-Fi on board",
     "tollsIncluded": "Tolls and special fees included",
     "babySeat": "Baby seat",
-    "babySeatExtra": "(extra: +5€)",
+    "babySeatExtra": "(extra: +5â‚¬)",
     "extraHours": "Extra hours / waiting",
     "beyondIncluded": "beyond included",
     "tips": "Tips"
@@ -622,7 +624,7 @@
     "removeStop": "Remove stop",
     "shareTrip": "Share trip: Get 20% discount",
     "agreeTerms": "Agree to Terms and Conditions and Refund Policies",
-    "continueWithPrice": "CONTINUE (€ {price})",
+    "continueWithPrice": "CONTINUE (â‚¬ {price})",
     "verifyFlight": "Please click the search icon next to the flight number to confirm your flight details.",
     "flightVerified": "Flight found: {airline}",
     "flightNotFound": "Flight not found",
@@ -697,7 +699,7 @@
     "couponPlaceholder": "Enter your coupon here",
     "extras": "Extras",
     "comfortConnection": "Comfort & Connection",
-    "comfortConnectionPrice": "+ € 7",
+    "comfortConnectionPrice": "+ â‚¬ 7",
     "freshWater": "Fresh water and snacks in the car",
     "unlimitedWifi": "Unlimited Wi-Fi during the trip",
     "chargers": "Chargers available (USB-C and iPhone)",
@@ -889,13 +891,13 @@
   },
   "confirmation": {
     "title": "Booking Confirmation",
-    "thankYou": "Thank you for your booking 🤝!",
+    "thankYou": "Thank you for your booking ðŸ¤!",
     "emailWhatsapp": "You will receive an email and a WhatsApp message shortly with a summary of your booking.",
     "teamConfirmation": "Our team will confirm availability shortly",
     "driverDetails": "to provide the service and will provide driver details and meeting point if necessary.",
     "tipRequest": "Please,",
     "considerTip": "consider leaving",
-    "tipMessage": "a tip 💰 for your driver to show your appreciation for their service. Thank you!",
+    "tipMessage": "a tip ðŸ’° for your driver to show your appreciation for their service. Thank you!",
     "paymentDone": "Payment done",
     "bookingDone": "Booking done",
     "backToHome": "BACK TO HOME PAGE",
@@ -909,7 +911,7 @@
     "backToStart": "Back to start",
     "flightMonitored": {
       "title": "Flight Monitored",
-      "desc": "We're tracking your flight in real time. Your driver adjusts automatically — zero delay charges."
+      "desc": "We're tracking your flight in real time. Your driver adjusts automatically â€” zero delay charges."
     },
     "driverConfirmed": {
       "title": "Driver Confirmed",
@@ -926,7 +928,7 @@
     "titleGold": "Portugal,",
     "titleRest": "Beyond\nthe Expected.",
     "description": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
-    "cardLabel": "Private · Full Day",
+    "cardLabel": "Private Â· Full Day",
     "exploreAll": "Explore all destinations",
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
@@ -934,7 +936,7 @@
     "destinations": {
       "lisboa": {
         "name": "Lisboa",
-        "description": "Alfama at golden hour. Belém before the crowds. A city that rewards those who know where to look."
+        "description": "Alfama at golden hour. BelÃ©m before the crowds. A city that rewards those who know where to look."
       },
       "porto": {
         "name": "Porto",
@@ -949,7 +951,7 @@
         "description": "Endless cork oaks, walled hilltowns, and silent roads where time moves slower."
       },
       "acores": {
-        "name": "Açores",
+        "name": "AÃ§ores",
         "description": "Volcanic craters, crater lakes, and an ocean horizon that changes by the hour."
       },
       "madeira": {
@@ -1107,10 +1109,10 @@
       "expertGuides": "Expert Local Guides"
     },
     "redesign": {
-      "label": "Private Tours · Portugal",
+      "label": "Private Tours Â· Portugal",
       "headingLine1": "Discover the",
       "headingLine2": "Soul of Portugal",
-      "subtitle": "Private driver. Curated itineraries. Every road in Portugal — experienced as it deserves to be.",
+      "subtitle": "Private driver. Curated itineraries. Every road in Portugal â€” experienced as it deserves to be.",
       "searchPlaceholder": "Search for tours, destinations, experiences...",
       "searchButton": "Search",
       "badges": {
@@ -1192,7 +1194,98 @@
     "meetingLocationLabel": "Meeting Location",
     "meetingNote": "Exact coordinates will be shared after booking confirmation. Hotel pickup service is available on request.",
     "verifiedBooking": "Verified booking",
-    "verifiedReviews": "verified reviews"
+    "verifiedReviews": "verified reviews",
+    "location": "Location",
+    "day": "Day",
+    "stopsCount": "{count} stops",
+    "nightsCount": "{count} nights",
+    "extras": "Extras",
+    "extrasHeading": "Enhance your",
+    "extrasHeadingAccent": "experience",
+    "prevExtra": "Previous",
+    "nextExtra": "Next",
+    "inquiry": {
+      "from": "From",
+      "perPerson": "/per person",
+      "planTitle": "Plan your",
+      "planTitleAccent": "perfect day.",
+      "planSubtitle": "Tell us where you'd like to go, when, and for how many. We'll create something memorable for you.",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Your full name",
+      "email": "E-mail",
+      "emailPlaceholder": "Your best e-mail",
+      "phone": "Phone / WhatsApp",
+      "country": "Country",
+      "date": "Date",
+      "select": "Select",
+      "flexibleDates": "My dates are flexible",
+      "people": "How many people are travelling?",
+      "ageRange": "Age range",
+      "budget": "Your budget per person",
+      "interests": "What would you like to do & visit?",
+      "interestsPlaceholder": "Share your interests â€” private wine tastings, gastronomy experiences, outdoor activities, cultural guided tours, wellness moments, luxury cruises, private jet charter, exclusive shopping...",
+      "marketingOptIn": "I'm happy to receive emails from LuxMotion with travel guides, tips and information.",
+      "send": "Send Inquiry",
+      "sending": "Sending...",
+      "responseNote": "Response within <b>24 hours</b> Â· No surprise fees",
+      "successTitle": "Inquiry sent",
+      "successBody": "Our team will get back to you within 24 hours.",
+      "countryOptions": [
+        "Portugal",
+        "Spain",
+        "France",
+        "United Kingdom",
+        "United States",
+        "Germany",
+        "Italy",
+        "Switzerland",
+        "Other"
+      ],
+      "peopleOptions": [
+        "1",
+        "2",
+        "3-4",
+        "5-6",
+        "7+"
+      ],
+      "ageOptions": [
+        "18-30",
+        "31-45",
+        "46-60",
+        "60+"
+      ],
+      "pillarInclusiveTitle": "All-Inclusive",
+      "pillarInclusiveDesc": "Hotels & transfers covered",
+      "pillarTailoredTitle": "100% Tailored",
+      "pillarTailoredDesc": "Built around you",
+      "pillarExpertsTitle": "Local Experts",
+      "pillarExpertsDesc": "On-the-ground team",
+      "pillarConciergeTitle": "24/7 Concierge",
+      "pillarConciergeDesc": "Always reachable",
+      "errorTitle": "Could not send inquiry",
+      "datePlaceholder": "Select date",
+      "confirmation": {
+        "close": "Close",
+        "requestReceived": "Request Received",
+        "thankYou": "Thank you, <i>{name}.</i>",
+        "subtitle": "Your request has been received and our team is already preparing your tailored proposal. A confirmation has been sent to <b>{email}</b>.",
+        "referenceLabel": "Reference",
+        "whatHappensNext": "What happens next",
+        "step1Title": "Brief review & assignment",
+        "step1Desc": "A dedicated account manager reviews your request and is assigned to your project.",
+        "step1Time": "Within 2 hours",
+        "step2Title": "Personalised proposal",
+        "step2Desc": "You'll receive a detailed proposal with route planning, vehicle allocation, and transparent pricing.",
+        "step2Time": "Within 24 hours",
+        "step3Title": "Refine & confirm",
+        "step3Desc": "We adjust every detail with you until it's exactly what you envisioned. Then we activate.",
+        "step3Time": "At your pace",
+        "continueWhatsapp": "Continue on WhatsApp",
+        "scheduleCall": "Schedule a Call",
+        "exploreServices": "Explore Services",
+        "footerNote": "Need to add details to your request? <reply>Reply to our confirmation email</reply> or message us on WhatsApp at <num>{phone}</num>."
+      }
+    }
   },
   "blogsHero": {
     "title": "Discover the Wonders of Portugal",
@@ -1248,7 +1341,7 @@
     "bookCta": {
       "title": "Book your",
       "accent": "airport transfer",
-      "subtitle": "Fixed price · Flight tracking · Chauffeur waiting at arrivals.",
+      "subtitle": "Fixed price Â· Flight tracking Â· Chauffeur waiting at arrivals.",
       "button": "Book now"
     },
     "minShort": "min",
@@ -1282,15 +1375,15 @@
   "tourStory": {
     "titlePart1": "More than a trip,",
     "titlePart2": "a story.",
-    "paragraph1": "Every journey with us becomes a chapter in your life's greatest adventures. From hidden gems in ancient villages to sunset wine tastings overlooking terraced valleys—we craft experiences that touch your soul and create memories that last forever.",
-    "paragraph2": "Our local guides don't just show you Portugal—they share their home, their stories, and their passion for this beautiful land.",
+    "paragraph1": "Every journey with us becomes a chapter in your life's greatest adventures. From hidden gems in ancient villages to sunset wine tastings overlooking terraced valleysâ€”we craft experiences that touch your soul and create memories that last forever.",
+    "paragraph2": "Our local guides don't just show you Portugalâ€”they share their home, their stories, and their passion for this beautiful land.",
     "imageAlt": "Our perfect trip - photo gallery with premium vehicle",
     "redesign": {
       "label": "Our Philosophy",
       "headingPart1": "More than a trip,",
       "headingPart2": "a story",
-      "paragraph1": "Portugal holds a thousand versions of itself — fado echoing off Alfama's tiles, the Douro terraces in golden hour, the Atlantic crashing below Sintra's cliffs. Our private tours are crafted to find the version that moves you most.",
-      "paragraph2": "Each itinerary is built around you. No fixed groups, no rigid schedules, no compromises. Just a carefully selected driver, a curated route, and a day that belongs entirely to you — or twenty.",
+      "paragraph1": "Portugal holds a thousand versions of itself â€” fado echoing off Alfama's tiles, the Douro terraces in golden hour, the Atlantic crashing below Sintra's cliffs. Our private tours are crafted to find the version that moves you most.",
+      "paragraph2": "Each itinerary is built around you. No fixed groups, no rigid schedules, no compromises. Just a carefully selected driver, a curated route, and a day that belongs entirely to you â€” or twenty.",
       "photoCardText": "Our perfect trip",
       "reviewStars": "5/5 Stars",
       "reviewCount": "150+ Reviews",
@@ -1312,32 +1405,32 @@
         "lisboa": {
           "name": "Lisbon",
           "label": "Private Tour",
-          "subtitle": "Half day · Full day · Custom"
+          "subtitle": "Half day Â· Full day Â· Custom"
         },
         "porto": {
           "name": "Porto",
           "label": "Private Tour",
-          "subtitle": "Full day · Multi-day"
+          "subtitle": "Full day Â· Multi-day"
         },
         "algarve": {
           "name": "Algarve",
-          "label": "Private · Full Day",
-          "subtitle": "Full day · Multi-day"
+          "label": "Private Â· Full Day",
+          "subtitle": "Full day Â· Multi-day"
         },
         "ericeira": {
           "name": "Ericeira",
-          "label": "Private · Full Day",
-          "subtitle": "Full day · Multi-day"
+          "label": "Private Â· Full Day",
+          "subtitle": "Full day Â· Multi-day"
         },
         "alentejo": {
           "name": "Alentejo",
           "label": "Private Tour",
-          "subtitle": "Full day · Multi-day"
+          "subtitle": "Full day Â· Multi-day"
         },
         "madeira": {
           "name": "Madeira",
           "label": "Private Tour",
-          "subtitle": "Full day · Multi-day"
+          "subtitle": "Full day Â· Multi-day"
         }
       }
     }
@@ -1356,7 +1449,7 @@
     "subtitle": "The vehicle. The driver. The timing. Every detail is managed before you think to ask.",
     "alwaysOnTime": {
       "title": "Always On Time",
-      "description": "We track your flight in real time. Your driver adjusts automatically — no calls, no extra charges."
+      "description": "We track your flight in real time. Your driver adjusts automatically â€” no calls, no extra charges."
     },
     "privateAlways": {
       "title": "Private. Always.",
@@ -1445,10 +1538,10 @@
     "titlePart1": "Our top picks",
     "titlePart2": "just for you",
     "bestSeller": "Best Seller",
-    "save": "Save {amount}€",
+    "save": "Save {amount}â‚¬",
     "reviews": "reviews",
-    "was": "Was {price} €",
-    "from": "From {price} €",
+    "was": "Was {price} â‚¬",
+    "from": "From {price} â‚¬",
     "showMore": "Show more",
     "goToSlide": "Go to slide {number}",
     "redesign": {
@@ -1459,7 +1552,7 @@
         "luxury": {
           "label": "Private Tour",
           "title": "Luxury Travel",
-          "description": "Bentley, Mercedes S-Class, Tesla — every vehicle is a statement. Every transfer is an experience in itself."
+          "description": "Bentley, Mercedes S-Class, Tesla â€” every vehicle is a statement. Every transfer is an experience in itself."
         },
         "itineraries": {
           "label": "Private Tour",
@@ -1469,7 +1562,7 @@
         "transfers": {
           "label": "Private Tour",
           "title": "Private Transfers",
-          "description": "From the airport to the hotel. From the hotel to the venue. Point to point — always on time, always in style."
+          "description": "From the airport to the hotel. From the hotel to the venue. Point to point â€” always on time, always in style."
         }
       }
     },
@@ -2109,7 +2202,22 @@
       "addonActive": "Active",
       "addonSaved": "Add-on saved",
       "addonRemoved": "Add-on removed",
-      "addonTranslationSaved": "Translation saved"
+      "addonTranslationSaved": "Translation saved",
+      "ultraLuxuryLabel": "Ultra Luxury Tour",
+      "ultraLuxuryHelp": "Show this tour only in the Ultra Luxury catalogue (hidden from normal listings).",
+      "tourTypeTagLabel": "Tour Type",
+      "tourTypeTagPlaceholder": "Select a tour type",
+      "durationDaysLabel": "Duration (days)",
+      "durationDaysPlaceholder": "e.g. 7",
+      "tourTypes": {
+        "halfDay": "Half Day",
+        "fullDay": "Full Day",
+        "multiDay": "Multi-Day",
+        "riverCruise": "River Cruise",
+        "privateYacht": "Private Yacht",
+        "helicopter": "Helicopter"
+      },
+      "itinerarySeparationWarning": "Normal and Ultra-Luxury itineraries are stored separately. The day-by-day itinerary below is only used for Ultra-Luxury tours â€” switching this tourâ€™s type will not copy stops between the two, and each is kept independently."
     },
     "schedule": {
       "activeDays": "Active Days",
@@ -2354,10 +2462,10 @@
     "tryFilters": "Try adjusting your filters.",
     "checkBackSoon": "Check back soon for upcoming events.",
     "hero": {
-      "eyebrow": "Private Transport · Portugal Events",
+      "eyebrow": "Private Transport Â· Portugal Events",
       "headingLine1": "Arrive like",
       "headingLine2": "it matters.",
-      "subtitle": "Private chauffeur transport to Portugal’s finest festivals, concerts, sporting events and cultural occasions — door to door, in the vehicle you deserve.",
+      "subtitle": "Private chauffeur transport to Portugalâ€™s finest festivals, concerts, sporting events and cultural occasions â€” door to door, in the vehicle you deserve.",
       "upcomingEvents": "Upcoming events",
       "citiesCovered": "Cities covered",
       "bookingAvailable": "Booking available"
@@ -2423,7 +2531,7 @@
     "copied": "Copied to clipboard",
     "sortNewest": "Newest first",
     "sortOldest": "Oldest first",
-    "noPhone": "—",
+    "noPhone": "â€”",
     "viewMessage": "View Message",
     "close": "Close"
   },
@@ -2507,11 +2615,11 @@
       "line2": "United by Portugal:",
       "line3": "Making Every Mile",
       "line4": "into a Memory",
-      "eyebrow": "Our Story · Ericeira, Portugal",
+      "eyebrow": "Our Story Â· Ericeira, Portugal",
       "headingLine1": "Driven by Passion,",
       "headingLine2Pre": "United by ",
       "headingAccent": "Portugal.",
-      "subtitle": "We didn't set out to build a transport company. We set out to change the way people experience Portugal — one arrival at a time. Every mile is a chance to make a memory worth keeping.",
+      "subtitle": "We didn't set out to build a transport company. We set out to change the way people experience Portugal â€” one arrival at a time. Every mile is a chance to make a memory worth keeping.",
       "ctaPrimary": "Our Story",
       "ctaSecondary": "Meet the Team"
     },
@@ -2527,7 +2635,7 @@
       "desc1": "Born in Ericeira. First vehicle, first transfer, first five-star review.",
       "desc2": "Launched dedicated wedding transport. Penha Longa becomes first hotel partner.",
       "desc3": "Expanded to Porto, Algarve, and Douro Valley. 40+ luxury hotel partners.",
-      "desc4": "322 five-star reviews. PME Líder '24. Tripadvisor Top 3 Tours in Lisbon."
+      "desc4": "322 five-star reviews. PME LÃ­der '24. Tripadvisor Top 3 Tours in Lisbon."
     },
     "whoIs": "Who is",
     "description": "Founded in 2018, Easy Transfer was born from a simple vision: to offer travelers in Portugal a safer, more reliable, and personalized alternative to taxis and ride-sharing apps.",
@@ -2551,11 +2659,11 @@
       "transparency": "Transparency",
       "transparencyDesc": "Fixed prices. No hidden fees. No surprises. What you see at booking is exactly what you pay at arrival.",
       "personalization": "Personalization",
-      "personalizationDesc": "From special requests to curated stops and bespoke itineraries — every journey is shaped around you.",
+      "personalizationDesc": "From special requests to curated stops and bespoke itineraries â€” every journey is shaped around you.",
       "quality": "Quality",
       "qualityDesc": "Mercedes S-Class, BMW 7, Audi A8. Premium vehicles, professional attire, and attention to every detail.",
       "sustainability": "Sustainability",
-      "sustainabilityDesc": "Growing our fleet of hybrid and electric vehicles — because a greener Portugal is the one worth showing off.",
+      "sustainabilityDesc": "Growing our fleet of hybrid and electric vehicles â€” because a greener Portugal is the one worth showing off.",
       "eyebrow": "What We Stand For",
       "headingLine1": "Values That Drive",
       "headingLine2": "Every Journey."
@@ -2582,10 +2690,10 @@
         "tours": "Tours"
       },
       "photos": {
-        "tennisCascais": "Event · Estoril Open",
-        "webSummit": "Corporate · Web Summit Lisbon",
-        "golfAlgarve": "Tour · Algarve Golf",
-        "weddingPenhaLonga": "Wedding · Penha Longa"
+        "tennisCascais": "Event Â· Estoril Open",
+        "webSummit": "Corporate Â· Web Summit Lisbon",
+        "golfAlgarve": "Tour Â· Algarve Golf",
+        "weddingPenhaLonga": "Wedding Â· Penha Longa"
       }
     },
     "drivers": {
@@ -2602,25 +2710,25 @@
       "heading": "Our Friendly Drivers",
       "items": {
         "joao": {
-          "name": "João",
+          "name": "JoÃ£o",
           "location": "Lisboa",
-          "quote": "“Every guest is a friend I haven't met yet. I love sharing the hidden gems of my city.”"
+          "quote": "â€œEvery guest is a friend I haven't met yet. I love sharing the hidden gems of my city.â€"
         },
         "maria": {
           "name": "Maria",
           "location": "Porto",
-          "quote": "“Safety and comfort are my priorities. I treat every passenger like family.”"
+          "quote": "â€œSafety and comfort are my priorities. I treat every passenger like family.â€"
         },
         "pedro": {
           "name": "Pedro",
           "location": "Algarve",
-          "quote": "“20 years of driving taught me that the journey matters as much as the destination.”"
+          "quote": "â€œ20 years of driving taught me that the journey matters as much as the destination.â€"
         }
       }
     },
     "team": {
       "title": "Meet the team",
-      "subtitle": "The leadership team guiding LuxMotion’s success.",
+      "subtitle": "The leadership team guiding LuxMotionâ€™s success.",
       "bioFallback": "Bio coming soon.",
       "modalClose": "Close",
       "modalPrev": "Previous member",
@@ -2664,7 +2772,7 @@
     },
     "joinUs": {
       "title": "Join Us!",
-      "subtitle": "Two ways to join the LuxMotion network — as a partner who elevates guest experiences, or as a chauffeur who sets the standard.",
+      "subtitle": "Two ways to join the LuxMotion network â€” as a partner who elevates guest experiences, or as a chauffeur who sets the standard.",
       "becomePartner": "Become a partner",
       "becomeDriver": "Become a driver",
       "eyebrow": "Work With Us",
@@ -2673,13 +2781,13 @@
       "partner": {
         "titleLine1": "Become a",
         "titleLine2": "Partner",
-        "body": "Hotel, wedding venue, or luxury travel agency? Offer your guests private transport under your brand — zero operational overhead, full white-label integration, and revenue share from day one.",
+        "body": "Hotel, wedding venue, or luxury travel agency? Offer your guests private transport under your brand â€” zero operational overhead, full white-label integration, and revenue share from day one.",
         "cta": "Partner With Us"
       },
       "chauffeur": {
         "titleLine1": "Become a",
         "titleLine2": "Chauffeur",
-        "body": "Drive Portugal's most demanding guests. Pre-scheduled rides, weekly payments, and a platform that manages everything so you can focus on the drive. We only accept 1 in 5 applicants — if you have the standard, we want to hear from you.",
+        "body": "Drive Portugal's most demanding guests. Pre-scheduled rides, weekly payments, and a platform that manages everything so you can focus on the drive. We only accept 1 in 5 applicants â€” if you have the standard, we want to hear from you.",
         "cta": "Apply to Drive"
       }
     },
@@ -2688,7 +2796,7 @@
       "headingLine1": "Built in Ericeira.",
       "headingLine2": "Trusted across Portugal.",
       "body1": "Founded in 2018, LuxMotion grew from a simple conviction: Portugal deserves a private transfer service that matches the quality of its finest hotels. We handpick every driver, maintain a fleet of premium vehicles, and treat every journey as an opportunity to showcase the best of Portuguese hospitality.",
-      "body2": "From Lisbon airport arrivals to Douro Valley tours and Algarve wedding days — we've built a platform that connects guests, hotels, and drivers in one seamless experience. One in five driver applicants makes it through. Zero compromises on the vehicle standard.",
+      "body2": "From Lisbon airport arrivals to Douro Valley tours and Algarve wedding days â€” we've built a platform that connects guests, hotels, and drivers in one seamless experience. One in five driver applicants makes it through. Zero compromises on the vehicle standard.",
       "stats": {
         "rating": {
           "value": "4.9/5",
@@ -2879,14 +2987,14 @@
     "titleMain": "Elevate Every Arrival.",
     "titleItalic": "Before Guests Even Check In.",
     "body1": "Your guests chose a 5-star property. The transfer shouldn't feel like an afterthought.",
-    "body2": "LuxMotion integrates seamlessly into your guest communications — fully white-labelled, zero operational load on your team. Flight delays are tracked automatically, your concierge stays informed in real time, and guests arrive feeling like the experience began the moment they landed.",
+    "body2": "LuxMotion integrates seamlessly into your guest communications â€” fully white-labelled, zero operational load on your team. Flight delays are tracked automatically, your concierge stays informed in real time, and guests arrive feeling like the experience began the moment they landed.",
     "cta": "Partner with us",
     "photoAlt": "Luxury transfer arriving for hotel guest",
     "card": {
       "label": "Guest Check-In",
       "guestInitial": "J",
       "guestName": "James Whitmore",
-      "guestMeta": "Suite 412 · Arriving 14:35",
+      "guestMeta": "Suite 412 Â· Arriving 14:35",
       "tag1": "Flight delayed 45 min",
       "tag2": "Late check-out",
       "call": "Call",
@@ -2897,13 +3005,13 @@
     "sectionLabel": "Travel Agencies",
     "titleMain": "Add Premium Ground Transport",
     "titleItalic": "to Every Itinerary You Sell.",
-    "body": "Your clients trust you to curate every detail. Now you can include private chauffeur transfers across Portugal without managing a single vehicle or driver. Fully white-labelled under your brand, our platform integrates into your booking flow in minutes — increasing your revenue per booking while giving clients one more reason to return.",
+    "body": "Your clients trust you to curate every detail. Now you can include private chauffeur transfers across Portugal without managing a single vehicle or driver. Fully white-labelled under your brand, our platform integrates into your booking flow in minutes â€” increasing your revenue per booking while giving clients one more reason to return.",
     "cta": "Explore the integration",
     "photoAlt": "Chauffeur with luxury vehicle at airport",
     "card": {
       "label": "+ White-Label Booking",
-      "route": "Lisbon Airport → Bairro Alto Hotel",
-      "date": "14 Mar  ·  08:45 arrival",
+      "route": "Lisbon Airport â†’ Bairro Alto Hotel",
+      "date": "14 Mar  Â·  08:45 arrival",
       "button": "Continue Booking"
     }
   },
@@ -2911,7 +3019,7 @@
     "sectionLabel": "Wedding Planners & Venues",
     "titleLine1": "The Day Is Flawless.",
     "titleLine2": "The Transfers Should Be Too.",
-    "body": "A wedding has no room for a driver who's late, a vehicle that doesn't match the aesthetic, or a guest left waiting at arrivals. LuxMotion gives wedding planners and venues a private transfer partner built for high-stakes days — impeccable vehicles, vetted chauffeurs, real-time tracking, and absolute discretion as standard.",
+    "body": "A wedding has no room for a driver who's late, a vehicle that doesn't match the aesthetic, or a guest left waiting at arrivals. LuxMotion gives wedding planners and venues a private transfer partner built for high-stakes days â€” impeccable vehicles, vetted chauffeurs, real-time tracking, and absolute discretion as standard.",
     "cta": "Work with us",
     "photoAlt": "Chauffeur opening luxury vehicle door",
     "card": {
@@ -2924,11 +3032,11 @@
     "sectionLabel": "Professional Drivers",
     "titleLine1": "Drive Portugal's Most",
     "titleLine2": "Demanding Guests.",
-    "body": "LuxMotion connects professional drivers with guests who expect the highest standard. Pre-scheduled rides, weekly payments, and a platform that handles everything — so you focus on the drive. We only accept 1 in 5 applicants. If you have the vehicle, the professionalism, and the discretion, we’d like to meet you.",
+    "body": "LuxMotion connects professional drivers with guests who expect the highest standard. Pre-scheduled rides, weekly payments, and a platform that handles everything â€” so you focus on the drive. We only accept 1 in 5 applicants. If you have the vehicle, the professionalism, and the discretion, weâ€™d like to meet you.",
     "cta": "Apply to drive with us",
     "photoAlt": "Professional driver behind the wheel of luxury vehicle",
     "card": {
-      "dateLabel": "Today · 4 Mar",
+      "dateLabel": "Today Â· 4 Mar",
       "ridesCount": "3 rides confirmed",
       "onTime": "On Time",
       "scheduled": "Scheduled",
@@ -2983,7 +3091,7 @@
     "section2Title": "2. Cancellation Windows",
     "section2Tier1Title": "Cancellation more than 48 hours in advance:",
     "section2Tier1Body": "Full refund (100% of the amount paid), including transfer and insurance where applicable",
-    "section2Tier2Title": "Cancellation between 24–48 hours in advance:",
+    "section2Tier2Title": "Cancellation between 24â€“48 hours in advance:",
     "section2Tier2Body": "70% refund of the amount paid. A 30% cancellation fee applies.",
     "section2Tier3Title": "Cancellation less than 24 hours in advance:",
     "section2Tier3Body": "No refund. The full booking amount is retained.",
@@ -3046,7 +3154,7 @@
   },
   "wedding": {
     "hero": {
-      "pill": "Wedding Mobility · Portugal",
+      "pill": "Wedding Mobility Â· Portugal",
       "title1": "The Perfect",
       "title2": "Transport for",
       "titleAccent": "Your Wedding Day.",
@@ -3062,7 +3170,7 @@
       "ctaSecondary": "Explore the Fleet",
       "statValue": "2,187",
       "statLabel": "Weddings transported",
-      "photoAlt": "Bride and groom by Jerónimos Monastery",
+      "photoAlt": "Bride and groom by JerÃ³nimos Monastery",
       "carsAlt": "Wedding fleet line-up"
     },
     "offer": {
@@ -3114,21 +3222,21 @@
       "count": "300+",
       "countLabel": "Couples & Families",
       "trustedSubtitle": "Trusted across Portugal and beyond",
-      "source": "Google · Verified",
+      "source": "Google Â· Verified",
       "review1": {
         "name": "Sofia Andrade",
         "text": "Absolutely seamless from start to finish. The Mercedes was stunning, the driver was perfectly presented and everything ran on time. All our guests were impressed."
       },
       "review2": {
         "name": "Ricardo Fonseca",
-        "text": "We hired LuxMotion for our wedding in Sintra. Exceptional service — always on time, completely silent when needed, and genuinely good people. Thank you!"
+        "text": "We hired LuxMotion for our wedding in Sintra. Exceptional service â€” always on time, completely silent when needed, and genuinely good people. Thank you!"
       },
       "review3": {
         "name": "Margaret & James",
         "text": "As a British couple married in the Alentejo, we needed a team we could trust completely. LuxMotion delivered beyond all expectations. Total class."
       },
       "review4": {
-        "name": "Ana Luísa Costa",
+        "name": "Ana LuÃ­sa Costa",
         "text": "From the first contact to the last drop-off, the team was impeccable. Personalised at every step. I felt genuinely cared for on my wedding day."
       }
     },
@@ -3173,7 +3281,7 @@
       "photoAlt": "Bride and groom kissing beside vintage car",
       "review": {
         "text": "\"Thank you, LuxMotion! Remarkable, friendly, wonderful. A journey to treasure.\"",
-        "author": "Ana B. · Google Review"
+        "author": "Ana B. Â· Google Review"
       },
       "bullet1": {
         "title": "Reliability",
@@ -3196,11 +3304,11 @@
       "ctaHref": "/fleet",
       "v1": {
         "name": "Executive",
-        "capacity": "1–4 guests"
+        "capacity": "1â€“4 guests"
       },
       "v2": {
         "name": "Supercar",
-        "capacity": "1–4 guests"
+        "capacity": "1â€“4 guests"
       },
       "v3": {
         "name": "Classic",
@@ -3243,10 +3351,10 @@
         "phone": "000 000 000",
         "weddingDate": "dd/mm/yyyy",
         "guests": "e.g. 80",
-        "venue": "Quinta de …, Lisbon, Alentejo…",
-        "pickup": "Hotel, home address…",
+        "venue": "Quinta de â€¦, Lisbon, Alentejoâ€¦",
+        "pickup": "Hotel, home addressâ€¦",
         "numVehicles": "Select quantity",
-        "notes": "Special requests, ceremony timing, multiple stops, decoration preferences…"
+        "notes": "Special requests, ceremony timing, multiple stops, decoration preferencesâ€¦"
       },
       "vehicles": {
         "standard": "Standard",
@@ -3257,7 +3365,7 @@
       },
       "vehiclesScrollNext": "Next vehicles",
       "vehiclesScrollPrev": "Previous vehicles",
-      "successToast": "Quote request sent — we will reply within hours.",
+      "successToast": "Quote request sent â€” we will reply within hours.",
       "errorToast": "Could not send. Please try again."
     },
     "faq": {
@@ -3271,11 +3379,11 @@
       },
       "q2": {
         "question": "How far in advance should I book?",
-        "answer": "We recommend booking 6 to 12 months in advance, especially during peak wedding season (May–October). Last-minute requests are welcome and we will always do our best to accommodate."
+        "answer": "We recommend booking 6 to 12 months in advance, especially during peak wedding season (Mayâ€“October). Last-minute requests are welcome and we will always do our best to accommodate."
       },
       "q3": {
         "question": "Do vehicles come with a chauffeur?",
-        "answer": "Yes — every vehicle is provided with a fully trained, uniformed chauffeur. Discretion, punctuality, and elegance are standard. Self-drive is not available."
+        "answer": "Yes â€” every vehicle is provided with a fully trained, uniformed chauffeur. Discretion, punctuality, and elegance are standard. Self-drive is not available."
       },
       "q4": {
         "question": "Is there a minimum hire duration?",
@@ -3291,19 +3399,19 @@
       },
       "q7": {
         "question": "What are the payment conditions?",
-        "answer": "We typically request a 30% deposit to confirm the booking, with the balance due before the wedding day. Bespoke terms are available for larger packages — discussed during the quote stage."
+        "answer": "We typically request a 30% deposit to confirm the booking, with the balance due before the wedding day. Bespoke terms are available for larger packages â€” discussed during the quote stage."
       }
     }
   },
   "driversPage": {
     "hero": {
-      "eyebrow": "Transport Partner · LuxMotion",
+      "eyebrow": "Transport Partner Â· LuxMotion",
       "titleLine1": "Grow your",
       "titleLine2Pre": "business with",
       "titleLine2Accent": "premium rides.",
       "titleLine3": "Earn more.",
       "subtitle": "Join the LuxMotion network and receive advance bookings from 4 and 5 star hotels, high-net-worth individuals and luxury tour operators. Weekly payouts. No aggressive commissions.",
-      "metric1Value": "€0.70–€0.90",
+      "metric1Value": "â‚¬0.70â€“â‚¬0.90",
       "metric1Label": "Per km on long-distance trips",
       "metric2Value": "+5",
       "metric2Label": "Daily bookings per active driver",
@@ -3327,7 +3435,7 @@
       "row3Label": "Advance bookings",
       "row3LuxValue": "48h ahead",
       "row4Label": "High-value clients",
-      "row4LuxValue": "4★–5★ hotels",
+      "row4LuxValue": "4â˜…â€“5â˜… hotels",
       "row5Label": "Dedicated support",
       "row5LuxValue": "Direct manager",
       "row6Label": "Tips",
@@ -3406,7 +3514,7 @@
       },
       "step3": {
         "heading": "Training and protocol",
-        "body": "Workshop on the LuxMotion service protocol — premium hospitality, communication with international clients, and use of the Dispatcher platform."
+        "body": "Workshop on the LuxMotion service protocol â€” premium hospitality, communication with international clients, and use of the Dispatcher platform."
       },
       "step4": {
         "heading": "Ready to operate",
@@ -3439,22 +3547,22 @@
       "titleLine1": "What the companies",
       "titlePre": "in our",
       "titleAccent": "network say.",
-      "ratingCount": "+322 verified reviews · end clients",
+      "ratingCount": "+322 verified reviews Â· end clients",
       "statLabel": "Active partners",
       "statCaption": "satisfied clients and companies",
       "t1": {
         "name": "Miguel Ferreira",
-        "role": "CEO · Ferreira Transportes, Lisbon · 4 drivers",
+        "role": "CEO Â· Ferreira Transportes, Lisbon Â· 4 drivers",
         "quote": "The difference compared to Uber is huge. Bookings arrive in advance, the clients are on another level, and payments have never failed. In 8 months we more than doubled our revenue."
       },
       "t2": {
         "name": "Carlos Matos",
-        "role": "Managing Partner · Matos & Filhos Transfers, Porto · 7 drivers",
+        "role": "Managing Partner Â· Matos & Filhos Transfers, Porto Â· 7 drivers",
         "quote": "We started with 2 cars and today have 7. The Dispatcher platform is simple and the LuxMotion team is always available. For a small company like ours, the support makes all the difference."
       },
       "t3": {
         "name": "Ana Rodrigues",
-        "role": "Manager · Transfers Algarve Premium · 12 drivers",
+        "role": "Manager Â· Transfers Algarve Premium Â· 12 drivers",
         "quote": "Hotel clients are completely different. More polite, more punctual, and tips are frequent. My drivers are more motivated since we joined the LuxMotion network."
       }
     },
@@ -3472,7 +3580,7 @@
       },
       "q3": {
         "question": "How and when do I receive payments?",
-        "answer": "Weekly payouts, always on the same date. Choose bank transfer, MB Way, or PayPal. Every completed trip is logged automatically — no need to submit invoices."
+        "answer": "Weekly payouts, always on the same date. Choose bank transfer, MB Way, or PayPal. Every completed trip is logged automatically â€” no need to submit invoices."
       },
       "q4": {
         "question": "How does LuxMotion make money?",
@@ -3504,7 +3612,7 @@
   },
   "schools": {
     "hero": {
-      "pill": "CERTIFIED SCHOOL TRANSPORT  ·  PORTUGAL",
+      "pill": "CERTIFIED SCHOOL TRANSPORT  Â·  PORTUGAL",
       "title1": "The",
       "titleAccent": "perfect",
       "title2": "transport",
@@ -3604,7 +3712,7 @@
       "statValue": "700+",
       "statLabel": "Families Trust Us",
       "subtitle": "Trusted across Portugal and beyond.",
-      "verifiedLabel": "Google · Verified"
+      "verifiedLabel": "Google Â· Verified"
     },
     "payment": {
       "title": "Payment",
@@ -3634,7 +3742,7 @@
         },
         "route": {
           "label": "Route",
-          "placeholder": "e.g. Lisbon → School X"
+          "placeholder": "e.g. Lisbon â†’ School X"
         },
         "time": {
           "label": "Departure time",
@@ -3672,7 +3780,7 @@
           "placeholder": "Tell us about the route, special schedules, specific needs of the child..."
         }
       },
-      "successToast": "Quote request sent — we will reply within hours.",
+      "successToast": "Quote request sent â€” we will reply within hours.",
       "errorToast": "Could not send. Please try again."
     },
     "newsletter": {
@@ -3717,7 +3825,7 @@
           "name": "Alentejo"
         },
         "acores": {
-          "name": "Açores"
+          "name": "AÃ§ores"
         },
         "madeira": {
           "name": "Madeira"
@@ -3731,12 +3839,12 @@
   },
   "driversPage2": {
     "hero": {
-      "eyebrow": "Partner Driver · LuxMotion",
+      "eyebrow": "Partner Driver Â· LuxMotion",
       "titleStart": "Drive when you want.",
       "titleAccent": "Earn what you deserve.",
       "subtitle": "Become a LuxMotion driver and receive advance bookings from 4 and 5 star hotels, high-value international clients, and premium experiences. Complete schedule flexibility. Guaranteed weekly payouts.",
       "metric1Line1": "per km",
-      "metric1Line2": "(vs €0.30 on Uber)",
+      "metric1Line2": "(vs â‚¬0.30 on Uber)",
       "metric2Line1": "trips",
       "metric2Line2": "per day",
       "metric3Line1": "lead time",
@@ -3751,7 +3859,7 @@
       "phone": {
         "title": "Bookings",
         "status": "Online",
-        "acceptCta": "Accept booking →",
+        "acceptCta": "Accept booking â†’",
         "trip1Chip1": "2 Passengers",
         "trip1Chip2": "3 Bags",
         "trip2Chip1": "4 People",
@@ -3770,15 +3878,15 @@
       "titleAccent": "LuxMotion.",
       "subtitle": "Higher-value trips, tipping clients, advance bookings. The difference at the end of the month is real",
       "exampleHeading": "Real example:",
-      "exampleBodyPre": "A driver with 5 trips/day at an average of €0.80/km, covering 60km per trip, earns approx.",
-      "exampleBodyHighlight": "€1,200/week",
-      "exampleBodyPost": " — twice the Uber equivalent.",
+      "exampleBodyPre": "A driver with 5 trips/day at an average of â‚¬0.80/km, covering 60km per trip, earns approx.",
+      "exampleBodyHighlight": "â‚¬1,200/week",
+      "exampleBodyPost": " â€” twice the Uber equivalent.",
       "row1Label": "Earnings per km (city)",
       "row2Label": "Earnings per km (long)",
       "row3Label": "Advance bookings",
       "row3LuxValue": "48h ahead",
       "row4Label": "Luxury hotel clients",
-      "row4LuxValue": "4★–5★ hotels",
+      "row4LuxValue": "4â˜…â€“5â˜… hotels",
       "row5Label": "Frequent tips",
       "row5CompValue": "Rarely",
       "row5LuxValue": "High Society",
@@ -3836,7 +3944,7 @@
         "headingLine1": "Weekly payouts,",
         "headingAccent": "always on time.",
         "body": "Every week, no exceptions, you get paid by the method you chose. Bank transfer, MB Way, or PayPal. The dedicated manager is available for any question, on chat or by phone.",
-        "pill1": "Transfer · MB Way · PayPal",
+        "pill1": "Transfer Â· MB Way Â· PayPal",
         "pill2": "No delays",
         "pill3": "Dedicated support",
         "statLabel1": "maximum between trip completion",
@@ -3874,13 +3982,13 @@
       "step1": {
         "headingPre": "Receive the booking",
         "headingAccent": "in the app",
-        "body": "The Driver app sends you the booking with all the details — time, pickup, drop-off, passenger count, and special instructions. Accept or decline with a tap."
+        "body": "The Driver app sends you the booking with all the details â€” time, pickup, drop-off, passenger count, and special instructions. Accept or decline with a tap."
       },
       "step2": {
         "headingPre": "Accept and",
         "headingAccent": "complete",
         "headingPost": "the trip",
-        "body": "Arrive at the meeting point, greet the client, and complete the transfer. The app guides you at every step — from pick-up to drop-off. The client gets automatic updates."
+        "body": "Arrive at the meeting point, greet the client, and complete the transfer. The app guides you at every step â€” from pick-up to drop-off. The client gets automatic updates."
       },
       "step3": {
         "headingPre": "Receive your",
@@ -3889,7 +3997,7 @@
       },
       "phone": {
         "step1Title": "Bookings",
-        "step1Cta": "Accept →",
+        "step1Cta": "Accept â†’",
         "step2Title": "Current trip",
         "step2Pax": "passengers",
         "step2Cta1": "Start",
@@ -3907,22 +4015,22 @@
       "titleLine1": "What the companies",
       "titlePre": "in our",
       "titleAccent": "network say.",
-      "ratingCount": "+322 verified reviews · end clients",
+      "ratingCount": "+322 verified reviews Â· end clients",
       "statLabel": "Active partners",
       "statCaption": "satisfied clients and companies",
       "t1": {
         "name": "Miguel Ferreira",
-        "role": "CEO · Ferreira Transportes, Lisbon · 4 drivers",
+        "role": "CEO Â· Ferreira Transportes, Lisbon Â· 4 drivers",
         "quote": "The difference compared to Uber is huge. Bookings arrive in advance, the clients are on another level, and payments have never failed. In 8 months we more than doubled our revenue."
       },
       "t2": {
         "name": "Carlos Matos",
-        "role": "Managing Partner · Matos & Filhos Transfers, Porto · 7 drivers",
+        "role": "Managing Partner Â· Matos & Filhos Transfers, Porto Â· 7 drivers",
         "quote": "We started with 2 cars and today have 7. The Dispatcher platform is simple and the LuxMotion team is always available. For a small company like ours, the support makes all the difference."
       },
       "t3": {
         "name": "Ana Rodrigues",
-        "role": "Manager · Transfers Algarve Premium · 12 drivers",
+        "role": "Manager Â· Transfers Algarve Premium Â· 12 drivers",
         "quote": "Hotel clients are completely different. More polite, more punctual, and tips are frequent. My drivers are more motivated since we joined the LuxMotion network."
       }
     },
@@ -3940,7 +4048,7 @@
       },
       "q3": {
         "question": "How and when do I receive payments?",
-        "answer": "Weekly payouts, always on the same date. Choose bank transfer, MB Way, or PayPal. Every completed trip is logged automatically — no need to submit invoices."
+        "answer": "Weekly payouts, always on the same date. Choose bank transfer, MB Way, or PayPal. Every completed trip is logged automatically â€” no need to submit invoices."
       },
       "q4": {
         "question": "How does LuxMotion make money?",
@@ -3958,7 +4066,7 @@
   },
   "weddingPlanner": {
     "hero": {
-      "pill": "PARTNER PROGRAMME  ·  WEDDINGS",
+      "pill": "PARTNER PROGRAMME  Â·  WEDDINGS",
       "titleLine1": "Generate revenue from",
       "titleBefore": "the mobility of your",
       "titleAccent": "clients' weddings",
@@ -3989,7 +4097,7 @@
       "card4Title": "Tours & Honeymoon",
       "card4Alt": "Couple toasting with panoramic view",
       "card5Title": "Coach & Groups",
-      "card5Alt": "Coach beside Tower of Belém"
+      "card5Alt": "Coach beside Tower of BelÃ©m"
     },
     "advantages": {
       "eyebrow": "COMPETITIVE ADVANTAGES",
@@ -4005,7 +4113,7 @@
       "q4": "What if the couple prefers a different provider?",
       "a4": "No required exclusivity. LuxMotion integrates as a premium option within your offer. If the couple prefers another solution, the choice is theirs. No risk to you.",
       "q5": "Already working with another mobility provider?",
-      "a5": "We're compatible. Keep your current provider and add LuxMotion as a premium alternative — or replace it completely. No long contracts.",
+      "a5": "We're compatible. Keep your current provider and add LuxMotion as a premium alternative â€” or replace it completely. No long contracts.",
       "q6": "What if you already have your own fleet?",
       "a6": "The LuxMotion platform complements your fleet at peak demand or in categories you don't cover. Vans, coaches, First Class vehicles. Earn a commission on every service you assign to us."
     },
@@ -4024,21 +4132,21 @@
     "testimonial": {
       "quote": "Since we started the partnership with LuxMotion, we have completely eliminated transport complaints at our weddings. The couples love the service and we earn commissions without lifting a finger. It's the definition of win-win.",
       "author": "Sara Mendes, Wedding Planner",
-      "role": "Founder, Momentos Únicos — Lisbon"
+      "role": "Founder, Momentos Ãšnicos â€” Lisbon"
     },
     "caseStudy": {
       "eyebrow": "REAL CASE",
       "heading": "Case Study",
       "pill": "PREMIUM PARTNERSHIP PROGRAMME",
       "venueName": "Quinta das Rosas",
-      "venueMeta": "Wedding Venue · 92 rooms · Sintra",
+      "venueMeta": "Wedding Venue Â· 92 rooms Â· Sintra",
       "venueProfileLabel": "Venue Profile",
       "profile1": "42 weddings per year",
       "profile2": "Average 120 guests per event",
       "profile3": "65% international couples",
-      "profile4": "Rural location — 40 min from Lisbon Airport",
-      "quote": "“Couples used to organise transport themselves and guests would arrive late, stressed, and in random taxis. Now every wedding runs on time and we earn commission without lifting a finger.”",
-      "quoteAuthor": "Wedding Coordinator · Quinta das Rosas, Sintra",
+      "profile4": "Rural location â€” 40 min from Lisbon Airport",
+      "quote": "â€œCouples used to organise transport themselves and guests would arrive late, stressed, and in random taxis. Now every wedding runs on time and we earn commission without lifting a finger.â€",
+      "quoteAuthor": "Wedding Coordinator Â· Quinta das Rosas, Sintra",
       "resultsLabel": "Results After 6 Months",
       "stat1Label": "Transport\nComplaints",
       "stat2Label": "Weddings\nServed",
@@ -4065,7 +4173,7 @@
       "exp2": "Ceremonies start on schedule",
       "exp3": "Couples mention transport quality in reviews",
       "exp4": "Venue positioned as \"full-service\" without extra staff",
-      "exp5": "Passive commission revenue — zero operational cost",
+      "exp5": "Passive commission revenue â€” zero operational cost",
       "exp6": "Higher venue satisfaction scores in post-wedding surveys",
       "footerStart": "Partnership activated",
       "footerEnd": "in less than 48 hours",
@@ -4095,25 +4203,25 @@
       "r1": {
         "initial": "S",
         "name": "Sofia Andrade",
-        "source": "Google · Verified",
+        "source": "Google Â· Verified",
         "body": "Absolutely seamless from start to finish. The Mercedes was stunning, the driver was perfectly presented and everything ran on time. All our guests were impressed."
       },
       "r2": {
         "initial": "R",
         "name": "Ricardo Fonseca",
-        "source": "Google · Verified",
-        "body": "We hired LuxMotion for our wedding in Sintra. Exceptional service — always on time, completely silent when needed, and genuinely good people. Thank you!"
+        "source": "Google Â· Verified",
+        "body": "We hired LuxMotion for our wedding in Sintra. Exceptional service â€” always on time, completely silent when needed, and genuinely good people. Thank you!"
       },
       "r3": {
         "initial": "M",
         "name": "Margaret & James",
-        "source": "Google · Verified",
+        "source": "Google Â· Verified",
         "body": "As a British couple married in the Alentejo, we needed a team we could trust completely. LuxMotion delivered beyond all expectations. Total class."
       },
       "r4": {
         "initial": "A",
-        "name": "Ana Luísa Costa",
-        "source": "Google · Verified",
+        "name": "Ana LuÃ­sa Costa",
+        "source": "Google Â· Verified",
         "body": "From the first contact to the last drop-off, the team was impeccable. Personalised at every step. I felt genuinely cared for on my wedding day."
       }
     },
@@ -4255,12 +4363,12 @@
       "subtitle": "Enter the 6-digit code we sent to the representative's email.",
       "emailFallback": "name@company.com",
       "resend": "Resend code",
-      "resending": "Resending…",
+      "resending": "Resendingâ€¦",
       "verify": "Verify"
     },
     "stepIntroVideo": {
       "title": "Introduction video",
-      "subtitle": "Before adding drivers, see how it works. Each driver will need to record a video — watch our example first.",
+      "subtitle": "Before adding drivers, see how it works. Each driver will need to record a video â€” watch our example first.",
       "section1": {
         "label": "Watch our video",
         "description": "Get to know LuxMotion, how the platform works, and see a real example of how a driver answers the video questions."
@@ -4273,7 +4381,7 @@
       "questions": {
         "q1": {
           "question": "Introduce yourself briefly and tell us what you enjoy most about your job as a driver.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "translation": "Tell us about yourself â€” What do you enjoy most about your job as a driver?"
         },
         "q2": {
           "question": "What are two of your favorite places in your city and why do you recommend them to travelers?",
@@ -4287,19 +4395,19 @@
       "structure": {
         "s1": {
           "title": "Personal introduction",
-          "detail": "Name · City · Experience as a driver · Languages spoken"
+          "detail": "Name Â· City Â· Experience as a driver Â· Languages spoken"
         },
         "s2": {
           "title": "Personal introduction",
-          "detail": "Meeting people · Helping tourists · Showing the city"
+          "detail": "Meeting people Â· Helping tourists Â· Showing the city"
         },
         "s3": {
           "title": "Personal introduction",
-          "detail": "Place name · What to do there · Why you recommend it"
+          "detail": "Place name Â· What to do there Â· Why you recommend it"
         },
         "s4": {
           "title": "Favorite place",
-          "detail": "Place name · What to do there · Why you recommend it"
+          "detail": "Place name Â· What to do there Â· Why you recommend it"
         }
       }
     },
@@ -4316,7 +4424,7 @@
       "fields": {
         "fullName": {
           "label": "Full name",
-          "placeholder": "e.g. João Silva"
+          "placeholder": "e.g. JoÃ£o Silva"
         },
         "email": {
           "label": "Email",
@@ -4362,7 +4470,7 @@
     "stepDocuments": {
       "title": "Company documents",
       "subtitle": "Legal and operational documents for your transport company.",
-      "idleSubtitle": "jpg, png or pdf · max 10mb",
+      "idleSubtitle": "jpg, png or pdf Â· max 10mb",
       "removeFile": "Remove file",
       "sizeError": "File exceeds 10MB",
       "fields": {
@@ -4418,7 +4526,7 @@
       "bankProof": {
         "label": "Bank proof",
         "idleTitle": "Upload bank proof",
-        "idleSubtitle": "jpg, png or pdf · max 10mb",
+        "idleSubtitle": "jpg, png or pdf Â· max 10mb",
         "removeFile": "Remove file",
         "sizeError": "File exceeds 10MB"
       }
@@ -4443,7 +4551,7 @@
       "title": "Confirmation and terms",
       "subtitle": "Review and accept the terms to submit the company application.",
       "acceptText": "By submitting this application, I confirm I have read and accept the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy> of LuxMotion by EasyTransfer, on behalf of the company I represent.",
-      "disclaimer": "Partnership is not guaranteed — the company application will be reviewed and must be approved by the LuxMotion team. We will be in touch within 5 business days.",
+      "disclaimer": "Partnership is not guaranteed â€” the company application will be reviewed and must be approved by the LuxMotion team. We will be in touch within 5 business days.",
       "submitCta": "Submit application",
       "submitted": {
         "title": "Application submitted",
@@ -4461,7 +4569,7 @@
         },
         "backHome": "Back to homepage"
       },
-      "submittingCta": "Submitting…",
+      "submittingCta": "Submittingâ€¦",
       "submissionError": "We couldn't submit the application. Please check your connection and try again."
     }
   },
@@ -4474,7 +4582,7 @@
       "subtitle": "Join the premium driver network serving the best hotels and travel agencies in Portugal.",
       "preview": {
         "now": "Now",
-        "route": "Airport → 5★ Hotel",
+        "route": "Airport â†’ 5â˜… Hotel",
         "paid": "Paid"
       },
       "benefits": {
@@ -4513,8 +4621,8 @@
         "coimbra": "Coimbra",
         "braga": "Braga",
         "aveiro": "Aveiro",
-        "evora": "Évora",
-        "setubal": "Setúbal"
+        "evora": "Ã‰vora",
+        "setubal": "SetÃºbal"
       }
     },
     "stepContact": {
@@ -4573,39 +4681,39 @@
       "categories": {
         "classic": {
           "title": "Classic",
-          "description": "Up to 4 passengers — Rolls-Royce, Chrysler Windsor, Mercedes Benz 300S..."
+          "description": "Up to 4 passengers â€” Rolls-Royce, Chrysler Windsor, Mercedes Benz 300S..."
         },
         "supercar": {
           "title": "Super car",
-          "description": "Up to 2 passengers — Porsche Panamera, Ferrari"
+          "description": "Up to 2 passengers â€” Porsche Panamera, Ferrari"
         },
         "firstClass": {
           "title": "First Class",
-          "description": "Up to 4 passengers — Mercedes V-Class, VW Caravelle"
+          "description": "Up to 4 passengers â€” Mercedes V-Class, VW Caravelle"
         },
         "businessClass": {
           "title": "Business Class",
-          "description": "Up to 4 passengers — Mercedes V-Class, VW Caravelle"
+          "description": "Up to 4 passengers â€” Mercedes V-Class, VW Caravelle"
         },
         "van": {
           "title": "Van",
-          "description": "Up to 8 passengers — Mercedes V-Class, VW Caravelle"
+          "description": "Up to 8 passengers â€” Mercedes V-Class, VW Caravelle"
         },
         "firstClassVan": {
           "title": "First Class Van",
-          "description": "Up to 8 passengers — Mercedes V-Class, VW Caravelle"
+          "description": "Up to 8 passengers â€” Mercedes V-Class, VW Caravelle"
         },
         "vanLuxury": {
           "title": "Van Luxury",
-          "description": "Up to 8 passengers — Mercedes V-Class, VW Caravelle"
+          "description": "Up to 8 passengers â€” Mercedes V-Class, VW Caravelle"
         },
         "minibus": {
           "title": "Minibus",
-          "description": "Up to 16 passengers — Mercedes Sprinter, Iveco Daily"
+          "description": "Up to 16 passengers â€” Mercedes Sprinter, Iveco Daily"
         },
         "autocarro": {
           "title": "Bus",
-          "description": "Up to 56 passengers — Mercedes, Iveco..."
+          "description": "Up to 56 passengers â€” Mercedes, Iveco..."
         }
       }
     },
@@ -4814,7 +4922,7 @@
         "eyebrow": "Question {index}",
         "q1": {
           "prompt": "Introduce yourself briefly and share what you enjoy most about being a driver.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "translation": "Tell us about yourself â€” What do you enjoy most about your job as a driver?"
         },
         "q2": {
           "prompt": "What are two of your favorite places in your city and why do you recommend them to travelers?",
@@ -4823,22 +4931,22 @@
       },
       "structure": {
         "label": "Suggested structure",
-        "subtitle": "Follow this structure to make recording easier. It doesn't need to be perfect — just be natural.",
+        "subtitle": "Follow this structure to make recording easier. It doesn't need to be perfect â€” just be natural.",
         "s1": {
           "title": "Personal introduction",
-          "description": "Name · City · Driver experience · Languages spoken"
+          "description": "Name Â· City Â· Driver experience Â· Languages spoken"
         },
         "s2": {
           "title": "What you enjoy about the job",
-          "description": "Meeting people · Helping tourists · Showcasing the city"
+          "description": "Meeting people Â· Helping tourists Â· Showcasing the city"
         },
         "s3": {
           "title": "Favorite place 1",
-          "description": "Place name · What to do there · Why you recommend it"
+          "description": "Place name Â· What to do there Â· Why you recommend it"
         },
         "s4": {
           "title": "Favorite place 2",
-          "description": "Place name · What to do there · Why you recommend it"
+          "description": "Place name Â· What to do there Â· Why you recommend it"
         }
       },
       "upload": {
@@ -4852,9 +4960,9 @@
       "title": "Confirmation and terms",
       "subtitle": "Review and accept the terms to submit your application.",
       "acceptance": "By submitting this application, I confirm that I have read and accept the <terms>Terms of Service</terms> and the <privacy>Privacy Policy</privacy> of LuxMotion by EasyTransfer, on behalf of the company I represent.",
-      "disclaimer": "Partnership is not guaranteed — your application will be reviewed and must be approved by the LuxMotion team. We will contact you within 5 business days.",
+      "disclaimer": "Partnership is not guaranteed â€” your application will be reviewed and must be approved by the LuxMotion team. We will contact you within 5 business days.",
       "submitCta": "Submit application",
-      "submittingCta": "Submitting…",
+      "submittingCta": "Submittingâ€¦",
       "submissionError": "We couldn't submit your application. Please check your connection and try again."
     },
     "success": {
@@ -4882,7 +4990,7 @@
       "subtitle": "Four simple steps. From booking to arrival, everything handled by us.",
       "step1": {
         "heading": "Book in 60 seconds",
-        "body": "Choose pickup, destination, date and time. Fixed price calculated instantly — no negotiation, no surprises."
+        "body": "Choose pickup, destination, date and time. Fixed price calculated instantly â€” no negotiation, no surprises."
       },
       "step2": {
         "heading": "Meet your driver",
@@ -4890,7 +4998,7 @@
       },
       "step3": {
         "heading": "Guaranteed meeting",
-        "body": "The driver waits at the agreed location with your name — even if your flight is delayed. Wait time is included."
+        "body": "The driver waits at the agreed location with your name â€” even if your flight is delayed. Wait time is included."
       },
       "step4": {
         "heading": "Relax. Arrive in comfort.",
@@ -4913,15 +5021,15 @@
       },
       "certified": {
         "title": "Certified drivers",
-        "body": "Specific training, background checks, uniform. Your destination is our commitment — personal and professional."
+        "body": "Specific training, background checks, uniform. Your destination is our commitment â€” personal and professional."
       },
       "always": {
-        "title": "365 days · 24/7",
-        "body": "Rain, snow, holiday or dawn — we are always available to guarantee your trip."
+        "title": "365 days Â· 24/7",
+        "body": "Rain, snow, holiday or dawn â€” we are always available to guarantee your trip."
       },
       "cancellation": {
         "title": "Free cancellation",
-        "body": "Plans change. Cancel free of charge up to 24 hours before. No questions, no fees — total freedom."
+        "body": "Plans change. Cancel free of charge up to 24 hours before. No questions, no fees â€” total freedom."
       },
       "support": {
         "title": "Direct support",
@@ -4929,14 +5037,14 @@
       },
       "meetingPoint": {
         "title": "Confirmed meeting point",
-        "body": "Detailed information on where the driver will wait — no confusion, no last-minute calls."
+        "body": "Detailed information on where the driver will wait â€” no confusion, no last-minute calls."
       }
     },
     "payment": {
       "eyebrow": "Payment methods",
       "titlePre": "Pay how you",
       "titleAccent": "prefer.",
-      "subtitle": "To ensure your trip is as smooth as possible, we accept various payment methods — all secure, all encrypted.",
+      "subtitle": "To ensure your trip is as smooth as possible, we accept various payment methods â€” all secure, all encrypted.",
       "secure": "Secure payment",
       "ssl": "SSL encryption",
       "imageAlt": "In-car payment terminal showing successful payment"
@@ -4956,7 +5064,7 @@
         },
         "booking": {
           "question": "How can I book my trip?",
-          "answer": "You can book directly on our website in 60 seconds — choose pickup, destination, date and time and receive the final price instantly."
+          "answer": "You can book directly on our website in 60 seconds â€” choose pickup, destination, date and time and receive the final price instantly."
         },
         "shareDiscount": {
           "question": "What's the discount for sharing a ride?",
@@ -4968,7 +5076,7 @@
         },
         "outsideLisbon": {
           "question": "Do you travel to places outside Lisbon?",
-          "answer": "Yes, we offer transfers and tours throughout mainland Portugal — Porto, Algarve, Sintra, Évora and more."
+          "answer": "Yes, we offer transfers and tours throughout mainland Portugal â€” Porto, Algarve, Sintra, Ã‰vora and more."
         }
       }
     },
@@ -4978,7 +5086,799 @@
       "titleLine2": "arrive in comfort.",
       "subtitle": "Your private driver is available today. Fixed price, instant confirmation, no surprises.",
       "cta": "See prices & book now",
-      "note": "Free cancellation · No credit card required"
+      "note": "Free cancellation Â· No credit card required"
     }
-  }
+  },
+  "corporatePage": {
+    "hero": {
+      "eyebrow": "Premium Corporate & Experiences DMC",
+      "headingLine1": "Where ambition meets",
+      "headingLine2": "impeccable execution",
+      "subtitle": "From boardroom incentive trips to multi-day international from boardroom incentive trips to multi-day international",
+      "ctaPrimary": "Request a proposal",
+      "ctaSecondary": "Explore our services",
+      "metrics": {
+        "reviews": {
+          "value": "+311",
+          "label": "Verified 5â˜… Reviews"
+        },
+        "events": {
+          "value": "+2,497",
+          "label": "Events & Transfers"
+        },
+        "drivers": {
+          "value": "+90",
+          "label": "Vetted Drivers"
+        }
+      }
+    },
+    "trustedBy": {
+      "heading": "Trusted by global brands"
+    },
+    "standard": {
+      "eyebrow": "Why LuxMotion",
+      "headingPart1": "A standard without",
+      "headingPart2": "compromise",
+      "subtitle": "We do not compete on price. We compete on the certainty that every meeting, every transfer, every glass raised at your gala will be exactly as planned.",
+      "cards": {
+        "fleet": {
+          "title": "Premium executive fleet",
+          "body": "Mercedes S-Class, EQS Electric, V-Class, Sprinter, and full coach options."
+        },
+        "drivers": {
+          "title": "Multilingual professional drivers",
+          "body": "English fluent. French, Spanish, German on request. NDA-bound."
+        },
+        "schedules": {
+          "title": "Custom schedules & routes",
+          "body": "Tailored itineraries. For multi-day events, dedicated operations manager."
+        },
+        "discretion": {
+          "title": "Discretion & punctuality",
+          "body": "Trusted by CEOs. Pre-event rehearsals. Backup vehicles within 15 minutes."
+        },
+        "coverage": {
+          "title": "Nationwide coverage",
+          "body": "Full operations across mainland Portugal & Spain."
+        },
+        "billing": {
+          "title": "Corporate billing & support",
+          "body": "Invoicing in your company name. Net-30 terms. Dedicated account manager."
+        }
+      }
+    },
+    "pillars": {
+      "eyebrow": "What we do",
+      "headingItalic": "Three pillars.",
+      "headingRest": "One uncompromising standard.",
+      "featuredLabel": "Featured Â· Pillar {number}",
+      "seeMore": "See more",
+      "tabs": {
+        "standard": "Standard",
+        "experiences": "Experiences & Teambuilding",
+        "logistics": "Logistics & Concierge"
+      },
+      "bodies": {
+        "standard": {
+          "featuredCaption": "Where strategy meets ceremony.",
+          "titlePart1": "Events &",
+          "titlePart2": "MICE",
+          "description": "Meetings, incentives, conventions, and gala dinners â€” designed for international corporations who treat their people, partners, and clients as their most valuable currency. Every detail engineered to reinforce your brand.",
+          "items": {
+            "incentive": "Incentive Travel",
+            "gala": "Corporate & Gala Dinners",
+            "conventions": "Conventions",
+            "congresses": "Congresses",
+            "meetings": "Meetings & Seminars",
+            "cultural": "Cultural Events"
+          }
+        },
+        "experiences": {
+          "featuredCaption": "Memories that build retention.",
+          "titlePart1": "Experiences &",
+          "titlePart2": "Teambuilding",
+          "description": "Curated experiences that turn corporate trips into legacy moments â€” wine tastings in Douro estates, sailing regattas off Cascais, private culinary masterclasses with Michelin chefs. Designed to bond teams, reward partners, and impress C-level visitors.",
+          "items": {
+            "teambuilding": "Teambuilding Games",
+            "activities": "Activities & Tours",
+            "sightseeing": "Sightseeing Excursions",
+            "foodwine": "Food & Wine Experiences",
+            "sport": "Sport & Nature Activities",
+            "entertainment": "Live Entertainment"
+          }
+        },
+        "logistics": {
+          "featuredCaption": "The invisible architecture of an event.",
+          "titlePart1": "Logistics &",
+          "titlePart2": "Concierge",
+          "description": "The architecture beneath every great event. Airport meet & greet, multi-vehicle transfers, hotel sourcing, expert local guides. We keep the stage moving so your team can focus exclusively on the performance.",
+          "items": {
+            "airport": "Airport Meet & Greet",
+            "premium": "Premium Transfers",
+            "hotels": "Hotels & Accommodation",
+            "guides": "Guides & Local Assistance"
+          }
+        }
+      }
+    },
+    "explore": {
+      "titleRest": "Explore with",
+      "titleGold": "confidence",
+      "subtitle": "Every event we deliver is a story of culture, comfort, and authenticity.",
+      "previous": "Previous destination",
+      "next": "Next destination",
+      "goToSlide": "Go to slide {number}",
+      "destinations": {
+        "lisboa": "Lisboa",
+        "porto": "Porto",
+        "algarve": "Algarve",
+        "ericeira": "Ericeira",
+        "alentejo": "Alentejo",
+        "madeira": "Madeira"
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQs",
+      "titleRest": "Frequently asked",
+      "titleGold": "questions",
+      "items": {
+        "multiPickup": {
+          "question": "Can we schedule multiple pickups and drop-offs for our team or guests?",
+          "answer": "Yes. We coordinate complex itineraries with multiple stops, airports, hotels, and venues â€” all routed through a single operations contact."
+        },
+        "wifi": {
+          "question": "Is there Wi-Fi and charging available in all vehicles?",
+          "answer": "Every executive vehicle is equipped with onboard Wi-Fi and universal charging ports for laptops and devices."
+        },
+        "branding": {
+          "question": "Can we brand the vehicles for our event?",
+          "answer": "Yes. We support discreet event branding â€” magnetic panels, window decals, and welcome signage â€” coordinated in advance with our operations team."
+        },
+        "lastMinute": {
+          "question": "Do you handle last-minute changes or emergencies during the service?",
+          "answer": "24/7 operations support. Backup vehicles can be dispatched within 15 minutes for any disruption."
+        },
+        "invoices": {
+          "question": "Do you issue invoices for corporate clients?",
+          "answer": "Yes. We invoice in your company name with Net-30 terms and a dedicated account manager for billing inquiries."
+        }
+      }
+    },
+    "requestProposal": {
+      "eyebrow": "Request your proposal",
+      "titlePart1": "Let's design",
+      "titleItalic1": "something",
+      "titleItalic2": "exceptional",
+      "submit": "Send request",
+      "fields": {
+        "fullName": {
+          "label": "Full name",
+          "placeholder": "Your full name"
+        },
+        "email": {
+          "label": "Corporate e-mail",
+          "placeholder": "Your best mail"
+        },
+        "phone": {
+          "label": "Phone / WhatsApp"
+        },
+        "companyName": {
+          "label": "Corporate name",
+          "placeholder": "Your company"
+        },
+        "eventDate": {
+          "label": "Event date",
+          "placeholder": "dd/mm/yyyy"
+        },
+        "guests": {
+          "label": "Number of guests",
+          "placeholder": "e.g. 80"
+        },
+        "budget": {
+          "label": "Estimated budget",
+          "helper": "Helps us tailor the right proposal"
+        },
+        "vehicleType": {
+          "label": "Preferred vehicle type",
+          "options": {
+            "standard": "Standard",
+            "executive": "Executive",
+            "firstClass": "First Class",
+            "van": "Van",
+            "bus": "Bus"
+          }
+        },
+        "notes": {
+          "label": "Additional notes",
+          "placeholder": "Number of stops, departure/arrival cities, duration, special requests, branding needs, dietary requirements â€¦"
+        }
+      },
+      "submitting": "Sendingâ€¦",
+      "errors": {
+        "missing": "Please fill in all required fields.",
+        "generic": "Something went wrong. Please try again."
+      },
+      "success": {
+        "title": "Request received",
+        "body": "Our corporate team will reach out within 24 hours with a tailored proposal."
+      },
+      "subtitleLine1": "Tell us about your event, group, or project. Our team replies with a tailored",
+      "subtitleLine2": "proposal within 24 hours."
+    },
+    "experiences": {
+      "eyebrow": "Curated for you",
+      "titleLine1": "Find the experience",
+      "titleLine2": "you're looking for",
+      "filterAll": "All",
+      "loadMore": "Load more",
+      "cardCta": "View experience",
+      "durations": {
+        "halfDay": "Half day",
+        "fullDay": "Full day",
+        "multiDay": "Multi-day"
+      },
+      "card": {
+        "titlePrefix": "Lisbon Vintage:",
+        "titleAccent": "Polaroid Challenge",
+        "description": "Explore Lisbon through a vintage Polaroid lens. Starting at PraÃ§a do ComÃ©rcio, teams roam Chiado and Baixa, capturing iconic scenes â€” one frame at a time."
+      },
+      "detail": {
+        "eyebrow": "Featured experience",
+        "cta": "I am interested",
+        "metaPeople": "10â€“80 people",
+        "metaDuration": "3-4 hours",
+        "metaLocation": "Lisbon Â· Chiado & Baixa",
+        "description": "Step back in time and capture the soul of Lisbon through the lens of an analog classic. This challenge isn't just about sightseeing â€” it's about framing the perfect moment on film.",
+        "experienceHeading": "The Experience",
+        "experienceBody1": "Operating in the historic heart of the city (Chiado and Baixa), teams will navigate the cobblestone streets starting at the majestic PraÃ§a do ComÃ©rcio. Armed with a vintage Polaroid camera, a limited pack of film, and a cryptic roadbook, participants must decide which scenes are truly \"picture-perfect.\"",
+        "experienceBody2": "From the bustling Rua Augusta to the romantic ruins of Carmo Square and the panoramic SÃ£o Pedro de AlcÃ¢ntara viewpoint, teams will:",
+        "experienceItems": [
+          {
+            "strong": "The \"One-Shot\" Quest:",
+            "body": "Identify specific architectural details and capture them with a single frame."
+          },
+          {
+            "strong": "Local Portraits:",
+            "body": "Interact with the \"Lisboetas\" for a collaborative vintage snap."
+          },
+          {
+            "strong": "Creative Composition:",
+            "body": "Recreate historical poses or \"funny group shots\" that develop right before your eyes."
+          }
+        ],
+        "routeHeading": "The Route Highlights",
+        "routeItems": [
+          "PraÃ§a do ComÃ©rcio: The grand riverside square â€” your starting point and team briefing.",
+          "Rua Augusta & Triumphal Arch: Lisbon's most photogenic pedestrian street.",
+          "Santa Justa Lift: The iconic neo-gothic elevator with panoramic views over Baixa.",
+          "Largo do Carmo: The romantic ruins of the medieval Carmo Convent.",
+          "Miradouro de SÃ£o Pedro de AlcÃ¢ntara: The grand finale â€” tiles, gardens, and the city below."
+        ],
+        "includedHeading": "What's Included",
+        "includedItems": [
+          "Vintage Polaroid camera + 8 instant film shots per team",
+          "Custom cryptic roadbook in your team's language",
+          "Bilingual guide and on-the-ground operations coordinator",
+          "Welcome briefing at PraÃ§a do ComÃ©rcio",
+          "Final showcase & jury awards ceremony",
+          "Premium private transport to/from your hotel"
+        ]
+      },
+      "emptyState": "No experiences match this filter yet."
+    },
+    "contact": {
+      "hero": {
+        "eyebrow": "Get in Touch",
+        "titleLine1": "A conversation away from",
+        "titleAccent": "extraordinary.",
+        "subtitle": "Tell us about your event, your group, or your idea. Our team replies within 24 hours with a tailored proposal - no templates, no commitment."
+      },
+      "reachOut": {
+        "eyebrow": "Reach Out",
+        "titleLine1": "To",
+        "titleAccent": "us",
+        "intro": "For corporate events, weddings, group transfers, or recurring partnerships — speak directly with the team that will manage your booking from end to end.",
+        "groups": {
+          "label": "Corporate Events & Groups"
+        },
+        "partnerships": {
+          "label": "Hotel Partnerships",
+          "whatsapp": "WhatsApp Business Line"
+        },
+        "hq": {
+          "label": "Headquarters",
+          "name": "LuxMotion by EasyTransfer"
+        },
+        "ops": {
+          "label": "Operations",
+          "concierge": "Concierge & Dispatch",
+          "office": "Office & Sales",
+          "events": "Corporate Events",
+          "officeHours": "Mon–Fri · 9h–19h",
+          "eventsValue": "By appointment"
+        },
+        "form": {
+          "eyebrow": "Featured Experience",
+          "titleLine1": "Tell us about",
+          "titleAccent": "your project",
+          "intro": "The more detail you share, the more precise our proposal. For event briefings, please indicate dates, group size, and any logistical complexity.",
+          "name": "Full name",
+          "namePh": "Your full name",
+          "company": "Company",
+          "companyPh": "Your company",
+          "email": "E-mail",
+          "emailPh": "you@company.com",
+          "phone": "Phone / WhatsApp",
+          "subject": "Subject",
+          "subjectPh": "e.g. Incentive trip · 80 guests · October 2026",
+          "message": "Message",
+          "messagePh": "Tell us about your event, group size, dates, destinations, special requirements, branding needs ...",
+          "submit": "Send Quote Request",
+          "submitting": "Sending...",
+          "note": "Personalised response within 24 hours · No commitment · GDPR compliant",
+          "successTitle": "Request Sent",
+          "successBody": "Thank you. Our team will reply with a tailored proposal within 24 hours."
+        }
+      }
+    }
+  },
+  "weddingWhitelabel": {
+    "hero": {
+      "pill": "Exclusive Service Â· {partnerName}",
+      "titlePrimary": "The most important day.",
+      "titleAccent": "Every detail to the millimetre.",
+      "subtitle": "{partnerName} presents the trusted fleet and chauffeur service of LuxMotion. Mobility tailored to every wedding, anywhere in Portugal. Booking, briefing and execution handled by our team.",
+      "check1": "Chauffeur-driven vehicles with impeccable presentation.",
+      "check2": "Flexible routes and timings, aligned with your timeline.",
+      "check3": "Available across the entire country.",
+      "ctaPrimary": "Request a quote",
+      "ctaSecondary": "Explore the fleet",
+      "excellentRating": "Excellent Rating",
+      "verifiedBy": "Verified by",
+      "fromReviews": "From 387 Reviews",
+      "poweredBy": "Powered by",
+      "statValue": "2,187",
+      "statLabel": "Weddings transported",
+      "poweredByLabel": "Powered by",
+      "licenseLabel": "RNAVT 8510",
+      "photoAlt": "Bride and groom by the JerÃ³nimos Monastery",
+      "carsAlt": "LuxMotion wedding fleet"
+    },
+    "stats": {
+      "card1": {
+        "title": "Coordination with {partnerName}",
+        "desc": "Plan aligned with your wedding planner."
+      },
+      "card2": {
+        "title": "Briefing 48h in advance",
+        "desc": "Every chauffeur receives the full day-of timeline."
+      },
+      "card3": {
+        "title": "100% chauffeur-driven fleet",
+        "desc": "Premium vehicles, trained professionals."
+      }
+    },
+    "quote": {
+      "eyebrow": "Get started",
+      "headingStart": "Request a",
+      "headingAccent": "quote",
+      "submit": "Send request",
+      "successToast": "Request sent. We'll be in touch shortly.",
+      "errorToast": "Something went wrong. Please try again.",
+      "fields": {
+        "fullName": "Full name",
+        "email": "E-mail",
+        "phone": "Phone / WhatsApp",
+        "weddingDate": "Wedding date",
+        "guests": "Number of guests",
+        "venue": "Wedding venue",
+        "pickup": "Pickup location",
+        "numVehicles": "Number of vehicles",
+        "budget": "What budget do you have available?",
+        "vehicleType": "Preferred vehicle type",
+        "notes": "Additional notes",
+        "extras": "Extras"
+      },
+      "placeholders": {
+        "fullName": "Your full name",
+        "email": "Your best mail",
+        "phone": "000 000 000",
+        "weddingDate": "dd/mm/yyyy",
+        "guests": "e.g. 80",
+        "venue": "Quinta de â€¦, Lisbon, Alentejoâ€¦",
+        "pickup": "Hotel, home addressâ€¦",
+        "numVehicles": "Select quantity",
+        "notes": "Special requests, ceremony timing, multiple stops, decoration preferencesâ€¦"
+      },
+      "vehicles": {
+        "standard": "Standard",
+        "executive": "Executive",
+        "firstClass": "First Class",
+        "van": "Van",
+        "coach": "Coach"
+      },
+      "vehiclesScrollNext": "Next vehicles",
+      "vehiclesScrollPrev": "Previous vehicles",
+      "extras": {
+        "mostRequested": "Most Requested",
+        "selectedLabel": "Selected Extras",
+        "itemsLabel": "{count, plural, one {# item} other {# items}}",
+        "fromPrice": "Starting from",
+        "unitMain": "Main vehicle",
+        "unitPerCar": "Per vehicle",
+        "unitPerArrival": "Per arrival",
+        "unitPerMoment": "Per moment",
+        "unitPerGuest": "Min. 10",
+        "unitOnLocation": "2h on location",
+        "pricePerGuest": "/pp",
+        "items": {
+          "matricula": {
+            "title": "Personalised Number Plate",
+            "desc": "Removable decorative plate with the couple's initials or names and the date. Gold typography on a cream background. Discreet and elegant."
+          },
+          "floral": {
+            "title": "Premium floral decoration",
+            "desc": "Fresh-flower composition on the main vehicle's bonnet, coordinated with the bride's bouquet palette. Sintra-based florist partner."
+          },
+          "champanhe": {
+            "title": "Champagne on board",
+            "desc": "Chilled Veuve Clicquot or MoÃ«t & Chandon, two crystal flutes, discreet service by the chauffeur. A small toast before the ceremony."
+          },
+          "justMarried": {
+            "title": "Just Married ribbon & cans",
+            "desc": "Personalised gold ribbon with names and date, decorative cans trailing behind the vehicle. The classic, done with elegance."
+          },
+          "redCarpet": {
+            "title": "Red carpet on arrival",
+            "desc": "Red carpet rolled out as you step down from the vehicle, two gold stanchions with rope. Two uniformed attendants at the moment of arrival."
+          },
+          "petalas": {
+            "title": "Natural rose petals",
+            "desc": "Choreographed dispersal of fresh petals at the couple's arrival or exit. Only natural, biodegradable flowers in coordinated tones."
+          },
+          "welcomeKit": {
+            "title": "Guest welcome kit",
+            "desc": "Evian water, scented cool towel with lavender and an elegant fan with the couple's monogram. Served in the procession vehicles."
+          },
+          "classicCar": {
+            "title": "Classic car for photography",
+            "desc": "1960s Rolls-Royce Phantom, Mercedes 280SE Cabriolet or Bentley S2. Parked at the ceremony venue for the photo session."
+          }
+        }
+      }
+    },
+    "metrics": {
+      "taglineStart": "Practical,",
+      "taglineAccent": "safe",
+      "taglineEnd": " and effortlessly elegant.",
+      "subtitle": "Trusted by over two thousand couples across Portugal. Built on reliability, attention to detail, and the understanding that your wedding day allows zero compromise.",
+      "stat1": {
+        "value": "+2,187",
+        "label": "Weddings\nserved"
+      },
+      "stat2": {
+        "value": "+7",
+        "label": "Years of\nexperience"
+      },
+      "stat3": {
+        "value": "99%",
+        "label": "Client\nsatisfaction"
+      },
+      "stat4": {
+        "value": "+300",
+        "label": "Guests\nper event"
+      }
+    },
+    "offer": {
+      "eyebrow": "Our services",
+      "titleStart": "What we",
+      "titleAccent": "offer",
+      "imageAlt": "Couple and chauffeur with premium vehicle",
+      "cta": "Request a quote",
+      "card1": {
+        "title": "Bridal Vehicle",
+        "desc": "A dedicated, decorated executive vehicle exclusively for the couple. Your arrival sets the tone for the entire celebration."
+      },
+      "card2": {
+        "title": "Guest Mobility",
+        "desc": "Coordinated fleet for every guest. From intimate family groups to large wedding parties across multiple vehicles."
+      },
+      "card3": {
+        "title": "Professional Chauffeurs",
+        "desc": "Every chauffeur is vetted, trained, and dressed to match the occasion. Discretion, punctuality, and elegance as standard."
+      },
+      "card4": {
+        "title": "All of Portugal",
+        "desc": "Alentejo quintas, Douro vineyards, Algarve cliffs, Lisbon palaces. Wherever your venue is, we are already there."
+      }
+    },
+    "testimonials": {
+      "pill": "Exclusive",
+      "count": "300+",
+      "countLabel": "Clients and Companies",
+      "trustedSubtitle": "Trusted in Portugal and beyond",
+      "source": "Google Â· Verified",
+      "review1": {
+        "name": "Sofia Andrade",
+        "text": "Absolutely seamless from start to finish. The Mercedes was stunning, the driver was perfectly presented and everything ran on time. All our guests were impressed."
+      },
+      "review2": {
+        "name": "Ricardo Fonseca",
+        "text": "We hired LuxMotion for our wedding in Sintra. Exceptional service â€” always on time, completely silent when needed, and genuinely good people. Thank you!"
+      },
+      "review3": {
+        "name": "Margaret & James",
+        "text": "As a British couple married in the Alentejo, we needed a team we could trust completely. LuxMotion delivered beyond all expectations. Total class."
+      },
+      "review4": {
+        "name": "Ana LuÃ­sa Costa",
+        "text": "From the first contact to the last drop-off, the team was impeccable. Personalised at every step. I felt genuinely cared for on my wedding day."
+      }
+    },
+    "benefits": {
+      "eyebrow": "Why LuxMotion",
+      "headingStart": "300+ couples chose",
+      "headingAccent": "LuxMotion",
+      "benefit1": {
+        "title": "Impeccable Standards",
+        "desc": "Every chauffeur is trained, uniformed, and briefed on your wedding timeline before the first engine starts."
+      },
+      "benefit2": {
+        "title": "Full Fleet Range",
+        "desc": "From executive sedans for the couple to minibuses and coaches for larger wedding parties."
+      },
+      "benefit3": {
+        "title": "Flexible Scheduling",
+        "desc": "Your wedding schedule changes. We adapt. No penalties, no rigidity, no surprises on the day."
+      },
+      "benefit4": {
+        "title": "Proven Experience",
+        "desc": "Over 2,000 weddings. We know the venues, the timings, and what can go wrong. So it won't."
+      },
+      "benefit5": {
+        "title": "Personalised Service",
+        "desc": "We learn your preferences, your couple's details, and your guests' needs. Nothing generic. Everything yours."
+      }
+    }
+  },
+  "ultraLuxuryTours": {
+    "hero": {
+      "eyebrow": "Ultra Luxury Private Journeys",
+      "titleLine1": "The Portugal",
+      "titleLine2": "only the few will see.",
+      "subtitle": "Bespoke multi-day itineraries with private chauffeurs, exclusive estate access, and curation that turns a holiday into a story you'll tell for years.",
+      "metricReviewsLabel": "Verified Reviews",
+      "metricRatingLabel": "Average Rating",
+      "metricTailoredLabel": "Tailored to You"
+    },
+    "story": {
+      "label": "Our Approach",
+      "headingPart1": "More than a trip,",
+      "headingPart2": "a story",
+      "paragraph1": "Portugal reveals itself in the details the ordinary traveller never finds. The fado echoing through Alfama's alleys. The secret viewpoints of Sintra. A table set at an Alentejo estate where time stands still.",
+      "paragraph2": "Every itinerary is built around a real moment: a private harvest, an olive-oil tasting in the mountains, dinner prepared by a local chef in a historic village. We don't sell destinations. We create days that turn into memories.",
+      "collageAlt": "Luxury private travel in Portugal"
+    },
+    "regionTabs": {
+      "regions": "Regions",
+      "tours": "Tours",
+      "foodWine": "Food & Wine",
+      "riverCruises": "River Cruises",
+      "wellness": "Wellness",
+      "customTours": "Custom Tours"
+    },
+    "tours": {
+      "heading": "Tours",
+      "description1": "Portugal's natural and cultural diversity makes it a never-ending source of bespoke luxury experiences. Each journey introduces you to the very best of the country â€” from ancient palaces and rugged mountains to glistening rivers and untouched coastlines few travellers ever discover.",
+      "description2": "Every itinerary is designed by on-the-ground travel experts who know Portugal intimately, ensuring the time you spend here feels effortlessly authentic and entirely your own.",
+      "sortByLocation": "Sort by location",
+      "sortLatest": "Latest",
+      "sortPriceLow": "Price: Low to High",
+      "sortPriceHigh": "Price: High to Low",
+      "sortRating": "Top Rated",
+      "from": "from",
+      "seeMore": "See More",
+      "reviews": "{count} reviews",
+      "paxSuffix": "pax",
+      "noResults": "No tours found.",
+      "badge_bestseller": "Bestseller",
+      "badge_signature": "Signature",
+      "badge_new": "New"
+    },
+    "approach": {
+      "label": "A Different Kind of Travel",
+      "headingLine1": "Beyond the postcard.",
+      "headingLine2": "Into the soul",
+      "body1": "We don't sell destinations. We curate days that become memories â€” the private vintage at a quinta where the family still presses by foot, the dawn fado in an Alfama tasca, the stargazing dinner in Alentejo with your own astronomer.",
+      "body2": "Every journey is hand-built around your interests, your pace, your story. No generic tours. No fixed crowds. Just Portugal â€” exactly as you've always imagined it.",
+      "cta": "Read our approach",
+      "photoAlt": "BelÃ©m Tower in Lisbon"
+    },
+    "destinations": {
+      "eyebrow": "Where we travel",
+      "heading": "A country worth",
+      "headingAccent": "discovering slowly.",
+      "itineraries": "{count} itineraries",
+      "prev": "Previous",
+      "next": "Next",
+      "goToSlide": "Go to slide {number}",
+      "cards": {
+        "lisbon": {
+          "name": "Lisbon",
+          "accent": "& Sintra",
+          "subtitle": "Capital of light Â· Coastline"
+        },
+        "porto": {
+          "name": "Porto",
+          "accent": "& Douro",
+          "subtitle": "Wine country Â· River cruises"
+        },
+        "troia": {
+          "name": "TrÃ³ia",
+          "accent": "& Comporta",
+          "subtitle": "Hidden riviera Â· Beach houses"
+        },
+        "alentejo": {
+          "name": "",
+          "accent": "Alentejo",
+          "subtitle": "Wine estates Â· Stargazing"
+        }
+      }
+    },
+    "scarcity": {
+      "eyebrow": "Limited Availability",
+      "heading": "Reserved for those who",
+      "headingAccent": "plan ahead",
+      "subtitle": "We accept fewer than {max} bookings per year to ensure every journey receives the attention it deserves. This is what's left for {year}.",
+      "liveStatus": "Live Â· Updated 4 minutes ago",
+      "capacityHeading": "{year} capacity is",
+      "capacityHeadingAccent": "nearly full.",
+      "bookingsConfirmed": "Bookings Confirmed",
+      "reservedPercent": "{percent}% reserved",
+      "spotsRemaining": "Only {count} spots remaining",
+      "statSpotsLeft": "Spots left this year",
+      "statInquiries": "Inquiries today",
+      "statReserved": "Reserved this week",
+      "availabilityBy": "Availability by",
+      "availabilityByAccent": "month.",
+      "statusBooked": "Fully booked",
+      "statusSpotsLeft": "{count} spots left",
+      "statusOpen": "Open Â· Inquire",
+      "legendBooked": "Fully booked",
+      "legendAlmost": "Almost full",
+      "legendAvailable": "Available",
+      "footerText": "All inquiries answered within 24 hours. Once a date is reserved, we hold it for <em>72 hours</em> while we tailor your itinerary.",
+      "ctaReserve": "Reserve your date",
+      "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
+    },
+    "browse": {
+      "breadcrumbRoot": "Luxury Tours",
+      "breadcrumbCurrent": "All tours",
+      "title": "Browse",
+      "titleAccent": "all tours",
+      "journeys": "journeys",
+      "tagline": "Curated for the discerning traveller",
+      "refine": "Refine",
+      "clearAll": "Clear All",
+      "applied": "Applied:",
+      "filters": "Filters",
+      "from": "from",
+      "perPerson": "/pp",
+      "reviews": "{count} reviews",
+      "paxSuffix": "pax",
+      "save": "Save",
+      "noResults": "No tours match your filters.",
+      "close": "Close",
+      "prev": "Previous",
+      "next": "Next",
+      "viewGrid": "Grid view",
+      "viewList": "List view",
+      "groups": {
+        "region": "Region",
+        "tourType": "Tour Type",
+        "duration": "Duration",
+        "theme": "Theme",
+        "price": "Price (per person)",
+        "groupSize": "Group Size"
+      },
+      "tourTypes": {
+        "halfDay": "Half Day",
+        "fullDay": "Full Day",
+        "multiDay": "Multi-Day",
+        "riverCruise": "River Cruise",
+        "privateYacht": "Private Yacht",
+        "helicopter": "Helicopter"
+      },
+      "durations": {
+        "d1to3": "1â€“3 days",
+        "d4to7": "4â€“7 days",
+        "d8to10": "8â€“10 days",
+        "d10plus": "10+ days"
+      },
+      "sort": {
+        "featured": "Featured",
+        "priceLow": "Price: Low to High",
+        "priceHigh": "Price: High to Low",
+        "rating": "Top Rated"
+      },
+      "badge": {
+        "bestseller": "Bestseller",
+        "signature": "Signature",
+        "new": "New"
+      }
+    },
+    "customInquiry": {
+      "eyebrow": "Bespoke Journeys",
+      "heading": "Design a journey",
+      "headingAccent": "entirely your own",
+      "subheading": "Tell us how you wish to travel and our concierge will craft a private itinerary tailored to your taste, pace and occasion.",
+      "promiseBespoke": "Every detail shaped around you â€” no two journeys alike.",
+      "promiseResponse": "A personal reply within 24 hours, never an automated quote.",
+      "promiseConcierge": "A dedicated concierge with you from first idea to last mile.",
+      "name": "Full name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@email.com",
+      "phone": "Phone",
+      "people": "Travellers",
+      "peoplePlaceholder": "Select",
+      "peopleOptions": [
+        "1â€“2 travellers",
+        "3â€“4 travellers",
+        "5â€“6 travellers",
+        "7+ travellers"
+      ],
+      "message": "Tell us about your dream journey",
+      "messagePlaceholder": "Destinations, occasion, interests, preferred datesâ€¦",
+      "marketingOptIn": "Keep me informed about curated journeys and private experiences.",
+      "send": "Request your journey",
+      "sending": "Sendingâ€¦",
+      "successTitle": "Request received",
+      "successBody": "Our concierge will be in touch within 24 hours.",
+      "errorTitle": "Something went wrong. Please try again."
+    }
+  },
+  "adminAvailability": {
+    "title": "Tour Availability",
+    "subtitle": "Manage the limited-availability section on the ultra-luxury tours page.",
+    "sections": {
+      "capacity": "Capacity & live stats",
+      "months": "Monthly availability"
+    },
+    "fields": {
+      "year": "Year",
+      "totalCapacity": "Total capacity",
+      "confirmedBookings": "Bookings confirmed",
+      "inquiriesToday": "Inquiries today",
+      "reservedThisWeek": "Reserved this week"
+    },
+    "statusLabel": "Status",
+    "spotsLeftLabel": "Spots left",
+    "status": {
+      "booked": "Fully booked",
+      "almost": "Almost full",
+      "available": "Available"
+    },
+    "save": "Save changes",
+    "saving": "Savingâ€¦",
+    "saveSuccess": "Availability updated",
+    "saveError": "Could not save changes",
+    "errors": {
+      "capacity": "Bookings confirmed cannot exceed total capacity"
+    }
+  },
+  "corporate": {}
 }
