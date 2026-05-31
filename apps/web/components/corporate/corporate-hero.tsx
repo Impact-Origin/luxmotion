@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 
@@ -100,7 +101,8 @@ export function CorporateHero() {
             <MetricsGrid metrics={metrics} />
 
             <div className="flex flex-wrap items-center gap-3">
-              <button
+              <Link
+                href="#request-proposal"
                 className="inline-flex h-12 items-center bg-[#A08248] px-6 py-[9px] text-white transition-colors hover:bg-[#b89558]"
                 style={sans}
               >
@@ -108,9 +110,10 @@ export function CorporateHero() {
                   {t("ctaPrimary")}
                 </span>
                 <ArrowRight className="size-[14px]" strokeWidth={2} />
-              </button>
+              </Link>
 
-              <button
+              <Link
+                href="/corporate/experiences"
                 className="inline-flex h-12 items-center border border-[#999] px-6 py-[9px] text-[#999] transition-colors hover:border-[#F7F4EF] hover:text-[#F7F4EF]"
                 style={sans}
               >
@@ -118,7 +121,7 @@ export function CorporateHero() {
                   {t("ctaSecondary")}
                 </span>
                 <ArrowRight className="size-[14px]" strokeWidth={2} />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -47,6 +47,8 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
               { href: "/", label: t("home") },
               { href: "/about-us", label: t("aboutUs") },
               { href: "/#services", label: t("services") },
+              { href: "/ultra-luxury-tours", label: t("luxuryTours") },
+              { href: "/corporate", label: t("corporate") },
               { href: "/fleet", label: t("fleet") },
               { href: "/#companies", label: t("whoTrustsUs") },
             ]}

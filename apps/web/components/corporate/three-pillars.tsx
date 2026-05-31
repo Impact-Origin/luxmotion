@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 
@@ -138,7 +139,8 @@ export function ThreePillars() {
             ))}
           </div>
 
-          <button
+          <Link
+            href="/corporate/experiences"
             className="inline-flex h-12 w-full items-center justify-center border border-[#C9A96E] px-[22px] py-[9px] text-[#C9A96E] transition-colors hover:bg-[rgba(201,169,110,0.08)] md:w-[240px]"
             style={sans}
           >
@@ -146,7 +148,7 @@ export function ThreePillars() {
               {t("seeMore")}
             </span>
             <ArrowRight className="size-[14px]" strokeWidth={2} />
-          </button>
+          </Link>
         </div>
       </div>
     </section>
