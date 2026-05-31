@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { Mail, Phone, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react"
+import { Mail, Phone, Shield, ArrowRight, CheckCircle2 } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { PhoneInput } from "@/components/ui/phone-input"
@@ -158,7 +158,7 @@ function QuoteForm() {
               <FieldLabel>{t("phone")}</FieldLabel>
               <div className="w-full [&>div]:w-full">
                 <PhoneInput
-                  corporate
+                  wedding
                   value={phone}
                   onChange={setPhone}
                   defaultCountry="pt"
@@ -206,7 +206,7 @@ function QuoteForm() {
           </div>
 
           <div className="flex items-center justify-center gap-[5px]">
-            <ShieldCheck className="h-4 w-4 text-[#a08248]" strokeWidth={1.6} />
+            <Shield className="h-4 w-4 text-[#2e7d52]" strokeWidth={1.6} />
             <p className="text-[12px] text-[#696969]" style={sans}>
               {t("note")}
             </p>

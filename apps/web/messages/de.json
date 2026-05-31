@@ -5344,6 +5344,35 @@
           "successTitle": "Anfrage Gesendet",
           "successBody": "Vielen Dank. Unser Team antwortet innerhalb von 24 Stunden mit einem maßgeschneiderten Angebot."
         }
+      },
+      "preferToTalk": {
+        "eyebrow": "Warum LuxMotion",
+        "titleLine1": "Lieber jetzt",
+        "titleAccent": "sprechen",
+        "subtitle": "Für dringende Anfragen oder kurzfristige Buchungen steht Ihnen unsere 24/7-Disposition über den Kanal Ihrer Wahl zur Verfügung.",
+        "whatsapp": {
+          "tag": "Sofort",
+          "title": "WhatsApp",
+          "body": "Echtzeit-Nachrichten mit unserem Dispositionsteam. Durchschnittliche Antwortzeit: unter 4 Minuten während der Betriebszeiten.",
+          "cta": "Jetzt schreiben"
+        },
+        "phone": {
+          "tag": "Direkt",
+          "title": "Telefon",
+          "body": "Sprechen Sie direkt mit unserem Concierge-Team für maßgeschneiderte Beratung zu komplexen Reiserouten oder Mehrfahrzeug-Logistik."
+        },
+        "schedule": {
+          "tag": "Persönlich",
+          "title": "Anruf Vereinbaren",
+          "body": "Buchen Sie ein 30-minütiges Kennenlerngespräch mit unserem Partnerschaftsteam. Ideal für laufende Firmenkonten oder Hotelpartnerschaften.",
+          "cta": "Termin wählen"
+        }
+      },
+      "proposalCta": {
+        "eyebrow": "Angebot Anfordern",
+        "titleLine1": "Lassen Sie uns etwas",
+        "titleAccent": "Außergewöhnliches",
+        "cta": "Briefing starten"
       }
     }
   },
@@ -5807,4 +5836,3 @@
   },
   "corporate": {}
 }
-

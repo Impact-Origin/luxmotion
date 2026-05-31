@@ -5420,6 +5420,35 @@
           "successTitle": "Pedido Enviado",
           "successBody": "Obrigado. A nossa equipa responderá com uma proposta à medida em 24 horas."
         }
+      },
+      "preferToTalk": {
+        "eyebrow": "Porquê LuxMotion",
+        "titleLine1": "Prefere falar",
+        "titleAccent": "agora",
+        "subtitle": "Para pedidos urgentes ou reservas de última hora, o nosso despacho 24/7 está pronto para o ajudar no canal à sua escolha.",
+        "whatsapp": {
+          "tag": "Instantâneo",
+          "title": "WhatsApp",
+          "body": "Mensagens em tempo real com a nossa equipa de despacho. Tempo médio de resposta: menos de 4 minutos durante o horário de funcionamento.",
+          "cta": "Envie-nos mensagem"
+        },
+        "phone": {
+          "tag": "Direto",
+          "title": "Telefone",
+          "body": "Fale diretamente com a nossa equipa de concierge para aconselhamento à medida sobre itinerários complexos ou logística de múltiplos veículos."
+        },
+        "schedule": {
+          "tag": "Pessoal",
+          "title": "Agendar Chamada",
+          "body": "Marque uma chamada de descoberta de 30 minutos com a nossa equipa de parcerias. Ideal para contas corporativas contínuas ou parcerias hoteleiras.",
+          "cta": "Escolha um horário"
+        }
+      },
+      "proposalCta": {
+        "eyebrow": "Solicite uma Proposta",
+        "titleLine1": "Vamos criar algo",
+        "titleAccent": "extraordinário",
+        "cta": "Iniciar o seu briefing"
       }
     }
   },

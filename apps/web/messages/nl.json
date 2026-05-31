@@ -5247,6 +5247,35 @@
           "successTitle": "Aanvraag Verzonden",
           "successBody": "Bedankt. Ons team reageert binnen 24 uur met een voorstel op maat."
         }
+      },
+      "preferToTalk": {
+        "eyebrow": "Waarom LuxMotion",
+        "titleLine1": "Liever nu",
+        "titleAccent": "praten",
+        "subtitle": "Voor dringende aanvragen of last-minute boekingen staat onze 24/7 dispatch klaar om u te helpen via het kanaal van uw keuze.",
+        "whatsapp": {
+          "tag": "Direct",
+          "title": "WhatsApp",
+          "body": "Realtime berichten met ons dispatchteam. Gemiddelde reactietijd: minder dan 4 minuten tijdens openingstijden.",
+          "cta": "Stuur ons een bericht"
+        },
+        "phone": {
+          "tag": "Telefonisch",
+          "title": "Telefoon",
+          "body": "Spreek rechtstreeks met ons conciërgeteam voor advies op maat over complexe routes of logistiek met meerdere voertuigen."
+        },
+        "schedule": {
+          "tag": "Persoonlijk",
+          "title": "Gesprek Plannen",
+          "body": "Boek een kennismakingsgesprek van 30 minuten met ons partnerschapsteam. Ideaal voor doorlopende zakelijke accounts of hotelsamenwerkingen.",
+          "cta": "Kies een tijd"
+        }
+      },
+      "proposalCta": {
+        "eyebrow": "Vraag een Voorstel Aan",
+        "titleLine1": "Laten we iets",
+        "titleAccent": "buitengewoons",
+        "cta": "Start uw briefing"
       }
     }
   },

@@ -5247,6 +5247,35 @@
           "successTitle": "Demande Envoyée",
           "successBody": "Merci. Notre équipe vous répondra sous 24 heures avec une proposition sur mesure."
         }
+      },
+      "preferToTalk": {
+        "eyebrow": "Pourquoi LuxMotion",
+        "titleLine1": "Préférez parler",
+        "titleAccent": "maintenant",
+        "subtitle": "Pour les demandes urgentes ou les réservations de dernière minute, notre dispatch 24/7 est prêt à vous aider sur le canal de votre choix.",
+        "whatsapp": {
+          "tag": "Instantané",
+          "title": "WhatsApp",
+          "body": "Messagerie en temps réel avec notre équipe de dispatch. Temps de réponse moyen : moins de 4 minutes pendant les heures d'ouverture.",
+          "cta": "Écrivez-nous"
+        },
+        "phone": {
+          "tag": "Direct",
+          "title": "Téléphone",
+          "body": "Parlez directement avec notre équipe de conciergerie pour des conseils sur mesure concernant des itinéraires complexes ou une logistique multi-véhicules."
+        },
+        "schedule": {
+          "tag": "Personnel",
+          "title": "Planifier un Appel",
+          "body": "Réservez un appel découverte de 30 minutes avec notre équipe partenariats. Idéal pour les comptes d'entreprise récurrents ou les partenariats hôteliers.",
+          "cta": "Choisir un créneau"
+        }
+      },
+      "proposalCta": {
+        "eyebrow": "Demander une Proposition",
+        "titleLine1": "Concevons quelque chose",
+        "titleAccent": "d'extraordinaire",
+        "cta": "Démarrer votre brief"
       }
     }
   },
