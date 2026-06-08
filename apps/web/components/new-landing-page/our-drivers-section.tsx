@@ -129,6 +129,7 @@ export function OurDriversSection() {
                     vehicleLabel={t("vehicle")}
                     languagesLabel={t("languages")}
                     ridesLabel={t("rides")}
+                    statusLabel={t("onTripNow")}
                   />
                 </div>
               )
@@ -224,12 +225,14 @@ function DriverSlide({
   vehicleLabel,
   languagesLabel,
   ridesLabel,
+  statusLabel,
 }: {
   driver: Driver
   active: boolean
   vehicleLabel: string
   languagesLabel: string
   ridesLabel: string
+  statusLabel: string
 }) {
   const imgMotion = active
     ? "opacity-100 scale-100"
@@ -272,12 +275,23 @@ function DriverSlide({
           className={`w-full flex-1 lg:w-[580px] lg:mt-16 flex flex-col gap-[10px] items-start text-left transition-all duration-[650ms] ${textMotion}`}
           style={{ transitionTimingFunction: ease, transitionDelay: active ? "200ms" : "0ms" }}
         >
-          <h3
-            className="text-[28px] lg:text-[32px] leading-[1.1] lg:leading-[36px] text-white"
-            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
-          >
-            {driver.name}
-          </h3>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h3
+              className="text-[28px] lg:text-[32px] leading-[1.1] lg:leading-[36px] text-white"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {driver.name}
+            </h3>
+            <span className="inline-flex items-center gap-2">
+              <span className="relative inline-flex size-2">
+                <span className="absolute inset-0 rounded-full bg-[#4ADE80] animate-ping-strong" />
+                <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
+              </span>
+              <span className="text-[12px] tracking-[0.5px] text-[#8c8680] leading-none">
+                {statusLabel}
+              </span>
+            </span>
+          </div>
           <p className="text-[14px] leading-[1.3] text-[#999] max-w-[513px]">
             {driver.description}
           </p>

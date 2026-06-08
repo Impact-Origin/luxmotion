@@ -55,8 +55,8 @@ export function ProfessionalDriversSection() {
           </p>
 
           <Link
-            href="/drivers"
-            className="group inline-flex items-center gap-1.5 text-[14px] md:text-[16px] tracking-[1px] text-[#C9A96E] font-semibold hover:text-white transition-colors w-fit pt-4"
+            href="/drivers/apply"
+            className="group inline-flex items-center gap-2 text-[14px] tracking-[0.12em] uppercase text-[#C9A96E] hover:text-white transition-colors w-fit pt-4"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             <span>{t("cta")}</span>

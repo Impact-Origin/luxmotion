@@ -101,19 +101,6 @@ function LangPill() {
   )
 }
 
-function CurrencyPill() {
-  return (
-    <button
-      type="button"
-      className="hidden md:flex items-center gap-[4px] h-[40px] px-[9px] border border-[rgba(201,169,110,0.22)] hover:border-[rgba(201,169,110,0.4)] transition-colors cursor-pointer"
-    >
-      <span className="text-[14px] font-medium text-[#C9A96E] tracking-[0.15px]">€</span>
-      <span className="text-[14px] font-medium text-[#C9A96E] tracking-[0.15px]">EUR</span>
-      <ChevronDown className="w-[13px] h-[13px] text-[#C9A96E]" />
-    </button>
-  )
-}
-
 function ThemeToggle({ label }: { label: string }) {
   return (
     <button
@@ -174,7 +161,6 @@ export function CheckoutHeader({
 
         <div className="flex items-center gap-[12px]">
           <LiveCount text={tNav("reservationsToday", { count: reservationsToday })} />
-          <CurrencyPill />
           <LangPill />
           <ThemeToggle label={tNav("themeToggle")} />
           <Link

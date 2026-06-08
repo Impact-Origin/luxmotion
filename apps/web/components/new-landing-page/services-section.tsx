@@ -11,9 +11,9 @@ import { useSwipe } from "@/hooks/use-swipe"
 const services = [
   { id: "transfers", image: "/services/transfers.png", href: "/#booking" },
   { id: "tours", image: "/services/tours.png", href: "/tours" },
-  { id: "weddings", image: "/services/weddings.png", href: "/#booking" },
-  { id: "events", image: "/services/events.png", href: "/#booking" },
-  { id: "corporate", image: "/services/corporate.png", href: "/#booking" },
+  { id: "weddings", image: "/services/weddings.png", href: "/wedding" },
+  { id: "events", image: "/services/events.png", href: "/events" },
+  { id: "corporate", image: "/services/corporate.png", href: "/corporate" },
 ]
 
 interface ServiceCardProps {

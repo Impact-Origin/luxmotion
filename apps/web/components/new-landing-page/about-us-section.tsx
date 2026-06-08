@@ -97,8 +97,8 @@ export function AboutUsSection() {
                 {FOUNDERS.map((letter, i) => (
                   <div
                     key={letter}
-                    className="absolute top-0 size-10 rounded-full bg-[rgba(170,153,110,0.2)] border border-[#212121] flex items-center justify-center"
-                    style={{ left: `${i * 32}px` }}
+                    className="absolute top-0 size-10 rounded-full bg-[rgba(170,153,110,0.2)] border border-[#212121] flex items-center justify-center cursor-default transition-transform duration-300 ease-out hover:scale-125 hover:-translate-y-1.5 hover:z-20 hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.35)] hover:shadow-[0_8px_20px_-4px_rgba(201,169,110,0.45)]"
+                    style={{ left: `${i * 32}px`, zIndex: i }}
                   >
                     <span className="text-[14px] font-semibold text-[#AB9C6B] leading-none">
                       {letter}

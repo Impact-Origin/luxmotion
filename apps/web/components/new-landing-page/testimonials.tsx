@@ -98,12 +98,14 @@ function ReviewCard({ review }: { review: Review }) {
   )
 }
 
-function ArrowButton({ direction, onClick, className }: { direction: "left" | "right"; onClick: () => void; className?: string }) {
+function ArrowButton({ direction, onClick, disabled, className }: { direction: "left" | "right"; onClick: () => void; disabled?: boolean; className?: string }) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={cn(
-        "size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-colors hover:border-[#C9A96E]",
+        "size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-colors hover:border-[#C9A96E]",
+        disabled && "opacity-40 cursor-not-allowed hover:border-[rgba(201,169,110,0.5)]",
         className
       )}
       aria-label={direction === "left" ? "Previous" : "Next"}
@@ -144,19 +146,32 @@ export function Testimonials() {
     setCurrentPage((prev) => (prev - 1 + reviews.length) % reviews.length)
   }, [reviews.length])
 
+  const goNextPage = useCallback(() => {
+    setCurrentPage((prev) => (prev + 1) % desktopPages)
+  }, [desktopPages])
+
+  const goPrevPage = useCallback(() => {
+    setCurrentPage((prev) => (prev - 1 + desktopPages) % desktopPages)
+  }, [desktopPages])
+
   const swipeHandlers = useSwipe(nextPage, prevPage)
 
-  const desktopPageIdx = Math.min(currentPage, desktopPages - 1)
+  const desktopPageIdx = desktopPages > 0 ? ((currentPage % desktopPages) + desktopPages) % desktopPages : 0
   const desktopReviews = reviews.slice(desktopPageIdx * desktopItemsPerPage, desktopPageIdx * desktopItemsPerPage + desktopItemsPerPage)
+  const desktopPhotos = Array.from(
+    { length: desktopItemsPerPage },
+    (_, i) => REVIEW_PHOTOS[(desktopPageIdx * desktopItemsPerPage + i) % REVIEW_PHOTOS.length]!
+  )
   const mobileReview = reviews[currentPage % reviews.length]
   const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
 
   return (
     <section id="reviews" className="bg-[#0D0D0D] pt-[60px] pb-6 relative">
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center">
-        <div className="backdrop-blur-sm bg-[rgba(33,33,33,0.3)] border border-[#C9A96E] flex items-center gap-2 px-4 py-2">
-          <BadgeCheck className="size-6 text-[#C9A96E]" strokeWidth={1.5} />
-          <span className="text-[14px] text-[#C9A96E] tracking-[0.28px]">
+        <div className="group relative overflow-hidden cursor-default backdrop-blur-sm bg-[rgba(33,33,33,0.3)] border border-[#C9A96E] flex items-center gap-2 px-4 py-2">
+          <div className="pointer-events-none absolute inset-0 w-0 bg-[#C9A96E] transition-all duration-500 ease-out group-hover:w-full" />
+          <BadgeCheck className="relative size-6 text-[#C9A96E] transition-colors duration-300 group-hover:text-[#0D0D0D]" strokeWidth={1.5} />
+          <span className="relative text-[14px] text-[#C9A96E] tracking-[0.28px] transition-colors duration-300 group-hover:text-[#0D0D0D]">
             {t("exclusive")}
           </span>
         </div>
@@ -198,8 +213,8 @@ export function Testimonials() {
         <div className="hidden md:flex flex-col gap-6 w-full mt-10">
           <div className="relative">
             <div className="flex gap-[2px]">
-              {REVIEW_PHOTOS.map((photo, i) => (
-                <div key={i} className="flex-1 relative h-[355px]">
+              {desktopPhotos.map((photo, i) => (
+                <div key={`${desktopPageIdx}-${i}`} className="flex-1 relative h-[355px]">
                   <Image
                     src={photo}
                     alt={`Client photo ${i + 1}`}
@@ -210,8 +225,8 @@ export function Testimonials() {
                 </div>
               ))}
             </div>
-            <ArrowButton direction="left" onClick={prevPage} className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10" />
-            <ArrowButton direction="right" onClick={nextPage} className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10" />
+            <ArrowButton direction="left" onClick={goPrevPage} disabled={desktopPages <= 1} className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10" />
+            <ArrowButton direction="right" onClick={goNextPage} disabled={desktopPages <= 1} className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10" />
           </div>
 
           <div className="relative">
@@ -222,20 +237,18 @@ export function Testimonials() {
                 </div>
               ))}
             </div>
-            {desktopPages > 1 && (
-              <>
-                <ArrowButton
-                  direction="left"
-                  onClick={() => setCurrentPage((p) => (p - 1 + desktopPages) % desktopPages)}
-                  className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10"
-                />
-                <ArrowButton
-                  direction="right"
-                  onClick={() => setCurrentPage((p) => (p + 1) % desktopPages)}
-                  className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10"
-                />
-              </>
-            )}
+            <ArrowButton
+              direction="left"
+              onClick={goPrevPage}
+              disabled={desktopPages <= 1}
+              className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10"
+            />
+            <ArrowButton
+              direction="right"
+              onClick={goNextPage}
+              disabled={desktopPages <= 1}
+              className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10"
+            />
           </div>
         </div>
 

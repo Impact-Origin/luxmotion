@@ -889,7 +889,8 @@
     "selectDate": "Datum wählen",
     "selectOrigin": "Abfahrtsort wählen",
     "selectDestination": "Zielort wählen",
-    "stopsLabel": "Halt(e)"
+    "stopsLabel": "Halt(e)",
+    "totalRoundTrip": "Gesamt - Hin- und Rückfahrt"
   },
   "confirmation": {
     "title": "Buchungsbestätigung",
@@ -1074,7 +1075,8 @@
     "step1": "Persönliches Gespräch",
     "step2": "Identitäts- und Fahrzeugprüfung",
     "step3": "Schulung zu Sicherheitsprotokollen",
-    "step4": "Bereit für die erste Fahrt"
+    "step4": "Bereit für die erste Fahrt",
+    "onTripNow": "Gerade auf einer Fahrt"
   },
   "social": {
     "followUs": "Folgen Sie uns",
@@ -2935,7 +2937,7 @@
     "photoAlt": "Chauffeur mit Luxusfahrzeug am Flughafen",
     "card": {
       "label": "+ White-Label-Buchung",
-      "route": "Flughafen Lissabon → Bairro Alto Hotel",
+      "route": "Lissabon → Bairro Alto",
       "date": "14. März  ·  08:45 Ankunft",
       "button": "Buchung fortsetzen"
     }
@@ -5836,9 +5838,3 @@
   },
   "corporate": {}
 }
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 1ed930312d681851acaf51da91007c40d8fa6f1b

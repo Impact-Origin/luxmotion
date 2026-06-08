@@ -190,6 +190,10 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
   const stopsCount = transfer.stops.length;
   const formattedDate = transfer.departureDate ? formatDate(transfer.departureDate) : null;
   const departureTime = transfer.departureDate ? formatTime(transfer.departureDate) : null;
+  const estimatedArrival =
+    transfer.departureDate && routeDuration !== null
+      ? formatTime(new Date(transfer.departureDate).getTime() + routeDuration * 60000)
+      : null;
   const euros = Math.floor(totalPriceWithExtras);
   const finalAmount = totalPriceWithExtras.toFixed(0);
 
@@ -265,7 +269,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
       <section className="bg-[#1a1918] flex flex-col gap-2 px-4 py-3 w-full">
         <div className="flex items-center justify-between w-full">
           <span className="text-[12px] font-semibold text-[#F7F4EF] leading-none">
-            {t("total")}
+            {isRoundTrip ? t("totalRoundTrip") : t("total")}
           </span>
           <div className="flex items-baseline text-[#F7F4EF]">
             <span className="text-[18px] font-medium leading-none">€</span>
@@ -298,7 +302,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
           <ItineraryPreviewRow
             accent
             label={truncateAddress(transfer.toLocation, 26) || t("selectDestination")}
-            time="—"
+            time={estimatedArrival ?? "—"}
             last
           />
         </div>

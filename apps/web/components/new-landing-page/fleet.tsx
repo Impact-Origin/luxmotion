@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -40,14 +40,33 @@ export function Fleet({ showControls = true }: { showControls?: boolean } = {}) 
   const [activeCategory, setActiveCategory] = useState<CategoryId>("standard")
   const scrollerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [perView, setPerView] = useState(1)
 
   const vehicles = useMemo(() => VEHICLES_BY_CATEGORY[activeCategory], [activeCategory])
   const categoryLabel = t(`categories.${activeCategory}.label`)
 
+  const measurePerView = useCallback(() => {
+    const el = scrollerRef.current
+    if (!el) return
+    const first = el.querySelector<HTMLElement>("[data-card]")
+    const step = first ? first.offsetWidth + 2 : el.clientWidth
+    setPerView(Math.max(1, Math.round(el.clientWidth / step)))
+  }, [])
+
   useEffect(() => {
     if (scrollerRef.current) scrollerRef.current.scrollLeft = 0
     setActiveIndex(0)
-  }, [activeCategory])
+    measurePerView()
+  }, [activeCategory, measurePerView])
+
+  useEffect(() => {
+    measurePerView()
+    window.addEventListener("resize", measurePerView)
+    return () => window.removeEventListener("resize", measurePerView)
+  }, [measurePerView])
+
+  const pageCount = Math.max(1, vehicles.length - perView + 1)
+  const currentPage = Math.min(activeIndex, pageCount - 1)
 
   const scrollByCards = (dir: 1 | -1) => {
     const el = scrollerRef.current
@@ -136,11 +155,11 @@ export function Fleet({ showControls = true }: { showControls?: boolean } = {}) 
                 <ArrowRight className="size-[18px] rotate-180" strokeWidth={1.7} />
               </button>
               <div className="flex items-center gap-[6px] px-2">
-                {vehicles.map((v, i) => (
+                {Array.from({ length: pageCount }).map((_, i) => (
                   <span
-                    key={v.id}
+                    key={i}
                     className={`rounded-full transition-all duration-300 ${
-                      i === activeIndex
+                      i === currentPage
                         ? "size-[6px] bg-[#C9A96E]"
                         : "size-[5px] bg-[rgba(201,169,110,0.35)]"
                     }`}

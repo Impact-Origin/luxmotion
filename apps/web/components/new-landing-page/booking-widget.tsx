@@ -12,7 +12,6 @@ import { EventsTourForm } from "./booking/events-tour-form"
 import type { TripType, PassengerState, TourPassengerState, LuggageState, WidgetProductItem } from "./booking/types"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
-import { getDailyNumber } from "@/lib/daily-number"
 
 interface BookingWidgetProps {
   className?: string
@@ -103,7 +102,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
 
   useEffect(() => {
     setMounted(true)
-    setReservationCount(getDailyNumber("reservations", 8, 20))
+    setReservationCount(Math.floor(40 + Math.random() * 41))
   }, [])
 
   const addDestination = () => {
@@ -418,7 +417,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
 
             <div className="flex items-center gap-1 shrink-0">
               <span className="relative inline-flex size-2 mr-0.5">
-                <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
+                <span className="absolute inset-0 rounded-full bg-[#4ADE80] animate-ping-strong" />
                 <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80]" />
               </span>
               <span className="text-[11px] lg:text-[12px] font-semibold text-[#C9A96E]">

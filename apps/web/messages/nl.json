@@ -889,7 +889,8 @@
     "selectDate": "Selecteer datum",
     "selectOrigin": "Selecteer vertrekpunt",
     "selectDestination": "Selecteer bestemming",
-    "stopsLabel": "Stop(s)"
+    "stopsLabel": "Stop(s)",
+    "totalRoundTrip": "Totaal - Retour"
   },
   "confirmation": {
     "title": "Boekingsbevestiging",
@@ -1074,7 +1075,8 @@
     "step1": "Persoonlijk gesprek",
     "step2": "Identiteits- en voertuigcontrole",
     "step3": "Training in veiligheidsprotocollen",
-    "step4": "Klaar voor de eerste rit"
+    "step4": "Klaar voor de eerste rit",
+    "onTripNow": "Nu onderweg"
   },
   "social": {
     "followUs": "Volg ons",
@@ -2838,7 +2840,7 @@
     "photoAlt": "Chauffeur met luxe voertuig op de luchthaven",
     "card": {
       "label": "+ White-Label Boeking",
-      "route": "Luchthaven Lissabon → Bairro Alto Hotel",
+      "route": "Lissabon → Bairro Alto",
       "date": "14 mrt  ·  08:45 aankomst",
       "button": "Doorgaan met boeken"
     }

@@ -7,8 +7,8 @@ import { useTranslations } from "next-intl"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
 const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean }> = [
-  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 44, h: 44 },
-  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 46, h: 47 },
+  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 58, h: 58 },
+  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 60, h: 61 },
   { src: "/footer/badges/pme.png", alt: "PME Líder", w: 32, h: 37 },
   { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 34, h: 35 },
   { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 33, h: 36 },
@@ -82,7 +82,7 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
           {PAYMENTS.map((p) => (
             <div
               key={p.alt}
-              className="h-[34px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-[3px] opacity-55 flex items-center justify-center px-[15px]"
+              className="relative h-[34px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-[3px] opacity-55 flex items-center justify-center px-[15px] cursor-default transition-all duration-300 ease-out hover:opacity-100 hover:scale-110 hover:-translate-y-1 hover:z-10 hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.06)] hover:shadow-[0_8px_20px_-6px_rgba(201,169,110,0.4)]"
             >
               <Image src={p.src} alt={p.alt} width={p.w} height={p.h} className="object-contain" />
             </div>
@@ -151,13 +151,13 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
         {BADGES.map((badge) => (
           <div
             key={badge.alt}
-            className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] h-[52px] flex items-center justify-center px-[11px]"
+            className="group bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] h-[72px] flex items-center justify-center px-[11px] transition-colors duration-300 hover:border-[rgba(201,169,110,0.3)] hover:bg-[rgba(201,169,110,0.04)]"
           >
             {badge.mask ? (
               <span
                 role="img"
                 aria-label={badge.alt}
-                className="block bg-white"
+                className="block bg-white transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(201,169,110,0.35)]"
                 style={{
                   width: `${badge.w}px`,
                   height: `${badge.h}px`,
@@ -177,7 +177,7 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
                 alt={badge.alt}
                 width={badge.w}
                 height={badge.h}
-                className="object-contain"
+                className="object-contain transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(201,169,110,0.35)]"
                 style={{ width: `${badge.w}px`, height: `${badge.h}px` }}
               />
             )}

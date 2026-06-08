@@ -11,13 +11,7 @@ export function RequestProposalCta() {
   const t = useTranslations("corporatePage.contact.proposalCta")
 
   return (
-    <section
-      className="w-full bg-[#0D0D0D] px-4 py-12 md:px-[82px] md:py-16 2xl:px-[300px]"
-      style={{
-        backgroundImage:
-          "linear-gradient(265deg, rgba(255,255,255,0) -7.82%, rgba(154,117,53,0.10) 62.84%)",
-      }}
-    >
+    <section className="w-full bg-[#0D0D0D] px-4 py-12 md:px-[82px] md:py-16 2xl:px-[300px]">
       <div className="mx-auto flex max-w-[1280px] flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">

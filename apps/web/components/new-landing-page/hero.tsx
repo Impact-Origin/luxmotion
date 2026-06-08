@@ -1,6 +1,6 @@
 "use client"
 
-import { Plane, Phone, ShieldCheck } from "lucide-react"
+import { Plane, Phone, ShieldCheck, BadgeCheck } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
@@ -32,6 +32,71 @@ function FeatureCard({
   )
 }
 
+const REVIEW_COUNT = 387
+
+const SOCIAL_AVATARS = ["/reviews/review-1.png", "/reviews/review-2.png", "/reviews/review-3.png"]
+
+function SocialProofBar() {
+  const t = useTranslations("hero")
+
+  return (
+    <div className="flex flex-wrap items-center gap-6 border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.06)] px-7 py-2 w-fit">
+      <div className="flex flex-col gap-2">
+        <span className="text-[14px] font-bold text-white whitespace-nowrap">
+          {t("excellentRating")}
+        </span>
+        <div className="flex items-center gap-2">
+          <BadgeCheck className="size-4 text-[#00B67A]" />
+          <span className="text-[14px] text-[rgba(255,255,255,0.45)] whitespace-nowrap">
+            {t("verifiedBy")}
+          </span>
+          <Image
+            src="/trustpilot-logo.svg"
+            alt="Trustpilot"
+            width={69}
+            height={19}
+            className="h-[18.6px] w-auto"
+            unoptimized
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-[17px] rounded-[58px] bg-[rgba(255,255,255,0.05)] py-2 pl-2 pr-4 backdrop-blur-[6px]">
+        <div className="relative h-10 w-[104px] shrink-0">
+          {SOCIAL_AVATARS.map((src, i) => (
+            <div
+              key={src}
+              className="absolute top-0 size-10 overflow-hidden rounded-full border border-white"
+              style={{ left: `${i * 30.5 + 3}px` }}
+            >
+              <Image src={src} alt="" fill className="object-cover" sizes="40px" />
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col gap-[2px] text-[rgba(255,255,255,0.45)] whitespace-nowrap">
+          <span className="text-[14px]">{t("fromReviews", { count: REVIEW_COUNT })}</span>
+          <div className="flex items-center gap-[2px]">
+            <span className="text-[14px]">4.9</span>
+            <span className="text-[12px] tracking-[0.33px]">★★★★★</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="h-[46px] w-px bg-[rgba(255,255,255,0.12)]" />
+
+      <div className="flex flex-col gap-2">
+        <span className="text-[14px] text-[rgba(255,255,255,0.45)] whitespace-nowrap">
+          {t("poweredBy")}
+        </span>
+        <div className="flex items-center gap-[2px]">
+          <Image src="/svgs/google-icon.svg" alt="Google" width={15} height={15} className="size-[15px]" />
+          <span className="text-[16px] text-[#C9A96E] tracking-[0.5px]">★★★★★</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const WHITELABEL_BG = "linear-gradient(180deg, rgba(13,13,13,0.20) 0%, rgba(13,13,13,0.55) 50%, rgba(13,13,13,0.96) 82%, #0D0D0D 100%, #14100A 0%, #0D0D0D 60%, #0A0A08 100%)"
 
 const WHITELABEL_DESCRIPTION =
@@ -46,7 +111,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
       className="relative bg-[#0D0D0D] overflow-hidden"
       style={whitelabel ? { background: WHITELABEL_BG } : undefined}
     >
-      <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] aspect-[4096/3223] hidden lg:block">
+      <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] aspect-[4096/2163] hidden lg:block">
         <Image
           src="/hero-bg.png"
           alt=""
@@ -76,7 +141,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 lg:px-12 lg:pt-[224px] lg:pb-[96px] -mt-10 lg:mt-0 flex flex-col gap-6 lg:gap-12">
         <div className="max-w-[680px] flex flex-col gap-6 lg:gap-9">
           <div className={cn("flex items-center gap-2", enter("delay-0"))}>
-            <div className="h-px bg-[#C9A96E] w-[60px] lg:w-[82px]" />
+            <div className="h-px bg-[#C9A96E] w-[32px] lg:w-[40px]" />
             <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap">
               {t("label")}
             </span>
@@ -100,6 +165,12 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
           <p className={cn("text-[18px] font-light leading-[1.3] text-[#999] max-w-[591px]", enter("delay-200"))}>
             {whitelabel ? WHITELABEL_DESCRIPTION : t("description")}
           </p>
+
+          {!whitelabel && (
+            <div className={enter("delay-300")}>
+              <SocialProofBar />
+            </div>
+          )}
         </div>
 
         <div id="booking" className={cn("w-full scroll-mt-24", enter("delay-[400ms]"))}>

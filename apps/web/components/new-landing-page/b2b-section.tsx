@@ -15,12 +15,15 @@ export function B2BSection() {
     >
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center gap-10 md:gap-20">
         <div className="flex-1 flex flex-col gap-6">
-          <span
-            className="text-[11px] md:text-[12px] tracking-[0.24em] uppercase text-[#C9A96E]"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            {t("sectionLabel")}
-          </span>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-px bg-[#C9A96E]" />
+            <span
+              className="text-[11px] md:text-[12px] tracking-[0.24em] uppercase text-[#C9A96E]"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              {t("sectionLabel")}
+            </span>
+          </div>
           <h2
             className="text-[36px] md:text-[48px] leading-[1.05] text-white"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
@@ -42,7 +45,7 @@ export function B2BSection() {
             {t("body2")}
           </p>
           <Link
-            href="/b2b"
+            href="/partners"
             className="group inline-flex items-center gap-2 text-[14px] tracking-[0.12em] uppercase text-[#C9A96E] hover:text-white transition-colors w-fit"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
@@ -83,7 +86,7 @@ function GuestCheckInCard() {
           {t("label")}
         </span>
         <span className="relative inline-flex size-2">
-          <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
+          <span className="absolute inset-0 rounded-full bg-[#4ADE80] animate-ping-strong" />
           <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
         </span>
       </div>

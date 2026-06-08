@@ -2,24 +2,23 @@ import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
-import { DriversHero } from "@/components/drivers-page/hero"
-import { EarningsComparison } from "@/components/drivers-page/earnings-comparison"
-import { HowItWorks } from "@/components/drivers-page/how-it-works"
-import { QualityProcess } from "@/components/drivers-page/quality-process"
-import { OperacaoDiaria } from "@/components/drivers-page/operacao-diaria"
-import { TrustTestimonials } from "@/components/drivers-page/trust-testimonials"
-import { FaqDrivers } from "@/components/drivers-page/faq"
-import { DriversCtaFinal } from "@/components/drivers-page/cta-final"
+import { DriversHero2 } from "@/components/drivers-2/hero"
+import { EarningsComparison2 } from "@/components/drivers-2/earnings-comparison"
+import { HowItWorks2 } from "@/components/drivers-2/how-it-works"
+import { QualityProcess2 } from "@/components/drivers-2/quality-process"
+import { DailyOps2 } from "@/components/drivers-2/daily-ops"
+import { TrustTestimonials2 } from "@/components/drivers-2/trust-testimonials"
+import { FaqDrivers2 } from "@/components/drivers-2/faq"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createPageMetadata } from "@/lib/seo"
 import { buildBreadcrumbSchema, buildOrganizationSchema } from "@/lib/structured-data"
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("driversPage")
+  const t = await getTranslations("driversPage2.hero")
 
   return createPageMetadata({
-    title: t("hero.titleLine1"),
-    description: t("hero.subtitle"),
+    title: t("titleStart"),
+    description: t("subtitle"),
     path: "/drivers",
     keywords: [
       "driver partner",
@@ -30,9 +29,9 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function DriversCompanyPage() {
+export default function DriversTwoPage() {
   return (
-    <div className="min-h-screen bg-white text-[#1C1B18]">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd data={buildOrganizationSchema()} />
       <JsonLd
         data={buildBreadcrumbSchema([
@@ -42,14 +41,13 @@ export default function DriversCompanyPage() {
       />
       <Header variant="light" />
       <main className="pt-[60px] lg:pt-[72px]">
-        <DriversHero />
-        <EarningsComparison />
-        <HowItWorks />
-        <QualityProcess />
-        <OperacaoDiaria />
-        <TrustTestimonials />
-        <FaqDrivers />
-        <DriversCtaFinal />
+        <DriversHero2 />
+        <EarningsComparison2 />
+        <HowItWorks2 />
+        <QualityProcess2 />
+        <DailyOps2 />
+        <TrustTestimonials2 />
+        <FaqDrivers2 />
       </main>
       <Footer />
     </div>

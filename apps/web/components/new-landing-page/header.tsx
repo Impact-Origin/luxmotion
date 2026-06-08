@@ -47,7 +47,7 @@ function LuxMotionLogo({ className, variant = "dark" }: { className?: string; va
         </div>
       </div>
       <div className="flex flex-col justify-center">
-        <div className="relative w-[82px] h-[9px]">
+        <div className="relative w-[120px] h-[13px]">
           <Image
             src="/svgs/luxmotion-text.svg"
             alt="LuxMotion"
@@ -57,7 +57,7 @@ function LuxMotionLogo({ className, variant = "dark" }: { className?: string; va
             priority
           />
         </div>
-        <span className="text-[7.2px] tracking-[1px] text-[#999] mt-[4px] whitespace-nowrap">
+        <span className="text-[10px] tracking-[1.4px] text-[#999] mt-[4px] whitespace-nowrap">
           BY EASYTRANSFER
         </span>
       </div>
@@ -247,8 +247,8 @@ export function Header({
       label: t("forDrivers"),
       hasDropdown: true,
       items: [
-        { href: "/drivers", label: t("individualDrivers") },
-        { href: "/drivers-2", label: t("driverCompanies") },
+        { href: "/partners", label: t("individualDrivers") },
+        { href: "/drivers", label: t("driverCompanies") },
       ]
     },
     { href: "/blogs", label: t("blog"), hasDropdown: false, items: [] },

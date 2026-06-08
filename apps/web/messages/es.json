@@ -889,7 +889,8 @@
     "selectDate": "Seleccionar fecha",
     "selectOrigin": "Seleccionar origen",
     "selectDestination": "Seleccionar destino",
-    "stopsLabel": "Parada(s)"
+    "stopsLabel": "Parada(s)",
+    "totalRoundTrip": "Total - Ida y vuelta"
   },
   "confirmation": {
     "title": "Confirmación de reserva",
@@ -1074,7 +1075,8 @@
     "step1": "Entrevista individual",
     "step2": "Verificación de identidad y vehículo",
     "step3": "Formación en protocolos de seguridad",
-    "step4": "Listo para el primer viaje"
+    "step4": "Listo para el primer viaje",
+    "onTripNow": "En un viaje ahora"
   },
   "social": {
     "followUs": "Síguenos",
@@ -2854,7 +2856,7 @@
     "photoAlt": "Chófer con vehículo de lujo en el aeropuerto",
     "card": {
       "label": "+ Reserva White-Label",
-      "route": "Aeropuerto de Lisboa → Bairro Alto Hotel",
+      "route": "Lisboa → Bairro Alto",
       "date": "14 Mar  ·  08:45 llegada",
       "button": "Continuar Reserva"
     }

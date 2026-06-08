@@ -23,7 +23,7 @@ const STEP_DESKTOP = 2
 
 export function ToursSection() {
   const t = useTranslations("tours")
-  const [offset, setOffset] = useState(0)
+  const [page, setPage] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -37,23 +37,24 @@ export function ToursSection() {
   const visible = isMobile ? 1 : VISIBLE_DESKTOP
   const step = isMobile ? 1 : STEP_DESKTOP
   const maxOffset = Math.max(0, TOURS.length - visible)
+  const totalPages = Math.ceil(maxOffset / step) + 1
+
+  const currentPage = Math.min(page, totalPages - 1)
+  const offset = Math.min(maxOffset, currentPage * step)
 
   const goPrev = useCallback(() => {
-    setOffset((c) => Math.max(0, c - step))
-  }, [step])
+    setPage((p) => Math.max(0, p - 1))
+  }, [])
 
   const goNext = useCallback(() => {
-    setOffset((c) => Math.min(maxOffset, c + step))
-  }, [step, maxOffset])
+    setPage((p) => Math.min(totalPages - 1, p + 1))
+  }, [totalPages])
+
+  const goToPage = (p: number) => {
+    setPage(p)
+  }
 
   const swipeHandlers = useSwipe(goNext, goPrev)
-
-  const totalPages = Math.ceil(maxOffset / step) + 1
-  const currentPage = Math.min(Math.floor(offset / step), totalPages - 1)
-
-  const goToPage = (page: number) => {
-    setOffset(Math.min(maxOffset, page * step))
-  }
 
   const translatePercent = isMobile ? offset * 100 : offset * (100 / 3)
 

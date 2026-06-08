@@ -42,12 +42,12 @@ export function WeddingPlannersSection() {
           </p>
 
           <Link
-            href="/b2b"
-            className="group inline-flex items-center gap-1 text-[12px] tracking-[1.2px] text-[#C9A96E] font-semibold hover:text-white transition-colors w-fit pt-4"
+            href="/partners"
+            className="group inline-flex items-center gap-2 text-[14px] tracking-[0.12em] uppercase text-[#C9A96E] hover:text-white transition-colors w-fit pt-4"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             <span>{t("cta")}</span>
-            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 

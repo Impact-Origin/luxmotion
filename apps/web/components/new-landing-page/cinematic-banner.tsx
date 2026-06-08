@@ -27,7 +27,7 @@ export function CinematicBanner() {
         />
       </div>
 
-      <div className="relative w-full h-[340px] md:h-[480px] lg:h-[590px]">
+      <div className="relative w-full h-[340px] md:h-[480px] lg:h-[590px] pointer-events-none select-none">
         <div
           className="absolute inset-0"
           style={{
@@ -52,7 +52,7 @@ export function CinematicBanner() {
         </div>
       </div>
 
-      <div className="relative px-6 md:px-12 lg:px-[82px] pt-10 md:pt-12 lg:pt-[39px] pb-12 md:pb-16 lg:pb-[39px]">
+      <div className="relative z-10 px-6 md:px-12 lg:px-[82px] pt-10 md:pt-12 lg:pt-[39px] pb-12 md:pb-16 lg:pb-[39px]">
         <div className="relative max-w-[1440px] mx-auto flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
           <div
             className="flex flex-col lg:flex-1"
@@ -67,7 +67,7 @@ export function CinematicBanner() {
           </div>
 
           <Link
-            href="/#services"
+            href="/tours"
             className="group inline-flex items-center justify-center h-12 border border-[#C9A96E] px-[22px] py-[9px] hover:bg-[rgba(201,169,110,0.08)] transition-colors w-full lg:w-fit shrink-0 self-stretch lg:self-auto"
           >
             <span
