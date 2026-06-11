@@ -17,7 +17,6 @@ import { ToursSection } from "@/components/new-landing-page/tours-section"
 import { FAQ } from "@/components/new-landing-page/faq"
 import { SocialSection } from "@/components/new-landing-page/social-section"
 import { Footer } from "@/components/new-landing-page/footer"
-import { WhatsAppFloat } from "@/components/new-landing-page/whatsapp-float"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
@@ -52,7 +51,6 @@ export default function SitePrincipal() {
         }
       />
       <Header />
-      <WhatsAppFloat />
       <Hero />
       <ServicesSection />
       <WhyScheduleSection />

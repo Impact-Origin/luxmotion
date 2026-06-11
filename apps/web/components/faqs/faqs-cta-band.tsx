@@ -106,7 +106,7 @@ export function FaqsCtaBand() {
             <ArrowRight className="size-[14px]" strokeWidth={2} />
           </a>
           <Link
-            href="/#contact"
+            href="/tours#contact"
             className="order-1 md:order-2 inline-flex h-12 items-center justify-center gap-2 px-6 py-[9px] border border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors text-[#C9A96E] text-[14px] font-medium uppercase tracking-[1.1px] w-full md:w-auto"
             style={sans}
           >
@@ -126,13 +126,16 @@ export function FaqsCtaBand() {
           <ContactCard
             href={EMAIL_HREF}
             external
-            breakAll
             icon={<Mail className="size-[18px]" strokeWidth={2} />}
             label={t("emailLabel")}
-            value={EMAIL}
+            value={
+              <>
+                geral@<wbr />easytransferericeira.com
+              </>
+            }
           />
           <ContactCard
-            href="/#contact"
+            href="/tours#contact"
             icon={<Clock className="size-[18px]" strokeWidth={2} />}
             label={t("availabilityLabel")}
             value={t("availabilityValue")}

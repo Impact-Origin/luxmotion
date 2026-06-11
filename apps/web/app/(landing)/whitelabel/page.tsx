@@ -2,7 +2,6 @@ import { Header } from "@/components/new-landing-page/header"
 import { Hero } from "@/components/new-landing-page/hero"
 import { Fleet } from "@/components/new-landing-page/fleet"
 import { Footer } from "@/components/new-landing-page/footer"
-import { WhatsAppFloat } from "@/components/new-landing-page/whatsapp-float"
 import { QualityProcess } from "@/components/whitelabel/quality-process"
 import { Testimonials } from "@/components/whitelabel/testimonials"
 import { Benefits } from "@/components/whitelabel/benefits"
@@ -27,7 +26,6 @@ export default function WhitelabelPage() {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">
       <Header whitelabel />
-      <WhatsAppFloat />
       <Hero whitelabel />
       <QualityProcess />
       <Testimonials />

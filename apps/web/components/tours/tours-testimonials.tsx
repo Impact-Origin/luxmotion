@@ -80,12 +80,14 @@ function ReviewCard({ review }: { review: Review }) {
   )
 }
 
-function ArrowButton({ direction, onClick, className }: { direction: "left" | "right"; onClick: () => void; className?: string }) {
+function ArrowButton({ direction, onClick, disabled, className }: { direction: "left" | "right"; onClick: () => void; disabled?: boolean; className?: string }) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={cn(
         "size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center hover:border-[#C9A96E] transition-colors",
+        disabled && "opacity-40 cursor-not-allowed hover:border-[rgba(201,169,110,0.5)]",
         className
       )}
       aria-label={direction === "left" ? "Previous" : "Next"}
@@ -125,10 +127,22 @@ export function ToursTestimonials() {
     setCurrentPage((p) => (p - 1 + reviews.length) % reviews.length)
   }, [reviews.length])
 
+  const goNextPage = useCallback(() => {
+    setCurrentPage((p) => (p + 1) % desktopPages)
+  }, [desktopPages])
+
+  const goPrevPage = useCallback(() => {
+    setCurrentPage((p) => (p - 1 + desktopPages) % desktopPages)
+  }, [desktopPages])
+
   const swipeHandlers = useSwipe(nextPage, prevPage)
 
-  const dPageIdx = Math.min(currentPage, desktopPages - 1)
+  const dPageIdx = desktopPages > 0 ? ((currentPage % desktopPages) + desktopPages) % desktopPages : 0
   const dReviews = reviews.slice(dPageIdx * desktopPerPage, dPageIdx * desktopPerPage + desktopPerPage)
+  const dPhotos = Array.from(
+    { length: desktopPerPage },
+    (_, i) => REVIEW_PHOTOS[(dPageIdx * desktopPerPage + i) % REVIEW_PHOTOS.length]!
+  )
   const mReview = reviews[currentPage % reviews.length]!
   const mPhotoIdx = currentPage % REVIEW_PHOTOS.length
 
@@ -172,14 +186,14 @@ export function ToursTestimonials() {
         <div className="hidden md:flex flex-col w-full">
           <div className="relative">
             <div className="flex gap-[2px]">
-              {REVIEW_PHOTOS.map((photo, i) => (
-                <div key={i} className="flex-1 relative h-[355px]">
+              {dPhotos.map((photo, i) => (
+                <div key={`${dPageIdx}-${i}`} className="flex-1 relative h-[355px]">
                   <Image src={photo} alt={`Client photo ${i + 1}`} fill className="object-cover" sizes="25vw" />
                 </div>
               ))}
             </div>
-            <ArrowButton direction="left" onClick={prevPage} className="absolute -left-[18px] top-1/2 -translate-y-1/2 z-10" />
-            <ArrowButton direction="right" onClick={nextPage} className="absolute -right-[18px] top-1/2 -translate-y-1/2 z-10" />
+            <ArrowButton direction="left" onClick={goPrevPage} disabled={desktopPages <= 1} className="absolute -left-[18px] top-1/2 -translate-y-1/2 z-10" />
+            <ArrowButton direction="right" onClick={goNextPage} disabled={desktopPages <= 1} className="absolute -right-[18px] top-1/2 -translate-y-1/2 z-10" />
           </div>
 
           <div className="relative">
@@ -190,12 +204,8 @@ export function ToursTestimonials() {
                 </div>
               ))}
             </div>
-            {desktopPages > 1 && (
-              <>
-                <ArrowButton direction="left" onClick={() => setCurrentPage((p) => (p - 1 + desktopPages) % desktopPages)} className="absolute -left-[18px] top-1/2 -translate-y-1/2 z-10" />
-                <ArrowButton direction="right" onClick={() => setCurrentPage((p) => (p + 1) % desktopPages)} className="absolute -right-[18px] top-1/2 -translate-y-1/2 z-10" />
-              </>
-            )}
+            <ArrowButton direction="left" onClick={goPrevPage} disabled={desktopPages <= 1} className="absolute -left-[18px] top-1/2 -translate-y-1/2 z-10" />
+            <ArrowButton direction="right" onClick={goNextPage} disabled={desktopPages <= 1} className="absolute -right-[18px] top-1/2 -translate-y-1/2 z-10" />
           </div>
         </div>
 

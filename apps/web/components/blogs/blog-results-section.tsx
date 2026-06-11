@@ -8,6 +8,9 @@ import { cn } from "@workspace/ui/lib/utils"
 import { BlogResultCard, BlogResult } from "./blog-result-card"
 import { usePublishedBlogs } from "@/hooks/use-blog-data"
 
+const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
+const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
+
 interface FilterDropdownProps {
   icon: React.ReactNode
   label: string
@@ -25,16 +28,18 @@ function FilterDropdown({ icon, label, value, options, onChange, onClear }: Filt
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-[8px] px-[8px] py-[12px] rounded-[6px] transition-all duration-200",
-          value ? "bg-[#27c7ff]/10" : "hover:bg-gray-50"
+          "flex items-center gap-2 h-[44px] px-4 border transition-colors duration-200",
+          value
+            ? "border-[#C9A96E] bg-[rgba(201,169,110,0.08)]"
+            : "border-[rgba(154,117,53,0.3)] hover:border-[rgba(201,169,110,0.6)]"
         )}
       >
-        <div className="flex items-center gap-[8px]">
+        <div className="flex items-center gap-2">
           {icon}
-          <span className={cn(
-            "text-[14px] md:text-[16px] transition-colors duration-200",
-            value ? "text-[#222]" : "text-[#a2a2a2]"
-          )}>
+          <span
+            className={cn("text-[13px] tracking-[0.3px] transition-colors", value ? "text-white" : "text-[#999]")}
+            style={sans}
+          >
             {value || label}
           </span>
         </div>
@@ -44,29 +49,31 @@ function FilterDropdown({ icon, label, value, options, onChange, onClear }: Filt
               e.stopPropagation()
               onClear()
             }}
-            className="size-[20px] rounded-full bg-[#808080] hover:bg-[#666] flex items-center justify-center transition-colors duration-200"
+            className="size-[18px] rounded-full bg-[rgba(201,169,110,0.2)] hover:bg-[rgba(201,169,110,0.35)] flex items-center justify-center transition-colors duration-200"
           >
-            <X className="size-[12px] text-white" />
+            <X className="size-[11px] text-[#C9A96E]" />
           </button>
         ) : (
-          <ChevronDown className={cn(
-            "size-[24px] text-[#27c7ff] transition-transform duration-200",
-            isOpen && "rotate-180"
-          )} />
+          <ChevronDown
+            className={cn("size-[18px] text-[#C9A96E] transition-transform duration-200", isOpen && "rotate-180")}
+          />
         )}
       </button>
 
-      <div className={cn(
-        "absolute top-full left-0 mt-[4px] bg-white border border-[#e8e8e8] rounded-[8px] shadow-lg z-20 min-w-[180px] overflow-hidden",
-        "transition-all duration-200 origin-top",
-        isOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
-      )}>
+      <div
+        className={cn(
+          "absolute top-full left-0 mt-2 bg-[#161412] border border-[rgba(154,117,53,0.3)] z-20 min-w-[200px] overflow-hidden",
+          "transition-all duration-200 origin-top",
+          isOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
+        )}
+      >
         <button
           onClick={() => {
             onChange("")
             setIsOpen(false)
           }}
-          className="w-full text-left px-[16px] py-[12px] text-[14px] text-[#a2a2a2] hover:bg-gray-50 transition-colors duration-150"
+          className="w-full text-left px-4 py-3 text-[13px] text-[#999] hover:bg-[rgba(201,169,110,0.06)] hover:text-white transition-colors duration-150"
+          style={sans}
         >
           {label}
         </button>
@@ -78,21 +85,19 @@ function FilterDropdown({ icon, label, value, options, onChange, onClear }: Filt
               setIsOpen(false)
             }}
             className={cn(
-              "w-full text-left px-[16px] py-[12px] text-[14px] transition-colors duration-150",
-              value === option ? "bg-[#27c7ff]/10 text-[#27c7ff]" : "text-[#222] hover:bg-gray-50"
+              "w-full text-left px-4 py-3 text-[13px] transition-colors duration-150",
+              value === option
+                ? "bg-[rgba(201,169,110,0.1)] text-[#C9A96E]"
+                : "text-[#ccc] hover:bg-[rgba(201,169,110,0.06)] hover:text-white"
             )}
+            style={sans}
           >
             {option}
           </button>
         ))}
       </div>
 
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-10"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
+      {isOpen && <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />}
     </div>
   )
 }
@@ -139,7 +144,7 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
   }, [searchQuery, locationFilter, sortBy])
 
   const locations = useMemo(() => {
-    const uniqueLocations = [...new Set(blogs.map(blog => blog.location))]
+    const uniqueLocations = [...new Set(blogs.map((blog) => blog.location))]
     return uniqueLocations.sort()
   }, [blogs])
 
@@ -150,7 +155,7 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
       const query = searchQuery.toLowerCase()
 
       results = results.filter(
-        blog =>
+        (blog) =>
           blog.title.toLowerCase().includes(query) ||
           blog.description.toLowerCase().includes(query) ||
           blog.location.toLowerCase().includes(query)
@@ -174,7 +179,7 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
     }
 
     if (locationFilter) {
-      results = results.filter(blog => blog.location === locationFilter)
+      results = results.filter((blog) => blog.location === locationFilter)
     }
 
     if (sortBy === "newest") {
@@ -192,23 +197,9 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
   const handleLoadMore = () => {
     setIsLoadingMore(true)
     setTimeout(() => {
-      setVisibleCount(prev => prev + 6)
+      setVisibleCount((prev) => prev + 6)
       setIsLoadingMore(false)
     }, 300)
-  }
-
-  if (blogsLoading) {
-    return (
-      <section className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 pt-[24px] pb-[62px]">
-        <div className="max-w-7xl mx-auto flex flex-col gap-[32px]">
-          <div className="animate-pulse flex flex-col gap-[16px]">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-[200px] bg-gray-200 rounded-[16px]" />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
   }
 
   const handleClearSearch = () => {
@@ -225,39 +216,60 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
     setSortBy("")
   }
 
+  if (blogsLoading) {
+    return (
+      <section className="bg-[#0D0D0D] px-4 md:px-[48px] pt-10 pb-20">
+        <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
+          <div className="animate-pulse flex flex-col gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-[260px] bg-[#161412] border border-[rgba(154,117,53,0.15)]" />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
-    <section className="bg-white px-4 md:px-5 lg:px-6 xl:px-8 pt-[24px] pb-[62px]">
-      <div className="max-w-7xl mx-auto flex flex-col gap-[32px]">
-        <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-[16px]">
-          <div className="flex items-baseline gap-[8px] shrink-0">
-            <h2 className="text-[24px] md:text-[32px] font-bold text-[#222]">
+    <section className="bg-[#0D0D0D] px-4 md:px-[48px] pt-10 pb-20">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-8">
+        <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-[rgba(154,117,53,0.18)]">
+          <div className="flex items-baseline gap-3 shrink-0">
+            <h2 className="text-[28px] md:text-[34px] font-normal text-white" style={serif}>
               {t("title")}
             </h2>
-            <p className={cn(
-              "text-[16px] text-[#808080] transition-all duration-300",
-              animateCards ? "opacity-100" : "opacity-0"
-            )}>
+            <p
+              className={cn(
+                "text-[13px] text-[#999] transition-all duration-300",
+                animateCards ? "opacity-100" : "opacity-0"
+              )}
+              style={sans}
+            >
               {t("itemsFound", { count: filteredBlogs.length })}
             </p>
           </div>
 
-          <div className="flex items-center gap-[8px] flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
             {searchQuery && (
-              <div className={cn(
-                "flex items-center gap-[8px] px-[12px] py-[12px] bg-[#27c7ff]/10 rounded-[6px] transition-all duration-200",
-                animateCards ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              )}>
-                <span className="text-[14px] md:text-[16px] text-[#222]">"{searchQuery}"</span>
+              <div
+                className={cn(
+                  "flex items-center gap-2 h-[44px] px-4 border border-[#C9A96E] bg-[rgba(201,169,110,0.08)] transition-all duration-200",
+                  animateCards ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                )}
+              >
+                <span className="text-[13px] text-white" style={sans}>
+                  &ldquo;{searchQuery}&rdquo;
+                </span>
                 <button
                   onClick={handleClearSearch}
-                  className="size-[20px] rounded-full bg-[#808080] hover:bg-[#666] flex items-center justify-center transition-colors duration-200"
+                  className="size-[18px] rounded-full bg-[rgba(201,169,110,0.2)] hover:bg-[rgba(201,169,110,0.35)] flex items-center justify-center transition-colors duration-200"
                 >
-                  <X className="size-[12px] text-white" />
+                  <X className="size-[11px] text-[#C9A96E]" />
                 </button>
               </div>
             )}
             <FilterDropdown
-              icon={<MapPin className="size-[24px] text-[#27c7ff]" />}
+              icon={<MapPin className="size-[18px] text-[#C9A96E]" strokeWidth={1.5} />}
               label={t("searchByLocation")}
               value={locationFilter}
               options={locations}
@@ -265,7 +277,7 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
               onClear={locationFilter ? handleClearLocation : undefined}
             />
             <FilterDropdown
-              icon={<ArrowDownUp className="size-[24px] text-[#27c7ff]" />}
+              icon={<ArrowDownUp className="size-[18px] text-[#C9A96E]" strokeWidth={1.5} />}
               label={t("sortByDate")}
               value={sortBy === "newest" ? t("newest") : sortBy === "oldest" ? t("oldest") : ""}
               options={[t("newest"), t("oldest")]}
@@ -279,17 +291,22 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
           </div>
         </div>
 
-        <div className="flex flex-col gap-[16px] md:gap-[24px]">
+        <div className="flex flex-col gap-5 md:gap-6">
           {visibleBlogs.length === 0 ? (
-            <div className={cn(
-              "flex flex-col items-center justify-center py-[60px] text-center transition-all duration-300",
-              animateCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              <p className="text-[18px] text-[#808080]">{t("noResults") || "No results found"}</p>
+            <div
+              className={cn(
+                "flex flex-col items-center justify-center py-20 text-center transition-all duration-300",
+                animateCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}
+            >
+              <p className="text-[20px] text-[#f5f5f5]" style={serif}>
+                {t("noResults") || "No results found"}
+              </p>
               {searchQuery && (
                 <button
                   onClick={handleClearSearch}
-                  className="mt-[16px] text-[16px] text-[#27c7ff] hover:underline"
+                  className="mt-4 text-[12px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] hover:text-white transition-colors"
+                  style={sans}
                 >
                   {t("clearSearch") || "Clear search"}
                 </button>
@@ -301,13 +318,9 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
                 key={blog.id}
                 className={cn(
                   "transition-all duration-300 ease-out",
-                  animateCards
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
+                  animateCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 )}
-                style={{
-                  transitionDelay: animateCards ? `${index * 50}ms` : "0ms"
-                }}
+                style={{ transitionDelay: animateCards ? `${index * 50}ms` : "0ms" }}
               >
                 <BlogResultCard blog={blog} />
               </div>
@@ -316,27 +329,25 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
         </div>
 
         {hasMore && (
-          <div className={cn(
-            "flex justify-center transition-all duration-300",
-            animateCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          )}
-          style={{ transitionDelay: animateCards ? `${visibleBlogs.length * 50}ms` : "0ms" }}
+          <div
+            className={cn(
+              "flex justify-center transition-all duration-300",
+              animateCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            )}
+            style={{ transitionDelay: animateCards ? `${visibleBlogs.length * 50}ms` : "0ms" }}
           >
             <button
               onClick={handleLoadMore}
               disabled={isLoadingMore}
               className={cn(
-                "bg-[#27c7ff] text-white h-[56px] px-[32px] pr-[24px] rounded-[16px] flex items-center justify-between gap-[16px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1),0px_18px_20px_0px_rgba(0,0,0,0.05)] transition-all duration-200",
-                isLoadingMore ? "opacity-70 cursor-wait" : "hover:brightness-95 hover:scale-[1.02] active:scale-[0.98]"
+                "h-[52px] px-8 flex items-center gap-3 border border-[#C9A96E] text-[#C9A96E] transition-colors duration-500 ease-out",
+                isLoadingMore ? "opacity-60 cursor-wait" : "hover:bg-[#C9A96E] hover:text-[#0D0D0D]"
               )}
             >
-              <span className="text-[16px] font-bold uppercase tracking-[0.16px]">
+              <span className="text-[13px] font-medium uppercase tracking-[1.1px]" style={sans}>
                 {t("loadMore")}
               </span>
-              <Plus className={cn(
-                "size-[32px] transition-transform duration-300",
-                isLoadingMore && "animate-spin"
-              )} />
+              <Plus className={cn("size-[18px] transition-transform duration-300", isLoadingMore && "animate-spin")} />
             </button>
           </div>
         )}

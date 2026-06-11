@@ -6,6 +6,7 @@ import { GoogleMapsProvider } from "@/components/providers/google-maps-provider"
 import { TourCheckoutProvider } from "@/components/tours/tour-checkout-context"
 import { TourCheckoutModal } from "@/components/tours/tour-checkout-modal"
 import { TourCheckoutReturnHandler } from "@/components/tours/tour-checkout-return-handler"
+import { WhatsAppFloat } from "@/components/new-landing-page/whatsapp-float"
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
                         <TourCheckoutReturnHandler />
                     </Suspense>
                     <TourCheckoutModal />
+                    <WhatsAppFloat />
                 </TourCheckoutProvider>
             </GoogleMapsProvider>
         </div>

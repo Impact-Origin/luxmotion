@@ -188,6 +188,6 @@ export const VAN_VEHICLES: FleetVehicle[] = [
   execBase("mercedes-vito", "Mercedes Vito", "/fleet/vehicles/mercedes-vito.png", ["available"]),
   execBase("peugeot-traveller", "Peugeot Traveller", "/fleet/vehicles/peugeot-traveller.png", ["eco", "electric"]),
   execBase("toyota-hiace", "Toyota HiAce", "/fleet/vehicles/toyota-hiace.png", ["available"]),
-  execBase("mercedes-v-class", "Mercedes V-Class", "/fleet/vehicles/mercedes-v-class.png", ["available"]),
-  execBase("mercedes-s-class", "Mercedes S Class", "/fleet/vehicles/mercedes-s-class.png", ["available"]),
+  execBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/Mercedes V Class.webp", ["available"]),
+  execBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/van/Van executiva.webp", ["eco", "electric"]),
 ]

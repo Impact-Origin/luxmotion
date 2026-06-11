@@ -1,64 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Search, ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { Search } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useRouter, useSearchParams } from "next/navigation"
-import { cn } from "@workspace/ui/lib/utils"
 
-interface SearchInputProps {
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
-  className?: string
-}
-
-function SearchInput({ value, onChange, placeholder, className }: SearchInputProps) {
-  return (
-    <div
-      className={cn(
-        "bg-white rounded-[8px] h-[56px] w-full",
-        "flex items-center px-[16px] gap-[12px]",
-        className
-      )}
-    >
-      <Search className="w-[24px] h-[24px] text-[#a2a2a2] shrink-0" />
-      <input
-        suppressHydrationWarning
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="flex-1 text-[16px] text-[#222] placeholder:text-[#a2a2a2] font-normal outline-none bg-transparent"
-      />
-    </div>
-  )
-}
-
-interface SearchButtonProps {
-  onClick: () => void
-  label: string
-  className?: string
-}
-
-function SearchButton({ onClick, label, className }: SearchButtonProps) {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        "bg-[#27c7ff] hover:brightness-95 text-white h-[56px] px-[32px]",
-        "flex items-center justify-center gap-[8px] rounded-[8px] transition-all",
-        "whitespace-nowrap cursor-pointer",
-        className
-      )}
-    >
-      <span className="text-[16px] font-semibold uppercase tracking-[0.5px]">
-        {label}
-      </span>
-      <ArrowRight className="w-[20px] h-[20px]" />
-    </button>
-  )
-}
+const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
+const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
 interface BlogResultsHeroProps {
   onSearch?: (query: string) => void
@@ -72,7 +21,7 @@ export function BlogResultsHero({ onSearch }: BlogResultsHeroProps) {
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "")
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 100)
+    const timer = setTimeout(() => setIsVisible(true), 80)
     return () => clearTimeout(timer)
   }, [])
 
@@ -85,56 +34,77 @@ export function BlogResultsHero({ onSearch }: BlogResultsHeroProps) {
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSearch()
-    }
-  }
-
   return (
-    <section className="relative w-full h-[459px] md:h-[520px] lg:h-[520px] xl:h-[520px] overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/blogs_results_hero.jpg')" }}
-      />
+    <section className="relative w-full overflow-hidden">
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[#0a0f14]" />
+        <Image
+          src="/blogs_results_hero.jpg"
+          alt=""
+          fill
+          className="object-cover object-[center_35%]"
+          priority
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(0deg, rgba(13,13,13,0.96) 0%, rgba(13,13,13,0.55) 50%, rgba(13,13,13,0.2) 100%), linear-gradient(160deg, rgba(8,16,26,0.7) 0%, rgba(13,21,8,0.7) 50%, rgba(10,12,16,0.7) 100%)",
+          }}
+        />
+      </div>
 
-      <div className="absolute inset-0 bg-black/20" />
-
-      <div className="absolute top-0 left-0 right-0 h-[180px] md:h-[200px] lg:h-[240px] bg-gradient-to-b from-white via-white/80 via-50% to-transparent" />
-
-      <div className="absolute bottom-0 left-0 right-0 h-[80px] md:h-[100px] lg:h-[120px] bg-gradient-to-t from-white via-white/50 to-transparent" />
-
-      <div className="relative z-10 h-full flex items-center justify-center px-4">
-        <div className="flex flex-col items-center gap-[24px] w-full max-w-[395px] md:max-w-[640px]">
-          <h1
-            className={cn(
-              "text-center text-white mix-blend-screen transition-all duration-700 ease-out font-bold md:whitespace-nowrap",
-              "text-[28px] md:text-[64px] leading-[1.2] md:leading-[1.1]",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
+      <div className="relative flex items-center justify-center px-4 md:px-[48px] py-14 md:py-[64px] min-h-[380px] md:min-h-[460px]">
+        <div className="flex flex-col items-center md:items-start gap-6 w-full max-w-[1280px]">
+          <div
+            className={`flex items-center gap-2 transition-all duration-500 ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
           >
-            {t("title")}
+            <div className="w-8 md:w-[82px] h-px bg-[#C9A96E]" />
+            <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={sans}>
+              {t("eyebrow")}
+            </span>
+          </div>
+
+          <h1
+            style={serif}
+            className={`text-center md:text-left text-[40px] md:text-[72px] font-normal leading-[0.98] text-[#f5f5f5] transition-all duration-500 ease-out delay-100 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            {t("headingMain")}{" "}
+            <span className="italic text-[#C9A96E]">{t("headingAccent")}</span>
           </h1>
 
           <div
-            className={cn(
-              "flex flex-col md:flex-row items-center gap-[12px] w-full",
-              "transition-all duration-700 ease-out delay-150",
+            className={`flex items-center w-full md:w-auto transition-all duration-500 ease-out delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
-            onKeyDown={handleKeyDown}
+            }`}
           >
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder={t("searchPlaceholder")}
-              className="flex-1"
-            />
-            <SearchButton
+            <div
+              className="flex items-center h-[56px] bg-[#1e1d1b] border-y border-l border-[rgba(255,255,255,0.12)] px-[13px] gap-2 flex-1 md:flex-none md:w-[384px]"
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            >
+              <Search className="size-6 text-[rgba(255,255,255,0.22)] shrink-0" strokeWidth={1.5} />
+              <input
+                suppressHydrationWarning
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t("searchPlaceholder")}
+                className="bg-transparent text-[13px] text-white placeholder-[rgba(255,255,255,0.22)] outline-none w-full"
+                style={sans}
+              />
+            </div>
+            <button
               onClick={handleSearch}
-              label={t("searchButton")}
-              className="w-full md:w-auto"
-            />
+              className="h-[56px] bg-[#C9A96E] border border-[#C9A96E] px-[22px] shrink-0 hover:bg-[#b8954f] transition-colors"
+            >
+              <span className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap" style={sans}>
+                {t("searchButton")}
+              </span>
+            </button>
           </div>
         </div>
       </div>

@@ -215,7 +215,7 @@ export function TrustTestimonials2() {
             </p>
 
             <div className="flex flex-col gap-2 mt-5 mb-4">
-              <PlatformBadge href="https://share.google/ZHPvwa5jT1Z4Z4dlQ">
+              <PlatformBadge href="https://maps.app.goo.gl/uErDVp3HagakGnAf7">
                 <Image
                   src="/google-logo.png"
                   alt="Google"

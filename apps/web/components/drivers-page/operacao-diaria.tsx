@@ -188,7 +188,7 @@ export function OperacaoDiaria() {
   ]
 
   return (
-    <section className="bg-[#F7F4EF] px-4 lg:px-[82px] py-14 lg:py-24">
+    <section id="how-it-works" className="scroll-mt-[72px] bg-[#F7F4EF] px-4 lg:px-[82px] py-14 lg:py-24">
       <div className="max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-2 items-start">
           <div className="flex items-center gap-2">

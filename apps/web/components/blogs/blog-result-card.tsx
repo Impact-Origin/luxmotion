@@ -5,6 +5,9 @@ import Link from "next/link"
 import { Share2, ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 
+const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
+const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
+
 export interface BlogResult {
   id: string
   slug: string
@@ -38,114 +41,72 @@ export function BlogResultCard({ blog }: BlogResultCardProps) {
   }
 
   return (
-    <div className="border border-[#e8e8e8] rounded-[16px] overflow-hidden w-full">
-      <div className="hidden md:flex">
-        <div className="relative w-1/2 h-[244px]">
+    <div className="group relative bg-[#0D0D0D] hover:bg-[#161412] transition-colors duration-500 ease-out border border-[rgba(154,117,53,0.22)] overflow-hidden w-full">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-0 left-0 right-0 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"
+        style={{
+          background:
+            "linear-gradient(to right, #C9A96E 0%, rgba(201,169,110,0.4) 50%, transparent 85%)",
+        }}
+      />
+      <div className="flex flex-col md:flex-row">
+        <Link href={`/blogs/${blog.slug}`} className="relative w-full md:w-[44%] h-[220px] md:h-[260px] shrink-0 overflow-hidden">
           <Image
             src={blog.image}
             alt={blog.title}
             fill
-            className="object-cover"
-            sizes="50vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            sizes="(max-width: 768px) 100vw, 44vw"
           />
-          <div className="absolute top-[16px] left-[16px]">
-            <div className="bg-[#27c7ff] rounded-[80px] h-[32px] px-[16px] flex items-center justify-center">
-              <span className="text-[14px] font-medium text-white">{blog.location}</span>
-            </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.5)] to-transparent" />
+          <div className="absolute top-4 left-4">
+            <span
+              className="inline-flex items-center h-[28px] px-[14px] bg-[rgba(13,13,13,0.7)] border border-[rgba(201,169,110,0.4)] text-[11px] font-medium uppercase tracking-[1.5px] text-[#C9A96E] backdrop-blur-sm"
+              style={sans}
+            >
+              {blog.location}
+            </span>
           </div>
-        </div>
+        </Link>
 
-        <div className="w-1/2 bg-white px-[16px] py-[12px] flex flex-col">
-          <div className="flex items-start justify-between w-full">
-            <h3 className="text-[24px] font-bold text-[#222] leading-[1.2] flex-1 pr-[8px]">
-              {blog.title}
-            </h3>
+        <div className="flex flex-col flex-1 px-6 py-6 md:px-8 md:py-7">
+          <div className="flex items-start justify-between gap-3">
+            <Link href={`/blogs/${blog.slug}`} className="flex-1">
+              <h3
+                className="text-white text-[22px] md:text-[26px] font-normal leading-[1.15] group-hover:text-[#f5f5f5]"
+                style={serif}
+              >
+                {blog.title}
+              </h3>
+            </Link>
             <button
               onClick={handleShare}
-              className="shrink-0 hover:opacity-70 transition-opacity"
+              className="shrink-0 text-[#666] hover:text-[#C9A96E] transition-colors mt-1"
               aria-label={t("share")}
             >
-              <Share2 className="size-[20px] text-[#808080]" />
+              <Share2 className="size-[18px]" strokeWidth={1.5} />
             </button>
           </div>
 
-          <p className="text-[12px] font-medium text-[#808080] mt-[6px]">
-            {blog.date}
-          </p>
+          {blog.date && (
+            <p className="text-[11px] font-medium uppercase tracking-[1.5px] text-[#C9A96E] mt-3" style={sans}>
+              {blog.date}
+            </p>
+          )}
 
-          <p className="text-[14px] text-[#0e4659] leading-[1.3] mt-[6px]">
+          <p className="text-[13px] text-[#999] leading-[1.5] mt-3 line-clamp-3" style={sans}>
             {blog.description}
           </p>
 
-          <div className="flex items-center justify-between mt-auto pt-[12px]">
-            <Link
-              href={`/blogs/${blog.slug}`}
-              className="text-[16px] font-bold text-[#1f9fcc] tracking-[-0.2px] hover:underline"
-            >
-              {t("readMore")}
-            </Link>
-            <Link
-              href={`/blogs/${blog.slug}`}
-              className="size-[28px] bg-[#27c7ff] rounded-full flex items-center justify-center hover:brightness-95 transition-all"
-            >
-              <ArrowRight className="size-[18px] text-white" />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="md:hidden flex flex-col">
-        <div className="relative w-full h-[244px]">
-          <Image
-            src={blog.image}
-            alt={blog.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute top-[16px] left-[16px]">
-            <div className="bg-[#27c7ff] rounded-[80px] h-[32px] px-[16px] flex items-center justify-center">
-              <span className="text-[14px] font-medium text-white">{blog.location}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white px-[16px] py-[12px] flex flex-col gap-[6px]">
-          <div className="flex items-start justify-between w-full">
-            <h3 className="text-[16px] font-bold text-[#222] leading-[1.2] flex-1 pr-[8px]">
-              {blog.title}
-            </h3>
-            <button
-              onClick={handleShare}
-              className="shrink-0 hover:opacity-70 transition-opacity"
-              aria-label={t("share")}
-            >
-              <Share2 className="size-[20px] text-[#808080]" />
-            </button>
-          </div>
-
-          <p className="text-[12px] font-medium text-[#808080]">
-            {blog.date}
-          </p>
-
-          <p className="text-[14px] text-[#0e4659] leading-[1.3]">
-            {blog.description}
-          </p>
-
-          <div className="flex items-center justify-between">
-            <Link
-              href={`/blogs/${blog.slug}`}
-              className="text-[16px] font-bold text-[#1f9fcc] tracking-[-0.2px] hover:underline"
-            >
-              {t("readMore")}
-            </Link>
-            <Link
-              href={`/blogs/${blog.slug}`}
-              className="size-[28px] bg-[#27c7ff] rounded-full flex items-center justify-center hover:brightness-95 transition-all"
-            >
-              <ArrowRight className="size-[18px] text-white" />
-            </Link>
-          </div>
+          <Link
+            href={`/blogs/${blog.slug}`}
+            className="group/link inline-flex items-center gap-2 mt-auto pt-5 text-[12px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] hover:text-white transition-colors w-fit"
+            style={sans}
+          >
+            {t("readMore")}
+            <ArrowRight className="size-4 transition-transform group-hover/link:translate-x-1" strokeWidth={1.75} />
+          </Link>
         </div>
       </div>
     </div>

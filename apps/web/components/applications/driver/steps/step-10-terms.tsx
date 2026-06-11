@@ -70,7 +70,7 @@ async function buildSubmissionPayload(
 
     fullName: state.contact.fullName,
     email: state.contact.email,
-    representativeEmail: state.contact.representativeEmail,
+    representativeEmail: state.contact.email,
     phone: state.contact.phone,
     whatsapp: state.contact.whatsapp,
     languages: state.contact.languages.map((l) => ({

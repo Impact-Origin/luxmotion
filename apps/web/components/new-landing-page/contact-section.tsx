@@ -31,6 +31,77 @@ const SELECT_CONTENT =
 const SELECT_ITEM =
   "text-[14px] text-white data-[highlighted]:bg-[rgba(201,169,110,0.12)] data-[highlighted]:text-white focus:bg-[rgba(201,169,110,0.12)] rounded-none cursor-pointer"
 
+const BUDGET_MIN = 150
+const BUDGET_MAX = 50000
+const BUDGET_STEP = 50
+
+const RANGE_THUMB =
+  "absolute top-0 w-full h-[14px] bg-transparent appearance-none pointer-events-none cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-[14px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#C9A96E] [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:size-[14px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#C9A96E] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
+
+function BudgetRange({
+  min,
+  max,
+  onChange,
+}: {
+  min: number
+  max: number
+  onChange: (min: number, max: number) => void
+}) {
+  const pct = (v: number) => ((v - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100
+  const labelFor = (v: number) =>
+    v >= BUDGET_MAX ? "+€50000" : `€${v.toLocaleString("pt-PT")}`
+  return (
+    <div className="pt-2">
+      <div className="relative h-7">
+        {([
+          [min, pct(min)],
+          [max, pct(max)],
+        ] as const).map(([v, p], i) => (
+          <span
+            key={i}
+            className="pointer-events-none absolute -top-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#C9A96E] px-2 py-[2px] text-[11px] font-medium text-[#0D0D0D] shadow-[0_2px_8px_rgba(201,169,110,0.35)]"
+            style={{ left: `calc(${p}% + ${7 - (p / 100) * 14}px)` }}
+          >
+            {labelFor(v)}
+          </span>
+        ))}
+      </div>
+      <div className="relative h-[14px]">
+        <div className="absolute top-1/2 -translate-y-1/2 h-[4px] w-full bg-[#222]" />
+        <div
+          className="absolute top-1/2 -translate-y-1/2 h-[4px] bg-[#C9A96E]"
+          style={{ left: `${pct(min)}%`, right: `${100 - pct(max)}%` }}
+        />
+        <input
+          type="range"
+          min={BUDGET_MIN}
+          max={BUDGET_MAX}
+          step={BUDGET_STEP}
+          value={min}
+          onChange={(e) => onChange(Math.min(Number(e.target.value), max - BUDGET_STEP), max)}
+          className={RANGE_THUMB}
+        />
+        <input
+          type="range"
+          min={BUDGET_MIN}
+          max={BUDGET_MAX}
+          step={BUDGET_STEP}
+          value={max}
+          onChange={(e) => onChange(min, Math.max(Number(e.target.value), min + BUDGET_STEP))}
+          className={RANGE_THUMB}
+        />
+      </div>
+      <div className="flex justify-between mt-2">
+        <span className="text-[12px] text-white">€{min.toLocaleString()}</span>
+        <span className="text-[12px] text-white">
+          €{max.toLocaleString()}
+          {max === BUDGET_MAX ? "+" : ""}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 function Label({ text, required }: { text: string; required?: boolean }) {
   return (
     <label
@@ -51,10 +122,12 @@ export function ContactSection() {
     country: "",
     phone: "",
     region: "",
+    regionOther: "",
     date: "",
     flexibleDates: false,
     travelers: "",
-    budget: 150,
+    budgetMin: 150,
+    budgetMax: 50000,
     interests: "",
     ageRange: "",
     newsletter: true,
@@ -71,11 +144,12 @@ export function ContactSection() {
 
     const parts = [
       form.country && `Country: ${form.country}`,
-      form.region && `Region: ${form.region}`,
+      form.region && `Region: ${form.region === "other" ? form.regionOther : form.region}`,
       form.date && `Date: ${form.date}`,
       form.flexibleDates && "Flexible dates: Yes",
       form.travelers && `Travelers: ${form.travelers}`,
-      form.budget > 150 && `Budget/person: €${form.budget}`,
+      (form.budgetMin > 150 || form.budgetMax < 50000) &&
+        `Budget/person: €${form.budgetMin}–€${form.budgetMax}`,
       form.interests && `Interests: ${form.interests}`,
       form.ageRange && `Age range: ${form.ageRange}`,
       form.newsletter && "Newsletter: Yes",
@@ -92,8 +166,8 @@ export function ContactSection() {
       })
       toast.success(t("submitSuccess"))
       setForm({
-        name: "", email: "", country: "", phone: "", region: "",
-        date: "", flexibleDates: false, travelers: "", budget: 150,
+        name: "", email: "", country: "", phone: "", region: "", regionOther: "",
+        date: "", flexibleDates: false, travelers: "", budgetMin: 150, budgetMax: 50000,
         interests: "", ageRange: "", newsletter: true,
       })
     } catch {
@@ -213,8 +287,19 @@ export function ContactSection() {
                   <SelectItem value="acores" className={SELECT_ITEM}>Açores</SelectItem>
                   <SelectItem value="sintra" className={SELECT_ITEM}>Sintra</SelectItem>
                   <SelectItem value="ericeira" className={SELECT_ITEM}>Ericeira</SelectItem>
+                  <SelectItem value="other" className={SELECT_ITEM}>{t("redesign.form.regionOther")}</SelectItem>
                 </SelectContent>
               </Select>
+              {form.region === "other" && (
+                <input
+                  type="text"
+                  required
+                  value={form.regionOther}
+                  onChange={(e) => set("regionOther", e.target.value)}
+                  placeholder={t("redesign.form.regionOtherPlaceholder")}
+                  className={INPUT}
+                />
+              )}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -249,37 +334,27 @@ export function ContactSection() {
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 flex flex-col gap-2">
                 <Label text={t("redesign.form.travelers")} required />
-                <Select value={form.travelers} onValueChange={(v) => set("travelers", v)}>
-                  <SelectTrigger className={SELECT_TRIGGER}>
-                    <SelectValue placeholder={t("redesign.form.travelersPlaceholder")} />
-                  </SelectTrigger>
-                  <SelectContent className={SELECT_CONTENT}>
-                    <SelectItem value="1-2" className={SELECT_ITEM}>1-2</SelectItem>
-                    <SelectItem value="3-5" className={SELECT_ITEM}>3-5</SelectItem>
-                    <SelectItem value="6-10" className={SELECT_ITEM}>6-10</SelectItem>
-                    <SelectItem value="10+" className={SELECT_ITEM}>10+</SelectItem>
-                    <SelectItem value="20+" className={SELECT_ITEM}>20+</SelectItem>
-                  </SelectContent>
-                </Select>
+                <input
+                  type="number"
+                  required
+                  min={1}
+                  step={1}
+                  inputMode="numeric"
+                  value={form.travelers}
+                  onChange={(e) => set("travelers", e.target.value)}
+                  placeholder={t("redesign.form.travelersPlaceholder")}
+                  className={INPUT}
+                />
               </div>
               <div className="flex-1 flex flex-col gap-2">
                 <Label text={t("redesign.form.budget")} />
-                <div className="pt-2">
-                  <input
-                    type="range"
-                    min={150}
-                    max={50000}
-                    step={50}
-                    value={form.budget}
-                    onChange={(e) => set("budget", Number(e.target.value))}
-                    className="w-full h-[4px] bg-[#222] rounded-none appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-[14px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#C9A96E] [&::-moz-range-thumb]:size-[14px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#C9A96E] [&::-moz-range-thumb]:border-0"
-                  />
-                  <div className="flex justify-between mt-1">
-                    <span className="text-[12px] text-white">€150</span>
-                    <span className="text-[12px] text-[#696969]">€2500</span>
-                    <span className="text-[12px] text-[#696969]">+€50000</span>
-                  </div>
-                </div>
+                <BudgetRange
+                  min={form.budgetMin}
+                  max={form.budgetMax}
+                  onChange={(lo, hi) =>
+                    setForm((prev) => ({ ...prev, budgetMin: lo, budgetMax: hi }))
+                  }
+                />
               </div>
             </div>
 
@@ -304,6 +379,7 @@ export function ContactSection() {
                   <SelectValue placeholder={t("redesign.form.ageRangePlaceholder")} />
                 </SelectTrigger>
                 <SelectContent className={SELECT_CONTENT}>
+                  <SelectItem value="1-30" className={SELECT_ITEM}>1-30</SelectItem>
                   <SelectItem value="18-30" className={SELECT_ITEM}>18-30</SelectItem>
                   <SelectItem value="30-50" className={SELECT_ITEM}>30-50</SelectItem>
                   <SelectItem value="50-65" className={SELECT_ITEM}>50-65</SelectItem>
@@ -336,18 +412,18 @@ export function ContactSection() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-[48px] bg-[#C9A96E] border border-[#C9A96E] text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] hover:bg-[#b8954f] disabled:opacity-50 transition-colors"
+              className="w-full h-[48px] bg-[#C9A96E] border border-[#C9A96E] text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] hover:bg-[#b8954f] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(201,169,110,0.35)] active:translate-y-0 active:scale-[0.99] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none transition-all duration-300 ease-out"
             >
               {isSubmitting ? "..." : t("redesign.form.submit")}
             </button>
 
-            <div className="bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] p-6 flex gap-4 items-center">
+            <div className="group bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] p-6 flex gap-4 items-center hover:border-[rgba(201,169,110,0.4)] hover:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:-translate-y-0.5 transition-all duration-300 ease-out">
               <div className="relative size-[80px] md:size-[114px] shrink-0 rounded-full overflow-hidden">
                 <Image
                   src="/tours-page/support-avatar.png"
                   alt="Carolina Pinheiro"
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col gap-4">
@@ -360,18 +436,24 @@ export function ContactSection() {
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
-                    <Phone className="size-4 text-[#C9A96E] shrink-0" />
-                    <span className="text-[12px] text-[#999] leading-[14px]">
+                  <a
+                    href={`tel:${t("redesign.support.phone").replace(/\s/g, "")}`}
+                    className="group/row flex items-center gap-2 w-fit hover:translate-x-1 transition-transform duration-300 ease-out"
+                  >
+                    <Phone className="size-4 text-[#C9A96E] shrink-0 transition-transform duration-300 group-hover/row:scale-110" />
+                    <span className="text-[12px] text-[#999] leading-[14px] group-hover/row:text-[#C9A96E] transition-colors duration-300">
                       {t("redesign.support.phone")}
                     </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Mail className="size-4 text-[#C9A96E] shrink-0" />
-                    <span className="text-[12px] text-[#999] leading-[1.2]">
+                  </a>
+                  <a
+                    href={`mailto:${t("redesign.support.email")}`}
+                    className="group/row flex items-center gap-2 w-fit hover:translate-x-1 transition-transform duration-300 ease-out"
+                  >
+                    <Mail className="size-4 text-[#C9A96E] shrink-0 transition-transform duration-300 group-hover/row:scale-110" />
+                    <span className="text-[12px] text-[#999] leading-[1.2] group-hover/row:text-[#C9A96E] transition-colors duration-300">
                       {t("redesign.support.email")}
                     </span>
-                  </div>
+                  </a>
                 </div>
               </div>
             </div>

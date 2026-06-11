@@ -4,8 +4,8 @@ import { NotFoundContent } from "@/components/not-found-content"
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <Header />
+    <div className="min-h-screen bg-[#0D0D0D] flex flex-col">
+      <Header variant="light" />
       <NotFoundContent />
       <Footer />
     </div>

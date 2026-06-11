@@ -56,7 +56,7 @@ function MetricCard({
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-1.5 bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] px-[9px] py-[7px]">
+    <div className="inline-flex items-center gap-1.5 bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] px-[9px] py-[7px] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[rgba(154,117,53,0.14)] hover:border-[rgba(154,117,53,0.5)] hover:shadow-[0_4px_12px_-4px_rgba(154,117,53,0.4)]">
       <Check className="size-3 text-[#9A7535] shrink-0" strokeWidth={2.5} />
       <span
         className="text-[12px] font-medium text-[#9A7535] whitespace-nowrap leading-none"
@@ -214,7 +214,7 @@ export function DriversHero() {
                 alt=""
                 fill
                 sizes="(min-width: 1024px) 30vw"
-                className="object-cover object-center"
+                className="object-cover object-[39%_center]"
               />
             </div>
           </div>

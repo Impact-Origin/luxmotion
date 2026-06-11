@@ -28,7 +28,7 @@ export function DriverStepVerifyEmail() {
     >
       <StepHeader title={t("title")} subtitle={t("subtitle")} />
 
-      <EmailVerificationBanner email={contact.representativeEmail || t("placeholderEmail")} />
+      <EmailVerificationBanner email={contact.email || t("placeholderEmail")} />
 
       <OtpInput
         value={code}

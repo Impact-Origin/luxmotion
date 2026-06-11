@@ -43,7 +43,6 @@ export function DriverStepContact() {
   const canContinue =
     contact.fullName.trim().length > 0 &&
     contact.email.trim().length > 0 &&
-    contact.representativeEmail.trim().length > 0 &&
     contact.phone.length > 3 &&
     contact.whatsapp.length > 3
 
@@ -76,16 +75,6 @@ export function DriverStepContact() {
           placeholder={t("email.placeholder")}
           value={contact.email}
           onChange={(e) => updateContact({ email: e.target.value })}
-        />
-      </div>
-
-      <div className="flex flex-col gap-2 w-full">
-        <FieldLabel required>{t("representativeEmail.label")}</FieldLabel>
-        <LightInput
-          type="email"
-          placeholder={t("representativeEmail.placeholder")}
-          value={contact.representativeEmail}
-          onChange={(e) => updateContact({ representativeEmail: e.target.value })}
         />
       </div>
 

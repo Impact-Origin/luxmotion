@@ -2,6 +2,7 @@ import { Inter, Cormorant_Garamond } from "next/font/google"
 import "@workspace/ui/globals.css"
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
+import { WhatsAppFloat } from "@/components/new-landing-page/whatsapp-float"
 import { createNoIndexMetadata } from "@/lib/seo"
 
 const fontSans = Inter({
@@ -31,6 +32,7 @@ export default function DriversLayout({
         {children}
       </main>
       <Footer />
+      <WhatsAppFloat />
     </div>
   )
 }

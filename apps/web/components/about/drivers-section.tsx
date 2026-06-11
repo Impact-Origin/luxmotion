@@ -74,8 +74,8 @@ function CarouselArrow({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "size-12 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition-colors",
-        disabled ? "opacity-30 cursor-not-allowed" : "hover:bg-[rgba(201,169,110,0.08)]",
+        "size-12 bg-[#0D0D0D] border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition-colors",
+        disabled ? "opacity-30 cursor-not-allowed" : "hover:bg-[rgba(201,169,110,0.08)] hover:border-[#C9A96E]",
       )}
       aria-label={direction === "left" ? "Previous" : "Next"}
     >
@@ -143,49 +143,54 @@ export function DriversSection() {
           </h2>
         </div>
 
-        <div className="w-full overflow-hidden bg-[rgba(201,169,110,0.07)]">
-          <div
-            className="flex gap-[2px] transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${safeIdx * slidePercent}%)` }}
-          >
-            {drivers.map((d) => (
-              <div
-                key={d.id}
-                className="shrink-0"
-                style={{ width: `calc(${slidePercent}% - ${(2 * (pageSize - 1)) / pageSize}px)` }}
-              >
-                <DriverCard d={d} />
-              </div>
-            ))}
+        <div className="relative w-full">
+          <div className="w-full overflow-hidden bg-[rgba(201,169,110,0.07)]">
+            <div
+              className="flex gap-[2px] transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${safeIdx * slidePercent}%)` }}
+            >
+              {drivers.map((d) => (
+                <div
+                  key={d.id}
+                  className="shrink-0"
+                  style={{ width: `calc(${slidePercent}% - ${(2 * (pageSize - 1)) / pageSize}px)` }}
+                >
+                  <DriverCard d={d} />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {pageCount > 1 && (
-          <div className="flex items-center justify-center gap-2">
+          <div className="absolute left-3 lg:-left-6 top-1/2 -translate-y-1/2 z-10">
             <CarouselArrow
               direction="left"
               onClick={() => setIdx((i) => Math.max(i - 1, 0))}
               disabled={safeIdx === 0}
             />
-            <div className="flex gap-2 items-center px-4">
-              {Array.from({ length: pageCount }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setIdx(i)}
-                  aria-label={`Go to driver ${i + 1}`}
-                  className={cn(
-                    "rounded-full transition-all",
-                    i === safeIdx ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
-                  )}
-                />
-              ))}
-            </div>
+          </div>
+          <div className="absolute right-3 lg:-right-6 top-1/2 -translate-y-1/2 z-10">
             <CarouselArrow
               direction="right"
               onClick={() => setIdx((i) => Math.min(i + 1, maxIdx))}
               disabled={safeIdx >= maxIdx}
             />
+          </div>
+        </div>
+
+        {pageCount > 1 && (
+          <div className="flex gap-2 items-center justify-center px-4">
+            {Array.from({ length: pageCount }).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIdx(i)}
+                aria-label={`Go to driver ${i + 1}`}
+                className={cn(
+                  "rounded-full transition-all",
+                  i === safeIdx ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]",
+                )}
+              />
+            ))}
           </div>
         )}
       </div>

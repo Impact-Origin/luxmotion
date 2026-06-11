@@ -62,7 +62,7 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
               { href: "/terms-and-conditions", label: t("termsAndConditions") },
               { href: "/refund", label: t("refund") },
               { href: "/privacy-policy", label: t("privacyPolicy") },
-              { href: "/#payment-methods", label: t("paymentMethods") },
+              { href: "#payment-methods", label: t("paymentMethods") },
               { href: "https://www.centroarbitragemlisboa.pt/", label: t("arbitrationCenter"), external: true },
               { href: "https://commission.europa.eu/live-work-travel-eu/consumer-rights-and-complaints/resolve-your-consumer-complaint/alternative-dispute-resolution-consumers_en", label: t("alternativeDispute"), external: true },
             ]}
@@ -71,7 +71,7 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
           <SupportColumn followLabel={r("follow")} />
         </div>
 
-        <div className="border-b border-[rgba(255,255,255,0.05)] py-6 flex flex-wrap items-center gap-[10px]">
+        <div id="payment-methods" className="scroll-mt-[100px] border-b border-[rgba(255,255,255,0.05)] py-6 flex flex-wrap items-center gap-[10px]">
           <span
             className="text-[12px] tracking-[1.62px] uppercase text-[#999] font-semibold pr-2"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}

@@ -19,35 +19,43 @@ const STEPS: Step[] = [
   { icon: Check, titleKey: "approved.title", descKey: "approved.desc", highlight: true },
 ]
 
-function StepDot({ icon: Icon, highlight }: { icon: LucideIcon; highlight?: boolean }) {
+function StepDot({ icon: Icon, highlight, index }: { icon: LucideIcon; highlight?: boolean; index: number }) {
+  const delay = `${index * 0.4}s`
   return (
-    <div
-      className={
-        highlight
-          ? "size-14 rounded-full bg-[#C9A96E] flex items-center justify-center"
-          : "size-14 rounded-full bg-[#1a1a1a] border border-[rgba(201,169,110,0.2)] flex items-center justify-center"
-      }
-    >
-      <Icon
-        className={highlight ? "size-6 text-[#0D0D0D]" : "size-6 text-[#C9A96E]"}
-        strokeWidth={highlight ? 2.5 : 1.5}
+    <div className="relative size-14">
+      <span
+        className="absolute inset-0 rounded-full border border-[rgba(201,169,110,0.6)] animate-icon-halo motion-reduce:hidden pointer-events-none"
+        style={{ animationDelay: delay }}
       />
+      <div
+        className={`relative size-14 animate-icon-breathe motion-reduce:animate-none transition-shadow duration-300 ease-out ${
+          highlight
+            ? "rounded-full bg-[#C9A96E] flex items-center justify-center group-hover:shadow-[0_0_24px_rgba(201,169,110,0.55)]"
+            : "rounded-full bg-[#1a1a1a] border border-[rgba(201,169,110,0.2)] flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(201,169,110,0.35)]"
+        }`}
+        style={{ animationDelay: delay }}
+      >
+        <Icon
+          className={highlight ? "size-6 text-[#0D0D0D]" : "size-6 text-[#C9A96E]"}
+          strokeWidth={highlight ? 2.5 : 1.5}
+        />
+      </div>
     </div>
   )
 }
 
-function StepNode({ step, t }: { step: Step; t: ReturnType<typeof useTranslations> }) {
+function StepNode({ step, t, index }: { step: Step; t: ReturnType<typeof useTranslations>; index: number }) {
   return (
-    <div className="flex flex-col items-center gap-[14px] shrink-0 min-w-[220px] px-4">
-      <StepDot icon={step.icon} highlight={step.highlight} />
+    <div className="group flex flex-col items-center gap-[14px] flex-1 min-w-0 px-4">
+      <StepDot icon={step.icon} highlight={step.highlight} index={index} />
       <h3
-        className="text-white text-[14px] font-semibold tracking-[0.48px] text-center whitespace-nowrap"
+        className="text-white text-[14px] font-semibold tracking-[0.48px] text-center"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {t(step.titleKey)}
       </h3>
       <p
-        className="text-[#999] text-[14px] leading-[1.2] text-center max-w-[200px]"
+        className="text-[#999] text-[14px] leading-[1.4] text-center text-balance max-w-[190px]"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {t(step.descKey)}
@@ -59,7 +67,7 @@ function StepNode({ step, t }: { step: Step; t: ReturnType<typeof useTranslation
 function Connector({ flexBased }: { flexBased: boolean }) {
   return (
     <div
-      className={`${flexBased ? "flex-1" : "w-[120px] shrink-0"} h-px self-start mt-[28px]`}
+      className={`${flexBased ? "flex-1 max-w-[120px]" : "w-[120px] shrink-0"} h-px self-start mt-[28px]`}
       style={{
         backgroundImage:
           "linear-gradient(to right, rgba(201,169,110,0.3), rgba(201,169,110,0.1), rgba(201,169,110,0.3))",
@@ -115,7 +123,7 @@ export function VettingSection() {
         <div className="hidden lg:flex items-start justify-center w-full pt-3">
           {STEPS.map((s, i) => (
             <Fragment key={s.titleKey}>
-              <StepNode step={s} t={t} />
+              <StepNode step={s} t={t} index={i} />
               {i < STEPS.length - 1 && <Connector flexBased />}
             </Fragment>
           ))}
@@ -129,7 +137,7 @@ export function VettingSection() {
             {[...STEPS, ...STEPS].map((s, i) => (
               <Fragment key={`${s.titleKey}-${i}`}>
                 <div className="w-[200px] shrink-0 flex justify-center">
-                  <StepNode step={s} t={t} />
+                  <StepNode step={s} t={t} index={i % STEPS.length} />
                 </div>
                 {i < STEPS.length * 2 - 1 && <Connector flexBased={false} />}
               </Fragment>

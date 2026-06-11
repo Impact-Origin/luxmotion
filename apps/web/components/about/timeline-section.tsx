@@ -29,12 +29,14 @@ function TimelineNode({ m }: { m: Milestone }) {
       >
         {m.title}
       </div>
-      <p
-        className="text-[#999] text-[14px] leading-[1.3] text-center max-w-[160px]"
-        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-      >
-        {m.desc}
-      </p>
+      <div className="flex flex-col items-center max-w-[160px]">
+        <p
+          className="text-[#999] text-[14px] leading-[1.3] text-center whitespace-pre shrink-0"
+          style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        >
+          {m.desc}
+        </p>
+      </div>
     </div>
   )
 }

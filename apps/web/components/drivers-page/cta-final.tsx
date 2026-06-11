@@ -73,6 +73,8 @@ export function DriversCtaFinal() {
           </Link>
           <Link
             href={t("secondaryHref")}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group h-12 inline-flex items-center justify-center border border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.06)] transition-colors duration-200 px-6"
           >
             <span

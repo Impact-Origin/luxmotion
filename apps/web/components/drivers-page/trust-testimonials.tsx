@@ -90,7 +90,7 @@ function StatBox({
 
 function TestimonialCard({ t: data }: { t: Testimonial }) {
   return (
-    <article className="bg-[#F7F4EF] border border-[rgba(28,27,24,0.08)] flex flex-col gap-3.5 p-6">
+    <article className="relative bg-[#F7F4EF] border border-[rgba(28,27,24,0.08)] flex flex-col gap-3.5 p-6 transition-[transform,box-shadow,border-color] duration-200 ease-out will-change-transform hover:z-10 hover:scale-[1.035] hover:-translate-y-1.5 hover:border-[#9A7535] hover:shadow-[0_22px_48px_-14px_rgba(28,27,24,0.35)]">
       <p
         className="text-[15px] lg:text-[17px] italic leading-[1.6] text-[#1C1B18] relative"
         style={SERIF_FONT}
@@ -221,7 +221,7 @@ export function TrustTestimonials() {
             </p>
 
             <div className="flex flex-col gap-2 mt-5 mb-4">
-              <PlatformBadge href="https://share.google/ZHPvwa5jT1Z4Z4dlQ">
+              <PlatformBadge href="https://maps.app.goo.gl/uErDVp3HagakGnAf7">
                 <Image
                   src="/google-logo.png"
                   alt="Google"

@@ -21,9 +21,9 @@ function BlogResultsContent() {
 
 export default function BlogResultsPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <Header />
-      <div className="pt-[46px] md:pt-[46px]">
+    <div className="min-h-screen bg-[#0D0D0D] text-white">
+      <Header variant="light" />
+      <div className="pt-[60px] lg:pt-[72px]">
         <Suspense fallback={<div className="h-[520px]" />}>
           <BlogResultsContent />
         </Suspense>
