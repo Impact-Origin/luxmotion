@@ -55,7 +55,7 @@ export function CTABanner() {
       </div>
 
       <Link
-        href="/booking"
+        href="/tours"
         className="group relative z-10 inline-flex items-center gap-2 border border-[#C9A96E] h-12 px-6 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >

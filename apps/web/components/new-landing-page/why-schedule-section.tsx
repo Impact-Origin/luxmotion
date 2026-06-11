@@ -43,10 +43,10 @@ export function WhyScheduleSection() {
               return (
                 <div
                   key={feature.id}
-                  className="bg-[#1a1a1a] flex flex-col gap-[18px] px-6 py-8 md:px-9 md:py-10 transition-colors duration-300 hover:bg-[#222222] cursor-default"
+                  className="group relative bg-[#1a1a1a] flex flex-col gap-[18px] px-6 py-8 md:px-9 md:py-10 transition-all duration-300 ease-out hover:bg-[#222222] hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.7)] hover:ring-1 hover:ring-inset hover:ring-[rgba(201,169,110,0.22)] cursor-default"
                 >
                   <div className="p-2">
-                    <Icon className="size-6 text-[#C9A96E]" strokeWidth={1.5} />
+                    <Icon className="size-6 text-[#C9A96E] transition-transform duration-300 ease-out group-hover:scale-110" strokeWidth={1.5} />
                   </div>
                   <div className="flex flex-col gap-[10px]">
                     <h3
