@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { ArrowRight, AirVent, Briefcase, User, Wifi } from "lucide-react"
+import { AirVent, Briefcase, User, Wifi } from "lucide-react"
 
 export type FleetBadge = "available" | "eco" | "electric"
 
@@ -99,31 +99,6 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
               {t("meta.wifi")}
             </MetaItem>
           )}
-        </div>
-
-        <div className="border-t-[0.8px] border-[rgba(255,255,255,0.12)] pt-[12.8px] flex items-center justify-between mt-auto">
-          <span
-            className="text-[12px] font-semibold tracking-[0.9px] uppercase text-[#8c8680] leading-[1.15] md:leading-none"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            {(() => {
-              const [first, ...rest] = t("bookVehicle").split(" ")
-              return (
-                <>
-                  {first}{" "}
-                  <br className="md:hidden" />
-                  {rest.join(" ")}
-                </>
-              )
-            })()}
-          </span>
-          <button
-            type="button"
-            aria-label={t("bookVehicle")}
-            className="size-8 shrink-0 aspect-square border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center transition-colors duration-500 ease-out group-hover:border-[#C9A96E] group-hover:bg-[#C9A96E] hover:border-[#C9A96E] hover:bg-[#C9A96E]"
-          >
-            <ArrowRight className="size-[18px] text-white group-hover:text-[#0D0D0D] transition-colors duration-500 ease-out" strokeWidth={1.5} />
-          </button>
         </div>
       </div>
     </div>

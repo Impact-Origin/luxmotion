@@ -3,13 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 
 export function CustomCursor() {
-  const ringRef = useRef<HTMLDivElement>(null);
-  const dotRef = useRef<HTMLDivElement>(null);
-  const target = useRef({ x: 0, y: 0 });
-  const current = useRef({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [hovering, setHovering] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -18,77 +14,64 @@ export function CustomCursor() {
     setEnabled(true);
 
     const onMove = (e: MouseEvent) => {
-      target.current.x = e.clientX;
-      target.current.y = e.clientY;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+      const node = ref.current;
+      if (node) {
+        node.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
       }
-      if (!visible) setVisible(true);
-
-      const el = e.target as HTMLElement | null;
-      const interactive = !!el?.closest(
-        'a, button, [role="button"], input, textarea, select, summary, label, [data-cursor-hover]'
-      );
-      setHovering(interactive);
+      setVisible(true);
     };
-
     const onLeave = () => setVisible(false);
     const onEnter = () => setVisible(true);
 
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
     document.addEventListener("mouseenter", onEnter);
-
-    let raf = 0;
-    const tick = () => {
-      current.current.x += (target.current.x - current.current.x) * 0.18;
-      current.current.y += (target.current.y - current.current.y) * 0.18;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) translate(-50%, -50%)`;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
     document.documentElement.classList.add("custom-cursor-active");
 
     return () => {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("mouseenter", onEnter);
-      cancelAnimationFrame(raf);
       document.documentElement.classList.remove("custom-cursor-active");
     };
-  }, [visible]);
+  }, []);
 
   if (!enabled) return null;
 
   return (
-    <>
-      <div
-        ref={ringRef}
-        aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full border transition-[width,height,border-color,opacity] duration-200 ease-out"
+    <div
+      ref={ref}
+      aria-hidden
+      className="pointer-events-none fixed left-0 top-0 z-[9999]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: "opacity 150ms ease-out",
+        willChange: "transform",
+      }}
+    >
+      {/* Classic Windows-style arrow pointer: gold fill, black outline.
+          The tip sits at the SVG origin (0,0) so it lines up with the real pointer hotspot. */}
+      <svg
+        width="20"
+        height="26"
+        viewBox="0 0 20 26"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
         style={{
-          width: hovering ? 56 : 36,
-          height: hovering ? 56 : 36,
-          borderColor: "#c9a96e",
-          borderWidth: 1,
-          opacity: visible ? 1 : 0,
-          mixBlendMode: "difference",
+          display: "block",
+          overflow: "visible",
+          filter: "drop-shadow(0 1px 1.5px rgba(0,0,0,0.35))",
         }}
-      />
-      <div
-        ref={dotRef}
-        aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full"
-        style={{
-          width: 6,
-          height: 6,
-          background: "#c9a96e",
-          opacity: visible ? 1 : 0,
-        }}
-      />
-    </>
+      >
+        <path
+          d="M0 0 L0 20 L5 15.2 L8.1 22.2 L11.1 20.9 L8.2 14.1 L14.9 14.1 Z"
+          fill="#C9A96E"
+          stroke="#000000"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      </svg>
+    </div>
   );
 }

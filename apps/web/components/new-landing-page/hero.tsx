@@ -40,7 +40,7 @@ function SocialProofBar() {
   const t = useTranslations("hero")
 
   return (
-    <div className="flex flex-wrap items-center gap-6 border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.06)] px-7 py-2 w-fit">
+    <div className="flex flex-wrap lg:flex-nowrap items-center gap-6 border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.06)] px-7 py-2 w-fit lg:w-max">
       <div className="flex flex-col gap-2">
         <span className="text-[14px] font-bold text-white whitespace-nowrap">
           {t("excellentRating")}
