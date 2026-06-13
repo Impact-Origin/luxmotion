@@ -21,10 +21,14 @@ interface PhoneInputProps {
 
 const allCountries = defaultCountries.map((country) => parseCountry(country))
 
-const getExpectedLength = (country: typeof allCountries[0]): number | null =>
-  country.iso2 === "pt"
-    ? 9
-    : (country.format?.match(/\./g)?.length ?? 0) || null
+const getExpectedLength = (country: typeof allCountries[0]): number | null => {
+  if (country.iso2 === "pt") return 9
+  // `format` can be a string mask or a FormatConfig object ({ default, ... });
+  // normalize to the string mask before counting placeholders.
+  const format =
+    typeof country.format === "string" ? country.format : country.format?.default
+  return (format?.match(/\./g)?.length ?? 0) || null
+}
 
 const validateNumber = (input: string, country: typeof allCountries[0]) => {
   const digitsOnly = input.replace(/[^\d]/g, "")
