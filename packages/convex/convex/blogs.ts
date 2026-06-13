@@ -13,6 +13,10 @@ export const list = query({
           ? await ctx.storage.getUrl(blog.heroImageId)
           : null;
 
+        const authorAvatarUrl = blog.authorAvatarId
+          ? await ctx.storage.getUrl(blog.authorAvatarId)
+          : null;
+
         const translations = await ctx.db
           .query("blogTranslations")
           .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
@@ -21,6 +25,7 @@ export const list = query({
         return {
           ...blog,
           heroImageUrl,
+          authorAvatarUrl,
           availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
         };
       })
@@ -46,6 +51,10 @@ export const listPublished = query({
           ? await ctx.storage.getUrl(blog.heroImageId)
           : null;
 
+        const authorAvatarUrl = blog.authorAvatarId
+          ? await ctx.storage.getUrl(blog.authorAvatarId)
+          : null;
+
         const translations = await ctx.db
           .query("blogTranslations")
           .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
@@ -54,6 +63,7 @@ export const listPublished = query({
         return {
           ...blog,
           heroImageUrl,
+          authorAvatarUrl,
           availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
         };
       })
@@ -81,6 +91,10 @@ export const listFeatured = query({
           ? await ctx.storage.getUrl(blog.heroImageId)
           : null;
 
+        const authorAvatarUrl = blog.authorAvatarId
+          ? await ctx.storage.getUrl(blog.authorAvatarId)
+          : null;
+
         const translations = await ctx.db
           .query("blogTranslations")
           .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
@@ -89,6 +103,7 @@ export const listFeatured = query({
         return {
           ...blog,
           heroImageUrl,
+          authorAvatarUrl,
           availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
         };
       })
@@ -112,6 +127,10 @@ export const getBySlug = query({
       ? await ctx.storage.getUrl(blog.heroImageId)
       : null;
 
+    const authorAvatarUrl = blog.authorAvatarId
+      ? await ctx.storage.getUrl(blog.authorAvatarId)
+      : null;
+
     const translations = await ctx.db
       .query("blogTranslations")
       .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
@@ -120,6 +139,7 @@ export const getBySlug = query({
     return {
       ...blog,
       heroImageUrl,
+      authorAvatarUrl,
       translations,
       availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
     };
@@ -136,6 +156,10 @@ export const getById = query({
       ? await ctx.storage.getUrl(blog.heroImageId)
       : null;
 
+    const authorAvatarUrl = blog.authorAvatarId
+      ? await ctx.storage.getUrl(blog.authorAvatarId)
+      : null;
+
     const translations = await ctx.db
       .query("blogTranslations")
       .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
@@ -144,6 +168,7 @@ export const getById = query({
     return {
       ...blog,
       heroImageUrl,
+      authorAvatarUrl,
       translations,
       availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
     };
@@ -199,6 +224,9 @@ export const create = mutation({
     heroImageId: v.optional(v.id("_storage")),
     category: v.string(),
     author: v.string(),
+    authorRole: v.optional(v.string()),
+    authorBio: v.optional(v.string()),
+    authorAvatarId: v.optional(v.id("_storage")),
     originalLanguage: v.string(),
     status: v.union(v.literal("draft"), v.literal("published"), v.literal("archived")),
     isFeatured: v.boolean(),
@@ -266,6 +294,9 @@ export const update = mutation({
     heroImageId: v.optional(v.id("_storage")),
     category: v.string(),
     author: v.string(),
+    authorRole: v.optional(v.string()),
+    authorBio: v.optional(v.string()),
+    authorAvatarId: v.optional(v.id("_storage")),
     originalLanguage: v.string(),
     status: v.union(v.literal("draft"), v.literal("published"), v.literal("archived")),
     isFeatured: v.boolean(),
@@ -339,6 +370,10 @@ export const remove = mutation({
       await ctx.storage.delete(blog.heroImageId);
     }
 
+    if (blog.authorAvatarId) {
+      await ctx.storage.delete(blog.authorAvatarId);
+    }
+
     await ctx.db.delete(args.id);
     return args.id;
   },
@@ -394,9 +429,14 @@ export const listServices = query({
           ? await ctx.storage.getUrl(blog.heroImageId)
           : null;
 
+        const authorAvatarUrl = blog.authorAvatarId
+          ? await ctx.storage.getUrl(blog.authorAvatarId)
+          : null;
+
         return {
           ...blog,
           heroImageUrl,
+          authorAvatarUrl,
         };
       })
     );

@@ -1,6 +1,6 @@
 "use client"
 
-const WHATSAPP_URL =
+export const WHATSAPP_URL =
   "https://api.whatsapp.com/message/HEPOQCC3BH2ZG1?autoload=1&app_absent=0"
 
 function WhatsAppIcon({ className }: { className?: string }) {

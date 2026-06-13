@@ -10,7 +10,7 @@ import {
 import { useDriverApplication } from "../driver-application-context"
 
 const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const
-const SHIFT_KEYS = ["allDay", "morning", "afternoon", "night"] as const
+const SHIFT_KEYS = ["morning", "afternoon", "night"] as const
 
 interface RouteRow {
   route: string
@@ -80,11 +80,17 @@ export function DriverStepAvailability() {
     updateAvailability({ days: allDaysSelected ? [] : [...DAY_KEYS] })
   }
 
+  const allShiftsSelected = SHIFT_KEYS.every((s) => availability.shifts.includes(s))
+
   function toggleShift(shift: string) {
     const next = availability.shifts.includes(shift)
       ? availability.shifts.filter((s) => s !== shift)
       : [...availability.shifts, shift]
     updateAvailability({ shifts: next })
+  }
+
+  function toggleAllShifts() {
+    updateAvailability({ shifts: allShiftsSelected ? [] : [...SHIFT_KEYS] })
   }
 
   const cityLabel = t("cityLisboa")
@@ -176,6 +182,11 @@ export function DriverStepAvailability() {
       <div className="flex flex-col gap-2 w-full">
         <FieldLabel required>{t("shifts.label")}</FieldLabel>
         <div className="flex flex-wrap gap-2">
+          <CheckChip
+            label={t("shifts.allDay")}
+            selected={allShiftsSelected}
+            onToggle={toggleAllShifts}
+          />
           {SHIFT_KEYS.map((shift) => (
             <CheckChip
               key={shift}

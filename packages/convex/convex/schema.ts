@@ -298,6 +298,14 @@ export default defineSchema({
     welcomeMessage: v.optional(v.string()),
   }).index("by_slug", ["slug"]),
 
+  emailVerifications: defineTable({
+    email: v.string(),
+    code: v.string(),
+    expiresAt: v.number(),
+    attempts: v.number(),
+    createdAt: v.number(),
+  }).index("by_email", ["email"]),
+
   blogs: defineTable({
     title: v.string(),
     slug: v.string(),
@@ -306,6 +314,9 @@ export default defineSchema({
     heroImageId: v.optional(v.id("_storage")),
     category: v.string(),
     author: v.string(),
+    authorRole: v.optional(v.string()),
+    authorBio: v.optional(v.string()),
+    authorAvatarId: v.optional(v.id("_storage")),
     originalLanguage: v.string(),
     status: v.union(
       v.literal("draft"),
@@ -900,6 +911,7 @@ export default defineSchema({
     email: v.string(),
     phone: v.string(),
     children: v.optional(v.number()),
+    budget: v.optional(v.number()),
     route: v.optional(v.string()),
     departureTime: v.optional(v.string()),
     pickup: v.optional(v.string()),

@@ -66,7 +66,7 @@ export function TimelineSection() {
   ]
 
   return (
-    <section className="relative bg-[#0D0D0D] py-16 overflow-hidden">
+    <section className="relative bg-[#0D0D0D] py-16 md:py-[126px] overflow-hidden">
       <div
         className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[754px] h-[345px] opacity-10"
         aria-hidden

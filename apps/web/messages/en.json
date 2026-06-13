@@ -1,4 +1,8 @@
 {
+  "phoneInput": {
+    "invalidLength": "The number must have {count} digits.",
+    "tooLong": "Number too long (max. {count} digits)."
+  },
   "common": {
     "continue": "Continue",
     "select": "Select",
@@ -3751,6 +3755,9 @@
         "children": {
           "label": "No. of children"
         },
+        "budget": {
+          "label": "What budget do you have available?"
+        },
         "route": {
           "label": "Route",
           "placeholder": "e.g. Lisbon → School X"
@@ -4743,6 +4750,7 @@
         "brand": "Brand",
         "model": "Model",
         "plate": "License plate",
+        "plateInvalid": "Invalid plate. Use the format AA-00-AA.",
         "color": "Color",
         "year": "Year",
         "ownership": "Ownership",
@@ -4783,7 +4791,8 @@
         "intro": "Upload 3 interior photos: rear seats, front dashboard and detail.",
         "interior": "Interior photos (3)",
         "exterior": "Exterior photos (3)",
-        "hint": "jpg or png - max 5mb"
+        "hint": "jpg or png - max 5mb",
+        "required": "All photos are required."
       },
       "childSeats": {
         "intro": "Indicate which seat types you have available and the quantity of each.",
@@ -4827,6 +4836,11 @@
           "smile": "Natural smile",
           "shirt": "White or black shirt",
           "background": "Neutral background (white/grey)"
+        },
+        "model": {
+          "title": "Photo example",
+          "subtitle": "Follow this style for your professional photo.",
+          "imageAlt": "Professional driver photo example"
         }
       },
       "license": {
@@ -4858,15 +4872,18 @@
       },
       "swiftBic": {
         "label": "SWIFT/BIC",
-        "placeholder": "Swift/BIC"
+        "placeholder": "Swift/BIC",
+        "invalid": "Invalid SWIFT/BIC (8 or 11 characters)."
       },
       "iban": {
         "label": "IBAN",
-        "placeholder": "PT50 0000 0000 0000 000"
+        "placeholder": "PT50 0000 0000 0000 000",
+        "invalid": "Invalid IBAN."
       },
       "nif": {
         "label": "Tax ID (NIF)",
-        "placeholder": "000 000 000"
+        "placeholder": "000 000 000",
+        "invalid": "Invalid NIF (9 digits)."
       },
       "taxOffice": {
         "label": "Tax office",

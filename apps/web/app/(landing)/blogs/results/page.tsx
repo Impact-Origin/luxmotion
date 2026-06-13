@@ -22,7 +22,7 @@ function BlogResultsContent() {
 export default function BlogResultsPage() {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">
-      <Header variant="light" />
+      <Header variant="dark" />
       <div className="pt-[60px] lg:pt-[72px]">
         <Suspense fallback={<div className="h-[520px]" />}>
           <BlogResultsContent />

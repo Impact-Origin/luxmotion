@@ -16,6 +16,7 @@ import type * as corporateExperiences from "../corporateExperiences.js";
 import type * as corporateRequests from "../corporateRequests.js";
 import type * as driverApplications from "../driverApplications.js";
 import type * as drivers from "../drivers.js";
+import type * as emailVerification from "../emailVerification.js";
 import type * as events from "../events.js";
 import type * as flights from "../flights.js";
 import type * as http from "../http.js";
@@ -59,6 +60,7 @@ declare const fullApi: ApiFromModules<{
   corporateRequests: typeof corporateRequests;
   driverApplications: typeof driverApplications;
   drivers: typeof drivers;
+  emailVerification: typeof emailVerification;
   events: typeof events;
   flights: typeof flights;
   http: typeof http;

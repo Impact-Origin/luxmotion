@@ -191,20 +191,36 @@ export function SchoolsReviews() {
             ))}
           </div>
           <div className="flex gap-[18.834px] items-center justify-center">
-            <Image
-              src="/schools/google-logo.png"
-              alt="Google"
-              width={94}
-              height={32}
-              className="h-8 w-[94px] object-contain"
-            />
-            <Image
-              src="/schools/trustpilot.svg"
-              alt="Trustpilot"
-              width={104}
-              height={28}
-              className="h-7 w-[104px] object-contain"
-            />
+            <a
+              href="https://maps.app.goo.gl/uErDVp3HagakGnAf7"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Google"
+              className="transition-opacity duration-200 hover:opacity-70"
+            >
+              <Image
+                src="/schools/google-logo.png"
+                alt="Google"
+                width={94}
+                height={32}
+                className="h-8 w-[94px] object-contain"
+              />
+            </a>
+            <a
+              href="https://www.trustpilot.com/review/easytransferericeira.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Trustpilot"
+              className="transition-opacity duration-200 hover:opacity-70"
+            >
+              <Image
+                src="/schools/trustpilot.svg"
+                alt="Trustpilot"
+                width={104}
+                height={28}
+                className="h-7 w-[104px] object-contain"
+              />
+            </a>
           </div>
           <p
             className="text-[16px] md:text-[18px] font-light text-[#696969] leading-[1.3] text-center"

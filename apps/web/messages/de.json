@@ -1,4 +1,8 @@
 {
+  "phoneInput": {
+    "invalidLength": "Die Nummer muss {count} Ziffern haben.",
+    "tooLong": "Nummer zu lang (max. {count} Ziffern)."
+  },
   "common": {
     "continue": "Weiter",
     "select": "Auswählen",
@@ -3674,6 +3678,9 @@
         "children": {
           "label": "Anzahl Kinder"
         },
+        "budget": {
+          "label": "Welches Budget steht Ihnen zur Verfügung?"
+        },
         "route": {
           "label": "Strecke",
           "placeholder": "z. B. Lissabon → Schule X"
@@ -4666,6 +4673,7 @@
         "brand": "Marke",
         "model": "Modell",
         "plate": "Kennzeichen",
+        "plateInvalid": "Ungültiges Kennzeichen. Format: AA-00-AA.",
         "color": "Farbe",
         "year": "Baujahr",
         "ownership": "Eigentumsverhältnis",
@@ -4706,7 +4714,8 @@
         "intro": "Laden Sie 3 Innenraumfotos hoch: Rücksitze, Armaturenbrett und Detail.",
         "interior": "Innenraumfotos (3)",
         "exterior": "Außenfotos (3)",
-        "hint": "jpg oder png - max. 5mb"
+        "hint": "jpg oder png - max. 5mb",
+        "required": "Alle Fotos sind erforderlich."
       },
       "childSeats": {
         "intro": "Geben Sie an, welche Sitztypen Sie verfügbar haben und die Menge jedes einzelnen.",
@@ -4750,6 +4759,11 @@
           "smile": "Natürliches Lächeln",
           "shirt": "Weißes oder schwarzes Hemd",
           "background": "Neutraler Hintergrund (weiß/grau)"
+        },
+        "model": {
+          "title": "Foto-Beispiel",
+          "subtitle": "Orientieren Sie sich an diesem Stil für Ihr Profilfoto.",
+          "imageAlt": "Beispiel für ein professionelles Fahrerfoto"
         }
       },
       "license": {
@@ -4781,15 +4795,18 @@
       },
       "swiftBic": {
         "label": "SWIFT/BIC",
-        "placeholder": "Swift/BIC"
+        "placeholder": "Swift/BIC",
+        "invalid": "Ungültiger SWIFT/BIC (8 oder 11 Zeichen)."
       },
       "iban": {
         "label": "IBAN",
-        "placeholder": "PT50 0000 0000 0000 000"
+        "placeholder": "PT50 0000 0000 0000 000",
+        "invalid": "Ungültige IBAN."
       },
       "nif": {
         "label": "Steuernummer (NIF)",
-        "placeholder": "000 000 000"
+        "placeholder": "000 000 000",
+        "invalid": "Ungültige NIF (9 Ziffern)."
       },
       "taxOffice": {
         "label": "Finanzamt",
@@ -5845,4 +5862,3 @@
   },
   "corporate": {}
 }
-

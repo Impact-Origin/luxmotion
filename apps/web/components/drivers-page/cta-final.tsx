@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { ArrowRight, Check, MessageSquare } from "lucide-react"
+import { WHATSAPP_URL } from "@/components/new-landing-page/whatsapp-float"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -72,7 +73,7 @@ export function DriversCtaFinal() {
             <ArrowRight className="size-[18px] text-[#0D0D0D] transition-transform group-hover:translate-x-0.5" strokeWidth={2} />
           </Link>
           <Link
-            href={t("secondaryHref")}
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="group h-12 inline-flex items-center justify-center border border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.06)] transition-colors duration-200 px-6"

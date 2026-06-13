@@ -10,6 +10,7 @@ import {
   StepHeader,
 } from "@/components/applications/shared"
 import { useDriverApplication } from "../driver-application-context"
+import { isValidBic, isValidIban, isValidPtNif } from "@/lib/fiscal-validation"
 
 export function DriverStepBilling() {
   const t = useTranslations("driverApplication.stepBilling")
@@ -20,12 +21,16 @@ export function DriverStepBilling() {
 
   const removeLabel = tCommon("remove") || "Remove"
 
+  const swiftValid = isValidBic(billing.swiftBic)
+  const ibanValid = isValidIban(billing.iban)
+  const nifValid = isValidPtNif(billing.nif)
+
   const canContinue =
     billing.accountHolder.trim().length > 0 &&
     billing.invoiceName.trim().length > 0 &&
-    billing.swiftBic.trim().length > 0 &&
-    billing.iban.trim().length > 0 &&
-    billing.nif.trim().length > 0 &&
+    swiftValid &&
+    ibanValid &&
+    nifValid &&
     billing.taxOffice.trim().length > 0 &&
     billing.billingAddress.trim().length > 0 &&
     billing.bankProof !== null
@@ -69,7 +74,12 @@ export function DriverStepBilling() {
             placeholder={t("swiftBic.placeholder")}
             value={billing.swiftBic}
             onChange={(e) => updateBilling({ swiftBic: e.target.value.toUpperCase() })}
+            aria-invalid={billing.swiftBic.length > 0 && !swiftValid}
+            className={billing.swiftBic.length > 0 && !swiftValid ? "border-[#c0392b] focus:border-[#c0392b]" : undefined}
           />
+          {billing.swiftBic.length > 0 && !swiftValid && (
+            <p className="text-[12px] text-[#c0392b] leading-[1.2]">{t("swiftBic.invalid")}</p>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <FieldLabel>{t("iban.label")}</FieldLabel>
@@ -78,7 +88,12 @@ export function DriverStepBilling() {
             placeholder={t("iban.placeholder")}
             value={billing.iban}
             onChange={(e) => updateBilling({ iban: e.target.value.toUpperCase() })}
+            aria-invalid={billing.iban.length > 0 && !ibanValid}
+            className={billing.iban.length > 0 && !ibanValid ? "border-[#c0392b] focus:border-[#c0392b]" : undefined}
           />
+          {billing.iban.length > 0 && !ibanValid && (
+            <p className="text-[12px] text-[#c0392b] leading-[1.2]">{t("iban.invalid")}</p>
+          )}
         </div>
       </div>
 
@@ -90,7 +105,12 @@ export function DriverStepBilling() {
           placeholder={t("nif.placeholder")}
           value={billing.nif}
           onChange={(e) => updateBilling({ nif: e.target.value.replace(/[^\d\s]/g, "") })}
+          aria-invalid={billing.nif.length > 0 && !nifValid}
+          className={billing.nif.length > 0 && !nifValid ? "border-[#c0392b] focus:border-[#c0392b]" : undefined}
         />
+        {billing.nif.length > 0 && !nifValid && (
+          <p className="text-[12px] text-[#c0392b] leading-[1.2]">{t("nif.invalid")}</p>
+        )}
       </div>
 
       <div className="flex flex-col gap-2 w-full">

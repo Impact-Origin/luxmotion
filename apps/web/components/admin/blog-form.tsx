@@ -25,7 +25,7 @@ import {
 import { ImageUpload } from "./image-upload";
 import { BlogEditor } from "./blog-editor";
 import { toast } from "sonner";
-import { Loader2, Info, FileText, Settings, Search, Clock, Calendar } from "lucide-react";
+import { Loader2, Info, FileText, Settings, Search, Clock, Calendar, User } from "lucide-react";
 import { Separator } from "@workspace/ui/components/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import { LANGUAGES, BLOG_CATEGORIES } from "./constants";
@@ -46,6 +46,10 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
   const [heroImageId, setHeroImageId] = React.useState<string | undefined>(initialData?.heroImageId);
   const [category, setCategory] = React.useState(initialData?.category || "Lisbon");
   const [author, setAuthor] = React.useState(initialData?.author || "EasyTransfer Team");
+  const [authorRole, setAuthorRole] = React.useState(initialData?.authorRole || "");
+  const [authorBio, setAuthorBio] = React.useState(initialData?.authorBio || "");
+  const [authorAvatarId, setAuthorAvatarId] = React.useState<string | undefined>(initialData?.authorAvatarId);
+  const [authorAvatarPreview, setAuthorAvatarPreview] = React.useState<string | null>(initialData?.authorAvatarUrl || null);
   const [originalLanguage, setOriginalLanguage] = React.useState(initialData?.originalLanguage || "en");
   const [status, setStatus] = React.useState<"draft" | "published" | "archived">(initialData?.status || "draft");
   const [isFeatured, setIsFeatured] = React.useState(initialData?.isFeatured || false);
@@ -71,6 +75,10 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
       setHeroImageId(initialData.heroImageId);
       setCategory(initialData.category || "Lisbon");
       setAuthor(initialData.author || "EasyTransfer Team");
+      setAuthorRole(initialData.authorRole || "");
+      setAuthorBio(initialData.authorBio || "");
+      setAuthorAvatarId(initialData.authorAvatarId);
+      setAuthorAvatarPreview(initialData.authorAvatarUrl || null);
       setOriginalLanguage(initialData.originalLanguage || "en");
       setStatus(initialData.status || "draft");
       setIsFeatured(initialData.isFeatured || false);
@@ -87,6 +95,10 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
       setHeroImageId(undefined);
       setCategory("Lisbon");
       setAuthor("EasyTransfer Team");
+      setAuthorRole("");
+      setAuthorBio("");
+      setAuthorAvatarId(undefined);
+      setAuthorAvatarPreview(null);
       setOriginalLanguage("en");
       setStatus("draft");
       setIsFeatured(false);
@@ -132,6 +144,9 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
         heroImageId: heroImageId as any,
         category,
         author,
+        authorRole: authorRole || undefined,
+        authorBio: authorBio || undefined,
+        authorAvatarId: authorAvatarId as any,
         originalLanguage,
         status,
         isFeatured,
@@ -331,7 +346,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="author">Author</Label>
+                      <Label htmlFor="author">Author Name</Label>
                       <Input
                         id="author"
                         value={author}
@@ -340,6 +355,58 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                         disabled={isSubmitting}
                         className="h-11"
                       />
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <Label className="text-base font-bold flex items-center gap-2">
+                    <User className="h-4 w-4" /> Author Profile
+                  </Label>
+                  <p className="text-xs text-zinc-500 -mt-2">
+                    Shown on the blog detail page sidebar. Leave role/bio empty to use the default LuxMotion text.
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="space-y-2">
+                      <Label>Profile Picture</Label>
+                      <div className="w-32">
+                        <ImageUpload
+                          value={authorAvatarPreview}
+                          onChange={(id) => {
+                            setAuthorAvatarId(id);
+                            if (!id) setAuthorAvatarPreview(null);
+                          }}
+                          disabled={isSubmitting}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex-1 space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="authorRole">Role / Title</Label>
+                        <Input
+                          id="authorRole"
+                          value={authorRole}
+                          onChange={(e) => setAuthorRole(e.target.value)}
+                          placeholder="e.g. Equipa LuxMotion"
+                          disabled={isSubmitting}
+                          className="h-11"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="authorBio">Description</Label>
+                        <Textarea
+                          id="authorBio"
+                          value={authorBio}
+                          onChange={(e) => setAuthorBio(e.target.value)}
+                          placeholder="Short bio shown under the author's name..."
+                          disabled={isSubmitting}
+                          className="min-h-[80px] resize-none"
+                        />
+                      </div>
                     </div>
                   </div>
 

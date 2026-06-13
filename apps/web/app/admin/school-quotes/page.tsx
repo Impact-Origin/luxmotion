@@ -45,6 +45,16 @@ export default function AdminSchoolQuotesPage() {
           render: (r) => r.children ?? <span className="text-zinc-400">—</span>,
         },
         {
+          key: "budget",
+          label: "Budget",
+          render: (r) =>
+            typeof r.budget === "number" ? (
+              `€${r.budget.toLocaleString("en-US")}`
+            ) : (
+              <span className="text-zinc-400">—</span>
+            ),
+        },
+        {
           key: "route",
           label: "Route",
           render: (r) => r.route || <span className="text-zinc-400">—</span>,
@@ -61,6 +71,12 @@ export default function AdminSchoolQuotesPage() {
         { key: "email", label: "Email" },
         { key: "phone", label: "Phone" },
         { key: "children", label: "Children" },
+        {
+          key: "budget",
+          label: "Budget",
+          render: (r) =>
+            typeof r.budget === "number" ? `€${r.budget.toLocaleString("en-US")}` : null,
+        },
         { key: "route", label: "Route" },
         {
           key: "departureTime",

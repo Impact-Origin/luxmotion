@@ -47,7 +47,10 @@ function FeaturePill({ label }: { label: string }) {
 function TrustDot({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-[7px]">
-      <span className="size-[7px] rounded-full bg-[#27ae60] shrink-0" />
+      <span className="relative flex size-[7px] shrink-0">
+        <span className="absolute inset-0 rounded-full bg-[#27ae60] opacity-75 animate-ping" />
+        <span className="relative size-[7px] rounded-full bg-[#27ae60]" />
+      </span>
       <span
         className="text-[12px] font-medium text-[#696969] whitespace-nowrap leading-none"
         style={SANS_FONT}
@@ -152,7 +155,7 @@ function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
     <a
       href="#schools-quote"
       className={
-        "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 px-6 cursor-pointer " +
+        "group h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] hover:-translate-y-0.5 transition-[background-color,transform] duration-200 px-6 cursor-pointer " +
         (full ? "w-full" : "")
       }
     >
@@ -162,7 +165,10 @@ function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
       >
         {label}
       </span>
-      <ArrowRight className="size-[14px] text-white" strokeWidth={2} />
+      <ArrowRight
+        className="size-[14px] text-white transition-transform duration-200 group-hover:translate-x-1"
+        strokeWidth={2}
+      />
     </a>
   )
 }
@@ -172,17 +178,20 @@ function SecondaryCta({ label, full }: { label: string; full?: boolean }) {
     <a
       href="#schools-process"
       className={
-        "h-12 inline-flex items-center justify-center border border-[#999] hover:border-[#9A7535] hover:text-[#9A7535] transition-colors duration-200 px-6 cursor-pointer " +
+        "group h-12 inline-flex items-center justify-center border border-[#999] hover:border-[#9A7535] hover:-translate-y-0.5 transition-[color,border-color,transform] duration-200 px-6 cursor-pointer " +
         (full ? "w-full" : "")
       }
     >
       <span
-        className="px-2 text-[14px] font-medium uppercase tracking-[1.1px] text-[#999]"
+        className="px-2 text-[14px] font-medium uppercase tracking-[1.1px] text-[#999] group-hover:text-[#9A7535] transition-colors"
         style={SANS_FONT}
       >
         {label}
       </span>
-      <ArrowRight className="size-[14px] text-[#999]" strokeWidth={2} />
+      <ArrowRight
+        className="size-[14px] text-[#999] group-hover:text-[#9A7535] transition-transform duration-200 group-hover:translate-x-1"
+        strokeWidth={2}
+      />
     </a>
   )
 }
@@ -311,6 +320,15 @@ export function SchoolsHero() {
               {features.map((label) => (
                 <FeaturePill key={label} label={label} />
               ))}
+            </div>
+
+            <div className={fadeUp("delay-[400ms]")}>
+              <TrustStrip
+                excellent={t("excellentRating")}
+                verifiedBy={t("verifiedBy")}
+                fromReviews={t("fromReviews")}
+                poweredBy={t("poweredBy")}
+              />
             </div>
 
             <div className={`flex flex-col gap-4 w-full ${fadeUp("delay-[500ms]")}`}>

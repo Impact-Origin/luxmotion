@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { ChevronDown, Check } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import { locales, localeNames, localeCountryIso, type Locale } from "@/i18n/config"
@@ -21,6 +22,7 @@ export function LanguageSwitcher({
   useThemeStyles = true,
 }: LanguageSwitcherProps) {
   const locale = useLocale() as Locale
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -36,9 +38,13 @@ export function LanguageSwitcher({
   }, [])
 
   const handleLocaleChange = (newLocale: Locale) => {
+    if (newLocale === locale) {
+      setIsOpen(false)
+      return
+    }
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`
     setIsOpen(false)
-    window.location.reload()
+    router.refresh()
   }
 
   const isNavbar = variant === "navbar"

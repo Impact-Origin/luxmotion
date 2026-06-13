@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useLayoutEffect } from "react"
 import { createPortal } from "react-dom"
 import { defaultCountries, parseCountry, FlagImage, CountryIso2 } from "react-international-phone"
 import { ChevronDown } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 interface PhoneInputProps {
   value?: string
@@ -15,15 +16,23 @@ interface PhoneInputProps {
   wedding?: boolean
   partner?: boolean
   corporate?: boolean
+  required?: boolean
 }
 
 const allCountries = defaultCountries.map((country) => parseCountry(country))
 
+const getExpectedLength = (country: typeof allCountries[0]): number | null =>
+  country.iso2 === "pt"
+    ? 9
+    : (country.format?.match(/\./g)?.length ?? 0) || null
+
 const validateNumber = (input: string, country: typeof allCountries[0]) => {
   const digitsOnly = input.replace(/[^\d]/g, "")
-  let normalized = digitsOnly.startsWith(country.dialCode) ? digitsOnly.slice(country.dialCode.length) : digitsOnly
+  const normalized = digitsOnly.startsWith(country.dialCode)
+    ? digitsOnly.slice(country.dialCode.length)
+    : digitsOnly
 
-  return { normalized, warning: "" }
+  return { normalized }
 }
 
 export function PhoneInput({
@@ -36,10 +45,17 @@ export function PhoneInput({
   wedding = false,
   partner = false,
   corporate = false,
+  required = false,
 }: PhoneInputProps) {
+  const t = useTranslations("phoneInput")
   const defaultSelectedCountry =
     allCountries.find((c) => c.iso2 === defaultCountry) || allCountries.find((c) => c.iso2 === "pt")!
   const [selectedCountry, setSelectedCountry] = useState(defaultSelectedCountry)
+  const expectedLength = getExpectedLength(selectedCountry)
+  const warnFor = (normalized: string, country: typeof allCountries[0]) => {
+    const exp = getExpectedLength(country)
+    return exp && normalized.length > exp ? t("tooLong", { count: exp }) : ""
+  }
   const initialNormalized = validateNumber(value, defaultSelectedCountry).normalized
   const [phoneNumber, setPhoneNumber] = useState(initialNormalized)
   const [isOpen, setIsOpen] = useState(false)
@@ -95,9 +111,10 @@ export function PhoneInput({
   }, [isOpen])
 
   useEffect(() => {
-    const { normalized, warning: normalizedWarning } = validateNumber(value, selectedCountry)
+    const { normalized } = validateNumber(value, selectedCountry)
     setPhoneNumber(normalized)
-    setWarning(normalizedWarning)
+    setWarning(warnFor(normalized, selectedCountry))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, selectedCountry])
 
   const filteredCountries = allCountries.filter((country) => {
@@ -110,19 +127,19 @@ export function PhoneInput({
   })
 
   const handleCountrySelect = (country: typeof allCountries[0]) => {
-    const { normalized, warning: normalizedWarning } = validateNumber(phoneNumber, country)
+    const { normalized } = validateNumber(phoneNumber, country)
     setSelectedCountry(country)
     setPhoneNumber(normalized)
-    setWarning(normalizedWarning)
+    setWarning(warnFor(normalized, country))
     setIsOpen(false)
     setSearchQuery("")
     onChange?.(`+${country.dialCode}${normalized}`)
   }
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { normalized, warning: normalizedWarning } = validateNumber(e.target.value, selectedCountry)
+    const { normalized } = validateNumber(e.target.value, selectedCountry)
     setPhoneNumber(normalized)
-    setWarning(normalizedWarning)
+    setWarning(warnFor(normalized, selectedCountry))
     onChange?.(`+${selectedCountry.dialCode}${normalized}`)
   }
 
@@ -211,6 +228,13 @@ export function PhoneInput({
           onChange={handlePhoneChange}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          required={required}
+          {...(expectedLength
+            ? {
+                pattern: `[0-9]{${expectedLength}}`,
+                title: t("invalidLength", { count: expectedLength }),
+              }
+            : {})}
           className={
             partner
               ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-white border border-[rgba(28,27,24,0.08)] text-[14px] text-[#1c1b18] placeholder:text-[rgba(140,134,128,0.6)] focus:outline-none focus:border-[#a08248] transition-colors"

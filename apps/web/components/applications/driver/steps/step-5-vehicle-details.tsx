@@ -12,6 +12,8 @@ import {
   StepHeader,
 } from "@/components/applications/shared"
 import { useDriverApplication } from "../driver-application-context"
+import { CAR_BRANDS } from "@/lib/car-brands"
+import { formatPtPlate, isValidPtPlate } from "@/lib/license-plate"
 
 const CHILD_SEAT_KEYS = ["baby", "child", "booster"] as const
 type ChildSeatKey = (typeof CHILD_SEAT_KEYS)[number]
@@ -232,10 +234,10 @@ export function DriverStepVehicleDetails() {
   const paxOptions = rangeOptions(1, 16)
   const bagOptions = rangeOptions(0, 12)
 
-  const brandOptions = ["mercedes", "bmw", "audi", "tesla", "porsche", "volkswagen", "rollsRoyce", "ferrari", "other"].map((v) => ({
-    value: v,
-    label: t(`brands.${v}`),
-  }))
+  const brandOptions = [
+    ...CAR_BRANDS.map((name) => ({ value: name, label: name })),
+    { value: "other", label: t("brands.other") },
+  ]
 
   const colorOptions = ["black", "white", "silver", "grey", "blue", "red", "other"].map((v) => ({
     value: v,
@@ -275,16 +277,21 @@ export function DriverStepVehicleDetails() {
     updateVehicle({ amenities: next })
   }
 
+  const allInteriorPhotos = vehicle.interiorPhotos.every((file) => file != null)
+  const allExteriorPhotos = vehicle.exteriorPhotos.every((file) => file != null)
+
   const canContinue =
     vehicle.brand.length > 0 &&
     vehicle.model.trim().length > 0 &&
-    vehicle.plate.trim().length > 0 &&
+    isValidPtPlate(vehicle.plate) &&
     vehicle.color.length > 0 &&
     vehicle.year.length > 0 &&
     vehicle.ownership.length > 0 &&
     vehicle.passengerCapacity.length > 0 &&
     vehicle.luggageCapacity.length > 0 &&
-    vehicle.tvdeLicensed.length > 0
+    vehicle.tvdeLicensed.length > 0 &&
+    allInteriorPhotos &&
+    allExteriorPhotos
 
   return (
     <form
@@ -321,10 +328,23 @@ export function DriverStepVehicleDetails() {
           <FieldLabel>{t("fields.plate")}</FieldLabel>
           <LightInput
             type="text"
-            placeholder="Ex. E 220d"
+            inputMode="text"
+            autoCapitalize="characters"
+            placeholder="AA-00-AA"
             value={vehicle.plate}
-            onChange={(e) => updateVehicle({ plate: e.target.value.toUpperCase() })}
+            onChange={(e) => updateVehicle({ plate: formatPtPlate(e.target.value) })}
+            aria-invalid={vehicle.plate.length > 0 && !isValidPtPlate(vehicle.plate)}
+            className={
+              vehicle.plate.length > 0 && !isValidPtPlate(vehicle.plate)
+                ? "border-[#c0392b] focus-visible:border-[#c0392b]"
+                : undefined
+            }
           />
+          {vehicle.plate.length > 0 && !isValidPtPlate(vehicle.plate) && (
+            <p className="text-[12px] text-[#c0392b] leading-[1.2]">
+              {t("fields.plateInvalid")}
+            </p>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <FieldLabel>{t("fields.color")}</FieldLabel>
@@ -392,9 +412,14 @@ export function DriverStepVehicleDetails() {
       </p>
 
       <div className="flex flex-col gap-2 w-full">
-        <span className="text-[12px] font-semibold text-[#1a1a1a]">
-          {t("photos.interior")}
-        </span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[12px] font-semibold text-[#1a1a1a]">
+            {t("photos.interior")}
+          </span>
+          {!allInteriorPhotos && (
+            <span className="text-[11px] text-[#a08248]">{t("photos.required")}</span>
+          )}
+        </div>
         <div className="grid grid-cols-3 gap-2">
           {vehicle.interiorPhotos.map((file, idx) => (
             <PhotoUploadTile
@@ -408,9 +433,14 @@ export function DriverStepVehicleDetails() {
         </div>
       </div>
       <div className="flex flex-col gap-2 w-full">
-        <span className="text-[12px] font-semibold text-[#1a1a1a]">
-          {t("photos.exterior")}
-        </span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[12px] font-semibold text-[#1a1a1a]">
+            {t("photos.exterior")}
+          </span>
+          {!allExteriorPhotos && (
+            <span className="text-[11px] text-[#a08248]">{t("photos.required")}</span>
+          )}
+        </div>
         <div className="grid grid-cols-3 gap-2">
           {vehicle.exteriorPhotos.map((file, idx) => (
             <PhotoUploadTile

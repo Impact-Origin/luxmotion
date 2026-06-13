@@ -7,6 +7,7 @@ export const submit = mutation({
     email: v.string(),
     phone: v.string(),
     children: v.optional(v.number()),
+    budget: v.optional(v.number()),
     route: v.optional(v.string()),
     departureTime: v.optional(v.string()),
     pickup: v.optional(v.string()),

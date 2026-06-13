@@ -11,16 +11,26 @@ import {
 import { useDriverApplication } from "../driver-application-context"
 
 const ZONE_OPTIONS = [
-  "lisboa",
-  "porto",
-  "algarve",
-  "madeira",
-  "acores",
-  "coimbra",
-  "braga",
   "aveiro",
+  "beja",
+  "braga",
+  "braganca",
+  "castelo-branco",
+  "coimbra",
   "evora",
+  "faro",
+  "guarda",
+  "leiria",
+  "lisboa",
+  "portalegre",
+  "porto",
+  "santarem",
   "setubal",
+  "viana-do-castelo",
+  "vila-real",
+  "viseu",
+  "acores",
+  "madeira",
 ] as const
 
 export function DriverStepZone() {

@@ -52,7 +52,7 @@ export function LightSelect({
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent
-        className="bg-white border border-[rgba(28,27,24,0.08)] rounded-none shadow-[0_8px_16px_rgba(0,0,0,0.06)] p-0 w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)]"
+        className="bg-white border border-[rgba(28,27,24,0.08)] rounded-none shadow-[0_8px_16px_rgba(0,0,0,0.06)] p-0 w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)] max-h-[min(300px,var(--radix-select-content-available-height))] overflow-y-auto"
         position="popper"
         sideOffset={4}
       >

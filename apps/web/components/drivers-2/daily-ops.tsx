@@ -288,9 +288,9 @@ function StepCard({
   body: string
 }) {
   return (
-    <div className="bg-white border border-[rgba(28,27,24,0.08)] flex flex-col flex-1 min-w-0">
+    <div className="group bg-white border border-[rgba(28,27,24,0.08)] flex flex-col flex-1 min-w-0 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[rgba(154,117,53,0.35)] hover:shadow-[0_18px_40px_-16px_rgba(28,27,24,0.28)]">
       <div className="relative bg-[#F4EFE6] border-b border-[rgba(28,27,24,0.08)] h-[180px] lg:h-[240px]">
-        <div className="hidden lg:flex h-full items-center justify-center">
+        <div className="hidden lg:flex h-full items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105">
           {phone}
         </div>
         <div className="flex lg:hidden h-full">
@@ -330,7 +330,7 @@ export function DailyOps2() {
   const tNav = useTranslations("driversPage2.dailyOps.phone")
 
   return (
-    <section className="bg-[#F7F4EF] px-4 lg:px-[82px] py-16 lg:py-24">
+    <section id="how-it-works" className="scroll-mt-[72px] bg-[#F7F4EF] px-4 lg:px-[82px] py-16 lg:py-24">
       <div className="max-w-[1280px] mx-auto">
         <div className="flex items-center gap-2">
           <div className="h-px w-[82px] bg-[#9A7535]" />

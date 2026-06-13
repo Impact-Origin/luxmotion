@@ -15,6 +15,10 @@ export interface BlogData {
   heroImageUrl: string | null
   category: string
   author: string
+  authorRole?: string
+  authorBio?: string
+  authorAvatarId?: string
+  authorAvatarUrl?: string | null
   originalLanguage: string
   status: "draft" | "published" | "archived"
   isFeatured: boolean

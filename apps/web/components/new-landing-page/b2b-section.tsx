@@ -45,7 +45,7 @@ export function B2BSection() {
             {t("body2")}
           </p>
           <Link
-            href="/partners"
+            href="/whitelabel"
             className="group inline-flex items-center gap-2 text-[14px] tracking-[0.12em] uppercase text-[#C9A96E] hover:text-white transition-colors w-fit"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >

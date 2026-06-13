@@ -1,4 +1,8 @@
 {
+  "phoneInput": {
+    "invalidLength": "Het nummer moet {count} cijfers hebben.",
+    "tooLong": "Nummer te lang (max. {count} cijfers)."
+  },
   "common": {
     "continue": "Doorgaan",
     "select": "Selecteren",
@@ -3577,6 +3581,9 @@
         "children": {
           "label": "Aantal kinderen"
         },
+        "budget": {
+          "label": "Welk budget heeft u beschikbaar?"
+        },
         "route": {
           "label": "Route",
           "placeholder": "Bijv. Lissabon → School X"
@@ -4569,6 +4576,7 @@
         "brand": "Merk",
         "model": "Model",
         "plate": "Kenteken",
+        "plateInvalid": "Ongeldige kentekenplaat. Formaat: AA-00-AA.",
         "color": "Kleur",
         "year": "Bouwjaar",
         "ownership": "Eigendom",
@@ -4609,7 +4617,8 @@
         "intro": "Upload 3 interieurfoto's: achterbank, dashboard en detail.",
         "interior": "Interieurfoto's (3)",
         "exterior": "Exterieurfoto's (3)",
-        "hint": "jpg of png - max. 5mb"
+        "hint": "jpg of png - max. 5mb",
+        "required": "Alle foto's zijn verplicht."
       },
       "childSeats": {
         "intro": "Geef aan welke stoeltjes je beschikbaar hebt en hoeveel van elk.",
@@ -4653,6 +4662,11 @@
           "smile": "Natuurlijke glimlach",
           "shirt": "Wit of zwart overhemd",
           "background": "Neutrale achtergrond (wit/grijs)"
+        },
+        "model": {
+          "title": "Voorbeeldfoto",
+          "subtitle": "Volg deze stijl voor uw professionele foto.",
+          "imageAlt": "Voorbeeld van een professionele chauffeursfoto"
         }
       },
       "license": {
@@ -4684,15 +4698,18 @@
       },
       "swiftBic": {
         "label": "SWIFT/BIC",
-        "placeholder": "Swift/BIC"
+        "placeholder": "Swift/BIC",
+        "invalid": "Ongeldige SWIFT/BIC (8 of 11 tekens)."
       },
       "iban": {
         "label": "IBAN",
-        "placeholder": "PT50 0000 0000 0000 000"
+        "placeholder": "PT50 0000 0000 0000 000",
+        "invalid": "Ongeldig IBAN."
       },
       "nif": {
         "label": "Belastingnummer (NIF)",
-        "placeholder": "000 000 000"
+        "placeholder": "000 000 000",
+        "invalid": "Ongeldig NIF (9 cijfers)."
       },
       "taxOffice": {
         "label": "Belastingkantoor",

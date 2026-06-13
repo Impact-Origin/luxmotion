@@ -36,7 +36,7 @@ export function SchoolsTrustedBy() {
   const t = useTranslations("schools.trustedBy")
   const marqueeRef = useRef<HTMLDivElement>(null)
   const { ref, reveal } = useScrollReveal<HTMLDivElement>()
-  useAutoScrollMarquee(marqueeRef)
+  useAutoScrollMarquee(marqueeRef, { activeBelow: 99999, speedPxPerSec: 32 })
 
   return (
     <section className="bg-[#fafafa] border-y border-[rgba(28,27,24,0.08)]">
@@ -48,23 +48,14 @@ export function SchoolsTrustedBy() {
           {t("eyebrow")}
         </p>
 
-        <div className="hidden md:flex items-center justify-between w-full">
-          {PARTNERS.map((p, i) => (
-            <div
-              key={p.alt}
-              className={reveal()}
-              style={{ transitionDelay: `${120 + i * 80}ms` }}
-            >
-              <PartnerLogo {...p} />
-            </div>
-          ))}
-        </div>
-
         <div
           ref={marqueeRef}
-          className="md:hidden w-full overflow-x-auto scrollbar-hide -mx-4 px-4"
+          className={cn(
+            "w-full overflow-x-auto scrollbar-hide -mx-4 px-4 md:-mx-12 md:px-12",
+            reveal(),
+          )}
         >
-          <div className="flex items-center gap-6 w-max">
+          <div className="flex items-center gap-12 md:gap-16 w-max">
             {[...PARTNERS, ...PARTNERS].map((p, i) => (
               <PartnerLogo key={`${p.alt}-${i}`} {...p} />
             ))}

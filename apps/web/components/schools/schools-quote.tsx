@@ -133,6 +133,51 @@ function TextArea({
   )
 }
 
+const BUDGET_MIN = 150
+const BUDGET_MAX = 50000
+
+function formatBudget(value: number) {
+  if (value >= BUDGET_MAX) return `+€${BUDGET_MAX.toLocaleString("pt-PT")}`
+  return `€${value.toLocaleString("pt-PT")}`
+}
+
+function BudgetSlider({
+  label,
+  value,
+  onChange,
+}: {
+  label: string
+  value: number
+  onChange: (value: number) => void
+}) {
+  const percent = ((value - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <FieldLabel required>{label}</FieldLabel>
+      <div className="flex flex-col gap-2 pt-[6px]">
+        <input
+          type="range"
+          min={BUDGET_MIN}
+          max={BUDGET_MAX}
+          step={50}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          aria-label={label}
+          className="budget-slider w-full"
+          style={{
+            background: `linear-gradient(to right, #a08248 0%, #a08248 ${percent}%, #0d0d0d ${percent}%, #0d0d0d 100%)`,
+          }}
+        />
+        <div className="flex items-center justify-between text-[12px] text-[#696969]" style={SANS_FONT}>
+          <span>{formatBudget(BUDGET_MIN)}</span>
+          <span className="font-medium text-[#a08248]">{formatBudget(value)}</span>
+          <span>{formatBudget(BUDGET_MAX)}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function VehicleCard({
   imgSrc,
   name,
@@ -188,6 +233,7 @@ export function SchoolsQuote() {
   const t = useTranslations("schools.quote")
   const { ref, reveal } = useScrollReveal<HTMLDivElement>()
   const [vehicle, setVehicle] = useState<VehicleKey>("standard")
+  const [budget, setBudget] = useState(2500)
   const [phone, setPhone] = useState("")
   const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [dropoff, setDropoff] = useState<GooglePlaceValue>(EMPTY_PLACE)
@@ -209,6 +255,7 @@ export function SchoolsQuote() {
         email: (fd.get("email") || "").toString(),
         phone,
         children,
+        budget,
         route: (fd.get("route") || "").toString() || undefined,
         departureTime: departureDate ? departureDate.toISOString() : undefined,
         pickup: pickup.location || undefined,
@@ -219,6 +266,7 @@ export function SchoolsQuote() {
       toast.success(t("successToast"))
       formEl.reset()
       setPhone("")
+      setBudget(2500)
       setPickup(EMPTY_PLACE)
       setDropoff(EMPTY_PLACE)
       setDepartureDate(undefined)
@@ -291,7 +339,7 @@ export function SchoolsQuote() {
             </FieldWrapper>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full md:items-start">
             <TextField
               name="children"
               label={t("fields.children.label")}
@@ -299,6 +347,16 @@ export function SchoolsQuote() {
               type="number"
               placeholder="1"
             />
+            <div className="md:col-span-2">
+              <BudgetSlider
+                label={t("fields.budget.label")}
+                value={budget}
+                onChange={setBudget}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
             <TextField
               name="route"
               label={t("fields.route.label")}

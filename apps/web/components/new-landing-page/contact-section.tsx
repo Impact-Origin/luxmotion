@@ -259,6 +259,7 @@ export function ContactSection() {
                   onChange={(v) => set("country", v)}
                   placeholder={t("redesign.form.countryPlaceholder")}
                   emptyLabel={t("redesign.form.countryPlaceholder")}
+                  inputClassName="h-[44px] py-0 px-[13px] text-[14px] bg-[#1E1D1B] border-[rgba(255,255,255,0.12)] placeholder:!text-[#696969] focus:border-[rgba(201,169,110,0.5)]"
                 />
               </div>
               <div className="flex-1 flex flex-col gap-2">
@@ -304,13 +305,16 @@ export function ContactSection() {
 
             <div className="flex flex-col gap-2">
               <Label text={t("redesign.form.date")} required />
-              <DateTimePicker
-                variant="new-widget"
-                value={form.date || null}
-                onChange={(d) => set("date", d ? d.toISOString() : "")}
-                placeholder={t("redesign.form.datePlaceholder")}
-                label={t("redesign.form.datePlaceholder")}
-              />
+              <div className="h-[44px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] px-[13px] flex items-center transition-colors focus-within:border-[rgba(201,169,110,0.5)]">
+                <DateTimePicker
+                  variant="new-widget"
+                  hideLeftIcon
+                  value={form.date || null}
+                  onChange={(d) => set("date", d ? d.toISOString() : "")}
+                  placeholder="00/00/0000"
+                  label={t("redesign.form.datePlaceholder")}
+                />
+              </div>
             </div>
 
             <label className="flex items-center gap-2 cursor-pointer">

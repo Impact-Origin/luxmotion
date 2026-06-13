@@ -74,6 +74,7 @@ export function PartnerStepRepresentative() {
             value={representative.phone}
             onChange={(value) => updateRepresentative({ phone: value })}
             partner
+            required
           />
         </div>
         <div className="flex flex-col gap-2 flex-1 min-w-0">
@@ -82,6 +83,7 @@ export function PartnerStepRepresentative() {
             value={representative.whatsapp}
             onChange={(value) => updateRepresentative({ whatsapp: value })}
             partner
+            required
           />
         </div>
       </div>

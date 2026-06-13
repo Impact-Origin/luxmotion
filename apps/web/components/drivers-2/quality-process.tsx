@@ -30,7 +30,7 @@ type Step = {
 function StepCard({ step }: { step: Step }) {
   const { Icon } = step
   return (
-    <div className="snap-start bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] flex flex-col gap-3 p-6 w-[280px] lg:w-auto lg:flex-1 lg:basis-0 shrink-0">
+    <div className="group snap-start bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] flex flex-col gap-3 p-6 w-[280px] lg:w-auto lg:flex-1 lg:basis-0 shrink-0 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:bg-[rgba(255,255,255,0.05)] hover:border-[rgba(201,169,110,0.3)] hover:shadow-[0_18px_40px_-16px_rgba(0,0,0,0.55)]">
       <p
         className="text-[48px] font-medium leading-[48px] text-[rgba(255,255,255,0.12)]"
         style={SERIF_FONT}
@@ -38,7 +38,7 @@ function StepCard({ step }: { step: Step }) {
         {step.num}
       </p>
       <div className="bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.18)] size-11 flex items-center justify-center shrink-0">
-        <Icon className="size-[18px] text-[#C4973E]" strokeWidth={1.35} />
+        <Icon className="size-[18px] text-[#C4973E] transition-transform duration-300 ease-out group-hover:scale-110" strokeWidth={1.35} />
       </div>
       <p
         className="text-[14px] font-bold text-white leading-normal"

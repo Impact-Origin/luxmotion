@@ -7,8 +7,8 @@ import { useTranslations } from "next-intl"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
 const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean }> = [
-  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 58, h: 58 },
-  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 60, h: 61 },
+  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 92, h: 92 },
+  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 94, h: 96 },
   { src: "/footer/badges/pme.png", alt: "PME Líder", w: 32, h: 37 },
   { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 34, h: 35 },
   { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 33, h: 36 },
@@ -62,7 +62,6 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
               { href: "/terms-and-conditions", label: t("termsAndConditions") },
               { href: "/refund", label: t("refund") },
               { href: "/privacy-policy", label: t("privacyPolicy") },
-              { href: "#payment-methods", label: t("paymentMethods") },
               { href: "https://www.centroarbitragemlisboa.pt/", label: t("arbitrationCenter"), external: true },
               { href: "https://commission.europa.eu/live-work-travel-eu/consumer-rights-and-complaints/resolve-your-consumer-complaint/alternative-dispute-resolution-consumers_en", label: t("alternativeDispute"), external: true },
             ]}
@@ -205,12 +204,11 @@ function NavColumn({
       </span>
       <nav className="flex flex-col gap-[10px]">
         {links.map((link) =>
-          link.external ? (
+          link.external || link.href.startsWith("#") ? (
             <a
               key={link.href}
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="text-[12px] text-[#999] hover:text-white transition-colors leading-[1.3]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >

@@ -112,7 +112,7 @@ function BlogDetailContent({ slug }: { slug: string }) {
         breadcrumbs={breadcrumbs}
         category={blog.category}
         title={resolvedTitle}
-        author="Carolina Pinheiro"
+        author={blog.author}
         publishedDate={formatPublishedDate(blog.publishedAt, locale)}
         readTime={tArticle("readTime", { minutes: blog.readTimeMinutes })}
       />
@@ -124,7 +124,12 @@ function BlogDetailContent({ slug }: { slug: string }) {
             <BlogArticleFooter tags={blog.tags} shareTitle={resolvedTitle} />
           </div>
           <BlogDetailSidebar
-            author={{ name: "Carolina Pinheiro" }}
+            author={{
+              name: blog.author,
+              role: blog.authorRole,
+              bio: blog.authorBio,
+              avatarUrl: blog.authorAvatarUrl,
+            }}
             related={sidebarRelated}
             bookHref="/checkout"
             className="order-last lg:order-none lg:sticky lg:top-[88px]"

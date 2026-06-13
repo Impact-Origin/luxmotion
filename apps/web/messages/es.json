@@ -1,4 +1,8 @@
 {
+  "phoneInput": {
+    "invalidLength": "El número debe tener {count} dígitos.",
+    "tooLong": "Número demasiado largo (máx. {count} dígitos)."
+  },
   "common": {
     "continue": "Continuar",
     "select": "Seleccionar",
@@ -3593,6 +3597,9 @@
         "children": {
           "label": "Nº de niños"
         },
+        "budget": {
+          "label": "¿Qué presupuesto tiene disponible?"
+        },
         "route": {
           "label": "Ruta",
           "placeholder": "Ej: Lisboa → Escuela X"
@@ -4585,6 +4592,7 @@
         "brand": "Marca",
         "model": "Modelo",
         "plate": "Matrícula",
+        "plateInvalid": "Matrícula no válida. Use el formato AA-00-AA.",
         "color": "Color",
         "year": "Año",
         "ownership": "Propiedad",
@@ -4625,7 +4633,8 @@
         "intro": "Suba 3 fotos del interior: asientos traseros, panel frontal y detalle.",
         "interior": "Fotos del interior (3)",
         "exterior": "Fotos del exterior (3)",
-        "hint": "jpg o png - máx. 5mb"
+        "hint": "jpg o png - máx. 5mb",
+        "required": "Todas las fotos son obligatorias."
       },
       "childSeats": {
         "intro": "Indique qué tipos de silla tiene disponibles y la cantidad de cada uno.",
@@ -4669,6 +4678,11 @@
           "smile": "Sonrisa natural",
           "shirt": "Camisa blanca o negra",
           "background": "Fondo neutro (blanco/gris)"
+        },
+        "model": {
+          "title": "Ejemplo de foto",
+          "subtitle": "Sigue este estilo para tu foto profesional.",
+          "imageAlt": "Ejemplo de foto profesional de conductor"
         }
       },
       "license": {
@@ -4700,15 +4714,18 @@
       },
       "swiftBic": {
         "label": "SWIFT/BIC",
-        "placeholder": "Swift/BIC"
+        "placeholder": "Swift/BIC",
+        "invalid": "SWIFT/BIC no válido (8 u 11 caracteres)."
       },
       "iban": {
         "label": "IBAN",
-        "placeholder": "PT50 0000 0000 0000 000"
+        "placeholder": "PT50 0000 0000 0000 000",
+        "invalid": "IBAN no válido."
       },
       "nif": {
         "label": "NIF (Número de Identificación Fiscal)",
-        "placeholder": "000 000 000"
+        "placeholder": "000 000 000",
+        "invalid": "NIF no válido (9 dígitos)."
       },
       "taxOffice": {
         "label": "Oficina de Hacienda",

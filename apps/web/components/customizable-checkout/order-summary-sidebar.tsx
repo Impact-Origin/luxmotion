@@ -255,6 +255,13 @@ export function OrderSummarySidebar() {
   // Se for round trip (bookReturn = true), mostra 2 stops. Se for one way, mostra 1 stop
   const stopsCount = isRoundTrip ? 2 : 1;
 
+  const estimatedArrival =
+    transfer.departureDate && routeDuration !== null
+      ? formatTime(
+          new Date(transfer.departureDate).getTime() + routeDuration * 60000,
+        )
+      : null;
+
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-sm p-6">
@@ -271,7 +278,7 @@ export function OrderSummarySidebar() {
         <div className="bg-[#f3f4f4] rounded-xl p-4 mb-3">
           <div className="flex items-center justify-between mb-1">
             <span className="text-[18px] font-bold text-[#222222]">
-              {t("total")}
+              {isRoundTrip ? t("totalRoundTrip") : t("total")}
             </span>
             <span className="text-[32px] font-bold text-[#222222]">
               {formatPriceShort(totalPriceWithExtras)}
@@ -319,7 +326,7 @@ export function OrderSummarySidebar() {
                 </p>
               </div>
               <p className="text-[13px] font-semibold text-[#222222] flex-shrink-0">
-                —
+                {estimatedArrival ?? "—"}
               </p>
             </div>
           </div>

@@ -36,7 +36,9 @@ function StepDot({ icon: Icon, highlight, index }: { icon: LucideIcon; highlight
         style={{ animationDelay: delay }}
       >
         <Icon
-          className={highlight ? "size-6 text-[#0D0D0D]" : "size-6 text-[#C9A96E]"}
+          className={`size-6 transition-transform duration-300 ease-out group-hover:scale-[1.18] group-hover:-rotate-6 ${
+            highlight ? "text-[#0D0D0D]" : "text-[#C9A96E]"
+          }`}
           strokeWidth={highlight ? 2.5 : 1.5}
         />
       </div>
@@ -120,13 +122,20 @@ export function VettingSection() {
           </p>
         </div>
 
-        <div className="hidden lg:flex items-start justify-center w-full pt-3">
-          {STEPS.map((s, i) => (
-            <Fragment key={s.titleKey}>
-              <StepNode step={s} t={t} index={i} />
-              {i < STEPS.length - 1 && <Connector flexBased />}
-            </Fragment>
-          ))}
+        <div className="hidden lg:block relative w-full pt-3">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-[40px] left-[12.5%] right-[12.5%] h-px -translate-y-1/2"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(201,169,110,0.15), rgba(201,169,110,0.4) 50%, rgba(201,169,110,0.15))",
+            }}
+          />
+          <div className="relative flex items-start justify-center w-full">
+            {STEPS.map((s, i) => (
+              <StepNode key={s.titleKey} step={s} t={t} index={i} />
+            ))}
+          </div>
         </div>
 
         <div

@@ -83,6 +83,7 @@ export function DriverStepContact() {
           <FieldLabel required>{t("phone.label")}</FieldLabel>
           <PhoneInput
             partner
+            required
             value={contact.phone}
             onChange={(value) => updateContact({ phone: value })}
             autoComplete="tel"
@@ -92,6 +93,7 @@ export function DriverStepContact() {
           <FieldLabel required>{t("whatsapp.label")}</FieldLabel>
           <PhoneInput
             partner
+            required
             value={contact.whatsapp}
             onChange={(value) => updateContact({ whatsapp: value })}
           />

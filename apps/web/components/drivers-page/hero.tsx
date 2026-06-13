@@ -56,7 +56,7 @@ function MetricCard({
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-1.5 bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] px-[9px] py-[7px] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[rgba(154,117,53,0.14)] hover:border-[rgba(154,117,53,0.5)] hover:shadow-[0_4px_12px_-4px_rgba(154,117,53,0.4)]">
+    <div className="inline-flex items-center gap-1.5 bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] px-[9px] py-[7px] cursor-default transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-[rgba(154,117,53,0.14)] hover:border-[rgba(154,117,53,0.5)] hover:shadow-[0_6px_16px_-4px_rgba(154,117,53,0.45)]">
       <Check className="size-3 text-[#9A7535] shrink-0" strokeWidth={2.5} />
       <span
         className="text-[12px] font-medium text-[#9A7535] whitespace-nowrap leading-none"
@@ -151,7 +151,7 @@ export function DriversHero() {
 
             <div className="flex flex-col-reverse lg:flex-row gap-3 items-stretch lg:items-center">
               <Link
-                href="/drivers/apply"
+                href="/partners/apply"
                 className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#0D0D0D] text-white hover:bg-[#9A7535] hover:-translate-y-0.5 transition-[background-color,transform] duration-200"
               >
                 <span
@@ -183,7 +183,11 @@ export function DriversHero() {
 
         <div
           aria-hidden
-          className="hidden lg:block absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-[rgba(28,27,24,0.08)] z-[2]"
+          className="hidden lg:block absolute top-0 bottom-0 left-1/2 -translate-x-px w-px z-[2]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to bottom, rgba(154,117,53,0), rgba(154,117,53,0.6) 50%, rgba(154,117,53,0))",
+          }}
         />
 
         <div className="hidden lg:flex flex-1 min-w-0 self-stretch z-[1] bg-[#E2DAD0] gap-[2px]">
