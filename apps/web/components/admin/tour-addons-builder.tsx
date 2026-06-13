@@ -96,7 +96,7 @@ function AddonCard({
   }
 
   return (
-    <div className="border border-zinc-200 rounded-lg p-4 space-y-4 bg-white">
+    <div className="border border-[#e7ddca] rounded-lg p-4 space-y-4 bg-white">
       <div className="flex items-start gap-4">
         <div className="w-32 shrink-0">
           <Label className="text-xs mb-1 block">{t("form.addonImageLabel")}</Label>
@@ -230,7 +230,7 @@ export function TourAddonsBuilder({ entityId, entityType, originalLanguage }: To
 
   if (!entityId) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-zinc-400">
+      <div className="flex flex-col items-center justify-center py-16 text-[#a99e8c]">
         <Gem className="h-10 w-10 mb-3" />
         <p className="text-sm">{t("form.saveFirst")}</p>
       </div>
@@ -280,16 +280,16 @@ export function TourAddonsBuilder({ entityId, entityType, originalLanguage }: To
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-zinc-900">{t("form.addonsTitle")}</h3>
-        <p className="text-xs text-zinc-500 mt-0.5">{t("form.addonsDescription")}</p>
+        <h3 className="text-sm font-semibold text-[#211c16]">{t("form.addonsTitle")}</h3>
+        <p className="text-xs text-[#8a8074] mt-0.5">{t("form.addonsDescription")}</p>
       </div>
 
       {addons === undefined ? (
         <div className="flex justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+          <Loader2 className="h-6 w-6 animate-spin text-[#a99e8c]" />
         </div>
       ) : addons.length === 0 ? (
-        <div className="text-center py-8 text-zinc-400 text-sm">
+        <div className="text-center py-8 text-[#a99e8c] text-sm">
           {t("form.addonsDescription")}
         </div>
       ) : (

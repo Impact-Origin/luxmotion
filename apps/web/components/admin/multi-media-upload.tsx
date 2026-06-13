@@ -81,17 +81,17 @@ export function MultiMediaUpload({
   return (
     <div className="space-y-4 w-full">
       {label && (
-        <p className="text-sm text-zinc-500">{label}</p>
+        <p className="text-sm text-[#8a8074]">{label}</p>
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {value.map((item, index) => (
           <div
             key={`${item.id}-${index}`}
-            className="relative aspect-video rounded-lg border border-zinc-200 overflow-hidden group"
+            className="relative aspect-video rounded-lg border border-[#e7ddca] overflow-hidden group"
           >
             {item.type === "video" ? (
-              <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
+              <div className="absolute inset-0 flex items-center justify-center bg-[#221c15]">
                 <video
                   src={item.url}
                   className="w-full h-full object-cover"
@@ -129,20 +129,20 @@ export function MultiMediaUpload({
         {canAddMore && (
           <div
             className={cn(
-              "relative aspect-video flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-200 transition-all hover:bg-zinc-50/50 cursor-pointer",
+              "relative aspect-video flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-[#e7ddca] transition-all hover:bg-[#A08248]/[0.06]/50 cursor-pointer",
               disabled && "opacity-50 cursor-not-allowed"
             )}
           >
             <div className="flex flex-col items-center justify-center">
               {isUploading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+                <Loader2 className="h-6 w-6 animate-spin text-[#a99e8c]" />
               ) : (
                 <>
-                  <Plus className="h-6 w-6 text-zinc-400" />
-                  <span className="mt-1 text-xs text-zinc-500">
+                  <Plus className="h-6 w-6 text-[#a99e8c]" />
+                  <span className="mt-1 text-xs text-[#8a8074]">
                     {value.length}/{maxItems}
                   </span>
-                  <span className="mt-0.5 text-[10px] text-zinc-400">Img ou Vídeo</span>
+                  <span className="mt-0.5 text-[10px] text-[#a99e8c]">Img ou Vídeo</span>
                 </>
               )}
             </div>

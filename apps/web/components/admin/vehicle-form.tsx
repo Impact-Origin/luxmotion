@@ -319,7 +319,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             <div className="space-y-2">
               <Label htmlFor="pricePerKm">Price / km (Day)</Label>
               <div className="relative">
-                    <span className="absolute left-3 top-3 text-zinc-500 text-sm">€</span>
+                    <span className="absolute left-3 top-3 text-[#8a8074] text-sm">€</span>
                 <Input
                   id="pricePerKm"
                   type="number"
@@ -335,7 +335,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             <div className="space-y-2">
               <Label htmlFor="pricePerKmNight">Price / km (Night)</Label>
               <div className="relative">
-                    <span className="absolute left-3 top-3 text-zinc-500 text-sm">€</span>
+                    <span className="absolute left-3 top-3 text-[#8a8074] text-sm">€</span>
                 <Input
                   id="pricePerKmNight"
                   type="number"
@@ -351,7 +351,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             <div className="space-y-2">
               <Label htmlFor="minimumPrice">Minimum Price</Label>
               <div className="relative">
-                    <span className="absolute left-3 top-3 text-zinc-500 text-sm">€</span>
+                    <span className="absolute left-3 top-3 text-[#8a8074] text-sm">€</span>
                 <Input
                   id="minimumPrice"
                   type="number"
@@ -378,7 +378,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                 disabled={isSubmitting}
                   className="size-5"
               />
-                <div className="flex items-center gap-2 font-semibold text-sm text-zinc-700 group-hover:text-zinc-900 transition-colors">
+                <div className="flex items-center gap-2 font-semibold text-sm text-[#4a443c] group-hover:text-[#211c16] transition-colors">
                   <Wifi className="h-4 w-4 text-blue-500" /> Wi-Fi Available
             </div>
               </label>
@@ -390,14 +390,14 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                 disabled={isSubmitting}
                   className="size-5"
               />
-                <div className="flex items-center gap-2 font-semibold text-sm text-zinc-700 group-hover:text-zinc-900 transition-colors">
+                <div className="flex items-center gap-2 font-semibold text-sm text-[#4a443c] group-hover:text-[#211c16] transition-colors">
                   <Zap className="h-4 w-4 text-emerald-500" /> Electric Vehicle
                 </div>
               </label>
             </div>
           </div>
 
-          <div className="p-6 border-t bg-zinc-50 flex justify-end gap-3 shrink-0">
+          <div className="p-6 border-t bg-[#faf6ee] flex justify-end gap-3 shrink-0">
             <Button
               type="button"
               variant="outline"
@@ -407,7 +407,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting} className="bg-zinc-900 text-white hover:bg-zinc-800 h-11 px-8 font-bold">
+            <Button type="submit" disabled={isSubmitting} className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold">
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {initialData ? "Save Changes" : "Create Vehicle"}
             </Button>

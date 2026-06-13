@@ -102,21 +102,21 @@ export default function VehiclesPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900">Vehicles</h2>
-          <p className="text-zinc-500 text-sm">Manage your fleet and partnership-specific vehicles.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#211c16]">Vehicles</h2>
+          <p className="text-[#8a8074] text-sm">Manage your fleet and partnership-specific vehicles.</p>
         </div>
-        <Button onClick={() => { setEditingVehicle(null); setIsFormOpen(true); }} className="bg-zinc-900 text-white hover:bg-zinc-800">
+        <Button onClick={() => { setEditingVehicle(null); setIsFormOpen(true); }} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
           <Plus className="mr-2 h-4 w-4" />
           Add Vehicle
         </Button>
       </div>
 
-      <div className="flex items-center gap-3 bg-white p-4 rounded-xl border border-zinc-200 shadow-sm">
+      <div className="flex items-center gap-3 bg-white p-4 rounded-xl border border-[#e7ddca] shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#a99e8c]" />
           <Input
             placeholder="Search vehicles..."
-            className="pl-9 border-zinc-200"
+            className="pl-9 border-[#e7ddca]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -153,13 +153,13 @@ export default function VehiclesPage() {
           ))}
         </div>
       ) : filteredVehicles?.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-zinc-300">
-          <AlertCircle className="h-10 w-10 text-zinc-400 mb-4" />
-          <p className="text-zinc-500 font-medium">No vehicles found</p>
+        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-[#ddd0b8]">
+          <AlertCircle className="h-10 w-10 text-[#a99e8c] mb-4" />
+          <p className="text-[#8a8074] font-medium">No vehicles found</p>
           <Button 
             variant="link" 
             onClick={() => setSearchQuery("")}
-            className="text-zinc-900"
+            className="text-[#211c16]"
           >
             Clear search
           </Button>
@@ -167,7 +167,7 @@ export default function VehiclesPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredVehicles?.map((vehicle) => (
-            <Card key={vehicle._id} className="overflow-hidden bg-white border-zinc-200 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col !p-0 !gap-0">
+            <Card key={vehicle._id} className="overflow-hidden bg-white border-[#e7ddca] shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col !p-0 !gap-0">
               <div className="relative aspect-[3.5/1] bg-white flex items-center justify-center shrink-0 overflow-hidden pt-1">
                 {vehicle.imageUrl ? (
                   <Image
@@ -177,7 +177,7 @@ export default function VehiclesPage() {
                     className="object-contain object-bottom p-0 transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="flex flex-col items-center gap-2 text-zinc-400">
+                  <div className="flex flex-col items-center gap-2 text-[#a99e8c]">
                     <AlertCircle className="h-8 w-8" />
                     <span className="text-xs">No image</span>
                   </div>
@@ -211,18 +211,18 @@ export default function VehiclesPage() {
               <CardContent className="px-5 pt-0 pb-5 flex-1 flex flex-col">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-bold text-lg text-zinc-900 mb-1">{vehicle.name}</h3>
-                    <div className="flex items-center gap-2 text-zinc-500 text-sm">
+                    <h3 className="font-bold text-lg text-[#211c16] mb-1">{vehicle.name}</h3>
+                    <div className="flex items-center gap-2 text-[#8a8074] text-sm">
                         <Users className="h-3.5 w-3.5" />
-                      <span className="font-medium text-zinc-700">{vehicle.passengers}</span>
-                      <span className="text-zinc-400 mx-1">|</span>
+                      <span className="font-medium text-[#4a443c]">{vehicle.passengers}</span>
+                      <span className="text-[#a99e8c] mx-1">|</span>
                         <Briefcase className="h-3.5 w-3.5" />
-                      <span className="font-medium text-zinc-700">{vehicle.luggage}</span>
+                      <span className="font-medium text-[#4a443c]">{vehicle.luggage}</span>
                     </div>
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-zinc-900 focus:ring-0">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-[#8a8074] hover:text-[#211c16] focus:ring-0">
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
@@ -245,58 +245,58 @@ export default function VehiclesPage() {
 
                 <div className="space-y-4 flex-1">
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="flex flex-col items-center p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                      <Backpack className="h-3.5 w-3.5 text-zinc-400 mb-1" />
-                      <span className="text-xs font-bold text-zinc-700">{vehicle.maxBackpacks ?? 0}</span>
-                      <span className="text-[8px] text-zinc-400 uppercase font-bold">Backpacks</span>
+                    <div className="flex flex-col items-center p-2 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
+                      <Backpack className="h-3.5 w-3.5 text-[#a99e8c] mb-1" />
+                      <span className="text-xs font-bold text-[#4a443c]">{vehicle.maxBackpacks ?? 0}</span>
+                      <span className="text-[8px] text-[#a99e8c] uppercase font-bold">Backpacks</span>
                     </div>
-                    <div className="flex flex-col items-center p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                      <Luggage className="h-3.5 w-3.5 text-zinc-400 mb-1" />
-                      <span className="text-xs font-bold text-zinc-700">{vehicle.maxHandLuggage ?? 0}</span>
-                      <span className="text-[8px] text-zinc-400 uppercase font-bold">Hand</span>
+                    <div className="flex flex-col items-center p-2 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
+                      <Luggage className="h-3.5 w-3.5 text-[#a99e8c] mb-1" />
+                      <span className="text-xs font-bold text-[#4a443c]">{vehicle.maxHandLuggage ?? 0}</span>
+                      <span className="text-[8px] text-[#a99e8c] uppercase font-bold">Hand</span>
                     </div>
-                    <div className="flex flex-col items-center p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                      <Briefcase className="h-3.5 w-3.5 text-zinc-400 mb-1" />
-                      <span className="text-xs font-bold text-zinc-700">{vehicle.maxCheckedBaggage ?? 0}</span>
-                      <span className="text-[8px] text-zinc-400 uppercase font-bold">Checked</span>
+                    <div className="flex flex-col items-center p-2 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
+                      <Briefcase className="h-3.5 w-3.5 text-[#a99e8c] mb-1" />
+                      <span className="text-xs font-bold text-[#4a443c]">{vehicle.maxCheckedBaggage ?? 0}</span>
+                      <span className="text-[8px] text-[#a99e8c] uppercase font-bold">Checked</span>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="flex flex-col items-center p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                      <Baby className="h-3.5 w-3.5 text-zinc-400 mb-1" />
-                      <span className="text-xs font-bold text-zinc-700">{vehicle.maxBabySeats ?? 0}</span>
-                      <span className="text-[8px] text-zinc-400 uppercase font-bold">Baby</span>
+                    <div className="flex flex-col items-center p-2 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
+                      <Baby className="h-3.5 w-3.5 text-[#a99e8c] mb-1" />
+                      <span className="text-xs font-bold text-[#4a443c]">{vehicle.maxBabySeats ?? 0}</span>
+                      <span className="text-[8px] text-[#a99e8c] uppercase font-bold">Baby</span>
                     </div>
-                    <div className="flex flex-col items-center p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                      <Baby className="h-3.5 w-3.5 text-zinc-400 mb-1" />
-                      <span className="text-xs font-bold text-zinc-700">{vehicle.maxChildSeats ?? 0}</span>
-                      <span className="text-[8px] text-zinc-400 uppercase font-bold">Child</span>
+                    <div className="flex flex-col items-center p-2 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
+                      <Baby className="h-3.5 w-3.5 text-[#a99e8c] mb-1" />
+                      <span className="text-xs font-bold text-[#4a443c]">{vehicle.maxChildSeats ?? 0}</span>
+                      <span className="text-[8px] text-[#a99e8c] uppercase font-bold">Child</span>
                     </div>
-                    <div className="flex flex-col items-center p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                      <Baby className="h-3.5 w-3.5 text-zinc-400 mb-1" />
-                      <span className="text-xs font-bold text-zinc-700">{vehicle.maxBoosterSeats ?? 0}</span>
-                      <span className="text-[8px] text-zinc-400 uppercase font-bold">Booster</span>
+                    <div className="flex flex-col items-center p-2 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
+                      <Baby className="h-3.5 w-3.5 text-[#a99e8c] mb-1" />
+                      <span className="text-xs font-bold text-[#4a443c]">{vehicle.maxBoosterSeats ?? 0}</span>
+                      <span className="text-[8px] text-[#a99e8c] uppercase font-bold">Booster</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-zinc-100">
+                <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-[#efe7d8]">
                   <div className="space-y-0.5">
-                    <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider">Day Rate</p>
-                    <p className="text-sm font-bold text-zinc-900">€{vehicle.pricePerKm.toFixed(2)}/km</p>
+                    <p className="text-[10px] text-[#a99e8c] uppercase font-bold tracking-wider">Day Rate</p>
+                    <p className="text-sm font-bold text-[#211c16]">€{vehicle.pricePerKm.toFixed(2)}/km</p>
                   </div>
                   <div className="space-y-0.5 text-right">
-                    <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider">Night Rate</p>
-                    <p className="text-sm font-bold text-zinc-900">€{vehicle.pricePerKmNight.toFixed(2)}/km</p>
+                    <p className="text-[10px] text-[#a99e8c] uppercase font-bold tracking-wider">Night Rate</p>
+                    <p className="text-sm font-bold text-[#211c16]">€{vehicle.pricePerKmNight.toFixed(2)}/km</p>
                   </div>
                   <div className="space-y-0.5">
-                    <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider">Minimum</p>
-                    <p className="text-sm font-bold text-zinc-900">€{vehicle.minimumPrice.toFixed(2)}</p>
+                    <p className="text-[10px] text-[#a99e8c] uppercase font-bold tracking-wider">Minimum</p>
+                    <p className="text-sm font-bold text-[#211c16]">€{vehicle.minimumPrice.toFixed(2)}</p>
                   </div>
                   <div className="space-y-0.5 text-right">
-                    <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider">Order</p>
-                    <p className="text-sm font-bold text-zinc-900">#{vehicle.order}</p>
+                    <p className="text-[10px] text-[#a99e8c] uppercase font-bold tracking-wider">Order</p>
+                    <p className="text-sm font-bold text-[#211c16]">#{vehicle.order}</p>
                   </div>
                 </div>
               </CardContent>

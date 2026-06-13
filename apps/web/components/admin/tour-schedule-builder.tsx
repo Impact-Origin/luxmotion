@@ -153,8 +153,8 @@ export function TourScheduleBuilder({
               className={cn(
                 "flex-1 py-3 rounded-lg border-2 text-sm font-medium transition-all",
                 schedule.activeDays.includes(day.value)
-                  ? "bg-zinc-900 text-white border-zinc-900"
-                  : "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300"
+                  ? "bg-[#221c15] text-white border-[#221c15]"
+                  : "bg-white text-[#5c554c] border-[#e7ddca] hover:border-[#ddd0b8]"
               )}
             >
               {day.label}
@@ -183,7 +183,7 @@ export function TourScheduleBuilder({
         </div>
 
         {schedule.timeSlots.length === 0 ? (
-          <div className="text-center py-6 text-zinc-500 border-2 border-dashed border-zinc-200 rounded-lg text-sm">
+          <div className="text-center py-6 text-[#8a8074] border-2 border-dashed border-[#e7ddca] rounded-lg text-sm">
             {t("noTimeSlots")}
           </div>
         ) : (
@@ -191,11 +191,11 @@ export function TourScheduleBuilder({
             {schedule.timeSlots.map((slot, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-3 rounded-lg border border-zinc-200 bg-white"
+                className="flex items-center gap-3 p-3 rounded-lg border border-[#e7ddca] bg-white"
               >
                 <div className="flex-1 grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <Label className="text-xs text-zinc-500">{t("startTime")} *</Label>
+                    <Label className="text-xs text-[#8a8074]">{t("startTime")} *</Label>
                     <Input
                       type="time"
                       value={slot.startTime}
@@ -207,7 +207,7 @@ export function TourScheduleBuilder({
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label className="text-xs text-zinc-500">{t("endTime")}</Label>
+                    <Label className="text-xs text-[#8a8074]">{t("endTime")}</Label>
                     <Input
                       type="time"
                       value={slot.endTime || ""}
@@ -239,7 +239,7 @@ export function TourScheduleBuilder({
         <Label className="text-base font-bold">{t("validityPeriod")}</Label>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="text-xs text-zinc-500">{t("validFrom")}</Label>
+            <Label className="text-xs text-[#8a8074]">{t("validFrom")}</Label>
             <Input
               type="date"
               value={schedule.validFrom || ""}
@@ -251,7 +251,7 @@ export function TourScheduleBuilder({
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-xs text-zinc-500">{t("validUntil")}</Label>
+            <Label className="text-xs text-[#8a8074]">{t("validUntil")}</Label>
             <Input
               type="date"
               value={schedule.validUntil || ""}
@@ -263,13 +263,13 @@ export function TourScheduleBuilder({
             />
           </div>
         </div>
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-[#8a8074]">
           {t("noDateRestrictions")}
         </p>
       </div>
 
-      <div className="pt-4 border-t border-zinc-200">
-        <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-zinc-200 hover:bg-zinc-50 transition-colors">
+      <div className="pt-4 border-t border-[#e7ddca]">
+        <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-[#e7ddca] hover:bg-[#A08248]/[0.06] transition-colors">
           <Checkbox
             checked={schedule.isActive}
             onCheckedChange={(checked) =>
@@ -279,10 +279,10 @@ export function TourScheduleBuilder({
             className="size-5"
           />
           <div>
-            <span className="font-semibold text-sm text-zinc-700 group-hover:text-zinc-900 transition-colors">
+            <span className="font-semibold text-sm text-[#4a443c] group-hover:text-[#211c16] transition-colors">
               {t("scheduleActive")}
             </span>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-[#8a8074]">
               {t("scheduleActiveHelp")}
             </p>
           </div>

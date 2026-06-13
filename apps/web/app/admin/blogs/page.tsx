@@ -47,7 +47,7 @@ import Link from "next/link";
 const statusConfig = {
   draft: { label: "Draft", className: "bg-amber-50 text-amber-700 border-amber-100" },
   published: { label: "Published", className: "bg-emerald-50 text-emerald-700 border-emerald-100" },
-  archived: { label: "Archived", className: "bg-zinc-100 text-zinc-600 border-zinc-200" },
+  archived: { label: "Archived", className: "bg-[#f1e8d8] text-[#5c554c] border-[#e7ddca]" },
 };
 
 const languageLabels: Record<string, string> = {
@@ -79,7 +79,7 @@ interface BlogCardProps {
 function BlogCard({ blog, onEdit, onDelete, onToggleFeatured, onManageTranslations, t }: BlogCardProps) {
   return (
     <div className="bg-white rounded-[16px] border border-[#e8e8e8] overflow-hidden hover:shadow-md transition-all duration-200 group flex flex-col">
-      <div className="relative h-[160px] bg-zinc-100 overflow-hidden">
+      <div className="relative h-[160px] bg-[#f1e8d8] overflow-hidden">
         {blog.heroImageUrl ? (
           <Image
             src={blog.heroImageUrl}
@@ -88,7 +88,7 @@ function BlogCard({ blog, onEdit, onDelete, onToggleFeatured, onManageTranslatio
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-zinc-400">
+          <div className="flex flex-col items-center justify-center h-full text-[#a99e8c]">
             <FileText className="h-8 w-8 mb-2" />
             <span className="text-xs">{t("noImage")}</span>
           </div>
@@ -178,7 +178,7 @@ function BlogCard({ blog, onEdit, onDelete, onToggleFeatured, onManageTranslatio
           <Badge variant="outline" className="text-[10px] font-medium text-[#27c7ff] border-[#27c7ff]/30 bg-[#27c7ff]/5">
             {blog.category}
           </Badge>
-          <div className="flex items-center gap-1 text-zinc-400">
+          <div className="flex items-center gap-1 text-[#a99e8c]">
             <Globe className="h-3 w-3" />
             <span className="text-[10px] font-medium uppercase">
               {languageLabels[blog.originalLanguage] || blog.originalLanguage}
@@ -191,15 +191,15 @@ function BlogCard({ blog, onEdit, onDelete, onToggleFeatured, onManageTranslatio
           </div>
         </div>
 
-        <h3 className="text-[15px] font-bold text-zinc-900 leading-tight line-clamp-2">
+        <h3 className="text-[15px] font-bold text-[#211c16] leading-tight line-clamp-2">
           {blog.title}
         </h3>
 
-        <p className="text-[13px] text-zinc-500 leading-snug line-clamp-2">
+        <p className="text-[13px] text-[#8a8074] leading-snug line-clamp-2">
           {blog.excerpt}
         </p>
 
-        <div className="mt-auto pt-3 flex items-center justify-between text-zinc-400 text-[11px]">
+        <div className="mt-auto pt-3 flex items-center justify-between text-[#a99e8c] text-[11px]">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <Clock className="h-3 w-3" />
@@ -332,26 +332,26 @@ export default function BlogsPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900">{t("title")}</h2>
-          <p className="text-zinc-500 text-sm">
+          <h2 className="text-2xl font-bold tracking-tight text-[#211c16]">{t("title")}</h2>
+          <p className="text-[#8a8074] text-sm">
             {t("subtitle")}
           </p>
         </div>
         <Button
           onClick={handleCreateNew}
-          className="bg-zinc-900 text-white hover:bg-zinc-800"
+          className="bg-[#221c15] text-white hover:bg-[#3a3026]"
         >
           <Plus className="mr-2 h-4 w-4" />
           {t("addBlog")}
         </Button>
       </div>
 
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 bg-white p-4 rounded-xl border border-zinc-200 shadow-sm">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 bg-white p-4 rounded-xl border border-[#e7ddca] shadow-sm">
         <div className="relative flex-1 w-full">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#a99e8c]" />
           <Input
             placeholder={t("searchPlaceholder")}
-            className="pl-9 border-zinc-200"
+            className="pl-9 border-[#e7ddca]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

@@ -47,20 +47,20 @@ export default function NewPartnershipPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 font-sans">
-      <Link href="/admin/partnerships" className="inline-flex items-center text-sm font-bold text-zinc-400 hover:text-zinc-900 transition-colors group">
+      <Link href="/admin/partnerships" className="inline-flex items-center text-sm font-bold text-[#a99e8c] hover:text-[#211c16] transition-colors group">
         <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
         Back to Partnerships
       </Link>
 
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-900">{t("newPartnership")}</h2>
-        <p className="text-sm text-zinc-500 font-medium">Create a new referral partnership and customize their landing page.</p>
+        <h2 className="text-2xl font-bold tracking-tight text-[#211c16]">{t("newPartnership")}</h2>
+        <p className="text-sm text-[#8a8074] font-medium">Create a new referral partnership and customize their landing page.</p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6 bg-white p-8 rounded-xl border border-zinc-200 shadow-sm">
+      <form onSubmit={onSubmit} className="space-y-6 bg-white p-8 rounded-xl border border-[#e7ddca] shadow-sm">
         <div className="space-y-6">
           <div className="space-y-2">
-            <Label className="text-xs font-bold uppercase tracking-widest text-zinc-400">Company Logo</Label>
+            <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">Company Logo</Label>
             <ImageUpload 
               onChange={setLogoId}
               disabled={isSubmitting}
@@ -68,7 +68,7 @@ export default function NewPartnershipPage() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-zinc-400">{t("partnershipName")}</Label>
+            <Label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">{t("partnershipName")}</Label>
             <Input
               id="name"
               placeholder="e.g. Macy's Hotel"
@@ -76,13 +76,13 @@ export default function NewPartnershipPage() {
               onChange={(e) => setName(e.target.value)}
               required
               disabled={isSubmitting}
-              className="h-12 font-bold text-zinc-900 border-zinc-200 focus:border-zinc-400 focus:ring-0"
+              className="h-12 font-bold text-[#211c16] border-[#e7ddca] focus:border-[#A08248] focus:ring-0"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="slug" className="text-xs font-bold uppercase tracking-widest text-zinc-400">{t("urlSlug")}</Label>
+            <Label htmlFor="slug" className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">{t("urlSlug")}</Label>
             <div className="flex items-center gap-2">
-              <span className="text-zinc-400 font-mono text-sm font-bold">easytransferportugal.com/</span>
+              <span className="text-[#a99e8c] font-mono text-sm font-bold">easytransferportugal.com/</span>
               <Input
                 id="slug"
                 placeholder="macys"
@@ -90,15 +90,15 @@ export default function NewPartnershipPage() {
                 onChange={(e) => setSlug(e.target.value)}
                 required
                 disabled={isSubmitting}
-                className="h-12 font-mono font-bold text-zinc-900 border-zinc-200 focus:border-zinc-400 focus:ring-0"
+                className="h-12 font-mono font-bold text-[#211c16] border-[#e7ddca] focus:border-[#A08248] focus:ring-0"
               />
             </div>
-            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-tight">This will be the unique URL for this partner.</p>
+            <p className="text-[10px] text-[#a99e8c] font-bold uppercase tracking-tight">This will be the unique URL for this partner.</p>
           </div>
         </div>
 
         <div className="flex justify-end pt-4">
-          <Button type="submit" disabled={isSubmitting} className="h-12 bg-zinc-900 text-white hover:bg-zinc-800 font-bold px-8 shadow-xl">
+          <Button type="submit" disabled={isSubmitting} className="h-12 bg-[#221c15] text-white hover:bg-[#3a3026] font-bold px-8 shadow-xl">
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Create Partnership & Start Customizing
           </Button>

@@ -195,20 +195,20 @@ export function BlogTranslationForm({
         </DialogHeader>
 
         <div className="flex-1 overflow-hidden flex">
-          <div className="w-[200px] border-r bg-zinc-50 p-4 flex flex-col gap-2 shrink-0 overflow-y-auto">
-            <div className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">
+          <div className="w-[200px] border-r bg-[#faf6ee] p-4 flex flex-col gap-2 shrink-0 overflow-y-auto">
+            <div className="text-xs font-bold text-[#8a8074] uppercase tracking-wider mb-2">
               Original
             </div>
-            <div className="p-2 rounded-md bg-zinc-200 text-zinc-700 text-sm font-medium">
+            <div className="p-2 rounded-md bg-[#e7ddca] text-[#4a443c] text-sm font-medium">
               {getLanguageLabel(originalLanguage)}
             </div>
 
-            <div className="text-xs font-bold text-zinc-500 uppercase tracking-wider mt-4 mb-2">
+            <div className="text-xs font-bold text-[#8a8074] uppercase tracking-wider mt-4 mb-2">
               Translations
             </div>
 
             {existingTranslations.length === 0 && !isAddingNew ? (
-              <p className="text-xs text-zinc-400 py-2">No translations yet</p>
+              <p className="text-xs text-[#a99e8c] py-2">No translations yet</p>
             ) : (
               <div className="flex flex-col gap-1">
                 {existingTranslations.map((t) => (
@@ -219,7 +219,7 @@ export function BlogTranslationForm({
                       "p-2 rounded-md text-left text-sm font-medium transition-colors",
                       selectedLocale === t.locale && !isAddingNew
                         ? "bg-[#27c7ff] text-white"
-                        : "hover:bg-zinc-200 text-zinc-700"
+                        : "hover:bg-[#A08248]/[0.12] text-[#4a443c]"
                     )}
                   >
                     {getLanguageLabel(t.locale)}
@@ -247,7 +247,7 @@ export function BlogTranslationForm({
 
           <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
             {!selectedLocale && !isAddingNew ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-zinc-400 p-8">
+              <div className="flex-1 flex flex-col items-center justify-center text-[#a99e8c] p-8">
                 <Globe className="h-12 w-12 mb-4" />
                 <p className="text-lg font-medium mb-2">Select or add a translation</p>
                 <p className="text-sm text-center">
@@ -347,7 +347,7 @@ export function BlogTranslationForm({
                   </div>
                 </div>
 
-                <div className="p-6 border-t bg-zinc-50 flex justify-between gap-3 shrink-0">
+                <div className="p-6 border-t bg-[#faf6ee] flex justify-between gap-3 shrink-0">
                   <div>
                     {selectedLocale && !isAddingNew && (
                       <Button
@@ -375,7 +375,7 @@ export function BlogTranslationForm({
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-zinc-900 text-white hover:bg-zinc-800 h-11 px-8 font-bold"
+                      className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold"
                     >
                       {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {isAddingNew ? "Add Translation" : "Save Translation"}

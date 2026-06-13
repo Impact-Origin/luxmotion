@@ -113,18 +113,18 @@ function AddressAutocomplete({
         />
         {isLoading && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <Loader2 className="h-4 w-4 animate-spin text-zinc-400" />
+            <Loader2 className="h-4 w-4 animate-spin text-[#a99e8c]" />
           </div>
         )}
       </div>
 
       {showDropdown && (isLoading || predictions.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-zinc-200 shadow-lg z-50 overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-[#e7ddca] shadow-lg z-50 overflow-hidden">
           <div className="max-h-[200px] overflow-y-auto">
             {isLoading && predictions.length === 0 && (
               <div className="px-4 py-4 text-center">
-                <Loader2 className="h-4 w-4 animate-spin text-zinc-400 mx-auto mb-1" />
-                <p className="text-xs text-zinc-500">Searching...</p>
+                <Loader2 className="h-4 w-4 animate-spin text-[#a99e8c] mx-auto mb-1" />
+                <p className="text-xs text-[#8a8074]">Searching...</p>
               </div>
             )}
 
@@ -133,17 +133,17 @@ function AddressAutocomplete({
                 key={suggestion.placeId || index}
                 type="button"
                 onClick={() => handleSelectSuggestion(suggestion)}
-                className="w-full flex items-start gap-2 px-3 py-2 hover:bg-zinc-50 transition-colors text-left border-b border-zinc-100 last:border-0"
+                className="w-full flex items-start gap-2 px-3 py-2 hover:bg-[#A08248]/[0.06] transition-colors text-left border-b border-[#efe7d8] last:border-0"
               >
-                <div className="mt-0.5 shrink-0 w-6 h-6 rounded-full bg-zinc-100 flex items-center justify-center">
-                  <suggestion.icon className="w-3 h-3 text-zinc-500" />
+                <div className="mt-0.5 shrink-0 w-6 h-6 rounded-full bg-[#f1e8d8] flex items-center justify-center">
+                  <suggestion.icon className="w-3 h-3 text-[#8a8074]" />
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
-                  <span className="text-sm font-medium text-zinc-900 truncate">
+                  <span className="text-sm font-medium text-[#211c16] truncate">
                     {suggestion.name}
                   </span>
                   {suggestion.description && (
-                    <span className="text-xs text-zinc-500 truncate">
+                    <span className="text-xs text-[#8a8074] truncate">
                       {suggestion.description}
                     </span>
                   )}
@@ -151,7 +151,7 @@ function AddressAutocomplete({
               </button>
             ))}
           </div>
-          <div className="bg-zinc-50 px-2 py-1 flex justify-end border-t border-zinc-100">
+          <div className="bg-[#faf6ee] px-2 py-1 flex justify-end border-t border-[#efe7d8]">
             <img
               src="https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png"
               alt="Powered by Google"
@@ -268,7 +268,7 @@ export function TourStopsBuilder({
       </div>
 
       {stops.length === 0 ? (
-        <div className="text-center py-8 text-zinc-500 border-2 border-dashed border-zinc-200 rounded-lg">
+        <div className="text-center py-8 text-[#8a8074] border-2 border-dashed border-[#e7ddca] rounded-lg">
           No stops added yet. Click "Add Stop" to create an itinerary.
         </div>
       ) : (
@@ -283,7 +283,7 @@ export function TourStopsBuilder({
               className={cn(
                 "border rounded-lg bg-white transition-all",
                 draggedIndex === index && "opacity-50",
-                expandedStop === index ? "border-zinc-300" : "border-zinc-200"
+                expandedStop === index ? "border-[#ddd0b8]" : "border-[#e7ddca]"
               )}
             >
               <div
@@ -291,23 +291,23 @@ export function TourStopsBuilder({
                 onClick={() => setExpandedStop(expandedStop === index ? null : index)}
               >
                 <div
-                  className="cursor-grab active:cursor-grabbing p-1 hover:bg-zinc-100 rounded"
+                  className="cursor-grab active:cursor-grabbing p-1 hover:bg-[#A08248]/[0.09] rounded"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <GripVertical className="h-4 w-4 text-zinc-400" />
+                  <GripVertical className="h-4 w-4 text-[#a99e8c]" />
                 </div>
 
-                <div className="flex items-center gap-2 text-sm font-medium text-zinc-700 min-w-[60px]">
-                  <Clock className="h-4 w-4 text-zinc-400" />
+                <div className="flex items-center gap-2 text-sm font-medium text-[#4a443c] min-w-[60px]">
+                  <Clock className="h-4 w-4 text-[#a99e8c]" />
                   {stop.time || "--:--"}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-zinc-900 truncate">
+                  <p className="font-medium text-[#211c16] truncate">
                     {stop.title || "Untitled stop"}
                   </p>
                   {stop.address && (
-                    <p className="text-xs text-zinc-500 truncate flex items-center gap-1 mt-0.5">
+                    <p className="text-xs text-[#8a8074] truncate flex items-center gap-1 mt-0.5">
                       <MapPin className="h-3 w-3" />
                       {stop.address}
                       {stop.lat && stop.lng && (
@@ -361,7 +361,7 @@ export function TourStopsBuilder({
               </div>
 
               {expandedStop === index && (
-                <div className="px-4 pb-4 pt-2 border-t border-zinc-100 space-y-4">
+                <div className="px-4 pb-4 pt-2 border-t border-[#efe7d8] space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="text-xs">Time</Label>
@@ -425,7 +425,7 @@ export function TourStopsBuilder({
                         }
                         disabled={disabled}
                       />
-                      <span className="text-sm text-zinc-700">Show image for this stop</span>
+                      <span className="text-sm text-[#4a443c]">Show image for this stop</span>
                     </label>
 
                     {stop.showImage && (

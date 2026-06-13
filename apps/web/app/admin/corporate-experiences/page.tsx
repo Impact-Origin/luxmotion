@@ -90,8 +90,8 @@ export default function AdminCorporateExperiencesPage() {
     <div className="flex flex-col gap-6 p-6">
       <header className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">Corporate Experiences</h1>
-          <p className="text-sm text-zinc-500">
+          <h1 className="text-2xl font-semibold text-[#211c16]">Corporate Experiences</h1>
+          <p className="text-sm text-[#8a8074]">
             Curated experiences shown on the /corporate/experiences page.
           </p>
         </div>
@@ -110,14 +110,14 @@ export default function AdminCorporateExperiencesPage() {
               className={cn(
                 "h-9 px-3 text-sm border rounded-md transition-colors",
                 statusFilter === f.value
-                  ? "bg-zinc-900 border-zinc-900 text-white"
-                  : "bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50",
+                  ? "bg-[#221c15] border-[#221c15] text-white"
+                  : "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-[#A08248]/[0.06]",
               )}
             >
               {f.label}
             </button>
           ))}
-          <div className="ml-2 h-6 w-px bg-zinc-200" />
+          <div className="ml-2 h-6 w-px bg-[#e7ddca]" />
           {PILLAR_FILTERS.map((f) => (
             <button
               key={f.value}
@@ -126,8 +126,8 @@ export default function AdminCorporateExperiencesPage() {
               className={cn(
                 "h-9 px-3 text-sm border rounded-md transition-colors",
                 pillarFilter === f.value
-                  ? "bg-zinc-900 border-zinc-900 text-white"
-                  : "bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50",
+                  ? "bg-[#221c15] border-[#221c15] text-white"
+                  : "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-[#A08248]/[0.06]",
               )}
             >
               {f.label}
@@ -135,30 +135,30 @@ export default function AdminCorporateExperiencesPage() {
           ))}
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search title, description, location…"
-            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-zinc-200 rounded-md focus:outline-none focus:border-zinc-400"
+            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-[#e7ddca] rounded-md focus:outline-none focus:border-[#A08248]"
           />
         </div>
       </div>
 
       {experiences === undefined ? (
-        <div className="flex items-center justify-center py-20 text-zinc-400">
+        <div className="flex items-center justify-center py-20 text-[#a99e8c]">
           <Loader2 className="size-6 animate-spin" />
         </div>
       ) : filtered && filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400 gap-2">
+        <div className="flex flex-col items-center justify-center py-20 text-center text-[#a99e8c] gap-2">
           <Inbox className="size-8" />
           <p className="text-sm">No experiences match these filters.</p>
         </div>
       ) : (
-        <div className="bg-white border border-zinc-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-[#e7ddca] rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-zinc-50 text-zinc-500">
+            <thead className="bg-[#faf6ee] text-[#8a8074]">
               <tr>
                 <th className="text-left font-medium px-4 py-3 w-[80px]">Cover</th>
                 <th className="text-left font-medium px-4 py-3">Title</th>
@@ -171,39 +171,39 @@ export default function AdminCorporateExperiencesPage() {
                 <th className="text-right font-medium px-4 py-3">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-[#efe7d8]">
               {filtered?.map((e) => {
                 const status = e.status as Status
                 return (
-                  <tr key={e._id} className="hover:bg-zinc-50/60">
+                  <tr key={e._id} className="hover:bg-[#A08248]/[0.06]/60">
                     <td className="px-4 py-3">
                       {e.coverImageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={e.coverImageUrl}
                           alt=""
-                          className="h-12 w-16 object-cover rounded border border-zinc-200"
+                          className="h-12 w-16 object-cover rounded border border-[#e7ddca]"
                         />
                       ) : (
-                        <div className="h-12 w-16 rounded border border-dashed border-zinc-300 bg-zinc-50" />
+                        <div className="h-12 w-16 rounded border border-dashed border-[#ddd0b8] bg-[#faf6ee]" />
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <div className="font-medium text-zinc-900">
-                        {e.titlePrefix} <span className="italic text-zinc-600">{e.titleAccent}</span>
+                      <div className="font-medium text-[#211c16]">
+                        {e.titlePrefix} <span className="italic text-[#5c554c]">{e.titleAccent}</span>
                       </div>
-                      <div className="text-xs text-zinc-500 mt-0.5 line-clamp-1">
+                      <div className="text-xs text-[#8a8074] mt-0.5 line-clamp-1">
                         {e.shortDescription}
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-zinc-700 capitalize">
+                    <td className="px-4 py-3 text-[#4a443c] capitalize">
                       {e.pillar}
-                      <div className="text-xs text-zinc-400">{e.subcategory}</div>
+                      <div className="text-xs text-[#a99e8c]">{e.subcategory}</div>
                     </td>
-                    <td className="px-4 py-3 text-zinc-700">{e.durationLabel}</td>
-                    <td className="px-4 py-3 text-zinc-700">{e.location}</td>
-                    <td className="px-4 py-3 text-zinc-500">{formatDate(e.updatedAt)}</td>
-                    <td className="px-4 py-3 text-zinc-700">{e.sortOrder}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{e.durationLabel}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{e.location}</td>
+                    <td className="px-4 py-3 text-[#8a8074]">{formatDate(e.updatedAt)}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{e.sortOrder}</td>
                     <td className="px-4 py-3">
                       <span
                         className={cn(

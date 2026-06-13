@@ -112,8 +112,8 @@ export default function AdminCorporateRequestsPage() {
     <div className="flex flex-col gap-6 p-6">
       <header className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">Corporate Requests</h1>
-          <p className="text-sm text-zinc-500">
+          <h1 className="text-2xl font-semibold text-[#211c16]">Corporate Requests</h1>
+          <p className="text-sm text-[#8a8074]">
             Proposal requests submitted from the corporate landing page.
           </p>
         </div>
@@ -129,15 +129,15 @@ export default function AdminCorporateRequestsPage() {
               className={cn(
                 "h-9 px-3 text-sm border rounded-md transition-colors",
                 filter === f.value
-                  ? "bg-zinc-900 border-zinc-900 text-white"
-                  : "bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50",
+                  ? "bg-[#221c15] border-[#221c15] text-white"
+                  : "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-[#A08248]/[0.06]",
               )}
             >
               {f.label}
               <span
                 className={cn(
                   "ml-2 text-xs",
-                  filter === f.value ? "text-zinc-300" : "text-zinc-400",
+                  filter === f.value ? "text-[#c9bfae]" : "text-[#a99e8c]",
                 )}
               >
                 {counts[f.value]}
@@ -146,30 +146,30 @@ export default function AdminCorporateRequestsPage() {
           ))}
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search name, email, phone, company…"
-            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-zinc-200 rounded-md focus:outline-none focus:border-zinc-400"
+            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-[#e7ddca] rounded-md focus:outline-none focus:border-[#A08248]"
           />
         </div>
       </div>
 
       {requests === undefined ? (
-        <div className="flex items-center justify-center py-20 text-zinc-400">
+        <div className="flex items-center justify-center py-20 text-[#a99e8c]">
           <Loader2 className="size-6 animate-spin" />
         </div>
       ) : filtered && filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400 gap-2">
+        <div className="flex flex-col items-center justify-center py-20 text-center text-[#a99e8c] gap-2">
           <Inbox className="size-8" />
           <p className="text-sm">No requests match these filters yet.</p>
         </div>
       ) : (
-        <div className="bg-white border border-zinc-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-[#e7ddca] rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-zinc-50 text-zinc-500">
+            <thead className="bg-[#faf6ee] text-[#8a8074]">
               <tr>
                 <th className="text-left font-medium px-4 py-3">Contact</th>
                 <th className="text-left font-medium px-4 py-3">Company</th>
@@ -184,26 +184,26 @@ export default function AdminCorporateRequestsPage() {
                 <th className="text-right font-medium px-4 py-3">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-[#efe7d8]">
               {filtered?.map((r) => {
                 const status = r.status as RequestStatus
                 return (
-                  <tr key={r._id} className="hover:bg-zinc-50/60">
-                    <td className="px-4 py-3 font-medium text-zinc-900">
-                      {r.fullName || <span className="text-zinc-400">—</span>}
+                  <tr key={r._id} className="hover:bg-[#A08248]/[0.06]/60">
+                    <td className="px-4 py-3 font-medium text-[#211c16]">
+                      {r.fullName || <span className="text-[#a99e8c]">—</span>}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700">{r.companyName}</td>
-                    <td className="px-4 py-3 text-zinc-700">{r.email}</td>
-                    <td className="px-4 py-3 text-zinc-700">{r.phone}</td>
-                    <td className="px-4 py-3 text-zinc-500">
+                    <td className="px-4 py-3 text-[#4a443c]">{r.companyName}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{r.email}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{r.phone}</td>
+                    <td className="px-4 py-3 text-[#8a8074]">
                       {r.eventDate ? formatDate(r.eventDate) : "—"}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700">{r.guests ?? "—"}</td>
-                    <td className="px-4 py-3 text-zinc-700">{formatBudget(r.budget)}</td>
-                    <td className="px-4 py-3 text-zinc-500">
+                    <td className="px-4 py-3 text-[#4a443c]">{r.guests ?? "—"}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{formatBudget(r.budget)}</td>
+                    <td className="px-4 py-3 text-[#8a8074]">
                       {formatDateTime(r.createdAt)}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700 font-medium">
+                    <td className="px-4 py-3 text-[#4a443c] font-medium">
                       #{r.queuePosition}
                     </td>
                     <td className="px-4 py-3">
@@ -280,13 +280,13 @@ function RequestDetailDialog({
         </DialogHeader>
 
         {!request ? (
-          <div className="flex items-center justify-center py-16 text-zinc-400">
+          <div className="flex items-center justify-center py-16 text-[#a99e8c]">
             <Loader2 className="size-6 animate-spin" />
           </div>
         ) : (
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <div className="flex items-center gap-2 text-sm text-zinc-500">
+              <div className="flex items-center gap-2 text-sm text-[#8a8074]">
                 <span>#{request.queuePosition}</span>
                 <span>·</span>
                 <span>{formatDateTime(request.createdAt)}</span>
@@ -320,8 +320,8 @@ function RequestDetailDialog({
             </Section>
 
             <Section title="Notes">
-              <div className="text-sm text-zinc-900 whitespace-pre-wrap">
-                {request.notes || <span className="text-zinc-400">No additional notes.</span>}
+              <div className="text-sm text-[#211c16] whitespace-pre-wrap">
+                {request.notes || <span className="text-[#a99e8c]">No additional notes.</span>}
               </div>
             </Section>
           </div>
@@ -386,15 +386,15 @@ function StatusButton({
   const TONES: Record<typeof tone, { active: string; idle: string }> = {
     neutral: {
       active: "bg-sky-600 border-sky-600 text-white",
-      idle: "bg-white border-zinc-200 text-zinc-700 hover:bg-sky-50 hover:border-sky-200",
+      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-sky-50 hover:border-sky-200",
     },
     success: {
       active: "bg-emerald-600 border-emerald-600 text-white",
-      idle: "bg-white border-zinc-200 text-zinc-700 hover:bg-emerald-50 hover:border-emerald-200",
+      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-emerald-50 hover:border-emerald-200",
     },
     danger: {
       active: "bg-rose-600 border-rose-600 text-white",
-      idle: "bg-white border-zinc-200 text-zinc-700 hover:bg-rose-50 hover:border-rose-200",
+      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-rose-50 hover:border-rose-200",
     },
   }
   const t = TONES[tone]
@@ -423,7 +423,7 @@ function Section({
 }) {
   return (
     <section className="flex flex-col gap-3">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 border-b border-zinc-200 pb-2">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8a8074] border-b border-[#e7ddca] pb-2">
         {title}
       </h3>
       <div className="flex flex-col gap-2">{children}</div>
@@ -443,14 +443,14 @@ function Field({
   const text = typeof children === "string" ? children : ""
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-zinc-500">{label}</span>
+      <span className="text-[#8a8074]">{label}</span>
       <div className="flex items-center gap-2 min-w-0">
-        <span className="text-zinc-900 break-words">{children || "—"}</span>
+        <span className="text-[#211c16] break-words">{children || "—"}</span>
         {copyable && text ? (
           <button
             type="button"
             onClick={() => void navigator.clipboard.writeText(text)}
-            className="text-zinc-400 hover:text-zinc-700 transition-colors"
+            className="text-[#a99e8c] hover:text-[#4a443c] transition-colors"
             aria-label="Copy"
           >
             <FileText className="size-3.5" />

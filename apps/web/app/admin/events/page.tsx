@@ -155,20 +155,20 @@ export default function AdminEventsPage() {
       case "published":
         return "bg-green-100 text-green-800"
       case "draft":
-        return "bg-zinc-100 text-zinc-800"
+        return "bg-[#f1e8d8] text-[#2a241c]"
       case "cancelled":
         return "bg-red-100 text-red-800"
       case "completed":
         return "bg-blue-100 text-blue-800"
       default:
-        return "bg-zinc-100 text-zinc-800"
+        return "bg-[#f1e8d8] text-[#2a241c]"
     }
   }
 
   if (!events) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     )
   }
@@ -177,12 +177,12 @@ export default function AdminEventsPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">{t("title")}</h1>
-          <p className="text-zinc-500 mt-1">
+          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
+          <p className="text-[#8a8074] mt-1">
             {t("subtitle")}
           </p>
         </div>
-        <Button onClick={handleCreate} className="bg-zinc-900 text-white hover:bg-zinc-800">
+        <Button onClick={handleCreate} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
           <Plus className="h-4 w-4 mr-2" />
           {t("addEvent")}
         </Button>
@@ -190,7 +190,7 @@ export default function AdminEventsPage() {
 
       <div className="flex gap-4 mb-6 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
           <Input
             placeholder={t("searchPlaceholder")}
             value={search}
@@ -228,10 +228,10 @@ export default function AdminEventsPage() {
       </div>
 
       {filteredEvents.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-50 rounded-lg border-2 border-dashed border-zinc-200">
-          <Calendar className="h-12 w-12 mx-auto text-zinc-300 mb-4" />
-          <h3 className="text-lg font-medium text-zinc-900 mb-2">{t("noEventsFound")}</h3>
-          <p className="text-zinc-500 mb-4">
+        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
+          <Calendar className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
+          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noEventsFound")}</h3>
+          <p className="text-[#8a8074] mb-4">
             {events.length === 0
               ? t("getStarted")
               : t("tryFilters")}
@@ -248,7 +248,7 @@ export default function AdminEventsPage() {
           {filteredEvents.map((event) => (
             <div
               key={event._id}
-              className="bg-white rounded-xl border border-zinc-200 overflow-hidden hover:shadow-lg transition-shadow group"
+              className="bg-white rounded-xl border border-[#e7ddca] overflow-hidden hover:shadow-lg transition-shadow group"
             >
               <div className="relative h-48">
                 {event.bannerImageUrl ? (
@@ -259,8 +259,8 @@ export default function AdminEventsPage() {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-zinc-100 flex items-center justify-center">
-                    <Calendar className="h-12 w-12 text-zinc-300" />
+                  <div className="w-full h-full bg-[#f1e8d8] flex items-center justify-center">
+                    <Calendar className="h-12 w-12 text-[#c9bfae]" />
                   </div>
                 )}
 
@@ -333,17 +333,17 @@ export default function AdminEventsPage() {
 
                 <div className="absolute bottom-3 left-3 right-3">
                   <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-3">
-                    <Calendar className="h-4 w-4 text-zinc-600" />
+                    <Calendar className="h-4 w-4 text-[#5c554c]" />
                     <div className="text-sm">
                       <span className="font-semibold">{formatDate(event.eventDate)}</span>
-                      <span className="text-zinc-500 ml-2">{formatTime(event.eventDate)}</span>
+                      <span className="text-[#8a8074] ml-2">{formatTime(event.eventDate)}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="p-4">
-                <div className="flex items-center gap-2 text-xs text-zinc-500 mb-2">
+                <div className="flex items-center gap-2 text-xs text-[#8a8074] mb-2">
                   <MapPin className="h-3 w-3" />
                   <span>{event.location}</span>
                   {event.venue && (
@@ -354,15 +354,15 @@ export default function AdminEventsPage() {
                   )}
                 </div>
 
-                <h3 className="font-semibold text-zinc-900 line-clamp-2 mb-2">
+                <h3 className="font-semibold text-[#211c16] line-clamp-2 mb-2">
                   {event.title}
                 </h3>
 
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-500">
+                  <span className="text-[#8a8074]">
                     {event.maxCapacity ? t("maxCapacity", { count: event.maxCapacity }) : t("unlimited")}
                   </span>
-                  <span className="font-bold text-zinc-900">
+                  <span className="font-bold text-[#211c16]">
                     {event.currency === "EUR" ? "€" : event.currency === "USD" ? "$" : "£"}
                     {event.basePrice.toFixed(2)}
                   </span>
@@ -372,7 +372,7 @@ export default function AdminEventsPage() {
                   <div className="flex items-center gap-1 mt-2 text-sm">
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                     <span className="font-medium">{event.rating.toFixed(1)}</span>
-                    <span className="text-zinc-500">({event.reviewCount} {t("reviews")})</span>
+                    <span className="text-[#8a8074]">({event.reviewCount} {t("reviews")})</span>
                   </div>
                 )}
 
@@ -380,7 +380,7 @@ export default function AdminEventsPage() {
                   {event.availableLanguages.map((lang: string) => (
                     <span
                       key={lang}
-                      className="px-2 py-0.5 rounded bg-zinc-100 text-zinc-600 text-xs font-medium uppercase"
+                      className="px-2 py-0.5 rounded bg-[#f1e8d8] text-[#5c554c] text-xs font-medium uppercase"
                     >
                       {lang}
                     </span>

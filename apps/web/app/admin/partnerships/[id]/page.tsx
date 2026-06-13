@@ -619,13 +619,13 @@ const ColorPicker = React.memo(function ColorPicker({
         "space-y-2 p-3 rounded-lg transition-all duration-200",
         isSelected
           ? "bg-blue-50 ring-2 ring-blue-400 shadow-sm"
-          : "hover:bg-zinc-50",
+          : "hover:bg-[#A08248]/[0.06]",
       )}
     >
-      <Label className="text-xs font-semibold text-zinc-600">{label}</Label>
+      <Label className="text-xs font-semibold text-[#5c554c]">{label}</Label>
       <div className="flex items-center gap-2">
         <div
-          className="h-10 w-10 rounded-lg border-2 border-zinc-200 shadow-sm shrink-0 cursor-pointer relative overflow-hidden"
+          className="h-10 w-10 rounded-lg border-2 border-[#e7ddca] shadow-sm shrink-0 cursor-pointer relative overflow-hidden"
           style={{ backgroundColor: localValue }}
         >
           <input
@@ -638,7 +638,7 @@ const ColorPicker = React.memo(function ColorPicker({
         <Input
           value={localValue.toUpperCase()}
           onChange={(e) => handleChange(e.target.value)}
-          className="h-10 font-mono text-sm text-zinc-900 uppercase border-zinc-200"
+          className="h-10 font-mono text-sm text-[#211c16] uppercase border-[#e7ddca]"
         />
       </div>
       <div className="flex flex-wrap gap-1.5">
@@ -646,7 +646,7 @@ const ColorPicker = React.memo(function ColorPicker({
           <button
             key={color}
             className={cn(
-              "h-5 w-5 rounded-full border border-zinc-200 transition-all hover:scale-110",
+              "h-5 w-5 rounded-full border border-[#e7ddca] transition-all hover:scale-110",
               localValue.toUpperCase() === color.toUpperCase()
                 ? "ring-2 ring-blue-500 ring-offset-1 scale-110"
                 : "",
@@ -691,21 +691,21 @@ const CollapsibleSection = React.memo(
           "rounded-lg border transition-all",
           hasSelectedColor
             ? "border-blue-200 bg-blue-50/30"
-            : "border-zinc-200",
+            : "border-[#e7ddca]",
         )}
       >
         <button
           onClick={() => onToggle(section.id)}
-          className="w-full flex items-center justify-between p-3 hover:bg-zinc-50 rounded-lg transition-colors"
+          className="w-full flex items-center justify-between p-3 hover:bg-[#A08248]/[0.06] rounded-lg transition-colors"
         >
           <div className="flex items-center gap-2">
             <Icon
               className={cn(
                 "h-4 w-4",
-                hasSelectedColor ? "text-blue-500" : "text-zinc-400",
+                hasSelectedColor ? "text-blue-500" : "text-[#a99e8c]",
               )}
             />
-            <span className="text-sm font-semibold text-zinc-900">
+            <span className="text-sm font-semibold text-[#211c16]">
               {t(section.title)}
             </span>
             {hasSelectedColor && (
@@ -713,9 +713,9 @@ const CollapsibleSection = React.memo(
             )}
           </div>
           {isExpanded ? (
-            <ChevronDown className="h-4 w-4 text-zinc-400" />
+            <ChevronDown className="h-4 w-4 text-[#a99e8c]" />
           ) : (
-            <ChevronRight className="h-4 w-4 text-zinc-400" />
+            <ChevronRight className="h-4 w-4 text-[#a99e8c]" />
           )}
         </button>
 
@@ -946,13 +946,13 @@ export default function PartnershipEditorPage({
   if (!partnership) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin h-8 w-8 border-4 border-zinc-200 border-t-zinc-900 rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-[#e7ddca] border-t-[#221c15] rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="fixed inset-0 top-16 bg-zinc-100 flex flex-col overflow-hidden z-30">
+    <div className="fixed inset-0 top-16 bg-[#f1e8d8] flex flex-col overflow-hidden z-30">
       <div className="h-14 bg-white border-b px-6 flex items-center justify-between shrink-0 shadow-sm">
         <div className="flex items-center gap-4">
           <Link href="/admin/partnerships">
@@ -962,17 +962,17 @@ export default function PartnershipEditorPage({
           </Link>
           <Separator orientation="vertical" className="h-6" />
           <div>
-            <h2 className="text-sm font-bold text-zinc-900">
+            <h2 className="text-sm font-bold text-[#211c16]">
               {partnership.name}
             </h2>
-            <p className="text-xs text-zinc-500">/{partnership.slug}</p>
+            <p className="text-xs text-[#8a8074]">/{partnership.slug}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Page Type Toggle */}
           <Tabs value={pageType} onValueChange={(v: any) => setPageType(v)}>
-            <TabsList className="bg-zinc-100/50 border h-9 p-1 gap-1">
+            <TabsList className="bg-[#f1e8d8]/50 border h-9 p-1 gap-1">
               <TabsTrigger
                 value="landing"
                 className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm h-7 px-3 gap-1.5 transition-all duration-200"
@@ -1005,7 +1005,7 @@ export default function PartnershipEditorPage({
             size="sm"
             onClick={onSave}
             disabled={isSaving}
-            className="h-9 bg-zinc-900 text-white hover:bg-zinc-800 gap-2 px-6"
+            className="h-9 bg-[#221c15] text-white hover:bg-[#3a3026] gap-2 px-6"
           >
             <Save className="h-4 w-4" />
             {t("saveChanges")}
@@ -1015,12 +1015,12 @@ export default function PartnershipEditorPage({
 
       <div className="flex-1 flex overflow-hidden">
         <div className="w-[340px] bg-white border-r flex flex-col shrink-0">
-          <div className="p-4 border-b bg-zinc-50">
-            <div className="flex items-center gap-2 text-sm font-medium text-zinc-900">
+          <div className="p-4 border-b bg-[#faf6ee]">
+            <div className="flex items-center gap-2 text-sm font-medium text-[#211c16]">
               <MousePointer className="h-4 w-4 text-blue-500" />
               {t("clickToEdit")}
             </div>
-            <p className="text-xs text-zinc-500 mt-1">
+            <p className="text-xs text-[#8a8074] mt-1">
               {t("clickToEditDescription")}
             </p>
           </div>
@@ -1028,7 +1028,7 @@ export default function PartnershipEditorPage({
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {pageType === "landing" && (
               <div className="space-y-2 mb-6">
-                <Label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+                <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">
                   Company Logo
                 </Label>
                 <ImageUpload
@@ -1041,11 +1041,11 @@ export default function PartnershipEditorPage({
                 />
 
                 <div className="pt-4 space-y-3">
-                  <Label className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+                  <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">
                     {tSeo("seoLabel")}
                   </Label>
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-zinc-600">
+                    <Label className="text-xs font-semibold text-[#5c554c]">
                       {tSeo("seoTitleLabel")}
                     </Label>
                     <Input
@@ -1056,7 +1056,7 @@ export default function PartnershipEditorPage({
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-zinc-600">
+                    <Label className="text-xs font-semibold text-[#5c554c]">
                       {tSeo("seoDescriptionLabel")}
                     </Label>
                     <Textarea
@@ -1091,11 +1091,11 @@ export default function PartnershipEditorPage({
         <div className="flex-1 flex flex-col p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">
+              <span className="text-xs font-semibold text-[#8a8074] uppercase tracking-wide">
                 {t("livePreview")}
               </span>
               <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs text-zinc-400 ml-2">
+              <span className="text-xs text-[#a99e8c] ml-2">
                 {pageType === "landing" ? "Landing Page" : "Checkout Flow"}
               </span>
             </div>
@@ -1105,7 +1105,7 @@ export default function PartnershipEditorPage({
                 value={activeTab}
                 onValueChange={(v: any) => setActiveTab(v)}
               >
-                <TabsList className="bg-zinc-100/50 border h-10 p-1 gap-1">
+                <TabsList className="bg-[#f1e8d8]/50 border h-10 p-1 gap-1">
                   <TabsTrigger
                     value="desktop"
                     className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm h-8 w-10 p-0 transition-all duration-200"
@@ -1125,7 +1125,7 @@ export default function PartnershipEditorPage({
                 variant="outline"
                 size="icon"
                 onClick={updatePreview}
-                className="h-10 w-10 bg-white hover:bg-zinc-50 border transition-all duration-200"
+                className="h-10 w-10 bg-white hover:bg-[#A08248]/[0.06] border transition-all duration-200"
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>
@@ -1134,10 +1134,10 @@ export default function PartnershipEditorPage({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-10 bg-white hover:bg-zinc-50 border gap-2 px-4 transition-all duration-200"
+                  className="h-10 bg-white hover:bg-[#A08248]/[0.06] border gap-2 px-4 transition-all duration-200"
                 >
-                  <ExternalLink className="h-4 w-4 text-zinc-500" />
-                  <span className="font-medium text-zinc-700">
+                  <ExternalLink className="h-4 w-4 text-[#8a8074]" />
+                  <span className="font-medium text-[#4a443c]">
                     {t("viewLiveSite")}
                   </span>
                 </Button>
@@ -1148,7 +1148,7 @@ export default function PartnershipEditorPage({
           {/* Checkout Customization Step Navigation */}
           {pageType === "checkout" && (
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mr-2">
+              <span className="text-xs font-semibold text-[#8a8074] uppercase tracking-wide mr-2">
                 {t("customizationStep")}:
               </span>
               <button
@@ -1157,7 +1157,7 @@ export default function PartnershipEditorPage({
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 1
                     ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200",
+                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
                 )}
               >
                 {t("vehicleSelection")}
@@ -1168,7 +1168,7 @@ export default function PartnershipEditorPage({
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 2
                     ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200",
+                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
                 )}
               >
                 {t("transferInfoForm")}
@@ -1179,7 +1179,7 @@ export default function PartnershipEditorPage({
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 3
                     ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200",
+                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
                 )}
               >
                 {t("toursStep")}
@@ -1190,7 +1190,7 @@ export default function PartnershipEditorPage({
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 4
                     ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200",
+                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
                 )}
               >
                 {t("passengerInfo")}
@@ -1201,7 +1201,7 @@ export default function PartnershipEditorPage({
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 5
                     ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200",
+                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
                 )}
               >
                 {t("paymentStep")}
@@ -1214,8 +1214,8 @@ export default function PartnershipEditorPage({
               className={cn(
                 "bg-white shadow-2xl transition-all duration-300 ease-in-out overflow-hidden",
                 activeTab === "desktop"
-                  ? "w-full h-full rounded-lg border border-zinc-200"
-                  : "w-[375px] h-[812px] rounded-[3rem] border-[12px] border-zinc-900",
+                  ? "w-full h-full rounded-lg border border-[#e7ddca]"
+                  : "w-[375px] h-[812px] rounded-[3rem] border-[12px] border-[#221c15]",
               )}
             >
               <DynamicThemeProvider

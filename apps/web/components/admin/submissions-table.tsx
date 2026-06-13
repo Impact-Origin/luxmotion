@@ -56,8 +56,8 @@ interface Props<T extends BaseSubmission> {
 
 const STATUS_STYLES: Record<SubmissionStatus, string> = {
   new: "bg-amber-50 text-amber-800 border-amber-200",
-  read: "bg-zinc-50 text-zinc-700 border-zinc-200",
-  archived: "bg-zinc-100 text-zinc-500 border-zinc-200",
+  read: "bg-[#faf6ee] text-[#4a443c] border-[#e7ddca]",
+  archived: "bg-[#f1e8d8] text-[#8a8074] border-[#e7ddca]",
 }
 
 const STATUS_LABEL: Record<SubmissionStatus, string> = {
@@ -148,7 +148,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
   if (!data) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     )
   }
@@ -157,15 +157,15 @@ export function SubmissionsTable<T extends BaseSubmission>({
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">{title}</h1>
-          <p className="text-zinc-500 mt-1">
+          <h1 className="text-2xl font-bold text-[#211c16]">{title}</h1>
+          <p className="text-[#8a8074] mt-1">
             {counts.all} total · {counts.new} new · {counts.read} read · {counts.archived} archived
           </p>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
-        <div className="flex items-center gap-1 bg-zinc-50 border rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-[#faf6ee] border rounded-lg p-1">
           {(["all", "new", "read", "archived"] as const).map((s) => (
             <button
               key={s}
@@ -173,7 +173,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
               onClick={() => setStatusFilter(s)}
               className={cn(
                 "px-3 py-1.5 text-sm font-medium rounded-md transition-colors capitalize",
-                statusFilter === s ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-900",
+                statusFilter === s ? "bg-white text-[#211c16] shadow-sm" : "text-[#8a8074] hover:text-[#211c16]",
               )}
             >
               {s} ({counts[s]})
@@ -181,37 +181,37 @@ export function SubmissionsTable<T extends BaseSubmission>({
           ))}
         </div>
         <div className="relative flex-1 min-w-[240px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#a99e8c]" />
           <input
             type="search"
             placeholder="Search name, email, phone…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-9 pl-9 pr-3 border rounded-lg text-sm bg-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10"
+            className="w-full h-9 pl-9 pr-3 border rounded-lg text-sm bg-white placeholder:text-[#a99e8c] focus:outline-none focus:ring-2 focus:ring-[#A08248]/10"
           />
         </div>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-50 rounded-lg border-2 border-dashed border-zinc-200">
-          <Mail className="h-12 w-12 mx-auto text-zinc-300 mb-4" />
-          <h3 className="text-lg font-medium text-zinc-900 mb-2">{emptyTitle}</h3>
+        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
+          <Mail className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
+          <h3 className="text-lg font-medium text-[#211c16] mb-2">{emptyTitle}</h3>
           {emptyDescription && (
-            <p className="text-sm text-zinc-500 max-w-sm mx-auto">{emptyDescription}</p>
+            <p className="text-sm text-[#8a8074] max-w-sm mx-auto">{emptyDescription}</p>
           )}
         </div>
       ) : (
         <div className="border rounded-lg overflow-hidden bg-white">
           <table className="w-full text-sm">
-            <thead className="bg-zinc-50 border-b">
+            <thead className="bg-[#faf6ee] border-b">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-zinc-500 w-[100px]">Status</th>
+                <th className="text-left px-4 py-3 font-medium text-[#8a8074] w-[100px]">Status</th>
                 {columns.map((c) => (
-                  <th key={c.key} className={cn("text-left px-4 py-3 font-medium text-zinc-500", c.className)}>
+                  <th key={c.key} className={cn("text-left px-4 py-3 font-medium text-[#8a8074]", c.className)}>
                     {c.label}
                   </th>
                 ))}
-                <th className="text-left px-4 py-3 font-medium text-zinc-500 w-[160px]">Date</th>
+                <th className="text-left px-4 py-3 font-medium text-[#8a8074] w-[160px]">Date</th>
                 <th className="px-4 py-3 w-[120px]" />
               </tr>
             </thead>
@@ -219,7 +219,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
               {filtered.map((row) => {
                 const status = row.status ?? "new"
                 return (
-                  <tr key={row._id} className="border-b last:border-b-0 hover:bg-zinc-50/60 transition-colors">
+                  <tr key={row._id} className="border-b last:border-b-0 hover:bg-[#A08248]/[0.06]/60 transition-colors">
                     <td className="px-4 py-3">
                       <span
                         className={cn(
@@ -238,7 +238,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                               const v = (row as Record<string, unknown>)[c.key]
                               if (v) copy(v.toString())
                             }}
-                            className="flex items-center gap-1.5 text-zinc-700 hover:text-zinc-900 group"
+                            className="flex items-center gap-1.5 text-[#4a443c] hover:text-[#211c16] group"
                           >
                             {c.render ? c.render(row) : ((row as Record<string, unknown>)[c.key] as React.ReactNode)}
                             <Copy className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -247,12 +247,12 @@ export function SubmissionsTable<T extends BaseSubmission>({
                           c.render(row)
                         ) : (
                           ((row as Record<string, unknown>)[c.key] as React.ReactNode) ?? (
-                            <span className="text-zinc-400">—</span>
+                            <span className="text-[#a99e8c]">—</span>
                           )
                         )}
                       </td>
                     ))}
-                    <td className="px-4 py-3 text-zinc-500 whitespace-nowrap">{formatDate(row.createdAt)}</td>
+                    <td className="px-4 py-3 text-[#8a8074] whitespace-nowrap">{formatDate(row.createdAt)}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
                         <button
@@ -261,7 +261,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                             setSelected(row)
                             if (status === "new") void handleSetStatus(row._id, "read")
                           }}
-                          className="size-8 rounded-md hover:bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-900"
+                          className="size-8 rounded-md hover:bg-[#A08248]/[0.09] flex items-center justify-center text-[#8a8074] hover:text-[#211c16]"
                           aria-label="View"
                         >
                           <Eye className="size-4" />
@@ -271,11 +271,11 @@ export function SubmissionsTable<T extends BaseSubmission>({
                           onValueChange={(v) => handleSetStatus(row._id, v as SubmissionStatus)}
                         >
                           <SelectTrigger
-                            className="h-8 w-8 p-0 border-0 shadow-none bg-transparent hover:bg-zinc-100 rounded-md flex items-center justify-center [&>svg:last-child]:hidden focus:ring-0 focus-visible:ring-0"
+                            className="h-8 w-8 p-0 border-0 shadow-none bg-transparent hover:bg-[#A08248]/[0.09] rounded-md flex items-center justify-center [&>svg:last-child]:hidden focus:ring-0 focus-visible:ring-0"
                             aria-label="Change status"
                           >
                             <span className="flex items-center justify-center">
-                              <Inbox className="size-4 text-zinc-500" />
+                              <Inbox className="size-4 text-[#8a8074]" />
                             </span>
                           </SelectTrigger>
                           <SelectContent align="end">
@@ -287,7 +287,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                         <button
                           type="button"
                           onClick={() => handleDelete(row._id)}
-                          className="size-8 rounded-md hover:bg-red-50 flex items-center justify-center text-zinc-500 hover:text-red-600"
+                          className="size-8 rounded-md hover:bg-red-50 flex items-center justify-center text-[#8a8074] hover:text-red-600"
                           aria-label="Delete"
                         >
                           <Trash2 className="size-4" />
@@ -321,16 +321,16 @@ export function SubmissionsTable<T extends BaseSubmission>({
                 if (!value && value !== 0) return null
                 return (
                   <div key={f.key} className="flex flex-col gap-1">
-                    <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">{f.label}</span>
-                    <div className="text-sm text-zinc-900 break-words whitespace-pre-wrap">
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-[#8a8074]">{f.label}</span>
+                    <div className="text-sm text-[#211c16] break-words whitespace-pre-wrap">
                       {f.render ? f.render(selected) : (value as React.ReactNode)}
                     </div>
                   </div>
                 )
               })}
               <div className="flex flex-col gap-1 md:col-span-2">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">Received</span>
-                <span className="text-sm text-zinc-900">{formatDate(selected.createdAt)}</span>
+                <span className="text-[11px] font-medium uppercase tracking-wider text-[#8a8074]">Received</span>
+                <span className="text-sm text-[#211c16]">{formatDate(selected.createdAt)}</span>
               </div>
             </div>
           )}
@@ -372,7 +372,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
             <DialogClose asChild>
               <Button
                 size="sm"
-                className="ml-auto bg-zinc-900 text-white hover:bg-zinc-800"
+                className="ml-auto bg-[#221c15] text-white hover:bg-[#3a3026]"
               >
                 Close
               </Button>

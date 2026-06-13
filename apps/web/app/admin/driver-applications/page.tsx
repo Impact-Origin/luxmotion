@@ -99,8 +99,8 @@ export default function AdminDriverApplicationsPage() {
     <div className="flex flex-col gap-6 p-6">
       <header className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">Driver Applications</h1>
-          <p className="text-sm text-zinc-500">
+          <h1 className="text-2xl font-semibold text-[#211c16]">Driver Applications</h1>
+          <p className="text-sm text-[#8a8074]">
             Review chauffeurs that have submitted the driver onboarding form.
           </p>
         </div>
@@ -116,15 +116,15 @@ export default function AdminDriverApplicationsPage() {
               className={cn(
                 "h-9 px-3 text-sm border rounded-md transition-colors",
                 filter === f.value
-                  ? "bg-zinc-900 border-zinc-900 text-white"
-                  : "bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50",
+                  ? "bg-[#221c15] border-[#221c15] text-white"
+                  : "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-[#A08248]/[0.06]",
               )}
             >
               {f.label}
               <span
                 className={cn(
                   "ml-2 text-xs",
-                  filter === f.value ? "text-zinc-300" : "text-zinc-400",
+                  filter === f.value ? "text-[#c9bfae]" : "text-[#a99e8c]",
                 )}
               >
                 {counts[f.value]}
@@ -133,30 +133,30 @@ export default function AdminDriverApplicationsPage() {
           ))}
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search name, email, plate, zone…"
-            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-zinc-200 rounded-md focus:outline-none focus:border-zinc-400"
+            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-[#e7ddca] rounded-md focus:outline-none focus:border-[#A08248]"
           />
         </div>
       </div>
 
       {applications === undefined ? (
-        <div className="flex items-center justify-center py-20 text-zinc-400">
+        <div className="flex items-center justify-center py-20 text-[#a99e8c]">
           <Loader2 className="size-6 animate-spin" />
         </div>
       ) : filtered && filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400 gap-2">
+        <div className="flex flex-col items-center justify-center py-20 text-center text-[#a99e8c] gap-2">
           <Inbox className="size-8" />
           <p className="text-sm">No applications match these filters yet.</p>
         </div>
       ) : (
-        <div className="bg-white border border-zinc-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-[#e7ddca] rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-zinc-50 text-zinc-500">
+            <thead className="bg-[#faf6ee] text-[#8a8074]">
               <tr>
                 <th className="text-left font-medium px-4 py-3">Driver</th>
                 <th className="text-left font-medium px-4 py-3">Email</th>
@@ -169,27 +169,27 @@ export default function AdminDriverApplicationsPage() {
                 <th className="text-right font-medium px-4 py-3">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-[#efe7d8]">
               {filtered?.map((a) => {
                 const status = a.status as ApplicationStatus
                 return (
-                  <tr key={a._id} className="hover:bg-zinc-50/60">
-                    <td className="px-4 py-3 font-medium text-zinc-900">
-                      {a.fullName || <span className="text-zinc-400">—</span>}
+                  <tr key={a._id} className="hover:bg-[#A08248]/[0.06]/60">
+                    <td className="px-4 py-3 font-medium text-[#211c16]">
+                      {a.fullName || <span className="text-[#a99e8c]">—</span>}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700">{a.email}</td>
-                    <td className="px-4 py-3 text-zinc-700">{a.phone}</td>
-                    <td className="px-4 py-3 text-zinc-700 capitalize">
+                    <td className="px-4 py-3 text-[#4a443c]">{a.email}</td>
+                    <td className="px-4 py-3 text-[#4a443c]">{a.phone}</td>
+                    <td className="px-4 py-3 text-[#4a443c] capitalize">
                       {a.operatingZone}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700">
+                    <td className="px-4 py-3 text-[#4a443c]">
                       {[a.vehicleBrand, a.vehicleModel].filter(Boolean).join(" ") ||
                         "—"}
                     </td>
-                    <td className="px-4 py-3 text-zinc-500">
+                    <td className="px-4 py-3 text-[#8a8074]">
                       {formatDate(a.createdAt)}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700 font-medium">
+                    <td className="px-4 py-3 text-[#4a443c] font-medium">
                       #{a.queuePosition}
                     </td>
                     <td className="px-4 py-3">
@@ -273,13 +273,13 @@ function ApplicationDetailDialog({
         </DialogHeader>
 
         {!application ? (
-          <div className="flex items-center justify-center py-16 text-zinc-400">
+          <div className="flex items-center justify-center py-16 text-[#a99e8c]">
             <Loader2 className="size-6 animate-spin" />
           </div>
         ) : (
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <div className="flex items-center gap-2 text-sm text-zinc-500">
+              <div className="flex items-center gap-2 text-sm text-[#8a8074]">
                 <span>#{application.queuePosition}</span>
                 <span>·</span>
                 <span>{formatDate(application.createdAt)}</span>
@@ -488,15 +488,15 @@ function StatusButton({
   const TONES: Record<typeof tone, { active: string; idle: string }> = {
     neutral: {
       active: "bg-sky-600 border-sky-600 text-white",
-      idle: "bg-white border-zinc-200 text-zinc-700 hover:bg-sky-50 hover:border-sky-200",
+      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-sky-50 hover:border-sky-200",
     },
     success: {
       active: "bg-emerald-600 border-emerald-600 text-white",
-      idle: "bg-white border-zinc-200 text-zinc-700 hover:bg-emerald-50 hover:border-emerald-200",
+      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-emerald-50 hover:border-emerald-200",
     },
     danger: {
       active: "bg-rose-600 border-rose-600 text-white",
-      idle: "bg-white border-zinc-200 text-zinc-700 hover:bg-rose-50 hover:border-rose-200",
+      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-rose-50 hover:border-rose-200",
     },
   }
   const t = TONES[tone]
@@ -525,7 +525,7 @@ function Section({
 }) {
   return (
     <section className="flex flex-col gap-3">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 border-b border-zinc-200 pb-2">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8a8074] border-b border-[#e7ddca] pb-2">
         {title}
       </h3>
       <div className="flex flex-col gap-2">{children}</div>
@@ -545,14 +545,14 @@ function Field({
   const text = typeof children === "string" ? children : ""
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-zinc-500">{label}</span>
+      <span className="text-[#8a8074]">{label}</span>
       <div className="flex items-center gap-2 min-w-0">
-        <span className="text-zinc-900 break-words">{children || "—"}</span>
+        <span className="text-[#211c16] break-words">{children || "—"}</span>
         {copyable && text ? (
           <button
             type="button"
             onClick={() => void navigator.clipboard.writeText(text)}
-            className="text-zinc-400 hover:text-zinc-700 transition-colors"
+            className="text-[#a99e8c] hover:text-[#4a443c] transition-colors"
             aria-label="Copy"
           >
             <FileText className="size-3.5" />
@@ -572,7 +572,7 @@ function FileLink({
 }) {
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-zinc-500">{label}</span>
+      <span className="text-[#8a8074]">{label}</span>
       {url ? (
         <a
           href={url}
@@ -583,7 +583,7 @@ function FileLink({
           Open file
         </a>
       ) : (
-        <span className="text-zinc-400">Not uploaded</span>
+        <span className="text-[#a99e8c]">Not uploaded</span>
       )}
     </div>
   )
@@ -599,9 +599,9 @@ function PhotoGallery({
   const visible = urls.filter((u): u is string => Boolean(u))
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-zinc-500">{label}</span>
+      <span className="text-[#8a8074]">{label}</span>
       {visible.length === 0 ? (
-        <span className="text-zinc-400">None uploaded</span>
+        <span className="text-[#a99e8c]">None uploaded</span>
       ) : (
         <div className="flex flex-wrap gap-2">
           {visible.map((u, i) => (
@@ -610,7 +610,7 @@ function PhotoGallery({
               href={u}
               target="_blank"
               rel="noopener noreferrer"
-              className="block size-20 border border-zinc-200 rounded overflow-hidden hover:border-zinc-400 transition-colors"
+              className="block size-20 border border-[#e7ddca] rounded overflow-hidden hover:border-[#c2b393] transition-colors"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

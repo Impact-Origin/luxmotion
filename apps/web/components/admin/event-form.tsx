@@ -285,7 +285,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
 
         <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
-            <div ref={tabsScrollRef} className="shrink-0 border-b border-zinc-200 overflow-x-auto">
+            <div ref={tabsScrollRef} className="shrink-0 border-b border-[#e7ddca] overflow-x-auto">
               <TabsList className="h-auto w-full bg-transparent p-0 flex flex-wrap">
                 {[
                   { value: "basic", label: t("form.tabs.basic"), icon: Info },
@@ -308,7 +308,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         container.scrollTo({ left: offset, behavior: "smooth" })
                       }
                     }}
-                    className="shrink-0 px-3 py-2.5 rounded-none border-b-2 border-transparent text-xs font-medium transition-all whitespace-nowrap data-[state=active]:border-zinc-900 data-[state=active]:text-zinc-900 data-[state=inactive]:text-zinc-500 data-[state=inactive]:hover:text-zinc-700 data-[state=inactive]:hover:bg-zinc-50"
+                    className="shrink-0 px-3 py-2.5 rounded-none border-b-2 border-transparent text-xs font-medium transition-all whitespace-nowrap data-[state=active]:border-[#A08248] data-[state=active]:text-[#211c16] data-[state=inactive]:text-[#8a8074] data-[state=inactive]:hover:text-[#4a443c] data-[state=inactive]:hover:bg-[#A08248]/[0.06]"
                   >
                     <tab.icon className="h-3.5 w-3.5 mr-1.5" />
                     {tab.label}
@@ -401,7 +401,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-xs text-zinc-500">{t("form.startDate")} *</Label>
+                        <Label className="text-xs text-[#8a8074]">{t("form.startDate")} *</Label>
                         <Input
                           type="date"
                           value={eventDate}
@@ -412,7 +412,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs text-zinc-500">{t("form.startTime")}</Label>
+                        <Label className="text-xs text-[#8a8074]">{t("form.startTime")}</Label>
                         <Input
                           type="time"
                           value={eventTime}
@@ -425,7 +425,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-xs text-zinc-500">{t("form.endDate")}</Label>
+                        <Label className="text-xs text-[#8a8074]">{t("form.endDate")}</Label>
                         <Input
                           type="date"
                           value={endDate}
@@ -435,7 +435,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs text-zinc-500">{t("form.endTime")}</Label>
+                        <Label className="text-xs text-[#8a8074]">{t("form.endTime")}</Label>
                         <Input
                           type="time"
                           value={endTime}
@@ -509,7 +509,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                   <Label className="text-base font-bold flex items-center gap-2">
                     <Image className="h-4 w-4" /> {t("form.additionalBannersLabel")}
                   </Label>
-                  <p className="text-sm text-zinc-500">{t("form.additionalBannersHelp")}</p>
+                  <p className="text-sm text-[#8a8074]">{t("form.additionalBannersHelp")}</p>
                   <MultiImageUpload
                     value={additionalBanners}
                     onChange={setAdditionalBanners}
@@ -656,7 +656,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                   </div>
 
                   <div className="space-y-3">
-                    <label className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${isAtFeaturedLimit ? "border-zinc-100 bg-zinc-50 cursor-not-allowed" : "border-zinc-200 hover:bg-zinc-50 cursor-pointer"}`}>
+                    <label className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${isAtFeaturedLimit ? "border-[#efe7d8] bg-[#faf6ee] cursor-not-allowed" : "border-[#e7ddca] hover:bg-[#A08248]/[0.06] cursor-pointer"}`}>
                       <Checkbox
                         checked={isFeatured}
                         onCheckedChange={(checked) => setIsFeatured(checked as boolean)}
@@ -665,18 +665,18 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                       />
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <span className={`font-semibold text-sm ${isAtFeaturedLimit ? "text-zinc-400" : "text-zinc-700"}`}>{t("form.featuredEvent")}</span>
-                          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${featuredCount >= 6 ? "bg-amber-100 text-amber-700" : "bg-zinc-100 text-zinc-600"}`}>
+                          <span className={`font-semibold text-sm ${isAtFeaturedLimit ? "text-[#a99e8c]" : "text-[#4a443c]"}`}>{t("form.featuredEvent")}</span>
+                          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${featuredCount >= 6 ? "bg-amber-100 text-amber-700" : "bg-[#f1e8d8] text-[#5c554c]"}`}>
                             {featuredCount}/6
                           </span>
                         </div>
-                        <p className={`text-xs ${isAtFeaturedLimit ? "text-zinc-400" : "text-zinc-500"}`}>
+                        <p className={`text-xs ${isAtFeaturedLimit ? "text-[#a99e8c]" : "text-[#8a8074]"}`}>
                           {isAtFeaturedLimit ? t("form.featuredLimit") : t("form.featuredHelp")}
                         </p>
                       </div>
                     </label>
 
-                    <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-zinc-200 hover:bg-zinc-50 transition-colors">
+                    <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-[#e7ddca] hover:bg-[#A08248]/[0.06] transition-colors">
                       <Checkbox
                         checked={isActive}
                         onCheckedChange={(checked) => setIsActive(checked as boolean)}
@@ -684,8 +684,8 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         className="size-5"
                       />
                       <div>
-                        <span className="font-semibold text-sm text-zinc-700">{t("form.activeLabel")}</span>
-                        <p className="text-xs text-zinc-500">{t("form.activeHelp")}</p>
+                        <span className="font-semibold text-sm text-[#4a443c]">{t("form.activeLabel")}</span>
+                        <p className="text-xs text-[#8a8074]">{t("form.activeHelp")}</p>
                       </div>
                     </label>
                   </div>
@@ -739,7 +739,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
             </div>
           </Tabs>
 
-          <div className="p-6 border-t bg-zinc-50 flex justify-end gap-3 shrink-0">
+          <div className="p-6 border-t bg-[#faf6ee] flex justify-end gap-3 shrink-0">
             <Button
               type="button"
               variant="outline"
@@ -752,7 +752,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-zinc-900 text-white hover:bg-zinc-800 h-11 px-8 font-bold"
+              className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold"
             >
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {initialData ? t("form.saveChanges") : t("form.createEventButton")}

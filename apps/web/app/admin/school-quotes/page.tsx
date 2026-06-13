@@ -42,7 +42,7 @@ export default function AdminSchoolQuotesPage() {
         {
           key: "children",
           label: "Children",
-          render: (r) => r.children ?? <span className="text-zinc-400">—</span>,
+          render: (r) => r.children ?? <span className="text-[#a99e8c]">—</span>,
         },
         {
           key: "budget",
@@ -51,19 +51,19 @@ export default function AdminSchoolQuotesPage() {
             typeof r.budget === "number" ? (
               `€${r.budget.toLocaleString("en-US")}`
             ) : (
-              <span className="text-zinc-400">—</span>
+              <span className="text-[#a99e8c]">—</span>
             ),
         },
         {
           key: "route",
           label: "Route",
-          render: (r) => r.route || <span className="text-zinc-400">—</span>,
+          render: (r) => r.route || <span className="text-[#a99e8c]">—</span>,
         },
         {
           key: "vehicle",
           label: "Vehicle",
           render: (r) =>
-            r.vehicle ? <span className="capitalize">{r.vehicle}</span> : <span className="text-zinc-400">—</span>,
+            r.vehicle ? <span className="capitalize">{r.vehicle}</span> : <span className="text-[#a99e8c]">—</span>,
         },
       ]}
       detailFields={[

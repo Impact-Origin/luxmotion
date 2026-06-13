@@ -25,28 +25,28 @@ export function RecentBookings({ bookings }: RecentBookingsProps) {
     <div className="w-full overflow-x-auto">
       <table className="w-full border-collapse">
         <thead>
-          <tr className="border-b border-zinc-100">
-            <th className="text-left py-4 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Customer</th>
-            <th className="text-left py-4 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Route</th>
-            <th className="text-left py-4 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Status</th>
-            <th className="text-right py-4 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Price</th>
+          <tr className="border-b border-[#efe7d8]">
+            <th className="text-left py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Customer</th>
+            <th className="text-left py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Route</th>
+            <th className="text-left py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Status</th>
+            <th className="text-right py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Price</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-zinc-50 text-sm">
+        <tbody className="divide-y divide-[#efe7d8] text-sm">
           {bookings.map((booking) => (
-            <tr key={booking._id} className="hover:bg-zinc-50/50 transition-colors">
+            <tr key={booking._id} className="hover:bg-[#A08248]/[0.06]/50 transition-colors">
               <td className="py-4 px-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-full bg-zinc-100 flex items-center justify-center text-xs font-bold text-zinc-600">
+                  <div className="h-8 w-8 rounded-full bg-[#f1e8d8] flex items-center justify-center text-xs font-bold text-[#5c554c]">
                     {booking.customerName.charAt(0)}
                   </div>
-                  <span className="font-medium text-zinc-900">{booking.customerName}</span>
+                  <span className="font-medium text-[#211c16]">{booking.customerName}</span>
                 </div>
               </td>
               <td className="py-4 px-4">
                 <div className="flex flex-col max-w-[250px]">
-                  <span className="text-zinc-900 truncate">{booking.pickupLocation}</span>
-                  <span className="text-xs text-zinc-500 truncate">{booking.dropoffLocation}</span>
+                  <span className="text-[#211c16] truncate">{booking.pickupLocation}</span>
+                  <span className="text-xs text-[#8a8074] truncate">{booking.dropoffLocation}</span>
                 </div>
               </td>
               <td className="py-4 px-4">
@@ -58,13 +58,13 @@ export function RecentBookings({ bookings }: RecentBookingsProps) {
                 </span>
               </td>
               <td className="py-4 px-4 text-right">
-                <span className="font-bold text-zinc-900">€{booking.price.toFixed(2)}</span>
+                <span className="font-bold text-[#211c16]">€{booking.price.toFixed(2)}</span>
               </td>
             </tr>
           ))}
           {bookings.length === 0 && (
             <tr>
-              <td colSpan={4} className="py-12 text-center text-zinc-500">
+              <td colSpan={4} className="py-12 text-center text-[#8a8074]">
                 No recent bookings found.
               </td>
             </tr>

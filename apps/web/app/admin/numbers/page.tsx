@@ -215,7 +215,7 @@ export default function AdminNumbersPage() {
   if (!settings || !tours || !events) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     );
   }
@@ -223,12 +223,12 @@ export default function AdminNumbersPage() {
   return (
     <div className="p-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">{t("title")}</h1>
-        <p className="text-zinc-500 mt-1">{t("subtitle")}</p>
+        <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
+        <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
       </div>
 
-      <div className="bg-white border border-zinc-200 rounded-xl p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-zinc-900">
+      <div className="bg-white border border-[#e7ddca] rounded-xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-[#211c16]">
           {t("sections.reviews")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -247,14 +247,14 @@ export default function AdminNumbersPage() {
         </div>
       </div>
 
-      <div className="bg-white border border-zinc-200 rounded-xl p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-zinc-900">
+      <div className="bg-white border border-[#e7ddca] rounded-xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-[#211c16]">
           {t("sections.perItemReviews")}
         </h2>
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-zinc-900">
+            <h3 className="text-sm font-semibold text-[#211c16]">
               {t("lists.tours")}
             </h3>
             <Input
@@ -262,10 +262,10 @@ export default function AdminNumbersPage() {
               onChange={(event) => setTourSearch(event.target.value)}
               placeholder={t("filters.searchTours")}
             />
-            <div className="border border-zinc-200 rounded-lg overflow-hidden">
-              <div className="max-h-[420px] overflow-auto divide-y divide-zinc-200">
+            <div className="border border-[#e7ddca] rounded-lg overflow-hidden">
+              <div className="max-h-[420px] overflow-auto divide-y divide-[#e7ddca]">
                 {filteredTours.length === 0 ? (
-                  <div className="p-4 text-sm text-zinc-500">
+                  <div className="p-4 text-sm text-[#8a8074]">
                     {t("lists.noTours")}
                   </div>
                 ) : (
@@ -282,17 +282,17 @@ export default function AdminNumbersPage() {
                     return (
                       <div key={id} className="p-4 space-y-3">
                         <div>
-                          <p className="font-medium text-zinc-900 break-all">
+                          <p className="font-medium text-[#211c16] break-all">
                             {tour.title}
                           </p>
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-xs text-[#8a8074]">
                             {t("lists.destination")}: {tour.destination}
                           </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          <div className="text-xs text-zinc-600">
+                          <div className="text-xs text-[#5c554c]">
                             <p>{t("lists.baseReviewCount")}</p>
-                            <p className="font-semibold text-zinc-900">
+                            <p className="font-semibold text-[#211c16]">
                               {tour.baseReviewCount ??
                                 Math.max(
                                   0,
@@ -301,9 +301,9 @@ export default function AdminNumbersPage() {
                                 )}
                             </p>
                           </div>
-                          <div className="text-xs text-zinc-600">
+                          <div className="text-xs text-[#5c554c]">
                             <p>{t("lists.displayedReviewCount")}</p>
-                            <p className="font-semibold text-zinc-900">
+                            <p className="font-semibold text-[#211c16]">
                               {tour.reviewCount ?? 0}
                             </p>
                           </div>
@@ -344,7 +344,7 @@ export default function AdminNumbersPage() {
                           <Button
                             onClick={() => saveTourReviewCount(tour)}
                             disabled={isSavingTour || isClearingTour}
-                            className="bg-zinc-900 text-white hover:bg-zinc-800"
+                            className="bg-[#221c15] text-white hover:bg-[#3a3026]"
                           >
                             {isSavingTour && (
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -361,7 +361,7 @@ export default function AdminNumbersPage() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-zinc-900">
+            <h3 className="text-sm font-semibold text-[#211c16]">
               {t("lists.events")}
             </h3>
             <Input
@@ -369,10 +369,10 @@ export default function AdminNumbersPage() {
               onChange={(event) => setEventSearch(event.target.value)}
               placeholder={t("filters.searchEvents")}
             />
-            <div className="border border-zinc-200 rounded-lg overflow-hidden">
-              <div className="max-h-[420px] overflow-auto divide-y divide-zinc-200">
+            <div className="border border-[#e7ddca] rounded-lg overflow-hidden">
+              <div className="max-h-[420px] overflow-auto divide-y divide-[#e7ddca]">
                 {filteredEvents.length === 0 ? (
-                  <div className="p-4 text-sm text-zinc-500">
+                  <div className="p-4 text-sm text-[#8a8074]">
                     {t("lists.noEvents")}
                   </div>
                 ) : (
@@ -389,17 +389,17 @@ export default function AdminNumbersPage() {
                     return (
                       <div key={id} className="p-4 space-y-3">
                         <div>
-                          <p className="font-medium text-zinc-900 break-all">
+                          <p className="font-medium text-[#211c16] break-all">
                             {event.title}
                           </p>
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-xs text-[#8a8074]">
                             {t("lists.location")}: {event.location}
                           </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          <div className="text-xs text-zinc-600">
+                          <div className="text-xs text-[#5c554c]">
                             <p>{t("lists.baseReviewCount")}</p>
-                            <p className="font-semibold text-zinc-900">
+                            <p className="font-semibold text-[#211c16]">
                               {event.baseReviewCount ??
                                 Math.max(
                                   0,
@@ -408,9 +408,9 @@ export default function AdminNumbersPage() {
                                 )}
                             </p>
                           </div>
-                          <div className="text-xs text-zinc-600">
+                          <div className="text-xs text-[#5c554c]">
                             <p>{t("lists.displayedReviewCount")}</p>
-                            <p className="font-semibold text-zinc-900">
+                            <p className="font-semibold text-[#211c16]">
                               {event.reviewCount ?? 0}
                             </p>
                           </div>
@@ -451,7 +451,7 @@ export default function AdminNumbersPage() {
                           <Button
                             onClick={() => saveEventReviewCount(event)}
                             disabled={isSavingEvent || isClearingEvent}
-                            className="bg-zinc-900 text-white hover:bg-zinc-800"
+                            className="bg-[#221c15] text-white hover:bg-[#3a3026]"
                           >
                             {isSavingEvent && (
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -471,8 +471,8 @@ export default function AdminNumbersPage() {
         </div>
       </div>
 
-      <div className="bg-white border border-zinc-200 rounded-xl p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-zinc-900">
+      <div className="bg-white border border-[#e7ddca] rounded-xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-[#211c16]">
           {t("sections.dailyNumbers")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -560,7 +560,7 @@ export default function AdminNumbersPage() {
         <Button
           onClick={save}
           disabled={isSaving}
-          className="bg-zinc-900 text-white hover:bg-zinc-800 h-11 px-8 font-bold"
+          className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold"
         >
           {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isSaving ? t("saving") : t("save")}

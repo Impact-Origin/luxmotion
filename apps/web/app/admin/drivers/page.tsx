@@ -108,16 +108,16 @@ export default function AdminDriversPage() {
       case "published":
         return "bg-green-100 text-green-800"
       case "draft":
-        return "bg-zinc-100 text-zinc-800"
+        return "bg-[#f1e8d8] text-[#2a241c]"
       default:
-        return "bg-zinc-100 text-zinc-800"
+        return "bg-[#f1e8d8] text-[#2a241c]"
     }
   }
 
   if (!drivers) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     )
   }
@@ -126,10 +126,10 @@ export default function AdminDriversPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">{t("title")}</h1>
-          <p className="text-zinc-500 mt-1">{t("subtitle")}</p>
+          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
+          <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
         </div>
-        <Button onClick={handleCreate} className="bg-zinc-900 text-white hover:bg-zinc-800">
+        <Button onClick={handleCreate} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
           <Plus className="h-4 w-4 mr-2" />
           {t("addDriver")}
         </Button>
@@ -137,7 +137,7 @@ export default function AdminDriversPage() {
 
       <div className="flex gap-4 mb-6 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
           <Input
             placeholder={t("searchPlaceholder")}
             value={search}
@@ -159,10 +159,10 @@ export default function AdminDriversPage() {
       </div>
 
       {filteredDrivers.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-50 rounded-lg border-2 border-dashed border-zinc-200">
-          <UserCheck className="h-12 w-12 mx-auto text-zinc-300 mb-4" />
-          <h3 className="text-lg font-medium text-zinc-900 mb-2">{t("noDriversFound")}</h3>
-          <p className="text-zinc-500 mb-4">
+        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
+          <UserCheck className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
+          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noDriversFound")}</h3>
+          <p className="text-[#8a8074] mb-4">
             {drivers.length === 0 ? t("getStarted") : t("tryFilters")}
           </p>
           {drivers.length === 0 && (
@@ -177,7 +177,7 @@ export default function AdminDriversPage() {
           {filteredDrivers.map((driver) => (
             <div
               key={driver._id}
-              className="bg-white rounded-xl border border-zinc-200 overflow-hidden hover:shadow-lg transition-shadow group p-6 flex flex-col items-center text-center"
+              className="bg-white rounded-xl border border-[#e7ddca] overflow-hidden hover:shadow-lg transition-shadow group p-6 flex flex-col items-center text-center"
             >
               <div className="relative mb-3">
                 <div className="size-[100px] rounded-full overflow-hidden ring-4 ring-[rgba(41,201,255,0.2)]">
@@ -190,8 +190,8 @@ export default function AdminDriversPage() {
                       className="object-cover size-full"
                     />
                   ) : (
-                    <div className="size-full bg-zinc-100 flex items-center justify-center">
-                      <UserCheck className="h-8 w-8 text-zinc-300" />
+                    <div className="size-full bg-[#f1e8d8] flex items-center justify-center">
+                      <UserCheck className="h-8 w-8 text-[#c9bfae]" />
                     </div>
                   )}
                 </div>
@@ -216,7 +216,7 @@ export default function AdminDriversPage() {
                 &ldquo;{driver.quote}&rdquo;
               </p>
 
-              <div className="flex items-center gap-1 mt-3 text-xs text-zinc-400">
+              <div className="flex items-center gap-1 mt-3 text-xs text-[#a99e8c]">
                 #{driver.order}
               </div>
 

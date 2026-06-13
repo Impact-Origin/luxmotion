@@ -158,7 +158,7 @@ export default function AdminReviewsPage() {
               "h-4 w-4",
               star <= rating
                 ? "fill-yellow-400 text-yellow-400"
-                : "fill-zinc-200 text-zinc-200"
+                : "fill-[#e7ddca] text-[#d8cfc0]"
             )}
           />
         ))}
@@ -169,7 +169,7 @@ export default function AdminReviewsPage() {
   if (!pendingReviews || !approvedReviews) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     )
   }
@@ -178,8 +178,8 @@ export default function AdminReviewsPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">{t("title")}</h1>
-          <p className="text-zinc-500 mt-1">{t("subtitle")}</p>
+          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
+          <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
         </div>
       </div>
 
@@ -190,7 +190,7 @@ export default function AdminReviewsPage() {
               variant={activeTab === "pending" ? "default" : "outline"}
               onClick={() => setActiveTab("pending")}
               className={cn(
-                activeTab === "pending" && "bg-zinc-900 text-white hover:bg-zinc-800"
+                activeTab === "pending" && "bg-[#221c15] text-white hover:bg-[#3a3026]"
               )}
             >
               {t("pending")}
@@ -204,7 +204,7 @@ export default function AdminReviewsPage() {
               variant={activeTab === "approved" ? "default" : "outline"}
               onClick={() => setActiveTab("approved")}
               className={cn(
-                activeTab === "approved" && "bg-zinc-900 text-white hover:bg-zinc-800"
+                activeTab === "approved" && "bg-[#221c15] text-white hover:bg-[#3a3026]"
               )}
             >
               {t("approved")}
@@ -250,9 +250,9 @@ export default function AdminReviewsPage() {
                 <SelectItem key={option.id} value={option.id}>
                   <div className="flex items-center gap-2">
                     {option.type === "tour" ? (
-                      <Map className="h-3.5 w-3.5 text-zinc-400" />
+                      <Map className="h-3.5 w-3.5 text-[#a99e8c]" />
                     ) : (
-                      <Calendar className="h-3.5 w-3.5 text-zinc-400" />
+                      <Calendar className="h-3.5 w-3.5 text-[#a99e8c]" />
                     )}
                     <span className="truncate">{option.title}</span>
                   </div>
@@ -264,12 +264,12 @@ export default function AdminReviewsPage() {
       </div>
 
       {!reviews || reviews.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-50 rounded-lg border-2 border-dashed border-zinc-200">
-          <MessageSquare className="h-12 w-12 mx-auto text-zinc-300 mb-4" />
-          <h3 className="text-lg font-medium text-zinc-900 mb-2">
+        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
+          <MessageSquare className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
+          <h3 className="text-lg font-medium text-[#211c16] mb-2">
             {activeTab === "pending" ? t("noPending") : t("noApproved")}
           </h3>
-          <p className="text-zinc-500">
+          <p className="text-[#8a8074]">
             {activeTab === "pending" ? t("noPendingDescription") : t("noApprovedDescription")}
           </p>
         </div>
@@ -280,7 +280,7 @@ export default function AdminReviewsPage() {
               key={review._id}
               className={cn(
                 "bg-white rounded-xl border overflow-hidden hover:shadow-lg transition-shadow",
-                review.isFeatured ? "border-amber-300 ring-1 ring-amber-200" : "border-zinc-200"
+                review.isFeatured ? "border-amber-300 ring-1 ring-amber-200" : "border-[#e7ddca]"
               )}
             >
               {review.isFeatured && (
@@ -307,7 +307,7 @@ export default function AdminReviewsPage() {
                       )}
                       {activeTab === "approved" && (
                         <DropdownMenuItem onSelect={() => handleToggleFeatured(review._id, !!review.isFeatured)}>
-                          <Award className={cn("h-4 w-4 mr-2", review.isFeatured ? "text-amber-500" : "text-zinc-400")} />
+                          <Award className={cn("h-4 w-4 mr-2", review.isFeatured ? "text-amber-500" : "text-[#a99e8c]")} />
                           {review.isFeatured ? t("removeFromTestimonials") : t("addToTestimonials")}
                         </DropdownMenuItem>
                       )}
@@ -322,30 +322,30 @@ export default function AdminReviewsPage() {
                   </DropdownMenu>
                 </div>
 
-                <p className="text-zinc-700 text-sm line-clamp-4 mb-4">
+                <p className="text-[#4a443c] text-sm line-clamp-4 mb-4">
                   "{review.text}"
                 </p>
 
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-8 w-8 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-sm font-medium">
+                  <div className="h-8 w-8 rounded-full bg-[#e7ddca] flex items-center justify-center text-[#5c554c] text-sm font-medium">
                     {review.author.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-zinc-900">{review.author}</p>
-                    <p className="text-xs text-zinc-500">{review.nationality || t("unknownNationality")}</p>
-                    <p className="text-xs text-zinc-500">{formatDate(review.createdAt)}</p>
+                    <p className="text-sm font-medium text-[#211c16]">{review.author}</p>
+                    <p className="text-xs text-[#8a8074]">{review.nationality || t("unknownNationality")}</p>
+                    <p className="text-xs text-[#8a8074]">{formatDate(review.createdAt)}</p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-zinc-100">
+                <div className="pt-3 border-t border-[#efe7d8]">
                   {review.tourTitle && (
-                    <div className="flex items-center gap-2 text-xs text-zinc-500">
+                    <div className="flex items-center gap-2 text-xs text-[#8a8074]">
                       <Map className="h-3.5 w-3.5" />
                       <span className="truncate">{review.tourTitle}</span>
                     </div>
                   )}
                   {review.eventTitle && (
-                    <div className="flex items-center gap-2 text-xs text-zinc-500">
+                    <div className="flex items-center gap-2 text-xs text-[#8a8074]">
                       <Calendar className="h-3.5 w-3.5" />
                       <span className="truncate">{review.eventTitle}</span>
                     </div>
@@ -354,7 +354,7 @@ export default function AdminReviewsPage() {
               </div>
 
               {activeTab === "pending" && (
-                <div className="px-5 py-3 bg-zinc-50 border-t border-zinc-100 flex gap-2">
+                <div className="px-5 py-3 bg-[#faf6ee] border-t border-[#efe7d8] flex gap-2">
                   <Button
                     size="sm"
                     variant="outline"
@@ -375,7 +375,7 @@ export default function AdminReviewsPage() {
                 </div>
               )}
               {activeTab === "approved" && (
-                <div className="px-5 py-3 bg-zinc-50 border-t border-zinc-100">
+                <div className="px-5 py-3 bg-[#faf6ee] border-t border-[#efe7d8]">
                   <Button
                     size="sm"
                     variant="outline"
@@ -383,11 +383,11 @@ export default function AdminReviewsPage() {
                       "w-full",
                       review.isFeatured
                         ? "text-amber-600 border-amber-300 hover:bg-amber-50"
-                        : "text-zinc-600 hover:bg-zinc-100"
+                        : "text-[#5c554c] hover:bg-[#A08248]/[0.09]"
                     )}
                     onClick={() => handleToggleFeatured(review._id, !!review.isFeatured)}
                   >
-                    <Award className={cn("h-4 w-4 mr-1", review.isFeatured ? "text-amber-500" : "text-zinc-400")} />
+                    <Award className={cn("h-4 w-4 mr-1", review.isFeatured ? "text-amber-500" : "text-[#a99e8c]")} />
                     {review.isFeatured ? t("removeFromTestimonials") : t("addToTestimonials")}
                   </Button>
                 </div>

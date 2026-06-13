@@ -61,7 +61,7 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
     <div className="space-y-4 w-full">
       <div
         className={cn(
-          "relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-zinc-200 transition-all hover:bg-zinc-50/50",
+          "relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-[#e7ddca] transition-all hover:bg-[#A08248]/[0.06]/50",
           disabled && "opacity-50 cursor-not-allowed"
         )}
       >
@@ -85,18 +85,18 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-10 px-6">
-            <div className="mb-4 rounded-full bg-zinc-100 p-3">
+            <div className="mb-4 rounded-full bg-[#f1e8d8] p-3">
               {isUploading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+                <Loader2 className="h-6 w-6 animate-spin text-[#8a8074]" />
               ) : (
-                <Upload className="h-6 w-6 text-zinc-500" />
+                <Upload className="h-6 w-6 text-[#8a8074]" />
               )}
             </div>
             <div className="text-center">
-              <p className="text-sm font-semibold text-zinc-900">
+              <p className="text-sm font-semibold text-[#211c16]">
                 {isUploading ? "Uploading..." : "Click to upload image"}
               </p>
-              <p className="mt-1 text-xs text-zinc-500">
+              <p className="mt-1 text-xs text-[#8a8074]">
                 PNG, JPG or WebP (max. 5MB)
               </p>
             </div>

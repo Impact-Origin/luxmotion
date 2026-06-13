@@ -70,7 +70,7 @@ export default function AdminAvailabilityPage() {
   if (!settings) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     )
   }
@@ -78,12 +78,12 @@ export default function AdminAvailabilityPage() {
   return (
     <div className="space-y-6 p-8">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">{t("title")}</h1>
-        <p className="mt-1 text-zinc-500">{t("subtitle")}</p>
+        <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
+        <p className="mt-1 text-[#8a8074]">{t("subtitle")}</p>
       </div>
 
-      <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-zinc-900">{t("sections.capacity")}</h2>
+      <div className="space-y-4 rounded-xl border border-[#e7ddca] bg-white p-6">
+        <h2 className="text-lg font-semibold text-[#211c16]">{t("sections.capacity")}</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {NUMBER_FIELDS.map((field) => (
             <div key={field} className="space-y-2">
@@ -100,14 +100,14 @@ export default function AdminAvailabilityPage() {
         </div>
       </div>
 
-      <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-zinc-900">{t("sections.months")}</h2>
+      <div className="space-y-4 rounded-xl border border-[#e7ddca] bg-white p-6">
+        <h2 className="text-lg font-semibold text-[#211c16]">{t("sections.months")}</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {MONTH_KEYS.map((key, index) => {
             const month = form.months[index] ?? { status: "booked" as MonthStatus, spotsLeft: 0 }
             return (
-              <div key={key} className="space-y-2 rounded-lg border border-zinc-200 p-4">
-                <p className="font-medium text-zinc-900">{tMonths(key)}</p>
+              <div key={key} className="space-y-2 rounded-lg border border-[#e7ddca] p-4">
+                <p className="font-medium text-[#211c16]">{tMonths(key)}</p>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
                     <Label className="text-xs" htmlFor={`status-${key}`}>
@@ -117,7 +117,7 @@ export default function AdminAvailabilityPage() {
                       id={`status-${key}`}
                       value={month.status}
                       onChange={(e) => updateMonth(index, { status: e.target.value as MonthStatus })}
-                      className="h-9 w-full rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-900"
+                      className="h-9 w-full rounded-md border border-[#ddd0b8] bg-white px-2 text-sm text-[#211c16]"
                     >
                       {STATUSES.map((status) => (
                         <option key={status} value={status}>
@@ -156,7 +156,7 @@ export default function AdminAvailabilityPage() {
         <Button
           onClick={save}
           disabled={isSaving}
-          className="h-11 bg-zinc-900 px-8 font-bold text-white hover:bg-zinc-800"
+          className="h-11 bg-[#221c15] px-8 font-bold text-white hover:bg-[#3a3026]"
         >
           {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isSaving ? t("saving") : t("save")}

@@ -336,7 +336,7 @@ export function GooglePlacesInput({
           side="bottom"
           align="start"
           sideOffset={isToursHeroDark ? 0 : 8}
-          className="p-0 border-none bg-transparent shadow-none w-[var(--radix-popover-trigger-width)] min-w-[300px]"
+          className="p-0 border-none bg-transparent shadow-none w-[var(--radix-popover-trigger-width)] min-w-0"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <LocationDropdown

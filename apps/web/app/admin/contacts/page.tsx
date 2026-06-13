@@ -30,14 +30,14 @@ export default function AdminContactsPage() {
           label: "Phone",
           copyable: true,
           render: (r) =>
-            r.phone ? r.phone : <span className="text-zinc-400">—</span>,
+            r.phone ? r.phone : <span className="text-[#a99e8c]">—</span>,
         },
         {
           key: "message",
           label: "Message",
           className: "max-w-[320px]",
           render: (r) => (
-            <span className="line-clamp-1 text-zinc-600">{r.message}</span>
+            <span className="line-clamp-1 text-[#5c554c]">{r.message}</span>
           ),
         },
       ]}

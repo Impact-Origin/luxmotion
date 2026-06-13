@@ -145,9 +145,9 @@ export function GoogleMapsInput({
         {label}
       </Label>
 
-      <div className="space-y-3 p-4 rounded-lg border border-zinc-200 bg-zinc-50/50">
+      <div className="space-y-3 p-4 rounded-lg border border-[#e7ddca] bg-[#faf6ee]/50">
         <div className="space-y-2">
-          <Label className="text-xs text-zinc-600">Title</Label>
+          <Label className="text-xs text-[#5c554c]">Title</Label>
           <Input
             value={localTitle}
             onChange={handleTitleChange}
@@ -158,7 +158,7 @@ export function GoogleMapsInput({
         </div>
 
         <div className="space-y-2 relative" ref={containerRef}>
-          <Label className="text-xs text-zinc-600">Address</Label>
+          <Label className="text-xs text-[#5c554c]">Address</Label>
           <div className="relative">
             <Input
               value={localAddress}
@@ -175,18 +175,18 @@ export function GoogleMapsInput({
             />
             {isLoading && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                <Loader2 className="h-4 w-4 animate-spin text-zinc-400" />
+                <Loader2 className="h-4 w-4 animate-spin text-[#a99e8c]" />
               </div>
             )}
           </div>
 
           {showDropdown && (isLoading || predictions.length > 0) && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-zinc-200 shadow-lg z-50 overflow-hidden">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-[#e7ddca] shadow-lg z-50 overflow-hidden">
               <div className="max-h-[240px] overflow-y-auto">
                 {isLoading && predictions.length === 0 && (
                   <div className="px-4 py-6 text-center">
-                    <Loader2 className="h-5 w-5 animate-spin text-zinc-400 mx-auto mb-2" />
-                    <p className="text-xs text-zinc-500">Searching...</p>
+                    <Loader2 className="h-5 w-5 animate-spin text-[#a99e8c] mx-auto mb-2" />
+                    <p className="text-xs text-[#8a8074]">Searching...</p>
                   </div>
                 )}
 
@@ -195,17 +195,17 @@ export function GoogleMapsInput({
                     key={suggestion.placeId || index}
                     type="button"
                     onClick={() => handleSelectSuggestion(suggestion)}
-                    className="w-full flex items-start gap-3 px-4 py-3 hover:bg-zinc-50 transition-colors text-left border-b border-zinc-100 last:border-0"
+                    className="w-full flex items-start gap-3 px-4 py-3 hover:bg-[#A08248]/[0.06] transition-colors text-left border-b border-[#efe7d8] last:border-0"
                   >
-                    <div className="mt-0.5 shrink-0 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center">
-                      <suggestion.icon className="w-4 h-4 text-zinc-500" />
+                    <div className="mt-0.5 shrink-0 w-8 h-8 rounded-full bg-[#f1e8d8] flex items-center justify-center">
+                      <suggestion.icon className="w-4 h-4 text-[#8a8074]" />
                     </div>
                     <div className="flex flex-col min-w-0 flex-1">
-                      <span className="text-sm font-medium text-zinc-900 truncate">
+                      <span className="text-sm font-medium text-[#211c16] truncate">
                         {suggestion.name}
                       </span>
                       {suggestion.description && (
-                        <span className="text-xs text-zinc-500 mt-0.5 truncate">
+                        <span className="text-xs text-[#8a8074] mt-0.5 truncate">
                           {suggestion.description}
                         </span>
                       )}
@@ -213,7 +213,7 @@ export function GoogleMapsInput({
                   </button>
                 ))}
               </div>
-              <div className="bg-zinc-50 px-3 py-1.5 flex justify-end border-t border-zinc-100">
+              <div className="bg-[#faf6ee] px-3 py-1.5 flex justify-end border-t border-[#efe7d8]">
                 <img
                   src="https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png"
                   alt="Powered by Google"
@@ -225,7 +225,7 @@ export function GoogleMapsInput({
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs text-zinc-600">Description (optional)</Label>
+          <Label className="text-xs text-[#5c554c]">Description (optional)</Label>
           <Input
             value={localDescription}
             onChange={handleDescriptionChange}
@@ -236,12 +236,12 @@ export function GoogleMapsInput({
         </div>
 
         {value?.lat && value?.lng && (
-          <div className="text-xs text-zinc-500 pt-2 border-t border-zinc-200 flex items-center gap-2">
+          <div className="text-xs text-[#8a8074] pt-2 border-t border-[#e7ddca] flex items-center gap-2">
             <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-50 text-green-700 rounded">
               <MapPin className="h-3 w-3" />
               Coordinates verified
             </span>
-            <span className="text-zinc-400">
+            <span className="text-[#a99e8c]">
               {value.lat.toFixed(6)}, {value.lng.toFixed(6)}
             </span>
           </div>

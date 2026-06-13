@@ -112,9 +112,9 @@ export default function AdminExperiencesPage() {
       case "published":
         return "bg-green-100 text-green-800"
       case "draft":
-        return "bg-zinc-100 text-zinc-800"
+        return "bg-[#f1e8d8] text-[#2a241c]"
       default:
-        return "bg-zinc-100 text-zinc-800"
+        return "bg-[#f1e8d8] text-[#2a241c]"
     }
   }
 
@@ -125,7 +125,7 @@ export default function AdminExperiencesPage() {
   if (!experiences) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
       </div>
     )
   }
@@ -134,10 +134,10 @@ export default function AdminExperiencesPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">{t("title")}</h1>
-          <p className="text-zinc-500 mt-1">{t("subtitle")}</p>
+          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
+          <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
         </div>
-        <Button onClick={handleCreate} className="bg-zinc-900 text-white hover:bg-zinc-800">
+        <Button onClick={handleCreate} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
           <Plus className="h-4 w-4 mr-2" />
           {t("addExperience")}
         </Button>
@@ -145,7 +145,7 @@ export default function AdminExperiencesPage() {
 
       <div className="flex gap-4 mb-6 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
           <Input
             placeholder={t("searchPlaceholder")}
             value={search}
@@ -180,10 +180,10 @@ export default function AdminExperiencesPage() {
       </div>
 
       {filteredExperiences.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-50 rounded-lg border-2 border-dashed border-zinc-200">
-          <Briefcase className="h-12 w-12 mx-auto text-zinc-300 mb-4" />
-          <h3 className="text-lg font-medium text-zinc-900 mb-2">{t("noExperiencesFound")}</h3>
-          <p className="text-zinc-500 mb-4">
+        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
+          <Briefcase className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
+          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noExperiencesFound")}</h3>
+          <p className="text-[#8a8074] mb-4">
             {experiences.length === 0 ? t("getStarted") : t("tryFilters")}
           </p>
           {experiences.length === 0 && (
@@ -198,7 +198,7 @@ export default function AdminExperiencesPage() {
           {filteredExperiences.map((exp) => (
             <div
               key={exp._id}
-              className="bg-white rounded-xl border border-zinc-200 overflow-hidden hover:shadow-lg transition-shadow group"
+              className="bg-white rounded-xl border border-[#e7ddca] overflow-hidden hover:shadow-lg transition-shadow group"
             >
               <div className="relative h-48">
                 {exp.imageUrl ? (
@@ -209,8 +209,8 @@ export default function AdminExperiencesPage() {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-zinc-100 flex items-center justify-center">
-                    <Briefcase className="h-12 w-12 text-zinc-300" />
+                  <div className="w-full h-full bg-[#f1e8d8] flex items-center justify-center">
+                    <Briefcase className="h-12 w-12 text-[#c9bfae]" />
                   </div>
                 )}
 
@@ -257,15 +257,15 @@ export default function AdminExperiencesPage() {
               </div>
 
               <div className="p-4">
-                <div className="text-xs text-zinc-500 mb-2">
+                <div className="text-xs text-[#8a8074] mb-2">
                   {getCategoryLabel(exp.category)}
                 </div>
 
-                <h3 className="font-semibold text-zinc-900 line-clamp-1 mb-1">
+                <h3 className="font-semibold text-[#211c16] line-clamp-1 mb-1">
                   {exp.title}
                 </h3>
 
-                <p className="text-sm text-zinc-500 line-clamp-2 mb-3">
+                <p className="text-sm text-[#8a8074] line-clamp-2 mb-3">
                   {exp.description}
                 </p>
 
@@ -274,7 +274,7 @@ export default function AdminExperiencesPage() {
                     {exp.tags.map((tag: string) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 text-xs"
+                        className="px-2 py-0.5 rounded-full bg-[#f1e8d8] text-[#5c554c] text-xs"
                       >
                         {tag}
                       </span>

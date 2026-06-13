@@ -162,6 +162,39 @@ html::-webkit-scrollbar-corner {
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* Admin — premium light theme (ivory + gold). Scoped to .admin-theme so the
+   shared shadcn primitives (button, input, select, card, …) pick up the brand
+   palette without touching the public site tokens. */
+.admin-theme {
+  --background: #f6f1e9;
+  --foreground: #211c16;
+  --card: #ffffff;
+  --card-foreground: #211c16;
+  --popover: #ffffff;
+  --popover-foreground: #211c16;
+  --primary: #c9a96e;
+  --primary-foreground: #1a1510;
+  --secondary: #efe8db;
+  --secondary-foreground: #2a241c;
+  --muted: #efe8db;
+  --muted-foreground: #6b6358;
+  --accent: #f1e8d8;
+  --accent-foreground: #2a241c;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: #ffffff;
+  --border: #e7ddca;
+  --input: #e2d7c1;
+  --ring: #a08248;
+  --sidebar: #fffdf9;
+  --sidebar-foreground: #211c16;
+  --sidebar-primary: #a08248;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1e8d8;
+  --sidebar-accent-foreground: #2a241c;
+  --sidebar-border: #e7ddca;
+  --sidebar-ring: #a08248;
+}
+
 @theme inline {
   --breakpoint-xs: 375px;
   --animate-ping-strong: lm-ping-strong 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
