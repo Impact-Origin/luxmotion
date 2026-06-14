@@ -1,118 +1,185 @@
-import { SignIn } from "@clerk/nextjs";
+"use client";
+
+import * as React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useSignIn } from "@clerk/nextjs";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const SERIF = "var(--font-title), 'Cormorant Garamond', serif";
 
 export default function Page() {
-  const year = new Date().getFullYear();
+  const clerk = useSignIn();
+  const router = useRouter();
+  const [identifier, setIdentifier] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [showPw, setShowPw] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!clerk.isLoaded || loading) return;
+    const { signIn, setActive } = clerk;
+    setError("");
+    setLoading(true);
+    try {
+      const res = await signIn.create({ identifier, password });
+      if (res.status === "complete") {
+        await setActive({ session: res.createdSessionId });
+        router.push("/admin");
+        return;
+      }
+      setError("Não foi possível concluir o início de sessão.");
+    } catch (err) {
+      const msg =
+        (err as { errors?: { longMessage?: string; message?: string }[] })?.errors?.[0]
+          ?.longMessage ?? "Utilizador ou palavra-passe inválidos.";
+      setError(msg);
+    }
+    setLoading(false);
+  }
 
   return (
-    <div className="relative flex min-h-screen w-full bg-[#f6f1e9] text-[#211c16]">
-      {/* Brand panel (desktop) */}
-      <div className="relative hidden w-[44%] max-w-[560px] flex-col justify-between overflow-hidden border-r border-[#e7ddca] bg-[#fffdf9] p-12 lg:flex">
-        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#C9A96E]/10 blur-3xl" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-[#C9A96E]/[0.07] blur-3xl" />
+    <div className="flex min-h-screen w-full bg-[#14110c] text-[#f3ecdd]">
+      {/* Image panel */}
+      <div className="relative hidden w-[46%] max-w-[640px] overflow-hidden lg:block">
+        <Image src="/interior.png" alt="" fill priority sizes="46vw" className="object-cover" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#0f0c08] via-[#0f0c08]/55 to-[#0f0c08]/25" />
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(120% 80% at 28% 18%, rgba(201,169,110,0.12), transparent 60%)" }}
+        />
+        <div aria-hidden className="absolute inset-y-0 right-0 w-px bg-[rgba(201,169,110,0.20)]" />
 
-        <div className="relative flex items-center gap-3">
+        <div className="absolute left-10 top-10 flex items-center gap-3">
           <span
-            className="flex h-11 w-11 items-center justify-center rounded-md border border-[#d8c7a3] bg-[#A08248]/[0.08] text-[#A08248]"
+            className="flex h-11 w-11 items-center justify-center rounded-md border border-[rgba(201,169,110,0.4)] bg-[rgba(201,169,110,0.10)] text-[#C9A96E]"
             style={{ fontFamily: SERIF }}
           >
             <span className="text-[20px] leading-none">LM</span>
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-[22px] text-[#211c16]" style={{ fontFamily: SERIF }}>
+            <span className="text-[22px] text-white" style={{ fontFamily: SERIF }}>
               LuxMotion
             </span>
-            <span className="mt-1 text-[9px] font-semibold uppercase tracking-[3px] text-[#A08248]">
+            <span className="mt-1 text-[9px] font-semibold uppercase tracking-[3px] text-[#C9A96E]">
               By EasyTransfer
             </span>
           </span>
         </div>
 
-        <div className="relative">
+        <div className="absolute bottom-10 left-10 right-10">
           <div aria-hidden className="mb-5 h-px w-12 bg-[#C9A96E]" />
-          <h2 className="max-w-[420px] text-[42px] leading-[1.08] text-[#211c16]" style={{ fontFamily: SERIF }}>
-            Painel de <span className="italic text-[#A08248]">administração</span>
+          <h2 className="text-[34px] leading-[1.12] text-white" style={{ fontFamily: SERIF }}>
+            Conduzimos cada <span className="italic text-[#C9A96E]">detalhe</span>.
           </h2>
-          <p className="mt-5 max-w-[380px] text-[15px] leading-relaxed text-[#6b6358]">
-            Acesso reservado à equipa LuxMotion. Inicie sessão para gerir frota, reservas,
-            parcerias e conteúdos do site.
+          <p className="mt-3 max-w-[380px] text-[14px] leading-relaxed text-[rgba(255,255,255,0.6)]">
+            Painel de administração LuxMotion — frota, reservas, parcerias e conteúdos.
           </p>
-        </div>
-
-        <div className="relative text-[11px] uppercase tracking-[2px] text-[#a99e8c]">
-          © {year} LuxMotion · EasyTransfer
         </div>
       </div>
 
-      {/* Sign-in */}
-      <div className="relative flex flex-1 items-center justify-center px-6 py-12 sm:px-12">
-        <div className="w-full max-w-[420px]">
-          {/* Brand (mobile) */}
-          <div className="mb-8 flex items-center justify-center gap-3 lg:hidden">
+      {/* Form panel */}
+      <div className="relative flex flex-1 items-center justify-center px-6 py-12 sm:px-10">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-[#C9A96E]/[0.06] blur-3xl"
+        />
+        <div className="relative w-full max-w-[400px]">
+          <div className="mb-9 flex items-center justify-center gap-3 lg:hidden">
             <span
-              className="flex h-10 w-10 items-center justify-center rounded-md border border-[#d8c7a3] bg-[#A08248]/[0.08] text-[#A08248]"
+              className="flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(201,169,110,0.4)] bg-[rgba(201,169,110,0.10)] text-[#C9A96E]"
               style={{ fontFamily: SERIF }}
             >
               <span className="text-[18px] leading-none">LM</span>
             </span>
-            <span className="text-[20px] text-[#211c16]" style={{ fontFamily: SERIF }}>
+            <span className="text-[20px] text-white" style={{ fontFamily: SERIF }}>
               LuxMotion
             </span>
           </div>
 
-          <div className="mb-7">
-            <p className="text-[11px] font-semibold uppercase tracking-[2px] text-[#A08248]">Acesso seguro</p>
-            <h1 className="mt-2 text-[31px] leading-tight text-[#211c16]" style={{ fontFamily: SERIF }}>
-              Bem-vindo de volta
+          <div className="mb-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[2px] text-[#C9A96E]">Acesso reservado</p>
+            <h1 className="mt-2 text-[32px] leading-tight text-white" style={{ fontFamily: SERIF }}>
+              Iniciar sessão
             </h1>
-            <p className="mt-1.5 text-[14px] text-[#6b6358]">
-              Inicie sessão na sua conta de administrador.
+            <p className="mt-1.5 text-[14px] text-[rgba(255,255,255,0.5)]">
+              Introduza as suas credenciais de administrador.
             </p>
           </div>
 
-          <SignIn
-            path="/admin/sign-in"
-            appearance={{
-              variables: {
-                colorPrimary: "#A08248",
-                colorText: "#211c16",
-                colorTextSecondary: "#6b6358",
-                colorBackground: "#ffffff",
-                colorInputBackground: "#ffffff",
-                colorInputText: "#211c16",
-                colorDanger: "#b4452f",
-                borderRadius: "0.6rem",
-                fontFamily: "var(--font-sans), system-ui, sans-serif",
-                fontSize: "15px",
-              },
-              elements: {
-                rootBox: "w-full",
-                cardBox: "w-full shadow-none",
-                card: "w-full gap-6 rounded-2xl border border-[#e7ddca] bg-white px-7 py-7 shadow-[0_12px_40px_rgba(160,130,72,0.08)]",
-                header: "hidden",
-                headerTitle: "hidden",
-                headerSubtitle: "hidden",
-                socialButtonsBlockButton:
-                  "border-[#e2d7c1] text-[#211c16] hover:bg-[#f6f1e9] normal-case",
-                socialButtonsBlockButtonText: "font-medium",
-                dividerLine: "bg-[#e7ddca]",
-                dividerText: "text-[#8a8074]",
-                formFieldLabel: "text-[#4a443c] font-medium",
-                formFieldInput:
-                  "border-[#e2d7c1] bg-white text-[#211c16] focus:border-[#A08248] focus:ring-2 focus:ring-[#A08248]/25",
-                formButtonPrimary:
-                  "bg-[#C9A96E] text-[#1a1510] hover:bg-[#bb9a5b] active:bg-[#ad8d4f] text-[14px] font-semibold normal-case shadow-none",
-                formFieldInputShowPasswordButton: "text-[#8a8074] hover:text-[#211c16]",
-                footerActionLink: "text-[#A08248] hover:text-[#8a6a30] font-medium",
-                identityPreviewEditButton: "text-[#A08248]",
-                footer: "hidden",
-              },
-            }}
-          />
+          <form onSubmit={onSubmit} className="space-y-5" noValidate>
+            <div className="space-y-2">
+              <label
+                htmlFor="identifier"
+                className="block text-[12px] font-medium uppercase tracking-[1px] text-[rgba(255,255,255,0.55)]"
+              >
+                Utilizador
+              </label>
+              <input
+                id="identifier"
+                name="identifier"
+                type="text"
+                autoComplete="username"
+                autoFocus
+                required
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                placeholder="O seu utilizador"
+                className="h-12 w-full rounded-lg border border-[rgba(201,169,110,0.22)] bg-[rgba(255,255,255,0.03)] px-4 text-[15px] text-white outline-none transition placeholder:text-[rgba(255,255,255,0.3)] focus:border-[#C9A96E] focus:bg-[rgba(255,255,255,0.05)] focus:ring-2 focus:ring-[rgba(201,169,110,0.25)]"
+              />
+            </div>
 
-          <p className="mt-6 text-center text-[12px] text-[#a99e8c]">
-            Problemas a aceder? Contacte o administrador do sistema.
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="block text-[12px] font-medium uppercase tracking-[1px] text-[rgba(255,255,255,0.55)]"
+              >
+                Palavra-passe
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPw ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="h-12 w-full rounded-lg border border-[rgba(201,169,110,0.22)] bg-[rgba(255,255,255,0.03)] px-4 pr-11 text-[15px] text-white outline-none transition placeholder:text-[rgba(255,255,255,0.3)] focus:border-[#C9A96E] focus:bg-[rgba(255,255,255,0.05)] focus:ring-2 focus:ring-[rgba(201,169,110,0.25)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPw((v) => !v)}
+                  aria-label={showPw ? "Esconder palavra-passe" : "Mostrar palavra-passe"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.4)] transition hover:text-[#C9A96E]"
+                >
+                  {showPw ? <EyeOff className="h-[18px] w-[18px]" /> : <Eye className="h-[18px] w-[18px]" />}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <p className="rounded-lg border border-[rgba(190,80,60,0.35)] bg-[rgba(190,80,60,0.10)] px-3 py-2.5 text-[13px] text-[#e7a596]">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading || !clerk.isLoaded}
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#C9A96E] text-[14px] font-semibold uppercase tracking-[1px] text-[#1a1510] transition hover:bg-[#d4b87f] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {loading ? "A entrar…" : "Entrar"}
+            </button>
+          </form>
+
+          <p className="mt-8 text-center text-[12px] text-[rgba(255,255,255,0.35)]">
+            Acesso reservado à equipa LuxMotion.
           </p>
         </div>
       </div>
