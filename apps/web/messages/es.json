@@ -5779,5 +5779,270 @@
       "capacity": "Las reservas confirmadas no pueden superar la capacidad total"
     }
   },
-  "corporate": {}
+  "corporate": {},
+  "hotels": {
+    "hero": {
+      "badge": "LuxMotion Partnership Program",
+      "titleLine1": "Generate extra revenue.",
+      "titleAccent": "Elevate the experience",
+      "titleSuffix": "of your clients.",
+      "intro": "Your guests, clients or members get a branded page to book a private chauffeur, curated tours and premium experiences. Your business handles nothing. We run the entire operation.",
+      "bulletsLabel": "For Premium Partners",
+      "bullet1": "100% free partnership. Zero setup, zero monthly fees, commission only on completed bookings.",
+      "bullet2": "Automated communication sent on behalf of your brand after every booking, integrated with your current system.",
+      "bullet3": "Dedicated white-label page for mobility, tours and curated experiences with your business identity.",
+      "stat1Value": "15min",
+      "stat1Label": "Setup to go-live",
+      "stat2Value": "48h",
+      "stat2Label": "Operational response",
+      "stat3Value": "+900",
+      "stat3Label": "Active partners"
+    },
+    "form": {
+      "eyebrow": "Partnership Application",
+      "titlePrefix": "Let's talk in",
+      "titleAccent": "15 minutes",
+      "fullName": "Full Name",
+      "fullNamePh": "e.g. Antonio Silva",
+      "email": "Work Email",
+      "emailPh": "name@company.com",
+      "phone": "Phone / WhatsApp",
+      "company": "Company Name",
+      "companyPh": "e.g. Penha Longa Resort",
+      "partnerType": "Partner Type",
+      "volume": "Estimated Monthly Volume",
+      "city": "City",
+      "cityPh": "e.g. Lisbon",
+      "source": "How did you hear about us?",
+      "selectPh": "Select",
+      "partnerTypeOptions": [
+        "Hotel / Resort",
+        "Estate / Events Venue",
+        "Travel Agency",
+        "Tour Operator",
+        "Restaurant",
+        "Other"
+      ],
+      "volumeOptions": [
+        "1–10 bookings/mo",
+        "10–50 bookings/mo",
+        "50–200 bookings/mo",
+        "+200 bookings/mo"
+      ],
+      "sourceOptions": [
+        "Google Search",
+        "Social media",
+        "Referral",
+        "Event / Fair",
+        "Other"
+      ],
+      "submit": "Submit application",
+      "submitting": "Sending…",
+      "note": "Your data stays with us. We never share it with third parties."
+    },
+    "modal": {
+      "eyebrow": "Application received",
+      "titlePrefix": "Thank you,",
+      "titleAccent": "let's move forward.",
+      "subtitle": "We received your application to the LuxMotion Premium Partnership Program.",
+      "stepsLabel": "Next steps",
+      "step1Title": "48h for our contact",
+      "step1Body": "Our sales team will reach out to schedule a qualification meeting.",
+      "step2Title": "15 min meeting",
+      "step2Body": "Required for qualification.",
+      "step3Title": "7 days to start",
+      "step3Body": "Once qualified, you can start working within 7 days.",
+      "cta": "Schedule the meeting now",
+      "contactPrefix": "Any questions? Email us at",
+      "contactMiddle": "or message us on WhatsApp at"
+    },
+    "offers": {
+      "eyebrow": "The LuxMotion ecosystem",
+      "title": "What you offer your clients",
+      "subtitle": "A complete range of premium mobility and experiences, ready for your brand.",
+      "items": [
+        "Private Transfers",
+        "Curated Tours",
+        "Ultra-Luxury Tours",
+        "Events",
+        "Weddings",
+        "Limousines"
+      ]
+    },
+    "why": {
+      "eyebrow": "Advantages",
+      "title": "Why is a partnership worth it?",
+      "subtitle": "Extra revenue with no effort — the operation is 100% in our hands.",
+      "items": [
+        {
+          "q": "Revenue with no costs",
+          "a": "Commission only on completed bookings. Zero setup, zero monthly fees, zero risk for your business."
+        },
+        {
+          "q": "Always your brand",
+          "a": "White-label page and communications sent on behalf of your brand — your clients never leave your world."
+        },
+        {
+          "q": "Operation handled by us",
+          "a": "Drivers, vehicles, support and billing stay with us. Your team handles nothing."
+        },
+        {
+          "q": "Premium experience",
+          "a": "Luxury fleet, professional chauffeurs and 24/7 concierge — the level your clients expect."
+        },
+        {
+          "q": "Setup in minutes",
+          "a": "Up and running in 15 minutes, operational response within 48h. No complex integrations."
+        },
+        {
+          "q": "Full visibility",
+          "a": "Track bookings, commissions and performance on a dedicated dashboard, in real time."
+        }
+      ]
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "title": "From application to first booking",
+      "subtitle": "Three simple steps to start generating revenue.",
+      "steps": [
+        {
+          "title": "Application",
+          "body": "Fill in the form and our team qualifies the partnership in a 15-minute meeting."
+        },
+        {
+          "title": "Setup",
+          "body": "We build your white-label page and integrate communication with your brand. Ready in 48h."
+        },
+        {
+          "title": "Revenue",
+          "body": "Your clients book, we handle the operation, and you earn commission on every booking."
+        }
+      ]
+    },
+    "ctaFinal": {
+      "eyebrow": "Ready to start?",
+      "title": "Ready to start generating revenue?",
+      "subtitle": "Join +900 partners elevating their clients' experience with LuxMotion.",
+      "button": "Submit application"
+    },
+    "founders": {
+      "eyebrow": "Who we are",
+      "title": "Meet the founders",
+      "body": "LuxMotion was born from an obsession with the perfect arrival. A Portuguese team blending luxury hospitality with mobility technology — so every guest of yours lives a flawless experience.",
+      "quote": "Every arrival is a first impression. We treat each one as if it were our own.",
+      "quoteRole": "Founders, LuxMotion"
+    },
+    "earnings": {
+      "eyebrow": "Revenue",
+      "title": "Service levels & commission",
+      "subtitle": "Simple, transparent commission — you earn on every completed booking, with no fixed costs.",
+      "tiers": [
+        {
+          "name": "Standard",
+          "rate": "8%",
+          "desc": "Transfers and one-off bookings. Ideal to start."
+        },
+        {
+          "name": "Premium",
+          "rate": "12%",
+          "desc": "Regular volume with tours and experiences included."
+        },
+        {
+          "name": "Elite",
+          "rate": "15%",
+          "desc": "Strategic partnership with dedicated management."
+        }
+      ],
+      "calcTitle": "Calculate your revenue",
+      "calcSubtitle": "Estimate your monthly commission based on booking volume.",
+      "calcReservas": "Bookings per month",
+      "calcTicket": "Average value per booking (€)",
+      "calcRate": "Commission",
+      "calcResult": "Estimated monthly revenue"
+    },
+    "plans": {
+      "eyebrow": "Investment",
+      "title": "Payment plans",
+      "subtitle": "Start free. No setup, no monthly fees — you only pay commission on bookings.",
+      "items": [
+        {
+          "name": "Partnership",
+          "price": "€0",
+          "period": "/forever",
+          "features": [
+            "White-label page",
+            "Branded communication",
+            "Commission on bookings",
+            "Email support"
+          ],
+          "cta": "Apply",
+          "highlight": false
+        },
+        {
+          "name": "Premium",
+          "price": "€0",
+          "period": "+ commission",
+          "features": [
+            "Everything in Partnership",
+            "Dedicated dashboard",
+            "Tours and experiences",
+            "24/7 concierge",
+            "Account manager"
+          ],
+          "cta": "Apply",
+          "highlight": true
+        },
+        {
+          "name": "Elite",
+          "price": "Custom",
+          "period": "",
+          "features": [
+            "Everything in Premium",
+            "Physical reception material",
+            "Custom integration",
+            "Preferred commission",
+            "Dedicated SLA"
+          ],
+          "cta": "Talk to us",
+          "highlight": false
+        }
+      ]
+    },
+    "fleet": {
+      "eyebrow": "The fleet",
+      "title": "Premium vehicles for every service",
+      "subtitle": "From the executive sedan to the luxury van — always immaculate, always with a professional chauffeur.",
+      "names": [
+        "Mercedes E-Class",
+        "Mercedes S-Class",
+        "Mercedes V-Class",
+        "Mercedes EQS",
+        "Maybach",
+        "VIP Minibus"
+      ]
+    },
+    "results": {
+      "eyebrow": "Results",
+      "title": "Results after months of partnership",
+      "subtitle": "Real extra revenue, with zero operational effort.",
+      "stats": [
+        [
+          "+38%",
+          "Average extra revenue"
+        ],
+        [
+          "4.9★",
+          "Guest satisfaction"
+        ],
+        [
+          "<48h",
+          "Activation time"
+        ],
+        [
+          "100%",
+          "Operation handled by us"
+        ]
+      ]
+    }
+  }
 }

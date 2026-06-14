@@ -886,6 +886,26 @@ export default defineSchema({
     .index("by_created", ["createdAt"])
     .index("by_status", ["status"]),
 
+  partnerLeads: defineTable({
+    fullName: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    companyName: v.string(),
+    partnerType: v.string(),
+    estimatedMonthlyVolume: v.string(),
+    city: v.string(),
+    howDidYouHear: v.string(),
+    status: v.union(
+      v.literal("new"),
+      v.literal("contacted"),
+      v.literal("qualified"),
+      v.literal("archived"),
+    ),
+    createdAt: v.number(),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_status", ["status"]),
+
   weddingQuoteSubmissions: defineTable({
     fullName: v.string(),
     email: v.string(),

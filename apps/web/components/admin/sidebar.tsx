@@ -26,6 +26,7 @@ import {
   CalendarClock,
   Gem,
   Send,
+  Building2,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -41,6 +42,7 @@ export function AdminSidebar() {
     () => [
       { title: "Vehicles", url: "/admin/vehicles", icon: Car },
       { title: "Partnerships", url: "/admin/partnerships", icon: CalendarDays },
+      { title: "Partner Leads", url: "/admin/partner-leads", icon: Building2 },
       { title: "Tours", url: "/admin/tours", icon: Map },
       { title: "Events", url: "/admin/events", icon: Calendar },
       { title: "Experiences", url: "/admin/experiences", icon: Briefcase },

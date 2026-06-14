@@ -239,8 +239,8 @@ export function Header({
       label: t("forPartners"),
       hasDropdown: true,
       items: [
-        { href: "https://easytransferpartnership.com/", label: t("hotels") },
-        { href: "https://easytransferpartnership.com/partner/", label: t("partnerGuide") },
+        { href: "/hotels", label: t("hotels") },
+        { href: "/partner-guide", label: t("partnerGuide") },
       ]
     },
     {
