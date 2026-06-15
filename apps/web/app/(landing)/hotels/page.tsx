@@ -5,6 +5,7 @@ import { Footer } from "@/components/new-landing-page/footer"
 import { HotelsHero } from "@/components/hotels/hotels-hero"
 import { HotelsOffers, HotelsWhy, HotelsHow, HotelsCta } from "@/components/hotels/hotels-sections"
 import { HotelsFounders, HotelsEarnings, HotelsPlans, HotelsFleet, HotelsResults } from "@/components/hotels/hotels-sections-2"
+import { HotelsVertente, HotelsDashboards } from "@/components/hotels/hotels-sections-3"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createPageMetadata } from "@/lib/seo"
@@ -40,9 +41,11 @@ export default function HotelsPage() {
       <main className="pt-[60px] lg:pt-[72px]">
         <HotelsHero />
         <HotelsOffers />
+        <HotelsVertente />
         <HotelsWhy />
         <HotelsFounders />
         <HotelsHow />
+        <HotelsDashboards />
         <HotelsEarnings />
         <HotelsPlans />
         <HotelsFleet />

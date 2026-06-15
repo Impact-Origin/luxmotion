@@ -6043,6 +6043,65 @@
           "Operation handled by us"
         ]
       ]
+    },
+    "vertente": {
+      "eyebrow": "The partnership",
+      "title": "How the partnership works",
+      "subtitle": "Everything your business needs to offer premium mobility and experiences — without operating any of it.",
+      "items": [
+        {
+          "title": "Private mobility",
+          "body": "Transfers, professional chauffeurs and a luxury fleet, delivered under your brand."
+        },
+        {
+          "title": "Curated experiences",
+          "body": "Tours, events and premium activities to enrich your guests' stay."
+        },
+        {
+          "title": "White-label platform",
+          "body": "Complete page, communication and automation, with your business identity."
+        }
+      ]
+    },
+    "dashboards": {
+      "eyebrow": "Technology",
+      "title": "A platform built for you",
+      "subtitle": "From booking to billing, everything runs itself — you just collect the revenue.",
+      "rows": [
+        {
+          "tag": "Your page",
+          "title": "Your clients book",
+          "accent": "on your page.",
+          "body": "A white-label page with your brand where guests book transfers, tours and experiences — without ever leaving your world.",
+          "points": [
+            "Your business' visual identity",
+            "Booking in under 60 seconds",
+            "Fixed, transparent pricing"
+          ]
+        },
+        {
+          "tag": "Automation",
+          "title": "Automate mobility.",
+          "accent": "Unlock your revenue.",
+          "body": "Communication, billing and operations run on their own. You earn commission; we handle everything else.",
+          "points": [
+            "Automatic post-booking communication",
+            "Billing and payments handled",
+            "24/7 concierge for guests"
+          ]
+        },
+        {
+          "tag": "Integration",
+          "title": "Integrates with your system,",
+          "accent": "no friction.",
+          "body": "We connect to your current operation with no hassle — live in 48h, no heavy integrations.",
+          "points": [
+            "Setup in 15 minutes",
+            "No change to your system",
+            "Dashboard with full visibility"
+          ]
+        }
+      ]
     }
   }
 }

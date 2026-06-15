@@ -6200,6 +6200,65 @@
           "Operação tratada por nós"
         ]
       ]
+    },
+    "vertente": {
+      "eyebrow": "A parceria",
+      "title": "A vertente de parceria",
+      "subtitle": "Tudo o que o seu negócio precisa para oferecer mobilidade e experiências premium — sem operar nada.",
+      "items": [
+        {
+          "title": "Mobilidade privada",
+          "body": "Transfers, motoristas profissionais e frota de luxo, prestados sob a sua marca."
+        },
+        {
+          "title": "Experiências curadas",
+          "body": "Tours, eventos e atividades premium para enriquecer a estadia dos seus hóspedes."
+        },
+        {
+          "title": "Plataforma white label",
+          "body": "Página, comunicação e automação completas, com a identidade do seu negócio."
+        }
+      ]
+    },
+    "dashboards": {
+      "eyebrow": "Tecnologia",
+      "title": "Uma plataforma feita para si",
+      "subtitle": "Da reserva à faturação, tudo corre sozinho — você só recolhe a receita.",
+      "rows": [
+        {
+          "tag": "A sua página",
+          "title": "Os seus clientes reservam",
+          "accent": "na sua página.",
+          "body": "Uma página white label com a sua marca onde os hóspedes reservam transfers, tours e experiências — sem nunca sair do seu universo.",
+          "points": [
+            "Identidade visual do seu negócio",
+            "Reserva em menos de 60 segundos",
+            "Preço fixo e transparente"
+          ]
+        },
+        {
+          "tag": "Automação",
+          "title": "Automatize a mobilidade.",
+          "accent": "Liberte a sua receita.",
+          "body": "Comunicação, faturação e operação correm sozinhas. Você recebe comissão; nós tratamos de todo o resto.",
+          "points": [
+            "Comunicação automática pós-reserva",
+            "Faturação e pagamentos tratados",
+            "Concierge 24/7 para os hóspedes"
+          ]
+        },
+        {
+          "tag": "Integração",
+          "title": "Integração com o seu sistema,",
+          "accent": "sem fricção.",
+          "body": "Ligamos à sua operação atual sem complicações — em 48h está a funcionar, sem integrações pesadas.",
+          "points": [
+            "Setup em 15 minutos",
+            "Sem alterar o seu sistema",
+            "Dashboard com tudo visível"
+          ]
+        }
+      ]
     }
   }
 }
