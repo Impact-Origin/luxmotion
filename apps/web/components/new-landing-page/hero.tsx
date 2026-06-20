@@ -111,12 +111,12 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
       className="relative bg-[#0D0D0D] overflow-hidden"
       style={whitelabel ? { background: WHITELABEL_BG } : undefined}
     >
-      <div className="absolute top-0 right-0 w-[52%] xl:w-[49%] 2xl:w-[47%] max-w-[855px] h-[600px] hidden lg:block">
+      <div className="absolute top-0 right-0 w-[50%] xl:w-[47%] 2xl:w-[45%] max-w-[820px] aspect-[4096/2163] hidden lg:block">
         <Image
           src="/hero-bg.png"
           alt=""
           fill
-          className="object-cover object-[22%_center]"
+          className="object-cover"
           priority
         />
       </div>
