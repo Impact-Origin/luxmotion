@@ -111,7 +111,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
       className="relative bg-[#0D0D0D] overflow-hidden"
       style={whitelabel ? { background: WHITELABEL_BG } : undefined}
     >
-      <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] aspect-[4096/2163] hidden lg:block">
+      <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] h-[628px] hidden lg:block">
         <Image
           src="/hero-bg.png"
           alt=""
