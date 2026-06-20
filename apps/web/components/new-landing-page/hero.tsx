@@ -111,18 +111,13 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
       className="relative bg-[#0D0D0D] overflow-hidden"
       style={whitelabel ? { background: WHITELABEL_BG } : undefined}
     >
-      <div className="absolute top-0 bottom-0 right-0 w-[52%] xl:w-[50%] hidden lg:block">
+      <div className="absolute top-0 right-0 w-[55%] xl:w-[52%] 2xl:w-[50%] max-w-[900px] aspect-[4096/2163] hidden lg:block">
         <Image
           src="/hero-bg.png"
           alt=""
           fill
-          className="object-cover object-[46%_center]"
+          className="object-cover"
           priority
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(90deg, #0D0D0D 0%, transparent 34%)" }}
         />
       </div>
 
