@@ -8,6 +8,26 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const SERIF = "var(--font-title), 'Cormorant Garamond', serif";
 
+function OfficialLogo() {
+  return (
+    <div className="flex items-center gap-[10px]">
+      <div className="relative flex h-[45px] w-[45px] shrink-0 items-center justify-center border-[1.9px] border-[#C9A96E]">
+        <div className="relative h-[13px] w-[23px]">
+          <Image src="/svgs/lm-monogram.svg" alt="" fill className="object-contain" priority />
+        </div>
+      </div>
+      <div className="flex flex-col justify-center">
+        <div className="relative h-[13px] w-[120px]">
+          <Image src="/svgs/luxmotion-text.svg" alt="LuxMotion" fill className="object-contain object-left" priority />
+        </div>
+        <span className="mt-[4px] whitespace-nowrap text-[10px] tracking-[1.4px] text-[#999]">
+          BY EASYTRANSFER
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function Page() {
   const clerk = useSignIn();
   const router = useRouter();
@@ -53,21 +73,8 @@ export default function Page() {
         />
         <div aria-hidden className="absolute inset-y-0 right-0 w-px bg-[rgba(201,169,110,0.20)]" />
 
-        <div className="absolute left-10 top-10 flex items-center gap-3">
-          <span
-            className="flex h-11 w-11 items-center justify-center rounded-md border border-[rgba(201,169,110,0.4)] bg-[rgba(201,169,110,0.10)] text-[#C9A96E]"
-            style={{ fontFamily: SERIF }}
-          >
-            <span className="text-[20px] leading-none">LM</span>
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="text-[22px] text-white" style={{ fontFamily: SERIF }}>
-              LuxMotion
-            </span>
-            <span className="mt-1 text-[9px] font-semibold uppercase tracking-[3px] text-[#C9A96E]">
-              By EasyTransfer
-            </span>
-          </span>
+        <div className="absolute left-10 top-10">
+          <OfficialLogo />
         </div>
 
         <div className="absolute bottom-10 left-10 right-10">
@@ -88,16 +95,8 @@ export default function Page() {
           className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-[#C9A96E]/[0.06] blur-3xl"
         />
         <div className="relative w-full max-w-[400px]">
-          <div className="mb-9 flex items-center justify-center gap-3 lg:hidden">
-            <span
-              className="flex h-10 w-10 items-center justify-center rounded-md border border-[rgba(201,169,110,0.4)] bg-[rgba(201,169,110,0.10)] text-[#C9A96E]"
-              style={{ fontFamily: SERIF }}
-            >
-              <span className="text-[18px] leading-none">LM</span>
-            </span>
-            <span className="text-[20px] text-white" style={{ fontFamily: SERIF }}>
-              LuxMotion
-            </span>
+          <div className="mb-9 flex justify-center lg:hidden">
+            <OfficialLogo />
           </div>
 
           <div className="mb-8">

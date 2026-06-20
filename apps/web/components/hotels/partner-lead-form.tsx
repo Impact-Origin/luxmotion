@@ -122,7 +122,7 @@ export function PartnerLeadForm() {
             </label>
             <label className="flex flex-col gap-2">
               <FieldLabel>{t("phone")}</FieldLabel>
-              <div className="[&_input]:!h-[52px] [&>div]:w-full">
+              <div className="[&>div]:w-full [&_button]:!h-[52px] [&_input]:!h-[52px] [&_button]:!border-[rgba(201,169,110,0.2)] [&_input]:!border-[rgba(201,169,110,0.2)] [&_input:focus]:!border-[#C9A96E] [&_button]:!bg-[rgba(255,255,255,0.03)] [&_input]:!bg-[rgba(255,255,255,0.03)]">
                 <PhoneInput dark value={phone} onChange={setPhone} defaultCountry="pt" placeholder="000 000 000" />
               </div>
             </label>

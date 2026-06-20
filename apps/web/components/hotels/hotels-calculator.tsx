@@ -45,7 +45,7 @@ export function HotelsCalculator() {
               alt=""
               width={458}
               height={348}
-              className="pointer-events-none absolute bottom-4 right-4 w-[40%]"
+              className="pointer-events-none absolute bottom-1 right-1 w-[42%]"
             />
           </div>
 
