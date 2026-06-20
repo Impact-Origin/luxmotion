@@ -116,7 +116,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
           src="/hero-bg.png"
           alt=""
           fill
-          className="object-cover"
+          className="object-cover object-[22%_center]"
           priority
         />
       </div>
