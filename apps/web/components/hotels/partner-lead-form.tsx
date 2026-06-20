@@ -4,8 +4,9 @@ import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
-import { User, Mail, Building2, Star, BarChart3, MapPin, Search, ChevronDown, ArrowRight, Info } from "lucide-react"
+import { User, Mail, Building2, Star, BarChart3, MapPin, Search, ArrowRight, Info } from "lucide-react"
 import { PhoneInput } from "@/components/ui/phone-input"
+import { PartnerSelect } from "./partner-select"
 import { PartnerLeadSuccessModal } from "./partner-lead-success-modal"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -37,27 +38,10 @@ function IconInput({
   )
 }
 
-function IconSelect({
-  icon,
-  children,
-  ...props
-}: { icon: React.ReactNode } & React.SelectHTMLAttributes<HTMLSelectElement>) {
-  return (
-    <div className="relative">
-      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 z-10 text-[rgba(201,169,110,0.7)]">
-        {icon}
-      </span>
-      <select
-        {...props}
-        className={`${FIELD} cursor-pointer appearance-none pr-10 [&>option]:bg-[#161310] [&>option]:text-white`}
-        style={sans}
-      >
-        {children}
-      </select>
-      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgba(255,255,255,0.4)]" />
-    </div>
-  )
-}
+const SELECT_TRIGGER =
+  "h-[52px] border border-[rgba(201,169,110,0.2)] bg-[rgba(255,255,255,0.03)] pl-11 pr-4 text-[14px]"
+
+const toOptions = (arr: string[]) => arr.map((o) => ({ value: o, label: o }))
 
 export function PartnerLeadForm() {
   const t = useTranslations("hotels.form")
@@ -157,42 +141,30 @@ export function PartnerLeadForm() {
             </label>
             <label className="flex flex-col gap-2">
               <FieldLabel>{t("partnerType")}</FieldLabel>
-              <IconSelect
+              <PartnerSelect
                 icon={<Star className="h-[18px] w-[18px]" strokeWidth={1.6} />}
                 value={partnerType}
-                onChange={(e) => setPartnerType(e.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  {t("selectPh")}
-                </option>
-                {partnerTypeOptions.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </IconSelect>
+                onChange={setPartnerType}
+                placeholder={t("selectPh")}
+                ariaLabel={t("partnerType")}
+                triggerClassName={SELECT_TRIGGER}
+                options={toOptions(partnerTypeOptions)}
+              />
             </label>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <label className="flex flex-col gap-2">
               <FieldLabel>{t("volume")}</FieldLabel>
-              <IconSelect
+              <PartnerSelect
                 icon={<BarChart3 className="h-[18px] w-[18px]" strokeWidth={1.6} />}
                 value={estimatedMonthlyVolume}
-                onChange={(e) => setVolume(e.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  {t("selectPh")}
-                </option>
-                {volumeOptions.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </IconSelect>
+                onChange={setVolume}
+                placeholder={t("selectPh")}
+                ariaLabel={t("volume")}
+                triggerClassName={SELECT_TRIGGER}
+                options={toOptions(volumeOptions)}
+              />
             </label>
             <label className="flex flex-col gap-2">
               <FieldLabel>{t("city")}</FieldLabel>
@@ -208,21 +180,15 @@ export function PartnerLeadForm() {
 
           <label className="flex flex-col gap-2">
             <FieldLabel>{t("source")}</FieldLabel>
-            <IconSelect
+            <PartnerSelect
               icon={<Search className="h-[18px] w-[18px]" strokeWidth={1.6} />}
               value={howDidYouHear}
-              onChange={(e) => setSource(e.target.value)}
-              required
-            >
-              <option value="" disabled>
-                {t("selectPh")}
-              </option>
-              {sourceOptions.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </IconSelect>
+              onChange={setSource}
+              placeholder={t("selectPh")}
+              ariaLabel={t("source")}
+              triggerClassName={SELECT_TRIGGER}
+              options={toOptions(sourceOptions)}
+            />
           </label>
 
           <button

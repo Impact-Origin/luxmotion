@@ -2,11 +2,10 @@
 
 import { useState, useMemo, useCallback } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, BadgeCheck, Star } from "lucide-react"
+import { ChevronRight, BadgeCheck, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
-import { cn } from "@workspace/ui/lib/utils"
 import { useSwipe } from "@/hooks/use-swipe"
 
 const REVIEW_PHOTOS = [
@@ -98,27 +97,6 @@ function ReviewCard({ review }: { review: Review }) {
   )
 }
 
-function ArrowButton({ direction, onClick, disabled, className }: { direction: "left" | "right"; onClick: () => void; disabled?: boolean; className?: string }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "size-9 rounded-full bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-colors hover:border-[#C9A96E]",
-        disabled && "opacity-40 cursor-not-allowed hover:border-[rgba(201,169,110,0.5)]",
-        className
-      )}
-      aria-label={direction === "left" ? "Previous" : "Next"}
-    >
-      {direction === "left" ? (
-        <ChevronLeft className="size-[14px] text-[#C9A96E]" />
-      ) : (
-        <ChevronRight className="size-[14px] text-[#C9A96E]" />
-      )}
-    </button>
-  )
-}
-
 export function Testimonials() {
   const t = useTranslations("testimonials")
   const [currentPage, setCurrentPage] = useState(0)
@@ -145,14 +123,6 @@ export function Testimonials() {
   const prevPage = useCallback(() => {
     setCurrentPage((prev) => (prev - 1 + reviews.length) % reviews.length)
   }, [reviews.length])
-
-  const goNextPage = useCallback(() => {
-    setCurrentPage((prev) => (prev + 1) % desktopPages)
-  }, [desktopPages])
-
-  const goPrevPage = useCallback(() => {
-    setCurrentPage((prev) => (prev - 1 + desktopPages) % desktopPages)
-  }, [desktopPages])
 
   const swipeHandlers = useSwipe(nextPage, prevPage)
 
@@ -208,6 +178,16 @@ export function Testimonials() {
             <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
             <Image src="/trustpilot-logo.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
           </div>
+
+          <button
+            type="button"
+            onClick={nextPage}
+            className="group/see mt-2 inline-flex h-[52px] items-center gap-2 bg-[#C9A96E] px-8 text-[13px] font-semibold uppercase tracking-[1.2px] text-[#1a1510] transition-colors hover:bg-[#d4b87f]"
+            style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
+          >
+            {t("seeMore")}
+            <ChevronRight className="size-4 transition-transform group-hover/see:translate-x-1" />
+          </button>
         </div>
 
         <div className="hidden md:flex flex-col gap-6 w-full mt-10">
@@ -225,30 +205,14 @@ export function Testimonials() {
                 </div>
               ))}
             </div>
-            <ArrowButton direction="left" onClick={goPrevPage} disabled={desktopPages <= 1} className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10" />
-            <ArrowButton direction="right" onClick={goNextPage} disabled={desktopPages <= 1} className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10" />
           </div>
 
-          <div className="relative">
-            <div className="flex gap-[2px]">
-              {desktopReviews.map((review, i) => (
-                <div key={`${desktopPageIdx}-${i}`} className="flex-1">
-                  <ReviewCard review={review} />
-                </div>
-              ))}
-            </div>
-            <ArrowButton
-              direction="left"
-              onClick={goPrevPage}
-              disabled={desktopPages <= 1}
-              className="absolute left-2 2xl:-left-[52px] top-1/2 -translate-y-1/2 z-10"
-            />
-            <ArrowButton
-              direction="right"
-              onClick={goNextPage}
-              disabled={desktopPages <= 1}
-              className="absolute right-2 2xl:-right-[52px] top-1/2 -translate-y-1/2 z-10"
-            />
+          <div className="flex gap-[2px]">
+            {desktopReviews.map((review, i) => (
+              <div key={`${desktopPageIdx}-${i}`} className="flex-1">
+                <ReviewCard review={review} />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -268,11 +232,6 @@ export function Testimonials() {
           </div>
 
           <ReviewCard review={mobileReview!} />
-
-          <div className="flex items-center justify-center gap-6">
-            <ArrowButton direction="left" onClick={prevPage} />
-            <ArrowButton direction="right" onClick={nextPage} />
-          </div>
         </div>
       </div>
     </section>

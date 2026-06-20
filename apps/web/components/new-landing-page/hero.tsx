@@ -36,7 +36,7 @@ const REVIEW_COUNT = 387
 
 const SOCIAL_AVATARS = ["/reviews/review-1.png", "/reviews/review-2.png", "/reviews/review-3.png"]
 
-function SocialProofBar() {
+export function SocialProofBar() {
   const t = useTranslations("hero")
 
   return (

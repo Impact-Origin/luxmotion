@@ -333,7 +333,8 @@
     "exclusive": "Exklusiv",
     "sectionLabel": "Kundenbewertungen",
     "heading": "Was Unsere Kunden Sagen",
-    "reviews": "Bewertungen"
+    "reviews": "Bewertungen",
+    "seeMore": "Mehr Bewertungen"
   },
   "faq": {
     "title": "FAQ",
@@ -5877,7 +5878,11 @@
       "stat2Value": "48h",
       "stat2Label": "Operational response",
       "stat3Value": "+900",
-      "stat3Label": "Active partners"
+      "stat3Label": "Active partners",
+      "cta1": "Become a partner",
+      "cta2": "Calculate revenue",
+      "badgeValue": "+€42,000",
+      "badgeLabel": "Average annual revenue per partner"
     },
     "form": {
       "eyebrow": "Partnership Application",
@@ -5982,29 +5987,34 @@
       ]
     },
     "how": {
-      "eyebrow": "How it works",
-      "title": "From application to first booking",
-      "subtitle": "Three simple steps to start generating revenue.",
+      "eyebrow": "The partnership, in 3 steps",
+      "titlePrefix": "How it",
+      "titleAccent": "works",
+      "subtitle": "We don't require complex integrations. Setup is done with a webhook or an automated email field in your current system.",
       "steps": [
         {
-          "title": "Application",
-          "body": "Fill in the form and our team qualifies the partnership in a 15-minute meeting."
+          "title": "The client books on your business.",
+          "body": "Your guest, wedding, trip or corporate client confirms the stay, event or itinerary through your usual channels."
         },
         {
-          "title": "Setup",
-          "body": "We build your white-label page and integrate communication with your brand. Ready in 48h."
+          "title": "They receive a branded invite.",
+          "body": "Automated email or white-label link sent on behalf of your business. They book a chauffeur, tour or experience in a minute, before even arriving."
         },
         {
-          "title": "Revenue",
-          "body": "Your clients book, we handle the operation, and you earn commission on every booking."
+          "title": "Track bookings and revenue in real time.",
+          "body": "Dashboard with occupancy, accrued commission, upcoming scheduled services and reports for your accounting."
         }
-      ]
+      ],
+      "quote": "We run eight premium surf camps across Portugal and LuxMotion has become an invisible, essential part of the experience. The process is seamless, the service consistently reliable, and our guests notice the difference. It keeps getting better with every booking.",
+      "quoteRole": "Director of Operations",
+      "quoteCompany": "Pure Surf Camps Portugal"
     },
     "ctaFinal": {
-      "eyebrow": "Ready to start?",
-      "title": "Ready to start generating revenue?",
-      "subtitle": "Join +900 partners elevating their clients' experience with LuxMotion.",
-      "button": "Submit application"
+      "titlePrefix": "Ready for a",
+      "titleAccent": "successful partnership",
+      "titleSuffix": "?",
+      "subtitle": "Join +900 partners already generating recurring commission with LuxMotion.",
+      "button": "Become a partner"
     },
     "founders": {
       "eyebrow": "Who we are",
@@ -6090,39 +6100,453 @@
       ]
     },
     "fleet": {
-      "eyebrow": "The fleet",
-      "title": "Premium vehicles for every service",
-      "subtitle": "From the executive sedan to the luxury van — always immaculate, always with a professional chauffeur.",
-      "names": [
-        "Mercedes E-Class",
-        "Mercedes S-Class",
-        "Mercedes V-Class",
-        "Mercedes EQS",
-        "Maybach",
-        "VIP Minibus"
-      ]
+      "eyebrow": "Our fleet",
+      "titlePrefix": "Premium",
+      "titleAccent": "vehicles",
+      "titleSuffix": "for every service",
+      "tierExecutive": "Executive",
+      "tierStandard": "Standard",
+      "pax": "pax",
+      "badges": {
+        "premium": "Premium",
+        "eco": "Eco",
+        "electric": "Electric"
+      },
+      "cta": "Explore our fleet"
     },
     "results": {
-      "eyebrow": "Results",
-      "title": "Results after months of partnership",
-      "subtitle": "Real extra revenue, with zero operational effort.",
-      "stats": [
-        [
-          "+38%",
-          "Average extra revenue"
-        ],
-        [
-          "4.9★",
-          "Guest satisfaction"
-        ],
-        [
-          "<48h",
-          "Activation time"
-        ],
-        [
-          "100%",
-          "Operation handled by us"
-        ]
+      "eyebrow": "Case studies",
+      "titlePrefix": "Results after",
+      "titleAccent": "4 months",
+      "titleSuffix": "of partnership",
+      "badge": "Premium partnership program",
+      "profileLabel": "Guest profile",
+      "statsLabel": "Results after 4 months",
+      "cases": [
+        {
+          "hotelLead": "City Hotel · 4",
+          "hotelTrail": "110 Rooms",
+          "location": "Lisbon",
+          "profile": [
+            "78% international guests",
+            "2.3 nights average stay",
+            "City break travellers"
+          ],
+          "quote": "The reception team finally stopped acting as a taxi dispatcher. Guests now arrive prepared and relaxed.",
+          "quoteAuthor": "Front Office Supervisor · City Hotel, Lisbon",
+          "stats": [
+            {
+              "value": "35%",
+              "label": "Adoption rate"
+            },
+            {
+              "value": "118",
+              "label": "Transfers per month"
+            },
+            {
+              "value": "€2,350",
+              "label": "Extra monthly revenue"
+            },
+            {
+              "value": "€560",
+              "label": "Commission generated"
+            },
+            {
+              "value": "0",
+              "label": "Operational cost"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Before LuxMotion",
+              "items": [
+                "Reception overwhelmed with arrival coordination",
+                "Guests arriving at unpredictable times",
+                "Frequent early morning and late night transport requests",
+                "Staff repeatedly calling taxi companies",
+                "No upsell of tours or experiences",
+                "No transport revenue"
+              ]
+            },
+            {
+              "title": "Implementation",
+              "items": [
+                "Automatic booking options integrated into confirmation emails",
+                "Guests offered transfers and city tours",
+                "Automatic communication before arrival",
+                "Professional drivers assigned",
+                "Live arrival notifications for reception",
+                "Centralized management platform"
+              ]
+            },
+            {
+              "title": "Guest experience",
+              "items": [
+                "Guests appreciated organized arrivals",
+                "Increased comfort after long flights",
+                "Better online review sentiment"
+              ]
+            }
+          ],
+          "activatedBold": "Partnership activated",
+          "activatedRest": "in less than 48 hours",
+          "name": "City Hotel",
+          "stars": "4",
+          "rooms": "110 Rooms"
+        },
+        {
+          "hotelLead": "Boutique Hotel · 4",
+          "hotelTrail": "28 Rooms",
+          "location": "Ericeira",
+          "profile": [
+            "72% international guests",
+            "2.6 nights average stay",
+            "Mostly couples and surfers"
+          ],
+          "quote": "Before LuxMotion we spent every afternoon organizing arrivals. Now guests arrive informed and relaxed, and our team can finally focus on hospitality.",
+          "quoteAuthor": "Front Office Manager · Boutique Hotel, Ericeira",
+          "stats": [
+            {
+              "value": "29%",
+              "label": "Adoption rate"
+            },
+            {
+              "value": "32",
+              "label": "Transfers per month"
+            },
+            {
+              "value": "€620",
+              "label": "Extra monthly revenue"
+            },
+            {
+              "value": "€150",
+              "label": "Commission generated"
+            },
+            {
+              "value": "0",
+              "label": "Operational cost"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Before LuxMotion",
+              "items": [
+                "Guests arranged transport independently using taxis and ride apps",
+                "Reception manually organized airport pickups via phone",
+                "Staff spent significant time answering arrival and surf lesson questions",
+                "Frequent uncertainty about arrival times",
+                "Late check ins disturbed evening operations",
+                "No structured way to offer surf lessons, tours or experiences",
+                "No additional transport or activity revenue"
+              ]
+            },
+            {
+              "title": "Implementation",
+              "items": [
+                "Booking links automatically included in reservation emails",
+                "Guests invited to pre book transfers, surf lessons and local experiences",
+                "Guests contacted automatically before arrival",
+                "Chauffeur assigned and tracked by the platform",
+                "Reception received real time arrival updates",
+                "All services visible in centralized dashboard"
+              ]
+            },
+            {
+              "title": "Guest experience",
+              "items": [
+                "Guests highlighted smooth arrival in reviews",
+                "Higher perceived service quality",
+                "Professional drivers improved first impression",
+                "Increased guest satisfaction",
+                "More repeat bookings"
+              ]
+            }
+          ],
+          "activatedBold": "Partnership activated",
+          "activatedRest": "in less than 48 hours",
+          "name": "Boutique Hotel",
+          "stars": "4",
+          "rooms": "28 Rooms"
+        },
+        {
+          "hotelLead": "Hotel · 4",
+          "hotelTrail": "82 Rooms",
+          "location": "Cascais",
+          "profile": [
+            "65% international guests",
+            "3.1 nights average stay",
+            "Mostly couples and families"
+          ],
+          "quote": "Arrivals are now organized and predictable. The system works in the background without our team needing to manage anything.",
+          "quoteAuthor": "Front Office Manager · Hotel, Cascais",
+          "stats": [
+            {
+              "value": "32%",
+              "label": "Adoption rate"
+            },
+            {
+              "value": "74",
+              "label": "Transfers per month"
+            },
+            {
+              "value": "€1,420",
+              "label": "Extra monthly revenue"
+            },
+            {
+              "value": "€340",
+              "label": "Commission generated"
+            },
+            {
+              "value": "0",
+              "label": "Operational cost"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Before LuxMotion",
+              "items": [
+                "Guests frequently booked random taxis and ride apps",
+                "Reception handled daily transport questions",
+                "Staff manually arranged transfers when requested",
+                "No visibility over guest arrival times",
+                "Check ins frequently delayed during peak hours",
+                "No structured sales of tours or experiences",
+                "No transport revenue"
+              ]
+            },
+            {
+              "title": "Implementation",
+              "items": [
+                "Automatic booking link in reservation confirmation",
+                "Guests invited to pre book transfers, tours and experiences",
+                "Automatic pre arrival contact",
+                "Chauffeurs assigned and monitored",
+                "Live arrival tracking available to reception",
+                "Central dashboard with all reservations",
+                "No staff coordination required"
+              ]
+            },
+            {
+              "title": "Guest experience",
+              "items": [
+                "Guests mentioned smooth arrival in reviews",
+                "Improved perceived service quality",
+                "Better first impression of the hotel",
+                "Higher overall satisfaction"
+              ]
+            }
+          ],
+          "activatedBold": "Partnership activated",
+          "activatedRest": "in less than 48 hours",
+          "name": "Hotel",
+          "stars": "4",
+          "rooms": "82 Rooms"
+        },
+        {
+          "hotelLead": "Hotel · 5",
+          "hotelTrail": "207 Rooms",
+          "location": "Ericeira",
+          "profile": [
+            "93% international guests",
+            "6.1 nights average stay",
+            "Luxury holiday guests"
+          ],
+          "quote": "The arrival experience finally matches our brand standards.",
+          "quoteAuthor": "Hotel Director · Hotel, Ericeira",
+          "stats": [
+            {
+              "value": "48%",
+              "label": "Adoption rate"
+            },
+            {
+              "value": "410",
+              "label": "Transfers per month"
+            },
+            {
+              "value": "€8,700",
+              "label": "Extra monthly revenue"
+            },
+            {
+              "value": "€2,050",
+              "label": "Commission generated"
+            },
+            {
+              "value": "0",
+              "label": "Operational cost"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Before LuxMotion",
+              "items": [
+                "Guests struggled organizing airport transport",
+                "Reception flooded on check in days",
+                "Long queues during arrivals",
+                "Staff manually coordinating multiple vans",
+                "No activity upselling before arrival"
+              ]
+            },
+            {
+              "title": "Implementation",
+              "items": [
+                "Guests invited to pre book transfers and activities",
+                "Automatic communication before arrival",
+                "Multiple vehicles scheduled automatically",
+                "Arrival tracking for reception"
+              ]
+            },
+            {
+              "title": "Guest experience",
+              "items": [
+                "Guests arrived prepared",
+                "Less waiting time",
+                "Higher satisfaction"
+              ]
+            }
+          ],
+          "activatedBold": "Partnership activated",
+          "activatedRest": "in less than 72 hours",
+          "name": "Hotel",
+          "stars": "5",
+          "rooms": "207 Rooms"
+        },
+        {
+          "hotelLead": "Resort · 5",
+          "hotelTrail": "210 Rooms",
+          "location": "Algarve",
+          "profile": [
+            "90% international guests",
+            "5.2 nights average stay",
+            "Families and holiday travellers"
+          ],
+          "quote": "Arrival days used to be chaotic. Now they are structured and smooth.",
+          "quoteAuthor": "Operations Manager · Resort, Algarve",
+          "stats": [
+            {
+              "value": "44%",
+              "label": "Adoption rate"
+            },
+            {
+              "value": "240",
+              "label": "Transfers per month"
+            },
+            {
+              "value": "€5,200",
+              "label": "Extra monthly revenue"
+            },
+            {
+              "value": "€1,280",
+              "label": "Commission generated"
+            },
+            {
+              "value": "0",
+              "label": "Operational cost"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Before LuxMotion",
+              "items": [
+                "Guests used unverified drivers",
+                "No standard arrival experience",
+                "Reception overwhelmed on peak days",
+                "No pre arrival service sales",
+                "No activity upselling before arrival"
+              ]
+            },
+            {
+              "title": "Implementation",
+              "items": [
+                "Automated pre arrival service offers",
+                "Transfers and tours pre booked",
+                "Drivers monitored and assigned",
+                "Central arrival control"
+              ]
+            },
+            {
+              "title": "Guest experience",
+              "items": [
+                "Higher satisfaction scores",
+                "Better reviews mentioning arrival"
+              ]
+            }
+          ],
+          "activatedBold": "Partnership activated",
+          "activatedRest": "in less than 72 hours",
+          "name": "Resort",
+          "stars": "",
+          "rooms": "210 Rooms"
+        },
+        {
+          "hotelLead": "Hotel · 5",
+          "hotelTrail": "92 Rooms",
+          "location": "Aveiro",
+          "profile": [
+            "85% international guests",
+            "3.4 nights average stay",
+            "Luxury leisure travellers"
+          ],
+          "quote": "The service feels like an extension of our concierge, but without operational effort.",
+          "quoteAuthor": "Guest Relations Manager · Hotel, Aveiro",
+          "stats": [
+            {
+              "value": "41%",
+              "label": "Adoption rate"
+            },
+            {
+              "value": "146",
+              "label": "Transfers per month"
+            },
+            {
+              "value": "€3,900",
+              "label": "Extra monthly revenue"
+            },
+            {
+              "value": "€960",
+              "label": "Commission generated"
+            },
+            {
+              "value": "0",
+              "label": "Operational cost"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Before LuxMotion",
+              "items": [
+                "Guests used various private drivers without quality control",
+                "Concierge team manually arranged transfers",
+                "Frequent coordination errors",
+                "Inconsistent guest arrival experience",
+                "No centralized tracking",
+                "No measurable revenue"
+              ]
+            },
+            {
+              "title": "Implementation",
+              "items": [
+                "Premium transfer booking integrated into pre arrival communication",
+                "Guests offered transfers and private tours",
+                "Professional vetted chauffeurs",
+                "Real time tracking and monitoring",
+                "Concierge visibility through dashboard"
+              ]
+            },
+            {
+              "title": "Guest experience",
+              "items": [
+                "Improved luxury perception",
+                "Higher review quality",
+                "Better first impression"
+              ]
+            }
+          ],
+          "activatedBold": "Partnership activated",
+          "activatedRest": "in less than 48 hours",
+          "name": "Hotel",
+          "stars": "5",
+          "rooms": "92 Rooms"
+        }
       ]
     },
     "vertente": {
@@ -6181,6 +6605,472 @@
             "No change to your system",
             "Dashboard with full visibility"
           ]
+        }
+      ]
+    },
+    "verticals": {
+      "eyebrow": "Who we work for",
+      "titlePrefix": "6 partnership",
+      "titleAccent": "verticals",
+      "subtitle": "LuxMotion adapts to your business model. White label, commission per completed booking, and an invisible operation for your end client.",
+      "items": [
+        {
+          "eyebrow": "4 & 5★ Hospitality",
+          "title": "Hotels &",
+          "accent": "Resorts",
+          "body": "Guests get a white-label page with your brand to book mobility after confirming their stay. Reception is freed from manual requests."
+        },
+        {
+          "eyebrow": "Weddings & Events",
+          "title": "Wedding planners &",
+          "accent": "Estates",
+          "body": "Complete mobility operation for weddings. 10 to 30 coordinated movements in a day, with an on-ground coordinator."
+        },
+        {
+          "eyebrow": "HNW Operations",
+          "title": "DMCs &",
+          "accent": "Luxury Travel",
+          "body": "Mobility operation across itineraries from Lisbon to Porto, Algarve, Douro or Alentejo. Uniform fleet, multilingual chauffeurs."
+        },
+        {
+          "eyebrow": "Concierge",
+          "title": "Concierge",
+          "accent": "services",
+          "body": "Trusted provider in Portugal for premium concierge services and lifestyle membership platforms."
+        },
+        {
+          "eyebrow": "Corporate & Companies",
+          "title": "Companies &",
+          "accent": "Corporate Travel",
+          "body": "Executive mobility, corporate events, discreet security and critical logistics operations (Securitas case, 9 movements, €25,700)."
+        },
+        {
+          "eyebrow": "Tour Operators",
+          "title": "Agencies &",
+          "accent": "Tour Operators",
+          "body": "Premium mobility integrated into tour packages. Dedicated account, B2B rate sheet and API for your internal systems."
+        }
+      ]
+    },
+    "platform": {
+      "rows": [
+        {
+          "eyebrow": "Direct Bookings",
+          "title": "Your clients book on",
+          "accent": "your brand.",
+          "body": [
+            "No redirects to third-party sites. The landing page is dedicated, with your logo, your colours and your domain. No friction, no loss of trust.",
+            "This page is generated automatically through our PMS and sent to your client the moment the booking is confirmed. It works 24/7, with no manual operation on your part.",
+            "Prefer to handle transfers manually in some cases? No problem. The system is optional."
+          ]
+        },
+        {
+          "eyebrow": "Automated Revenue",
+          "title": "Automate mobility. Unlock",
+          "accent": "new revenue.",
+          "body": [
+            "Every completed booking generates commission for your business. We pay monthly, quarterly or annually, depending on the plan you choose.",
+            "The dashboard shows, in real time, how many bookings you captured, the average ticket, and how much you'll receive. No mysteries, no black box.",
+            "Partners scaling to 250 transfers per month generate between €3,500 and €5,000 monthly in commission."
+          ]
+        },
+        {
+          "eyebrow": "Invisible Integration",
+          "title": "Integrates with your system,",
+          "accent": "no friction.",
+          "body": [
+            "We work with your current infrastructure. We integrate with Mews, CloudBeds, Cvent, Casamentos.pt and the hotel and operational management systems most used in Portugal.",
+            "Your client doesn't even know we're in the process. It's your brand, start to finish. LuxMotion stays behind the scenes operating.",
+            "Setup takes under 15 minutes. A dedicated implementation team is available for enterprise partners."
+          ]
+        }
+      ]
+    },
+    "commission": {
+      "eyebrow": "Commission structure",
+      "titlePrefix": "Service levels &",
+      "titleAccent": "commissions",
+      "tabs": {
+        "classic": "Classic",
+        "business": "Business",
+        "firstClass": "First Class"
+      },
+      "distanceLabel": "Distance (KM)",
+      "vehicleLabel": "Vehicle type",
+      "commissionLabel": "Commission (+%)",
+      "basePrice": "Base price",
+      "clientPrice": "Client price",
+      "earnings": "Your earnings",
+      "tiers": {
+        "classic": {
+          "name": "Classic",
+          "subtitle": "Essential needs",
+          "vehicle": "Classic",
+          "features": [
+            "Airport pickup",
+            "Luggage assistance",
+            "45 minutes of waiting time included",
+            "24h support",
+            "Fiat, Peugeot, Dacia, Renault, Van Toyota or similar"
+          ]
+        },
+        "business": {
+          "name": "Business",
+          "subtitle": "Executive comfort",
+          "vehicle": "Business",
+          "features": [
+            "Airport pickup with personalised sign",
+            "Premium luggage assistance",
+            "60 minutes of waiting time included",
+            "Priority 24h support",
+            "Mercedes E-Class, BMW 5 Series or similar"
+          ]
+        },
+        "firstClass": {
+          "name": "First Class",
+          "subtitle": "Absolute luxury",
+          "vehicle": "First Class",
+          "features": [
+            "VIP airport meet & greet",
+            "Dedicated luggage assistance",
+            "90 minutes of waiting time included",
+            "Personal 24h concierge",
+            "Mercedes S-Class, Maybach or similar"
+          ]
+        }
+      }
+    },
+    "revenueCalc": {
+      "eyebrow": "Calculator for hotels",
+      "title": "Calculate your revenue",
+      "roomsLabel": "Enter the number of rooms",
+      "commissionLabel": "Enter the commission",
+      "intro": "Expected monthly and annual commission revenue with the partnership.",
+      "monthlyLabel": "Average monthly commission",
+      "yearlyLabel": "Average annual commission",
+      "note": "*Estimates based on 60% occupancy and a 20% transfer booking rate."
+    },
+    "payment": {
+      "eyebrow": "Flexible options",
+      "titlePrefix": "Payment",
+      "titleAccent": "plans",
+      "subtitle": "Choose the payment frequency that best fits your cash flow.",
+      "optionWord": "Option",
+      "options": [
+        {
+          "label": "Monthly payment",
+          "body": "Receive your accrued commission on the first business day of the following month. Recommended for partners with steady monthly volume.",
+          "feature": "Bank transfer / PayPal / Gift Card"
+        },
+        {
+          "label": "Quarterly payment",
+          "body": "Commission accrued every 3 months with a 4% bonus on the total. The most popular option among hotels and DMCs.",
+          "feature": "4% bonus + Bank transfer / PayPal"
+        },
+        {
+          "label": "Annual payment",
+          "body": "Single payment at the end of the year, with an 8% bonus on the total accrued. Recommended for corporate.",
+          "feature": "8% bonus + Bank transfer"
+        }
+      ]
+    },
+    "ctaRevenue": {
+      "titlePrefix": "Ready to start",
+      "titleAccent": "generating revenue",
+      "titleSuffix": "?",
+      "subtitle": "Setup in under 15 minutes. Your first booking could arrive today.",
+      "button": "Become a partner"
+    },
+    "nav": {
+      "services": "Services",
+      "advantages": "Advantages",
+      "about": "About us",
+      "how": "How it works",
+      "commissions": "Commissions",
+      "plans": "Plans",
+      "fleet": "Fleet",
+      "cases": "Cases"
+    },
+    "advantages": {
+      "eyebrow": "Competitive advantages",
+      "titlePrefix": "Why is it",
+      "titleAccent": "worth",
+      "titleSuffix": "partnering with us?",
+      "label": "Competitive advantages",
+      "items": [
+        {
+          "q": "Do you know how much money the hotel is losing by not controlling these services?",
+          "a": "Our platform records all commissions in real-time for total transparency."
+        },
+        {
+          "q": "Do guests arrive not knowing who will pick them up or where to find the driver?",
+          "a": "We contact the guest the day before to indicate the meeting point. If there are difficulties, the driver goes to meet them (meet and greet option available)."
+        },
+        {
+          "q": "Does the service adapt to our hotel's profile?",
+          "a": "We adjust vehicles and prices to your positioning. The generated white-label page is fully customizable with your logo, colors, and fonts."
+        },
+        {
+          "q": "Do you only sell transport when a guest asks?",
+          "a": "We send active offers to guests and use conversion strategies that increase sales by an average of over 80%."
+        },
+        {
+          "q": "Is the reception team spending too much time on arrival logistics?",
+          "a": "With LuxMotion, the reception stops organizing transport and can focus solely on guest service."
+        },
+        {
+          "q": "Are you unable to track if a guest is already on their way?",
+          "a": "We provide live driver tracking and ETA directly on the hotel dashboard, plus a notification 15 minutes before arrival."
+        },
+        {
+          "q": "Have you had airport delays that were difficult to manage?",
+          "a": "We automatically monitor the flight and adjust the service without needing hotel intervention."
+        },
+        {
+          "q": "Does your receptionist still manually handle guest transfers and tours?",
+          "a": "We automate the entire process: the client receives the proposal automatically and confirms directly, so the hotel manages nothing."
+        },
+        {
+          "q": "Do you lose time with emails, WhatsApp, and phone calls organizing transport?",
+          "a": "Our system handles all client communication, confirms schedules, and manages changes without reception intervention."
+        },
+        {
+          "q": "Do you already work with your own fleet or another transport provider?",
+          "a": "We understand perfectly; in fact, these hotels often value our system most. We don't replace anyone; we organize and automate the service to give the hotel total control."
+        },
+        {
+          "q": "What if we want to keep our current provider?",
+          "a": "If you have a provider, they can stay. We integrate them into the platform and apply quality standards, giving the hotel real-time tracking and full visibility."
+        },
+        {
+          "q": "What if we have our own fleet?",
+          "a": "Many hotels fail to make their fleet profitable because the focus is on the stay, not transport. Vehicles and maintenance generate high costs and low utilization. Our system allows the hotel to stop managing that operation, free up capital, and offer a more professional, standardized service without internal effort."
+        }
+      ]
+    }
+  },
+  "partnerGuide": {
+    "tabs": {
+      "clients": "For Clients",
+      "partners": "For Hotels & Partners"
+    },
+    "features": [
+      "No hidden fees",
+      "Live flight tracking",
+      "Email & WhatsApp confirmation",
+      "Chauffeur on standby",
+      "24/7 support"
+    ],
+    "clients": {
+      "eyebrow": "Client guide · How it works",
+      "titlePrefix": "From first click to",
+      "titleAccent": "perfect arrival",
+      "titleSuffix": ".",
+      "subtitle": "A seamless, step-by-step journey designed around you — not around us. Every detail is automated, every update is instant, every arrival is exactly as planned.",
+      "note": "Most guests complete their booking in under 60 seconds",
+      "ctaBook": "Book a transfer",
+      "ctaHow": "See how it works",
+      "features": [
+        "No hidden fees — price fixed at booking",
+        "Live flight tracking included",
+        "Email + WhatsApp confirmation",
+        "Chauffeur on standby if your flight is delayed",
+        "24/7 support line"
+      ],
+      "steps": [
+        {
+          "tag": "Step 1 · Book",
+          "title": "Select your route —",
+          "accent": "price appears instantly.",
+          "body": [
+            "Enter your pickup location, destination, and travel time on our booking page. Our system calculates a fixed, all-inclusive price in real time — no negotiation, no surge pricing, no surprises.",
+            "Choose your vehicle class, add any extras, and proceed. The entire selection process takes under 60 seconds for most guests."
+          ],
+          "noteLabel": "Fixed price guaranteed.",
+          "note": "The price you see at this step is the price you pay. Airport taxes, tolls, and waiting time are already included."
+        },
+        {
+          "tag": "Step 2 · Confirm",
+          "title": "Review your order —",
+          "accent": "no hidden extras.",
+          "body": [
+            "Your order summary shows every detail before you pay: vehicle type, route, date and time, all included services, and the final total with applicable taxes.",
+            "No surcharges are added at checkout. The amount you see is the amount that leaves your account — fully transparent, fully guaranteed."
+          ],
+          "noteLabel": "Full transparency.",
+          "note": "Taxes, tolls, parking fees, and meet-and-greet are included in the displayed price — nothing surfaces at checkout."
+        },
+        {
+          "tag": "Step 3 · Track",
+          "title": "Submit your flight —",
+          "accent": "we handle the rest.",
+          "body": [
+            "If your journey begins at an airport, simply enter your flight number after booking. Our system tracks your flight in real time and adjusts your chauffeur's schedule automatically.",
+            "If your flight lands early or late, we already know. Your driver adapts. You won't be waiting, and you won't be rushing."
+          ],
+          "noteLabel": "Delays? Covered.",
+          "note": "If your flight is delayed by more than 60 minutes, your chauffeur is automatically rescheduled at no extra cost."
+        },
+        {
+          "tag": "Step 4 · Pay",
+          "title": "Pay securely —",
+          "accent": "any method, any device.",
+          "body": [
+            "Complete payment through our secure checkout using VISA, Mastercard, MB Way, PayPal, or bank transfer. All transactions are SSL-encrypted and PCI-compliant.",
+            "Instant confirmation is sent by email and WhatsApp — with your booking reference, driver details, and a direct contact line for any questions before the journey."
+          ],
+          "noteLabel": "Instant confirmation.",
+          "note": "Your booking reference, vehicle details, and driver contact are delivered to your inbox and phone within seconds of payment."
+        }
+      ],
+      "commsEyebrow": "Communication",
+      "commsPrefix": "Kept informed",
+      "commsAccent": "at every step",
+      "commsSubtitle": "From booking confirmation to chauffeur arrival, you'll know exactly what is happening — and when. No uncertainty, no chasing, no stress before your journey even begins.",
+      "comms": [
+        {
+          "title": "Instant WhatsApp & Email confirmation",
+          "body": "Driver name, vehicle, plate, and direct contact number — all in one message."
+        },
+        {
+          "title": "Live flight monitoring",
+          "body": "We track your flight and automatically adjust the chauffeur schedule if you land early or late."
+        },
+        {
+          "title": "Streamlined meet & greet",
+          "body": "Your chauffeur greets you by name at arrivals, handles luggage, and guides you directly to the vehicle."
+        }
+      ],
+      "ctaEyebrow": "Ready to experience it?",
+      "ctaPrefix": "Your guests deserve",
+      "ctaAccent": "a flawless arrival.",
+      "ctaSubtitle": "Join over 100,000 travellers who've experienced transport that actually works — from the moment they land to the moment they arrive.",
+      "ctaPrimary": "Book a transfer",
+      "ctaSecondary": "Become a partner"
+    },
+    "partners": {
+      "eyebrow": "Partnership · Hotels & venues",
+      "titlePrefix": "Your guests arrive.",
+      "titleAccent": "We handle everything else.",
+      "subtitle": "A white-label transfer and tour service embedded directly into your guest journey — zero management on your side, full automation, five-star results every time.",
+      "note": "Onboarding takes less than 48 hours · Zero operational overhead",
+      "stats": [
+        [
+          "40+",
+          "Active hotel partners"
+        ],
+        [
+          "100k+",
+          "Guests transported"
+        ],
+        [
+          "4.9★",
+          "Google rating · 322 reviews"
+        ],
+        [
+          "€0",
+          "Setup cost · no integration fee"
+        ]
+      ],
+      "ctaEyebrow": "Ready to partner?",
+      "ctaPrefix": "Your guests deserve",
+      "ctaAccent": "a seamless arrival.",
+      "ctaSubtitle": "Join the LuxMotion partner programme and offer transfers, tours, and curated experiences through your hotel — at zero operational cost to your team.",
+      "ctaPrimary": "Become a partner",
+      "ctaSecondary": "View client guide",
+      "steps": [
+        {
+          "tag": "Step 1 · Book",
+          "title": "Read, sign —",
+          "accent": "you're live in 48 hours.",
+          "body": [
+            "Our partnership agreement is clear, concise, and free of hidden clauses. It establishes mutual obligations, commission structure, exclusivity terms (where applicable), and service standards.",
+            "Your hotel name appears across all guest-facing booking pages as the referring partner. Your guests experience a seamless, branded service — not a generic transfer company."
+          ],
+          "noteLabel": "No setup fees. No integration costs.",
+          "note": "Our onboarding team handles the full technical setup. All you need to do is sign and share your contact details.",
+          "button": "Download partnership guide"
+        },
+        {
+          "tag": "Step 2 · Monitor",
+          "title": "Your dashboard —",
+          "accent": "everything visible, always.",
+          "body": [
+            "The LuxMotion partner dashboard gives you full visibility of every booking made through your hotel — in real time. No calls required, no manual tracking, no spreadsheets."
+          ],
+          "bullets": [
+            "All active and upcoming reservations",
+            "Estimated arrival times, updated live",
+            "Flight monitoring status per booking",
+            "Luggage and special requests",
+            "Guest ratings and driver performance",
+            "Monthly revenue and commission summary"
+          ],
+          "noteLabel": "Live, not lagging.",
+          "note": "The dashboard refreshes in real time. When a guest's flight lands early, you see it before they reach baggage claim."
+        },
+        {
+          "tag": "Step 3 · Experience",
+          "title": "What your guests",
+          "accent": "actually experience.",
+          "body": [
+            "From your guest's perspective, the booking email comes from your hotel. The confirmation WhatsApp carries your brand name. The chauffeur greets them at arrivals — on time, immaculate, with their name on a sign.",
+            "There is no visible “EasyTransfer” or “LuxMotion” touchpoint unless you choose to include it. Your hotel owns the guest relationship throughout."
+          ],
+          "noteLabel": "White-label by default.",
+          "note": "Guest-facing communications are branded to your hotel. Driver uniforms, confirmation emails, and booking pages can all carry your visual identity."
+        },
+        {
+          "tag": "Step 4 · Automate",
+          "title": "Sales emails that",
+          "accent": "run without you.",
+          "body": [
+            "Our platform integrates with your existing guest email flow. At the moment of booking confirmation, a personalised transfer offer is triggered automatically — no manual intervention, no staff time.",
+            "The email is timed, targeted, and conversion-optimised. It goes out to every guest, every time, with no effort from your team."
+          ],
+          "bullets": [
+            "Triggered automatically at booking confirmation",
+            "Personalised with guest name, dates, and hotel",
+            "Mobile-optimised, tested across all email clients",
+            "Reply goes directly to LuxMotion — not your inbox"
+          ],
+          "noteLabel": "Average conversion rate: 18%.",
+          "note": "Nearly 1 in 5 guests who receive the pre-stay transfer email book a transfer. Zero effort from your team."
+        },
+        {
+          "tag": "Step 5 · Display",
+          "title": "A presence at",
+          "accent": "every reception desk.",
+          "body": [
+            "We design and produce a custom noticeboard panel and physical flyer for your reception area. Your branding, your colour palette, our service — presented exactly where guests make decisions.",
+            "If you want any changes to the design, layout, or copy before print, just let us know. Revisions are unlimited and handled within 24 hours."
+          ],
+          "bullets": [
+            "Custom-branded flyer — A5, print-ready PDF",
+            "Noticeboard panel — A3 landscape format",
+            "QR code linking directly to your booking page",
+            "Printed copies delivered to your hotel"
+          ],
+          "noteLabel": "White-label by default.",
+          "note": "Guest-facing communications are branded to your hotel. Driver uniforms, confirmation emails, and booking pages can all carry your visual identity.",
+          "button": "Download sample flyer"
+        },
+        {
+          "tag": "Step 6 · Convert",
+          "title": "A script your team",
+          "accent": "can actually use.",
+          "body": [
+            "We provide your reception and concierge team with a short, natural-sounding sales script — tested and refined across our entire partner network. It answers the most common guest questions and guides them to book without feeling like a sales pitch.",
+            "The script is available in English, Portuguese, Spanish, and French. A one-page laminated version is included with your reception materials."
+          ],
+          "bullets": [
+            "Answers the 6 most common guest objections",
+            "Available in 4 languages",
+            "Takes under 2 minutes to deliver",
+            "Includes a direct booking link to hand to guests"
+          ],
+          "noteLabel": "Average conversion rate: 18%.",
+          "note": "Nearly 1 in 5 guests who receive the pre-stay transfer email book a transfer. Zero effort from your team."
         }
       ]
     }

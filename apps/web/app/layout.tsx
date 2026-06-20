@@ -1,6 +1,5 @@
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
-import { CustomCursor } from "@/components/common/custom-cursor";
 import { getLocale, getMessages, getTimeZone } from "next-intl/server";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -100,7 +99,6 @@ export default async function RootLayout({
               messages={messages as Record<string, unknown>}
               timeZone={timeZone}
             >
-              <CustomCursor />
               {children}
             </Providers>
           </body>

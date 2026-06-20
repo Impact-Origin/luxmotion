@@ -333,7 +333,8 @@
     "exclusive": "Exclusivo",
     "sectionLabel": "Avaliações de Clientes",
     "heading": "O Que Os Nossos Clientes Dizem",
-    "reviews": "Avaliações"
+    "reviews": "Avaliações",
+    "seeMore": "Ver mais avaliações"
   },
   "faq": {
     "title": "FAQ",
@@ -5953,7 +5954,11 @@
       "stat2Value": "48h",
       "stat2Label": "Resposta operacional",
       "stat3Value": "+900",
-      "stat3Label": "Parceiros activos"
+      "stat3Label": "Parceiros activos",
+      "cta1": "Torne-se parceiro",
+      "cta2": "Calcular receita",
+      "badgeValue": "+€42.000",
+      "badgeLabel": "Receita média anual por parceiro"
     },
     "form": {
       "eyebrow": "Candidatura de Parceria",
@@ -6058,29 +6063,34 @@
       ]
     },
     "how": {
-      "eyebrow": "Como funciona",
-      "title": "Da candidatura à primeira reserva",
-      "subtitle": "Três passos simples para começar a gerar receita.",
+      "eyebrow": "A parceria, em 3 passos",
+      "titlePrefix": "Como",
+      "titleAccent": "funciona",
+      "subtitle": "Não exigimos integrações complexas. O setup faz-se num webhook ou num campo de email automático do seu sistema atual.",
       "steps": [
         {
-          "title": "Candidatura",
-          "body": "Preenche o formulário e a nossa equipa qualifica a parceria numa reunião de 15 minutos."
+          "title": "O cliente reserva no seu negócio.",
+          "body": "O seu hóspede, casamento, viagem ou cliente corporate confirma a estadia, evento ou itinerário através dos seus canais habituais."
         },
         {
-          "title": "Configuração",
-          "body": "Criamos a sua página white label e integramos a comunicação com a sua marca. Pronto em 48h."
+          "title": "Recebe convite com a sua marca.",
+          "body": "Email automático ou link white label enviado em nome do seu negócio. Reserva motorista, tour ou experiência num minuto, antes ainda de chegar."
         },
         {
-          "title": "Receita",
-          "body": "Os seus clientes reservam, nós tratamos da operação e recebe comissão sobre cada reserva."
+          "title": "Acompanha reservas e receita em tempo real.",
+          "body": "Dashboard com ocupação, comissão acumulada, próximos serviços agendados e relatórios para a sua contabilidade."
         }
-      ]
+      ],
+      "quote": "Gerimos oito surf camps premium entre Portugal e a LuxMotion tornou-se uma parte invisível e essencial da experiência. O processo é fluido, o serviço é consistentemente fiável, e os nossos hóspedes notam a diferença. Continua a ficar melhor a cada reserva.",
+      "quoteRole": "Diretor de Operações",
+      "quoteCompany": "Pure Surf Camps Portugal"
     },
     "ctaFinal": {
-      "eyebrow": "Pronto para começar?",
-      "title": "Pronto para começar a gerar receita?",
-      "subtitle": "Junte-se a +900 parceiros que elevam a experiência dos seus clientes com a LuxMotion.",
-      "button": "Enviar candidatura"
+      "titlePrefix": "Pronto para uma",
+      "titleAccent": "parceria bem sucedida",
+      "titleSuffix": "?",
+      "subtitle": "Junte-se a +900 parceiros já a gerar comissão recorrente com a LuxMotion.",
+      "button": "Torne-se parceiro"
     },
     "founders": {
       "eyebrow": "Quem somos",
@@ -6166,39 +6176,453 @@
       ]
     },
     "fleet": {
-      "eyebrow": "A frota",
-      "title": "Veículos premium para cada serviço",
-      "subtitle": "Da berlina executiva à van de luxo — sempre impecáveis, sempre com motorista profissional.",
-      "names": [
-        "Mercedes Classe E",
-        "Mercedes Classe S",
-        "Mercedes V-Class",
-        "Mercedes EQS",
-        "Maybach",
-        "Minibus VIP"
-      ]
+      "eyebrow": "A nossa frota",
+      "titlePrefix": "Veículos",
+      "titleAccent": "premium",
+      "titleSuffix": "para cada serviço",
+      "tierExecutive": "Executiva",
+      "tierStandard": "Standard",
+      "pax": "pax",
+      "badges": {
+        "premium": "Premium",
+        "eco": "Eco",
+        "electric": "Electric"
+      },
+      "cta": "Explore nossa frota"
     },
     "results": {
-      "eyebrow": "Resultados",
-      "title": "Resultados após meses de parceria",
-      "subtitle": "Receita adicional real, com zero esforço operacional.",
-      "stats": [
-        [
-          "+38%",
-          "Receita adicional média"
-        ],
-        [
-          "4.9★",
-          "Satisfação dos hóspedes"
-        ],
-        [
-          "<48h",
-          "Tempo de ativação"
-        ],
-        [
-          "100%",
-          "Operação tratada por nós"
-        ]
+      "eyebrow": "Estudos de caso",
+      "titlePrefix": "Resultados após",
+      "titleAccent": "4 meses",
+      "titleSuffix": "de parceria",
+      "badge": "Programa de parceria premium",
+      "profileLabel": "Perfil do hóspede",
+      "statsLabel": "Resultados após 4 meses",
+      "cases": [
+        {
+          "hotelLead": "City Hotel · 4",
+          "hotelTrail": "110 Quartos",
+          "location": "Lisboa",
+          "profile": [
+            "78% hóspedes internacionais",
+            "Estadia média de 2,3 noites",
+            "Viajantes de city break"
+          ],
+          "quote": "A equipa de receção deixou finalmente de funcionar como central de táxis. Os hóspedes chegam agora preparados e descontraídos.",
+          "quoteAuthor": "Front Office Supervisor · City Hotel, Lisboa",
+          "stats": [
+            {
+              "value": "35%",
+              "label": "Taxa de adoção"
+            },
+            {
+              "value": "118",
+              "label": "Transfers por mês"
+            },
+            {
+              "value": "€2.350",
+              "label": "Receita mensal extra"
+            },
+            {
+              "value": "€560",
+              "label": "Comissão gerada"
+            },
+            {
+              "value": "0",
+              "label": "Custo operacional"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Antes da LuxMotion",
+              "items": [
+                "Receção sobrecarregada com a coordenação de chegadas",
+                "Hóspedes a chegar a horas imprevisíveis",
+                "Pedidos frequentes de transporte de madrugada e à noite",
+                "Equipa a ligar repetidamente para empresas de táxis",
+                "Sem upsell de tours ou experiências",
+                "Sem receita de transporte"
+              ]
+            },
+            {
+              "title": "Implementação",
+              "items": [
+                "Opções de reserva automáticas integradas nos emails de confirmação",
+                "Transfers e tours da cidade oferecidos aos hóspedes",
+                "Comunicação automática antes da chegada",
+                "Motoristas profissionais atribuídos",
+                "Notificações de chegada ao vivo para a receção",
+                "Plataforma de gestão centralizada"
+              ]
+            },
+            {
+              "title": "Experiência do Hóspede",
+              "items": [
+                "Hóspedes valorizaram as chegadas organizadas",
+                "Mais conforto após voos longos",
+                "Melhor sentimento nas avaliações online"
+              ]
+            }
+          ],
+          "activatedBold": "Parceria ativada",
+          "activatedRest": "em menos de 48 horas",
+          "name": "City Hotel",
+          "stars": "4",
+          "rooms": "110 Quartos"
+        },
+        {
+          "hotelLead": "Boutique Hotel · 4",
+          "hotelTrail": "28 Quartos",
+          "location": "Ericeira",
+          "profile": [
+            "72% hóspedes internacionais",
+            "Estadia média de 2,6 noites",
+            "Sobretudo casais e surfistas"
+          ],
+          "quote": "Antes da LuxMotion passávamos todas as tardes a organizar chegadas. Agora os hóspedes chegam informados e descontraídos, e a equipa pode finalmente focar-se na hospitalidade.",
+          "quoteAuthor": "Front Office Manager · Boutique Hotel, Ericeira",
+          "stats": [
+            {
+              "value": "29%",
+              "label": "Taxa de adoção"
+            },
+            {
+              "value": "32",
+              "label": "Transfers por mês"
+            },
+            {
+              "value": "€620",
+              "label": "Receita mensal extra"
+            },
+            {
+              "value": "€150",
+              "label": "Comissão gerada"
+            },
+            {
+              "value": "0",
+              "label": "Custo operacional"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Antes da LuxMotion",
+              "items": [
+                "Hóspedes organizavam o transporte sozinhos com táxis e apps",
+                "Receção organizava recolhas no aeroporto por telefone",
+                "Equipa gastava muito tempo a responder sobre chegadas e aulas de surf",
+                "Incerteza frequente sobre as horas de chegada",
+                "Check-ins tardios perturbavam a operação à noite",
+                "Sem forma estruturada de oferecer aulas de surf, tours ou experiências",
+                "Sem receita adicional de transporte ou atividades"
+              ]
+            },
+            {
+              "title": "Implementação",
+              "items": [
+                "Links de reserva incluídos automaticamente nos emails de reserva",
+                "Hóspedes convidados a pré-reservar transfers, aulas de surf e experiências locais",
+                "Hóspedes contactados automaticamente antes da chegada",
+                "Motorista atribuído e acompanhado pela plataforma",
+                "Receção recebia atualizações de chegada em tempo real",
+                "Todos os serviços visíveis num dashboard centralizado"
+              ]
+            },
+            {
+              "title": "Experiência do Hóspede",
+              "items": [
+                "Hóspedes destacaram a chegada tranquila nas avaliações",
+                "Maior qualidade de serviço percebida",
+                "Motoristas profissionais melhoraram a primeira impressão",
+                "Maior satisfação dos hóspedes",
+                "Mais reservas repetidas"
+              ]
+            }
+          ],
+          "activatedBold": "Parceria ativada",
+          "activatedRest": "em menos de 48 horas",
+          "name": "Boutique Hotel",
+          "stars": "4",
+          "rooms": "28 Quartos"
+        },
+        {
+          "hotelLead": "Hotel · 4",
+          "hotelTrail": "82 Quartos",
+          "location": "Cascais",
+          "profile": [
+            "65% hóspedes internacionais",
+            "Estadia média de 3,1 noites",
+            "Sobretudo casais e famílias"
+          ],
+          "quote": "As chegadas são agora organizadas e previsíveis. O sistema funciona em segundo plano, sem a equipa precisar de gerir nada.",
+          "quoteAuthor": "Front Office Manager · Hotel, Cascais",
+          "stats": [
+            {
+              "value": "32%",
+              "label": "Taxa de adoção"
+            },
+            {
+              "value": "74",
+              "label": "Transfers por mês"
+            },
+            {
+              "value": "€1.420",
+              "label": "Receita mensal extra"
+            },
+            {
+              "value": "€340",
+              "label": "Comissão gerada"
+            },
+            {
+              "value": "0",
+              "label": "Custo operacional"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Antes da LuxMotion",
+              "items": [
+                "Hóspedes reservavam táxis e apps ao acaso",
+                "Receção lidava com perguntas diárias sobre transporte",
+                "Equipa organizava transfers manualmente quando pedido",
+                "Sem visibilidade sobre as horas de chegada",
+                "Check-ins atrasados nas horas de ponta",
+                "Sem venda estruturada de tours ou experiências",
+                "Sem receita de transporte"
+              ]
+            },
+            {
+              "title": "Implementação",
+              "items": [
+                "Link de reserva automático na confirmação da reserva",
+                "Hóspedes convidados a pré-reservar transfers, tours e experiências",
+                "Contacto automático antes da chegada",
+                "Motoristas atribuídos e monitorizados",
+                "Tracking de chegada ao vivo disponível para a receção",
+                "Dashboard central com todas as reservas",
+                "Sem coordenação necessária da equipa"
+              ]
+            },
+            {
+              "title": "Experiência do Hóspede",
+              "items": [
+                "Hóspedes mencionaram a chegada tranquila nas avaliações",
+                "Melhor qualidade de serviço percebida",
+                "Melhor primeira impressão do hotel",
+                "Maior satisfação geral"
+              ]
+            }
+          ],
+          "activatedBold": "Parceria ativada",
+          "activatedRest": "em menos de 48 horas",
+          "name": "Hotel",
+          "stars": "4",
+          "rooms": "82 Quartos"
+        },
+        {
+          "hotelLead": "Hotel · 5",
+          "hotelTrail": "207 Quartos",
+          "location": "Ericeira",
+          "profile": [
+            "93% hóspedes internacionais",
+            "Estadia média de 6,1 noites",
+            "Hóspedes de férias de luxo"
+          ],
+          "quote": "A experiência de chegada corresponde finalmente aos padrões da nossa marca.",
+          "quoteAuthor": "Hotel Director · Hotel, Ericeira",
+          "stats": [
+            {
+              "value": "48%",
+              "label": "Taxa de adoção"
+            },
+            {
+              "value": "410",
+              "label": "Transfers por mês"
+            },
+            {
+              "value": "€8.700",
+              "label": "Receita mensal extra"
+            },
+            {
+              "value": "€2.050",
+              "label": "Comissão gerada"
+            },
+            {
+              "value": "0",
+              "label": "Custo operacional"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Antes da LuxMotion",
+              "items": [
+                "Hóspedes com dificuldade em organizar o transporte do aeroporto",
+                "Receção sobrecarregada nos dias de check-in",
+                "Longas filas durante as chegadas",
+                "Equipa a coordenar várias vans manualmente",
+                "Sem upsell de atividades antes da chegada"
+              ]
+            },
+            {
+              "title": "Implementação",
+              "items": [
+                "Hóspedes convidados a pré-reservar transfers e atividades",
+                "Comunicação automática antes da chegada",
+                "Vários veículos agendados automaticamente",
+                "Tracking de chegada para a receção"
+              ]
+            },
+            {
+              "title": "Experiência do Hóspede",
+              "items": [
+                "Hóspedes chegavam preparados",
+                "Menos tempo de espera",
+                "Maior satisfação"
+              ]
+            }
+          ],
+          "activatedBold": "Parceria ativada",
+          "activatedRest": "em menos de 72 horas",
+          "name": "Hotel",
+          "stars": "5",
+          "rooms": "207 Quartos"
+        },
+        {
+          "hotelLead": "Resort · 5",
+          "hotelTrail": "210 Quartos",
+          "location": "Algarve",
+          "profile": [
+            "90% hóspedes internacionais",
+            "Estadia média de 5,2 noites",
+            "Famílias e viajantes de férias"
+          ],
+          "quote": "Os dias de chegada costumavam ser caóticos. Agora são estruturados e tranquilos.",
+          "quoteAuthor": "Operations Manager · Resort, Algarve",
+          "stats": [
+            {
+              "value": "44%",
+              "label": "Taxa de adoção"
+            },
+            {
+              "value": "240",
+              "label": "Transfers por mês"
+            },
+            {
+              "value": "€5.200",
+              "label": "Receita mensal extra"
+            },
+            {
+              "value": "€1.280",
+              "label": "Comissão gerada"
+            },
+            {
+              "value": "0",
+              "label": "Custo operacional"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Antes da LuxMotion",
+              "items": [
+                "Hóspedes usavam motoristas não verificados",
+                "Sem experiência de chegada padronizada",
+                "Receção sobrecarregada nos dias de ponta",
+                "Sem venda de serviços antes da chegada",
+                "Sem upsell de atividades antes da chegada"
+              ]
+            },
+            {
+              "title": "Implementação",
+              "items": [
+                "Ofertas de serviços pré-chegada automatizadas",
+                "Transfers e tours pré-reservados",
+                "Motoristas monitorizados e atribuídos",
+                "Controlo central das chegadas"
+              ]
+            },
+            {
+              "title": "Experiência do Hóspede",
+              "items": [
+                "Pontuações de satisfação mais altas",
+                "Melhores avaliações a mencionar a chegada"
+              ]
+            }
+          ],
+          "activatedBold": "Parceria ativada",
+          "activatedRest": "em menos de 72 horas",
+          "name": "Resort",
+          "stars": "",
+          "rooms": "210 Quartos"
+        },
+        {
+          "hotelLead": "Hotel · 5",
+          "hotelTrail": "92 Quartos",
+          "location": "Aveiro",
+          "profile": [
+            "85% hóspedes internacionais",
+            "Estadia média de 3,4 noites",
+            "Viajantes de lazer de luxo"
+          ],
+          "quote": "O serviço parece uma extensão do nosso concierge, mas sem esforço operacional.",
+          "quoteAuthor": "Guest Relations Manager · Hotel, Aveiro",
+          "stats": [
+            {
+              "value": "41%",
+              "label": "Taxa de adoção"
+            },
+            {
+              "value": "146",
+              "label": "Transfers por mês"
+            },
+            {
+              "value": "€3.900",
+              "label": "Receita mensal extra"
+            },
+            {
+              "value": "€960",
+              "label": "Comissão gerada"
+            },
+            {
+              "value": "0",
+              "label": "Custo operacional"
+            }
+          ],
+          "columns": [
+            {
+              "title": "Antes da LuxMotion",
+              "items": [
+                "Hóspedes usavam vários motoristas privados sem controlo de qualidade",
+                "Equipa de concierge organizava transfers manualmente",
+                "Erros de coordenação frequentes",
+                "Experiência de chegada inconsistente",
+                "Sem tracking centralizado",
+                "Sem receita mensurável"
+              ]
+            },
+            {
+              "title": "Implementação",
+              "items": [
+                "Reserva de transfer premium integrada na comunicação pré-chegada",
+                "Transfers e tours privados oferecidos aos hóspedes",
+                "Motoristas profissionais e verificados",
+                "Tracking e monitorização em tempo real",
+                "Visibilidade do concierge através do dashboard"
+              ]
+            },
+            {
+              "title": "Experiência do Hóspede",
+              "items": [
+                "Perceção de luxo melhorada",
+                "Maior qualidade das avaliações",
+                "Melhor primeira impressão"
+              ]
+            }
+          ],
+          "activatedBold": "Parceria ativada",
+          "activatedRest": "em menos de 48 horas",
+          "name": "Hotel",
+          "stars": "5",
+          "rooms": "92 Quartos"
+        }
       ]
     },
     "vertente": {
@@ -6257,6 +6681,472 @@
             "Sem alterar o seu sistema",
             "Dashboard com tudo visível"
           ]
+        }
+      ]
+    },
+    "verticals": {
+      "eyebrow": "Para quem trabalhamos",
+      "titlePrefix": "6 verticais de",
+      "titleAccent": "parceria",
+      "subtitle": "A LuxMotion adapta-se ao seu modelo de negócio. White label, comissão por reserva concretizada e operação invisível para o seu cliente final.",
+      "items": [
+        {
+          "eyebrow": "Hotelaria 4 e 5★",
+          "title": "Hotéis &",
+          "accent": "Resorts",
+          "body": "Hóspedes recebem página white label com a sua marca para reservar mobilidade após a confirmação da estadia. Receção liberta de pedidos manuais."
+        },
+        {
+          "eyebrow": "Casamentos & Eventos",
+          "title": "Planejadores de casamento &",
+          "accent": "Quintas",
+          "body": "Operação de mobilidade completa para casamentos. 10 a 30 movimentos coordenados num dia, com coordenador on-ground."
+        },
+        {
+          "eyebrow": "Operações HNW",
+          "title": "DMCs &",
+          "accent": "Viagens de Luxo",
+          "body": "Operação de mobilidade durante itinerários de Lisboa a Porto, Algarve, Douro ou Alentejo. Frota uniforme, motoristas multilíngues."
+        },
+        {
+          "eyebrow": "Concierge",
+          "title": "Serviços de",
+          "accent": "Concierge",
+          "body": "Fornecedor de confiança em Portugal para serviços de concierge premium e plataformas de lifestyle membership."
+        },
+        {
+          "eyebrow": "Corporativo & Empresas",
+          "title": "Empresas &",
+          "accent": "Viagens Corporativas",
+          "body": "Mobilidade executiva, eventos corporativos, segurança discreta e operações críticas de logística (caso Securitas, 9 movimentos, €25.700)."
+        },
+        {
+          "eyebrow": "Operadores de Tours",
+          "title": "Agências &",
+          "accent": "Operadores de Tours",
+          "body": "Integração de mobilidade premium em pacotes turísticos. Conta dedicada, B2B rate sheet e API para os seus sistemas internos."
+        }
+      ]
+    },
+    "platform": {
+      "rows": [
+        {
+          "eyebrow": "Reservas Diretas",
+          "title": "Os seus clientes reservam na",
+          "accent": "sua marca.",
+          "body": [
+            "Não há redireccionamentos para sites de terceiros. A landing page é dedicada, com o seu logo, as suas cores e o seu domínio. Sem fricção, sem perda de confiança.",
+            "Esta página é gerada automaticamente através do nosso PMS e enviada ao seu cliente assim que a reserva é confirmada. Funciona 24/7, sem operação manual da sua parte.",
+            "Prefere lidar com transfers manualmente em alguns casos? Sem problema. O sistema é opcional."
+          ]
+        },
+        {
+          "eyebrow": "Receita Automatizada",
+          "title": "Automatize a mobilidade. Liberte a",
+          "accent": "nova receita.",
+          "body": [
+            "Cada reserva concretizada gera comissão para o seu negócio. Pagamos mensalmente, trimestralmente ou anualmente, conforme o plano que escolher.",
+            "O dashboard mostra, em tempo real, quantas reservas captou, qual o ticket médio, e quanto vai receber. Sem mistérios, sem black box.",
+            "Os parceiros que escalam para 250 transfers por mês geram entre €3.500 e €5.000 mensais em comissão."
+          ]
+        },
+        {
+          "eyebrow": "Integração Invisível",
+          "title": "Integração com o seu sistema,",
+          "accent": "sem fricção.",
+          "body": [
+            "Trabalhamos com a sua infraestrutura atual. Integramos com Mews, CloudBeds, Cvent, Casamentos.pt e os sistemas de gestão hoteleira e operacional mais usados em Portugal.",
+            "O seu cliente nem sabe que estamos no processo. É a sua marca, do início ao fim. A LuxMotion fica nos bastidores a operar.",
+            "Setup faz-se em menos de 15 minutos. Equipa de implementação dedicada disponível para parceiros enterprise."
+          ]
+        }
+      ]
+    },
+    "commission": {
+      "eyebrow": "Estrutura de comissões",
+      "titlePrefix": "Níveis de serviço &",
+      "titleAccent": "comissões",
+      "tabs": {
+        "classic": "Clássico",
+        "business": "Negócios",
+        "firstClass": "Primeira Classe"
+      },
+      "distanceLabel": "Distância (KM)",
+      "vehicleLabel": "Tipo de veículo",
+      "commissionLabel": "Comissão (+%)",
+      "basePrice": "Preço base",
+      "clientPrice": "Preço Cliente",
+      "earnings": "Seus ganhos",
+      "tiers": {
+        "classic": {
+          "name": "Clássico",
+          "subtitle": "Necessidades essenciais",
+          "vehicle": "Classic",
+          "features": [
+            "Recolha no aeroporto",
+            "Assistência de bagagem",
+            "45 minutos de tempo de espera incluídos",
+            "Suporte 24h",
+            "Fiat, Peugeot, Dacia, Renault, Van Toyota ou similar"
+          ]
+        },
+        "business": {
+          "name": "Negócios",
+          "subtitle": "Conforto executivo",
+          "vehicle": "Business",
+          "features": [
+            "Recolha no aeroporto com placa personalizada",
+            "Assistência de bagagem premium",
+            "60 minutos de tempo de espera incluídos",
+            "Suporte prioritário 24h",
+            "Mercedes Classe E, BMW Série 5 ou similar"
+          ]
+        },
+        "firstClass": {
+          "name": "Primeira Classe",
+          "subtitle": "Luxo absoluto",
+          "vehicle": "First Class",
+          "features": [
+            "Meet & greet VIP no aeroporto",
+            "Assistência de bagagem dedicada",
+            "90 minutos de tempo de espera incluídos",
+            "Concierge pessoal 24h",
+            "Mercedes Classe S, Maybach ou similar"
+          ]
+        }
+      }
+    },
+    "revenueCalc": {
+      "eyebrow": "Calculadora para hotéis",
+      "title": "Calcule sua receita",
+      "roomsLabel": "Insira o número de quartos",
+      "commissionLabel": "Insira a comissão",
+      "intro": "Faturamento mensal e anual esperado em comissões com parceria.",
+      "monthlyLabel": "Comissão média mensal",
+      "yearlyLabel": "Comissão média anual",
+      "note": "*Estimativas baseadas em 60% de ocupação e 20% de taxa de reserva de transferência."
+    },
+    "payment": {
+      "eyebrow": "Opções flexíveis",
+      "titlePrefix": "Planos de",
+      "titleAccent": "pagamento",
+      "subtitle": "Escolha a frequência de pagamento que melhor se adapta ao seu fluxo de caixa.",
+      "optionWord": "Opção",
+      "options": [
+        {
+          "label": "Pagamento mensal",
+          "body": "Receba a comissão acumulada no primeiro dia útil do mês seguinte. Recomendado para parceiros com volume mensal estável.",
+          "feature": "Transferência Bancária / PayPal / Gift Card"
+        },
+        {
+          "label": "Pagamento trimestral",
+          "body": "Comissão acumulada cada 3 meses com bónus de 4% sobre o valor total. A opção mais escolhida por hotéis e DMCs.",
+          "feature": "Bónus 4% + Transferência Bancária / PayPal"
+        },
+        {
+          "label": "Pagamento anual",
+          "body": "Pagamento único no final do ano, com bónus de 8% sobre o valor total acumulado. Recomendado para corporate.",
+          "feature": "Bónus 8% + Transferência Bancária"
+        }
+      ]
+    },
+    "ctaRevenue": {
+      "titlePrefix": "Pronto para começar a",
+      "titleAccent": "gerar receita",
+      "titleSuffix": "?",
+      "subtitle": "Setup em menos de 15 minutos. Primeira reserva pode chegar hoje.",
+      "button": "Torne-se parceiro"
+    },
+    "nav": {
+      "services": "Serviços",
+      "advantages": "Vantagens",
+      "about": "Sobre nós",
+      "how": "Como funciona",
+      "commissions": "Comissões",
+      "plans": "Planos",
+      "fleet": "Frota",
+      "cases": "Casos"
+    },
+    "advantages": {
+      "eyebrow": "Vantagens competitivas",
+      "titlePrefix": "Porque é que",
+      "titleAccent": "vale a pena",
+      "titleSuffix": "fazer parceria?",
+      "label": "Vantagens competitivas",
+      "items": [
+        {
+          "q": "Sabe quanto dinheiro o hotel está a perder por não controlar estes serviços?",
+          "a": "A nossa plataforma regista todas as comissões em tempo real, para transparência total."
+        },
+        {
+          "q": "Os hóspedes chegam sem saber quem os vai buscar ou onde encontrar o motorista?",
+          "a": "Contactamos o hóspede no dia anterior para indicar o ponto de encontro. Se houver dificuldades, o motorista vai ter com ele (opção meet and greet disponível)."
+        },
+        {
+          "q": "O serviço adapta-se ao perfil do nosso hotel?",
+          "a": "Ajustamos veículos e preços ao seu posicionamento. A página white-label gerada é totalmente personalizável com o seu logótipo, cores e tipografia."
+        },
+        {
+          "q": "Só vende transporte quando o hóspede pede?",
+          "a": "Enviamos ofertas ativas aos hóspedes e usamos estratégias de conversão que aumentam as vendas, em média, mais de 80%."
+        },
+        {
+          "q": "A equipa de receção gasta demasiado tempo na logística de chegadas?",
+          "a": "Com a LuxMotion, a receção deixa de organizar transporte e pode focar-se apenas no serviço ao hóspede."
+        },
+        {
+          "q": "Não consegue saber se um hóspede já vem a caminho?",
+          "a": "Disponibilizamos tracking do motorista ao vivo e ETA diretamente no dashboard do hotel, mais uma notificação 15 minutos antes da chegada."
+        },
+        {
+          "q": "Já teve atrasos no aeroporto difíceis de gerir?",
+          "a": "Monitorizamos o voo automaticamente e ajustamos o serviço sem necessidade de intervenção do hotel."
+        },
+        {
+          "q": "A sua recepcionista ainda lida manualmente com transferências de hóspedes e passeios?",
+          "a": "Automatizamos todo o processo: o cliente recebe a proposta automaticamente e confirma diretamente, por isso o hotel não gere nada."
+        },
+        {
+          "q": "Perde tempo com emails, WhatsApp e chamadas a organizar transporte?",
+          "a": "O nosso sistema trata de toda a comunicação com o cliente, confirma horários e gere alterações sem intervenção da receção."
+        },
+        {
+          "q": "Já trabalha com a sua própria frota ou outro fornecedor de transporte?",
+          "a": "Compreendemos perfeitamente; aliás, estes hotéis costumam valorizar ainda mais o nosso sistema. Não substituímos ninguém; organizamos e automatizamos o serviço para dar ao hotel controlo total."
+        },
+        {
+          "q": "E se quisermos manter o nosso fornecedor atual?",
+          "a": "Se tem um fornecedor, ele pode ficar. Integramo-lo na plataforma e aplicamos padrões de qualidade, dando ao hotel tracking em tempo real e visibilidade total."
+        },
+        {
+          "q": "E se tivermos a nossa própria frota?",
+          "a": "Muitos hotéis não conseguem rentabilizar a frota porque o foco é a estadia, não o transporte. Veículos e manutenção geram custos altos e baixa utilização. O nosso sistema permite ao hotel deixar de gerir essa operação, libertar capital e oferecer um serviço mais profissional e padronizado, sem esforço interno."
+        }
+      ]
+    }
+  },
+  "partnerGuide": {
+    "tabs": {
+      "clients": "Para Clientes",
+      "partners": "Para Hotéis & Parceiros"
+    },
+    "features": [
+      "Sem taxas escondidas",
+      "Monitorização de voo",
+      "Confirmação Email & WhatsApp",
+      "Motorista em espera se atrasar",
+      "Apoio 24/7"
+    ],
+    "clients": {
+      "eyebrow": "Guia do cliente · Como funciona",
+      "titlePrefix": "Do primeiro clique à",
+      "titleAccent": "chegada perfeita",
+      "titleSuffix": ".",
+      "subtitle": "Uma jornada fluida, passo a passo, pensada à sua volta — não à nossa. Cada detalhe é automatizado, cada atualização é instantânea, cada chegada é exatamente como planeada.",
+      "note": "A maioria dos hóspedes conclui a reserva em menos de 60 segundos",
+      "ctaBook": "Reservar transfer",
+      "ctaHow": "Ver como funciona",
+      "features": [
+        "Sem custos escondidos — preço fixo na reserva",
+        "Monitorização de voo incluída",
+        "Confirmação por email + WhatsApp",
+        "Motorista de prevenção se o voo atrasar",
+        "Linha de apoio 24/7"
+      ],
+      "steps": [
+        {
+          "tag": "Passo 1 · Reservar",
+          "title": "Escolha a sua rota —",
+          "accent": "o preço aparece de imediato.",
+          "body": [
+            "Insira o local de recolha, o destino e a hora de viagem na nossa página de reserva. O sistema calcula um preço fixo, tudo incluído, em tempo real — sem negociação, sem tarifas dinâmicas, sem surpresas.",
+            "Escolha a classe do veículo, adicione extras e prossiga. Todo o processo demora menos de 60 segundos para a maioria dos hóspedes."
+          ],
+          "noteLabel": "Preço fixo garantido.",
+          "note": "O preço que vê neste passo é o preço que paga. Taxas de aeroporto, portagens e tempo de espera já estão incluídos."
+        },
+        {
+          "tag": "Passo 2 · Confirmar",
+          "title": "Reveja o seu pedido —",
+          "accent": "sem extras escondidos.",
+          "body": [
+            "O resumo do pedido mostra cada detalhe antes de pagar: tipo de veículo, rota, data e hora, todos os serviços incluídos e o total final com impostos aplicáveis.",
+            "Não são adicionadas sobretaxas no checkout. O valor que vê é o valor que sai da sua conta — totalmente transparente, totalmente garantido."
+          ],
+          "noteLabel": "Transparência total.",
+          "note": "Impostos, portagens, estacionamento e acolhimento estão incluídos no preço apresentado — nada surge no checkout."
+        },
+        {
+          "tag": "Passo 3 · Acompanhar",
+          "title": "Indique o seu voo —",
+          "accent": "tratamos do resto.",
+          "body": [
+            "Se a viagem começa num aeroporto, basta indicar o número do voo após a reserva. O sistema acompanha o voo em tempo real e ajusta o horário do motorista automaticamente.",
+            "Se o voo aterrar mais cedo ou mais tarde, já sabemos. O motorista adapta-se. Não vai esperar, nem vai andar à pressa."
+          ],
+          "noteLabel": "Atrasos? Cobertos.",
+          "note": "Se o voo atrasar mais de 60 minutos, o motorista é reagendado automaticamente, sem custo extra."
+        },
+        {
+          "tag": "Passo 4 · Pagar",
+          "title": "Pague em segurança —",
+          "accent": "qualquer método, qualquer dispositivo.",
+          "body": [
+            "Conclua o pagamento no nosso checkout seguro com VISA, Mastercard, MB Way, PayPal ou transferência bancária. Todas as transações são encriptadas SSL e compatíveis com PCI.",
+            "A confirmação instantânea é enviada por email e WhatsApp — com a referência da reserva, os dados do motorista e uma linha de contacto direta para qualquer questão antes da viagem."
+          ],
+          "noteLabel": "Confirmação instantânea.",
+          "note": "A referência da reserva, os dados do veículo e o contacto do motorista chegam ao seu email e telemóvel segundos após o pagamento."
+        }
+      ],
+      "commsEyebrow": "Comunicação",
+      "commsPrefix": "Sempre informado",
+      "commsAccent": "a cada passo",
+      "commsSubtitle": "Da confirmação da reserva à chegada do motorista, saberá exatamente o que está a acontecer — e quando. Sem incertezas, sem perseguições, sem stress antes mesmo de a viagem começar.",
+      "comms": [
+        {
+          "title": "Confirmação instantânea por WhatsApp e email",
+          "body": "Nome do motorista, veículo, matrícula e contacto direto — tudo numa só mensagem."
+        },
+        {
+          "title": "Monitorização de voo em tempo real",
+          "body": "Acompanhamos o seu voo e ajustamos automaticamente o horário do motorista se aterrar mais cedo ou mais tarde."
+        },
+        {
+          "title": "Acolhimento simplificado",
+          "body": "O motorista recebe-o pelo nome nas chegadas, trata da bagagem e guia-o diretamente até ao veículo."
+        }
+      ],
+      "ctaEyebrow": "Pronto para experimentar?",
+      "ctaPrefix": "Os seus hóspedes merecem",
+      "ctaAccent": "uma chegada impecável.",
+      "ctaSubtitle": "Junte-se a mais de 100.000 viajantes que já experimentaram transporte que funciona de verdade — do momento em que aterram ao momento em que chegam.",
+      "ctaPrimary": "Reservar transfer",
+      "ctaSecondary": "Tornar-se parceiro"
+    },
+    "partners": {
+      "eyebrow": "Parceria · Hotéis & venues",
+      "titlePrefix": "Os seus hóspedes chegam.",
+      "titleAccent": "Tratamos de tudo o resto.",
+      "subtitle": "Um serviço white-label de transfers e tours integrado diretamente na jornada do hóspede — zero gestão do seu lado, automação total, resultados de cinco estrelas sempre.",
+      "note": "Onboarding em menos de 48 horas · Zero esforço operacional",
+      "stats": [
+        [
+          "40+",
+          "Hotéis parceiros ativos"
+        ],
+        [
+          "100k+",
+          "Hóspedes transportados"
+        ],
+        [
+          "4.9★",
+          "Avaliação Google · 322 reviews"
+        ],
+        [
+          "€0",
+          "Custo de setup · sem taxa de integração"
+        ]
+      ],
+      "ctaEyebrow": "Pronto para ser parceiro?",
+      "ctaPrefix": "Os seus hóspedes merecem",
+      "ctaAccent": "uma chegada perfeita.",
+      "ctaSubtitle": "Junte-se ao programa de parceria LuxMotion e ofereça transfers, tours e experiências através do seu hotel — a custo operacional zero para a sua equipa.",
+      "ctaPrimary": "Tornar-se parceiro",
+      "ctaSecondary": "Ver guia do cliente",
+      "steps": [
+        {
+          "tag": "Passo 1 · Aderir",
+          "title": "Leia, assine —",
+          "accent": "está ativo em 48 horas.",
+          "body": [
+            "O nosso contrato de parceria é claro, conciso e sem cláusulas escondidas. Estabelece obrigações mútuas, estrutura de comissões, termos de exclusividade (quando aplicável) e padrões de serviço.",
+            "O nome do seu hotel aparece em todas as páginas de reserva voltadas para o hóspede como parceiro de referência. Os seus hóspedes vivem um serviço fluido e com a sua marca — não uma empresa de transfers genérica."
+          ],
+          "noteLabel": "Sem custos de setup. Sem custos de integração.",
+          "note": "A nossa equipa de onboarding trata de toda a configuração técnica. Só tem de assinar e partilhar os seus contactos.",
+          "button": "Descarregar guia de parceria"
+        },
+        {
+          "tag": "Passo 2 · Monitorizar",
+          "title": "O seu dashboard —",
+          "accent": "tudo visível, sempre.",
+          "body": [
+            "O dashboard de parceiro LuxMotion dá-lhe visibilidade total de cada reserva feita através do seu hotel — em tempo real. Sem chamadas, sem registos manuais, sem folhas de cálculo."
+          ],
+          "bullets": [
+            "Todas as reservas ativas e futuras",
+            "Horas de chegada estimadas, atualizadas ao vivo",
+            "Estado de monitorização de voo por reserva",
+            "Bagagem e pedidos especiais",
+            "Avaliações dos hóspedes e desempenho dos motoristas",
+            "Receita mensal e resumo de comissões"
+          ],
+          "noteLabel": "Ao vivo, não em atraso.",
+          "note": "O dashboard atualiza em tempo real. Quando o voo de um hóspede aterra mais cedo, vê-o antes de ele chegar à recolha de bagagem."
+        },
+        {
+          "tag": "Passo 3 · Experiência",
+          "title": "O que os seus hóspedes",
+          "accent": "realmente vivem.",
+          "body": [
+            "Do ponto de vista do hóspede, o email de reserva vem do seu hotel. O WhatsApp de confirmação tem o nome da sua marca. O motorista recebe-o nas chegadas — a horas, impecável, com o nome dele numa placa.",
+            "Não há nenhum ponto de contacto “EasyTransfer” ou “LuxMotion” visível, a menos que escolha incluí-lo. O seu hotel é dono da relação com o hóspede, do início ao fim."
+          ],
+          "noteLabel": "White-label por defeito.",
+          "note": "As comunicações com o hóspede têm a marca do seu hotel. Fardas dos motoristas, emails de confirmação e páginas de reserva podem todos ter a sua identidade visual."
+        },
+        {
+          "tag": "Passo 4 · Automatizar",
+          "title": "Emails de venda que",
+          "accent": "funcionam sem si.",
+          "body": [
+            "A nossa plataforma integra com o seu fluxo de emails ao hóspede. No momento da confirmação da reserva, uma oferta de transfer personalizada é disparada automaticamente — sem intervenção manual, sem tempo da equipa.",
+            "O email é cronometrado, segmentado e otimizado para conversão. Chega a cada hóspede, sempre, sem esforço da sua equipa."
+          ],
+          "bullets": [
+            "Disparado automaticamente na confirmação da reserva",
+            "Personalizado com nome, datas e hotel do hóspede",
+            "Otimizado para mobile, testado em todos os clientes de email",
+            "A resposta vai direto para a LuxMotion — não para a sua caixa"
+          ],
+          "noteLabel": "Taxa de conversão média: 18%.",
+          "note": "Quase 1 em cada 5 hóspedes que recebem o email de transfer pré-estadia reservam um transfer. Esforço zero da sua equipa."
+        },
+        {
+          "tag": "Passo 5 · Expor",
+          "title": "Uma presença em",
+          "accent": "cada balcão de receção.",
+          "body": [
+            "Desenhamos e produzimos um painel de placa e um flyer físico personalizados para a sua receção. A sua marca, a sua paleta de cores, o nosso serviço — apresentados exatamente onde os hóspedes decidem.",
+            "Se quiser alguma alteração ao design, layout ou texto antes da impressão, é só dizer. As revisões são ilimitadas e tratadas em 24 horas."
+          ],
+          "bullets": [
+            "Flyer com a sua marca — A5, PDF pronto a imprimir",
+            "Painel de placa — formato A3 horizontal",
+            "Código QR a ligar diretamente à sua página de reserva",
+            "Cópias impressas entregues no seu hotel"
+          ],
+          "noteLabel": "White-label por defeito.",
+          "note": "As comunicações com o hóspede têm a marca do seu hotel. Fardas dos motoristas, emails de confirmação e páginas de reserva podem todos ter a sua identidade visual.",
+          "button": "Descarregar flyer de exemplo"
+        },
+        {
+          "tag": "Passo 6 · Converter",
+          "title": "Um guião que a sua equipa",
+          "accent": "consegue mesmo usar.",
+          "body": [
+            "Damos à sua equipa de receção e concierge um guião de vendas curto e natural — testado e afinado em toda a nossa rede de parceiros. Responde às perguntas mais comuns dos hóspedes e leva-os a reservar sem parecer um discurso de venda.",
+            "O guião está disponível em inglês, português, espanhol e francês. Uma versão plastificada de uma página é incluída nos materiais de receção."
+          ],
+          "bullets": [
+            "Responde às 6 objeções mais comuns dos hóspedes",
+            "Disponível em 4 idiomas",
+            "Demora menos de 2 minutos a apresentar",
+            "Inclui um link de reserva direto para dar ao hóspede"
+          ],
+          "noteLabel": "Taxa de conversão média: 18%.",
+          "note": "Quase 1 em cada 5 hóspedes que recebem o email de transfer pré-estadia reservam um transfer. Esforço zero da sua equipa."
         }
       ]
     }
