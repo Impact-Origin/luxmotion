@@ -138,7 +138,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
         />
       </div>
 
-      <div className="relative z-10 max-w-[1440px] mx-auto px-4 lg:px-12 lg:pt-[224px] lg:pb-[96px] -mt-10 lg:mt-0 flex flex-col gap-6 lg:gap-12">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-4 lg:px-12 lg:pt-[136px] lg:pb-[96px] -mt-10 lg:mt-0 flex flex-col gap-6 lg:gap-12">
         <div className="max-w-[680px] flex flex-col gap-6 lg:gap-9">
           <div className={cn("flex items-center gap-2", enter("delay-0"))}>
             <div className="h-px bg-[#C9A96E] w-[32px] lg:w-[40px]" />
