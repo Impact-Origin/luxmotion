@@ -68,7 +68,7 @@ function Pill({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] flex items-center gap-1.5 px-[9px] py-[7px]">
+    <div className="bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] flex items-center gap-1.5 px-[9px] py-[7px] cursor-default transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-[rgba(154,117,53,0.14)] hover:border-[rgba(154,117,53,0.5)] hover:shadow-[0_6px_16px_-4px_rgba(154,117,53,0.45)]">
       <span className="size-3 shrink-0 inline-flex items-center justify-center text-[#9a7535]">
         {icon}
       </span>
@@ -391,7 +391,7 @@ export function DriversHero2() {
               enter("delay-[500ms]")
             )}>
               <Link
-                href="/drivers/apply"
+                href="/partners/apply"
                 className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#c9a96e] text-[#0d0d0d] hover:bg-[#b89558] hover:-translate-y-0.5 transition-[background-color,transform] duration-200"
               >
                 <span
