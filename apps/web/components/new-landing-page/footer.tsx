@@ -6,15 +6,15 @@ import { Facebook, Instagram, Linkedin, Lock } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
-const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean }> = [
-  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 92, h: 92 },
-  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 94, h: 96 },
-  { src: "/footer/badges/pme.png", alt: "PME Líder", w: 32, h: 37 },
-  { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 34, h: 35 },
-  { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 33, h: 36 },
-  { src: "/footer/badges/turismo-portugal.png", alt: "Turismo de Portugal", w: 68, h: 31, mask: true },
-  { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510", w: 29, h: 18 },
-  { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações", w: 70, h: 32, mask: true },
+const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean; cover?: boolean }> = [
+  { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 70, h: 70, cover: true },
+  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 68, h: 68 },
+  { src: "/footer/badges/pme.png", alt: "PME Líder", w: 58, h: 68 },
+  { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 66, h: 68 },
+  { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 62, h: 68 },
+  { src: "/footer/badges/turismo-portugal.png", alt: "Turismo de Portugal", w: 84, h: 38, mask: true },
+  { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510", w: 84, h: 52 },
+  { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações", w: 84, h: 39, mask: true },
 ]
 
 const PAYMENTS = [
@@ -176,7 +176,7 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
                 alt={badge.alt}
                 width={badge.w}
                 height={badge.h}
-                className="object-contain transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(201,169,110,0.35)]"
+                className={`${badge.cover ? "object-cover" : "object-contain"} transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(201,169,110,0.35)]`}
                 style={{ width: `${badge.w}px`, height: `${badge.h}px` }}
               />
             )}
