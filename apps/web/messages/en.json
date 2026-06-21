@@ -4641,7 +4641,18 @@
         "braga": "Braga",
         "aveiro": "Aveiro",
         "evora": "Évora",
-        "setubal": "Setúbal"
+        "setubal": "Setúbal",
+        "beja": "Beja",
+        "braganca": "Bragança",
+        "castelo-branco": "Castelo Branco",
+        "faro": "Faro",
+        "guarda": "Guarda",
+        "leiria": "Leiria",
+        "portalegre": "Portalegre",
+        "santarem": "Santarém",
+        "viana-do-castelo": "Viana do Castelo",
+        "vila-real": "Vila Real",
+        "viseu": "Viseu"
       }
     },
     "stepContact": {
