@@ -25,13 +25,18 @@ import { buildOrganizationSchema, buildServiceSchema, buildWebsiteSchema } from 
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("hero")
+  const siteTitle = "LuxMotion | Private Transfers & Luxury Tours Portugal"
 
-  return createPageMetadata({
-    title: `${t("title1")} ${t("title2")}`,
-    description: t("subtitle"),
-    path: "/",
-    keywords: ["private transfer", "airport transfer", "Portugal tours", "chauffeur"],
-  })
+  return {
+    ...createPageMetadata({
+      title: siteTitle,
+      description: t("subtitle"),
+      path: "/",
+      keywords: ["private transfer", "airport transfer", "Portugal tours", "chauffeur"],
+    }),
+    // Absolute so the homepage tab shows exactly this, without the "%s | …" template suffix
+    title: { absolute: siteTitle },
+  }
 }
 
 export default function SitePrincipal() {
