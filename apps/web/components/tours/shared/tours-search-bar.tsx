@@ -42,6 +42,7 @@ export function ToursSearchBar({ value, onChange, onSearch, placeholder, classNa
           onChange={handleChange}
           placeholder={placeholder}
           variant="tours-hero-dark"
+          showDefaultSuggestions={false}
           className="flex-1 h-full"
         />
       </div>

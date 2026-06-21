@@ -30,6 +30,8 @@ interface GooglePlacesInputProps {
   hideLeftIcon?: boolean
   /** When true, applies LuxMotion dark theme (only meaningful for new-widget variant). */
   dark?: boolean
+  /** When false, skip the curated airport/station default suggestions; the dropdown opens only once the user types (Google's default order). */
+  showDefaultSuggestions?: boolean
 }
 
 export function GooglePlacesInput({
@@ -42,6 +44,7 @@ export function GooglePlacesInput({
   inlineDropdown = false,
   hideLeftIcon = false,
   dark = false,
+  showDefaultSuggestions = true,
 }: GooglePlacesInputProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [defaultSuggestions, setDefaultSuggestions] = useState<LocationSuggestion[]>([])
@@ -55,16 +58,16 @@ export function GooglePlacesInput({
     if (inlineDropdown) setShowDropdown(true)
   }, [inlineDropdown])
 
-  // Load default suggestions when Google Maps is loaded
+  // Load default suggestions when Google Maps is loaded (skipped when showDefaultSuggestions is false)
   useEffect(() => {
-    if (isLoaded && hasKey && defaultSuggestions.length === 0 && !isLoadingDefaults) {
+    if (isLoaded && hasKey && showDefaultSuggestions && defaultSuggestions.length === 0 && !isLoadingDefaults) {
       setIsLoadingDefaults(true)
       getDefaultSuggestions().then((suggestions) => {
         setDefaultSuggestions(suggestions)
         setIsLoadingDefaults(false)
       })
     }
-  }, [isLoaded, hasKey, getDefaultSuggestions, defaultSuggestions.length, isLoadingDefaults])
+  }, [isLoaded, hasKey, showDefaultSuggestions, getDefaultSuggestions, defaultSuggestions.length, isLoadingDefaults])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value
@@ -114,6 +117,11 @@ export function GooglePlacesInput({
   const isToursHeroDark = variant === "tours-hero-dark"
   const isToursResults = variant === "tours-results"
   const isQuote = variant === "quote"
+
+  const hasInput = value.location.trim().length > 0
+  // When defaults are disabled (e.g. tours search), only open the dropdown once the user types —
+  // avoids an empty "No locations found" box appearing on focus.
+  const dropdownOpen = showDropdown && (showDefaultSuggestions || hasInput)
 
   const triggerInput = (
     <div className="relative w-full h-full flex items-center">
@@ -304,7 +312,7 @@ export function GooglePlacesInput({
         ref={containerRef}
       >
         <div className="relative w-full shrink-0">{triggerInput}</div>
-        {showDropdown && (
+        {dropdownOpen && (
           <div className="relative w-full mt-2 flex-1 min-h-[200px] overflow-hidden flex flex-col">
             <LocationDropdown
               inline
@@ -328,7 +336,7 @@ export function GooglePlacesInput({
       )} 
       ref={containerRef}
     >
-      <Popover open={showDropdown} onOpenChange={setShowDropdown}>
+      <Popover open={dropdownOpen} onOpenChange={setShowDropdown}>
         <PopoverAnchor asChild>
           {triggerInput}
         </PopoverAnchor>

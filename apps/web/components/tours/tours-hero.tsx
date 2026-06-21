@@ -137,6 +137,7 @@ export function ToursHero() {
                 onChange={handlePlaceChange}
                 placeholder={t("redesign.searchPlaceholder")}
                 variant="tours-hero-dark"
+                showDefaultSuggestions={false}
                 className="flex-1 h-full"
               />
             </div>
