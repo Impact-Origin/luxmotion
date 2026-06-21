@@ -6,6 +6,9 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
 const nextConfig = {
   transpilePackages: ["@workspace/ui"],
   images: {
+    // Allowed next/image quality values (default 75 + the explicit quality={90}).
+    // Required from Next.js 16; silences the build warning now.
+    qualities: [75, 90],
     remotePatterns: [
       {
         protocol: "https",
