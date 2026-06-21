@@ -26,9 +26,9 @@ export function TrustedBy() {
 
   return (
     <section id="companies" className="scroll-mt-24 bg-[#0D0D0D] border-y border-[rgba(255,255,255,0.12)]">
-      <div className="max-w-[1280px] mx-auto px-4 md:px-[82px] pt-6 pb-[50px] flex flex-col items-center gap-6">
+      <div className="pt-6 pb-[50px] flex flex-col items-center gap-6">
         <p
-          className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] text-center"
+          className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] text-center px-4"
           style={{ fontFamily: "var(--font-sans), Inter, system-ui, sans-serif" }}
         >
           {t("eyebrow")}
@@ -36,7 +36,7 @@ export function TrustedBy() {
 
         <div
           ref={marqueeRef}
-          className="-mx-4 w-[calc(100%+2rem)] overflow-x-auto px-4 [scrollbar-width:none] [-ms-overflow-style:none] md:-mx-[82px] md:w-[calc(100%+164px)] md:px-[82px] [&::-webkit-scrollbar]:hidden"
+          className="w-full overflow-x-auto px-4 md:px-10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,transparent,#000_3%,#000_97%,transparent)]"
         >
           <div className="flex items-center gap-12 w-max">
             {[...logos, ...logos].map((logo, i) => (
