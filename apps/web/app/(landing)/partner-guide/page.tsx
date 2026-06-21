@@ -23,7 +23,13 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function PartnerGuidePage() {
+export default async function PartnerGuidePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>
+}) {
+  const { tab } = await searchParams
+  const initialTab = tab === "partners" ? "partners" : "clients"
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd data={buildOrganizationSchema()} />
@@ -35,7 +41,7 @@ export default function PartnerGuidePage() {
       />
       <Header />
       <main className="pt-[60px] lg:pt-[72px]">
-        <PartnerGuide />
+        <PartnerGuide initialTab={initialTab} />
       </main>
       <Footer />
     </div>

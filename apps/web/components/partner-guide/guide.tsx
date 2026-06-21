@@ -7,9 +7,9 @@ import { PartnersGuide } from "./partners-guide"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
-export function PartnerGuide() {
+export function PartnerGuide({ initialTab = "clients" }: { initialTab?: "clients" | "partners" }) {
   const t = useTranslations("partnerGuide.tabs")
-  const [tab, setTab] = useState<"clients" | "partners">("clients")
+  const [tab, setTab] = useState<"clients" | "partners">(initialTab)
 
   return (
     <>

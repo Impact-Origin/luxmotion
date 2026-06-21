@@ -11,9 +11,8 @@ type JoinCard = {
 }
 
 const CARDS: JoinCard[] = [
-  // TODO: point "partner" to the dedicated hotel partnerships page once it exists (using /whitelabel for now)
-  { id: "partner", icon: HeartHandshake, href: "/whitelabel" },
-  { id: "chauffeur", icon: Car, href: "/drivers" },
+  { id: "partner", icon: HeartHandshake, href: "/partner-guide?tab=partners" },
+  { id: "chauffeur", icon: Car, href: "/drivers/apply" },
 ]
 
 function JoinCardBlock({ card, t }: { card: JoinCard; t: ReturnType<typeof useTranslations> }) {
