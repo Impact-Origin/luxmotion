@@ -709,7 +709,7 @@ function TripLegIconsRow({ icons }: { icons: TripLegIcons }) {
       kind: "svg",
       render: () => (
         <Image
-          src="/checkout/icons/surf.svg"
+          src="/checkout/icons/surfboard_checkout.png"
           alt=""
           width={24}
           height={24}

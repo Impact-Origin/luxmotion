@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Search, Info, Backpack, Luggage, Briefcase, Plus, X, ArrowLeft, ArrowRight, Minus, PlaneLanding, Clock, MapPin, Users, Baby, ChevronRight, Leaf, Dog, CircleAlert } from "lucide-react"
+import { Search, Info, Backpack, Luggage, Briefcase, Plus, X, ArrowLeft, ArrowRight, Minus, PlaneLanding, Clock, MapPin, Users, Baby, ChevronRight, Dog, CircleAlert } from "lucide-react"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
 import { AnimatedCollapse } from "@/components/checkout/shared"
@@ -121,13 +121,17 @@ function DarkInput({
 
 function IconOptionCard({
   icon: Icon,
+  iconImage,
+  iconImageClassName,
   title,
   subtitle,
   badge,
   selected,
   children,
 }: {
-  icon: ComponentType<{ className?: string; strokeWidth?: number }>
+  icon?: ComponentType<{ className?: string; strokeWidth?: number }>
+  iconImage?: string
+  iconImageClassName?: string
   title: string
   subtitle?: string
   badge?: string
@@ -150,7 +154,17 @@ function IconOptionCard({
         </span>
       )}
       <div className="flex items-center justify-center gap-2">
-        <Icon className="w-6 h-6 text-[#C9A96E] shrink-0" strokeWidth={1.6} />
+        {iconImage ? (
+          <Image
+            src={iconImage}
+            alt=""
+            width={24}
+            height={24}
+            className={cn("shrink-0 object-contain", iconImageClassName ?? "w-6 h-6")}
+          />
+        ) : Icon ? (
+          <Icon className="w-6 h-6 text-[#C9A96E] shrink-0" strokeWidth={1.6} />
+        ) : null}
         <div className="flex flex-col gap-0.5 min-w-0">
           <span className="text-[12px] font-bold text-[#F7F4EF] leading-[19.2px]">{title}</span>
           {subtitle && (
@@ -403,7 +417,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "standard",
       title: t("standardSurfboard"),
       subtitle: t("standardSurfboardSize"),
-      icon: Leaf,
+      iconImage: "/checkout/icons/surfboard_checkout.png",
+      iconImageClassName: "w-5 h-5",
       value: transfer.surfboard.standard,
       onChange: (v: number) => updateSurfboard({ ...transfer.surfboard, standard: v }),
     },
@@ -411,7 +426,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "upgraded",
       title: t("biggerSurfboard"),
       subtitle: t("biggerSurfboardSize"),
-      icon: Leaf,
+      iconImage: "/checkout/icons/surfboard_checkout.png",
+      iconImageClassName: "w-8 h-8",
       value: transfer.surfboard.upgraded,
       onChange: (v: number) => updateSurfboard({ ...transfer.surfboard, upgraded: v }),
       badge: t("requiresXl"),
@@ -1145,7 +1161,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           {surfboards.map((item) => (
             <IconOptionCard
               key={item.id}
-              icon={item.icon}
+              iconImage={item.iconImage}
+              iconImageClassName={item.iconImageClassName}
               title={item.title}
               subtitle={item.subtitle}
               badge={item.badge}

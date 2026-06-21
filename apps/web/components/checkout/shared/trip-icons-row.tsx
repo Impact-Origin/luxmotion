@@ -38,7 +38,7 @@ export function TripIconsRow({ data, className, iconSize = "md" }: TripIconsRowP
       )}
       {data.surfboards !== undefined && (
         <div className="flex items-center gap-1.5">
-          <Image src="/svgs/surf.svg" alt="Surf" width={24} height={24} className={iconClass} />
+          <Image src="/checkout/icons/surfboard_checkout.png" alt="Surf" width={24} height={24} className={iconClass} />
           <span className={cn(textClass, "font-medium")}>{data.surfboards}</span>
         </div>
       )}
