@@ -247,8 +247,8 @@ export function Header({
       label: t("forDrivers"),
       hasDropdown: true,
       items: [
-        { href: "/partners", label: t("individualDrivers") },
-        { href: "/drivers", label: t("driverCompanies") },
+        { href: "/drivers", label: t("individualDrivers") },
+        { href: "/partners", label: t("driverCompanies") },
       ]
     },
     { href: "/blogs", label: t("blog"), hasDropdown: false, items: [] },

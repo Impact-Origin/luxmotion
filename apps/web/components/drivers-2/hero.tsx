@@ -391,7 +391,7 @@ export function DriversHero2() {
               enter("delay-[500ms]")
             )}>
               <Link
-                href="/partners/apply"
+                href="/drivers/apply"
                 className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#c9a96e] text-[#0d0d0d] hover:bg-[#b89558] hover:-translate-y-0.5 transition-[background-color,transform] duration-200"
               >
                 <span

@@ -151,7 +151,7 @@ export function DriversHero() {
 
             <div className="flex flex-col-reverse lg:flex-row gap-3 items-stretch lg:items-center">
               <Link
-                href="/drivers/apply"
+                href="/partners/apply"
                 className="group h-12 inline-flex items-center justify-center px-6 py-[9px] bg-[#0D0D0D] text-white hover:bg-[#9A7535] hover:-translate-y-0.5 transition-[background-color,transform] duration-200"
               >
                 <span
