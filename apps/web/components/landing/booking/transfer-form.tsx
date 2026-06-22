@@ -192,6 +192,7 @@ export function TransferForm({
               placeholder={t.placeholderFrom}
               className="w-full h-full"
               variant="hero-inline"
+              dropdownDark={false}
             />
           </>
         )}
@@ -291,6 +292,7 @@ export function TransferForm({
                   placeholder={t.placeholderTo}
                   className="w-full h-full"
                   variant="hero-inline"
+                  dropdownDark={false}
                 />
               </>
             )}

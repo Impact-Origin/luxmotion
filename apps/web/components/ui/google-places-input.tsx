@@ -32,6 +32,8 @@ interface GooglePlacesInputProps {
   dark?: boolean
   /** When false, skip the curated airport/station default suggestions; the dropdown opens only once the user types (Google's default order). */
   showDefaultSuggestions?: boolean
+  /** Force the suggestions dropdown light (false) or dark (true), overriding the per-variant default. */
+  dropdownDark?: boolean
 }
 
 export function GooglePlacesInput({
@@ -45,6 +47,7 @@ export function GooglePlacesInput({
   hideLeftIcon = false,
   dark = false,
   showDefaultSuggestions = true,
+  dropdownDark,
 }: GooglePlacesInputProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [defaultSuggestions, setDefaultSuggestions] = useState<LocationSuggestion[]>([])
@@ -316,7 +319,7 @@ export function GooglePlacesInput({
           <div className="relative w-full mt-2 flex-1 min-h-[200px] overflow-hidden flex flex-col">
             <LocationDropdown
               inline
-              dark={dark}
+              dark={dropdownDark ?? dark}
               suggestions={value.location.trim() ? predictions : defaultSuggestions}
               isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
               onSelect={handleSelectSuggestion}
@@ -351,7 +354,7 @@ export function GooglePlacesInput({
             suggestions={value.location.trim() ? predictions : defaultSuggestions}
             isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
             onSelect={handleSelectSuggestion}
-            dark={isHeroInline || isToursHeroDark}
+            dark={dropdownDark ?? (isHeroInline || isToursHeroDark)}
             luxmotion={isQuote}
           />
         </PopoverContent>
