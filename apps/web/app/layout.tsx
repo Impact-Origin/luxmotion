@@ -86,7 +86,7 @@ export default async function RootLayout({
   const timeZone = await getTimeZone();
 
   return (
-    <ClerkProvider>
+    <ClerkProvider signInUrl="/admin/sign-in">
       <ConvexClientProvider>
         <html
           lang={locale}
