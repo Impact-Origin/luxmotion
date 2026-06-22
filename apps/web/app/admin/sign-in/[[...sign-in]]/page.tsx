@@ -44,14 +44,22 @@ export default function Page() {
     setError("");
     setLoading(true);
     try {
-      const res = await signIn.create({ identifier, password });
+      // The combined { identifier, password } call doesn't complete on some
+      // Clerk instances — fall back to the explicit first-factor password
+      // attempt (the same flow Clerk's hosted sign-in runs internally).
+      let res = await signIn.create({ identifier, password });
+      if (res.status === "needs_first_factor") {
+        res = await signIn.attemptFirstFactor({ strategy: "password", password });
+      }
       if (res.status === "complete") {
         await setActive({ session: res.createdSessionId });
         router.push("/admin");
         return;
       }
-      setError("Não foi possível concluir o início de sessão.");
+      console.error("[admin sign-in] incomplete status:", res.status, res);
+      setError(`Não foi possível concluir o início de sessão (estado: ${res.status}).`);
     } catch (err) {
+      console.error("[admin sign-in] error:", err);
       const msg =
         (err as { errors?: { longMessage?: string; message?: string }[] })?.errors?.[0]
           ?.longMessage ?? "Utilizador ou palavra-passe inválidos.";
