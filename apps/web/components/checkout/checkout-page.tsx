@@ -178,6 +178,12 @@ function CheckoutPageContent() {
   const handleContinueFromVehicle = () => {
     if (!selectedVehicle) return
     setShowTransferForm(true)
+    // Showing the transfer form doesn't change currentStep (so the step-change
+    // scroll effect doesn't fire). On desktop, jump back to the top so the form
+    // starts in view instead of staying scrolled down at the vehicle list.
+    if (window.innerWidth >= 1024) {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
   }
 
   const handleContinue = () => {
