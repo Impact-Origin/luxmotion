@@ -155,6 +155,7 @@ export default defineSchema({
     paymentEntity: v.optional(v.string()),
     paymentReference: v.optional(v.string()),
     paymentRequestId: v.optional(v.string()), // RequestId para MBWay
+    paymentReturnToken: v.optional(v.string()), // token de retorno do gateway (ccard)
     paymentAmount: v.optional(v.number()),
     driverNotes: v.optional(v.string()),
     selectedCheckoutAddons: v.optional(
