@@ -13,7 +13,7 @@ export function HotelsHero() {
   const t = useTranslations("hotels.hero")
 
   return (
-    <section className="relative bg-[#0D0D0D] lg:grid lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
+    <section className="relative flex flex-col-reverse bg-[#0D0D0D] lg:grid lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
       {/* Left — content */}
       <div className="flex flex-col justify-center px-4 py-14 sm:px-6 lg:py-24 lg:pl-12 lg:pr-10 xl:pl-[6vw]">
         <div className="w-full max-w-[700px]">

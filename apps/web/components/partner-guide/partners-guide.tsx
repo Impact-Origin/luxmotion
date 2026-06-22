@@ -52,7 +52,7 @@ function PartnersHero({ t }: { t: ReturnType<typeof useTranslations> }) {
             })}
           </div>
         </div>
-        <div className="relative h-[300px] sm:h-[400px] lg:h-[480px]">
+        <div className="order-first lg:order-none relative h-[300px] sm:h-[400px] lg:h-[480px]">
           <Image src="/partnership/partnership_top.png" alt="" fill priority className="object-contain object-center" sizes="(min-width:1024px) 46vw, 100vw" />
         </div>
       </div>
