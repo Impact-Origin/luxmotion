@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
@@ -73,11 +74,10 @@ export function AdminSidebar() {
     >
       <div className="flex h-16 items-center border-b border-[#e7ddca] px-4">
         <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
-          <span
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[#d8c7a3] bg-[#A08248]/[0.08] text-[#A08248]"
-            style={{ fontFamily: SERIF }}
-          >
-            <span className="text-[17px] leading-none">LM</span>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[#d8c7a3] bg-[#A08248]/[0.08]">
+            <span className="relative h-[11px] w-[20px]">
+              <Image src="/svgs/lm-monogram.svg" alt="LuxMotion" fill className="object-contain" priority />
+            </span>
           </span>
           {!isCollapsed && (
             <span className="flex min-w-0 flex-col leading-none">
