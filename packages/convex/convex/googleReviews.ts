@@ -44,14 +44,19 @@ const reviewValidator = v.object({
 export const getGoogleReviews = query({
   args: {},
   handler: async (ctx) => {
-    const doc = await ctx.db.query("googleReviewsCache").first();
-    if (!doc) return null;
-    return {
-      rating: doc.rating,
-      total: doc.total,
-      fetchedAt: doc.fetchedAt,
-      reviews: doc.reviews,
-    };
+    try {
+      const doc = await ctx.db.query("googleReviewsCache").first();
+      if (!doc) return null;
+      return {
+        rating: doc.rating,
+        total: doc.total,
+        fetchedAt: doc.fetchedAt,
+        reviews: doc.reviews,
+      };
+    } catch {
+      // Never let a reviews read crash the homepage — fall back to null.
+      return null;
+    }
   },
 });
 

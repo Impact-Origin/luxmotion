@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { Component, useState, useMemo, useCallback, useEffect } from "react"
 import Image from "next/image"
 import { ChevronRight, BadgeCheck, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -97,10 +97,58 @@ function ReviewCard({ review }: { review: Review }) {
   )
 }
 
+type GoogleReviewsData = {
+  rating: number
+  total: number
+  fetchedAt: number
+  reviews: {
+    author: string
+    rating: number
+    text: string
+    relativeTime: string
+    time: number
+    profilePhotoUrl?: string
+    language?: string
+  }[]
+}
+
+// The Google reviews come from an optional, cached Convex query. Isolate it in
+// an error boundary so a backend hiccup — or the function simply not being
+// deployed yet — can never crash the homepage; we fall back to the curated
+// reviews instead.
+function GoogleReviewsQuery({
+  onData,
+}: {
+  onData: (data: GoogleReviewsData | null) => void
+}) {
+  const data = useQuery(api.googleReviews.getGoogleReviews)
+  useEffect(() => {
+    if (data !== undefined) onData(data ?? null)
+  }, [data, onData])
+  return null
+}
+
+class GoogleReviewsBoundary extends Component<
+  { onData: (data: GoogleReviewsData | null) => void },
+  { failed: boolean }
+> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch() {
+    // Swallowed on purpose — the curated reviews are shown instead.
+  }
+  render() {
+    if (this.state.failed) return null
+    return <GoogleReviewsQuery onData={this.props.onData} />
+  }
+}
+
 export function Testimonials() {
   const t = useTranslations("testimonials")
   const [currentPage, setCurrentPage] = useState(0)
-  const googleReviews = useQuery(api.googleReviews.getGoogleReviews)
+  const [googleReviews, setGoogleReviews] = useState<GoogleReviewsData | null>(null)
   const featuredReviews = useQuery(api.tourReviews.listFeatured)
 
   const reviews: Review[] = useMemo(() => {
@@ -157,6 +205,7 @@ export function Testimonials() {
 
   return (
     <section id="reviews" className="bg-[#0D0D0D] pt-[60px] pb-6 relative">
+      <GoogleReviewsBoundary onData={setGoogleReviews} />
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center">
         <div className="group relative overflow-hidden cursor-default backdrop-blur-sm bg-[rgba(33,33,33,0.3)] border border-[#C9A96E] flex items-center gap-2 px-4 py-2">
           <div className="pointer-events-none absolute inset-0 w-0 bg-[#C9A96E] transition-all duration-500 ease-out group-hover:w-full" />
