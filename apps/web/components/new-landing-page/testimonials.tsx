@@ -85,7 +85,7 @@ function ReviewCard({ review }: { review: Review }) {
         />
       </div>
       <div className="flex items-center gap-1">
-        <span className="text-[12px] text-[#C9A96E] tracking-[1px]">★★★★★</span>
+        <span className="text-[12px] text-[#C9A96E] tracking-[1px]">{"★".repeat(Math.max(1, Math.min(5, Math.round(review.rating))))}</span>
         <div className="size-[14px] rounded-full bg-[#1a73e8] flex items-center justify-center">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
             <path d="M1.5 4L3 5.5L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -100,9 +100,21 @@ function ReviewCard({ review }: { review: Review }) {
 export function Testimonials() {
   const t = useTranslations("testimonials")
   const [currentPage, setCurrentPage] = useState(0)
+  const googleReviews = useQuery(api.googleReviews.getGoogleReviews)
   const featuredReviews = useQuery(api.tourReviews.listFeatured)
 
   const reviews: Review[] = useMemo(() => {
+    // 1) Real Google reviews (cached server-side) take priority.
+    const fromGoogle: Review[] = (googleReviews?.reviews ?? []).map((review, i) => ({
+      name: review.author,
+      date: review.relativeTime || "Recently",
+      color: AVATAR_COLORS[i % AVATAR_COLORS.length] ?? "#5f6368",
+      rating: review.rating,
+      text: review.text,
+    }))
+    if (fromGoogle.length > 0) return fromGoogle
+
+    // 2) Otherwise fall back to the curated reviews managed in the admin.
     const dbReviews: Review[] = (featuredReviews ?? []).map((review, i) => ({
       name: review.author,
       date: new Date(review.createdAt).toLocaleDateString("en-GB"),
@@ -111,7 +123,15 @@ export function Testimonials() {
       text: review.text,
     }))
     return dbReviews.length > 0 ? dbReviews : FALLBACK_REVIEWS
-  }, [featuredReviews])
+  }, [googleReviews, featuredReviews])
+
+  // Real aggregate from Google (falls back to the original hardcoded values).
+  const ratingDisplay = googleReviews?.rating
+    ? Number.isInteger(googleReviews.rating)
+      ? String(googleReviews.rating)
+      : googleReviews.rating.toFixed(1)
+    : "5"
+  const totalDisplay = googleReviews?.total ?? 322
 
   const desktopItemsPerPage = 4
   const desktopPages = Math.ceil(reviews.length / desktopItemsPerPage)
@@ -162,11 +182,11 @@ export function Testimonials() {
 
           <div className="flex items-center gap-3 md:gap-4">
             <div className="relative">
-              <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">5</span>
+              <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">{ratingDisplay}</span>
               <Star className="size-6 md:size-[43px] text-[#ab9c6b] fill-[#ab9c6b] absolute right-[-28px] md:right-[-44px] top-[12px] md:top-[14px]" />
             </div>
             <div className="w-[2px] h-[40px] md:h-[60px] bg-white rotate-[12deg] ml-6 md:ml-10" />
-            <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">322</span>
+            <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">{totalDisplay}</span>
             <span className="font-medium text-[18px] md:text-[24px] text-[#C9A96E] tracking-[0.24px]">
               {t("reviews")}
             </span>

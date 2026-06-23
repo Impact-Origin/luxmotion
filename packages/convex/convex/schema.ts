@@ -1161,4 +1161,24 @@ export default defineSchema({
     .index("by_event", ["eventId"])
     .index("by_status", ["status"])
     .index("by_created", ["createdAt"]),
+
+  // Cached snapshot of the business's Google reviews (refreshed daily by a cron
+  // in crons.ts). A single document holds the aggregate rating/total plus up to
+  // 5 review texts — the most the official Google Places API returns.
+  googleReviewsCache: defineTable({
+    rating: v.number(),
+    total: v.number(),
+    fetchedAt: v.number(),
+    reviews: v.array(
+      v.object({
+        author: v.string(),
+        rating: v.number(),
+        text: v.string(),
+        relativeTime: v.string(),
+        time: v.number(),
+        profilePhotoUrl: v.optional(v.string()),
+        language: v.optional(v.string()),
+      }),
+    ),
+  }),
 });
