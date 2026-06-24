@@ -167,7 +167,9 @@ function TrustStripMobile({
 function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
     <a
-      href="/partners/apply?type=wedding"
+      href="https://www.easytransferportugal.com/hotels/candidatura"
+      target="_blank"
+      rel="noopener noreferrer"
       className={
         "h-12 inline-flex items-center justify-center bg-[#a08248] hover:bg-[#8a6f3c] transition-colors px-6 cursor-pointer " +
         (full ? "w-full" : "")
