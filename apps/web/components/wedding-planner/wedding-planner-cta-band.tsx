@@ -40,7 +40,7 @@ export function WeddingPlannerCtaBand() {
         </p>
         <Link
           href="/partners/apply?type=wedding"
-          className={cn("bg-[#a08248] hover:bg-[#8e7240] transition-colors h-12 inline-flex items-center px-6 py-[9px]", reveal())}
+          className={cn("group bg-[#a08248] hover:bg-[#8e7240] transition-colors h-12 inline-flex items-center px-6 py-[9px]", reveal())}
           style={{ transitionDelay: "280ms" }}
       >
         <span
@@ -49,7 +49,7 @@ export function WeddingPlannerCtaBand() {
         >
           {t("cta")}
         </span>
-        <ArrowRight className="w-[14px] h-[14px] text-white" strokeWidth={2} />
+        <ArrowRight className="w-[14px] h-[14px] text-white transition-transform duration-300 ease-out group-hover:translate-x-1" strokeWidth={2} />
       </Link>
       </div>
     </section>

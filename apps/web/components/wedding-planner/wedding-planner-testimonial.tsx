@@ -18,7 +18,7 @@ export function WeddingPlannerTestimonial() {
     <section ref={ref} className="bg-white px-4 md:px-[82px] pt-12 md:pt-[71px] pb-12 md:pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex justify-center">
         <div
-          className="w-full max-w-[700px] bg-white border border-[rgba(28,27,24,0.08)] p-6 md:p-[40px] flex flex-col items-center text-center"
+          className="group w-full max-w-[700px] bg-white border border-[rgba(28,27,24,0.08)] p-6 md:p-[40px] flex flex-col items-center text-center transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-[rgba(201,169,110,0.05)] hover:ring-1 hover:ring-inset hover:ring-[rgba(201,169,110,0.25)]"
           style={{ boxShadow: SHADOW }}
         >
           <span

@@ -67,13 +67,13 @@ export function WeddingPlannerFounders() {
 
   const photoBlock = (
     <div className={cn("relative w-full max-w-[578px] mx-auto md:mx-0 aspect-[578/562]", revealFromLeft())}>
-      <div className="absolute top-[14%] left-0 right-0 bottom-0">
+      <div className="group absolute top-[14%] left-0 right-0 bottom-0 overflow-hidden">
         <Image
           src="/wedding-planner/founders/team.png"
           alt={t("photoAlt")}
           fill
           sizes="(min-width: 768px) 578px, 400px"
-          className="object-cover object-bottom"
+          className="object-cover object-bottom transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
       <div className="absolute top-[9.35%] left-1/2 -translate-x-1/2 z-10">

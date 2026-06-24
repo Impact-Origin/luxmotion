@@ -29,13 +29,13 @@ function ServiceCard({
   alt: string
 }) {
   return (
-    <div className="relative h-[430px] overflow-hidden flex flex-col justify-end">
+    <div className="group relative h-[430px] overflow-hidden flex flex-col justify-end">
       <Image
         src={src}
         alt={alt}
         fill
         sizes="(min-width: 768px) 256px, 50vw"
-        className="object-cover"
+        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[47%] to-black to-[84%]" />
       <div className="relative z-10 p-4 flex items-center justify-between gap-3">
@@ -47,9 +47,9 @@ function ServiceCard({
         </span>
         <button
           aria-label={title}
-          className="size-8 shrink-0 inline-flex items-center justify-center border-[1.143px] border-[rgba(255,255,255,0.3)] hover:border-white transition-colors"
+          className="size-8 shrink-0 inline-flex items-center justify-center border-[1.143px] border-[rgba(255,255,255,0.3)] hover:border-white group-hover:border-white transition-colors"
         >
-          <ArrowRight className="size-[18.286px] text-white" strokeWidth={1.5} />
+          <ArrowRight className="size-[18.286px] text-white transition-transform duration-300 ease-out group-hover:translate-x-0.5" strokeWidth={1.5} />
         </button>
       </div>
     </div>

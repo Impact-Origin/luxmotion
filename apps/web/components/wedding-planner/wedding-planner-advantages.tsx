@@ -20,11 +20,11 @@ function AdvantageCard({
 }) {
   return (
     <div
-      className="bg-white border border-[rgba(28,27,24,0.08)] p-[25px] flex flex-col gap-2"
+      className="group bg-white border border-[rgba(28,27,24,0.08)] p-[25px] flex flex-col gap-2 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] hover:ring-1 hover:ring-inset hover:ring-[rgba(201,169,110,0.25)] hover:bg-[rgba(201,169,110,0.05)]"
       style={SANS_FONT}
     >
       <div className="flex items-center gap-[10px]">
-        <span className="size-7 shrink-0 inline-flex items-center justify-center bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)]">
+        <span className="size-7 shrink-0 inline-flex items-center justify-center bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] transition-transform duration-300 ease-out group-hover:scale-110">
           <span className="text-[14px] font-extrabold leading-[17.16px] text-[#9a7535] opacity-50">
             {n}
           </span>

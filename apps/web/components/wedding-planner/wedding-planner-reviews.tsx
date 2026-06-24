@@ -20,10 +20,10 @@ type Review = {
 
 function ReviewCard({ r }: { r: Review }) {
   return (
-    <article className="bg-white border-l-[0.8px] border-r-[0.8px] border-b-[0.8px] border-t-[1.6px] border-[rgba(0,0,0,0.06)] flex flex-col gap-2 px-[24.8px] pt-[25.6px] pb-[24.8px] shadow-[0px_2px_6px_rgba(0,0,0,0.04)] h-full">
+    <article className="group bg-white border-l-[0.8px] border-r-[0.8px] border-b-[0.8px] border-t-[1.6px] border-[rgba(0,0,0,0.06)] flex flex-col gap-2 px-[24.8px] pt-[25.6px] pb-[24.8px] shadow-[0px_2px_6px_rgba(0,0,0,0.04)] h-full transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] hover:ring-1 hover:ring-inset hover:ring-[rgba(201,169,110,0.25)] hover:bg-[rgba(201,169,110,0.05)]">
       <div className="flex gap-[10px] items-center w-full">
         <div
-          className="size-[34px] rounded-full flex items-center justify-center shrink-0"
+          className="size-[34px] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ease-out group-hover:scale-110"
           style={{ backgroundColor: r.avatarBg }}
         >
           <span className="text-[13px] font-semibold text-white" style={SANS}>

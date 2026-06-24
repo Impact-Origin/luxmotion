@@ -13,9 +13,9 @@ const FEATURES = [1, 2, 3, 4] as const
 
 function FeatureRow({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="group flex items-center gap-2">
       <Check
-        className="size-[14px] text-[#4ade80] shrink-0"
+        className="size-[14px] text-[#4ade80] shrink-0 transition-transform duration-300 ease-out group-hover:scale-110"
         strokeWidth={2.5}
       />
       <span
@@ -74,13 +74,13 @@ export function WeddingPlannerWhiteLabel() {
           </div>
         </div>
 
-        <div className={cn("flex-1 min-w-0 self-stretch min-h-[260px] md:min-h-[340px] relative border border-[rgba(28,27,24,0.08)]", revealFromRight("delay-150"))}>
+        <div className={cn("group flex-1 min-w-0 self-stretch min-h-[260px] md:min-h-[340px] relative overflow-hidden border border-[rgba(28,27,24,0.08)]", revealFromRight("delay-150"))}>
           <Image
             src="/wedding-planner/white-label/toast.png"
             alt={t("photoAlt")}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         </div>
       </div>

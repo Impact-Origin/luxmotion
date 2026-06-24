@@ -18,7 +18,7 @@ type Plan = {
 function PlanCard({ plan }: { plan: Plan }) {
   return (
     <div
-      className={`relative bg-white flex flex-col gap-1 items-stretch p-[24.8px] flex-1 min-w-0 ${
+      className={`group relative bg-white flex flex-col gap-1 items-stretch p-[24.8px] flex-1 min-w-0 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] hover:ring-1 hover:ring-inset hover:ring-[rgba(201,169,110,0.25)] hover:bg-[rgba(201,169,110,0.05)] ${
         plan.recommended
           ? "border border-[#9a7535]"
           : "border border-[rgba(28,27,24,0.08)]"

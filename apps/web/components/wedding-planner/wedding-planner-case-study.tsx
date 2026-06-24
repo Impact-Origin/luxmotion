@@ -78,13 +78,13 @@ export function WeddingPlannerCaseStudy() {
 
         <div className="flex flex-col gap-6">
           <div className="bg-[#0d0d0d] border border-[rgba(28,27,24,0.08)] flex flex-col lg:flex-row items-stretch overflow-hidden">
-            <div className="relative flex-1 min-h-[480px] lg:min-h-[655px] lg:max-w-[50%]">
+            <div className="group relative flex-1 min-h-[480px] lg:min-h-[655px] lg:max-w-[50%] overflow-hidden">
               <Image
                 src="/wedding-planner/case-quinta-das-rosas.png"
                 alt={t("photoAlt")}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 from-[40%] to-transparent to-[77%]" />
               <div className="relative h-full flex flex-col gap-2 items-start justify-end p-6">

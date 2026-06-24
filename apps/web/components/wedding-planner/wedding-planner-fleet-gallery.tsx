@@ -43,13 +43,13 @@ export function WeddingPlannerFleetGallery() {
               className={cn("flex flex-col gap-2", reveal())}
               style={{ transitionDelay: `${(i % 3) * 110 + Math.floor(i / 3) * 180}ms` }}
             >
-              <div className="relative w-full aspect-[324/323] overflow-hidden">
+              <div className="group relative w-full aspect-[324/323] overflow-hidden">
                 <Image
                   src={v.src}
                   alt={v.name}
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
               </div>
               <div className="flex items-stretch gap-[10px]">

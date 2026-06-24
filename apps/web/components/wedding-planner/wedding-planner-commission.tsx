@@ -166,8 +166,8 @@ export function WeddingPlannerCommission() {
 
           <div className="flex flex-col gap-[12px] w-full pt-2">
             {FEATURES.map((n) => (
-              <div key={n} className="flex items-center gap-[6px]">
-                <Check className="size-3 text-[#4ade80] shrink-0" strokeWidth={2.5} />
+              <div key={n} className="group flex items-center gap-[6px]">
+                <Check className="size-3 text-[#4ade80] shrink-0 transition-transform duration-300 ease-out group-hover:scale-110" strokeWidth={2.5} />
                 <span
                   className="text-[12px] leading-none text-[#696969]"
                   style={SANS_FONT}
