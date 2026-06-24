@@ -208,10 +208,18 @@ export function WeddingPlannerHero() {
   const t = useTranslations("weddingPlanner.hero")
   const { enter } = useEnterAnimation()
 
+  const trustProps = {
+    excellent: t("excellentRating"),
+    verifiedBy: t("verifiedBy"),
+    fromReviews: t("fromReviews"),
+    poweredBy: t("poweredBy"),
+  }
+
   return (
     <section className="bg-[#111110] relative overflow-hidden">
-      <div className="md:hidden flex flex-col">
-        <div className="relative w-full h-[359px] overflow-hidden">
+      {/* Mobile */}
+      <div className="md:hidden px-4 pt-6 pb-10 flex flex-col gap-6">
+        <div className="relative h-[358px] w-full overflow-hidden">
           <Image
             src="/wedding-planner/hero-bride.png"
             alt={t("photoAlt")}
@@ -222,22 +230,23 @@ export function WeddingPlannerHero() {
           />
         </div>
 
-        <div className="flex flex-col gap-6 items-start px-4 py-6">
-          <div className={cn("flex flex-col gap-2 items-start w-full", enter("delay-0"))}>
+        <div className="flex flex-col gap-5 items-start">
+          <div className={cn("flex flex-col gap-5 items-start w-full", enter("delay-0"))}>
             <HeroPill label={t("pill")} />
-            <h1
-              className="text-[48px] leading-none font-normal text-[#f7f4ef] pt-1"
-              style={SERIF_FONT}
-            >
+            <h1 className="text-[40px] leading-[1.1] font-normal text-[#f7f4ef]" style={SERIF_FONT}>
               {t("titleLine1")} {t("titleBefore")}{" "}
               <span className="italic text-[#c9a96e]">{t("titleAccent")}</span>{" "}
               {t("titleAfter")}
             </h1>
           </div>
 
-          <p className={cn("text-[18px] leading-[1.3] text-[#999] max-w-[520px]", enter("delay-200"))} style={SANS_FONT}>
+          <p className={cn("text-[18px] leading-[1.3] text-[#999] max-w-[420px]", enter("delay-200"))} style={SANS_FONT}>
             {t("subtitle")}
           </p>
+
+          <div className={cn("w-full", enter("delay-[300ms]"))}>
+            <TrustStripMobile {...trustProps} />
+          </div>
 
           <div className={cn("flex flex-col gap-2 w-full", enter("delay-[400ms]"))}>
             <SecondaryCta label={t("ctaSecondary")} full />
@@ -246,41 +255,53 @@ export function WeddingPlannerHero() {
         </div>
       </div>
 
-      <div className="hidden md:flex items-stretch">
-        <div className="flex-1 min-w-0 pl-[16vw] pr-8 max-w-[1100px] flex flex-col gap-6 items-start justify-center py-12">
-          <div className={cn("flex flex-col gap-2 items-start", enter("delay-0"))}>
-            <HeroPill label={t("pill")} />
-            <h1
-              className="flex flex-col text-[#f7f4ef] font-normal pt-1 max-w-[600px]"
-              style={SERIF_FONT}
-            >
-              <span className="text-[56px] leading-[53.76px]">{t("titleLine1")}</span>
-              <span className="text-[56px] leading-[53.76px]">
-                {t("titleBefore")} <span className="text-[#c9a96e]">{t("titleAccent")}</span>{" "}
-                {t("titleAfter")}
-              </span>
-            </h1>
-          </div>
-
-          <p className={cn("text-[18px] leading-[1.3] text-[#999] max-w-[520px]", enter("delay-200"))} style={SANS_FONT}>
-            {t("subtitle")}
-          </p>
-
-          <div className={cn("flex items-center gap-3", enter("delay-[400ms]"))}>
-            <PrimaryCta label={t("ctaPrimary")} />
-            <SecondaryCta label={t("ctaSecondary")} />
-          </div>
-        </div>
-
-        <div className="relative w-[55%] min-w-[600px] max-w-[1000px] aspect-[1080/720] shrink-0 ml-auto">
+      {/* Desktop */}
+      <div className="hidden md:block relative h-[800px]">
+        <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
             src="/wedding-planner/hero-bride.png"
             alt={t("photoAlt")}
             fill
             priority
-            sizes="(min-width: 1600px) 1000px, 55vw"
-            className="object-cover object-[40%_center]"
+            sizes="1058px"
+            className="object-cover"
+            style={{ objectPosition: "30% center" }}
           />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(90deg, #111110 0%, rgba(17,17,16,0.7) 24%, rgba(17,17,16,0) 54%)",
+            }}
+          />
+        </div>
+
+        <div className="relative w-full max-w-[1440px] mx-auto h-[800px] flex items-center pl-12">
+          <div className="flex-1 min-w-0 max-w-[640px] h-full flex flex-col gap-5 items-start justify-center py-20">
+            <div className={cn("flex flex-col gap-5 items-start w-full", enter("delay-0"))}>
+              <HeroPill label={t("pill")} />
+              <h1 className="flex flex-col font-normal text-[#f7f4ef]" style={SERIF_FONT}>
+                <span className="text-[54px] min-[1440px]:text-[64px] leading-[1.05]">{t("titleLine1")}</span>
+                <span className="text-[54px] min-[1440px]:text-[64px] leading-[1.05]">
+                  {t("titleBefore")} <span className="italic text-[#c9a96e]">{t("titleAccent")}</span>
+                </span>
+                <span className="text-[54px] min-[1440px]:text-[64px] leading-[1.05]">{t("titleAfter")}</span>
+              </h1>
+            </div>
+
+            <p className={cn("text-[18px] leading-[1.3] text-[#999] max-w-[534px]", enter("delay-200"))} style={SANS_FONT}>
+              {t("subtitle")}
+            </p>
+
+            <div className={enter("delay-[300ms]")}>
+              <TrustStripDesktop {...trustProps} />
+            </div>
+
+            <div className={cn("flex items-center gap-3", enter("delay-[400ms]"))}>
+              <PrimaryCta label={t("ctaPrimary")} />
+              <SecondaryCta label={t("ctaSecondary")} />
+            </div>
+          </div>
         </div>
       </div>
     </section>
