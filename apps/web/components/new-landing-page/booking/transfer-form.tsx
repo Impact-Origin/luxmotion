@@ -11,6 +11,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { MobileDrawer } from "@/components/ui/mobile-drawer"
 import { MobileLocationPanel } from "@/components/ui/mobile-location-panel"
+import { useHomeTheme } from "@/components/new-landing-page/home-theme"
+import { cn } from "@workspace/ui/lib/utils"
 import { toast } from "sonner"
 
 interface LocationState {
@@ -74,6 +76,8 @@ export function TransferForm({
   translations: t,
 }: TransferFormProps) {
   const isMobile = useIsMobile()
+  const { theme, isHome } = useHomeTheme()
+  const dark = isHome ? theme === "dark" : true
   const [fromDrawerOpen, setFromDrawerOpen] = useState(false)
   const [toDrawerOpen, setToDrawerOpen] = useState(false)
   const [toDrawerIndex, setToDrawerIndex] = useState(0)
@@ -116,7 +120,7 @@ export function TransferForm({
       >
         {isMobile ? (
           <MobileLocationPanel
-            dark
+            dark={dark}
             open={fromDrawerOpen}
             onOpenChange={(open) => {
               if (open && fromLocation.text) setFromLocation("", undefined)
@@ -153,10 +157,10 @@ export function TransferForm({
                 ariaLabel={t.whereFrom}
                 className="w-full"
                 variant="new-widget"
-                dropdownDark={false}
-                dropdownLuxmotion
+                dropdownDark={dark}
+                dropdownLuxmotion={!dark}
                 inlineDropdown
-                dark
+                dark={dark}
               />
             </div>
           </MobileLocationPanel>
@@ -183,8 +187,8 @@ export function TransferForm({
                 placeholder={t.placeholderFrom}
                 className="w-full"
                 variant="hero-inline"
-                dropdownDark={false}
-                dropdownLuxmotion
+                dropdownDark={dark}
+                dropdownLuxmotion={!dark}
               />
             </div>
           </div>
@@ -206,7 +210,7 @@ export function TransferForm({
           >
             {isMobile ? (
               <MobileLocationPanel
-                dark
+                dark={dark}
                 open={toDrawerOpen && toDrawerIndex === index}
                 onOpenChange={(open) => {
                   if (open && destinations[index]?.text) setDestination(index, "", undefined)
@@ -248,10 +252,10 @@ export function TransferForm({
                     ariaLabel={t.whereTo}
                     className="w-full"
                     variant="new-widget"
-                dropdownDark={false}
-                dropdownLuxmotion
+                    dropdownDark={dark}
+                    dropdownLuxmotion={!dark}
                     inlineDropdown
-                    dark
+                    dark={dark}
                   />
                 </div>
               </MobileLocationPanel>
@@ -279,8 +283,8 @@ export function TransferForm({
                     placeholder={t.placeholderTo}
                     className="w-full"
                     variant="hero-inline"
-                dropdownDark={false}
-                dropdownLuxmotion
+                    dropdownDark={dark}
+                    dropdownLuxmotion={!dark}
                   />
                 </div>
               </div>
@@ -298,6 +302,7 @@ export function TransferForm({
             placeholder="dd/mm/aaaa"
             label={t.labelDeparture}
             variant="new-widget"
+            dark={dark}
           />
         </div>
       </motion.div>
@@ -311,13 +316,14 @@ export function TransferForm({
           placeholder={t.placeholderDeparture}
           label={t.labelDeparture}
           variant="new-widget"
+          dark={dark}
         />
       </motion.div>
 
       <motion.div layout className="relative shrink-0 flex items-center border-b lg:border-b-0 lg:border-r border-[rgba(var(--lm-text-rgb,255,255,255),0.08)]" style={{ borderColor: "rgba(var(--lm-text-rgb,255,255,255),0.08)" }}>
         {isMobile ? (
           <MobileDrawer
-            dark
+            dark={dark}
             open={showPassengersDropdown}
             onOpenChange={setShowPassengersDropdown}
             trigger={
@@ -354,6 +360,7 @@ export function TransferForm({
               setPassengers={setPassengers}
               setLuggage={setLuggage}
               onClose={() => setShowPassengersDropdown(false)}
+              dark={dark}
               translations={t}
             />
           </MobileDrawer>
@@ -391,7 +398,10 @@ export function TransferForm({
               side="bottom"
               align="end"
               sideOffset={8}
-              className="w-80 p-0 border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#1e1d1b)] shadow-xl rounded-none z-50"
+              className={cn(
+                "w-80 p-0 border shadow-xl rounded-none z-50",
+                dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)]" : "bg-white border-[rgba(28,27,24,0.08)]"
+              )}
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
               <PassengersDropdownContent
@@ -400,6 +410,7 @@ export function TransferForm({
                 setPassengers={setPassengers}
                 setLuggage={setLuggage}
                 onClose={() => setShowPassengersDropdown(false)}
+                dark={dark}
                 translations={t}
               />
             </PopoverContent>

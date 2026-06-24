@@ -8,6 +8,7 @@ import type { TripType, TourPassengerState, WidgetProductItem } from "./types"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { MobileDrawer } from "../../ui/mobile-drawer"
 import { cn } from "@workspace/ui/lib/utils"
+import { useHomeTheme } from "@/components/new-landing-page/home-theme"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
 import { toast } from "sonner"
@@ -62,6 +63,8 @@ export function EventsTourForm({
 }: EventsTourFormProps) {
   const [showEventDropdown, setShowEventDropdown] = useState(false)
   const isMobile = useIsMobile()
+  const { theme, isHome } = useHomeTheme()
+  const dark = isHome ? theme === "dark" : true
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
   const isEvents = tripType === "events"
   const hasRequiredDateTime =
@@ -140,14 +143,17 @@ export function EventsTourForm({
   const eventContent = (
     <div className={cn("flex flex-col overflow-y-auto max-h-96", isMobile && "-mx-4")}>
       {items.length === 0 ? (
-        <div className="p-6 text-center text-[var(--lm-muted,#696969)] text-sm">
+        <div className={cn("p-6 text-center text-sm", dark ? "text-[var(--lm-muted,#696969)]" : "text-[#8c8680]")}>
           {emptyMessage}
         </div>
       ) : (
         items.map((item) => (
           <div
             key={item._id}
-            className="flex items-center gap-3 p-3 hover:bg-white/5 border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] last:border-b-0"
+            className={cn(
+              "flex items-center gap-3 p-3 border-b last:border-b-0",
+              dark ? "hover:bg-white/5 border-[rgba(var(--lm-text-rgb,255,255,255),0.08)]" : "hover:bg-[rgba(28,27,24,0.04)] border-[rgba(28,27,24,0.08)]"
+            )}
           >
             <div
               onClick={() => handleSelectItem(item)}
@@ -165,9 +171,9 @@ export function EventsTourForm({
               onClick={() => handleSelectItem(item)}
               className="flex-1 min-w-0 cursor-pointer"
             >
-              <span className="text-sm font-medium text-[var(--lm-text,#fff)] line-clamp-1">{item.title}</span>
+              <span className={cn("text-sm font-medium line-clamp-1", dark ? "text-[var(--lm-text,#fff)]" : "text-[#1a1612]")}>{item.title}</span>
               {item.subtitle && (
-                <p className="text-xs text-[var(--lm-muted,#999)] mt-0.5 line-clamp-2">{item.subtitle}</p>
+                <p className={cn("text-xs mt-0.5 line-clamp-2", dark ? "text-[var(--lm-muted,#999)]" : "text-[#8c8680]")}>{item.subtitle}</p>
               )}
             </div>
             <button
@@ -176,8 +182,11 @@ export function EventsTourForm({
                 e.stopPropagation()
                 window.open(`${basePath}/${item.slug}`, "_blank")
               }}
-              className="text-xs font-medium shrink-0 flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 transition-colors"
-              style={{ color: "var(--lm-accent,#C9A96E)" }}
+              className={cn(
+                "text-xs font-medium shrink-0 flex items-center gap-1 px-2 py-1 rounded transition-colors",
+                dark ? "hover:bg-white/10" : "hover:bg-[rgba(28,27,24,0.06)]"
+              )}
+              style={{ color: dark ? "var(--lm-accent,#C9A96E)" : "#a08248" }}
             >
               {t.readMore}
               <ExternalLink className="w-3 h-3" />
@@ -208,7 +217,10 @@ export function EventsTourForm({
               side="bottom"
               align="start"
               sideOffset={8}
-              className="p-0 rounded-none shadow-xl border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#1e1d1b)] overflow-hidden w-[var(--radix-popover-trigger-width)] min-w-[340px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 duration-200"
+              className={cn(
+                "p-0 rounded-none shadow-xl border overflow-hidden w-[var(--radix-popover-trigger-width)] min-w-[340px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 duration-200",
+                dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)]" : "bg-white border-[rgba(28,27,24,0.08)]"
+              )}
             >
               {eventContent}
             </PopoverContent>
@@ -236,7 +248,7 @@ export function EventsTourForm({
 
           {isMobile && (
             <MobileDrawer
-              dark
+              dark={dark}
               open={showEventDropdown}
               onOpenChange={setShowEventDropdown}
               title={isEvents ? t.chooseEvent : t.chooseTour}
@@ -261,6 +273,7 @@ export function EventsTourForm({
                 bookingDeadlineHours={bookingDeadlineHours}
                 isLoading={isLoadingAvailability}
                 onMonthChange={handleMonthChange}
+                light={!dark}
               />
             </div>
           ) : (
@@ -274,7 +287,7 @@ export function EventsTourForm({
         <div className="relative flex-[0.7] min-h-[56px] lg:min-h-[64px] flex items-center border-b lg:border-b-0 lg:border-r border-[rgba(var(--lm-text-rgb,255,255,255),0.08)]" ref={passengersRef} style={{ borderColor: "rgba(var(--lm-text-rgb,255,255,255),0.08)" }}>
           {isMobile ? (
             <MobileDrawer
-              dark
+              dark={dark}
               open={showPassengersDropdown}
               onOpenChange={setShowPassengersDropdown}
               trigger={
@@ -300,6 +313,7 @@ export function EventsTourForm({
                 setPassengers={setPassengers}
                 onClose={() => setShowPassengersDropdown(false)}
                 maxPassengers={selectedItem?.maxPassengers}
+                dark={dark}
                 translations={t}
               />
             </MobileDrawer>
@@ -326,7 +340,10 @@ export function EventsTourForm({
                 side="bottom"
                 align="end"
                 sideOffset={8}
-                className="w-80 p-0 border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#1e1d1b)] shadow-xl rounded-none z-50"
+                className={cn(
+                  "w-80 p-0 border shadow-xl rounded-none z-50",
+                  dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)]" : "bg-white border-[rgba(28,27,24,0.08)]"
+                )}
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
                 <TourGuestsDropdownContent
@@ -334,6 +351,7 @@ export function EventsTourForm({
                   setPassengers={setPassengers}
                   onClose={() => setShowPassengersDropdown(false)}
                   maxPassengers={selectedItem?.maxPassengers}
+                  dark={dark}
                   translations={t}
                 />
               </PopoverContent>

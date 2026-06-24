@@ -2,6 +2,7 @@
 
 import { type ReactNode } from "react"
 import { CircleMinus, CirclePlus } from "lucide-react"
+import { cn } from "@workspace/ui/lib/utils"
 
 interface CounterRowProps {
   icon: ReactNode
@@ -10,6 +11,8 @@ interface CounterRowProps {
   value: number
   onDecrease: () => void
   onIncrease: () => void
+  /** Light/dark theme. Defaults to dark so existing usages are unchanged. */
+  dark?: boolean
 }
 
 export function CounterRow({
@@ -19,23 +22,29 @@ export function CounterRow({
   value,
   onDecrease,
   onIncrease,
+  dark = true,
 }: CounterRowProps) {
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center gap-3">
-        <div className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] p-2 rounded-full">
+        <div
+          className={cn(
+            "p-2 rounded-full",
+            dark ? "bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)]" : "bg-[rgba(28,27,24,0.05)]"
+          )}
+        >
           {icon}
         </div>
         <div>
           <span
-            className="text-[14px] font-semibold text-[var(--lm-text,#fff)]"
+            className={cn("text-[14px] font-semibold", dark ? "text-[var(--lm-text,#fff)]" : "text-[#1a1612]")}
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
             {label}
           </span>
           {sublabel && (
             <p
-              className="text-[12px] text-[var(--lm-muted,#696969)] leading-none mt-0.5"
+              className={cn("text-[12px] leading-none mt-0.5", dark ? "text-[var(--lm-muted,#696969)]" : "text-[#8c8680]")}
               style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
             >
               {sublabel}
@@ -51,11 +60,16 @@ export function CounterRow({
             e.stopPropagation()
             onDecrease()
           }}
-          className="w-7 h-7 rounded-full border border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] flex items-center justify-center hover:bg-white/10 transition-colors"
+          className={cn(
+            "w-7 h-7 rounded-full border flex items-center justify-center transition-colors",
+            dark
+              ? "border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] hover:bg-white/10"
+              : "border-[rgba(28,27,24,0.12)] hover:bg-[rgba(28,27,24,0.05)]"
+          )}
         >
-          <CircleMinus className="w-4 h-4 text-[var(--lm-muted,#696969)]" />
+          <CircleMinus className={cn("w-4 h-4", dark ? "text-[var(--lm-muted,#696969)]" : "text-[#8c8680]")} />
         </button>
-        <span className="w-4 text-center text-[14px] font-black text-[var(--lm-text,#fff)]">{value}</span>
+        <span className={cn("w-4 text-center text-[14px] font-black", dark ? "text-[var(--lm-text,#fff)]" : "text-[#1a1612]")}>{value}</span>
         <button
           type="button"
           onMouseDown={(e) => e.stopPropagation()}
@@ -63,12 +77,16 @@ export function CounterRow({
             e.stopPropagation()
             onIncrease()
           }}
-          className="w-7 h-7 rounded-full border border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] flex items-center justify-center hover:bg-white/10 transition-colors"
+          className={cn(
+            "w-7 h-7 rounded-full border flex items-center justify-center transition-colors",
+            dark
+              ? "border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] hover:bg-white/10"
+              : "border-[rgba(28,27,24,0.12)] hover:bg-[rgba(28,27,24,0.05)]"
+          )}
         >
-          <CirclePlus className="w-4 h-4" style={{ color: "var(--lm-accent,#C9A96E)" }} />
+          <CirclePlus className="w-4 h-4" style={{ color: dark ? "var(--lm-accent,#C9A96E)" : "#a08248" }} />
         </button>
       </div>
     </div>
   )
 }
-

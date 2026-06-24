@@ -12,6 +12,8 @@ interface PassengersDropdownContentProps {
   onClose: () => void
   setPassengers: React.Dispatch<React.SetStateAction<PassengerState>>
   setLuggage: React.Dispatch<React.SetStateAction<LuggageState>>
+  /** Light/dark theme. Defaults to dark so existing usages are unchanged. */
+  dark?: boolean
   translations: {
     passengers: string
     adults: string
@@ -31,69 +33,84 @@ export function PassengersDropdownContent({
   onClose,
   setPassengers,
   setLuggage,
+  dark = true,
   translations: t,
 }: PassengersDropdownContentProps) {
+  const iconColor = dark ? "var(--lm-accent,#C9A96E)" : "#a08248"
   return (
-    <div className="bg-[var(--lm-surface,#1e1d1b)] p-4">
+    <div className={cn("p-4", dark ? "bg-[var(--lm-surface,#1e1d1b)]" : "bg-[#faf7f2]")}>
       <div className="flex items-center justify-between mb-4">
         <h3
-          className="text-[20px] font-semibold text-[var(--lm-text,#fff)]"
+          className={cn("text-[20px] font-semibold", dark ? "text-[var(--lm-text,#fff)]" : "text-[#1a1612]")}
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
         >
           {t.passengers}
         </h3>
-        <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
-          <X className="w-4 h-4 text-[var(--lm-muted,#696969)]" />
+        <button
+          onClick={onClose}
+          className={cn("p-1 rounded-lg transition-colors", dark ? "hover:bg-white/10" : "hover:bg-[rgba(28,27,24,0.05)]")}
+        >
+          <X className={cn("w-4 h-4", dark ? "text-[var(--lm-muted,#696969)]" : "text-[#8c8680]")} />
         </button>
       </div>
 
       <div className="space-y-4">
         <CounterRow
-          icon={<Users className="w-5 h-5" style={{ color: "var(--lm-accent,#C9A96E)" }} />}
+          icon={<Users className="w-5 h-5" style={{ color: iconColor }} />}
           label={t.adults}
           value={passengers.adults}
           onDecrease={() => setPassengers((p) => ({ ...p, adults: Math.max(1, p.adults - 1) }))}
           onIncrease={() => setPassengers((p) => ({ ...p, adults: p.adults + 1 }))}
+          dark={dark}
         />
 
         <CounterRow
-          icon={<Baby className="w-5 h-5" style={{ color: "var(--lm-accent,#C9A96E)" }} />}
+          icon={<Baby className="w-5 h-5" style={{ color: iconColor }} />}
           label={t.children}
           sublabel={t.childrenAge}
           value={passengers.children}
           onDecrease={() => setPassengers((p) => ({ ...p, children: Math.max(0, p.children - 1) }))}
           onIncrease={() => setPassengers((p) => ({ ...p, children: p.children + 1 }))}
+          dark={dark}
         />
 
-        <div className="h-[1px] bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)] my-2" />
+        <div className={cn("h-[1px] my-2", dark ? "bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)]" : "bg-[rgba(28,27,24,0.08)]")} />
 
         <CounterRow
-          icon={<Backpack className="w-5 h-5" style={{ color: "var(--lm-accent,#C9A96E)" }} />}
+          icon={<Backpack className="w-5 h-5" style={{ color: iconColor }} />}
           label={t.backpack}
           value={luggage.backpack}
           onDecrease={() => setLuggage((l) => ({ ...l, backpack: Math.max(0, l.backpack - 1) }))}
           onIncrease={() => setLuggage((l) => ({ ...l, backpack: l.backpack + 1 }))}
+          dark={dark}
         />
 
         <CounterRow
-          icon={<Luggage className="w-5 h-5" style={{ color: "var(--lm-accent,#C9A96E)" }} />}
+          icon={<Luggage className="w-5 h-5" style={{ color: iconColor }} />}
           label={t.handLuggage}
           value={luggage.handLuggage}
           onDecrease={() => setLuggage((l) => ({ ...l, handLuggage: Math.max(0, l.handLuggage - 1) }))}
           onIncrease={() => setLuggage((l) => ({ ...l, handLuggage: l.handLuggage + 1 }))}
+          dark={dark}
         />
 
         <CounterRow
-          icon={<Briefcase className="w-5 h-5" style={{ color: "var(--lm-accent,#C9A96E)" }} />}
+          icon={<Briefcase className="w-5 h-5" style={{ color: iconColor }} />}
           label={t.checkedBaggage}
           value={luggage.checkedBaggage}
           onDecrease={() => setLuggage((l) => ({ ...l, checkedBaggage: Math.max(0, l.checkedBaggage - 1) }))}
           onIncrease={() => setLuggage((l) => ({ ...l, checkedBaggage: l.checkedBaggage + 1 }))}
+          dark={dark}
         />
 
         <button
           onClick={onClose}
-          className="w-full mt-2 bg-[var(--lm-accent,#C9A96E)] hover:brightness-110 text-[rgba(var(--lm-bg-rgb,13,13,13),0.96)] py-3 rounded-full font-black text-[14px] uppercase tracking-wider transition-all"
+          className={cn(
+            "w-full mt-2 hover:brightness-110 py-3 rounded-full font-black text-[14px] uppercase tracking-wider transition-all",
+            dark
+              ? "bg-[var(--lm-accent,#C9A96E)] text-[rgba(var(--lm-bg-rgb,13,13,13),0.96)]"
+              : "bg-[#a08248] text-white"
+          )}
         >
           {t.done}
         </button>

@@ -12,7 +12,10 @@ const STORAGE_KEY = "lm-home-theme"
 const HomeThemeContext = React.createContext<{
   theme: HomeTheme
   toggle: () => void
-}>({ theme: "light", toggle: () => {} })
+  /** True only inside the homepage provider — lets shared widgets tell the
+   *  themed homepage apart from dark pages (whitelabel, hotels, checkout). */
+  isHome: boolean
+}>({ theme: "light", toggle: () => {}, isHome: false })
 
 export function useHomeTheme() {
   return React.useContext(HomeThemeContext)
@@ -55,7 +58,7 @@ export function HomeThemeProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <HomeThemeContext.Provider value={{ theme, toggle }}>
+    <HomeThemeContext.Provider value={{ theme, toggle, isHome: true }}>
       <div
         className={cn(
           "home-theme min-h-screen bg-[var(--lm-bg,#0D0D0D)] text-[var(--lm-text,#fff)] transition-colors duration-300",
