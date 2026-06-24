@@ -167,7 +167,12 @@ function CheckoutPageContent() {
   }, [currentStep])
 
   const handleStepChange = (newStep: number) => {
-    setStep(newStep)
+    // Sequential checkout: a step in the indicator can only go BACK to an
+    // already-completed step. Forward progression happens exclusively via the
+    // Continue button (which validates the current step), so the client can't
+    // skip ahead to Payment/Confirmation. A placed order (confirmation) is locked.
+    if (currentStep === confirmationStep) return
+    if (newStep < currentStep) setStep(newStep)
   }
 
   const handleVehicleSelect = (vehicle: Vehicle) => {
@@ -313,12 +318,23 @@ function VehicleSelectionStep({
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-0 items-start">
         <div className="flex flex-col pt-8 lg:pr-6">
-          <h2
-            className="text-[28px] lg:text-[36px] font-normal text-[#F7F4EF] mb-5 leading-none"
-            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
-          >
-            {t("chooseYourVehicle")}
-          </h2>
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <h2
+              className="text-[28px] lg:text-[36px] font-normal text-[#F7F4EF] leading-none"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {t("chooseYourVehicle")}
+            </h2>
+            <button
+              type="button"
+              onClick={onContinueFromVehicle}
+              disabled={!selectedVehicle}
+              className="hidden sm:inline-flex items-center gap-2 bg-[#C9A96E] hover:bg-[#b89558] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-6 py-3.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+            >
+              {tCommon("continue")}
+              <ArrowRight className="size-4" strokeWidth={2} />
+            </button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {isLoading ? (
               [1, 2, 3, 4].map((i) => (

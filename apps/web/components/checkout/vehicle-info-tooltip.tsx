@@ -117,7 +117,7 @@ export function VehicleInfoTooltip({ vehicleName, onClose }: VehicleInfoTooltipP
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 px-4 md:px-8 pb-6 md:pb-8 pt-2 md:pt-0">
-          <div className="bg-[rgba(46,125,82,0.08)] border border-[rgba(46,125,82,0.22)] p-4 md:p-6">
+          <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] p-4 md:p-6">
             <h3 className="text-base md:text-2xl font-bold text-[#F7F4EF] mb-3 md:mb-4">
               {t("included")}
             </h3>
@@ -142,7 +142,7 @@ export function VehicleInfoTooltip({ vehicleName, onClose }: VehicleInfoTooltipP
             </div>
           </div>
 
-          <div className="bg-[rgba(227,40,40,0.06)] border border-[rgba(227,40,40,0.22)] p-4 md:p-6">
+          <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] p-4 md:p-6">
             <h3 className="text-base md:text-2xl font-bold text-[#F7F4EF] mb-3 md:mb-4">
               {t("notIncluded")}
             </h3>

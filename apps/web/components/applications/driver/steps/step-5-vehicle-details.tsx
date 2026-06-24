@@ -11,6 +11,7 @@ import {
   LightSelect,
   StepHeader,
 } from "@/components/applications/shared"
+import { LightCombobox } from "@/components/applications/shared/light-combobox"
 import { useDriverApplication } from "../driver-application-context"
 import { CAR_BRANDS } from "@/lib/car-brands"
 import { formatPtPlate, isValidPtPlate } from "@/lib/license-plate"
@@ -308,7 +309,7 @@ export function DriverStepVehicleDetails() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
         <div className="flex flex-col gap-2">
           <FieldLabel>{t("fields.brand")}</FieldLabel>
-          <LightSelect
+          <LightCombobox
             value={vehicle.brand}
             onChange={(value) => updateVehicle({ brand: value })}
             placeholder={t("selectPlaceholder")}

@@ -21,6 +21,7 @@ import { getDailyNumber } from "@/lib/daily-number";
 import { useMarketingStats } from "@/hooks/use-marketing-stats";
 import { RouteMap, AnimatedCollapse } from "./shared";
 import { useCheckout } from "./checkout-context";
+import { VehicleInfoTooltip } from "./vehicle-info-tooltip";
 import { useDateFormatter } from "@/hooks/use-date-formatter";
 import {
   formatPrice,
@@ -50,6 +51,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
 
   const [isExpanded, setIsExpanded] = useState(!collapsible);
   const [isItineraryExpanded, setIsItineraryExpanded] = useState(false);
+  const [showVehicleInfo, setShowVehicleInfo] = useState(false);
   const [isInvoiceExpanded, setIsInvoiceExpanded] = useState(false);
   const [routeDistance, setRouteDistance] = useState<number | null>(null);
   const [routeDuration, setRouteDuration] = useState<number | null>(null);
@@ -346,11 +348,18 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
                 </span>
                 <button
                   type="button"
-                  aria-label={t("invoice")}
+                  onClick={() => setShowVehicleInfo(true)}
+                  aria-label={t("selectedCar")}
                   className="p-0 text-[rgba(247,244,239,0.55)] hover:text-[#C9A96E] transition-colors"
                 >
                   <Info className="size-6" strokeWidth={1.5} />
                 </button>
+                {showVehicleInfo && (
+                  <VehicleInfoTooltip
+                    vehicleName={selectedVehicle.name}
+                    onClose={() => setShowVehicleInfo(false)}
+                  />
+                )}
               </div>
               <button
                 type="button"
