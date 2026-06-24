@@ -20,23 +20,23 @@ import { CountryCombobox } from "@/components/ui/country-combobox"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
 
 const INPUT =
-  "w-full h-[44px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] px-[13px] text-[14px] text-white placeholder:text-[#696969] outline-none focus:border-[rgba(201,169,110,0.5)] transition-colors"
+  "w-full h-[44px] bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] px-[13px] text-[14px] text-[var(--lm-text,#fff)] placeholder:text-[var(--lm-muted,#696969)] outline-none focus:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-colors"
 
 const SELECT_TRIGGER =
-  "w-full h-[44px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] px-[13px] text-[14px] text-white data-[placeholder]:text-[#696969] rounded-none focus:ring-0 focus:border-[rgba(201,169,110,0.5)] focus-visible:ring-0 transition-colors"
+  "w-full h-[44px] bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] px-[13px] text-[14px] text-[var(--lm-text,#fff)] data-[placeholder]:text-[var(--lm-muted,#696969)] rounded-none focus:ring-0 focus:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] focus-visible:ring-0 transition-colors"
 
 const SELECT_CONTENT =
-  "bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-white rounded-none"
+  "bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] text-[var(--lm-text,#fff)] rounded-none"
 
 const SELECT_ITEM =
-  "text-[14px] text-white data-[highlighted]:bg-[rgba(201,169,110,0.12)] data-[highlighted]:text-white focus:bg-[rgba(201,169,110,0.12)] rounded-none cursor-pointer"
+  "text-[14px] text-[var(--lm-text,#fff)] data-[highlighted]:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.12)] data-[highlighted]:text-[var(--lm-text,#fff)] focus:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.12)] rounded-none cursor-pointer"
 
 const BUDGET_MIN = 150
 const BUDGET_MAX = 50000
 const BUDGET_STEP = 50
 
 const RANGE_THUMB =
-  "absolute top-0 w-full h-[14px] bg-transparent appearance-none pointer-events-none cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-[14px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#C9A96E] [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:size-[14px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#C9A96E] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
+  "absolute top-0 w-full h-[14px] bg-transparent appearance-none pointer-events-none cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-[14px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--lm-accent,#C9A96E)] [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:size-[14px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[var(--lm-accent,#C9A96E)] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
 
 function BudgetRange({
   min,
@@ -59,7 +59,7 @@ function BudgetRange({
         ] as const).map(([v, p], i) => (
           <span
             key={i}
-            className="pointer-events-none absolute -top-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#C9A96E] px-2 py-[2px] text-[11px] font-medium text-[#0D0D0D] shadow-[0_2px_8px_rgba(201,169,110,0.35)]"
+            className="pointer-events-none absolute -top-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--lm-accent,#C9A96E)] px-2 py-[2px] text-[11px] font-medium text-[#0D0D0D] shadow-[0_2px_8px_rgba(var(--lm-accent-rgb,201,169,110),0.35)]"
             style={{ left: `calc(${p}% + ${7 - (p / 100) * 14}px)` }}
           >
             {labelFor(v)}
@@ -69,7 +69,7 @@ function BudgetRange({
       <div className="relative h-[14px]">
         <div className="absolute top-1/2 -translate-y-1/2 h-[4px] w-full bg-[#222]" />
         <div
-          className="absolute top-1/2 -translate-y-1/2 h-[4px] bg-[#C9A96E]"
+          className="absolute top-1/2 -translate-y-1/2 h-[4px] bg-[var(--lm-accent,#C9A96E)]"
           style={{ left: `${pct(min)}%`, right: `${100 - pct(max)}%` }}
         />
         <input
@@ -92,8 +92,8 @@ function BudgetRange({
         />
       </div>
       <div className="flex justify-between mt-2">
-        <span className="text-[12px] text-white">€{min.toLocaleString()}</span>
-        <span className="text-[12px] text-white">
+        <span className="text-[12px] text-[var(--lm-text,#fff)]">€{min.toLocaleString()}</span>
+        <span className="text-[12px] text-[var(--lm-text,#fff)]">
           €{max.toLocaleString()}
           {max === BUDGET_MAX ? "+" : ""}
         </span>
@@ -105,7 +105,7 @@ function BudgetRange({
 function Label({ text, required }: { text: string; required?: boolean }) {
   return (
     <label
-      className="text-[12px] font-semibold text-[#F7F4EF] leading-none"
+      className="text-[12px] font-semibold text-[var(--lm-text,#F7F4EF)] leading-none"
       style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
     >
       {text}
@@ -178,7 +178,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="scroll-mt-[80px] bg-[#0D0D0D] pt-[100px] pb-[60px] px-4 md:px-[82px]">
+    <section id="contact" className="scroll-mt-[80px] bg-[var(--lm-bg,#0D0D0D)] pt-[100px] pb-[60px] px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row items-stretch gap-0 md:gap-12">
         <div className="relative w-full md:flex-1 h-[300px] md:h-auto md:min-h-[800px] overflow-hidden">
           <Image
@@ -188,14 +188,14 @@ export function ContactSection() {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-[rgba(0,0,0,0.74)] to-[82%]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-[rgba(var(--lm-bg-rgb,0,0,0),0.74)] to-[82%]" />
           <div className="absolute bottom-6 left-6 right-6">
             <h2
-              className="text-[48px] md:text-[96px] leading-[0.93] text-white opacity-[0.68]"
+              className="text-[48px] md:text-[96px] leading-[0.93] text-[var(--lm-text,#fff)] opacity-[0.68]"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               <span className="italic">{t("redesign.heroLine1")} </span>
-              <span className="italic text-[#C9A96E]">{t("redesign.heroLine2")}</span>
+              <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("redesign.heroLine2")}</span>
             </h2>
           </div>
         </div>
@@ -203,22 +203,22 @@ export function ContactSection() {
         <div className="w-full md:w-[667px] shrink-0 py-10">
           <div className="flex flex-col gap-2 mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-[82px] h-px bg-[#C9A96E]" />
+              <div className="w-[82px] h-px bg-[var(--lm-accent,#C9A96E)]" />
               <span
-                className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]"
+                className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]"
                 style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
               >
                 {t("redesign.label")}
               </span>
             </div>
             <h3
-              className="text-[32px] md:text-[48px] leading-[1.3] text-white italic"
+              className="text-[32px] md:text-[48px] leading-[1.3] text-[var(--lm-text,#fff)] italic"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {t("redesign.heading")}
             </h3>
             <p
-              className="text-[18px] text-[#999] leading-[1.3]"
+              className="text-[18px] text-[var(--lm-muted,#999)] leading-[1.3]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {t("redesign.subtitle")}
@@ -259,7 +259,7 @@ export function ContactSection() {
                   onChange={(v) => set("country", v)}
                   placeholder={t("redesign.form.countryPlaceholder")}
                   emptyLabel={t("redesign.form.countryPlaceholder")}
-                  inputClassName="h-[44px] py-0 px-[13px] text-[14px] bg-[#1E1D1B] border-[rgba(255,255,255,0.12)] placeholder:!text-[#696969] focus:border-[rgba(201,169,110,0.5)]"
+                  inputClassName="h-[44px] py-0 px-[13px] text-[14px] bg-[var(--lm-surface,#1E1D1B)] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] placeholder:!text-[var(--lm-muted,#696969)] focus:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)]"
                 />
               </div>
               <div className="flex-1 flex flex-col gap-2">
@@ -305,7 +305,7 @@ export function ContactSection() {
 
             <div className="flex flex-col gap-2">
               <Label text={t("redesign.form.date")} required />
-              <div className="h-[44px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] px-[13px] flex items-center transition-colors focus-within:border-[rgba(201,169,110,0.5)]">
+              <div className="h-[44px] bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] px-[13px] flex items-center transition-colors focus-within:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)]">
                 <DateTimePicker
                   variant="new-widget"
                   hideLeftIcon
@@ -320,13 +320,13 @@ export function ContactSection() {
             <label className="flex items-center gap-2 cursor-pointer">
               <div
                 className={cn(
-                  "size-[18px] rounded-[2px] border border-[rgba(255,255,255,0.12)] flex items-center justify-center transition-colors",
-                  form.flexibleDates && "bg-[rgba(154,117,53,0.22)]"
+                  "size-[18px] rounded-[2px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex items-center justify-center transition-colors",
+                  form.flexibleDates && "bg-[rgba(var(--lm-accent-rgb,154,117,53),0.22)]"
                 )}
               >
-                {form.flexibleDates && <Check className="size-[12px] text-[#C9A96E]" />}
+                {form.flexibleDates && <Check className="size-[12px] text-[var(--lm-accent,#C9A96E)]" />}
               </div>
-              <span className="text-[14px] text-white">{t("redesign.form.flexibleDates")}</span>
+              <span className="text-[14px] text-[var(--lm-text,#fff)]">{t("redesign.form.flexibleDates")}</span>
               <input
                 type="checkbox"
                 checked={form.flexibleDates}
@@ -371,7 +371,7 @@ export function ContactSection() {
                 placeholder={t("redesign.form.interestsPlaceholder")}
                 className={cn(INPUT, "h-[170px] resize-none py-[14px]")}
               />
-              <span className="text-[12px] font-light text-[#696969]">
+              <span className="text-[12px] font-light text-[var(--lm-muted,#696969)]">
                 {t("redesign.form.interestsHelp")}
               </span>
             </div>
@@ -393,16 +393,16 @@ export function ContactSection() {
               </Select>
             </div>
 
-            <label className="flex items-center gap-2 cursor-pointer bg-[rgba(154,117,53,0.22)] border border-[rgba(255,255,255,0.12)] px-[13px] py-[14px]">
+            <label className="flex items-center gap-2 cursor-pointer bg-[rgba(var(--lm-accent-rgb,154,117,53),0.22)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] px-[13px] py-[14px]">
               <div
                 className={cn(
-                  "size-[18px] rounded-[2px] border border-[rgba(255,255,255,0.12)] flex items-center justify-center shrink-0 transition-colors",
-                  form.newsletter && "bg-[rgba(154,117,53,0.22)]"
+                  "size-[18px] rounded-[2px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex items-center justify-center shrink-0 transition-colors",
+                  form.newsletter && "bg-[rgba(var(--lm-accent-rgb,154,117,53),0.22)]"
                 )}
               >
-                {form.newsletter && <Check className="size-[12px] text-[#C9A96E]" />}
+                {form.newsletter && <Check className="size-[12px] text-[var(--lm-accent,#C9A96E)]" />}
               </div>
-              <span className="text-[14px] text-white leading-normal">
+              <span className="text-[14px] text-[var(--lm-text,#fff)] leading-normal">
                 {t("redesign.form.newsletter")}
               </span>
               <input
@@ -416,12 +416,12 @@ export function ContactSection() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-[48px] bg-[#C9A96E] border border-[#C9A96E] text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] hover:bg-[#b8954f] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(201,169,110,0.35)] active:translate-y-0 active:scale-[0.99] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none transition-all duration-300 ease-out"
+              className="w-full h-[48px] bg-[var(--lm-accent,#C9A96E)] border border-[var(--lm-accent,#C9A96E)] text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] hover:bg-[#b8954f] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(var(--lm-accent-rgb,201,169,110),0.35)] active:translate-y-0 active:scale-[0.99] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none transition-all duration-300 ease-out"
             >
               {isSubmitting ? "..." : t("redesign.form.submit")}
             </button>
 
-            <div className="group bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] p-6 flex gap-4 items-center hover:border-[rgba(201,169,110,0.4)] hover:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:-translate-y-0.5 transition-all duration-300 ease-out">
+            <div className="group bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] p-6 flex gap-4 items-center hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] hover:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:-translate-y-0.5 transition-all duration-300 ease-out">
               <div className="relative size-[80px] md:size-[114px] shrink-0 rounded-full overflow-hidden">
                 <Image
                   src="/tours-page/support-avatar.png"
@@ -432,10 +432,10 @@ export function ContactSection() {
               </div>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
-                  <span className="text-[14px] font-bold text-[#999] leading-[1.3]">
+                  <span className="text-[14px] font-bold text-[var(--lm-muted,#999)] leading-[1.3]">
                     {t("redesign.support.name")}
                   </span>
-                  <span className="text-[12px] font-medium text-[#999] leading-[1.3]">
+                  <span className="text-[12px] font-medium text-[var(--lm-muted,#999)] leading-[1.3]">
                     {t("redesign.support.role")}
                   </span>
                 </div>
@@ -444,8 +444,8 @@ export function ContactSection() {
                     href={`tel:${t("redesign.support.phone").replace(/\s/g, "")}`}
                     className="group/row flex items-center gap-2 w-fit hover:translate-x-1 transition-transform duration-300 ease-out"
                   >
-                    <Phone className="size-4 text-[#C9A96E] shrink-0 transition-transform duration-300 group-hover/row:scale-110" />
-                    <span className="text-[12px] text-[#999] leading-[14px] group-hover/row:text-[#C9A96E] transition-colors duration-300">
+                    <Phone className="size-4 text-[var(--lm-accent,#C9A96E)] shrink-0 transition-transform duration-300 group-hover/row:scale-110" />
+                    <span className="text-[12px] text-[var(--lm-muted,#999)] leading-[14px] group-hover/row:text-[var(--lm-accent,#C9A96E)] transition-colors duration-300">
                       {t("redesign.support.phone")}
                     </span>
                   </a>
@@ -453,8 +453,8 @@ export function ContactSection() {
                     href={`mailto:${t("redesign.support.email")}`}
                     className="group/row flex items-center gap-2 w-fit hover:translate-x-1 transition-transform duration-300 ease-out"
                   >
-                    <Mail className="size-4 text-[#C9A96E] shrink-0 transition-transform duration-300 group-hover/row:scale-110" />
-                    <span className="text-[12px] text-[#999] leading-[1.2] group-hover/row:text-[#C9A96E] transition-colors duration-300">
+                    <Mail className="size-4 text-[var(--lm-accent,#C9A96E)] shrink-0 transition-transform duration-300 group-hover/row:scale-110" />
+                    <span className="text-[12px] text-[var(--lm-muted,#999)] leading-[1.2] group-hover/row:text-[var(--lm-accent,#C9A96E)] transition-colors duration-300">
                       {t("redesign.support.email")}
                     </span>
                   </a>
@@ -464,8 +464,8 @@ export function ContactSection() {
           </form>
 
           <div className="flex items-center gap-2 justify-center mt-4">
-            <ShieldCheck className="size-6 text-[#C9A96E] shrink-0" />
-            <span className="text-[14px] text-[#C9A96E] leading-[20px]">
+            <ShieldCheck className="size-6 text-[var(--lm-accent,#C9A96E)] shrink-0" />
+            <span className="text-[14px] text-[var(--lm-accent,#C9A96E)] leading-[20px]">
               {t("redesign.responseTime")}
             </span>
           </div>

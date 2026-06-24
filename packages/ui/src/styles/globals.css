@@ -83,6 +83,35 @@ html::-webkit-scrollbar-corner {
   background: #0d0d0d;
 }
 
+/* Light homepage: flip the global page scrollbar to the ivory/gold palette.
+   The class is toggled on <html> by HomeThemeProvider (home-theme.tsx). */
+html.lm-home-light {
+  scrollbar-color: #a08248 #e8e0d3;
+}
+
+html.lm-home-light::-webkit-scrollbar-track {
+  background: #e8e0d3;
+}
+
+html.lm-home-light::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #b99a63 0%, #a08248 100%);
+  border: 2px solid #e8e0d3;
+}
+
+html.lm-home-light::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c2a673 0%, #ab8d50 100%);
+}
+
+html.lm-home-light::-webkit-scrollbar-corner {
+  background: #e8e0d3;
+}
+
+/* Monochrome logos (e.g. Trustpilot's white wordmark) that must turn black on
+   the light homepage but stay white everywhere else (dark pages + home dark). */
+.home-theme:not(.dark) .lm-logo-mono {
+  filter: brightness(0);
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -185,6 +214,40 @@ html::-webkit-scrollbar-corner {
   --sidebar-accent-foreground: #2a241c;
   --sidebar-border: #e7ddca;
   --sidebar-ring: #a08248;
+}
+
+/* Homepage — switchable light/dark theme. Light = wedding-page palette (the
+   default); `.home-theme.dark` restores the original dark palette. Scoped to
+   .home-theme so only the homepage reacts to the switcher. Every token also has
+   its original dark value as the var() fallback, so the shared Hero still renders
+   dark on whitelabel / contexts that lack .home-theme. */
+.home-theme {
+  --lm-bg: #efe8dc;
+  --lm-bg-rgb: 239, 232, 220;
+  --lm-surface: #faf7f2;
+  --lm-surface-rgb: 250, 247, 242;
+  --lm-text: #1a1612;
+  --lm-text-rgb: 26, 22, 18;
+  --lm-muted: #5a5249;
+  --lm-accent: #a08248;
+  --lm-accent-rgb: 160, 130, 72;
+  /* Inverse: for elements that flip with the theme (solid CTA buttons, FABs,
+     decorative lines) — dark on light, light on dark. */
+  --lm-inverse-bg: #1a1612;
+  --lm-inverse-text: #faf7f2;
+}
+.home-theme.dark {
+  --lm-bg: #0d0d0d;
+  --lm-bg-rgb: 13, 13, 13;
+  --lm-surface: #1e1d1b;
+  --lm-surface-rgb: 30, 29, 27;
+  --lm-text: #ffffff;
+  --lm-text-rgb: 255, 255, 255;
+  --lm-muted: rgba(255, 255, 255, 0.55);
+  --lm-accent: #c9a96e;
+  --lm-accent-rgb: 201, 169, 110;
+  --lm-inverse-bg: #f5f1ea;
+  --lm-inverse-text: #1a1612;
 }
 
 @theme inline {

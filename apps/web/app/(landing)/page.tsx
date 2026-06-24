@@ -1,4 +1,4 @@
-import { Header } from "@/components/new-landing-page/header"
+import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { Hero } from "@/components/new-landing-page/hero"
 import { ServicesSection } from "@/components/new-landing-page/services-section"
 import { WhyScheduleSection } from "@/components/new-landing-page/why-schedule-section"
@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function SitePrincipal() {
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-white">
+    <HomeThemeProvider>
       <JsonLd data={buildOrganizationSchema()} />
       <JsonLd data={buildWebsiteSchema()} />
       <JsonLd
@@ -55,7 +55,7 @@ export default function SitePrincipal() {
           })
         }
       />
-      <Header />
+      <HomeHeader />
       <Hero />
       <ServicesSection />
       <WhyScheduleSection />
@@ -63,8 +63,8 @@ export default function SitePrincipal() {
       <CinematicBanner />
       <TrustedBy />
       <AboutUsSection />
-      <div className="bg-[#0D0D0D] hidden lg:flex justify-center px-4 md:px-[82px]">
-        <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent" />
+      <div className="bg-[var(--lm-bg,#0D0D0D)] hidden lg:flex justify-center px-4 md:px-[82px]">
+        <div className="max-w-[1280px] w-full h-[3px] bg-gradient-to-r from-transparent via-[var(--lm-accent,#C9A96E)] to-transparent" />
       </div>
       <OurDriversSection />
       <CTABanner />
@@ -77,6 +77,6 @@ export default function SitePrincipal() {
       <FAQ />
       <SocialSection />
       <Footer />
-    </div>
+    </HomeThemeProvider>
   )
 }

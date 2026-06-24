@@ -22,7 +22,7 @@ export function StatsBanner() {
                 <div className="text-[#27C7FF] text-[12px] md:text-[14px] lg:text-[18px] font-bold leading-tight break-words">
                   {t("transfers.label")}
                 </div>
-                <div className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
+                <div className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
                   {t("transfers.sublabel")}
                 </div>
               </div>
@@ -34,10 +34,10 @@ export function StatsBanner() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-[#27C7FF] text-[14px] md:text-[18px] lg:text-[24px] font-bold leading-tight flex items-center gap-1 flex-wrap">
-                  <span className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] shrink-0">+</span>
+                  <span className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] shrink-0">+</span>
                   <span className="break-words">{t("customers.number")}</span>
                 </div>
-                <div className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
+                <div className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
                   {t("customers.label")}
                 </div>
               </div>
@@ -49,10 +49,10 @@ export function StatsBanner() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-[#27C7FF] text-[14px] md:text-[18px] lg:text-[24px] font-bold leading-tight flex items-center gap-1 flex-wrap">
-                  <span className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] shrink-0">+</span>
+                  <span className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] shrink-0">+</span>
                   <span className="break-words">{t("co2.number")}</span>
                 </div>
-                <div className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
+                <div className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
                   {t("co2.label")}
                 </div>
               </div>
@@ -64,10 +64,10 @@ export function StatsBanner() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-[#27C7FF] text-[14px] md:text-[18px] lg:text-[24px] font-bold leading-tight flex items-center gap-1 flex-wrap">
-                  <span className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] shrink-0">+</span>
+                  <span className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] shrink-0">+</span>
                   <span className="break-words">{t("distance.number")}</span>
                 </div>
-                <div className="text-white/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
+                <div className="text-[var(--lm-text,#fff)]/70 text-[10px] md:text-[12px] lg:text-[14px] leading-tight break-words">
                   {t("distance.label")}
                 </div>
               </div>

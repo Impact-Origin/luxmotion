@@ -19,8 +19,8 @@ const CLOCK_SIZE = 256
 const CLOCK_RADIUS = CLOCK_SIZE / 2
 const NUMBER_RADIUS = 104
 
-const GOLD = "#C9A96E"
-const BG = "#1e1d1b"
+const GOLD = "var(--lm-accent,#C9A96E)"
+const BG = "var(--lm-surface,#1e1d1b)"
 const SURFACE = "#2a2825"
 const TEXT_MUTED = "#808080"
 
@@ -278,7 +278,7 @@ export function ClockTimePicker({
   const selectedValue = selectionMode === "hours" ? displayHour : value.minutes
 
   return (
-    <div className="flex flex-col items-center w-full overflow-hidden border border-[rgba(255,255,255,0.08)]" style={{ backgroundColor: BG }}>
+    <div className="flex flex-col items-center w-full overflow-hidden border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)]" style={{ backgroundColor: BG }}>
       <div className="w-full pt-5 px-6 shrink-0">
         <p
           className="text-[12px] uppercase tracking-[2px] font-semibold"
@@ -297,8 +297,8 @@ export function ClockTimePicker({
                   className={cn(
                     "w-24 rounded-lg flex flex-col items-center overflow-hidden transition-all duration-200 border",
                     isHoursFocused
-                      ? "border-[#C9A96E] bg-[rgba(201,169,110,0.08)]"
-                      : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)]"
+                      ? "border-[var(--lm-accent,#C9A96E)] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
+                      : "border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.03)]"
                   )}
                 >
                   <input
@@ -320,7 +320,7 @@ export function ClockTimePicker({
                         minutesInputRef.current?.focus()
                       }
                     }}
-                    className="h-20 w-24 flex flex-col justify-center text-center bg-transparent outline-none text-white"
+                    className="h-20 w-24 flex flex-col justify-center text-center bg-transparent outline-none text-[var(--lm-text,#fff)]"
                     style={{
                       fontSize: "48px",
                       fontWeight: 700,
@@ -331,7 +331,7 @@ export function ClockTimePicker({
                 </div>
 
                 <div
-                  className="w-6 h-20 flex flex-col justify-center text-center text-white"
+                  className="w-6 h-20 flex flex-col justify-center text-center text-[var(--lm-text,#fff)]"
                   style={{
                     fontSize: "48px",
                     fontWeight: 700,
@@ -345,8 +345,8 @@ export function ClockTimePicker({
                   className={cn(
                     "w-24 rounded-lg flex flex-col items-center justify-center overflow-hidden transition-all duration-200 border",
                     isMinutesFocused
-                      ? "border-[#C9A96E] bg-[rgba(201,169,110,0.08)]"
-                      : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)]"
+                      ? "border-[var(--lm-accent,#C9A96E)] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
+                      : "border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.03)]"
                   )}
                 >
                   <input
@@ -366,7 +366,7 @@ export function ClockTimePicker({
                         handleKeyboardMinutesBlur()
                       }
                     }}
-                    className="h-20 w-[97px] flex flex-col justify-center text-center bg-transparent outline-none text-white"
+                    className="h-20 w-[97px] flex flex-col justify-center text-center bg-transparent outline-none text-[var(--lm-text,#fff)]"
                     style={{
                       fontSize: "48px",
                       fontWeight: 700,
@@ -384,12 +384,12 @@ export function ClockTimePicker({
                   className={cn(
                     "w-24 rounded-lg flex flex-col items-center overflow-hidden transition-all duration-200 border-2",
                     selectionMode === "hours"
-                      ? "border-[#C9A96E] bg-[rgba(201,169,110,0.08)]"
-                      : "border-transparent bg-[rgba(255,255,255,0.04)]"
+                      ? "border-[var(--lm-accent,#C9A96E)] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
+                      : "border-transparent bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)]"
                   )}
                 >
                   <div
-                    className="h-20 w-24 flex flex-col justify-center text-center text-white"
+                    className="h-20 w-24 flex flex-col justify-center text-center text-[var(--lm-text,#fff)]"
                     style={{
                       fontSize: "48px",
                       fontWeight: 700,
@@ -419,12 +419,12 @@ export function ClockTimePicker({
                   className={cn(
                     "w-24 rounded-lg flex flex-col items-center justify-center overflow-hidden transition-all duration-200 border-2",
                     selectionMode === "minutes"
-                      ? "border-[#C9A96E] bg-[rgba(201,169,110,0.08)]"
-                      : "border-transparent bg-[rgba(255,255,255,0.04)]"
+                      ? "border-[var(--lm-accent,#C9A96E)] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
+                      : "border-transparent bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)]"
                   )}
                 >
                   <div
-                    className="h-20 w-[97px] flex flex-col justify-center text-center text-white"
+                    className="h-20 w-[97px] flex flex-col justify-center text-center text-[var(--lm-text,#fff)]"
                     style={{
                       fontSize: "48px",
                       fontWeight: 700,
@@ -439,22 +439,22 @@ export function ClockTimePicker({
             )}
           </div>
 
-          <div className="h-20 w-[52px] rounded-lg overflow-hidden flex flex-col shrink-0 border border-[rgba(255,255,255,0.08)]">
+          <div className="h-20 w-[52px] rounded-lg overflow-hidden flex flex-col shrink-0 border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)]">
             <button
               type="button"
               onClick={() => handlePeriodChange("AM")}
               className={cn(
                 "flex-1 flex flex-col items-center justify-center min-h-0 transition-all duration-200",
                 period === "AM"
-                  ? "bg-[#C9A96E]"
-                  : "bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]"
+                  ? "bg-[var(--lm-accent,#C9A96E)]"
+                  : "bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] hover:bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)]"
               )}
             >
               <div className="flex-1 flex items-center justify-center px-2.5 py-2 w-full min-h-0">
                 <span
                   className={cn(
                     "text-center transition-colors duration-200 text-[13px] font-bold tracking-wide",
-                    period === "AM" ? "text-[#0D0D0D]" : "text-white"
+                    period === "AM" ? "text-[#0D0D0D]" : "text-[var(--lm-text,#fff)]"
                   )}
                 >
                   AM
@@ -465,17 +465,17 @@ export function ClockTimePicker({
               type="button"
               onClick={() => handlePeriodChange("PM")}
               className={cn(
-                "flex-1 flex flex-col items-center justify-center min-h-0 transition-all duration-200 border-t border-[rgba(255,255,255,0.08)]",
+                "flex-1 flex flex-col items-center justify-center min-h-0 transition-all duration-200 border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.08)]",
                 period === "PM"
-                  ? "bg-[#C9A96E]"
-                  : "bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]"
+                  ? "bg-[var(--lm-accent,#C9A96E)]"
+                  : "bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] hover:bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)]"
               )}
             >
               <div className="flex-1 flex items-center justify-center px-2.5 py-2 w-full min-h-0">
                 <span
                   className={cn(
                     "text-center transition-colors duration-200 text-[13px] font-bold tracking-wide",
-                    period === "PM" ? "text-[#0D0D0D]" : "text-white"
+                    period === "PM" ? "text-[#0D0D0D]" : "text-[var(--lm-text,#fff)]"
                   )}
                 >
                   PM
@@ -554,8 +554,8 @@ export function ClockTimePicker({
                     className={cn(
                       "w-12 h-12 rounded-full flex flex-col items-center justify-center overflow-hidden",
                       isSelected
-                        ? "bg-[#C9A96E]"
-                        : "bg-transparent hover:bg-[#C9A96E]/15"
+                        ? "bg-[var(--lm-accent,#C9A96E)]"
+                        : "bg-transparent hover:bg-[var(--lm-accent,#C9A96E)]/15"
                     )}
                     style={{
                       transform: isSelected ? (isDragging ? "scale(1.15)" : "scale(1)") : "scale(0.92)",
@@ -565,7 +565,7 @@ export function ClockTimePicker({
                     <span
                       className={cn(
                         "text-center text-[15px] font-medium",
-                        isSelected ? "text-[#0D0D0D] font-bold" : "text-[rgba(255,255,255,0.75)]"
+                        isSelected ? "text-[#0D0D0D] font-bold" : "text-[rgba(var(--lm-text-rgb,255,255,255),0.75)]"
                       )}
                       style={{
                         letterSpacing: "0.5px",
@@ -588,10 +588,10 @@ export function ClockTimePicker({
             style={{ width: CLOCK_SIZE, height: CLOCK_SIZE }}
           >
             <div className="text-center px-8">
-              <p className="text-[14px] text-[rgba(255,255,255,0.7)] mb-2">
+              <p className="text-[14px] text-[rgba(var(--lm-text-rgb,255,255,255),0.7)] mb-2">
                 Use the number keys to enter time
               </p>
-              <p className="text-[12px] text-[#696969]">
+              <p className="text-[12px] text-[var(--lm-muted,#696969)]">
                 Hours: 1-12 · Minutes: 00-59
               </p>
             </div>
@@ -627,14 +627,14 @@ export function ClockTimePicker({
           <button
             type="button"
             onClick={onCancel}
-            className="h-9 px-5 rounded-full border border-[rgba(255,255,255,0.15)] bg-transparent hover:bg-white/5 active:bg-white/10 transition-colors text-white text-[13px] font-semibold tracking-wide"
+            className="h-9 px-5 rounded-full border border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] bg-transparent hover:bg-white/5 active:bg-white/10 transition-colors text-[var(--lm-text,#fff)] text-[13px] font-semibold tracking-wide"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="h-9 px-6 rounded-full bg-[#C9A96E] hover:brightness-110 active:brightness-95 transition-all text-[#0D0D0D] text-[13px] font-bold tracking-wide"
+            className="h-9 px-6 rounded-full bg-[var(--lm-accent,#C9A96E)] hover:brightness-110 active:brightness-95 transition-all text-[#0D0D0D] text-[13px] font-bold tracking-wide"
           >
             OK
           </button>

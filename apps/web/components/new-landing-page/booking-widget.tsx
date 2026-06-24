@@ -316,12 +316,12 @@ export function BookingWidget({ className }: BookingWidgetProps) {
             <div
               className={cn(
                 "relative size-[16px] rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-colors",
-                tripType === type.key ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.25)] group-hover:border-[#C9A96E]"
+                tripType === type.key ? "border-[var(--lm-accent,#C9A96E)]" : "border-[rgba(var(--lm-text-rgb,255,255,255),0.25)] group-hover:border-[var(--lm-accent,#C9A96E)]"
               )}
             >
               <div
                 className={cn(
-                  "absolute left-1/2 top-1/2 size-[7px] rounded-full bg-[#C9A96E] transition-all duration-200 ease-out transform -translate-x-1/2 -translate-y-1/2",
+                  "absolute left-1/2 top-1/2 size-[7px] rounded-full bg-[var(--lm-accent,#C9A96E)] transition-all duration-200 ease-out transform -translate-x-1/2 -translate-y-1/2",
                   tripType === type.key ? "scale-100 opacity-100" : "scale-0 opacity-0"
                 )}
               />
@@ -329,7 +329,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
             <span
               className={cn(
                 "text-[14px] font-medium transition-colors duration-200 whitespace-nowrap leading-[19.5px]",
-                tripType === type.key ? "text-white" : "text-[#999] group-hover:text-white"
+                tripType === type.key ? "text-[var(--lm-text,#fff)]" : "text-[var(--lm-muted,#999)] group-hover:text-[var(--lm-text,#fff)]"
               )}
             >
               {type.label}
@@ -339,8 +339,8 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       </div>
 
       <div
-        className="border border-[rgba(255,255,255,0.12)] backdrop-blur-[8px] overflow-hidden"
-        style={{ backgroundColor: "#1e1d1b" }}
+        className="border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] backdrop-blur-[8px] overflow-hidden"
+        style={{ backgroundColor: "var(--lm-surface,#1e1d1b)" }}
         suppressHydrationWarning
       >
         {mounted && (
@@ -390,7 +390,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
               {destinations.length === 1 ? (
                 <button
                   onClick={addDestination}
-                  className="flex items-center gap-2 text-[14px] font-medium text-[#C9A96E] hover:text-[#C9A96E]/80 transition-colors cursor-pointer shrink-0"
+                  className="flex items-center gap-2 text-[14px] font-medium text-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)]/80 transition-colors cursor-pointer shrink-0"
                 >
                   <Image src="/svgs/stop-toggle.svg" alt="" width={16} height={16} />
                   {t("addStop")}
@@ -398,7 +398,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
               ) : (
                 <button
                   onClick={removeDestination}
-                  className="flex items-center gap-2 text-[14px] font-medium text-[#C9A96E] hover:text-[#C9A96E]/80 transition-colors cursor-pointer shrink-0"
+                  className="flex items-center gap-2 text-[14px] font-medium text-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)]/80 transition-colors cursor-pointer shrink-0"
                 >
                   <CircleMinus className="w-4 h-4" strokeWidth={1.2} />
                   {t("removeStop")}
@@ -406,12 +406,12 @@ export function BookingWidget({ className }: BookingWidgetProps) {
               )}
 
               <div className="hidden lg:flex items-center gap-2">
-                <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
-                <BadgeCheck className="size-3.5 text-[#C9A96E]" />
-                <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
-                <div className="h-3 w-px bg-[rgba(255,255,255,0.1)]" />
-                <ShieldCheck className="size-3.5 text-[#C9A96E]" />
-                <span className="text-[12px] font-semibold text-[rgba(255,255,255,0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+                <div className="h-3 w-px bg-[rgba(var(--lm-text-rgb,255,255,255),0.1)]" />
+                <BadgeCheck className="size-3.5 text-[var(--lm-accent,#C9A96E)]" />
+                <span className="text-[12px] font-semibold text-[rgba(var(--lm-text-rgb,255,255,255),0.7)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+                <div className="h-3 w-px bg-[rgba(var(--lm-text-rgb,255,255,255),0.1)]" />
+                <ShieldCheck className="size-3.5 text-[var(--lm-accent,#C9A96E)]" />
+                <span className="text-[12px] font-semibold text-[rgba(var(--lm-text-rgb,255,255,255),0.7)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
               </div>
             </div>
 
@@ -420,10 +420,10 @@ export function BookingWidget({ className }: BookingWidgetProps) {
                 <span className="absolute inset-0 rounded-full bg-[#4ADE80] animate-ping-strong" />
                 <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80]" />
               </span>
-              <span className="text-[11px] lg:text-[12px] font-semibold text-[#C9A96E]">
+              <span className="text-[11px] lg:text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)]">
                 {t("reservations", { count: reservationCount ?? 12 })}
               </span>
-              <span className="text-[10px] lg:text-[12px] text-[rgba(255,255,255,0.55)]">
+              <span className="text-[10px] lg:text-[12px] text-[rgba(var(--lm-text-rgb,255,255,255),0.55)]">
                 {t("reservationTime")}
               </span>
             </div>
@@ -431,11 +431,11 @@ export function BookingWidget({ className }: BookingWidgetProps) {
 
           <div className="flex lg:hidden flex-col gap-2">
             <div className="flex items-center gap-2">
-              <BadgeCheck className="size-3.5 text-[#C9A96E]" />
-              <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.exclusive}</span>
-              <div className="h-3 w-px bg-[rgba(201,169,110,0.25)]" />
-              <ShieldCheck className="size-3.5 text-[#C9A96E]" />
-              <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+              <BadgeCheck className="size-3.5 text-[var(--lm-accent,#C9A96E)]" />
+              <span className="text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+              <div className="h-3 w-px bg-[rgba(var(--lm-accent-rgb,201,169,110),0.25)]" />
+              <ShieldCheck className="size-3.5 text-[var(--lm-accent,#C9A96E)]" />
+              <span className="text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
             </div>
           </div>
         </div>
@@ -444,11 +444,11 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       {mounted && !isTransferMode && (
         <div className="mt-2 flex flex-col gap-2 items-start px-0.5">
           <div className="flex items-center gap-2">
-            <BadgeCheck className="size-3.5 text-[#C9A96E]" />
-            <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.exclusive}</span>
-            <div className="h-3 w-px bg-[rgba(201,169,110,0.25)]" />
-            <ShieldCheck className="size-3.5 text-[#C9A96E]" />
-            <span className="text-[12px] font-semibold text-[#C9A96E] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
+            <BadgeCheck className="size-3.5 text-[var(--lm-accent,#C9A96E)]" />
+            <span className="text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)] tracking-[0.33px]">{trustTranslations.exclusive}</span>
+            <div className="h-3 w-px bg-[rgba(var(--lm-accent-rgb,201,169,110),0.25)]" />
+            <ShieldCheck className="size-3.5 text-[var(--lm-accent,#C9A96E)]" />
+            <span className="text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)] tracking-[0.33px]">{trustTranslations.flexibleCancellation}</span>
           </div>
         </div>
       )}

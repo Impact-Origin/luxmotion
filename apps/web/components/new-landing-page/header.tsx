@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, type ReactNode } from "react"
 import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 import { ChevronDown, Menu, X, Check } from "lucide-react"
@@ -29,6 +29,7 @@ export interface HeaderProps {
   heroScrollThreshold?: number
   variant?: HeaderVariant
   whitelabel?: boolean
+  themeToggle?: ReactNode
 }
 
 function LuxMotionLogo({ className, variant = "dark" }: { className?: string; variant?: HeaderVariant }) {
@@ -140,6 +141,7 @@ export function Header({
   heroScrollThreshold = HERO_SCROLL_THRESHOLD,
   variant = "dark",
   whitelabel = false,
+  themeToggle,
 }: HeaderProps = {}) {
   const isLight = variant === "light"
   const t = useTranslations("header")
@@ -212,7 +214,7 @@ export function Header({
   }, [transparentOverHero, heroScrollThreshold])
 
   const isActive = (href: string, hasDropdown?: boolean, items?: { href: string }[]) => {
-    if (hasDropdown && items) return items.some(item => pathname.startsWith(item.href))
+    if (hasDropdown && items) return items.some(item => pathname === item.href || pathname.startsWith(item.href + "/"))
     if (href === "/") return pathname === "/" && !activeSection
     if (href.startsWith("/#")) return pathname === "/" && activeSection === href.slice(2)
     return pathname === href || pathname.startsWith(href + "/")
@@ -241,6 +243,7 @@ export function Header({
       items: [
         { href: "/hotels", label: t("hotels") },
         { href: "/partner-guide", label: t("partnerGuide") },
+        { href: "/wedding-planner", label: t("weddingPlanners") },
       ]
     },
     {
@@ -340,13 +343,14 @@ export function Header({
           </nav>
 
           <div className="hidden xl:flex items-center gap-[8px]">
+            {themeToggle}
             <LangSwitcher variant={variant} />
             <Link
               href="/checkout"
               className={cn(
                 "h-[40px] px-[22px] flex items-center justify-center text-[14px] font-medium uppercase tracking-[1.1px] transition-all cursor-pointer",
                 isLight
-                  ? "bg-[#0D0D0D] text-white hover:bg-[#1f1f1f]"
+                  ? "bg-[#A08248] text-white hover:bg-[#8a6f3c]"
                   : "border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#0D0D0D]"
               )}
             >
@@ -355,6 +359,7 @@ export function Header({
           </div>
 
           <div className="xl:hidden flex items-center gap-[8px]">
+            {themeToggle}
             <LangSwitcher variant={variant} />
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -506,7 +511,7 @@ export function Header({
                 className={cn(
                   "w-full h-12 flex items-center justify-center font-medium text-[14px] uppercase tracking-[1.1px] active:scale-[0.98] transition-all",
                   isLight
-                    ? "bg-[#0D0D0D] text-white hover:bg-[#1f1f1f]"
+                    ? "bg-[#A08248] text-white hover:bg-[#8a6f3c]"
                     : "border border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#0D0D0D]"
                 )}
                 onClick={() => setMobileMenuOpen(false)}

@@ -83,7 +83,8 @@
     "faq": "FAQ",
     "bookNow": "Book Now",
     "reserve": "Reserve",
-    "corporateContact": "Corporate Contact"
+    "corporateContact": "Corporate Contact",
+    "weddingPlanners": "Wedding Planners"
   },
   "hero": {
     "title1": "Safe, reliable and always on time,",
@@ -7162,5 +7163,13 @@
         }
       ]
     }
+  },
+  "emailVerification": {
+    "errorSend": "Couldn't send the code. Please try again.",
+    "errorExpired": "The code has expired. Request a new one.",
+    "errorMismatch": "Incorrect code. Please check and try again.",
+    "sending": "Sending…",
+    "sent": "Code sent.",
+    "verifying": "Verifying…"
   }
 }

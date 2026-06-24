@@ -83,25 +83,25 @@ export function OurDriversSection() {
   const swipeHandlers = useSwipe(goNext, goPrev)
 
   return (
-    <section id="drivers" className="bg-[#0D0D0D] pt-16 lg:pt-6 pb-16">
+    <section id="drivers" className="bg-[var(--lm-bg,#0D0D0D)] pt-16 lg:pt-6 pb-16">
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center gap-6">
         <div className="flex flex-col items-center gap-2">
           <div
             className="flex items-center gap-2"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
-            <div className="w-[42.5px] h-px bg-[#C9A96E]" />
-            <span className="text-[12px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none">
+            <div className="w-[42.5px] h-px bg-[var(--lm-accent,#C9A96E)]" />
+            <span className="text-[12px] font-semibold tracking-[2px] uppercase text-[var(--lm-accent,#C9A96E)] leading-none">
               {t("sectionLabel")}
             </span>
-            <div className="w-[42.5px] h-px bg-[#C9A96E]" />
+            <div className="w-[42.5px] h-px bg-[var(--lm-accent,#C9A96E)]" />
           </div>
           <h2
             className="flex flex-col items-center text-center text-[36px] sm:text-[40px] lg:text-[48px] leading-none tracking-[0.52px] font-light"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
-            <span className="text-white">{t("titlePart1")}</span>
-            <span className="text-[#C9A96E] italic">{t("titlePart2")}</span>
+            <span className="text-[var(--lm-text,#fff)]">{t("titlePart1")}</span>
+            <span className="text-[var(--lm-accent,#C9A96E)] italic">{t("titlePart2")}</span>
           </h2>
         </div>
 
@@ -140,7 +140,7 @@ export function OurDriversSection() {
             type="button"
             onClick={goPrev}
             aria-label={t("prevDriver")}
-            className={`absolute left-6 lg:left-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
+            className={`absolute left-6 lg:left-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 bg-[var(--lm-bg,#0D0D0D)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] flex items-center justify-center text-[var(--lm-accent,#C9A96E)] transition hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.1)] ${
               current === 0 ? "opacity-0 pointer-events-none" : ""
             }`}
           >
@@ -150,7 +150,7 @@ export function OurDriversSection() {
             type="button"
             onClick={goNext}
             aria-label={t("nextDriver")}
-            className={`absolute right-6 lg:right-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] transition hover:bg-[rgba(201,169,110,0.1)] ${
+            className={`absolute right-6 lg:right-0 top-[130px] sm:top-[140px] lg:top-1/2 -translate-y-1/2 size-9 bg-[var(--lm-bg,#0D0D0D)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] flex items-center justify-center text-[var(--lm-accent,#C9A96E)] transition hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.1)] ${
               current === total - 1 ? "opacity-0 pointer-events-none" : ""
             }`}
           >
@@ -167,25 +167,25 @@ export function OurDriversSection() {
               aria-label={`${t("goToDriver")} ${i + 1}`}
               className={`h-[6px] rounded-[3px] transition-all duration-300 ${
                 i === current
-                  ? "w-5 bg-[#C9A96E]"
-                  : "w-[6px] bg-[rgba(201,169,110,0.5)]"
+                  ? "w-5 bg-[var(--lm-accent,#C9A96E)]"
+                  : "w-[6px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.5)]"
               }`}
             />
           ))}
         </div>
 
         <div className="w-full max-w-[960px] mt-4">
-          <div className="bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] px-6 sm:px-10 lg:px-[48.8px] py-8 lg:py-[40.8px] flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-center">
+          <div className="bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.2)] px-6 sm:px-10 lg:px-[48.8px] py-8 lg:py-[40.8px] flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-center">
             <div className="w-full lg:w-[272px] lg:shrink-0 text-left">
-              <p className="text-[14px] font-semibold text-white leading-[21px] max-w-[245px] lg:max-w-none text-balance">
+              <p className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-[21px] max-w-[245px] lg:max-w-none text-balance">
                 {t("vettingHeading")}
               </p>
-              <p className="italic text-[12px] text-[#C9A96E] leading-[25.2px] mt-1">
+              <p className="italic text-[12px] text-[var(--lm-accent,#C9A96E)] leading-[25.2px] mt-1">
                 {t("vettingSubtext")}
               </p>
             </div>
             <div className="w-full lg:w-[574px] lg:shrink-0 relative flex justify-between items-start gap-2 sm:gap-4">
-              <div className="absolute top-[22px] lg:top-[28px] left-[12.5%] right-[12.5%] h-0 border-t-2 border-dashed border-[#C9A96E]" />
+              <div className="absolute top-[22px] lg:top-[28px] left-[12.5%] right-[12.5%] h-0 border-t-2 border-dashed border-[var(--lm-accent,#C9A96E)]" />
               {VETTING_STEPS.map((step) => {
                 const Icon = step.icon
                 return (
@@ -194,18 +194,18 @@ export function OurDriversSection() {
                     className="flex-1 flex flex-col items-center gap-3 relative z-10"
                   >
                     <div
-                      className={`size-11 sm:size-12 lg:size-14 rounded-full border-2 border-[rgba(201,169,110,0.25)] flex items-center justify-center shrink-0 ${
-                        step.gold ? "bg-[#C9A96E]" : "bg-white"
+                      className={`size-11 sm:size-12 lg:size-14 rounded-full border-2 border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] flex items-center justify-center shrink-0 ${
+                        step.gold ? "bg-[var(--lm-accent,#C9A96E)]" : "bg-white"
                       }`}
                     >
                       <Icon
                         className={`size-5 lg:size-6 ${
-                          step.gold ? "text-white" : "text-[#C9A96E]"
+                          step.gold ? "text-[var(--lm-text,#fff)]" : "text-[var(--lm-accent,#C9A96E)]"
                         }`}
                         strokeWidth={2}
                       />
                     </div>
-                    <p className="text-[11px] lg:text-[12px] text-[#999] text-center leading-[1.2] max-w-[90px]">
+                    <p className="text-[11px] lg:text-[12px] text-[var(--lm-muted,#999)] text-center leading-[1.2] max-w-[90px]">
                       {t(step.key)}
                     </p>
                   </div>
@@ -247,13 +247,13 @@ function DriverSlide({
       <div className="mx-auto max-w-[960px] flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-0">
         <div className="relative w-[260px] sm:w-[320px] lg:w-[380px] h-[260px] sm:h-[280px] lg:h-[300px] flex items-start justify-center shrink-0">
           <div
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[220px] sm:size-[260px] rounded-full bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.2)] transition-all duration-[700ms] ${
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[calc(50%+15px)] size-[220px] sm:size-[260px] rounded-full bg-[rgba(var(--lm-accent-rgb,201,169,110),0.07)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.2)] transition-all duration-[700ms] ${
               active ? "opacity-100 scale-100" : "opacity-0 scale-[0.9]"
             }`}
             style={{ transitionTimingFunction: ease, transitionDelay: active ? "80ms" : "0ms" }}
           />
           <div
-            className={`relative w-[176px] sm:w-[220px] h-[248px] sm:h-[300px] rounded-t-[88px] sm:rounded-t-[100px] border border-[#C9A96E] overflow-hidden z-10 transition-all duration-[700ms] ${imgMotion}`}
+            className={`relative w-[176px] sm:w-[220px] h-[248px] sm:h-[300px] rounded-t-[88px] sm:rounded-t-[100px] border border-[var(--lm-accent,#C9A96E)] overflow-hidden z-10 transition-all duration-[700ms] ${imgMotion}`}
             style={{
               transitionTimingFunction: ease,
               transitionDelay: active ? "120ms" : "0ms",
@@ -277,7 +277,7 @@ function DriverSlide({
         >
           <div className="flex items-center gap-3 flex-wrap">
             <h3
-              className="text-[28px] lg:text-[32px] leading-[1.1] lg:leading-[36px] text-white"
+              className="text-[28px] lg:text-[32px] leading-[1.1] lg:leading-[36px] text-[var(--lm-text,#fff)]"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {driver.name}
@@ -287,12 +287,12 @@ function DriverSlide({
                 <span className="absolute inset-0 rounded-full bg-[#4ADE80] animate-ping-strong" />
                 <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
               </span>
-              <span className="text-[12px] tracking-[0.5px] text-[#8c8680] leading-none">
+              <span className="text-[12px] tracking-[0.5px] text-[var(--lm-muted,#8c8680)] leading-none">
                 {statusLabel}
               </span>
             </span>
           </div>
-          <p className="text-[14px] leading-[1.3] text-[#999] max-w-[513px]">
+          <p className="text-[14px] leading-[1.3] text-[var(--lm-muted,#999)] max-w-[513px]">
             {driver.description}
           </p>
 
@@ -308,34 +308,34 @@ function DriverSlide({
                 />
               </div>
               <div className="flex flex-col gap-3 items-start">
-                <span className="text-[12px] font-semibold tracking-[2px] uppercase text-white leading-none">
+                <span className="text-[12px] font-semibold tracking-[2px] uppercase text-[var(--lm-text,#fff)] leading-none">
                   {vehicleLabel}
                 </span>
-                <span className="text-[14px] text-[#999] leading-none whitespace-nowrap">
+                <span className="text-[14px] text-[var(--lm-muted,#999)] leading-none whitespace-nowrap">
                   {driver.vehicle}
                 </span>
               </div>
             </div>
 
             <div className="flex flex-col gap-3 items-center sm:items-start">
-              <span className="text-[12px] font-semibold tracking-[2px] uppercase text-white leading-none">
+              <span className="text-[12px] font-semibold tracking-[2px] uppercase text-[var(--lm-text,#fff)] leading-none">
                 {languagesLabel}
               </span>
-              <span className="text-[14px] text-[#999] leading-none">
+              <span className="text-[14px] text-[var(--lm-muted,#999)] leading-none">
                 {driver.languages}
               </span>
             </div>
           </div>
 
           <div className="-mt-1">
-            <div className="inline-flex items-center gap-[7px] px-4 py-3 bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)]">
-              <span className="text-[12px] font-semibold text-[#C9A96E] leading-none">
+            <div className="inline-flex items-center gap-[7px] px-4 py-3 bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.2)]">
+              <span className="text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)] leading-none">
                 {driver.rating}
               </span>
-              <span className="text-[12px] text-[#C9A96E] tracking-[2px] leading-none">
+              <span className="text-[12px] text-[var(--lm-accent,#C9A96E)] tracking-[2px] leading-none">
                 ★★★★★
               </span>
-              <span className="text-[12px] text-[#8c8680] tracking-[0.44px] leading-none">
+              <span className="text-[12px] text-[var(--lm-muted,#8c8680)] tracking-[0.44px] leading-none">
                 · {driver.rides.toLocaleString()} {ridesLabel}
               </span>
             </div>

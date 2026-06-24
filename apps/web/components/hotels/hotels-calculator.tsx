@@ -22,7 +22,7 @@ export function HotelsCalculator() {
   const roomsPct = ((rooms - 10) / (300 - 10)) * 100
 
   return (
-    <section className="bg-[#0D0D0D] px-4 py-16 lg:px-12 lg:py-24">
+    <section id="calcular" className="scroll-mt-24 bg-[#0D0D0D] px-4 py-16 lg:px-12 lg:py-24">
       <div className="mx-auto max-w-[1180px]">
         <div className="mb-10 flex flex-col gap-3">
           <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={sans}>

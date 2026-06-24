@@ -36,9 +36,9 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
   const r = useTranslations("footer.redesign")
 
   return (
-    <footer className="bg-[#0D0D0D] pt-8 px-4 md:px-[82px] min-[1440px]:px-[300px] border-t border-[rgba(255,255,255,0.05)]">
+    <footer className="bg-[var(--lm-bg,#0D0D0D)] pt-8 px-4 md:px-[82px] min-[1440px]:px-[300px] border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.05)]">
       <div className="max-w-[1280px] mx-auto">
-        <div className="border-b border-[rgba(255,255,255,0.05)] pb-11 grid grid-cols-1 md:grid-cols-[2.2fr_1fr_1fr_1fr] gap-10 md:gap-[60px]">
+        <div className="border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] pb-11 grid grid-cols-1 md:grid-cols-[2.2fr_1fr_1fr_1fr] gap-10 md:gap-[60px]">
           <BrandColumn tagline1={r("tagline1")} tagline2={r("tagline2")} whitelabel={whitelabel} />
 
           <NavColumn
@@ -70,18 +70,18 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
           <SupportColumn followLabel={r("follow")} />
         </div>
 
-        <div id="payment-methods" className="scroll-mt-[100px] border-b border-[rgba(255,255,255,0.05)] py-6 flex flex-wrap items-center gap-[10px]">
+        <div id="payment-methods" className="scroll-mt-[100px] border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] py-6 flex flex-wrap items-center gap-[10px]">
           <span
-            className="text-[12px] tracking-[1.62px] uppercase text-[#999] font-semibold pr-2"
+            className="text-[12px] tracking-[1.62px] uppercase text-[var(--lm-muted,#999)] font-semibold pr-2"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {r("acceptedPayments")}
           </span>
-          <div className="w-px h-[22px] bg-[rgba(255,255,255,0.06)]" />
+          <div className="w-px h-[22px] bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)]" />
           {PAYMENTS.map((p) => (
             <div
               key={p.alt}
-              className="relative h-[34px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-[3px] opacity-55 flex items-center justify-center px-[15px] cursor-default transition-all duration-300 ease-out hover:opacity-100 hover:scale-110 hover:-translate-y-1 hover:z-10 hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.06)] hover:shadow-[0_8px_20px_-6px_rgba(201,169,110,0.4)]"
+              className="relative h-[34px] bg-[rgba(var(--lm-text-rgb,255,255,255),0.03)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] rounded-[3px] opacity-55 flex items-center justify-center px-[15px] cursor-default transition-all duration-300 ease-out hover:opacity-100 hover:scale-110 hover:-translate-y-1 hover:z-10 hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)] hover:shadow-[0_8px_20px_-6px_rgba(var(--lm-accent-rgb,201,169,110),0.4)]"
             >
               <Image src={p.src} alt={p.alt} width={p.w} height={p.h} className="object-contain" />
             </div>
@@ -90,15 +90,15 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between pt-5 pb-8 gap-2">
           <span
-            className="text-[11px] text-[#999] tracking-[0.44px]"
+            className="text-[11px] text-[var(--lm-muted,#999)] tracking-[0.44px]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {r("copyright")}
           </span>
           <div className="flex items-center gap-1.5">
-            <Lock className="w-[10px] h-[11px] text-[#999]" />
+            <Lock className="w-[10px] h-[11px] text-[var(--lm-muted,#999)]" />
             <span
-              className="text-[10px] text-[#999] tracking-[0.44px]"
+              className="text-[10px] text-[var(--lm-muted,#999)] tracking-[0.44px]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {r("securePayments")}
@@ -118,13 +118,13 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
           <LogoPlaceholder />
         ) : (
           <div className="flex items-center gap-3">
-            <div className="size-[41px] border-[1.7px] border-[#C9A96E] flex items-center justify-center">
+            <div className="size-[41px] border-[1.7px] border-[var(--lm-accent,#C9A96E)] flex items-center justify-center">
               <Image src="/footer/logo-lm.svg" alt="LM" width={20} height={11} />
             </div>
             <div className="flex flex-col">
-              <Image src="/footer/logo-luxmotion.svg" alt="LuxMotion" width={73} height={8} />
+              <Image src="/footer/logo-luxmotion.svg" alt="LuxMotion" width={73} height={8} className="brightness-0 dark:brightness-100" />
               <span
-                className="text-[6.4px] text-[#999] tracking-[0.9px] mt-1"
+                className="text-[6.4px] text-[var(--lm-muted,#999)] tracking-[0.9px] mt-1"
                 style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
               >
                 BY EASYTRANSFER
@@ -135,7 +135,7 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
         {whitelabel ? null : (
           <div className="max-w-[260px]">
             <p
-              className="text-[12px] leading-[1.3] text-[#999]"
+              className="text-[12px] leading-[1.3] text-[var(--lm-muted,#999)]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {tagline1}
@@ -150,13 +150,13 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
         {BADGES.map((badge) => (
           <div
             key={badge.alt}
-            className="group bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] h-[72px] flex items-center justify-center px-[11px] transition-colors duration-300 hover:border-[rgba(201,169,110,0.3)] hover:bg-[rgba(201,169,110,0.04)]"
+            className="group bg-[rgba(var(--lm-text-rgb,255,255,255),0.02)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] h-[72px] flex items-center justify-center px-[11px] transition-colors duration-300 hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.04)]"
           >
             {badge.mask ? (
               <span
                 role="img"
                 aria-label={badge.alt}
-                className="block bg-white transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(201,169,110,0.35)]"
+                className="block bg-[var(--lm-text,#fff)] transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(var(--lm-accent-rgb,201,169,110),0.35)]"
                 style={{
                   width: `${badge.w}px`,
                   height: `${badge.h}px`,
@@ -176,7 +176,7 @@ function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: str
                 alt={badge.alt}
                 width={badge.w}
                 height={badge.h}
-                className={`${badge.cover ? "object-cover" : "object-contain"} transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(201,169,110,0.35)]`}
+                className={`${badge.cover ? "object-cover" : "object-contain"} transition-transform duration-300 ease-out group-hover:scale-[1.15] group-hover:drop-shadow-[0_0_12px_rgba(var(--lm-accent-rgb,201,169,110),0.35)]`}
                 style={{ width: `${badge.w}px`, height: `${badge.h}px` }}
               />
             )}
@@ -197,7 +197,7 @@ function NavColumn({
   return (
     <div className="flex flex-col gap-4">
       <span
-        className="text-[12px] tracking-[1.8px] uppercase text-[#C9A96E] font-semibold"
+        className="text-[12px] tracking-[1.8px] uppercase text-[var(--lm-accent,#C9A96E)] font-semibold"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {title}
@@ -209,7 +209,7 @@ function NavColumn({
               key={link.href}
               href={link.href}
               {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="text-[12px] text-[#999] hover:text-white transition-colors leading-[1.3]"
+              className="text-[12px] text-[var(--lm-muted,#999)] hover:text-[var(--lm-text,#fff)] transition-colors leading-[1.3]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {link.label}
@@ -218,7 +218,7 @@ function NavColumn({
             <Link
               key={link.href}
               href={link.href}
-              className="text-[12px] text-[#999] hover:text-white transition-colors"
+              className="text-[12px] text-[var(--lm-muted,#999)] hover:text-[var(--lm-text,#fff)] transition-colors"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {link.label}
@@ -235,7 +235,7 @@ function SupportColumn({ followLabel }: { followLabel: string }) {
     <div className="flex flex-col gap-[18px]">
       <div className="flex flex-col gap-4">
         <span
-          className="text-[12px] tracking-[1.8px] uppercase text-[#C9A96E] font-semibold"
+          className="text-[12px] tracking-[1.8px] uppercase text-[var(--lm-accent,#C9A96E)] font-semibold"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           Support
@@ -244,17 +244,17 @@ function SupportColumn({ followLabel }: { followLabel: string }) {
           className="flex flex-col gap-2"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
-          <a href="tel:+351963650278" className="text-[12px] text-[#999] hover:text-white transition-colors">
+          <a href="tel:+351963650278" className="text-[12px] text-[var(--lm-muted,#999)] hover:text-[var(--lm-text,#fff)] transition-colors">
             +351 963 650 278
           </a>
-          <a href="mailto:geral@easytransferportugal.com" className="text-[11px] text-[#999] hover:text-white transition-colors">
+          <a href="mailto:geral@easytransferportugal.com" className="text-[11px] text-[var(--lm-muted,#999)] hover:text-[var(--lm-text,#fff)] transition-colors">
             geral@easytransferportugal.com
           </a>
           <a
             href="https://maps.google.com/?q=Rua+Prud%C3%AAncio+Franco+da+Trindade+4,+2655-344+Ericeira,+Portugal"
             target="_blank"
             rel="noreferrer"
-            className="text-[12px] text-[#999] hover:text-white transition-colors leading-[1.4]"
+            className="text-[12px] text-[var(--lm-muted,#999)] hover:text-[var(--lm-text,#fff)] transition-colors leading-[1.4]"
           >
             Ericeira Business Factory<br />
             Rua Prudêncio Franco da Trindade 4<br />
@@ -265,7 +265,7 @@ function SupportColumn({ followLabel }: { followLabel: string }) {
 
       <div className="flex flex-col gap-4 pt-[10px]">
         <span
-          className="text-[12px] tracking-[1.8px] uppercase text-[#C9A96E] font-semibold"
+          className="text-[12px] tracking-[1.8px] uppercase text-[var(--lm-accent,#C9A96E)] font-semibold"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {followLabel}
@@ -277,7 +277,7 @@ function SupportColumn({ followLabel }: { followLabel: string }) {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#999] hover:text-[#C9A96E] transition-colors"
+              className="text-[var(--lm-muted,#999)] hover:text-[var(--lm-accent,#C9A96E)] transition-colors"
               aria-label={s.label}
             >
               <s.icon className="w-7 h-7" />

@@ -39,16 +39,16 @@ function ServiceCard({ title, image, href, className }: ServiceCardProps) {
         className="object-cover transition-transform duration-500 group-hover:scale-105"
         sizes="(max-width: 768px) 50vw, 20vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[47%] to-black to-[84%]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[47%] to-[var(--lm-bg,#000)] to-[84%]" />
       <div className="relative flex items-center justify-between p-4">
         <span
-          className="font-semibold text-[24px] text-white leading-normal"
+          className="font-semibold text-[24px] text-[var(--lm-text,#fff)] leading-normal"
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
         >
           {title}
         </span>
-        <div className="size-8 border-[1.143px] border-white/30 flex items-center justify-center group-hover:border-white/50 transition-colors">
-          <ArrowRight className="size-[18px] text-white" />
+        <div className="size-8 border-[1.143px] border-[rgba(var(--lm-text-rgb,255,255,255),0.3)] flex items-center justify-center group-hover:border-[rgba(var(--lm-text-rgb,255,255,255),0.5)] transition-colors">
+          <ArrowRight className="size-[18px] text-[var(--lm-text,#fff)]" />
         </div>
       </div>
     </Link>
@@ -76,14 +76,14 @@ export function ServicesSection() {
   const swipeHandlers = useSwipe(nextSlide, prevSlide)
 
   return (
-    <section className="bg-[#0D0D0D] pt-14 pb-16">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] pt-14 pb-16">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6 items-center px-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-px bg-[#C9A96E]" />
-          <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] font-sans">
+          <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
+          <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)] font-sans">
             {t("sectionLabel")}
           </span>
-          <div className="w-8 h-px bg-[#C9A96E]" />
+          <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
         </div>
 
         <div className="hidden md:flex gap-[5px] w-full overflow-hidden">
@@ -123,22 +123,22 @@ export function ServicesSection() {
           <button
             onClick={prevSlide}
             className={cn(
-              "absolute left-2 top-1/2 -translate-y-1/2 size-12 bg-[#0D0D0D] border-[1.333px] border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-opacity",
+              "absolute left-2 top-1/2 -translate-y-1/2 size-12 bg-[var(--lm-bg,#0D0D0D)] border-[1.333px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] flex items-center justify-center transition-opacity",
               currentSlide === 0 && "opacity-0 pointer-events-none"
             )}
             aria-label="Previous"
           >
-            <ChevronLeft className="size-[18px] text-[#C9A96E]" />
+            <ChevronLeft className="size-[18px] text-[var(--lm-accent,#C9A96E)]" />
           </button>
           <button
             onClick={nextSlide}
             className={cn(
-              "absolute right-2 top-1/2 -translate-y-1/2 size-12 bg-[#0D0D0D] border-[1.333px] border-[rgba(201,169,110,0.5)] flex items-center justify-center transition-opacity",
+              "absolute right-2 top-1/2 -translate-y-1/2 size-12 bg-[var(--lm-bg,#0D0D0D)] border-[1.333px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] flex items-center justify-center transition-opacity",
               currentSlide >= maxSlide && "opacity-0 pointer-events-none"
             )}
             aria-label="Next"
           >
-            <ChevronRight className="size-[18px] text-[#C9A96E]" />
+            <ChevronRight className="size-[18px] text-[var(--lm-accent,#C9A96E)]" />
           </button>
         </div>
       </div>

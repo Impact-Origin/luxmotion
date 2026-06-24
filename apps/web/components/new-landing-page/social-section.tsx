@@ -64,16 +64,16 @@ export function SocialSection() {
   const marqueePosts = [...posts.slice(0, 6), ...posts.slice(0, 6)]
 
   return (
-    <section className="bg-[#0D0D0D] py-6 px-4 md:px-[82px]">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] py-6 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
         <div className="flex items-end justify-between">
           <div className="flex items-center gap-3">
-            <div className="size-8 border border-[rgba(201,169,110,0.4)] flex items-center justify-center shrink-0">
-              <Instagram className="w-4 h-4 text-[#C9A96E]" />
+            <div className="size-8 border border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] flex items-center justify-center shrink-0">
+              <Instagram className="w-4 h-4 text-[var(--lm-accent,#C9A96E)]" />
             </div>
             <div className="flex flex-col gap-0.5">
               <span
-                className="text-[16px] text-white tracking-[0.65px]"
+                className="text-[16px] text-[var(--lm-text,#fff)] tracking-[0.65px]"
                 style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
               >
                 @{profile.username}
@@ -91,7 +91,7 @@ export function SocialSection() {
             href="https://www.instagram.com/luxmotion.tours/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[12px] tracking-[1.1px] uppercase text-[#C9A96E] font-semibold hover:text-white transition-colors hidden md:block"
+            className="text-[12px] tracking-[1.1px] uppercase text-[var(--lm-accent,#C9A96E)] font-semibold hover:text-[var(--lm-text,#fff)] transition-colors hidden md:block"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("followJourney")} →
@@ -105,7 +105,7 @@ export function SocialSection() {
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative aspect-square min-h-[300px] flex-1 bg-[#1A1A1A] overflow-hidden"
+              className="group relative aspect-square min-h-[300px] flex-1 bg-[var(--lm-surface,#1A1A1A)] overflow-hidden"
             >
               <Image
                 src={post.media_url}
@@ -116,8 +116,8 @@ export function SocialSection() {
                 unoptimized={post.media_url.startsWith("http")}
               />
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="size-[44px] border border-[rgba(201,169,110,0.6)] flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
-                  <Instagram className="size-[20px] text-[#C9A96E]" strokeWidth={1.6} />
+                <div className="size-[44px] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.6)] flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
+                  <Instagram className="size-[20px] text-[var(--lm-accent,#C9A96E)]" strokeWidth={1.6} />
                 </div>
               </div>
             </a>
@@ -134,7 +134,7 @@ export function SocialSection() {
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative aspect-[1/1.1] w-[60vw] max-w-[280px] shrink-0 bg-[#1A1A1A] overflow-hidden first:ml-4 last:mr-4"
+              className="group relative aspect-[1/1.1] w-[60vw] max-w-[280px] shrink-0 bg-[var(--lm-surface,#1A1A1A)] overflow-hidden first:ml-4 last:mr-4"
             >
               <Image
                 src={post.media_url}

@@ -83,7 +83,8 @@
     "faq": "FAQ",
     "bookNow": "Réserver",
     "reserve": "Réserver",
-    "corporateContact": "Contact Entreprise"
+    "corporateContact": "Contact Entreprise",
+    "weddingPlanners": "Wedding Planners"
   },
   "hero": {
     "title1": "Facile à utiliser,",
@@ -6988,5 +6989,13 @@
         }
       ]
     }
+  },
+  "emailVerification": {
+    "errorSend": "Couldn't send the code. Please try again.",
+    "errorExpired": "The code has expired. Request a new one.",
+    "errorMismatch": "Incorrect code. Please check and try again.",
+    "sending": "Sending…",
+    "sent": "Code sent.",
+    "verifying": "Verifying…"
   }
 }

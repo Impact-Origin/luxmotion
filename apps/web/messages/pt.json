@@ -83,7 +83,8 @@
     "faq": "FAQ",
     "bookNow": "Agende Já",
     "reserve": "Reserve",
-    "corporateContact": "Contacto Empresarial"
+    "corporateContact": "Contacto Empresarial",
+    "weddingPlanners": "Planeadores de Casamento"
   },
   "hero": {
     "title1": "Seguro, confiável e sempre no horário,",
@@ -7161,5 +7162,13 @@
         }
       ]
     }
+  },
+  "emailVerification": {
+    "errorSend": "Não foi possível enviar o código. Tenta novamente.",
+    "errorExpired": "O código expirou. Pede um novo.",
+    "errorMismatch": "Código incorreto. Verifica e tenta de novo.",
+    "sending": "A enviar…",
+    "sent": "Código enviado.",
+    "verifying": "A verificar…"
   }
 }

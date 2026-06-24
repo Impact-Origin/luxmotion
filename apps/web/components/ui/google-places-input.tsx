@@ -34,6 +34,7 @@ interface GooglePlacesInputProps {
   showDefaultSuggestions?: boolean
   /** Force the suggestions dropdown light (false) or dark (true), overriding the per-variant default. */
   dropdownDark?: boolean
+  dropdownLuxmotion?: boolean
 }
 
 export function GooglePlacesInput({
@@ -48,6 +49,7 @@ export function GooglePlacesInput({
   dark = false,
   showDefaultSuggestions = true,
   dropdownDark,
+  dropdownLuxmotion,
 }: GooglePlacesInputProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [defaultSuggestions, setDefaultSuggestions] = useState<LocationSuggestion[]>([])
@@ -141,12 +143,12 @@ export function GooglePlacesInput({
           }}
           placeholder={placeholder}
           className={cn(
-            "w-full h-full pl-8 pr-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] font-normal placeholder:text-[#696969]",
+            "w-full h-full pl-8 pr-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] font-normal placeholder:text-[var(--lm-muted,#696969)]",
             !inlineDropdown && "truncate"
           )}
           style={{
-            color: "white",
-            caretColor: "#C9A96E"
+            color: "var(--lm-text,#fff)",
+            caretColor: "var(--lm-accent,#C9A96E)"
           }}
         />
       ) : isToursResults ? (
@@ -183,14 +185,14 @@ export function GooglePlacesInput({
             }}
             placeholder={placeholder}
             className={cn(
-              "flex-1 min-w-0 h-full bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] text-[#0d0d0d] placeholder:text-[#999] leading-none",
+              "flex-1 min-w-0 h-full bg-transparent border-0 focus:outline-none focus:ring-0 text-[14px] text-[#0d0d0d] placeholder:text-[var(--lm-muted,#999)] leading-none",
               hideLeftIcon ? "px-3" : "pl-2 pr-3",
             )}
           />
         </div>
       ) : isToursHeroDark ? (
         <div className="w-full h-full relative flex items-center gap-2 pl-[13px] pr-[12px]">
-          {!hideLeftIcon && <Search className="w-[24px] h-[24px] text-[#C9A96E] shrink-0" />}
+          {!hideLeftIcon && <Search className="w-[24px] h-[24px] text-[var(--lm-accent,#C9A96E)] shrink-0" />}
           <input
             suppressHydrationWarning
             value={value.location}
@@ -202,8 +204,8 @@ export function GooglePlacesInput({
               setShowDropdown(true)
             }}
             placeholder={placeholder}
-            className="flex-1 text-[13px] text-white placeholder:text-[rgba(255,255,255,0.22)] font-normal outline-none bg-transparent"
-            style={{ caretColor: "#C9A96E" }}
+            className="flex-1 text-[13px] text-white placeholder:text-[rgba(var(--lm-text-rgb,255,255,255),0.22)] font-normal outline-none bg-transparent"
+            style={{ caretColor: "var(--lm-accent,#C9A96E)" }}
           />
         </div>
       ) : isToursHero ? (
@@ -228,11 +230,11 @@ export function GooglePlacesInput({
           className={cn(
             "w-full min-h-[52px] rounded-xl flex items-center gap-3 pl-4 pr-4 py-2 border transition-colors",
             dark
-              ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)] focus-within:border-[#C9A96E] focus-within:ring-2 focus-within:ring-[#C9A96E]/20"
+              ? "bg-[var(--lm-bg,#0D0D0D)] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] focus-within:border-[var(--lm-accent,#C9A96E)] focus-within:ring-2 focus-within:ring-[var(--lm-accent,#C9A96E)]/20"
               : "bg-white border-[#e0e0e0] focus-within:border-[#27C7FF] focus-within:ring-2 focus-within:ring-[#27C7FF]/20"
           )}
         >
-          <Search className={cn("w-5 h-5 shrink-0", dark ? "text-[#C9A96E]" : "text-[#a2a2a2]")} aria-hidden />
+          <Search className={cn("w-5 h-5 shrink-0", dark ? "text-[var(--lm-accent,#C9A96E)]" : "text-[#a2a2a2]")} aria-hidden />
           <input
             suppressHydrationWarning
             value={value.location}
@@ -250,13 +252,13 @@ export function GooglePlacesInput({
             aria-label={ariaLabel}
             className={cn(
               "flex-1 min-w-0 bg-transparent border-0 focus:outline-none focus:ring-0 font-medium leading-[1.4]",
-              dark ? "placeholder:text-[#696969]" : "placeholder:text-[#808080]",
+              dark ? "placeholder:text-[var(--lm-muted,#696969)]" : "placeholder:text-[#808080]",
               inlineDropdown ? "text-[16px]" : "text-[14px] md:text-[15px]",
               !inlineDropdown && "truncate"
             )}
             style={{
               color: dark ? "white" : "#222",
-              caretColor: dark ? "#C9A96E" : "#27C7FF"
+              caretColor: dark ? "var(--lm-accent,#C9A96E)" : "#27C7FF"
             }}
           />
         </div>
@@ -274,7 +276,7 @@ export function GooglePlacesInput({
           placeholder={placeholder}
           className="w-full h-full pl-12 pr-4 py-4 md:py-3 bg-transparent border-0 focus:outline-none focus:ring-0 text-sm font-medium"
           style={{
-            color: "var(--theme-hero-booking-input-text, #1A1A1A)",
+            color: "var(--theme-hero-booking-input-text, var(--lm-surface,#1A1A1A))",
             caretColor: "var(--theme-hero-booking-accent, #27C7FF)"
           }}
         />
@@ -320,6 +322,7 @@ export function GooglePlacesInput({
             <LocationDropdown
               inline
               dark={dropdownDark ?? dark}
+              luxmotion={dropdownLuxmotion}
               suggestions={value.location.trim() ? predictions : defaultSuggestions}
               isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
               onSelect={handleSelectSuggestion}
@@ -355,7 +358,7 @@ export function GooglePlacesInput({
             isLoading={value.location.trim() ? isLoading : isLoadingDefaults}
             onSelect={handleSelectSuggestion}
             dark={dropdownDark ?? (isHeroInline || isToursHeroDark)}
-            luxmotion={isQuote}
+            luxmotion={isQuote || dropdownLuxmotion}
           />
         </PopoverContent>
       </Popover>

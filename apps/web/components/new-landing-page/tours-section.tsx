@@ -61,7 +61,7 @@ export function ToursSection() {
   return (
     <section
       id="tours"
-      className="bg-[#0D0D0D] pt-10 pb-16"
+      className="bg-[var(--lm-bg,#0D0D0D)] pt-10 pb-16"
     >
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center gap-6">
         <div className="flex flex-col items-start gap-2 w-full">
@@ -69,23 +69,23 @@ export function ToursSection() {
             className="flex items-center gap-2"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
-            <div className="w-8 h-px bg-[#C9A96E]" />
-            <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none">
+            <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
+            <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--lm-accent,#C9A96E)] leading-none">
               {t("sectionLabel")}
             </span>
           </div>
           <h2
-            className="text-[36px] sm:text-[42px] lg:text-[48px] font-light leading-[1.05] text-[#F5F5F5]"
+            className="text-[36px] sm:text-[42px] lg:text-[48px] font-light leading-[1.05] text-[var(--lm-text,#F5F5F5)]"
             style={{
               fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
               whiteSpace: "pre-line",
             }}
           >
-            <span className="italic text-[#C9A96E] font-medium">{t("titleGold")}</span>{" "}
+            <span className="italic text-[var(--lm-accent,#C9A96E)] font-medium">{t("titleGold")}</span>{" "}
             {t("titleRest")}
           </h2>
           <p
-            className="text-[13px] lg:text-[14px] leading-[1.4] text-[#999] max-w-[995px] mt-1"
+            className="text-[13px] lg:text-[14px] leading-[1.4] text-[var(--lm-muted,#999)] max-w-[995px] mt-1"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
             {t("description")}
@@ -126,10 +126,10 @@ export function ToursSection() {
             onClick={goPrev}
             disabled={offset === 0}
             aria-label={t("previousSlide")}
-            className={`size-8 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition ${
+            className={`size-8 border border-[rgba(var(--lm-accent-rgb,154,117,53),0.4)] flex items-center justify-center text-[var(--lm-accent,#C9A96E)] transition ${
               offset === 0
                 ? "opacity-30 cursor-not-allowed"
-                : "hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+                : "hover:border-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
             }`}
           >
             <ArrowRight className="size-[14px] rotate-180" strokeWidth={2} />
@@ -144,8 +144,8 @@ export function ToursSection() {
                 aria-label={t("goToSlide", { number: i + 1 })}
                 className={`rounded-full transition-all ${
                   i === currentPage
-                    ? "size-[6px] bg-[#C9A96E]"
-                    : "size-[5px] bg-[rgba(201,169,110,0.35)]"
+                    ? "size-[6px] bg-[var(--lm-accent,#C9A96E)]"
+                    : "size-[5px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.35)]"
                 }`}
               />
             ))}
@@ -156,10 +156,10 @@ export function ToursSection() {
             onClick={goNext}
             disabled={offset >= maxOffset}
             aria-label={t("nextSlide")}
-            className={`size-8 border border-[rgba(154,117,53,0.4)] flex items-center justify-center text-[#C9A96E] transition ${
+            className={`size-8 border border-[rgba(var(--lm-accent-rgb,154,117,53),0.4)] flex items-center justify-center text-[var(--lm-accent,#C9A96E)] transition ${
               offset >= maxOffset
                 ? "opacity-30 cursor-not-allowed"
-                : "hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+                : "hover:border-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
             }`}
           >
             <ArrowRight className="size-[14px]" strokeWidth={2} />
@@ -168,7 +168,7 @@ export function ToursSection() {
 
         <Link
           href="/tours"
-          className="group inline-flex items-center justify-center gap-2 border border-[#C9A96E] h-12 px-6 w-full sm:w-auto mt-2 text-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
+          className="group inline-flex items-center justify-center gap-2 border border-[var(--lm-accent,#C9A96E)] h-12 px-6 w-full sm:w-auto mt-2 text-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] transition-colors"
           style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
         >
           <span className="text-[14px] font-medium tracking-[1.1px] uppercase">
@@ -206,31 +206,31 @@ function TourCard({
         sizes="(max-width: 768px) 100vw, 33vw"
         className="object-cover transition-transform duration-700 group-hover:scale-105"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-black to-[82%] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-[var(--lm-bg,#000)] to-[82%] pointer-events-none" />
       <div className="relative h-full flex flex-col justify-end p-4">
         <div className="flex items-end gap-2">
           <div className="flex-1 flex flex-col gap-2 min-w-0">
             <span
-              className="text-[12px] font-semibold tracking-[2px] uppercase text-[#C9A96E] leading-none"
+              className="text-[12px] font-semibold tracking-[2px] uppercase text-[var(--lm-accent,#C9A96E)] leading-none"
               style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
             >
               {label}
             </span>
             <span
-              className="text-[24px] text-white leading-[1.1]"
+              className="text-[24px] text-[var(--lm-text,#fff)] leading-[1.1]"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {name}
             </span>
             <p
-              className="text-[12px] leading-[1.2] text-[#999] tracking-[0.14px] max-w-[287px]"
+              className="text-[12px] leading-[1.2] text-[var(--lm-muted,#999)] tracking-[0.14px] max-w-[287px]"
               style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
             >
               {description}
             </p>
           </div>
-          <div className="size-8 border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 transition-colors group-hover:border-[#C9A96E] group-hover:bg-[rgba(201,169,110,0.15)]">
-            <ArrowRight className="size-[18px] text-white transition-colors group-hover:text-[#C9A96E]" strokeWidth={1.5} />
+          <div className="size-8 border border-[rgba(var(--lm-text-rgb,255,255,255),0.3)] flex items-center justify-center shrink-0 transition-colors group-hover:border-[var(--lm-accent,#C9A96E)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.15)]">
+            <ArrowRight className="size-[18px] text-[var(--lm-text,#fff)] transition-colors group-hover:text-[var(--lm-accent,#C9A96E)]" strokeWidth={1.5} />
           </div>
         </div>
       </div>

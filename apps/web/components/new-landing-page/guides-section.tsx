@@ -44,11 +44,11 @@ function GuideCard({ date, title, image, href, continueReading, isMobile, classN
         className="object-cover transition-transform duration-300 group-hover:scale-105"
         sizes={isMobile ? "100vw" : "50vw"}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--lm-bg,#000)]/60 via-[var(--lm-bg,#000)]/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-[24px] flex flex-col gap-[16px]">
         <span
           className={cn(
-            "text-white leading-[1.2]",
+            "text-[var(--lm-text,#fff)] leading-[1.2]",
             isMobile ? "text-[14px]" : "text-[16px]"
           )}
         >
@@ -56,18 +56,18 @@ function GuideCard({ date, title, image, href, continueReading, isMobile, classN
         </span>
         <span
           className={cn(
-            "font-bold text-white leading-[1.2] line-clamp-2",
+            "font-bold text-[var(--lm-text,#fff)] leading-[1.2] line-clamp-2",
             isMobile ? "text-[18px]" : "text-[24px]"
           )}
         >
           {title}
         </span>
         <div className="flex gap-[16px] items-center">
-          <span className="text-[16px] font-medium text-white leading-[1.2]">
+          <span className="text-[16px] font-medium text-[var(--lm-text,#fff)] leading-[1.2]">
             {continueReading}
           </span>
           <div className="size-[28px] bg-white rounded-full flex items-center justify-center group-hover:bg-[#27c7ff] transition-colors">
-            <ArrowRight className="size-[18px] text-[#222222] group-hover:text-white transition-colors" />
+            <ArrowRight className="size-[18px] text-[#222222] group-hover:text-[var(--lm-text,#fff)] transition-colors" />
           </div>
         </div>
       </div>

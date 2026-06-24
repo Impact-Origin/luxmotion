@@ -63,18 +63,18 @@ function ReviewCard({ review }: { review: Review }) {
   const initial = review.name.charAt(0).toUpperCase()
 
   return (
-    <div className="relative bg-[#1a1a1a] flex flex-col gap-[11px] px-5 py-6 h-full group overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+    <div className="relative bg-[var(--lm-surface,#1a1a1a)] flex flex-col gap-[11px] px-5 py-6 h-full group overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--lm-accent,#C9A96E)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
       <div className="flex items-center gap-[10px]">
         <div
           className="size-9 rounded-full flex items-center justify-center shrink-0"
           style={{ backgroundColor: review.color }}
         >
-          <span className="text-[14px] text-white">{initial}</span>
+          <span className="text-[14px] text-[var(--lm-text,#fff)]">{initial}</span>
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[14px] font-semibold text-white leading-none">{review.name}</p>
-          <p className="text-[12px] text-[#8c8680] leading-none mt-1">{review.date}</p>
+          <p className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-none">{review.name}</p>
+          <p className="text-[12px] text-[var(--lm-muted,#8c8680)] leading-none mt-1">{review.date}</p>
         </div>
         <Image
           src="/svgs/google-icon.svg"
@@ -85,14 +85,14 @@ function ReviewCard({ review }: { review: Review }) {
         />
       </div>
       <div className="flex items-center gap-1">
-        <span className="text-[12px] text-[#C9A96E] tracking-[1px]">{"★".repeat(Math.max(1, Math.min(5, Math.round(review.rating))))}</span>
+        <span className="text-[12px] text-[var(--lm-accent,#C9A96E)] tracking-[1px]">{"★".repeat(Math.max(1, Math.min(5, Math.round(review.rating))))}</span>
         <div className="size-[14px] rounded-full bg-[#1a73e8] flex items-center justify-center">
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
             <path d="M1.5 4L3 5.5L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </div>
-      <p className="text-[14px] text-white/55 leading-[1.2]">{review.text}</p>
+      <p className="text-[14px] text-[var(--lm-text,#fff)]/55 leading-[1.2]">{review.text}</p>
     </div>
   )
 }
@@ -204,13 +204,13 @@ export function Testimonials() {
   const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
 
   return (
-    <section id="reviews" className="bg-[#0D0D0D] pt-[60px] pb-6 relative">
+    <section id="reviews" className="bg-[var(--lm-bg,#0D0D0D)] pt-[60px] pb-6 relative">
       <GoogleReviewsBoundary onData={setGoogleReviews} />
       <div className="max-w-[1280px] mx-auto px-4 flex flex-col items-center">
-        <div className="group relative overflow-hidden cursor-default backdrop-blur-sm bg-[rgba(33,33,33,0.3)] border border-[#C9A96E] flex items-center gap-2 px-4 py-2">
-          <div className="pointer-events-none absolute inset-0 w-0 bg-[#C9A96E] transition-all duration-500 ease-out group-hover:w-full" />
-          <BadgeCheck className="relative size-6 text-[#C9A96E] transition-colors duration-300 group-hover:text-[#0D0D0D]" strokeWidth={1.5} />
-          <span className="relative text-[14px] text-[#C9A96E] tracking-[0.28px] transition-colors duration-300 group-hover:text-[#0D0D0D]">
+        <div className="group relative overflow-hidden cursor-default backdrop-blur-sm bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[var(--lm-accent,#C9A96E)] flex items-center gap-2 px-4 py-2">
+          <div className="pointer-events-none absolute inset-0 w-0 bg-[var(--lm-accent,#C9A96E)] transition-all duration-500 ease-out group-hover:w-full" />
+          <BadgeCheck className="relative size-6 text-[var(--lm-accent,#C9A96E)] transition-colors duration-300 group-hover:text-[#0D0D0D]" strokeWidth={1.5} />
+          <span className="relative text-[14px] text-[var(--lm-accent,#C9A96E)] tracking-[0.28px] transition-colors duration-300 group-hover:text-[#0D0D0D]">
             {t("exclusive")}
           </span>
         </div>
@@ -218,40 +218,40 @@ export function Testimonials() {
         <div className="flex flex-col items-center gap-6 w-full mt-10" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-px bg-[#C9A96E]" />
-              <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}>
+              <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
+              <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]" style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}>
                 {t("sectionLabel")}
               </span>
-              <div className="w-8 h-px bg-[#C9A96E]" />
+              <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
             </div>
-            <h2 className="font-light text-[36px] md:text-[48px] text-[#f5f5f5] text-center leading-none">
+            <h2 className="font-light text-[36px] md:text-[48px] text-[var(--lm-text,#f5f5f5)] text-center leading-none">
               {t("heading")}
             </h2>
           </div>
 
           <div className="flex items-center gap-3 md:gap-4">
             <div className="relative">
-              <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">{ratingDisplay}</span>
-              <Star className="size-6 md:size-[43px] text-[#ab9c6b] fill-[#ab9c6b] absolute right-[-28px] md:right-[-44px] top-[12px] md:top-[14px]" />
+              <span className="font-semibold text-[64px] md:text-[96px] text-[var(--lm-accent,#ab9c6b)] leading-[0.95] tracking-[0.48px]">{ratingDisplay}</span>
+              <Star className="size-6 md:size-[43px] text-[var(--lm-accent,#ab9c6b)] fill-[var(--lm-accent,#ab9c6b)] absolute right-[-28px] md:right-[-44px] top-[12px] md:top-[14px]" />
             </div>
-            <div className="w-[2px] h-[40px] md:h-[60px] bg-white rotate-[12deg] ml-6 md:ml-10" />
-            <span className="font-semibold text-[64px] md:text-[96px] text-[#ab9c6b] leading-[0.95] tracking-[0.48px]">{totalDisplay}</span>
-            <span className="font-medium text-[18px] md:text-[24px] text-[#C9A96E] tracking-[0.24px]">
+            <div className="w-[2px] h-[40px] md:h-[60px] bg-[var(--lm-text,#fff)] rotate-[12deg] ml-6 md:ml-10" />
+            <span className="font-semibold text-[64px] md:text-[96px] text-[var(--lm-accent,#ab9c6b)] leading-[0.95] tracking-[0.48px]">{totalDisplay}</span>
+            <span className="font-medium text-[18px] md:text-[24px] text-[var(--lm-accent,#C9A96E)] tracking-[0.24px]">
               {t("reviews")}
             </span>
           </div>
 
-          <div className="text-[28px] md:text-[32px] text-[#C9A96E] tracking-[2px]">★★★★★</div>
+          <div className="text-[28px] md:text-[32px] text-[var(--lm-accent,#C9A96E)] tracking-[2px]">★★★★★</div>
 
           <div className="flex items-center justify-center gap-6">
             <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
-            <Image src="/trustpilot-logo.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
+            <Image src="/trustpilot-logo.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto lm-logo-mono" unoptimized />
           </div>
 
           <button
             type="button"
             onClick={nextPage}
-            className="group/see mt-2 inline-flex h-[52px] items-center gap-2 bg-[#C9A96E] px-8 text-[13px] font-semibold uppercase tracking-[1.2px] text-[#1a1510] transition-colors hover:bg-[#d4b87f]"
+            className="group/see mt-2 inline-flex h-[52px] items-center gap-2 bg-[var(--lm-accent,#C9A96E)] px-8 text-[13px] font-semibold uppercase tracking-[1.2px] text-[#1a1510] transition-colors hover:bg-[#d4b87f]"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
             {t("seeMore")}

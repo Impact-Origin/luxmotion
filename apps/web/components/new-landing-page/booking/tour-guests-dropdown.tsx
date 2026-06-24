@@ -18,16 +18,16 @@ function GuestRow({ icon, label, description, count, onDecrement, onIncrement, m
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex gap-[10px] items-start">
-        <div className="size-5" style={{ color: "#C9A96E" }}>{icon}</div>
+        <div className="size-5" style={{ color: "var(--lm-accent,#C9A96E)" }}>{icon}</div>
         <div className="flex flex-col">
           <span
-            className="text-[14px] font-semibold text-white leading-[20px]"
+            className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-[20px]"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
             {label}
           </span>
           <span
-            className="text-[12px] text-[#696969] leading-[16px]"
+            className="text-[12px] text-[var(--lm-muted,#696969)] leading-[16px]"
             style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}
           >
             {description}
@@ -39,16 +39,16 @@ function GuestRow({ icon, label, description, count, onDecrement, onIncrement, m
           type="button"
           onClick={onDecrement}
           disabled={count <= minCount}
-          className="size-[28px] rounded-full border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[#696969] hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="size-[28px] rounded-full border border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] flex items-center justify-center text-[var(--lm-muted,#696969)] hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           <Minus className="size-3.5" />
         </button>
-        <span className="text-[16px] font-semibold text-white w-4 text-center">{count}</span>
+        <span className="text-[16px] font-semibold text-[var(--lm-text,#fff)] w-4 text-center">{count}</span>
         <button
           type="button"
           onClick={onIncrement}
           disabled={disableIncrement}
-          className="size-[28px] rounded-full border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[#696969] hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="size-[28px] rounded-full border border-[rgba(var(--lm-text-rgb,255,255,255),0.15)] flex items-center justify-center text-[var(--lm-muted,#696969)] hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           <Plus className="size-3.5" />
         </button>
@@ -84,16 +84,16 @@ export function TourGuestsDropdownContent({
   const totalGuests = passengers.adults + passengers.children + passengers.infants
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   return (
-    <div className="bg-[#1e1d1b] p-4">
+    <div className="bg-[var(--lm-surface,#1e1d1b)] p-4">
       <div className="flex items-center justify-between mb-4">
         <h3
-          className="text-[20px] font-semibold text-white"
+          className="text-[20px] font-semibold text-[var(--lm-text,#fff)]"
           style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
         >
           {t.passengers}
         </h3>
         <button type="button" onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
-          <X className="w-4 h-4 text-[#696969]" />
+          <X className="w-4 h-4 text-[var(--lm-muted,#696969)]" />
         </button>
       </div>
 
@@ -131,8 +131,8 @@ export function TourGuestsDropdownContent({
       <button
         type="button"
         onClick={onClose}
-        className="w-full mt-4 py-3 rounded-full font-bold text-[14px] uppercase tracking-wider transition-all text-[rgba(13,13,13,0.96)]"
-        style={{ backgroundColor: "#C9A96E" }}
+        className="w-full mt-4 py-3 rounded-full font-bold text-[14px] uppercase tracking-wider transition-all text-[rgba(var(--lm-bg-rgb,13,13,13),0.96)]"
+        style={{ backgroundColor: "var(--lm-accent,#C9A96E)" }}
       >
         {t.done}
       </button>

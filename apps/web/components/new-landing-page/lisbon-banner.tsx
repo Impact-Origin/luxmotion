@@ -16,9 +16,9 @@ export function LisbonBanner() {
           Your browser does not support the video tag.
         </video>
         {/* Faixa branca a vir de cima: 100% branco no topo (cobre o canto e o preto), depois gradiente */}
-        <div className="absolute top-0 left-0 right-0 h-[120px] md:h-[56px] pointer-events-none" style={{ background: "linear-gradient(to bottom, white 0%, white 35%, rgba(255,255,255,0.6) 55%, transparent 100%)" }} />
+        <div className="absolute top-0 left-0 right-0 h-[120px] md:h-[56px] pointer-events-none" style={{ background: "linear-gradient(to bottom, white 0%, white 35%, rgba(var(--lm-text-rgb,255,255,255),0.6) 55%, transparent 100%)" }} />
         {/* Fade bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-[48px] md:h-[40px] bg-gradient-to-t from-white via-white/60 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-[48px] md:h-[40px] bg-gradient-to-t from-white via-[rgba(var(--lm-text-rgb,255,255,255),0.6)] to-transparent pointer-events-none" />
       </div>
     </section>
   )

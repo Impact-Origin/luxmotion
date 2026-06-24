@@ -54,7 +54,7 @@ export function Features() {
                             key={index}
                             colorType="featureCardBg"
                             applyTo="backgroundColor"
-                            className="rounded-xl p-6 flex gap-4 hover:shadow-lg transition-all duration-300 border border-black/5 shadow-sm"
+                            className="rounded-xl p-6 flex gap-4 hover:shadow-lg transition-all duration-300 border border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] shadow-sm"
                             style={{ backgroundColor: "var(--theme-feature-card-bg)" }}
                         >
                             <div className="flex-shrink-0">
