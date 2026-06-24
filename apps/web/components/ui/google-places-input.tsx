@@ -231,7 +231,7 @@ export function GooglePlacesInput({
             "w-full min-h-[52px] rounded-xl flex items-center gap-3 pl-4 pr-4 py-2 border transition-colors",
             dark
               ? "bg-[var(--lm-bg,#0D0D0D)] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] focus-within:border-[var(--lm-accent,#C9A96E)] focus-within:ring-2 focus-within:ring-[var(--lm-accent,#C9A96E)]/20"
-              : "bg-white border-[#e0e0e0] focus-within:border-[#27C7FF] focus-within:ring-2 focus-within:ring-[#27C7FF]/20"
+              : "bg-white border-[#e0e0e0] focus-within:border-[#a08248] focus-within:ring-2 focus-within:ring-[#a08248]/20"
           )}
         >
           <Search className={cn("w-5 h-5 shrink-0", dark ? "text-[var(--lm-accent,#C9A96E)]" : "text-[#a2a2a2]")} aria-hidden />
@@ -258,7 +258,7 @@ export function GooglePlacesInput({
             )}
             style={{
               color: dark ? "white" : "#222",
-              caretColor: dark ? "var(--lm-accent,#C9A96E)" : "#27C7FF"
+              caretColor: dark ? "var(--lm-accent,#C9A96E)" : "#a08248"
             }}
           />
         </div>
