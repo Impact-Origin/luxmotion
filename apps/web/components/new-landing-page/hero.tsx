@@ -39,66 +39,109 @@ const SOCIAL_AVATARS = ["/reviews/review-1.png", "/reviews/review-2.png", "/revi
 export function SocialProofBar() {
   const t = useTranslations("hero")
 
+  const trustpilot = (
+    <Image
+      src="/trustpilot-logo.svg"
+      alt="Trustpilot"
+      width={69}
+      height={19}
+      className="h-[14px] w-auto shrink-0 brightness-0 dark:brightness-100"
+      unoptimized
+    />
+  )
+
   return (
-    <div className="flex flex-nowrap items-center gap-3 lg:gap-4 border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] px-3 lg:px-5 py-2 w-fit lg:w-max">
-      {/* Trustpilot rating */}
-      <div className="flex flex-col gap-1 lg:gap-2 shrink-0">
-        <span className="text-[11px] lg:text-[12px] font-bold text-[var(--lm-text,#fff)] whitespace-nowrap">
-          {t("excellentRating")}
-        </span>
-        <div className="flex items-center gap-1.5 lg:gap-2">
-          <BadgeCheck className="size-3.5 lg:size-4 shrink-0 text-[#00B67A]" />
-          <span className="text-[11px] lg:text-[12px] text-[var(--lm-muted,#999)] whitespace-nowrap">
-            {t("verifiedBy")}
-          </span>
-          <Image
-            src="/trustpilot-logo.svg"
-            alt="Trustpilot"
-            width={69}
-            height={19}
-            className="h-[15px] lg:h-[14px] w-auto shrink-0 brightness-0 dark:brightness-100"
-            unoptimized
-          />
+    <>
+      {/* Desktop: single compact line */}
+      <div className="hidden lg:flex flex-nowrap items-center gap-4 border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] px-5 py-2 w-max">
+        <div className="flex flex-col gap-2 shrink-0">
+          <span className="text-[12px] font-bold text-[var(--lm-text,#fff)] whitespace-nowrap">{t("excellentRating")}</span>
+          <div className="flex items-center gap-2">
+            <BadgeCheck className="size-4 shrink-0 text-[#00B67A]" />
+            <span className="text-[12px] text-[var(--lm-muted,#999)] whitespace-nowrap">{t("verifiedBy")}</span>
+            {trustpilot}
+          </div>
         </div>
-      </div>
 
-      <div className="h-8 lg:h-9 w-px shrink-0 bg-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" />
+        <div className="h-9 w-px shrink-0 bg-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" />
 
-      {/* Google review count + avatars */}
-      <div className="flex items-center gap-3 lg:gap-[17px] shrink-0">
-        <div className="relative h-10 w-[104px] shrink-0 hidden lg:block">
-          {SOCIAL_AVATARS.map((src, i) => (
-            <div
-              key={src}
-              className="absolute top-0 size-10 overflow-hidden rounded-full border border-white"
-              style={{ left: `${i * 30.5 + 3}px` }}
-            >
-              <Image src={src} alt="" fill className="object-cover" sizes="40px" />
+        <div className="flex items-center gap-[17px] shrink-0">
+          <div className="relative h-10 w-[104px] shrink-0">
+            {SOCIAL_AVATARS.map((src, i) => (
+              <div
+                key={src}
+                className="absolute top-0 size-10 overflow-hidden rounded-full border border-white"
+                style={{ left: `${i * 30.5 + 3}px` }}
+              >
+                <Image src={src} alt="" fill className="object-cover" sizes="40px" />
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-[2px] text-[var(--lm-muted,#999)] whitespace-nowrap">
+            <span className="text-[12px]">{t("fromReviews", { count: REVIEW_COUNT })}</span>
+            <div className="flex items-center gap-[2px]">
+              <span className="text-[10px] text-[var(--lm-text,#fff)]">4.9</span>
+              <span className="text-[10px] tracking-[0.3px] text-[var(--lm-accent,#C9A96E)]">★★★★★</span>
             </div>
-          ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-[2px] text-[var(--lm-muted,#999)] whitespace-nowrap">
-          <span className="text-[11px] lg:text-[12px]">{t("fromReviews", { count: REVIEW_COUNT })}</span>
+
+        <div className="h-9 w-px shrink-0 bg-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" />
+
+        <div className="flex flex-col gap-2 shrink-0">
+          <span className="text-[12px] text-[var(--lm-muted,#999)] whitespace-nowrap">{t("poweredBy")}</span>
           <div className="flex items-center gap-[2px]">
-            <span className="text-[10px] lg:text-[10px] text-[var(--lm-text,#fff)]">4.9</span>
-            <span className="text-[9px] lg:text-[10px] tracking-[0.3px] text-[var(--lm-accent,#C9A96E)]">★★★★★</span>
+            <Image src="/svgs/google-icon.svg" alt="Google" width={15} height={15} className="size-[13px] shrink-0" />
+            <span className="text-[13px] text-[var(--lm-accent,#C9A96E)] tracking-[0.5px]">★★★★★</span>
           </div>
         </div>
       </div>
 
-      <div className="h-8 lg:h-9 w-px shrink-0 bg-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" />
+      {/* Mobile: two rows (wedding-planner trust-strip style) */}
+      <div className="flex lg:hidden flex-col gap-3 w-full border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] px-4 py-3">
+        <div className="flex items-start gap-5">
+          <div className="flex flex-col gap-1.5 shrink-0">
+            <span className="text-[12px] font-bold text-[var(--lm-text,#fff)] whitespace-nowrap leading-none">{t("excellentRating")}</span>
+            <div className="flex items-center gap-1.5">
+              <BadgeCheck className="size-3.5 shrink-0 text-[#00B67A]" />
+              <span className="text-[11px] text-[var(--lm-muted,#999)] whitespace-nowrap">{t("verifiedBy")}</span>
+              {trustpilot}
+            </div>
+          </div>
 
-      {/* Google rating */}
-      <div className="flex flex-col gap-1 lg:gap-2 shrink-0">
-        <span className="text-[11px] lg:text-[12px] text-[var(--lm-muted,#999)] whitespace-nowrap">
-          {t("poweredBy")}
-        </span>
-        <div className="flex items-center gap-[2px]">
-          <Image src="/svgs/google-icon.svg" alt="Google" width={15} height={15} className="size-[13px] lg:size-[13px] shrink-0" />
-          <span className="text-[14px] lg:text-[13px] text-[var(--lm-accent,#C9A96E)] tracking-[0.5px]">★★★★★</span>
+          <div className="self-stretch w-px shrink-0 bg-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" />
+
+          <div className="flex flex-col gap-1.5 shrink-0">
+            <span className="text-[11px] text-[var(--lm-muted,#999)] whitespace-nowrap">{t("poweredBy")}</span>
+            <div className="flex items-center gap-[2px]">
+              <Image src="/svgs/google-icon.svg" alt="Google" width={15} height={15} className="size-[14px] shrink-0" />
+              <span className="text-[13px] text-[var(--lm-accent,#C9A96E)] tracking-[0.5px]">★★★★★</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 w-fit rounded-full bg-[rgba(var(--lm-text-rgb,255,255,255),0.05)] pl-2 pr-4 py-1.5">
+          <div className="relative h-9 w-[90px] shrink-0">
+            {SOCIAL_AVATARS.map((src, i) => (
+              <div
+                key={src}
+                className="absolute top-0 size-9 overflow-hidden rounded-full border border-white"
+                style={{ left: `${i * 27 + 3}px` }}
+              >
+                <Image src={src} alt="" fill className="object-cover" sizes="36px" />
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-[2px] text-[var(--lm-muted,#999)] whitespace-nowrap">
+            <span className="text-[12px]">{t("fromReviews", { count: REVIEW_COUNT })}</span>
+            <div className="flex items-center gap-[2px]">
+              <span className="text-[11px] text-[var(--lm-text,#fff)]">4.9</span>
+              <span className="text-[10px] tracking-[0.3px] text-[var(--lm-accent,#C9A96E)]">★★★★★</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
