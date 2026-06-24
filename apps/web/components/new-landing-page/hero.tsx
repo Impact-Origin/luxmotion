@@ -80,8 +80,8 @@ export function SocialProofBar() {
         <div className="flex flex-col gap-[2px] text-[var(--lm-muted,#999)] whitespace-nowrap">
           <span className="text-[11px] lg:text-[12px]">{t("fromReviews", { count: REVIEW_COUNT })}</span>
           <div className="flex items-center gap-[2px]">
-            <span className="text-[11px] lg:text-[12px] text-[var(--lm-text,#fff)]">4.9</span>
-            <span className="text-[10px] lg:text-[12px] tracking-[0.33px] text-[var(--lm-accent,#C9A96E)]">★★★★★</span>
+            <span className="text-[10px] lg:text-[10px] text-[var(--lm-text,#fff)]">4.9</span>
+            <span className="text-[9px] lg:text-[10px] tracking-[0.3px] text-[var(--lm-accent,#C9A96E)]">★★★★★</span>
           </div>
         </div>
       </div>
