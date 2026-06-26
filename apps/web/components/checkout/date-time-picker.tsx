@@ -538,7 +538,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
               )
         )}
         align="start"
-        side="bottom"
+        side="top"
         sideOffset={8}
         avoidCollisions={false}
       >
