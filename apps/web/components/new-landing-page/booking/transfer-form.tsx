@@ -303,7 +303,6 @@ export function TransferForm({
             label={t.labelDeparture}
             variant="new-widget"
             dark={dark}
-            openAbove
           />
         </div>
       </motion.div>
@@ -399,6 +398,7 @@ export function TransferForm({
               side="bottom"
               align="end"
               sideOffset={8}
+              collisionPadding={{ top: 88, bottom: 16, left: 16, right: 16 }}
               className={cn(
                 "w-80 p-0 border shadow-xl rounded-none z-50",
                 dark ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)]" : "bg-white border-[rgba(28,27,24,0.08)]"

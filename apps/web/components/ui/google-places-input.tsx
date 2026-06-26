@@ -350,6 +350,7 @@ export function GooglePlacesInput({
           side="bottom"
           align="start"
           sideOffset={isToursHeroDark ? 0 : 8}
+          collisionPadding={{ top: 88, bottom: 16, left: 16, right: 16 }}
           className="p-0 border-none bg-transparent shadow-none w-[var(--radix-popover-trigger-width)] min-w-0"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
