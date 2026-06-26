@@ -360,6 +360,7 @@ export function GooglePlacesInput({
             onSelect={handleSelectSuggestion}
             dark={dropdownDark ?? (isHeroInline || isToursHeroDark)}
             luxmotion={isQuote || dropdownLuxmotion}
+            popover
           />
         </PopoverContent>
       </Popover>

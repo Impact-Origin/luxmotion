@@ -11,10 +11,13 @@ interface LocationDropdownProps {
   inline?: boolean
   dark?: boolean
   luxmotion?: boolean
+  /** Rendered inside a Radix Popover — flow layout (no self-positioning) so the
+   *  popover can flip up/down via collision detection. */
+  popover?: boolean
 }
 
 export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps>(
-  ({ suggestions, onSelect, isLoading, inline, dark, luxmotion }, ref) => {
+  ({ suggestions, onSelect, isLoading, inline, dark, luxmotion, popover }, ref) => {
     return (
       <div
         ref={ref}
@@ -23,7 +26,10 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
           inline
             ? "relative flex-1 min-h-0 flex flex-col bg-transparent"
             : cn(
-                "absolute top-full left-0 right-0 mt-2 shadow-[0_10px_40px_rgba(0,0,0,0.25)] border animate-in fade-in slide-in-from-top-2 duration-200",
+                "shadow-[0_10px_40px_rgba(0,0,0,0.25)] border animate-in fade-in duration-200",
+                popover
+                  ? "w-full"
+                  : "absolute top-full left-0 right-0 mt-2 slide-in-from-top-2",
                 dark
                   ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)] rounded-none"
                   : luxmotion
