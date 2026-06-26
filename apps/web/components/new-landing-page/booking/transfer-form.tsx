@@ -303,6 +303,7 @@ export function TransferForm({
             label={t.labelDeparture}
             variant="new-widget"
             dark={dark}
+            openAbove
           />
         </div>
       </motion.div>

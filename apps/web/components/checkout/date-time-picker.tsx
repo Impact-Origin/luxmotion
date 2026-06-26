@@ -20,6 +20,9 @@ interface DateTimePickerProps {
   hideLeftIcon?: boolean
   /** Force light/dark. Overrides the variant default (new-widget = dark). */
   dark?: boolean
+  /** Open the calendar popover above the trigger, clearing the booking-bar row
+   *  (used by the homepage hero widget where the field sits inside a tall bar). */
+  openAbove?: boolean
 }
 
 const MONTHS = [
@@ -29,7 +32,7 @@ const MONTHS = [
 
 const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
 
-export function DateTimePicker({ value, onChange, placeholder = "Partida", label = "Partida", variant = "default", hideLeftIcon = false, dark: darkProp }: DateTimePickerProps) {
+export function DateTimePicker({ value, onChange, placeholder = "Partida", label = "Partida", variant = "default", hideLeftIcon = false, dark: darkProp, openAbove = false }: DateTimePickerProps) {
   const normalizedValue = React.useMemo(() => {
     if (!value) return undefined
     if (value instanceof Date) return value
@@ -538,9 +541,9 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
               )
         )}
         align="start"
-        side="top"
-        sideOffset={8}
-        avoidCollisions={false}
+        side={openAbove ? "top" : "bottom"}
+        sideOffset={openAbove ? 40 : 8}
+        avoidCollisions={!openAbove}
       >
         <div className="relative">
           <div
