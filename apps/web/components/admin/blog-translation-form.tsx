@@ -256,12 +256,12 @@ export function BlogTranslationForm({
               </div>
             ) : (
               <>
-                <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-3">
                   {isAddingNew && (
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="language">Language *</Label>
                       <Select value={newLocale} onValueChange={setNewLocale} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue placeholder="Select language" />
                         </SelectTrigger>
                         <SelectContent>
@@ -275,7 +275,7 @@ export function BlogTranslationForm({
                     </div>
                   )}
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="title">Title *</Label>
                     <Input
                       id="title"
@@ -284,11 +284,11 @@ export function BlogTranslationForm({
                       placeholder="Translated title..."
                       required
                       disabled={isSubmitting}
-                      className="h-11"
+                      className="h-9"
                     />
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="excerpt">Excerpt *</Label>
                     <Textarea
                       id="excerpt"
@@ -297,14 +297,14 @@ export function BlogTranslationForm({
                       placeholder="Translated excerpt..."
                       required
                       disabled={isSubmitting}
-                      className="min-h-[80px] resize-none"
+                      className="min-h-[60px] resize-none"
                     />
                   </div>
 
                   <Separator />
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold">Content</Label>
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-bold">Content</Label>
                     <BlogEditor
                       content={content}
                       onChange={setContent}
@@ -316,33 +316,35 @@ export function BlogTranslationForm({
 
                   <Separator />
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold flex items-center gap-2">
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-bold flex items-center gap-2">
                       <Search className="h-4 w-4" /> SEO (Optional)
                     </Label>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="seoTitle">SEO Title</Label>
-                      <Input
-                        id="seoTitle"
-                        value={seoTitle}
-                        onChange={(e) => setSeoTitle(e.target.value)}
-                        placeholder="Translated SEO title..."
-                        disabled={isSubmitting}
-                        className="h-11"
-                      />
-                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="seoTitle">SEO Title</Label>
+                        <Input
+                          id="seoTitle"
+                          value={seoTitle}
+                          onChange={(e) => setSeoTitle(e.target.value)}
+                          placeholder="Translated SEO title..."
+                          disabled={isSubmitting}
+                          className="h-9"
+                        />
+                      </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="seoDescription">SEO Description</Label>
-                      <Textarea
-                        id="seoDescription"
-                        value={seoDescription}
-                        onChange={(e) => setSeoDescription(e.target.value)}
-                        placeholder="Translated meta description..."
-                        disabled={isSubmitting}
-                        className="min-h-[80px] resize-none"
-                      />
+                      <div className="space-y-1.5">
+                        <Label htmlFor="seoDescription">SEO Description</Label>
+                        <Textarea
+                          id="seoDescription"
+                          value={seoDescription}
+                          onChange={(e) => setSeoDescription(e.target.value)}
+                          placeholder="Translated meta description..."
+                          disabled={isSubmitting}
+                          className="min-h-[60px] resize-none"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

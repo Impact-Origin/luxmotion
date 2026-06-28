@@ -1,10 +1,11 @@
 "use client"
 
+import * as React from "react"
 import { useEffect, useState } from "react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
-import { Loader2, Upload, X } from "lucide-react"
+import { Info, FileText, Image as ImageIcon, Settings, Loader2, Upload, X } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -22,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { toast } from "sonner"
 
 type Pillar = "standard" | "experiences" | "logistics"
@@ -93,6 +95,7 @@ export function CorporateExperienceForm({
 
   const [submitting, setSubmitting] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [activeTab, setActiveTab] = useState("basics")
 
   const [titlePrefix, setTitlePrefix] = useState("")
   const [titleAccent, setTitleAccent] = useState("")
@@ -117,6 +120,7 @@ export function CorporateExperienceForm({
 
   useEffect(() => {
     if (!open) return
+    setActiveTab("basics")
     if (initialData) {
       setTitlePrefix(initialData.titlePrefix || "")
       setTitleAccent(initialData.titleAccent || "")
@@ -217,6 +221,7 @@ export function CorporateExperienceForm({
 
     if (!titlePrefix.trim() || !titleAccent.trim() || !shortDescription.trim()) {
       toast.error("Title and short description are required")
+      setActiveTab("basics")
       return
     }
 
@@ -263,214 +268,251 @@ export function CorporateExperienceForm({
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-3xl max-h-[90vh] p-0 flex flex-col overflow-hidden">
+        <DialogHeader className="p-6 border-b shrink-0">
           <DialogTitle>
             {initialData ? "Edit experience" : "New experience"}
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-5">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div className="flex flex-col gap-1.5">
-              <Label>Title prefix *</Label>
-              <Input
-                value={titlePrefix}
-                onChange={(e) => setTitlePrefix(e.target.value)}
-                placeholder="Lisbon Vintage:"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Title accent (italic gold) *</Label>
-              <Input
-                value={titleAccent}
-                onChange={(e) => setTitleAccent(e.target.value)}
-                placeholder="Polaroid Challenge"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label>Short description (card preview) *</Label>
-            <Textarea
-              value={shortDescription}
-              onChange={(e) => setShortDescription(e.target.value)}
-              rows={2}
-              placeholder="Explore Lisbon through a vintage Polaroid lens..."
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-            <div className="flex flex-col gap-1.5">
-              <Label>Pillar</Label>
-              <Select
-                value={pillar}
-                onValueChange={(v) => {
-                  setPillar(v as Pillar)
-                  setSubcategory(SUBCATEGORIES[v as Pillar][0]!.value)
-                }}
-              >
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="standard">Events & MICE</SelectItem>
-                  <SelectItem value="experiences">Experiences & Teambuilding</SelectItem>
-                  <SelectItem value="logistics">Logistics & Concierge</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Subcategory</Label>
-              <Select value={subcategory} onValueChange={setSubcategory}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {subOptions.map((s) => (
-                    <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Duration</Label>
-              <Select value={duration} onValueChange={(v) => setDuration(v as Duration)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="halfDay">Half day</SelectItem>
-                  <SelectItem value="fullDay">Full day</SelectItem>
-                  <SelectItem value="multiDay">Multi-day</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-            <div className="flex flex-col gap-1.5">
-              <Label>Group size</Label>
-              <Input value={groupSize} onChange={(e) => setGroupSize(e.target.value)} placeholder="10–80 people" />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Duration label</Label>
-              <Input value={durationLabel} onChange={(e) => setDurationLabel(e.target.value)} placeholder="3-4 hours" />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Location</Label>
-              <Input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lisbon · Chiado & Baixa" />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label>Description (drawer overview)</Label>
-            <Textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              placeholder="Step back in time and capture the soul of Lisbon..."
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label>Experience body (long text)</Label>
-            <Textarea
-              value={experienceBody}
-              onChange={(e) => setExperienceBody(e.target.value)}
-              rows={6}
-              placeholder="Operating in the historic heart of the city..."
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label>Experience items (one per line, format: <code>Strong | body</code>)</Label>
-            <Textarea
-              value={experienceItemsText}
-              onChange={(e) => setExperienceItemsText(e.target.value)}
-              rows={4}
-              placeholder={'The "One-Shot" Quest: | Identify specific architectural details...\nLocal Portraits: | Interact with the "Lisboetas"...'}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label>Route highlights (one per line)</Label>
-            <Textarea
-              value={routeHighlightsText}
-              onChange={(e) => setRouteHighlightsText(e.target.value)}
-              rows={5}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label>What&apos;s included (one per line)</Label>
-            <Textarea
-              value={whatsIncludedText}
-              onChange={(e) => setWhatsIncludedText(e.target.value)}
-              rows={5}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label>Cover image (card thumbnail)</Label>
-            <div className="flex items-start gap-3">
-              {coverPreview ? (
-                <div className="relative h-24 w-32 border border-border rounded overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={coverPreview} alt="" className="size-full object-cover" />
-                </div>
-              ) : (
-                <div className="h-24 w-32 border border-dashed border-border rounded bg-muted" />
-              )}
-              <label className="inline-flex items-center gap-2 h-9 px-3 text-sm border border-border rounded-md cursor-pointer hover:bg-accent">
-                <Upload className="size-4" />
-                Choose file
-                <input type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
-              </label>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label>Gallery images (drawer thumbnails, max 8)</Label>
-            <div className="flex flex-wrap gap-2">
-              {galleryPreviews.map((src, i) => (
-                <div key={i} className="relative h-20 w-20 border border-border rounded overflow-hidden group">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt="" className="size-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={() => removeGalleryItem(i)}
-                    className="absolute top-1 right-1 size-5 bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+        <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
+            <div className="shrink-0 border-b border-border">
+              <TabsList className="h-auto w-full bg-transparent p-0 grid grid-cols-4">
+                {[
+                  { value: "basics", label: "Basics", icon: Info },
+                  { value: "details", label: "Details", icon: FileText },
+                  { value: "media", label: "Media", icon: ImageIcon },
+                  { value: "settings", label: "Settings", icon: Settings },
+                ].map((tab) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    className="relative py-3 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent"
                   >
-                    <X className="size-3" />
-                  </button>
+                    <tab.icon className="h-4 w-4 mr-2" />
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+
+            <div className="flex-1 min-h-0 bg-card">
+              <TabsContent value="basics" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Title prefix *</Label>
+                    <Input
+                      value={titlePrefix}
+                      onChange={(e) => setTitlePrefix(e.target.value)}
+                      placeholder="Lisbon Vintage:"
+                      className="h-9"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Title accent (italic gold) *</Label>
+                    <Input
+                      value={titleAccent}
+                      onChange={(e) => setTitleAccent(e.target.value)}
+                      placeholder="Polaroid Challenge"
+                      className="h-9"
+                    />
+                  </div>
                 </div>
-              ))}
-              {galleryImageIds.length < 8 && (
-                <label className="h-20 w-20 border border-dashed border-border rounded bg-muted cursor-pointer flex items-center justify-center hover:bg-accent">
-                  <Upload className="size-4 text-muted-foreground" />
-                  <input type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} />
-                </label>
-              )}
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div className="flex flex-col gap-1.5">
-              <Label>Status</Label>
-              <Select value={status} onValueChange={(v) => setStatus(v as "draft" | "published")}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Sort order (lower = first)</Label>
-              <Input
-                type="number"
-                value={sortOrder}
-                onChange={(e) => setSortOrder(Number(e.target.value) || 0)}
-              />
-            </div>
-          </div>
+                <div className="flex flex-col gap-1.5">
+                  <Label>Short description (card preview) *</Label>
+                  <Textarea
+                    value={shortDescription}
+                    onChange={(e) => setShortDescription(e.target.value)}
+                    rows={2}
+                    placeholder="Explore Lisbon through a vintage Polaroid lens..."
+                  />
+                </div>
 
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Pillar</Label>
+                    <Select
+                      value={pillar}
+                      onValueChange={(v) => {
+                        setPillar(v as Pillar)
+                        setSubcategory(SUBCATEGORIES[v as Pillar][0]!.value)
+                      }}
+                    >
+                      <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="standard">Events & MICE</SelectItem>
+                        <SelectItem value="experiences">Experiences & Teambuilding</SelectItem>
+                        <SelectItem value="logistics">Logistics & Concierge</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Subcategory</Label>
+                    <Select value={subcategory} onValueChange={setSubcategory}>
+                      <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {subOptions.map((s) => (
+                          <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Duration</Label>
+                    <Select value={duration} onValueChange={(v) => setDuration(v as Duration)}>
+                      <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="halfDay">Half day</SelectItem>
+                        <SelectItem value="fullDay">Full day</SelectItem>
+                        <SelectItem value="multiDay">Multi-day</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Group size</Label>
+                    <Input value={groupSize} onChange={(e) => setGroupSize(e.target.value)} placeholder="10–80 people" className="h-9" />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Duration label</Label>
+                    <Input value={durationLabel} onChange={(e) => setDurationLabel(e.target.value)} placeholder="3-4 hours" className="h-9" />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Location</Label>
+                    <Input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lisbon · Chiado & Baixa" className="h-9" />
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="details" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="flex flex-col gap-1.5">
+                  <Label>Description (drawer overview)</Label>
+                  <Textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                    placeholder="Step back in time and capture the soul of Lisbon..."
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <Label>Experience body (long text)</Label>
+                  <Textarea
+                    value={experienceBody}
+                    onChange={(e) => setExperienceBody(e.target.value)}
+                    rows={6}
+                    placeholder="Operating in the historic heart of the city..."
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <Label>Experience items (one per line, format: <code>Strong | body</code>)</Label>
+                  <Textarea
+                    value={experienceItemsText}
+                    onChange={(e) => setExperienceItemsText(e.target.value)}
+                    rows={4}
+                    placeholder={'The "One-Shot" Quest: | Identify specific architectural details...\nLocal Portraits: | Interact with the "Lisboetas"...'}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Route highlights (one per line)</Label>
+                    <Textarea
+                      value={routeHighlightsText}
+                      onChange={(e) => setRouteHighlightsText(e.target.value)}
+                      rows={5}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <Label>What&apos;s included (one per line)</Label>
+                    <Textarea
+                      value={whatsIncludedText}
+                      onChange={(e) => setWhatsIncludedText(e.target.value)}
+                      rows={5}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="media" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="flex flex-col gap-2">
+                  <Label>Cover image (card thumbnail)</Label>
+                  <div className="flex items-start gap-3">
+                    {coverPreview ? (
+                      <div className="relative h-24 w-32 border border-border rounded overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={coverPreview} alt="" className="size-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="h-24 w-32 border border-dashed border-border rounded bg-muted" />
+                    )}
+                    <label className="inline-flex items-center gap-2 h-9 px-3 text-sm border border-border rounded-md cursor-pointer hover:bg-accent">
+                      <Upload className="size-4" />
+                      Choose file
+                      <input type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Label>Gallery images (drawer thumbnails, max 8)</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {galleryPreviews.map((src, i) => (
+                      <div key={i} className="relative h-20 w-20 border border-border rounded overflow-hidden group">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={src} alt="" className="size-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeGalleryItem(i)}
+                          className="absolute top-1 right-1 size-5 bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                        >
+                          <X className="size-3" />
+                        </button>
+                      </div>
+                    ))}
+                    {galleryImageIds.length < 8 && (
+                      <label className="h-20 w-20 border border-dashed border-border rounded bg-muted cursor-pointer flex items-center justify-center hover:bg-accent">
+                        <Upload className="size-4 text-muted-foreground" />
+                        <input type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} />
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="settings" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Status</Label>
+                    <Select value={status} onValueChange={(v) => setStatus(v as "draft" | "published")}>
+                      <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="draft">Draft</SelectItem>
+                        <SelectItem value="published">Published</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <Label>Sort order (lower = first)</Label>
+                    <Input
+                      type="number"
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(Number(e.target.value) || 0)}
+                      className="h-9"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            </div>
+          </Tabs>
+
+          <div className="p-6 border-t bg-muted flex items-center justify-end gap-2 shrink-0">
             <Button type="button" variant="outline" onClick={onClose} disabled={submitting}>
               Cancel
             </Button>

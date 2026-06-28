@@ -40,7 +40,6 @@ import {
   Calendar,
   Gem,
 } from "lucide-react"
-import { Separator } from "@workspace/ui/components/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { LANGUAGES, PORTUGAL_LOCATIONS } from "./constants"
 import { useTranslations } from "next-intl"
@@ -317,39 +316,41 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
               </TabsList>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-h-0 bg-card">
-              <TabsContent value="basic" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+            <div className="flex-1 min-h-0 bg-card">
+              <TabsContent value="basic" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">{t("form.titleLabel")} *</Label>
-                    <Input
-                      id="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder={t("form.titlePlaceholder")}
-                      required
-                      disabled={isSubmitting}
-                      className="h-11"
-                    />
-                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="title">{t("form.titleLabel")} *</Label>
+                      <Input
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder={t("form.titlePlaceholder")}
+                        required
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="subtitle">{t("form.subtitleLabel")}</Label>
-                    <Input
-                      id="subtitle"
-                      value={subtitle}
-                      onChange={(e) => setSubtitle(e.target.value)}
-                      placeholder={t("form.subtitlePlaceholder")}
-                      disabled={isSubmitting}
-                      className="h-11"
-                    />
+                    <div className="space-y-1.5">
+                      <Label htmlFor="subtitle">{t("form.subtitleLabel")}</Label>
+                      <Input
+                        id="subtitle"
+                        value={subtitle}
+                        onChange={(e) => setSubtitle(e.target.value)}
+                        placeholder={t("form.subtitlePlaceholder")}
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.locationLabel")} *</Label>
                       <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -362,7 +363,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                       </Select>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="venue">{t("form.venueLabel")}</Label>
                       <Input
                         id="venue"
@@ -370,15 +371,15 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         onChange={(e) => setVenue(e.target.value)}
                         placeholder={t("form.venuePlaceholder")}
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label>{t("form.originalLanguageLabel")} *</Label>
                     <Select value={originalLanguage} onValueChange={setOriginalLanguage} disabled={isSubmitting}>
-                      <SelectTrigger className="h-11">
+                      <SelectTrigger className="h-9">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -391,16 +392,14 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                     </Select>
                   </div>
 
-                  <Separator />
-
                   <div className="space-y-4">
-                    <Label className="text-base font-bold flex items-center gap-2">
+                    <Label className="text-sm font-semibold flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
                       {t("form.eventDateTime")}
                     </Label>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">{t("form.startDate")} *</Label>
                         <Input
                           type="date"
@@ -408,40 +407,40 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                           onChange={(e) => setEventDate(e.target.value)}
                           required
                           disabled={isSubmitting}
-                          className="h-11"
+                          className="h-9"
                         />
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">{t("form.startTime")}</Label>
                         <Input
                           type="time"
                           value={eventTime}
                           onChange={(e) => setEventTime(e.target.value)}
                           disabled={isSubmitting}
-                          className="h-11"
+                          className="h-9"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">{t("form.endDate")}</Label>
                         <Input
                           type="date"
                           value={endDate}
                           onChange={(e) => setEndDate(e.target.value)}
                           disabled={isSubmitting}
-                          className="h-11"
+                          className="h-9"
                         />
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">{t("form.endTime")}</Label>
                         <Input
                           type="time"
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
                           disabled={isSubmitting}
-                          className="h-11"
+                          className="h-9"
                         />
                       </div>
                     </div>
@@ -449,9 +448,9 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="content" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.descriptionLabel")}</Label>
+              <TabsContent value="content" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold">{t("form.descriptionLabel")}</Label>
                   <BlogEditor
                     content={description}
                     onChange={setDescription}
@@ -461,36 +460,34 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                   />
                 </div>
 
-                <Separator />
-
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold text-green-700">{t("form.includedLabel")}</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-semibold text-green-700">{t("form.includedLabel")}</Label>
                     <Textarea
                       value={included}
                       onChange={(e) => setIncluded(e.target.value)}
                       placeholder={t("form.itemPerLine")}
                       disabled={isSubmitting}
-                      className="min-h-[120px]"
+                      className="min-h-[100px]"
                     />
                   </div>
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold text-red-700">{t("form.excludedLabel")}</Label>
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-semibold text-red-700">{t("form.excludedLabel")}</Label>
                     <Textarea
                       value={excluded}
                       onChange={(e) => setExcluded(e.target.value)}
                       placeholder={t("form.itemPerLine")}
                       disabled={isSubmitting}
-                      className="min-h-[120px]"
+                      className="min-h-[100px]"
                     />
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="media" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
-                <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+              <TabsContent value="media" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Image className="h-4 w-4" /> {t("form.bannerImageLabel")}
                   </Label>
                   <ImageUpload
@@ -503,10 +500,8 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                   />
                 </div>
 
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Image className="h-4 w-4" /> {t("form.additionalBannersLabel")}
                   </Label>
                   <p className="text-sm text-muted-foreground">{t("form.additionalBannersHelp")}</p>
@@ -519,7 +514,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="meeting" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="meeting" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <GoogleMapsInput
                   value={meetingPoint}
                   onChange={setMeetingPoint}
@@ -528,14 +523,14 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 />
               </TabsContent>
 
-              <TabsContent value="pricing" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="pricing" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <DollarSign className="h-4 w-4" /> {t("form.pricingLabel")}
                   </Label>
 
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="basePrice">{t("form.basePriceLabel")} *</Label>
                       <Input
                         id="basePrice"
@@ -547,11 +542,11 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         placeholder="0.00"
                         required
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="originalPrice">{t("form.originalPriceLabel")}</Label>
                       <Input
                         id="originalPrice"
@@ -562,14 +557,14 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         onChange={(e) => setOriginalPrice(e.target.value)}
                         placeholder="0.00"
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.currencyLabel")}</Label>
                       <Select value={currency} onValueChange={setCurrency} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -581,22 +576,21 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="maxCapacity">{t("form.maxCapacityLabel")}</Label>
-                    <Input
-                      id="maxCapacity"
-                      type="number"
-                      min="1"
-                      value={maxCapacity}
-                      onChange={(e) => setMaxCapacity(e.target.value)}
-                      placeholder={t("form.maxCapacityPlaceholder")}
-                      disabled={isSubmitting}
-                      className="h-11"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="maxCapacity">{t("form.maxCapacityLabel")}</Label>
+                      <Input
+                        id="maxCapacity"
+                        type="number"
+                        min="1"
+                        value={maxCapacity}
+                        onChange={(e) => setMaxCapacity(e.target.value)}
+                        placeholder={t("form.maxCapacityPlaceholder")}
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
                       <Label htmlFor="minPassengers">{t("form.minPassengersLabel")}</Label>
                       <Input
                         id="minPassengers"
@@ -606,10 +600,10 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         onChange={(e) => setMinPassengers(e.target.value)}
                         placeholder={t("form.minPassengersPlaceholder")}
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="maxPassengers">{t("form.maxPassengersLabel")}</Label>
                       <Input
                         id="maxPassengers"
@@ -619,14 +613,14 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                         onChange={(e) => setMaxPassengers(e.target.value)}
                         placeholder={t("form.maxPassengersPlaceholder")}
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="addons" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="addons" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <TourAddonsBuilder
                   entityId={initialData?._id}
                   entityType="event"
@@ -634,16 +628,16 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 />
               </TabsContent>
 
-              <TabsContent value="settings" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="settings" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Settings className="h-4 w-4" /> {t("form.publishingLabel")}
                   </Label>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="status">{t("form.statusLabel")}</Label>
                     <Select value={status} onValueChange={(v) => setStatus(v as any)} disabled={isSubmitting}>
-                      <SelectTrigger className="h-11">
+                      <SelectTrigger className="h-9">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -691,27 +685,25 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                   </div>
                 </div>
 
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.tagsLabel")}</Label>
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold">{t("form.tagsLabel")}</Label>
                   <Input
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
                     placeholder={t("form.tagsPlaceholder")}
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
               </TabsContent>
 
-              <TabsContent value="seo" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="seo" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Search className="h-4 w-4" /> {t("form.seoLabel")}
                   </Label>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="seoTitle">{t("form.seoTitleLabel")}</Label>
                     <Input
                       id="seoTitle"
@@ -719,11 +711,11 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                       onChange={(e) => setSeoTitle(e.target.value)}
                       placeholder={title || t("form.seoTitlePlaceholder")}
                       disabled={isSubmitting}
-                      className="h-11"
+                      className="h-9"
                     />
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="seoDescription">{t("form.seoDescriptionLabel")}</Label>
                     <Textarea
                       id="seoDescription"
@@ -731,7 +723,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                       onChange={(e) => setSeoDescription(e.target.value)}
                       placeholder={subtitle || t("form.seoDescriptionPlaceholder")}
                       disabled={isSubmitting}
-                      className="min-h-[100px] resize-none"
+                      className="min-h-[80px] resize-none"
                     />
                   </div>
                 </div>

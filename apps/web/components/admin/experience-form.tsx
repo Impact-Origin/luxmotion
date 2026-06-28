@@ -132,8 +132,8 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex-1 overflow-y-auto">
-          <div className="p-6 space-y-6">
+        <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
+          <div className="p-6 space-y-5 flex-1">
             <div className="space-y-2">
               <Label htmlFor="title">{t("form.titleLabel")} *</Label>
               <Input
@@ -143,7 +143,7 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
                 placeholder={t("form.titlePlaceholder")}
                 required
                 disabled={isSubmitting}
-                className="h-11"
+                className="h-9"
               />
             </div>
 
@@ -156,7 +156,7 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
                 placeholder={t("form.descriptionPlaceholder")}
                 required
                 disabled={isSubmitting}
-                className="min-h-[100px]"
+                className="min-h-[80px]"
               />
             </div>
 
@@ -169,14 +169,14 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder={t("form.locationPlaceholder")}
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>{t("form.categoryLabel")} *</Label>
                 <Select value={category} onValueChange={setCategory} disabled={isSubmitting}>
-                  <SelectTrigger className="h-11">
+                  <SelectTrigger className="h-9">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -189,16 +189,31 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="tags">{t("form.tagsLabel")}</Label>
-              <Input
-                id="tags"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-                placeholder={t("form.tagsPlaceholder")}
-                disabled={isSubmitting}
-                className="h-11"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="tags">{t("form.tagsLabel")}</Label>
+                <Input
+                  id="tags"
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  placeholder={t("form.tagsPlaceholder")}
+                  disabled={isSubmitting}
+                  className="h-9"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>{t("form.statusLabel")} *</Label>
+                <Select value={status} onValueChange={(v) => setStatus(v as any)} disabled={isSubmitting}>
+                  <SelectTrigger className="h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">{t("draft")}</SelectItem>
+                    <SelectItem value="published">{t("published")}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -211,19 +226,6 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
                 }}
                 disabled={isSubmitting}
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label>{t("form.statusLabel")} *</Label>
-              <Select value={status} onValueChange={(v) => setStatus(v as any)} disabled={isSubmitting}>
-                <SelectTrigger className="h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">{t("draft")}</SelectItem>
-                  <SelectItem value="published">{t("published")}</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
 

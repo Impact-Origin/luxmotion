@@ -25,7 +25,6 @@ import {
 import { ImageUpload } from "./image-upload";
 import { toast } from "sonner";
 import { Loader2, Briefcase, Baby, Zap, Wifi, Info } from "lucide-react";
-import { Separator } from "@workspace/ui/components/separator";
 
 interface VehicleFormProps {
   isOpen: boolean;
@@ -117,14 +116,14 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex-1 overflow-y-auto min-h-0 flex flex-col">
-          <div className="p-6 space-y-8 flex-1">
-          <div className="space-y-4">
-              <Label className="text-base font-bold flex items-center gap-2">
-                <Info className="h-4 w-4" /> General Information
+        <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
+          <div className="p-6 space-y-5 flex-1">
+          <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase text-muted-foreground flex items-center gap-2">
+                <Info className="h-3.5 w-3.5" /> General Information
               </Label>
-            <ImageUpload 
-              value={previewUrl} 
+            <ImageUpload
+              value={previewUrl}
               onChange={(id) => {
                 setImageId(id);
                 if (!id) setPreviewUrl(null);
@@ -142,17 +141,17 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                 placeholder="e.g. Mercedes V-Class"
                 required
                 disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
               />
             </div>
             <div className="space-y-2">
                   <Label htmlFor="ownership">Owner / Partnership</Label>
-              <Select 
-                    value={partnershipId} 
+              <Select
+                    value={partnershipId}
                     onValueChange={setPartnershipId}
                 disabled={isSubmitting}
               >
-                    <SelectTrigger className="h-11">
+                    <SelectTrigger className="h-9">
                       <SelectValue placeholder="Select owner" />
                 </SelectTrigger>
                 <SelectContent>
@@ -165,7 +164,40 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             </div>
           </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="status">Status</Label>
+                  <Select value={status} onValueChange={(val) => setStatus(val as typeof status)} disabled={isSubmitting}>
+                    <SelectTrigger className="h-9">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                      <SelectItem value="maintenance">Maintenance</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="order">Display Order</Label>
+                  <Input
+                    id="order"
+                    type="number"
+                    value={order}
+                    onChange={(e) => setOrder(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    className="h-9"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase text-muted-foreground flex items-center gap-2">
+                <Briefcase className="h-3.5 w-3.5" /> Capacity &amp; Luggage Limits
+              </Label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="passengers">Max Passengers</Label>
                   <Input
@@ -175,7 +207,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setPassengers(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
                 <div className="space-y-2">
@@ -187,45 +219,9 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setLuggage(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="order">Display Order</Label>
-                  <Input
-                    id="order"
-                    type="number"
-                    value={order}
-                    onChange={(e) => setOrder(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    className="h-11"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
-                <Select value={status} onValueChange={(val) => setStatus(val as typeof status)} disabled={isSubmitting}>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="maintenance">Maintenance</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-4">
-              <Label className="text-base font-bold flex items-center gap-2">
-                <Briefcase className="h-4 w-4" /> Luggage Limits
-              </Label>
-              <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="maxBackpacks">Max Backpacks</Label>
                   <Input
@@ -235,7 +231,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setMaxBackpacks(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
                 <div className="space-y-2">
@@ -247,7 +243,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setMaxHandLuggage(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
                 <div className="space-y-2">
@@ -259,19 +255,17 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setMaxCheckedBaggage(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
               </div>
             </div>
 
-            <Separator />
-
-            <div className="space-y-4">
-              <Label className="text-base font-bold flex items-center gap-2">
-                <Baby className="h-4 w-4" /> Child Seat Limits
+            <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase text-muted-foreground flex items-center gap-2">
+                <Baby className="h-3.5 w-3.5" /> Child Seat Limits
               </Label>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="maxBabySeats">Max Baby Seats</Label>
                   <Input
@@ -281,7 +275,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setMaxBabySeats(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
                 <div className="space-y-2">
@@ -293,7 +287,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setMaxChildSeats(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
                 <div className="space-y-2">
@@ -305,26 +299,24 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
                     onChange={(e) => setMaxBoosterSeats(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                 </div>
               </div>
             </div>
 
-            <Separator />
-
-            <div className="space-y-4">
-              <Label className="text-base font-bold">Pricing Configuration</Label>
+            <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase text-muted-foreground">Pricing Configuration</Label>
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="pricePerKm">Price / km (Day)</Label>
               <div className="relative">
-                    <span className="absolute left-3 top-3 text-muted-foreground text-sm">€</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">€</span>
                 <Input
                   id="pricePerKm"
                   type="number"
                   step="0.01"
-                      className="pl-7 h-11"
+                      className="pl-7 h-9"
                   value={pricePerKm}
                   onChange={(e) => setPricePerKm(e.target.value)}
                   required
@@ -335,12 +327,12 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             <div className="space-y-2">
               <Label htmlFor="pricePerKmNight">Price / km (Night)</Label>
               <div className="relative">
-                    <span className="absolute left-3 top-3 text-muted-foreground text-sm">€</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">€</span>
                 <Input
                   id="pricePerKmNight"
                   type="number"
                   step="0.01"
-                      className="pl-7 h-11"
+                      className="pl-7 h-9"
                   value={pricePerKmNight}
                   onChange={(e) => setPricePerKmNight(e.target.value)}
                   required
@@ -351,12 +343,12 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
             <div className="space-y-2">
               <Label htmlFor="minimumPrice">Minimum Price</Label>
               <div className="relative">
-                    <span className="absolute left-3 top-3 text-muted-foreground text-sm">€</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">€</span>
                 <Input
                   id="minimumPrice"
                   type="number"
                   step="0.01"
-                      className="pl-7 h-11"
+                      className="pl-7 h-9"
                   value={minimumPrice}
                   onChange={(e) => setMinimumPrice(e.target.value)}
                   required
@@ -367,9 +359,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
           </div>
             </div>
 
-            <Separator />
-
-            <div className="grid grid-cols-2 gap-8 py-4 px-2">
+            <div className="grid grid-cols-2 gap-8 px-2">
               <label className="flex items-center gap-3 cursor-pointer group">
                 <Checkbox
                 id="wifi"

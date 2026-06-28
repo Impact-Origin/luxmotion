@@ -123,8 +123,8 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex-1 overflow-y-auto">
-          <div className="p-6 space-y-6">
+        <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
+          <div className="p-6 space-y-5 flex-1">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">{t("form.nameLabel")} *</Label>
@@ -135,7 +135,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
                   placeholder={t("form.namePlaceholder")}
                   required
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
 
@@ -147,7 +147,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder={t("form.locationPlaceholder")}
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
             </div>
@@ -161,7 +161,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
                 placeholder={t("form.quotePlaceholder")}
                 required
                 disabled={isSubmitting}
-                className="min-h-[100px]"
+                className="min-h-[80px]"
               />
             </div>
 
@@ -181,7 +181,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
               <div className="space-y-2">
                 <Label>{t("form.statusLabel")} *</Label>
                 <Select value={status} onValueChange={(v) => setStatus(v as any)} disabled={isSubmitting}>
-                  <SelectTrigger className="h-11">
+                  <SelectTrigger className="h-9">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -200,7 +200,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
                   value={order}
                   onChange={(e) => setOrder(e.target.value)}
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
             </div>

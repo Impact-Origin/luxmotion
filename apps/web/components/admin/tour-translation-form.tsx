@@ -224,14 +224,14 @@ export function TourTranslationForm({
           <div className="flex-1 flex flex-col overflow-hidden">
             {selectedLocale ? (
               <form onSubmit={onSubmit} className="flex-1 flex flex-col overflow-hidden">
-                <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-bold">
+                      <h3 className="text-base font-bold">
                         {LANGUAGES.find((l) => l.value === selectedLocale)?.flag}{" "}
                         {LANGUAGES.find((l) => l.value === selectedLocale)?.label} Translation
                       </h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {hasTranslation(selectedLocale) ? "Edit existing translation" : "Create new translation"}
                       </p>
                     </div>
@@ -256,8 +256,8 @@ export function TourTranslationForm({
 
                   <Separator />
 
-                  <div className="space-y-4">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
                       <Label htmlFor="title">Title *</Label>
                       <Input
                         id="title"
@@ -266,11 +266,11 @@ export function TourTranslationForm({
                         placeholder="Translated title..."
                         required
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="subtitle">Subtitle</Label>
                       <Input
                         id="subtitle"
@@ -278,13 +278,13 @@ export function TourTranslationForm({
                         onChange={(e) => setSubtitle(e.target.value)}
                         placeholder="Translated subtitle..."
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold">Description</Label>
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-bold">Description</Label>
                     <BlogEditor
                       content={description}
                       onChange={setDescription}
@@ -294,64 +294,64 @@ export function TourTranslationForm({
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-4">
-                      <Label className="text-base font-bold text-green-700">What's Included</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label className="text-sm font-bold text-green-700">What's Included</Label>
                       <Textarea
                         value={included}
                         onChange={(e) => setIncluded(e.target.value)}
                         placeholder="One item per line..."
                         disabled={isSubmitting}
-                        className="min-h-[100px]"
+                        className="min-h-[80px]"
                       />
                     </div>
 
-                    <div className="space-y-4">
-                      <Label className="text-base font-bold text-red-700">What's Excluded</Label>
+                    <div className="space-y-1.5">
+                      <Label className="text-sm font-bold text-red-700">What's Excluded</Label>
                       <Textarea
                         value={excluded}
                         onChange={(e) => setExcluded(e.target.value)}
                         placeholder="One item per line..."
                         disabled={isSubmitting}
-                        className="min-h-[100px]"
+                        className="min-h-[80px]"
                       />
                     </div>
                   </div>
 
                   <Separator />
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold">Cancellation Policy</Label>
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-bold">Cancellation Policy</Label>
                     <Textarea
                       value={cancellationPolicy}
                       onChange={(e) => setCancellationPolicy(e.target.value)}
                       placeholder="Translated cancellation policy..."
                       disabled={isSubmitting}
-                      className="min-h-[80px]"
+                      className="min-h-[60px]"
                     />
                   </div>
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold">SEO</Label>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-bold">SEO</Label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">SEO Title</Label>
                         <Input
                           value={seoTitle}
                           onChange={(e) => setSeoTitle(e.target.value)}
                           placeholder="Translated SEO title..."
                           disabled={isSubmitting}
-                          className="h-10"
+                          className="h-9"
                         />
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">SEO Description</Label>
                         <Textarea
                           value={seoDescription}
                           onChange={(e) => setSeoDescription(e.target.value)}
                           placeholder="Translated meta description..."
                           disabled={isSubmitting}
-                          className="min-h-[80px]"
+                          className="min-h-[60px]"
                         />
                       </div>
                     </div>

@@ -118,8 +118,8 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex-1 overflow-y-auto">
-          <div className="p-6 space-y-6">
+        <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
+          <div className="p-6 space-y-5 flex-1">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">{t("form.nameLabel")} *</Label>
@@ -130,7 +130,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
                   placeholder={t("form.namePlaceholder")}
                   required
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
 
@@ -142,7 +142,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
                   onChange={(e) => setRole(e.target.value)}
                   placeholder={t("form.rolePlaceholder")}
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
             </div>
@@ -155,7 +155,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
                 onChange={(e) => setBio(e.target.value)}
                 placeholder={t("form.bioPlaceholder")}
                 disabled={isSubmitting}
-                rows={5}
+                rows={3}
                 className="resize-none"
               />
             </div>
@@ -176,7 +176,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
               <div className="space-y-2">
                 <Label>{t("form.statusLabel")} *</Label>
                 <Select value={status} onValueChange={(v) => setStatus(v as any)} disabled={isSubmitting}>
-                  <SelectTrigger className="h-11">
+                  <SelectTrigger className="h-9">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -195,7 +195,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
                   value={order}
                   onChange={(e) => setOrder(e.target.value)}
                   disabled={isSubmitting}
-                  className="h-11"
+                  className="h-9"
                 />
               </div>
             </div>

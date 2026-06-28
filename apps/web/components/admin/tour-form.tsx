@@ -44,7 +44,6 @@ import {
   List,
   Gem,
 } from "lucide-react"
-import { Separator } from "@workspace/ui/components/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { LANGUAGES, PORTUGAL_LOCATIONS, TOUR_LANGUAGES, TOUR_TYPES, TOUR_CATEGORIES } from "./constants"
 import { useTranslations } from "next-intl"
@@ -529,39 +528,41 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
               </TabsList>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-h-0 bg-card">
-              <TabsContent value="basic" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+            <div className="flex-1 min-h-0 bg-card">
+              <TabsContent value="basic" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">{t("form.titleLabel")} *</Label>
-                    <Input
-                      id="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder={t("form.titlePlaceholder")}
-                      required
-                      disabled={isSubmitting}
-                      className="h-11"
-                    />
-                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="title">{t("form.titleLabel")} *</Label>
+                      <Input
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder={t("form.titlePlaceholder")}
+                        required
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="subtitle">{t("form.subtitleLabel")}</Label>
-                    <Input
-                      id="subtitle"
-                      value={subtitle}
-                      onChange={(e) => setSubtitle(e.target.value)}
-                      placeholder={t("form.subtitlePlaceholder")}
-                      disabled={isSubmitting}
-                      className="h-11"
-                    />
+                    <div className="space-y-1.5">
+                      <Label htmlFor="subtitle">{t("form.subtitleLabel")}</Label>
+                      <Input
+                        id="subtitle"
+                        value={subtitle}
+                        onChange={(e) => setSubtitle(e.target.value)}
+                        placeholder={t("form.subtitlePlaceholder")}
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.categoryLabel")} *</Label>
                       <Select value={category} onValueChange={(v) => setCategory(v as typeof category)} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -574,10 +575,10 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                       </Select>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.destinationLabel")} *</Label>
                       <Select value={destination} onValueChange={setDestination} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -592,10 +593,10 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.tourTypeLabel")} *</Label>
                       <Select value={tourType} onValueChange={setTourType} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -608,10 +609,10 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                       </Select>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.originalLanguageLabel")} *</Label>
                       <Select value={originalLanguage} onValueChange={setOriginalLanguage} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -626,7 +627,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="duration">{t("form.durationLabel")} *</Label>
                       <Input
                         id="duration"
@@ -635,11 +636,11 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         placeholder={t("form.durationPlaceholder")}
                         required
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="groupSize">{t("form.groupSizeLabel")}</Label>
                       <Input
                         id="groupSize"
@@ -647,12 +648,12 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         onChange={(e) => setGroupSize(e.target.value)}
                         placeholder={t("form.groupSizePlaceholder")}
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label>{t("form.tourLanguagesLabel")}</Label>
                     <div className="flex flex-wrap gap-2">
                       {TOUR_LANGUAGES.map((lang) => (
@@ -675,9 +676,9 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="content" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.descriptionLabel")}</Label>
+              <TabsContent value="content" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold">{t("form.descriptionLabel")}</Label>
                   <BlogEditor
                     content={description}
                     onChange={setDescription}
@@ -687,36 +688,34 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                   />
                 </div>
 
-                <Separator />
-
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold text-green-700">{t("form.includedLabel")}</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-semibold text-green-700">{t("form.includedLabel")}</Label>
                     <Textarea
                       value={included}
                       onChange={(e) => setIncluded(e.target.value)}
                       placeholder={t("form.itemPerLine")}
                       disabled={isSubmitting}
-                      className="min-h-[120px]"
+                      className="min-h-[100px]"
                     />
                   </div>
 
-                  <div className="space-y-4">
-                    <Label className="text-base font-bold text-red-700">{t("form.excludedLabel")}</Label>
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-semibold text-red-700">{t("form.excludedLabel")}</Label>
                     <Textarea
                       value={excluded}
                       onChange={(e) => setExcluded(e.target.value)}
                       placeholder={t("form.itemPerLine")}
                       disabled={isSubmitting}
-                      className="min-h-[120px]"
+                      className="min-h-[100px]"
                     />
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="media" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
-                <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+              <TabsContent value="media" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Image className="h-4 w-4" /> {t("form.bannerImageLabel")}
                   </Label>
                   <ImageUpload
@@ -729,10 +728,8 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                   />
                 </div>
 
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Image className="h-4 w-4" /> {t("form.additionalBannersLabel")}
                   </Label>
                   <p className="text-sm text-muted-foreground">
@@ -747,7 +744,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="itinerary" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="itinerary" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
                   <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
                   <p className="text-xs leading-relaxed text-amber-800">{t("form.itinerarySeparationWarning")}</p>
@@ -764,15 +761,13 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 )}
               </TabsContent>
 
-              <TabsContent value="meeting" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="meeting" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <GoogleMapsInput
                   value={pickup}
                   onChange={setPickup}
                   label={t("form.pickupLabel")}
                   disabled={isSubmitting}
                 />
-
-                <Separator />
 
                 <GoogleMapsInput
                   value={dropoff}
@@ -782,14 +777,14 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 />
               </TabsContent>
 
-              <TabsContent value="pricing" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="pricing" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <DollarSign className="h-4 w-4" /> {t("form.pricingLabel")}
                   </Label>
 
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="basePrice">{t("form.basePriceLabel")} *</Label>
                       <Input
                         id="basePrice"
@@ -801,11 +796,11 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         placeholder="0.00"
                         required
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="originalPrice">{t("form.originalPriceLabel")}</Label>
                       <Input
                         id="originalPrice"
@@ -816,15 +811,15 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         onChange={(e) => setOriginalPrice(e.target.value)}
                         placeholder="0.00"
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                       <p className="text-xs text-muted-foreground">{t("form.originalPriceHelp")}</p>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>{t("form.currencyLabel")}</Label>
                       <Select value={currency} onValueChange={setCurrency} disabled={isSubmitting}>
-                        <SelectTrigger className="h-11">
+                        <SelectTrigger className="h-9">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -837,7 +832,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="minPassengers">{t("form.minPassengersLabel")}</Label>
                       <Input
                         id="minPassengers"
@@ -847,10 +842,10 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         onChange={(e) => setMinPassengers(e.target.value)}
                         placeholder={t("form.minPassengersPlaceholder")}
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label htmlFor="maxPassengers">{t("form.maxPassengersLabel")}</Label>
                       <Input
                         id="maxPassengers"
@@ -860,7 +855,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                         onChange={(e) => setMaxPassengers(e.target.value)}
                         placeholder={t("form.maxPassengersPlaceholder")}
                         disabled={isSubmitting}
-                        className="h-11"
+                        className="h-9"
                       />
                     </div>
                   </div>
@@ -878,17 +873,15 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="schedule" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="schedule" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <TourScheduleBuilder
                   schedule={schedule}
                   onChange={setSchedule}
                   disabled={isSubmitting}
                 />
 
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.bookingDeadlineLabel")}</Label>
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold">{t("form.bookingDeadlineLabel")}</Label>
                   <Input
                     type="number"
                     min="0"
@@ -897,7 +890,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                     onChange={(e) => setBookingDeadlineHours(e.target.value)}
                     placeholder={t("form.bookingDeadlinePlaceholder")}
                     disabled={isSubmitting}
-                    className="h-11"
+                    className="h-9"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("form.bookingDeadlineHelp")}
@@ -905,7 +898,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="addons" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="addons" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <TourAddonsBuilder
                   entityId={initialData?._id}
                   entityType="tour"
@@ -913,16 +906,16 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                 />
               </TabsContent>
 
-              <TabsContent value="settings" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="settings" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Settings className="h-4 w-4" /> {t("form.publishingLabel")}
                   </Label>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="status">{t("form.statusLabel")}</Label>
                     <Select value={status} onValueChange={(v) => setStatus(v as any)} disabled={isSubmitting}>
-                      <SelectTrigger className="h-11">
+                      <SelectTrigger className="h-9">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -994,11 +987,11 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                     </label>
 
                     {isUltraLuxury && (
-                      <div className="space-y-4 rounded-lg border border-amber-200 bg-amber-50/40 p-4">
-                        <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-4 rounded-lg border border-amber-200 bg-amber-50/40 p-4">
+                        <div className="space-y-1.5">
                           <Label htmlFor="tourTypeTag">{t("form.tourTypeTagLabel")}</Label>
                           <Select value={tourTypeTag} onValueChange={setTourTypeTag} disabled={isSubmitting}>
-                            <SelectTrigger className="h-11">
+                            <SelectTrigger className="h-9">
                               <SelectValue placeholder={t("form.tourTypeTagPlaceholder")} />
                             </SelectTrigger>
                             <SelectContent>
@@ -1011,7 +1004,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                             </SelectContent>
                           </Select>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <Label htmlFor="durationDays">{t("form.durationDaysLabel")}</Label>
                           <Input
                             id="durationDays"
@@ -1020,7 +1013,7 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                             value={durationDays}
                             onChange={(e) => setDurationDays(e.target.value)}
                             disabled={isSubmitting}
-                            className="h-11"
+                            className="h-9"
                             placeholder={t("form.durationDaysPlaceholder")}
                           />
                         </div>
@@ -1029,40 +1022,38 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                   </div>
                 </div>
 
-                <Separator />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-semibold">{t("form.tagsLabel")}</Label>
+                    <Input
+                      value={tags}
+                      onChange={(e) => setTags(e.target.value)}
+                      placeholder={t("form.tagsPlaceholder")}
+                      disabled={isSubmitting}
+                      className="h-9"
+                    />
+                  </div>
 
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.tagsLabel")}</Label>
-                  <Input
-                    value={tags}
-                    onChange={(e) => setTags(e.target.value)}
-                    placeholder={t("form.tagsPlaceholder")}
-                    disabled={isSubmitting}
-                    className="h-11"
-                  />
-                </div>
-
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.cancellationPolicyLabel")}</Label>
-                  <Textarea
-                    value={cancellationPolicy}
-                    onChange={(e) => setCancellationPolicy(e.target.value)}
-                    placeholder={t("form.cancellationPolicyPlaceholder")}
-                    disabled={isSubmitting}
-                    className="min-h-[100px]"
-                  />
+                  <div className="space-y-1.5">
+                    <Label className="text-sm font-semibold">{t("form.cancellationPolicyLabel")}</Label>
+                    <Textarea
+                      value={cancellationPolicy}
+                      onChange={(e) => setCancellationPolicy(e.target.value)}
+                      placeholder={t("form.cancellationPolicyPlaceholder")}
+                      disabled={isSubmitting}
+                      className="min-h-[80px]"
+                    />
+                  </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="seo" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
+              <TabsContent value="seo" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
-                  <Label className="text-base font-bold flex items-center gap-2">
+                  <Label className="text-sm font-semibold flex items-center gap-2">
                     <Search className="h-4 w-4" /> {t("form.seoLabel")}
                   </Label>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="seoTitle">{t("form.seoTitleLabel")}</Label>
                     <Input
                       id="seoTitle"
@@ -1070,12 +1061,12 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                       onChange={(e) => setSeoTitle(e.target.value)}
                       placeholder={title || t("form.seoTitlePlaceholder")}
                       disabled={isSubmitting}
-                      className="h-11"
+                      className="h-9"
                     />
                     <p className="text-xs text-muted-foreground">{seoTitle.length}/60 {t("form.characters")}</p>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="seoDescription">{t("form.seoDescriptionLabel")}</Label>
                     <Textarea
                       id="seoDescription"
@@ -1083,16 +1074,14 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
                       onChange={(e) => setSeoDescription(e.target.value)}
                       placeholder={subtitle || t("form.seoDescriptionPlaceholder")}
                       disabled={isSubmitting}
-                      className="min-h-[100px] resize-none"
+                      className="min-h-[80px] resize-none"
                     />
                     <p className="text-xs text-muted-foreground">{seoDescription.length}/160 {t("form.characters")}</p>
                   </div>
                 </div>
 
-                <Separator />
-
-                <div className="space-y-4">
-                  <Label className="text-base font-bold">{t("form.previewLabel")}</Label>
+                <div className="space-y-1.5">
+                  <Label className="text-sm font-semibold">{t("form.previewLabel")}</Label>
                   <div className="p-4 rounded-lg border border-border bg-muted">
                     <p className="text-foreground text-lg font-medium hover:underline cursor-pointer truncate">
                       {seoTitle || title || t("form.titleLabel")}
