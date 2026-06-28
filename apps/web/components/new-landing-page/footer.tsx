@@ -31,7 +31,10 @@ const SOCIALS = [
   { href: "https://www.linkedin.com/company/luxmotion-easytransferportugal/", icon: Linkedin, label: "LinkedIn" },
 ]
 
-export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
+export function Footer({
+  whitelabel = false,
+  logoUrl,
+}: { whitelabel?: boolean; logoUrl?: string | null } = {}) {
   const t = useTranslations("footer")
   const r = useTranslations("footer.redesign")
 
@@ -39,7 +42,12 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
     <footer className="bg-[var(--lm-bg,#0D0D0D)] pt-8 px-4 md:px-[82px] min-[1440px]:px-[300px] border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.05)]">
       <div className="max-w-[1280px] mx-auto">
         <div className="border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] pb-11 grid grid-cols-1 md:grid-cols-[2.2fr_1fr_1fr_1fr] gap-10 md:gap-[60px]">
-          <BrandColumn tagline1={r("tagline1")} tagline2={r("tagline2")} whitelabel={whitelabel} />
+          <BrandColumn
+            tagline1={r("tagline1")}
+            tagline2={r("tagline2")}
+            whitelabel={whitelabel}
+            logoUrl={logoUrl}
+          />
 
           <NavColumn
             title={t("navigation")}
@@ -110,12 +118,22 @@ export function Footer({ whitelabel = false }: { whitelabel?: boolean } = {}) {
   )
 }
 
-function BrandColumn({ tagline1, tagline2, whitelabel = false }: { tagline1: string; tagline2: string; whitelabel?: boolean }) {
+function BrandColumn({
+  tagline1,
+  tagline2,
+  whitelabel = false,
+  logoUrl,
+}: {
+  tagline1: string
+  tagline2: string
+  whitelabel?: boolean
+  logoUrl?: string | null
+}) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-[13px]">
         {whitelabel ? (
-          <LogoPlaceholder />
+          <LogoPlaceholder logoUrl={logoUrl} />
         ) : (
           <div className="flex items-center gap-3">
             <div className="size-[41px] border-[1.7px] border-[var(--lm-accent,#C9A96E)] flex items-center justify-center">

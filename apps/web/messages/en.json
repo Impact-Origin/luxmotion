@@ -1659,6 +1659,18 @@
     "testimonialGradientEnd": "Testimonial Gradient End",
     "clickToEdit": "Click to Edit",
     "clickToEditDescription": "Click any element in the preview to edit its color",
+    "landingTemplate": "Landing Template",
+    "landingTemplateColorsHint": "Color customization is available for the Transfer template. Logo and SEO apply to all templates.",
+    "landingTemplateOptions": {
+      "transfer": "Transfer",
+      "whitelabel": "Whitelabel (Hotels & Agencies)",
+      "wedding-whitelabel": "Wedding Whitelabel"
+    },
+    "landingTemplateDescriptions": {
+      "transfer": "Booking landing with customizable theme colors.",
+      "whitelabel": "Dark whitelabel page for hotels and travel partners.",
+      "wedding-whitelabel": "Light wedding page with partner name in hero and stats."
+    },
     "livePreview": "Live Preview",
     "settingsSaved": "Settings saved successfully",
     "settingsSaveFailed": "Failed to save settings",

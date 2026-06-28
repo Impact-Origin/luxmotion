@@ -53,12 +53,16 @@ function StatCard({
   )
 }
 
-export function WeddingWhitelabelStats() {
+export function WeddingWhitelabelStats({
+  partnerName = PARTNER_NAME_PLACEHOLDER,
+}: {
+  partnerName?: string;
+}) {
   const t = useTranslations("weddingWhitelabel.stats")
 
   const renderTitle = (item: StatItem) =>
     item.templated
-      ? t(item.titleKey, { partnerName: PARTNER_NAME_PLACEHOLDER })
+      ? t(item.titleKey, { partnerName })
       : t(item.titleKey)
 
   return (

@@ -1,6 +1,14 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
+const landingTemplateValidator = v.optional(
+  v.union(
+    v.literal("transfer"),
+    v.literal("whitelabel"),
+    v.literal("wedding-whitelabel"),
+  ),
+);
+
 export const list = query({
   args: {},
   handler: async (ctx) => {
@@ -49,6 +57,7 @@ export const create = mutation({
     content: v.optional(v.any()),
     logoId: v.optional(v.id("_storage")),
     status: v.optional(v.string()),
+    landingTemplate: landingTemplateValidator,
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -71,6 +80,7 @@ export const update = mutation({
     content: v.optional(v.any()),
     logoId: v.optional(v.id("_storage")),
     status: v.optional(v.string()),
+    landingTemplate: landingTemplateValidator,
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;

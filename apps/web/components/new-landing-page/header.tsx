@@ -29,6 +29,7 @@ export interface HeaderProps {
   heroScrollThreshold?: number
   variant?: HeaderVariant
   whitelabel?: boolean
+  logoUrl?: string | null
   themeToggle?: ReactNode
 }
 
@@ -141,6 +142,7 @@ export function Header({
   heroScrollThreshold = HERO_SCROLL_THRESHOLD,
   variant = "dark",
   whitelabel = false,
+  logoUrl,
   themeToggle,
 }: HeaderProps = {}) {
   const isLight = variant === "light"
@@ -279,7 +281,7 @@ export function Header({
         )}
       >
         <div className="max-w-[1440px] mx-auto px-4 md:px-[48px] flex items-center justify-between h-[60px] md:h-[72px]">
-          {whitelabel ? <LogoPlaceholder /> : <LuxMotionLogo variant={variant} />}
+          {whitelabel ? <LogoPlaceholder logoUrl={logoUrl} /> : <LuxMotionLogo variant={variant} />}
 
           <nav className="hidden xl:flex items-center gap-[18px]">
             {navLinks.map((link) =>
@@ -395,7 +397,7 @@ export function Header({
               "px-4 h-[60px] flex items-center justify-between border-b sticky top-0 z-10 shrink-0",
               isLight ? "bg-[#F0EDE8] border-[rgba(28,27,24,0.08)]" : "bg-[#0D0D0D] border-[#2A2A2A]"
             )}>
-              {whitelabel ? <LogoPlaceholder /> : <LuxMotionLogo variant={variant} />}
+              {whitelabel ? <LogoPlaceholder logoUrl={logoUrl} /> : <LuxMotionLogo variant={variant} />}
               <button
                 onClick={() => { setMobileMenuOpen(false); setMobileExpandedDropdown(null) }}
                 className={cn(

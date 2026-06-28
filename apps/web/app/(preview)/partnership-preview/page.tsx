@@ -1,31 +1,52 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Header } from "@/components/landing/header";
-import { Hero } from "@/components/landing/hero";
-import { Testimonials } from "@/components/landing/testimonials";
-import { Fleet } from "@/components/landing/fleet";
-import { PaymentMethods } from "@/components/landing/payment-methods";
-import { FAQ } from "@/components/landing/faq";
-import { Footer } from "@/components/landing/footer";
-import { WhyScheduleSection } from "@/components/landing/why-schedule-section";
-import { LisbonBanner } from "@/components/landing/lisbon-banner";
-import { DynamicThemeProvider, defaultTheme, ThemeConfig } from "@/components/dynamic-theme-provider";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  defaultTheme,
+  type ThemeConfig,
+} from "@/components/dynamic-theme-provider";
+import { PartnershipLanding } from "@/components/partnerships/partnership-landing";
+import {
+  resolvePartnershipLandingTemplate,
+  type PartnershipLandingTemplate,
+} from "@/lib/partnership-landing-templates";
 
-export default function PartnershipPreviewPage() {
+function PartnershipPreviewContent() {
+  const searchParams = useSearchParams();
   const [theme, setTheme] = useState<ThemeConfig>(defaultTheme);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [partnerName, setPartnerName] = useState<string>("");
+  const [landingTemplate, setLandingTemplate] =
+    useState<PartnershipLandingTemplate>(
+      resolvePartnershipLandingTemplate(searchParams.get("template")),
+    );
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   useEffect(() => {
-    // preview mode iframe check
+    setLandingTemplate(
+      resolvePartnershipLandingTemplate(searchParams.get("template")),
+    );
+  }, [searchParams]);
+
+  useEffect(() => {
     setIsPreviewMode(window.self !== window.top);
 
     const handleMessage = (event: MessageEvent) => {
       if (event.data.type === "UPDATE_THEME") {
-        setTheme(event.data.theme);
+        if (event.data.theme) {
+          setTheme(event.data.theme);
+        }
         if (typeof event.data.logoUrl !== "undefined") {
           setLogoUrl(event.data.logoUrl);
+        }
+        if (typeof event.data.partnerName === "string") {
+          setPartnerName(event.data.partnerName);
+        }
+        if (event.data.landingTemplate) {
+          setLandingTemplate(
+            resolvePartnershipLandingTemplate(event.data.landingTemplate),
+          );
         }
       }
     };
@@ -37,18 +58,20 @@ export default function PartnershipPreviewPage() {
   }, []);
 
   return (
-    <DynamicThemeProvider theme={theme} logoUrl={logoUrl} isPreviewMode={isPreviewMode}>
-      <div className="min-h-screen bg-white text-slate-900" style={{ backgroundColor: "var(--theme-background)" }}>
-        <Header minimalNavigation />
-        <Hero showTrustedBy={false} />
-        <Testimonials />
-        <WhyScheduleSection />
-        <Fleet />
-        <LisbonBanner />
-        <PaymentMethods />
-        <FAQ />
-        <Footer />
-      </div>
-    </DynamicThemeProvider>
+    <PartnershipLanding
+      template={landingTemplate}
+      theme={theme}
+      logoUrl={logoUrl}
+      partnerName={partnerName || undefined}
+      isPreviewMode={isPreviewMode}
+    />
+  );
+}
+
+export default function PartnershipPreviewPage() {
+  return (
+    <Suspense fallback={null}>
+      <PartnershipPreviewContent />
+    </Suspense>
   );
 }

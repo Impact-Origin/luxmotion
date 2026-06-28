@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 
 const SANS_FONT = {
@@ -7,10 +8,30 @@ const SANS_FONT = {
 export function LogoPlaceholder({
   href = "/whitelabel",
   className,
+  logoUrl,
 }: {
   href?: string
   className?: string
+  logoUrl?: string | null
 }) {
+  if (logoUrl) {
+    return (
+      <Link
+        href={href}
+        className={`inline-flex items-center justify-center h-[46px] min-w-[140px] max-w-[200px] shrink-0 ${className ?? ""}`}
+      >
+        <Image
+          src={logoUrl}
+          alt=""
+          width={200}
+          height={46}
+          className="h-[46px] w-auto max-w-[200px] object-contain object-left"
+          unoptimized
+        />
+      </Link>
+    )
+  }
+
   return (
     <Link
       href={href}

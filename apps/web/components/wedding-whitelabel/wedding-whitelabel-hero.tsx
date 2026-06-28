@@ -246,11 +246,15 @@ function LuxMotionAttribution() {
   )
 }
 
-export function WeddingWhitelabelHero() {
+export function WeddingWhitelabelHero({
+  partnerName = PARTNER_NAME_PLACEHOLDER,
+}: {
+  partnerName?: string;
+}) {
   const t = useTranslations("weddingWhitelabel.hero")
 
-  const pillLabel = t("pill", { partnerName: PARTNER_NAME_PLACEHOLDER })
-  const subtitle = t("subtitle", { partnerName: PARTNER_NAME_PLACEHOLDER })
+  const pillLabel = t("pill", { partnerName })
+  const subtitle = t("subtitle", { partnerName })
 
   return (
     <section className="bg-[#EFE8DC] relative overflow-hidden">

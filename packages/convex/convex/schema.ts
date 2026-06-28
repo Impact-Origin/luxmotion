@@ -297,6 +297,13 @@ export default defineSchema({
     contactEmail: v.optional(v.string()),
     createdAt: v.optional(v.number()),
     welcomeMessage: v.optional(v.string()),
+    landingTemplate: v.optional(
+      v.union(
+        v.literal("transfer"),
+        v.literal("whitelabel"),
+        v.literal("wedding-whitelabel"),
+      ),
+    ),
   }).index("by_slug", ["slug"]),
 
   emailVerifications: defineTable({

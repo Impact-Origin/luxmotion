@@ -1658,6 +1658,18 @@
     "testimonialGradientEnd": "Fim do Gradiente de Depoimentos",
     "clickToEdit": "Clique para Editar",
     "clickToEditDescription": "Clique em qualquer elemento na pré-visualização para editar sua cor",
+    "landingTemplate": "Template da Landing",
+    "landingTemplateColorsHint": "A personalização de cores está disponível no template Transfer. Logo e SEO aplicam-se a todos os templates.",
+    "landingTemplateOptions": {
+      "transfer": "Transfer",
+      "whitelabel": "Whitelabel (Hotéis e Agências)",
+      "wedding-whitelabel": "Whitelabel Casamentos"
+    },
+    "landingTemplateDescriptions": {
+      "transfer": "Landing de reservas com cores personalizáveis.",
+      "whitelabel": "Página whitelabel escura para hotéis e parceiros de viagem.",
+      "wedding-whitelabel": "Página de casamentos com nome do parceiro no hero e estatísticas."
+    },
     "livePreview": "Pré-visualização",
     "settingsSaved": "Configurações salvas com sucesso",
     "settingsSaveFailed": "Falha ao salvar configurações",
