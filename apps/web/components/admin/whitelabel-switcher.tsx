@@ -58,7 +58,10 @@ export function WhitelabelSwitcher({
           </Button>
         )}
       </PopoverTrigger>
-      <PopoverContent align={align} className="w-[280px] p-0">
+      {/* admin-theme on the content itself: Radix portals this to <body>, outside
+          the .admin-theme scope, so without it --popover doesn't resolve and the
+          panel paints see-through over the editor. */}
+      <PopoverContent align={align} className="admin-theme w-[280px] p-0">
         <Command>
           <CommandInput placeholder="Search whitelabels…" />
           <CommandList>

@@ -995,13 +995,13 @@ export default function PartnershipEditorPage({
             </Button>
           </Link>
           <Separator orientation="vertical" className="h-6" />
-          <div className="flex flex-col gap-0.5">
+          <div className="flex items-center gap-2.5">
             <WhitelabelSwitcher
               variant="compact"
               currentId={partnership._id}
               partnerships={allPartnerships}
             />
-            <p className="px-1 text-xs text-muted-foreground">/{partnership.slug}</p>
+            <p className="font-mono text-xs text-muted-foreground">/{partnership.slug}</p>
           </div>
         </div>
 
