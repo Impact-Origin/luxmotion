@@ -34,6 +34,13 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import { Label } from "@workspace/ui/components/label";
 import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import { Separator } from "@workspace/ui/components/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
 import { toast } from "sonner";
 import {
   defaultTheme,
@@ -45,6 +52,13 @@ import Link from "next/link";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/admin/image-upload";
+import { WhitelabelSwitcher } from "@/components/admin/whitelabel-switcher";
+import {
+  DEFAULT_PARTNERSHIP_LANDING_TEMPLATE,
+  PARTNERSHIP_LANDING_TEMPLATES,
+  resolvePartnershipLandingTemplate,
+  type PartnershipLandingTemplate,
+} from "@/lib/partnership-landing-templates";
 
 const PRESET_COLORS = [
   "#27C7FF", // Blue (Original)
@@ -757,6 +771,7 @@ export default function PartnershipEditorPage({
 }) {
   const { id } = React.use(params) as { id: Id<"partnerships"> };
   const partnership = useQuery(api.partnerships.getById, { id });
+  const allPartnerships = useQuery(api.partnerships.list);
   const updatePartnership = useMutation(api.partnerships.update);
   const t = useTranslations("admin");
   const tSeo = useTranslations("adminTours.form");
@@ -767,6 +782,10 @@ export default function PartnershipEditorPage({
   const [pageType, setPageType] = React.useState<"landing" | "checkout">(
     "landing",
   );
+  const [landingTemplate, setLandingTemplate] =
+    React.useState<PartnershipLandingTemplate>(
+      DEFAULT_PARTNERSHIP_LANDING_TEMPLATE,
+    );
   const [theme, setTheme] = React.useState<ThemeConfig>(defaultTheme);
   const [logoId, setLogoId] = React.useState<string | undefined>();
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
@@ -786,8 +805,13 @@ export default function PartnershipEditorPage({
   const colorSections =
     pageType === "landing" ? LANDING_COLOR_SECTIONS : CHECKOUT_COLOR_SECTIONS;
 
+  const isTransferLanding =
+    pageType === "landing" && landingTemplate === "transfer";
+
   const previewUrl =
-    pageType === "landing" ? "/partnership-preview" : "/checkout-preview";
+    pageType === "landing"
+      ? `/partnership-preview?template=${landingTemplate}`
+      : "/checkout-preview";
 
   const liveSiteUrl =
     pageType === "landing"
@@ -808,6 +832,9 @@ export default function PartnershipEditorPage({
       setLogoUrl(partnership.logoUrl);
       setSeoTitle(partnership.content?.seoTitle || "");
       setSeoDescription(partnership.content?.seoDescription || "");
+      setLandingTemplate(
+        resolvePartnershipLandingTemplate(partnership.landingTemplate),
+      );
     }
   }, [partnership]);
 
@@ -834,6 +861,10 @@ export default function PartnershipEditorPage({
   themeRef.current = theme;
   const logoUrlRef = React.useRef(logoUrl);
   logoUrlRef.current = logoUrl;
+  const landingTemplateRef = React.useRef(landingTemplate);
+  landingTemplateRef.current = landingTemplate;
+  const partnerNameRef = React.useRef(partnership?.name ?? "");
+  partnerNameRef.current = partnership?.name ?? "";
   const previewTimeoutRef = React.useRef<
     ReturnType<typeof setTimeout> | undefined
   >(undefined);
@@ -845,6 +876,8 @@ export default function PartnershipEditorPage({
           type: "UPDATE_THEME",
           theme: themeRef.current,
           logoUrl: logoUrlRef.current,
+          landingTemplate: landingTemplateRef.current,
+          partnerName: partnerNameRef.current,
         },
         "*",
       );
@@ -857,7 +890,7 @@ export default function PartnershipEditorPage({
     return () => {
       if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
     };
-  }, [theme, logoUrl, updatePreview]);
+  }, [theme, logoUrl, landingTemplate, updatePreview]);
 
   React.useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -928,6 +961,7 @@ export default function PartnershipEditorPage({
         logoId: logoId as any,
         content: nextContent,
         status: partnership.status || "active",
+        landingTemplate,
       });
       toast.success(t("settingsSaved"));
     } catch (error) {
@@ -961,11 +995,13 @@ export default function PartnershipEditorPage({
             </Button>
           </Link>
           <Separator orientation="vertical" className="h-6" />
-          <div>
-            <h2 className="text-sm font-bold text-[#211c16]">
-              {partnership.name}
-            </h2>
-            <p className="text-xs text-[#8a8074]">/{partnership.slug}</p>
+          <div className="flex flex-col gap-0.5">
+            <WhitelabelSwitcher
+              variant="compact"
+              currentId={partnership._id}
+              partnerships={allPartnerships}
+            />
+            <p className="px-1 text-xs text-muted-foreground">/{partnership.slug}</p>
           </div>
         </div>
 
@@ -1021,7 +1057,9 @@ export default function PartnershipEditorPage({
               {t("clickToEdit")}
             </div>
             <p className="text-xs text-[#8a8074] mt-1">
-              {t("clickToEditDescription")}
+              {isTransferLanding
+                ? t("clickToEditDescription")
+                : t("landingTemplateColorsHint")}
             </p>
           </div>
 
@@ -1029,6 +1067,30 @@ export default function PartnershipEditorPage({
             {pageType === "landing" && (
               <div className="space-y-2 mb-6">
                 <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">
+                  {t("landingTemplate")}
+                </Label>
+                <Select
+                  value={landingTemplate}
+                  onValueChange={(value) =>
+                    setLandingTemplate(value as PartnershipLandingTemplate)
+                  }
+                >
+                  <SelectTrigger className="h-11">
+                    <SelectValue placeholder={t("landingTemplate")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PARTNERSHIP_LANDING_TEMPLATES.map((template) => (
+                      <SelectItem key={template} value={template}>
+                        {t(`landingTemplateOptions.${template}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-[10px] text-[#a99e8c] font-medium">
+                  {t(`landingTemplateDescriptions.${landingTemplate}`)}
+                </p>
+
+                <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c] pt-2">
                   Company Logo
                 </Label>
                 <ImageUpload
@@ -1073,18 +1135,33 @@ export default function PartnershipEditorPage({
               </div>
             )}
 
-            {colorSections.map((section) => (
-              <CollapsibleSection
-                key={section.id}
-                section={section}
-                isExpanded={expandedSections.includes(section.id)}
-                onToggle={toggleSection}
-                colors={theme.colors}
-                selectedColorType={selectedColorType}
-                onColorChange={handleColorChange}
-                t={t}
-              />
-            ))}
+            {isTransferLanding &&
+              colorSections.map((section) => (
+                <CollapsibleSection
+                  key={section.id}
+                  section={section}
+                  isExpanded={expandedSections.includes(section.id)}
+                  onToggle={toggleSection}
+                  colors={theme.colors}
+                  selectedColorType={selectedColorType}
+                  onColorChange={handleColorChange}
+                  t={t}
+                />
+              ))}
+
+            {pageType === "checkout" &&
+              colorSections.map((section) => (
+                <CollapsibleSection
+                  key={section.id}
+                  section={section}
+                  isExpanded={expandedSections.includes(section.id)}
+                  onToggle={toggleSection}
+                  colors={theme.colors}
+                  selectedColorType={selectedColorType}
+                  onColorChange={handleColorChange}
+                  t={t}
+                />
+              ))}
           </div>
         </div>
 
@@ -1096,7 +1173,9 @@ export default function PartnershipEditorPage({
               </span>
               <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-xs text-[#a99e8c] ml-2">
-                {pageType === "landing" ? "Landing Page" : "Checkout Flow"}
+                {pageType === "landing"
+                  ? t(`landingTemplateOptions.${landingTemplate}`)
+                  : "Checkout Flow"}
               </span>
             </div>
 
@@ -1225,7 +1304,7 @@ export default function PartnershipEditorPage({
               >
                 <iframe
                   ref={iframeRef}
-                  key={previewUrl}
+                  key={`${previewUrl}-${landingTemplate}`}
                   src={previewUrl}
                   className="w-full h-full border-none"
                   title="Site Preview"

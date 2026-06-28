@@ -183,37 +183,37 @@ html.lm-home-light::-webkit-scrollbar-corner {
   --sidebar-ring: oklch(0.439 0 0);
 }
 
-/* Admin — premium light theme (ivory + gold). Scoped to .admin-theme so the
-   shared shadcn primitives (button, input, select, card, …) pick up the brand
-   palette without touching the public site tokens. */
+/* Admin — contemporary neutral theme (graphite sidebar + light zinc workspace).
+   Scoped to .admin-theme so the shared shadcn primitives (button, input, select,
+   card, table, …) inherit the new look without touching the public site tokens. */
 .admin-theme {
-  --background: #f6f1e9;
-  --foreground: #211c16;
+  --background: #f4f4f5;
+  --foreground: #18181b;
   --card: #ffffff;
-  --card-foreground: #211c16;
+  --card-foreground: #18181b;
   --popover: #ffffff;
-  --popover-foreground: #211c16;
-  --primary: #c9a96e;
-  --primary-foreground: #1a1510;
-  --secondary: #efe8db;
-  --secondary-foreground: #2a241c;
-  --muted: #efe8db;
-  --muted-foreground: #6b6358;
-  --accent: #f1e8d8;
-  --accent-foreground: #2a241c;
-  --destructive: oklch(0.577 0.245 27.325);
+  --popover-foreground: #18181b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #27272a;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #ececee;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: #e7ddca;
-  --input: #e2d7c1;
-  --ring: #a08248;
-  --sidebar: #fffdf9;
-  --sidebar-foreground: #211c16;
-  --sidebar-primary: #a08248;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1e8d8;
-  --sidebar-accent-foreground: #2a241c;
-  --sidebar-border: #e7ddca;
-  --sidebar-ring: #a08248;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #18181b;
+  --sidebar: #18181b;
+  --sidebar-foreground: #a1a1aa;
+  --sidebar-primary: #fafafa;
+  --sidebar-primary-foreground: #18181b;
+  --sidebar-accent: #27272a;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #52525b;
 }
 
 /* Homepage — switchable light/dark theme. Light = wedding-page palette (the
