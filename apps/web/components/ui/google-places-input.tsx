@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, type RefObject } from "react"
 import { MapPin, Search } from "lucide-react"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
@@ -57,6 +57,18 @@ export function GooglePlacesInput({
   const containerRef = useRef<HTMLDivElement>(null)
   const { isLoaded, hasKey } = useGoogleMaps()
   const { predictions, isLoading, fetchPredictions, getPlaceDetails, getDefaultSuggestions } = useGoogleAutocomplete()
+
+  // In the booking bar, anchor the dropdown to the whole field cell (.booking-section)
+  // instead of the small input, so it opens cleanly above/below the bar and never
+  // overlaps the field — exactly like the passengers popover. Falls back to the input
+  // anchor anywhere there's no .booking-section (checkout, tours, quote, …).
+  const cellAnchorRef = useRef<HTMLElement | null>(null)
+  const [hasCellAnchor, setHasCellAnchor] = useState(false)
+  useEffect(() => {
+    const cell = containerRef.current?.closest<HTMLElement>(".booking-section") ?? null
+    cellAnchorRef.current = cell
+    setHasCellAnchor(!!cell)
+  }, [])
 
   // In drawer (inlineDropdown): show suggestions as soon as the drawer opens, without needing to focus the input
   useEffect(() => {
@@ -343,9 +355,14 @@ export function GooglePlacesInput({
       ref={containerRef}
     >
       <Popover open={dropdownOpen} onOpenChange={setShowDropdown}>
-        <PopoverAnchor asChild>
-          {triggerInput}
-        </PopoverAnchor>
+        {hasCellAnchor ? (
+          <>
+            <PopoverAnchor virtualRef={cellAnchorRef as unknown as RefObject<Element>} />
+            {triggerInput}
+          </>
+        ) : (
+          <PopoverAnchor asChild>{triggerInput}</PopoverAnchor>
+        )}
         <PopoverContent
           side="bottom"
           align="start"

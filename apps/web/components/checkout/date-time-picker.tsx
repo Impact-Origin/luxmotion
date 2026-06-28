@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Clock, X } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
+import { Popover, PopoverContent, PopoverTrigger, PopoverAnchor } from "@workspace/ui/components/popover"
 import { CalendarIcon } from "lucide-react"
 import Image from "next/image"
 import { useIsMobile } from "@/hooks/use-is-mobile"
@@ -47,6 +47,18 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
   const [hoursInput, setHoursInput] = React.useState("")
   const [minutesInput, setMinutesInput] = React.useState("")
   const [isHoursFocused, setIsHoursFocused] = React.useState(false)
+
+  // In the booking bar, anchor the calendar to the whole field cell (.booking-section)
+  // instead of the inline date field, so it opens cleanly above/below the bar and never
+  // overlaps the field — like the passengers popover. Falls back to the trigger elsewhere.
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const cellAnchorRef = React.useRef<HTMLElement | null>(null)
+  const [hasCellAnchor, setHasCellAnchor] = React.useState(false)
+  React.useEffect(() => {
+    const cell = triggerRef.current?.closest<HTMLElement>(".booking-section") ?? null
+    cellAnchorRef.current = cell
+    setHasCellAnchor(!!cell)
+  }, [])
   const [isMinutesFocused, setIsMinutesFocused] = React.useState(false)
   const [showClockPicker, setShowClockPicker] = React.useState(false)
   const minutesInputRef = React.useRef<HTMLInputElement>(null)
@@ -520,9 +532,10 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       setOpen(newOpen)
       if (!newOpen) setShowClockPicker(false)
     }}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild ref={triggerRef}>
         {trigger}
       </PopoverTrigger>
+      {hasCellAnchor && <PopoverAnchor virtualRef={cellAnchorRef as unknown as React.RefObject<Element>} />}
       <PopoverContent
         className={cn(
           "p-0 shadow-lg overflow-hidden transition-all duration-300 ease-out",
