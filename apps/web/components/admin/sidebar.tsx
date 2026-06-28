@@ -100,9 +100,9 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         collapsed ? "w-[80px]" : "w-[264px]",
       )}
     >
-      <div className="flex h-16 shrink-0 items-center border-b border-sidebar-border px-4">
-        <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
+      <div className="flex h-14 shrink-0 items-center border-b border-sidebar-border px-4">
+        <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
             <span className="relative h-[11px] w-[20px]">
               <Image src="/svgs/lm-monogram.svg" alt="LuxMotion" fill className="object-contain" priority />
             </span>
@@ -118,12 +118,12 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         </Link>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
-        <nav className="flex flex-col gap-3">
+      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-2">
+        <nav className="flex flex-col gap-1.5">
           {sections.map((section, si) => (
             <div key={section.label} className="flex flex-col gap-0.5">
               {!collapsed ? (
-                <p className="px-3 pb-1 text-[10px] font-medium uppercase tracking-[1.5px] text-sidebar-foreground/45">
+                <p className="px-3 pb-0.5 text-[10px] font-medium uppercase leading-none tracking-[1.5px] text-sidebar-foreground/45">
                   {section.label}
                 </p>
               ) : si > 0 ? (
@@ -137,7 +137,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
                     href={item.url}
                     title={collapsed ? item.title : undefined}
                     className={cn(
-                      "group flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-[13px] transition-colors",
+                      "group flex items-center gap-2.5 rounded-md px-3 py-0.5 text-[13px] leading-tight transition-colors",
                       collapsed && "justify-center",
                       isActive
                         ? "bg-sidebar-accent font-medium text-sidebar-primary"
@@ -162,7 +162,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         </nav>
       </div>
 
-      <div className="shrink-0 border-t border-sidebar-border p-3">
+      <div className="shrink-0 border-t border-sidebar-border p-2.5">
         <div className={cn("flex items-center", collapsed ? "justify-center" : "justify-between gap-3")}>
           <UserNav />
           {!collapsed && (
