@@ -191,14 +191,7 @@ export default function AdminReviewsPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-          <p className="text-muted-foreground mt-1">{t("subtitle")}</p>
-        </div>
-      </div>
-
+    <div>
       <div className="flex flex-col gap-4 mb-6">
         <div className="flex items-center justify-between gap-4">
           <div className="flex gap-2">

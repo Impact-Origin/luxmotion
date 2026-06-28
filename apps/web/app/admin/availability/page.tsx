@@ -76,12 +76,7 @@ export default function AdminAvailabilityPage() {
   }
 
   return (
-    <div className="space-y-6 p-8">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-        <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
-      </div>
-
+    <div className="space-y-6">
       <div className="space-y-4 rounded-xl border border-border bg-card p-6">
         <h2 className="text-lg font-semibold text-foreground">{t("sections.capacity")}</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

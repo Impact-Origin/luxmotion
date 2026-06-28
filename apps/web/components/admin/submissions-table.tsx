@@ -43,7 +43,8 @@ export interface BaseSubmission {
 }
 
 interface Props<T extends BaseSubmission> {
-  title: string
+  /** Page title is shown by the shell breadcrumb; kept for callers, not rendered. */
+  title?: string
   emptyTitle: string
   emptyDescription?: string
   data: T[] | undefined
@@ -72,7 +73,6 @@ function formatDate(ts: number) {
 }
 
 export function SubmissionsTable<T extends BaseSubmission>({
-  title,
   emptyTitle,
   emptyDescription,
   data,
@@ -163,16 +163,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          <p className="text-muted-foreground mt-1">
-            {counts.all} total · {counts.new} new · {counts.read} read · {counts.archived} archived
-          </p>
-        </div>
-      </div>
-
+    <div>
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="flex items-center gap-1 bg-muted border border-border rounded-lg p-1">
           {(["all", "new", "read", "archived"] as const).map((s) => (

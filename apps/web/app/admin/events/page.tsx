@@ -289,12 +289,7 @@ export default function AdminEventsPage() {
   )
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-        <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
-      </div>
-
+    <>
       <DataTable<EventRow>
         mode="server"
         data={res?.rows}
@@ -356,6 +351,6 @@ export default function AdminEventsPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   )
 }

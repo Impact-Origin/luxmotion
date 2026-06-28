@@ -111,16 +111,7 @@ export default function AdminDriverApplicationsPage() {
   const pageRows = filtered?.slice(safePage * pageSize, safePage * pageSize + pageSize)
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      <header className="flex items-center justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Driver Applications</h1>
-          <p className="text-sm text-muted-foreground">
-            Review chauffeurs that have submitted the driver onboarding form.
-          </p>
-        </div>
-      </header>
-
+    <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2 flex-wrap">
           {STATUS_FILTERS.map((f) => (

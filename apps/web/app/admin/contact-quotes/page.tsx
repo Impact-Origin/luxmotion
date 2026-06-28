@@ -62,14 +62,7 @@ export default function ContactQuotesPage() {
 
   return (
     <div className="flex h-full">
-      <div className="flex-1 overflow-y-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-foreground">Quote Requests</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Quote requests submitted from the corporate contact page
-          </p>
-        </div>
-
+      <div className="flex-1 overflow-y-auto">
         <div className="flex items-center gap-3 mb-6">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

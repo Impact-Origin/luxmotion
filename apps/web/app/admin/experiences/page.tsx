@@ -203,12 +203,7 @@ export default function AdminExperiencesPage() {
   )
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-        <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
-      </div>
-
+    <>
       <DataTable<ExperienceRow>
         mode="server"
         data={res?.rows}
@@ -258,6 +253,6 @@ export default function AdminExperiencesPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   )
 }

@@ -78,13 +78,8 @@ export default function AdminNewsletterPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
-          <p className="text-muted-foreground mt-1">{t("subtitle", { count: subscriptions.length })}</p>
-        </div>
-        <div className="flex items-center gap-3">
+    <div className="space-y-6">
+      <div className="flex items-center justify-end gap-3">
           <Button variant="outline" onClick={downloadCSV} disabled={subscriptions.length === 0}>
             <Download className="h-4 w-4 mr-2" />
             {t("downloadCsv")}
@@ -98,7 +93,6 @@ export default function AdminNewsletterPage() {
               <SelectItem value="oldest">{t("sortOldest")}</SelectItem>
             </SelectContent>
           </Select>
-        </div>
       </div>
 
       {sorted.length === 0 ? (

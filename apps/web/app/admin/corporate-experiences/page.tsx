@@ -228,16 +228,7 @@ export default function AdminCorporateExperiencesPage() {
   )
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Corporate Experiences</h1>
-          <p className="text-sm text-muted-foreground">
-            Curated experiences shown on the /corporate/experiences page.
-          </p>
-        </div>
-      </header>
-
+    <>
       <DataTable<ExperienceRow>
         mode="server"
         data={res?.rows}
@@ -274,6 +265,6 @@ export default function AdminCorporateExperiencesPage() {
         }}
         initialData={editingExperience}
       />
-    </div>
+    </>
   )
 }
