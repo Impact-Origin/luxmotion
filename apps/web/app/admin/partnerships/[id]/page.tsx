@@ -805,18 +805,6 @@ export default function PartnershipEditorPage({
   const colorSections =
     pageType === "landing" ? LANDING_COLOR_SECTIONS : CHECKOUT_COLOR_SECTIONS;
 
-  // Group colour sections into tabs so the editor panel fits without scrolling.
-  const [colorTab, setColorTab] = React.useState(0);
-  React.useEffect(() => {
-    setColorTab(0);
-  }, [pageType]);
-  const colorTabGroups = React.useMemo(() => {
-    const size = 4;
-    const groups: ColorSection[][] = [];
-    for (let i = 0; i < colorSections.length; i += size) groups.push(colorSections.slice(i, i + size));
-    return groups;
-  }, [colorSections]);
-
   const isTransferLanding =
     pageType === "landing" && landingTemplate === "transfer";
 
@@ -998,7 +986,7 @@ export default function PartnershipEditorPage({
   }
 
   return (
-    <div className="fixed inset-0 top-16 bg-background flex flex-col overflow-hidden z-30">
+    <div className="fixed inset-0 bg-background flex flex-col overflow-hidden z-40">
       <div className="h-14 bg-card border-b px-6 flex items-center justify-between shrink-0 shadow-sm">
         <div className="flex items-center gap-4">
           <Link href="/admin/partnerships">
@@ -1147,45 +1135,33 @@ export default function PartnershipEditorPage({
               </div>
             )}
 
-            {(isTransferLanding || pageType === "checkout") && (
-              <>
-                {colorTabGroups.length > 1 && (
-                  <div className="mb-2 flex gap-1">
-                    {colorTabGroups.map((group, i) => {
-                      const Icon = group[0]?.icon;
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setColorTab(i)}
-                          aria-label={`Colour group ${i + 1}`}
-                          className={cn(
-                            "flex h-8 flex-1 items-center justify-center rounded-md transition-colors",
-                            colorTab === i
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-accent",
-                          )}
-                        >
-                          {Icon ? <Icon className="size-4" /> : i + 1}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-                {(colorTabGroups[Math.min(colorTab, colorTabGroups.length - 1)] ?? []).map((section) => (
-                  <CollapsibleSection
-                    key={section.id}
-                    section={section}
-                    isExpanded={expandedSections.includes(section.id)}
-                    onToggle={toggleSection}
-                    colors={theme.colors}
-                    selectedColorType={selectedColorType}
-                    onColorChange={handleColorChange}
-                    t={t}
-                  />
-                ))}
-              </>
-            )}
+            {isTransferLanding &&
+              colorSections.map((section) => (
+                <CollapsibleSection
+                  key={section.id}
+                  section={section}
+                  isExpanded={expandedSections.includes(section.id)}
+                  onToggle={toggleSection}
+                  colors={theme.colors}
+                  selectedColorType={selectedColorType}
+                  onColorChange={handleColorChange}
+                  t={t}
+                />
+              ))}
+
+            {pageType === "checkout" &&
+              colorSections.map((section) => (
+                <CollapsibleSection
+                  key={section.id}
+                  section={section}
+                  isExpanded={expandedSections.includes(section.id)}
+                  onToggle={toggleSection}
+                  colors={theme.colors}
+                  selectedColorType={selectedColorType}
+                  onColorChange={handleColorChange}
+                  t={t}
+                />
+              ))}
           </div>
         </div>
 
