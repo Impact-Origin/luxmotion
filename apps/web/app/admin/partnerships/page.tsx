@@ -16,7 +16,6 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { WhitelabelSwitcher } from "@/components/admin/whitelabel-switcher";
 import { StatusBadge } from "@/components/admin/status-badge";
 import {
   DataTable,
@@ -29,7 +28,6 @@ import { PARTNERSHIP_LANDING_TEMPLATES } from "@/lib/partnership-landing-templat
 export default function PartnershipsPage() {
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
   const res = useQuery(api.partnerships.listPaged, tableQuery);
-  const partnerships = useQuery(api.partnerships.list);
   const removePartnership = useMutation(api.partnerships.remove);
   const t = useTranslations("admin");
 
@@ -193,8 +191,6 @@ export default function PartnershipsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <WhitelabelSwitcher variant="full" partnerships={partnerships} />
-
       <DataTable<Row>
         mode="server"
         data={res?.rows}

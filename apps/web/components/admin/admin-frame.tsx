@@ -38,6 +38,14 @@ export function AdminFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
 
+  // Radix portals (popovers, dropdowns, selects) mount on document.body — outside
+  // the .admin-theme <div> — so they'd miss the admin tokens and paint with a
+  // transparent / wrong background. Scope the theme on <body> while in the admin.
+  React.useEffect(() => {
+    document.body.classList.add("admin-theme");
+    return () => document.body.classList.remove("admin-theme");
+  }, []);
+
   // The sign-in route is public and gets its own full-screen layout — no shell.
   if (pathname?.startsWith("/admin/sign-in")) {
     return <>{children}</>;
