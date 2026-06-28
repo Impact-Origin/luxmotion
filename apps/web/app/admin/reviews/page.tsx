@@ -21,6 +21,8 @@ import {
   Map,
   Calendar,
   Award,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -42,6 +44,7 @@ export default function AdminReviewsPage() {
   const [sortBy, setSortBy] = React.useState<SortOption>("newest")
   const [typeFilter, setTypeFilter] = React.useState<TypeFilter>("all")
   const [selectedTourId, setSelectedTourId] = React.useState<string>("all")
+  const [page, setPage] = React.useState(0)
 
   const pendingReviews = useQuery(api.tourReviews.listPending)
   const approvedReviews = useQuery(api.tourReviews.listApproved)
@@ -107,6 +110,19 @@ export default function AdminReviewsPage() {
   }, [approvedReviews, sortBy, applyFilters])
 
   const reviews = activeTab === "pending" ? filteredPendingReviews : sortedApprovedReviews
+
+  const pageSize = 10
+  const total = reviews.length
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const rangeStart = total === 0 ? 0 : page * pageSize + 1
+  const rangeEnd = Math.min((page + 1) * pageSize, total)
+  const pageReviews = reviews.slice(page * pageSize, page * pageSize + pageSize)
+
+  // Reset to the first page whenever the active tab changes, the filters/sort
+  // change, or the visible list shrinks/grows — so we never sit on an empty page.
+  React.useEffect(() => {
+    setPage(0)
+  }, [activeTab, typeFilter, selectedTourId, sortBy, total])
 
   const handleTypeFilterChange = (value: TypeFilter) => {
     setTypeFilter(value)
@@ -268,8 +284,9 @@ export default function AdminReviewsPage() {
           </p>
         </div>
       ) : (
+        <div className="flex flex-col gap-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.map((review: any) => (
+          {pageReviews.map((review: any) => (
             <div
               key={review._id}
               className={cn(
@@ -388,6 +405,15 @@ export default function AdminReviewsPage() {
               )}
             </div>
           ))}
+        </div>
+          <div className="flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
+            <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
+            <div className="flex items-center gap-2">
+              <span className="tabular-nums">Page {page + 1} of {pageCount}</span>
+              <Button variant="outline" size="icon" className="size-8" disabled={page <= 0} onClick={() => setPage((p) => Math.max(0, p - 1))} aria-label="Previous page"><ChevronLeft className="size-4" /></Button>
+              <Button variant="outline" size="icon" className="size-8" disabled={page >= pageCount - 1} onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))} aria-label="Next page"><ChevronRight className="size-4" /></Button>
+            </div>
+          </div>
         </div>
       )}
     </div>

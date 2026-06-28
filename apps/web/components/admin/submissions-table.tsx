@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Loader2, Mail, Search, Copy, Trash2, Inbox, Archive, Eye, ArrowUpRight } from "lucide-react"
+import { Loader2, Mail, Search, Copy, Trash2, Inbox, Archive, Eye, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { toast } from "sonner"
 import {
   Select,
@@ -86,6 +86,13 @@ export function SubmissionsTable<T extends BaseSubmission>({
   const [statusFilter, setStatusFilter] = React.useState<"all" | SubmissionStatus>("all")
   const [search, setSearch] = React.useState("")
   const [selected, setSelected] = React.useState<T | null>(null)
+  const [page, setPage] = React.useState(0)
+
+  // Reset to the first page whenever the search query or status filter changes,
+  // so we never land on a now-empty page.
+  React.useEffect(() => {
+    setPage(0)
+  }, [search, statusFilter])
 
   const filtered = React.useMemo(() => {
     if (!data) return []
@@ -114,6 +121,13 @@ export function SubmissionsTable<T extends BaseSubmission>({
       archived: data.filter((r) => r.status === "archived").length,
     }
   }, [data])
+
+  const pageSize = 10
+  const total = filtered.length
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const rangeStart = total === 0 ? 0 : page * pageSize + 1
+  const rangeEnd = Math.min((page + 1) * pageSize, total)
+  const pageRows = filtered.slice(page * pageSize, page * pageSize + pageSize)
 
   function copy(text: string) {
     navigator.clipboard.writeText(text)
@@ -196,6 +210,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
           )}
         </div>
       ) : (
+        <div className="flex flex-col gap-3">
         <div className="border border-border rounded-lg overflow-hidden bg-card">
           <table className="w-full text-sm">
             <thead className="bg-muted border-b border-border">
@@ -211,7 +226,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
               </tr>
             </thead>
             <tbody>
-              {filtered.map((row) => {
+              {pageRows.map((row) => {
                 const status = row.status ?? "new"
                 return (
                   <tr key={row._id} className="border-b border-border last:border-b-0 hover:bg-accent transition-colors">
@@ -287,6 +302,15 @@ export function SubmissionsTable<T extends BaseSubmission>({
               })}
             </tbody>
           </table>
+        </div>
+          <div className="flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
+            <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
+            <div className="flex items-center gap-2">
+              <span className="tabular-nums">Page {page + 1} of {pageCount}</span>
+              <Button variant="outline" size="icon" className="size-8" disabled={page <= 0} onClick={() => setPage((p) => Math.max(0, p - 1))} aria-label="Previous page"><ChevronLeft className="size-4" /></Button>
+              <Button variant="outline" size="icon" className="size-8" disabled={page >= pageCount - 1} onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))} aria-label="Next page"><ChevronRight className="size-4" /></Button>
+            </div>
+          </div>
         </div>
       )}
 

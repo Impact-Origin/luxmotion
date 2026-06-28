@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import {
@@ -12,7 +12,10 @@ import {
   X,
   Trash2,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
+import { Button } from "@workspace/ui/components/button"
 
 const STATUS_CONFIG = {
   new: { label: "New", color: "bg-muted text-muted-foreground" },
@@ -30,6 +33,11 @@ export default function ContactQuotesPage() {
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState<Status | "all">("all")
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
+
+  useEffect(() => {
+    setPage(0)
+  }, [search, statusFilter])
 
   const filtered = (requests ?? []).filter((r) => {
     const matchesSearch =
@@ -43,6 +51,14 @@ export default function ContactQuotesPage() {
   })
 
   const selected = filtered.find((r) => r._id === selectedId) ?? null
+
+  const pageSize = 10
+  const total = filtered.length
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const safePage = Math.min(page, pageCount - 1)
+  const rangeStart = total === 0 ? 0 : safePage * pageSize + 1
+  const rangeEnd = Math.min((safePage + 1) * pageSize, total)
+  const pageRows = filtered.slice(safePage * pageSize, safePage * pageSize + pageSize)
 
   return (
     <div className="flex h-full">
@@ -111,7 +127,7 @@ export default function ContactQuotesPage() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((r) => (
+                pageRows.map((r) => (
                   <tr
                     key={r._id}
                     onClick={() => setSelectedId(r._id)}
@@ -165,6 +181,17 @@ export default function ContactQuotesPage() {
             </tbody>
           </table>
         </div>
+
+        {total > 0 && (
+          <div className="mt-4 flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
+            <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
+            <div className="flex items-center gap-2">
+              <span className="tabular-nums">Page {safePage + 1} of {pageCount}</span>
+              <Button variant="outline" size="icon" className="size-8" disabled={safePage <= 0} onClick={() => setPage((p) => Math.max(0, p - 1))} aria-label="Previous page"><ChevronLeft className="size-4" /></Button>
+              <Button variant="outline" size="icon" className="size-8" disabled={safePage >= pageCount - 1} onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))} aria-label="Next page"><ChevronRight className="size-4" /></Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {selected && (

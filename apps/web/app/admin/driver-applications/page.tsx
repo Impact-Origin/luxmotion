@@ -1,11 +1,13 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import {
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   Eye,
   FileText,
@@ -67,6 +69,11 @@ export default function AdminDriverApplicationsPage() {
   const [filter, setFilter] = useState<"all" | ApplicationStatus>("all")
   const [search, setSearch] = useState("")
   const [activeId, setActiveId] = useState<Id<"driverApplications"> | null>(null)
+  const [page, setPage] = useState(0)
+
+  useEffect(() => {
+    setPage(0)
+  }, [filter, search])
 
   const filtered = useMemo(() => {
     if (!applications) return undefined
@@ -94,6 +101,14 @@ export default function AdminDriverApplicationsPage() {
     }
     return acc
   }, [applications])
+
+  const pageSize = 10
+  const total = filtered?.length ?? 0
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const safePage = Math.min(page, pageCount - 1)
+  const rangeStart = total === 0 ? 0 : safePage * pageSize + 1
+  const rangeEnd = Math.min((safePage + 1) * pageSize, total)
+  const pageRows = filtered?.slice(safePage * pageSize, safePage * pageSize + pageSize)
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -170,7 +185,7 @@ export default function AdminDriverApplicationsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {filtered?.map((a) => {
+              {pageRows?.map((a) => {
                 const status = a.status as ApplicationStatus
                 return (
                   <tr key={a._id} className="hover:bg-accent">
@@ -234,6 +249,17 @@ export default function AdminDriverApplicationsPage() {
               })}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {applications !== undefined && total > 0 && (
+        <div className="flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
+          <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
+          <div className="flex items-center gap-2">
+            <span className="tabular-nums">Page {safePage + 1} of {pageCount}</span>
+            <Button variant="outline" size="icon" className="size-8" disabled={safePage <= 0} onClick={() => setPage((p) => Math.max(0, p - 1))} aria-label="Previous page"><ChevronLeft className="size-4" /></Button>
+            <Button variant="outline" size="icon" className="size-8" disabled={safePage >= pageCount - 1} onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))} aria-label="Next page"><ChevronRight className="size-4" /></Button>
+          </div>
         </div>
       )}
 

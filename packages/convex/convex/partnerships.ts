@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { pagedArgs, paginate, applySearch } from "./lib/pagination";
 
 const landingTemplateValidator = v.optional(
   v.union(
@@ -19,6 +20,24 @@ export const list = query({
         logoUrl: p.logoId ? await ctx.storage.getUrl(p.logoId) : null,
       }))
     );
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    let rows = await ctx.db.query("partnerships").collect();
+
+    rows = applySearch(rows, a.search, [(r) => r.name, (r) => r.slug]);
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withLogos = await Promise.all(
+      result.rows.map(async (r) => ({
+        ...r,
+        logoUrl: r.logoId ? await ctx.storage.getUrl(r.logoId) : null,
+      })),
+    );
+    return { ...result, rows: withLogos };
   },
 });
 

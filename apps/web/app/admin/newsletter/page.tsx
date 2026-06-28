@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
-import { Loader2, Newspaper, Copy, Download } from "lucide-react"
+import { Loader2, Newspaper, Copy, Download, ChevronLeft, ChevronRight } from "lucide-react"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import { Button } from "@workspace/ui/components/button"
@@ -20,13 +20,26 @@ type SortOption = "newest" | "oldest"
 export default function AdminNewsletterPage() {
   const t = useTranslations("adminNewsletter")
   const [sortBy, setSortBy] = React.useState<SortOption>("newest")
+  const [page, setPage] = React.useState(0)
   const subscriptions = useQuery(api.newsletterSubscriptions.list)
+
+  React.useEffect(() => {
+    setPage(0)
+  }, [sortBy])
 
   const sorted = React.useMemo(() => {
     if (!subscriptions) return []
     if (sortBy === "oldest") return [...subscriptions].reverse()
     return subscriptions
   }, [subscriptions, sortBy])
+
+  const pageSize = 10
+  const total = sorted.length
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const safePage = Math.min(page, pageCount - 1)
+  const rangeStart = total === 0 ? 0 : safePage * pageSize + 1
+  const rangeEnd = Math.min((safePage + 1) * pageSize, total)
+  const pageRows = sorted.slice(safePage * pageSize, safePage * pageSize + pageSize)
 
   const formatDate = (timestamp: number) =>
     new Date(timestamp).toLocaleDateString("en-US", {
@@ -94,6 +107,7 @@ export default function AdminNewsletterPage() {
           <h3 className="text-lg font-medium text-foreground mb-2">{t("noSubscribers")}</h3>
         </div>
       ) : (
+        <>
         <div className="border border-border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-muted border-b border-border">
@@ -103,7 +117,7 @@ export default function AdminNewsletterPage() {
               </tr>
             </thead>
             <tbody>
-              {sorted.map((s) => (
+              {pageRows.map((s) => (
                 <tr key={s._id} className="border-b border-border last:border-b-0 hover:bg-accent">
                   <td className="px-4 py-3">
                     <button
@@ -120,6 +134,18 @@ export default function AdminNewsletterPage() {
             </tbody>
           </table>
         </div>
+
+        {total > 0 && (
+          <div className="mt-4 flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
+            <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
+            <div className="flex items-center gap-2">
+              <span className="tabular-nums">Page {safePage + 1} of {pageCount}</span>
+              <Button variant="outline" size="icon" className="size-8" disabled={safePage <= 0} onClick={() => setPage((p) => Math.max(0, p - 1))} aria-label="Previous page"><ChevronLeft className="size-4" /></Button>
+              <Button variant="outline" size="icon" className="size-8" disabled={safePage >= pageCount - 1} onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))} aria-label="Next page"><ChevronRight className="size-4" /></Button>
+            </div>
+          </div>
+        )}
+        </>
       )}
     </div>
   )
