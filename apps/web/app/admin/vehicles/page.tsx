@@ -16,14 +16,15 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { VehicleForm } from "@/components/admin/vehicle-form";
 import { StatusBadge } from "@/components/admin/status-badge";
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table";
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 
 export default function VehiclesPage() {
-  const vehicles = useQuery(api.vehicles.list);
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
+  const res = useQuery(api.vehicles.listPaged, tableQuery);
   const partnerships = useQuery(api.partnerships.list);
   const removeVehicle = useMutation(api.vehicles.remove);
 
-  type Vehicle = NonNullable<typeof vehicles>[number];
+  type Vehicle = NonNullable<typeof res>["rows"][number];
 
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const [editingVehicle, setEditingVehicle] = React.useState<any>(null);
@@ -209,7 +210,11 @@ export default function VehiclesPage() {
   return (
     <>
       <DataTable<Vehicle>
-        data={vehicles}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["name", (v) => v.partnershipName]}
         searchPlaceholder="Search vehicles"
