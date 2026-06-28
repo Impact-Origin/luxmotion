@@ -1,9 +1,9 @@
 "use client"
 
+import * as React from "react"
 import { useState } from "react"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
-import type { Id } from "@workspace/convex/dataModel"
 import {
   CheckCircle2,
   EyeOff,
@@ -23,7 +23,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu"
 import { CorporateExperienceForm } from "@/components/admin/corporate-experience-form"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 type Status = "draft" | "published"
 type Pillar = "standard" | "experiences" | "logistics"
@@ -43,25 +43,23 @@ function formatDate(ts: number) {
 }
 
 export default function AdminCorporateExperiencesPage() {
-  const experiences = useQuery(api.corporateExperiences.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.corporateExperiences.listPaged, tableQuery)
   const setStatus = useMutation(api.corporateExperiences.setStatus)
   const remove = useMutation(api.corporateExperiences.remove)
 
-  type ExperienceRow = NonNullable<typeof experiences>[number]
+  type ExperienceRow = NonNullable<typeof res>["rows"][number]
 
   const [formOpen, setFormOpen] = useState(false)
-  const [editingId, setEditingId] = useState<Id<"corporateExperiences"> | null>(null)
-
-  const editingExperience =
-    (editingId && experiences?.find((e) => e._id === editingId)) || null
+  const [editingExperience, setEditingExperience] = useState<ExperienceRow | null>(null)
 
   const openCreate = () => {
-    setEditingId(null)
+    setEditingExperience(null)
     setFormOpen(true)
   }
 
-  const openEdit = (id: Id<"corporateExperiences">) => {
-    setEditingId(id)
+  const openEdit = (exp: ExperienceRow) => {
+    setEditingExperience(exp)
     setFormOpen(true)
   }
 
@@ -75,7 +73,7 @@ export default function AdminCorporateExperiencesPage() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => openEdit(e._id)}>
+          <DropdownMenuItem onClick={() => openEdit(e)}>
             <Pencil className="mr-2 size-4" />
             Edit
           </DropdownMenuItem>
@@ -240,48 +238,39 @@ export default function AdminCorporateExperiencesPage() {
         </div>
       </header>
 
-      {experiences && experiences.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card px-6 py-16 text-center">
-          <Inbox className="size-8 text-muted-foreground" />
-          <p className="text-sm font-medium text-foreground">No experiences yet</p>
-          <p className="max-w-sm text-sm text-muted-foreground">
-            Create your first curated experience to show on the page.
-          </p>
-          <Button onClick={openCreate} className="mt-2">
+      <DataTable<ExperienceRow>
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
+        columns={columns}
+        searchKeys={[
+          "titlePrefix",
+          "titleAccent",
+          "shortDescription",
+          "location",
+        ]}
+        searchPlaceholder="Search title, description, location…"
+        filters={filters}
+        renderCard={renderCard}
+        rowActions={rowActions}
+        initialSort={{ columnId: "sortOrder", dir: "asc" }}
+        toolbarActions={
+          <Button onClick={openCreate}>
             <Plus className="mr-2 size-4" /> New experience
           </Button>
-        </div>
-      ) : (
-        <DataTable<ExperienceRow>
-          data={experiences}
-          columns={columns}
-          searchKeys={[
-            "titlePrefix",
-            "titleAccent",
-            "shortDescription",
-            "location",
-          ]}
-          searchPlaceholder="Search title, description, location…"
-          filters={filters}
-          renderCard={renderCard}
-          rowActions={rowActions}
-          initialSort={{ columnId: "sortOrder", dir: "asc" }}
-          toolbarActions={
-            <Button onClick={openCreate}>
-              <Plus className="mr-2 size-4" /> New experience
-            </Button>
-          }
-          emptyTitle="No experiences found"
-          emptyDescription="No experiences match these filters."
-          emptyIcon={Inbox}
-        />
-      )}
+        }
+        emptyTitle="No experiences found"
+        emptyDescription="No experiences match these filters."
+        emptyIcon={Inbox}
+      />
 
       <CorporateExperienceForm
         open={formOpen}
         onClose={() => {
           setFormOpen(false)
-          setEditingId(null)
+          setEditingExperience(null)
         }}
         initialData={editingExperience}
       />

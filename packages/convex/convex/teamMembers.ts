@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 export const list = query({
   args: {},
@@ -16,6 +17,38 @@ export const list = query({
     );
 
     return withUrls.sort((a, b) => a.order - b.order);
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    let rows = await ctx.db.query("teamMembers").collect();
+
+    rows = applySearch(rows, a.search, [(r) => r.name, (r) => r.role]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+
+    // Default order matches `list`: ascending by order.
+    if (!a.sortBy) {
+      rows = [...rows].sort((x, y) => x.order - y.order);
+    } else {
+      rows = applySort(rows, a.sortBy, a.sortDir, {
+        name: (r) => r.name.toLowerCase(),
+        role: (r) => (r.role ?? "").toLowerCase(),
+        order: (r) => r.order,
+      });
+    }
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withUrls = await Promise.all(
+      result.rows.map(async (r) => ({
+        ...r,
+        imageUrl: r.imageId ? await ctx.storage.getUrl(r.imageId) : null,
+      })),
+    );
+    return { ...result, rows: withUrls };
   },
 });
 

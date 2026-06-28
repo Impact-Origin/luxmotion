@@ -6,7 +6,7 @@ import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
 import { DriverForm } from "@/components/admin/driver-form"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import {
   Plus,
   Pencil,
@@ -42,10 +42,11 @@ export default function AdminDriversPage() {
   const [editingDriver, setEditingDriver] = React.useState<any>(null)
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
-  const drivers = useQuery(api.drivers.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.drivers.listPaged, tableQuery)
   const removeDriver = useMutation(api.drivers.remove)
 
-  type Driver = NonNullable<typeof drivers>[number]
+  type Driver = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (driver: Driver) => {
     setEditingDriver(driver)
@@ -189,7 +190,11 @@ export default function AdminDriversPage() {
   return (
     <>
       <DataTable<Driver>
-        data={drivers}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["name", "location"]}
         searchPlaceholder={t("searchPlaceholder")}

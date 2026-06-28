@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 function withDisplayedReviewCount<
   T extends { reviewCount?: number; manualReviewCount?: number },
@@ -56,6 +57,71 @@ export const list = query({
     );
 
     return toursWithUrls.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    const tours = await ctx.db.query("tours").collect();
+
+    // Default ordering mirrors `list`: newest first.
+    let rows = tours
+      .map((tour) => withDisplayedReviewCount(tour))
+      .sort((x, y) => y.createdAt - x.createdAt);
+
+    rows = applySearch(rows, a.search, [(r) => r.title, (r) => r.destination]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+    const category = a.filters?.category;
+    if (category) rows = rows.filter((r) => r.category === category);
+    const destination = a.filters?.destination;
+    if (destination) rows = rows.filter((r) => r.destination === destination);
+
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      title: (r) => r.title.toLowerCase(),
+      rating: (r) => r.rating ?? 0,
+      price: (r) => r.basePrice,
+    });
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withUrls = await Promise.all(
+      result.rows.map(async (tour) => {
+        const bannerImageUrl = tour.bannerImageId
+          ? await ctx.storage.getUrl(tour.bannerImageId)
+          : null;
+
+        const additionalBannerUrls = tour.additionalBannerIds
+          ? await Promise.all(
+              tour.additionalBannerIds.map((id) => ctx.storage.getUrl(id)),
+            )
+          : [];
+
+        const galleryImageUrls = tour.galleryImageIds
+          ? await Promise.all(
+              tour.galleryImageIds.map((id) => ctx.storage.getUrl(id)),
+            )
+          : [];
+
+        const translations = await ctx.db
+          .query("tourTranslations")
+          .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+          .collect();
+
+        return {
+          ...tour,
+          bannerImageUrl,
+          additionalBannerUrls: additionalBannerUrls.filter(Boolean),
+          galleryImageUrls: galleryImageUrls.filter(Boolean),
+          availableLanguages: [
+            tour.originalLanguage,
+            ...translations.map((t) => t.locale),
+          ],
+        };
+      }),
+    );
+    return { ...result, rows: withUrls };
   },
 });
 

@@ -27,7 +27,7 @@ import {
 import { toast } from "sonner"
 import Image from "next/image"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 export default function AdminExperiencesPage() {
   const t = useTranslations("adminExperiences")
@@ -35,10 +35,11 @@ export default function AdminExperiencesPage() {
   const [editingExperience, setEditingExperience] = React.useState<any>(null)
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
-  const experiences = useQuery(api.pastExperiences.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.pastExperiences.listPaged, tableQuery)
   const removeExperience = useMutation(api.pastExperiences.remove)
 
-  type ExperienceRow = NonNullable<typeof experiences>[number]
+  type ExperienceRow = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (experience: any) => {
     setEditingExperience(experience)
@@ -209,7 +210,11 @@ export default function AdminExperiencesPage() {
       </div>
 
       <DataTable<ExperienceRow>
-        data={experiences}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["title", "location"]}
         searchPlaceholder={t("searchPlaceholder")}
@@ -223,7 +228,7 @@ export default function AdminExperiencesPage() {
           </Button>
         }
         emptyTitle={t("noExperiencesFound")}
-        emptyDescription={experiences && experiences.length === 0 ? t("getStarted") : t("tryFilters")}
+        emptyDescription={t("tryFilters")}
         emptyIcon={Briefcase}
       />
 

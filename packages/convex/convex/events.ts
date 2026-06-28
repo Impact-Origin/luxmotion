@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 function withDisplayedReviewCount<
   T extends { reviewCount?: number; manualReviewCount?: number },
@@ -49,6 +50,66 @@ export const list = query({
     );
 
     return eventsWithUrls.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    const events = await ctx.db.query("events").collect();
+
+    // Default ordering mirrors `list`: newest first.
+    let rows = events
+      .map((event) => withDisplayedReviewCount(event))
+      .sort((x, y) => y.createdAt - x.createdAt);
+
+    rows = applySearch(rows, a.search, [
+      (r) => r.title,
+      (r) => r.location,
+      (r) => r.venue,
+    ]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+    const location = a.filters?.location;
+    if (location) rows = rows.filter((r) => r.location === location);
+
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      title: (r) => r.title.toLowerCase(),
+      date: (r) => r.eventDate,
+      price: (r) => r.basePrice,
+    });
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withUrls = await Promise.all(
+      result.rows.map(async (event) => {
+        const bannerImageUrl = event.bannerImageId
+          ? await ctx.storage.getUrl(event.bannerImageId)
+          : null;
+
+        const additionalBannerUrls = event.additionalBannerIds
+          ? await Promise.all(
+              event.additionalBannerIds.map((id) => ctx.storage.getUrl(id)),
+            )
+          : [];
+
+        const translations = await ctx.db
+          .query("eventTranslations")
+          .withIndex("by_event", (q) => q.eq("eventId", event._id))
+          .collect();
+
+        return {
+          ...event,
+          bannerImageUrl,
+          additionalBannerUrls: additionalBannerUrls.filter(Boolean),
+          availableLanguages: [
+            event.originalLanguage,
+            ...translations.map((t) => t.locale),
+          ],
+        };
+      }),
+    );
+    return { ...result, rows: withUrls };
   },
 });
 

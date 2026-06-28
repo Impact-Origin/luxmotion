@@ -6,7 +6,7 @@ import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
 import { TeamMemberForm } from "@/components/admin/team-member-form"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import { Plus, Pencil, Trash2, MoreHorizontal, Users } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -35,10 +35,11 @@ export default function AdminTeamPage() {
   const [editingMember, setEditingMember] = React.useState<any>(null)
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
-  const members = useQuery(api.teamMembers.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.teamMembers.listPaged, tableQuery)
   const removeMember = useMutation(api.teamMembers.remove)
 
-  type Member = NonNullable<typeof members>[number]
+  type Member = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (member: Member) => {
     setEditingMember(member)
@@ -171,7 +172,11 @@ export default function AdminTeamPage() {
   return (
     <>
       <DataTable<Member>
-        data={members}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["name", "role"]}
         searchPlaceholder={t("searchPlaceholder")}

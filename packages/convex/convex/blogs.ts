@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { generateSlug, calculateReadTime } from "./lib/utils";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 export const list = query({
   args: {},
@@ -32,6 +33,59 @@ export const list = query({
     );
 
     return blogsWithUrls.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    const blogs = await ctx.db.query("blogs").collect();
+
+    // Enrich with availableLanguages (needed for the Languages column) — cheap
+    // translation lookup per row. Avatar/hero URLs are resolved later, page-only.
+    let rows = await Promise.all(
+      blogs.map(async (blog) => {
+        const translations = await ctx.db
+          .query("blogTranslations")
+          .withIndex("by_blog", (q) => q.eq("blogId", blog._id))
+          .collect();
+        return {
+          ...blog,
+          availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
+        };
+      }),
+    );
+
+    rows = applySearch(rows, a.search, [
+      (r) => r.title,
+      (r) => r.excerpt,
+      (r) => r.category,
+    ]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+    const category = a.filters?.category;
+    if (category) rows = rows.filter((r) => r.category.toLowerCase() === category);
+
+    // Default order matches `list`: newest first by createdAt.
+    if (!a.sortBy) {
+      rows = [...rows].sort((x, y) => y.createdAt - x.createdAt);
+    } else {
+      rows = applySort(rows, a.sortBy, a.sortDir, {
+        title: (r) => r.title.toLowerCase(),
+        date: (r) => r.createdAt,
+      });
+    }
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withUrls = await Promise.all(
+      result.rows.map(async (r) => ({
+        ...r,
+        heroImageUrl: r.heroImageId ? await ctx.storage.getUrl(r.heroImageId) : null,
+        authorAvatarUrl: r.authorAvatarId ? await ctx.storage.getUrl(r.authorAvatarId) : null,
+      })),
+    );
+    return { ...result, rows: withUrls };
   },
 });
 

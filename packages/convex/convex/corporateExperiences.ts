@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination"
 
 const durationValidator = v.union(
   v.literal("halfDay"),
@@ -39,6 +40,38 @@ export const list = query({
     const all = await ctx.db.query("corporateExperiences").collect()
     const withUrls = await Promise.all(all.map((e) => resolveUrls(ctx, e)))
     return withUrls.sort((a, b) => a.sortOrder - b.sortOrder || b.createdAt - a.createdAt)
+  },
+})
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    let rows = await ctx.db.query("corporateExperiences").collect()
+
+    rows = applySearch(rows, a.search, [
+      (r) => r.titlePrefix,
+      (r) => r.titleAccent,
+      (r) => r.shortDescription,
+      (r) => r.location,
+    ])
+
+    const status = a.filters?.status
+    if (status) rows = rows.filter((r) => r.status === status)
+    const pillar = a.filters?.pillar
+    if (pillar) rows = rows.filter((r) => r.pillar === pillar)
+
+    // Default order mirrors `list`; applySort overrides when a sortable column is active.
+    rows = rows.sort((x, y) => x.sortOrder - y.sortOrder || y.createdAt - x.createdAt)
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      title: (r) => `${r.titlePrefix} ${r.titleAccent}`.toLowerCase(),
+      pillar: (r) => r.pillar,
+      sortOrder: (r) => r.sortOrder,
+      updated: (r) => r.updatedAt,
+    })
+
+    const result = paginate(rows, a.page, a.pageSize)
+    const withUrls = await Promise.all(result.rows.map((e) => resolveUrls(ctx, e)))
+    return { ...result, rows: withUrls }
   },
 })
 

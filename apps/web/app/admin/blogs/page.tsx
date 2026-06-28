@@ -29,7 +29,7 @@ import {
 import { BlogForm } from "@/components/admin/blog-form";
 import { BlogTranslationForm } from "@/components/admin/blog-translation-form";
 import { StatusBadge } from "@/components/admin/status-badge";
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table";
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,12 +53,13 @@ function formatDate(timestamp: number): string {
 
 export default function BlogsPage() {
   const t = useTranslations("adminBlogs");
-  const blogs = useQuery(api.blogs.list);
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
+  const res = useQuery(api.blogs.listPaged, tableQuery);
   const categories = useQuery(api.blogs.getCategories);
   const removeBlog = useMutation(api.blogs.remove);
   const toggleFeatured = useMutation(api.blogs.toggleFeatured);
 
-  type Blog = NonNullable<typeof blogs>[number];
+  type Blog = NonNullable<typeof res>["rows"][number];
 
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const [editingBlog, setEditingBlog] = React.useState<any>(null);
@@ -299,7 +300,11 @@ export default function BlogsPage() {
   return (
     <>
       <DataTable<Blog>
-        data={blogs}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["title", "excerpt", "category"]}
         searchPlaceholder={t("searchPlaceholder")}

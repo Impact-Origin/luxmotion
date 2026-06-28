@@ -39,7 +39,7 @@ import {
 import { toast } from "sonner"
 import Image from "next/image"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 export default function AdminEventsPage() {
   const t = useTranslations("adminEvents")
@@ -48,13 +48,14 @@ export default function AdminEventsPage() {
   const [translatingEvent, setTranslatingEvent] = React.useState<any>(null)
   const [deletingEventId, setDeletingEventId] = React.useState<string | null>(null)
 
-  const events = useQuery(api.events.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.events.listPaged, tableQuery)
   const locations = useQuery(api.events.getLocations)
   const removeEvent = useMutation(api.events.remove)
   const toggleFeatured = useMutation(api.events.toggleFeatured)
   const cancelEvent = useMutation(api.events.cancel)
 
-  type EventRow = NonNullable<typeof events>[number]
+  type EventRow = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (event: any) => {
     setEditingEvent(event)
@@ -295,7 +296,11 @@ export default function AdminEventsPage() {
       </div>
 
       <DataTable<EventRow>
-        data={events}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["title", "location", (e) => e.venue]}
         searchPlaceholder={t("searchPlaceholder")}
@@ -310,7 +315,7 @@ export default function AdminEventsPage() {
           </Button>
         }
         emptyTitle={t("noEventsFound")}
-        emptyDescription={events && events.length === 0 ? t("getStarted") : t("tryFilters")}
+        emptyDescription={res && res.total === 0 ? t("getStarted") : t("tryFilters")}
         emptyIcon={Calendar}
       />
 

@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination"
 
 const statusValidator = v.union(
   v.literal("new"),
@@ -37,6 +38,34 @@ export const list = query({
       .withIndex("by_created")
       .collect()
     return rows.reverse()
+  },
+})
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    // Mirror `list`: newest-first baseline (by_created reversed).
+    let rows = (
+      await ctx.db.query("partnerLeads").withIndex("by_created").collect()
+    ).reverse()
+
+    rows = applySearch(rows, a.search, [
+      (r) => r.fullName,
+      (r) => r.email,
+      (r) => r.companyName,
+      (r) => r.city,
+    ])
+
+    const status = a.filters?.status
+    if (status) rows = rows.filter((r) => r.status === status)
+
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      contact: (r) => r.fullName.toLowerCase(),
+      company: (r) => r.companyName.toLowerCase(),
+      city: (r) => r.city.toLowerCase(),
+    })
+
+    return paginate(rows, a.page, a.pageSize)
   },
 })
 

@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 const STATUS_CONFIG = {
   new: { label: "New" },
@@ -31,11 +31,12 @@ const STATUS_CONFIG = {
 type Status = keyof typeof STATUS_CONFIG
 
 export default function PartnerLeadsPage() {
-  const leads = useQuery(api.partnerLeads.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.partnerLeads.listPaged, tableQuery)
   const setStatus = useMutation(api.partnerLeads.setStatus)
   const remove = useMutation(api.partnerLeads.remove)
 
-  type Lead = NonNullable<typeof leads>[number]
+  type Lead = NonNullable<typeof res>["rows"][number]
 
   const rowActions = (lead: Lead) => (
     <DropdownMenu>
@@ -187,7 +188,11 @@ export default function PartnerLeadsPage() {
 
   return (
     <DataTable<Lead>
-      data={leads}
+      mode="server"
+      data={res?.rows}
+      total={res?.total ?? 0}
+      pageSize={10}
+      onQueryChange={setTableQuery}
       columns={columns}
       searchKeys={["fullName", "email", "companyName", "city"]}
       searchPlaceholder="Pesquisar por nome, empresa, email, cidade…"

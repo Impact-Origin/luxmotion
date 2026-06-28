@@ -7,7 +7,7 @@ import { Button } from "@workspace/ui/components/button"
 import { TourForm } from "@/components/admin/tour-form"
 import { TourTranslationForm } from "@/components/admin/tour-translation-form"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import {
   Plus,
   Star,
@@ -49,14 +49,15 @@ export default function AdminToursPage() {
   const [deletingTourId, setDeletingTourId] = React.useState<string | null>(null)
 
   const convex = useConvex()
-  const tours = useQuery(api.tours.list)
+  const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
+  const res = useQuery(api.tours.listPaged, tableQuery)
   const destinations = useQuery(api.tours.getDestinations)
   const removeTour = useMutation(api.tours.remove)
   const toggleFeatured = useMutation(api.tours.toggleFeatured)
   const toggleBestseller = useMutation(api.tours.toggleBestseller)
   const [isLoadingTour, setIsLoadingTour] = React.useState(false)
 
-  type Tour = NonNullable<typeof tours>[number]
+  type Tour = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = async (tour: Tour) => {
     setIsLoadingTour(true)
@@ -303,7 +304,11 @@ export default function AdminToursPage() {
   return (
     <>
       <DataTable<Tour>
-        data={tours}
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
         columns={columns}
         searchKeys={["title", "destination"]}
         searchPlaceholder={t("searchPlaceholder")}

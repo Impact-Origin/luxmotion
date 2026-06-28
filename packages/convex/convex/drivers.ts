@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 export const list = query({
   args: {},
@@ -16,6 +17,33 @@ export const list = query({
     );
 
     return withUrls.sort((a, b) => a.order - b.order);
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    // Mirror `list`: full collection sorted by order asc as the baseline.
+    let rows = (await ctx.db.query("drivers").collect()).sort((x, y) => x.order - y.order);
+
+    rows = applySearch(rows, a.search, [(r) => r.name, (r) => r.location]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      name: (r) => r.name.toLowerCase(),
+      order: (r) => r.order,
+    });
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withImages = await Promise.all(
+      result.rows.map(async (r) => ({
+        ...r,
+        imageUrl: r.imageId ? await ctx.storage.getUrl(r.imageId) : null,
+      })),
+    );
+    return { ...result, rows: withImages };
   },
 });
 

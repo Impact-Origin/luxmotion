@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 export const list = query({
   args: {},
@@ -16,6 +17,36 @@ export const list = query({
     );
 
     return withUrls.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    let rows = await ctx.db.query("pastExperiences").collect();
+
+    rows = applySearch(rows, a.search, [(r) => r.title, (r) => r.location]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+    const category = a.filters?.category;
+    if (category) rows = rows.filter((r) => r.category === category);
+
+    // Default order mirrors `list` (newest first); applySort is a no-op unless sortBy is set.
+    rows = rows.sort((x, y) => y.createdAt - x.createdAt);
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      title: (r) => r.title.toLowerCase(),
+      category: (r) => r.category,
+    });
+
+    const result = paginate(rows, a.page, a.pageSize);
+    const withImages = await Promise.all(
+      result.rows.map(async (r) => ({
+        ...r,
+        imageUrl: r.imageId ? await ctx.storage.getUrl(r.imageId) : null,
+      })),
+    );
+    return { ...result, rows: withImages };
   },
 });
 
