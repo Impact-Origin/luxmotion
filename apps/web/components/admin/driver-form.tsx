@@ -206,7 +206,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
             </div>
           </div>
 
-          <div className="p-6 border-t bg-[#faf6ee] flex justify-end gap-3 shrink-0">
+          <div className="p-6 border-t bg-muted flex justify-end gap-3 shrink-0">
             <Button
               type="button"
               variant="outline"
@@ -219,7 +219,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold"
+              className="h-11 px-8 font-bold"
             >
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {initialData ? t("form.saveChanges") : t("form.createButton")}

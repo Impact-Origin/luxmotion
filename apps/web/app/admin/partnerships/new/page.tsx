@@ -9,7 +9,7 @@ import { Label } from "@workspace/ui/components/label";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { defaultTheme } from "@/components/dynamic-theme-provider";
-import { Loader2, ArrowLeft, Image as ImageIcon } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/admin/image-upload";
@@ -36,7 +36,7 @@ export default function NewPartnershipPage() {
         logoId: logoId as any,
         status: "active",
       });
-      toast.success("Partnership created successfully");
+      toast.success("Partnership created");
       router.push(`/admin/partnerships/${id}`);
     } catch (error: any) {
       toast.error(error.message || "Failed to create partnership");
@@ -46,29 +46,35 @@ export default function NewPartnershipPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 font-sans">
-      <Link href="/admin/partnerships" className="inline-flex items-center text-sm font-bold text-[#a99e8c] hover:text-[#211c16] transition-colors group">
-        <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-        Back to Partnerships
+    <div className="mx-auto max-w-2xl space-y-8">
+      <Link
+        href="/admin/partnerships"
+        className="group inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="mr-2 size-4 transition-transform group-hover:-translate-x-1" />
+        Back to partnerships
       </Link>
 
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold tracking-tight text-[#211c16]">{t("newPartnership")}</h2>
-        <p className="text-sm text-[#8a8074] font-medium">Create a new referral partnership and customize their landing page.</p>
+        <h2 className="text-2xl font-medium tracking-tight text-foreground">{t("newPartnership")}</h2>
+        <p className="text-sm text-muted-foreground">
+          Create a new referral partnership and customize their landing page.
+        </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6 bg-white p-8 rounded-xl border border-[#e7ddca] shadow-sm">
+      <form onSubmit={onSubmit} className="space-y-6 rounded-xl border border-border bg-card p-8">
         <div className="space-y-6">
           <div className="space-y-2">
-            <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">Company Logo</Label>
-            <ImageUpload 
-              onChange={setLogoId}
-              disabled={isSubmitting}
-            />
+            <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              Company logo
+            </Label>
+            <ImageUpload onChange={setLogoId} disabled={isSubmitting} />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">{t("partnershipName")}</Label>
+            <Label htmlFor="name" className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              {t("partnershipName")}
+            </Label>
             <Input
               id="name"
               placeholder="e.g. Macy's Hotel"
@@ -76,13 +82,15 @@ export default function NewPartnershipPage() {
               onChange={(e) => setName(e.target.value)}
               required
               disabled={isSubmitting}
-              className="h-12 font-bold text-[#211c16] border-[#e7ddca] focus:border-[#A08248] focus:ring-0"
+              className="h-12"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="slug" className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">{t("urlSlug")}</Label>
+            <Label htmlFor="slug" className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              {t("urlSlug")}
+            </Label>
             <div className="flex items-center gap-2">
-              <span className="text-[#a99e8c] font-mono text-sm font-bold">easytransferportugal.com/</span>
+              <span className="font-mono text-sm text-muted-foreground">easytransferportugal.com/</span>
               <Input
                 id="slug"
                 placeholder="macys"
@@ -90,21 +98,22 @@ export default function NewPartnershipPage() {
                 onChange={(e) => setSlug(e.target.value)}
                 required
                 disabled={isSubmitting}
-                className="h-12 font-mono font-bold text-[#211c16] border-[#e7ddca] focus:border-[#A08248] focus:ring-0"
+                className="h-12 font-mono"
               />
             </div>
-            <p className="text-[10px] text-[#a99e8c] font-bold uppercase tracking-tight">This will be the unique URL for this partner.</p>
+            <p className="text-[11px] uppercase tracking-tight text-muted-foreground">
+              This will be the unique URL for this partner.
+            </p>
           </div>
         </div>
 
         <div className="flex justify-end pt-4">
-          <Button type="submit" disabled={isSubmitting} className="h-12 bg-[#221c15] text-white hover:bg-[#3a3026] font-bold px-8 shadow-xl">
-            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Create Partnership & Start Customizing
+          <Button type="submit" disabled={isSubmitting} className="h-12 px-8">
+            {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
+            Create partnership & start customizing
           </Button>
         </div>
       </form>
     </div>
   );
 }
-

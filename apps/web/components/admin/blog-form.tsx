@@ -197,25 +197,25 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
 
         <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
-            <div className="shrink-0 border-b border-[#e7ddca]">
+            <div className="shrink-0 border-b border-border">
               <TabsList className="h-auto w-full bg-transparent p-0 grid grid-cols-3">
                 <TabsTrigger
                   value="content"
-                  className="relative py-4 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-[#A08248] data-[state=active]:text-[#211c16] data-[state=inactive]:text-[#8a8074] data-[state=inactive]:hover:text-[#4a443c] data-[state=inactive]:hover:bg-[#A08248]/[0.06]"
+                  className="relative py-4 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent"
                 >
                   <FileText className="h-4 w-4 mr-2" />
                   Content
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
-                  className="relative py-4 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-[#A08248] data-[state=active]:text-[#211c16] data-[state=inactive]:text-[#8a8074] data-[state=inactive]:hover:text-[#4a443c] data-[state=inactive]:hover:bg-[#A08248]/[0.06]"
+                  className="relative py-4 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent"
                 >
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </TabsTrigger>
                 <TabsTrigger
                   value="seo"
-                  className="relative py-4 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-[#A08248] data-[state=active]:text-[#211c16] data-[state=inactive]:text-[#8a8074] data-[state=inactive]:hover:text-[#4a443c] data-[state=inactive]:hover:bg-[#A08248]/[0.06]"
+                  className="relative py-4 rounded-none border-b-2 border-transparent text-sm font-medium transition-all data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent"
                 >
                   <Search className="h-4 w-4 mr-2" />
                   SEO
@@ -223,7 +223,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
               </TabsList>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-h-0 bg-white">
+            <div className="flex-1 overflow-y-auto min-h-0 bg-card">
               <TabsContent value="content" className="p-6 pt-8 mt-0 space-y-6 data-[state=inactive]:hidden">
                 <div className="space-y-4">
                   <Label className="text-base font-bold flex items-center gap-2">
@@ -300,7 +300,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                       disabled={isSubmitting}
                       className="min-h-[80px] resize-none"
                     />
-                    <p className="text-xs text-[#8a8074]">
+                    <p className="text-xs text-muted-foreground">
                       {excerpt.length}/300 characters
                     </p>
                   </div>
@@ -365,7 +365,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                   <Label className="text-base font-bold flex items-center gap-2">
                     <User className="h-4 w-4" /> Author Profile
                   </Label>
-                  <p className="text-xs text-[#8a8074] -mt-2">
+                  <p className="text-xs text-muted-foreground -mt-2">
                     Shown on the blog detail page sidebar. Leave role/bio empty to use the default LuxMotion text.
                   </p>
 
@@ -410,7 +410,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                     </div>
                   </div>
 
-                  <label className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${isAtFeaturedLimit || isService ? "border-[#efe7d8] bg-[#faf6ee] cursor-not-allowed" : "border-[#e7ddca] hover:bg-[#A08248]/[0.06] cursor-pointer"}`}>
+                  <label className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${isAtFeaturedLimit || isService ? "border-border bg-muted cursor-not-allowed" : "border-border hover:bg-accent cursor-pointer"}`}>
                     <Checkbox
                       checked={isFeatured}
                       onCheckedChange={(checked) => {
@@ -422,20 +422,20 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className={`font-semibold text-sm ${isAtFeaturedLimit || isService ? "text-[#a99e8c]" : "text-[#4a443c]"}`}>
+                        <span className={`font-semibold text-sm ${isAtFeaturedLimit || isService ? "text-muted-foreground" : "text-foreground"}`}>
                           Featured Post
                         </span>
-                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${featuredCount >= 6 ? "bg-amber-100 text-amber-700" : "bg-[#f1e8d8] text-[#5c554c]"}`}>
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${featuredCount >= 6 ? "bg-amber-100 text-amber-700" : "bg-muted text-muted-foreground"}`}>
                           {featuredCount}/6
                         </span>
                       </div>
-                      <p className={`text-xs ${isAtFeaturedLimit || isService ? "text-[#a99e8c]" : "text-[#8a8074]"}`}>
+                      <p className={`text-xs ${isAtFeaturedLimit || isService ? "text-muted-foreground" : "text-muted-foreground"}`}>
                         {isAtFeaturedLimit ? "Maximum of 6 featured posts reached" : "Show this post in the featured section on the homepage"}
                       </p>
                     </div>
                   </label>
 
-                  <label className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${isAtServiceLimit || isFeatured ? "border-[#efe7d8] bg-[#faf6ee] cursor-not-allowed" : "border-[#e7ddca] hover:bg-[#A08248]/[0.06] cursor-pointer"}`}>
+                  <label className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${isAtServiceLimit || isFeatured ? "border-border bg-muted cursor-not-allowed" : "border-border hover:bg-accent cursor-pointer"}`}>
                     <Checkbox
                       checked={isService}
                       onCheckedChange={(checked) => {
@@ -447,14 +447,14 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className={`font-semibold text-sm ${isAtServiceLimit || isFeatured ? "text-[#a99e8c]" : "text-[#4a443c]"}`}>
+                        <span className={`font-semibold text-sm ${isAtServiceLimit || isFeatured ? "text-muted-foreground" : "text-foreground"}`}>
                           Service Post
                         </span>
-                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${serviceCount >= 3 ? "bg-amber-100 text-amber-700" : "bg-[#f1e8d8] text-[#5c554c]"}`}>
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${serviceCount >= 3 ? "bg-amber-100 text-amber-700" : "bg-muted text-muted-foreground"}`}>
                           {serviceCount}/3
                         </span>
                       </div>
-                      <p className={`text-xs ${isAtServiceLimit || isFeatured ? "text-[#a99e8c]" : "text-[#8a8074]"}`}>
+                      <p className={`text-xs ${isAtServiceLimit || isFeatured ? "text-muted-foreground" : "text-muted-foreground"}`}>
                         {isAtServiceLimit ? "Maximum of 3 service posts reached" : "Show this post in the services section on the tours page"}
                       </p>
                     </div>
@@ -472,7 +472,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                     disabled={isSubmitting}
                     className="h-11"
                   />
-                  <p className="text-xs text-[#8a8074]">
+                  <p className="text-xs text-muted-foreground">
                     Separate tags with commas
                   </p>
                 </div>
@@ -487,30 +487,30 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                       </Label>
 
                       <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div className="p-3 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
-                          <p className="text-[#8a8074] text-xs uppercase tracking-wider mb-1">Created</p>
-                          <p className="font-medium text-[#4a443c] flex items-center gap-2">
+                        <div className="p-3 rounded-lg bg-muted border border-border">
+                          <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Created</p>
+                          <p className="font-medium text-foreground flex items-center gap-2">
                             <Calendar className="h-4 w-4" />
                             {formatDate(initialData.createdAt)}
                           </p>
                         </div>
-                        <div className="p-3 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
-                          <p className="text-[#8a8074] text-xs uppercase tracking-wider mb-1">Updated</p>
-                          <p className="font-medium text-[#4a443c] flex items-center gap-2">
+                        <div className="p-3 rounded-lg bg-muted border border-border">
+                          <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Updated</p>
+                          <p className="font-medium text-foreground flex items-center gap-2">
                             <Calendar className="h-4 w-4" />
                             {formatDate(initialData.updatedAt)}
                           </p>
                         </div>
-                        <div className="p-3 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
-                          <p className="text-[#8a8074] text-xs uppercase tracking-wider mb-1">Read Time</p>
-                          <p className="font-medium text-[#4a443c] flex items-center gap-2">
+                        <div className="p-3 rounded-lg bg-muted border border-border">
+                          <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Read Time</p>
+                          <p className="font-medium text-foreground flex items-center gap-2">
                             <Clock className="h-4 w-4" />
                             {initialData.readTimeMinutes} min read
                           </p>
                         </div>
-                        <div className="p-3 rounded-lg bg-[#faf6ee] border border-[#efe7d8]">
-                          <p className="text-[#8a8074] text-xs uppercase tracking-wider mb-1">Slug</p>
-                          <p className="font-medium text-[#4a443c] truncate">
+                        <div className="p-3 rounded-lg bg-muted border border-border">
+                          <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Slug</p>
+                          <p className="font-medium text-foreground truncate">
                             {initialData.slug}
                           </p>
                         </div>
@@ -536,7 +536,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                       disabled={isSubmitting}
                       className="h-11"
                     />
-                    <p className="text-xs text-[#8a8074]">
+                    <p className="text-xs text-muted-foreground">
                       {seoTitle.length}/60 characters (recommended)
                     </p>
                   </div>
@@ -551,7 +551,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
                       disabled={isSubmitting}
                       className="min-h-[100px] resize-none"
                     />
-                    <p className="text-xs text-[#8a8074]">
+                    <p className="text-xs text-muted-foreground">
                       {seoDescription.length}/160 characters (recommended)
                     </p>
                   </div>
@@ -561,18 +561,18 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
 
                 <div className="space-y-4">
                   <Label className="text-base font-bold">Preview</Label>
-                  <div className="p-4 rounded-lg border border-[#e7ddca] bg-[#faf6ee]">
-                    <p className="text-[#1a0dab] text-lg font-medium hover:underline cursor-pointer truncate">
+                  <div className="p-4 rounded-lg border border-border bg-muted">
+                    <p className="text-foreground text-lg font-medium hover:underline cursor-pointer truncate">
                       {seoTitle || title || "Blog Post Title"}
                     </p>
-                    <p className="text-[#006621] text-sm truncate">
+                    <p className="text-primary text-sm truncate">
                       easytransferericeira.com/blogs/{initialData?.slug || "your-blog-slug"}
                     </p>
-                    <p className="text-[#5c554c] text-sm line-clamp-2 mt-1">
+                    <p className="text-muted-foreground text-sm line-clamp-2 mt-1">
                       {seoDescription || excerpt || "Your blog post description will appear here..."}
                     </p>
                   </div>
-                  <p className="text-xs text-[#8a8074]">
+                  <p className="text-xs text-muted-foreground">
                     This is how your post might appear in search results
                   </p>
                 </div>
@@ -580,7 +580,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
             </div>
           </Tabs>
 
-          <div className="p-6 border-t bg-[#faf6ee] flex justify-end gap-3 shrink-0">
+          <div className="p-6 border-t bg-muted flex justify-end gap-3 shrink-0">
             <Button
               type="button"
               variant="outline"
@@ -593,7 +593,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold"
+              className="h-11 px-8 font-bold"
             >
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {initialData ? "Save Changes" : "Create Blog"}

@@ -153,8 +153,8 @@ export function TourScheduleBuilder({
               className={cn(
                 "flex-1 py-3 rounded-lg border-2 text-sm font-medium transition-all",
                 schedule.activeDays.includes(day.value)
-                  ? "bg-[#221c15] text-white border-[#221c15]"
-                  : "bg-white text-[#5c554c] border-[#e7ddca] hover:border-[#ddd0b8]"
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-card text-muted-foreground border-border hover:border-foreground/30"
               )}
             >
               {day.label}
@@ -183,7 +183,7 @@ export function TourScheduleBuilder({
         </div>
 
         {schedule.timeSlots.length === 0 ? (
-          <div className="text-center py-6 text-[#8a8074] border-2 border-dashed border-[#e7ddca] rounded-lg text-sm">
+          <div className="text-center py-6 text-muted-foreground border-2 border-dashed border-border rounded-lg text-sm">
             {t("noTimeSlots")}
           </div>
         ) : (
@@ -191,11 +191,11 @@ export function TourScheduleBuilder({
             {schedule.timeSlots.map((slot, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-3 rounded-lg border border-[#e7ddca] bg-white"
+                className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card"
               >
                 <div className="flex-1 grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <Label className="text-xs text-[#8a8074]">{t("startTime")} *</Label>
+                    <Label className="text-xs text-muted-foreground">{t("startTime")} *</Label>
                     <Input
                       type="time"
                       value={slot.startTime}
@@ -207,7 +207,7 @@ export function TourScheduleBuilder({
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label className="text-xs text-[#8a8074]">{t("endTime")}</Label>
+                    <Label className="text-xs text-muted-foreground">{t("endTime")}</Label>
                     <Input
                       type="time"
                       value={slot.endTime || ""}
@@ -239,7 +239,7 @@ export function TourScheduleBuilder({
         <Label className="text-base font-bold">{t("validityPeriod")}</Label>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="text-xs text-[#8a8074]">{t("validFrom")}</Label>
+            <Label className="text-xs text-muted-foreground">{t("validFrom")}</Label>
             <Input
               type="date"
               value={schedule.validFrom || ""}
@@ -251,7 +251,7 @@ export function TourScheduleBuilder({
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-xs text-[#8a8074]">{t("validUntil")}</Label>
+            <Label className="text-xs text-muted-foreground">{t("validUntil")}</Label>
             <Input
               type="date"
               value={schedule.validUntil || ""}
@@ -263,13 +263,13 @@ export function TourScheduleBuilder({
             />
           </div>
         </div>
-        <p className="text-xs text-[#8a8074]">
+        <p className="text-xs text-muted-foreground">
           {t("noDateRestrictions")}
         </p>
       </div>
 
-      <div className="pt-4 border-t border-[#e7ddca]">
-        <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-[#e7ddca] hover:bg-[#A08248]/[0.06] transition-colors">
+      <div className="pt-4 border-t border-border">
+        <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg border border-border hover:bg-accent transition-colors">
           <Checkbox
             checked={schedule.isActive}
             onCheckedChange={(checked) =>
@@ -279,10 +279,10 @@ export function TourScheduleBuilder({
             className="size-5"
           />
           <div>
-            <span className="font-semibold text-sm text-[#4a443c] group-hover:text-[#211c16] transition-colors">
+            <span className="font-semibold text-sm text-muted-foreground group-hover:text-foreground transition-colors">
               {t("scheduleActive")}
             </span>
-            <p className="text-xs text-[#8a8074]">
+            <p className="text-xs text-muted-foreground">
               {t("scheduleActiveHelp")}
             </p>
           </div>

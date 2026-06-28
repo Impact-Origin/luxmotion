@@ -195,20 +195,20 @@ export function BlogTranslationForm({
         </DialogHeader>
 
         <div className="flex-1 overflow-hidden flex">
-          <div className="w-[200px] border-r bg-[#faf6ee] p-4 flex flex-col gap-2 shrink-0 overflow-y-auto">
-            <div className="text-xs font-bold text-[#8a8074] uppercase tracking-wider mb-2">
+          <div className="w-[200px] border-r bg-muted p-4 flex flex-col gap-2 shrink-0 overflow-y-auto">
+            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
               Original
             </div>
-            <div className="p-2 rounded-md bg-[#e7ddca] text-[#4a443c] text-sm font-medium">
+            <div className="p-2 rounded-md bg-accent text-foreground text-sm font-medium">
               {getLanguageLabel(originalLanguage)}
             </div>
 
-            <div className="text-xs font-bold text-[#8a8074] uppercase tracking-wider mt-4 mb-2">
+            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-4 mb-2">
               Translations
             </div>
 
             {existingTranslations.length === 0 && !isAddingNew ? (
-              <p className="text-xs text-[#a99e8c] py-2">No translations yet</p>
+              <p className="text-xs text-muted-foreground py-2">No translations yet</p>
             ) : (
               <div className="flex flex-col gap-1">
                 {existingTranslations.map((t) => (
@@ -218,8 +218,8 @@ export function BlogTranslationForm({
                     className={cn(
                       "p-2 rounded-md text-left text-sm font-medium transition-colors",
                       selectedLocale === t.locale && !isAddingNew
-                        ? "bg-[#27c7ff] text-white"
-                        : "hover:bg-[#A08248]/[0.12] text-[#4a443c]"
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-accent text-foreground"
                     )}
                   >
                     {getLanguageLabel(t.locale)}
@@ -236,7 +236,7 @@ export function BlogTranslationForm({
                 onClick={handleAddNew}
                 className={cn(
                   "mt-4 w-full justify-start",
-                  isAddingNew && "bg-[#27c7ff] text-white border-[#27c7ff] hover:bg-[#27c7ff]/90"
+                  isAddingNew && "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
                 )}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -247,7 +247,7 @@ export function BlogTranslationForm({
 
           <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
             {!selectedLocale && !isAddingNew ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-[#a99e8c] p-8">
+              <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8">
                 <Globe className="h-12 w-12 mb-4" />
                 <p className="text-lg font-medium mb-2">Select or add a translation</p>
                 <p className="text-sm text-center">
@@ -347,7 +347,7 @@ export function BlogTranslationForm({
                   </div>
                 </div>
 
-                <div className="p-6 border-t bg-[#faf6ee] flex justify-between gap-3 shrink-0">
+                <div className="p-6 border-t bg-muted flex justify-between gap-3 shrink-0">
                   <div>
                     {selectedLocale && !isAddingNew && (
                       <Button
@@ -355,7 +355,7 @@ export function BlogTranslationForm({
                         variant="outline"
                         onClick={handleDelete}
                         disabled={isSubmitting}
-                        className="text-rose-600 border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                        className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Delete
@@ -375,7 +375,7 @@ export function BlogTranslationForm({
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-[#221c15] text-white hover:bg-[#3a3026] h-11 px-8 font-bold"
+                      className="h-11 px-8 font-bold"
                     >
                       {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {isAddingNew ? "Add Translation" : "Save Translation"}

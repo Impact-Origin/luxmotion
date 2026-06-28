@@ -5,14 +5,12 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@workspace/convex/api";
 import {
   Plus,
-  Search,
   MoreVertical,
   Edit2,
   Trash2,
   Eye,
   Star,
   StarOff,
-  Clock,
   Calendar,
   Globe,
   FileText,
@@ -20,7 +18,6 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/input";
 import { Badge } from "@workspace/ui/components/badge";
 import {
   DropdownMenu,
@@ -29,26 +26,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select";
-import { Skeleton } from "@workspace/ui/components/skeleton";
 import { BlogForm } from "@/components/admin/blog-form";
 import { BlogTranslationForm } from "@/components/admin/blog-translation-form";
+import { StatusBadge } from "@/components/admin/status-badge";
+import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table";
 import { toast } from "sonner";
-import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-
-const statusConfig = {
-  draft: { label: "Draft", className: "bg-amber-50 text-amber-700 border-amber-100" },
-  published: { label: "Published", className: "bg-emerald-50 text-emerald-700 border-emerald-100" },
-  archived: { label: "Archived", className: "bg-[#f1e8d8] text-[#5c554c] border-[#e7ddca]" },
-};
 
 const languageLabels: Record<string, string> = {
   en: "EN",
@@ -67,195 +51,6 @@ function formatDate(timestamp: number): string {
   });
 }
 
-interface BlogCardProps {
-  blog: any;
-  onEdit: (blog: any) => void;
-  onDelete: (id: string) => void;
-  onToggleFeatured: (id: string) => void;
-  onManageTranslations: (blog: any) => void;
-  t: (key: string, values?: Record<string, any>) => string;
-}
-
-function BlogCard({ blog, onEdit, onDelete, onToggleFeatured, onManageTranslations, t }: BlogCardProps) {
-  return (
-    <div className="bg-white rounded-[16px] border border-[#e8e8e8] overflow-hidden hover:shadow-md transition-all duration-200 group flex flex-col">
-      <div className="relative h-[160px] bg-[#f1e8d8] overflow-hidden">
-        {blog.heroImageUrl ? (
-          <Image
-            src={blog.heroImageUrl}
-            alt={blog.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full text-[#a99e8c]">
-            <FileText className="h-8 w-8 mb-2" />
-            <span className="text-xs">{t("noImage")}</span>
-          </div>
-        )}
-
-        <div className="absolute top-3 left-3 flex gap-2">
-          <Badge
-            className={cn(
-              "h-6 px-2.5 text-[10px] font-bold shadow-sm uppercase tracking-tight border",
-              statusConfig[blog.status as keyof typeof statusConfig]?.className
-            )}
-          >
-            {statusConfig[blog.status as keyof typeof statusConfig]?.label}
-          </Badge>
-          {blog.isFeatured && (
-            <Badge className="h-6 px-2.5 text-[10px] font-bold shadow-sm uppercase tracking-tight bg-yellow-50 text-yellow-700 border-yellow-200">
-              <Star className="h-3 w-3 mr-1 fill-current" />
-              {t("featured")}
-            </Badge>
-          )}
-          {blog.isService && (
-            <Badge className="h-6 px-2.5 text-[10px] font-bold shadow-sm uppercase tracking-tight bg-blue-50 text-blue-700 border-blue-200">
-              {t("service")}
-            </Badge>
-          )}
-        </div>
-
-        <div className="absolute top-3 right-3">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 bg-white/90 hover:bg-white shadow-sm"
-              >
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => onEdit(blog)}>
-                <Edit2 className="mr-2 h-4 w-4" />
-                {t("edit")}
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href={`/blogs/${blog.slug}`} target="_blank">
-                  <Eye className="mr-2 h-4 w-4" />
-                  {t("preview")}
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onToggleFeatured(blog._id)}>
-                {blog.isFeatured ? (
-                  <>
-                    <StarOff className="mr-2 h-4 w-4" />
-                    {t("removeFeatured")}
-                  </>
-                ) : (
-                  <>
-                    <Star className="mr-2 h-4 w-4" />
-                    {t("makeFeatured")}
-                  </>
-                )}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onManageTranslations(blog)}>
-                <Languages className="mr-2 h-4 w-4" />
-                {t("translations")}
-                {blog.availableLanguages?.length > 1 && (
-                  <span className="ml-auto text-xs text-[#27c7ff]">
-                    {blog.availableLanguages.length - 1}
-                  </span>
-                )}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => onDelete(blog._id)}
-                className="text-rose-600"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                {t("delete")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      <div className="p-4 flex-1 flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-[10px] font-medium text-[#27c7ff] border-[#27c7ff]/30 bg-[#27c7ff]/5">
-            {blog.category}
-          </Badge>
-          <div className="flex items-center gap-1 text-[#a99e8c]">
-            <Globe className="h-3 w-3" />
-            <span className="text-[10px] font-medium uppercase">
-              {languageLabels[blog.originalLanguage] || blog.originalLanguage}
-            </span>
-            {blog.availableLanguages?.length > 1 && (
-              <span className="text-[10px] text-[#27c7ff] font-medium">
-                +{blog.availableLanguages.length - 1}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <h3 className="text-[15px] font-bold text-[#211c16] leading-tight line-clamp-2">
-          {blog.title}
-        </h3>
-
-        <p className="text-[13px] text-[#8a8074] leading-snug line-clamp-2">
-          {blog.excerpt}
-        </p>
-
-        <div className="mt-auto pt-3 flex items-center justify-between text-[#a99e8c] text-[11px]">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {blog.readTimeMinutes} min
-            </span>
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
-              {formatDate(blog.createdAt)}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BlogListSkeleton() {
-  return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="rounded-[16px] border border-[#e8e8e8] overflow-hidden bg-white">
-          <Skeleton className="h-[160px] w-full" />
-          <div className="p-4 space-y-3">
-            <div className="flex gap-2">
-              <Skeleton className="h-5 w-16" />
-              <Skeleton className="h-5 w-10" />
-            </div>
-            <Skeleton className="h-5 w-full" />
-            <Skeleton className="h-4 w-3/4" />
-            <div className="flex gap-4 pt-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-4 w-20" />
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function EmptyState({ onCreateClick, t }: { onCreateClick: () => void; t: (key: string) => string }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-[#e8e8e8]">
-      <FileText className="h-10 w-10 text-[#a2a2a2] mb-4" />
-      <p className="text-[#808080] font-medium mb-2">{t("noBlogsFound")}</p>
-      <Button
-        variant="link"
-        onClick={onCreateClick}
-        className="text-[#27c7ff] hover:text-[#27c7ff]/80"
-      >
-        {t("createFirstBlog")}
-      </Button>
-    </div>
-  );
-}
-
 export default function BlogsPage() {
   const t = useTranslations("adminBlogs");
   const blogs = useQuery(api.blogs.list);
@@ -263,35 +58,12 @@ export default function BlogsPage() {
   const removeBlog = useMutation(api.blogs.remove);
   const toggleFeatured = useMutation(api.blogs.toggleFeatured);
 
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [categoryFilter, setCategoryFilter] = React.useState<string>("all");
+  type Blog = NonNullable<typeof blogs>[number];
+
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const [editingBlog, setEditingBlog] = React.useState<any>(null);
   const [isTranslationFormOpen, setIsTranslationFormOpen] = React.useState(false);
   const [translatingBlog, setTranslatingBlog] = React.useState<any>(null);
-
-  const filteredBlogs = React.useMemo(() => {
-    if (!blogs) return [];
-
-    return blogs
-      .filter((blog) => {
-        const matchesSearch =
-          blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          blog.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          blog.category.toLowerCase().includes(searchQuery.toLowerCase());
-
-        const matchesStatus =
-          statusFilter === "all" || blog.status === statusFilter;
-
-        const matchesCategory =
-          categoryFilter === "all" ||
-          blog.category.toLowerCase() === categoryFilter.toLowerCase();
-
-        return matchesSearch && matchesStatus && matchesCategory;
-      })
-      .sort((a, b) => b.createdAt - a.createdAt);
-  }, [blogs, searchQuery, statusFilter, categoryFilter]);
 
   const handleEdit = (blog: any) => {
     setEditingBlog(blog);
@@ -328,81 +100,222 @@ export default function BlogsPage() {
     setIsTranslationFormOpen(true);
   };
 
-  return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight text-[#211c16]">{t("title")}</h2>
-          <p className="text-[#8a8074] text-sm">
-            {t("subtitle")}
-          </p>
-        </div>
-        <Button
-          onClick={handleCreateNew}
-          className="bg-[#221c15] text-white hover:bg-[#3a3026]"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          {t("addBlog")}
+  const rowActions = (blog: Blog) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
+          <MoreVertical className="size-4" />
         </Button>
-      </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem onClick={() => handleEdit(blog)}>
+          <Edit2 className="mr-2 size-4" />
+          {t("edit")}
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/blogs/${blog.slug}`} target="_blank">
+            <Eye className="mr-2 size-4" />
+            {t("preview")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleToggleFeatured(blog._id)}>
+          {blog.isFeatured ? (
+            <>
+              <StarOff className="mr-2 size-4" />
+              {t("removeFeatured")}
+            </>
+          ) : (
+            <>
+              <Star className="mr-2 size-4" />
+              {t("makeFeatured")}
+            </>
+          )}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleManageTranslations(blog)}>
+          <Languages className="mr-2 size-4" />
+          {t("translations")}
+          {blog.availableLanguages?.length > 1 && (
+            <span className="ml-auto text-xs text-muted-foreground">
+              {blog.availableLanguages.length - 1}
+            </span>
+          )}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => handleDelete(blog._id)}
+          className="text-destructive focus:text-destructive"
+        >
+          <Trash2 className="mr-2 size-4" />
+          {t("delete")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 bg-white p-4 rounded-xl border border-[#e7ddca] shadow-sm">
-        <div className="relative flex-1 w-full">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#a99e8c]" />
-          <Input
-            placeholder={t("searchPlaceholder")}
-            className="pl-9 border-[#e7ddca]"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+  const columns: DataTableColumn<Blog>[] = [
+    {
+      id: "title",
+      header: "Title",
+      sortAccessor: (b) => b.title.toLowerCase(),
+      cell: (b) => (
+        <div className="flex items-center gap-3">
+          <div className="relative flex h-9 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-muted">
+            {b.heroImageUrl ? (
+              <Image src={b.heroImageUrl} alt={b.title} fill className="object-cover" />
+            ) : (
+              <FileText className="size-4 text-muted-foreground" />
+            )}
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="truncate font-medium text-foreground">{b.title}</span>
+              {b.isFeatured && <Star className="size-3.5 shrink-0 fill-current text-primary" />}
+            </div>
+            <p className="line-clamp-1 text-xs text-muted-foreground">{b.excerpt}</p>
+          </div>
         </div>
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full md:w-[140px]">
-              <SelectValue placeholder={t("allStatus")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t("allStatus")}</SelectItem>
-              <SelectItem value="draft">{t("draft")}</SelectItem>
-              <SelectItem value="published">{t("published")}</SelectItem>
-              <SelectItem value="archived">{t("archived")}</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full md:w-[160px]">
-              <SelectValue placeholder={t("allCategories")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t("allCategories")}</SelectItem>
-              {categories?.map((cat) => (
-                <SelectItem key={cat} value={cat.toLowerCase()}>
-                  {cat}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      ),
+    },
+    {
+      id: "category",
+      header: "Category",
+      cell: (b) => (
+        <span className="inline-flex items-center gap-2">
+          <Badge variant="outline" className="text-[10px] font-medium">
+            {b.category}
+          </Badge>
+          {b.isService && (
+            <Badge variant="outline" className="text-[10px] font-medium">
+              {t("service")}
+            </Badge>
+          )}
+        </span>
+      ),
+    },
+    {
+      id: "languages",
+      header: "Languages",
+      cell: (b) => (
+        <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+          <Globe className="size-3.5" />
+          <span className="font-medium uppercase">
+            {languageLabels[b.originalLanguage] || b.originalLanguage}
+          </span>
+          {b.availableLanguages?.length > 1 && (
+            <span className="text-xs">+{b.availableLanguages.length - 1}</span>
+          )}
+        </span>
+      ),
+    },
+    {
+      id: "status",
+      header: "Status",
+      cell: (b) => <StatusBadge status={b.status} label={t(b.status)} />,
+    },
+    {
+      id: "date",
+      header: "Date",
+      align: "right",
+      sortAccessor: (b) => b.createdAt,
+      cell: (b) => (
+        <span className="inline-flex items-center gap-1 text-sm tabular-nums text-muted-foreground">
+          <Calendar className="size-3.5" />
+          {formatDate(b.createdAt)}
+        </span>
+      ),
+    },
+  ];
+
+  const filters: DataTableFilter<Blog>[] = [
+    {
+      id: "status",
+      label: t("allStatus"),
+      width: "w-[140px]",
+      options: [
+        { value: "draft", label: t("draft") },
+        { value: "published", label: t("published") },
+        { value: "archived", label: t("archived") },
+      ],
+      predicate: (b, val) => b.status === val,
+    },
+    {
+      id: "category",
+      label: t("allCategories"),
+      width: "w-[160px]",
+      options: (categories ?? []).map((cat) => ({ value: cat.toLowerCase(), label: cat })),
+      predicate: (b, val) => b.category.toLowerCase() === val,
+    },
+  ];
+
+  const renderCard = (blog: Blog) => (
+    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
+      <div className="relative aspect-[16/7] border-b border-border bg-muted/40">
+        {blog.heroImageUrl ? (
+          <Image src={blog.heroImageUrl} alt={blog.title} fill className="object-cover" />
+        ) : (
+          <div className="flex size-full flex-col items-center justify-center text-muted-foreground">
+            <FileText className="mb-1 size-6" />
+            <span className="text-xs">{t("noImage")}</span>
+          </div>
+        )}
+        <div className="absolute left-3 top-3 flex gap-2">
+          <StatusBadge status={blog.status} label={t(blog.status)} />
+          {blog.isFeatured && (
+            <Badge className="h-5 bg-primary px-2 text-[10px] font-medium text-primary-foreground">
+              <Star className="mr-1 size-3 fill-current" />
+              {t("featured")}
+            </Badge>
+          )}
+        </div>
+        <div className="absolute right-2 top-2">{rowActions(blog)}</div>
+      </div>
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-[10px] font-medium">
+            {blog.category}
+          </Badge>
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <Globe className="size-3" />
+            <span className="text-[10px] font-medium uppercase">
+              {languageLabels[blog.originalLanguage] || blog.originalLanguage}
+            </span>
+            {blog.availableLanguages?.length > 1 && (
+              <span className="text-[10px] font-medium">+{blog.availableLanguages.length - 1}</span>
+            )}
+          </div>
+        </div>
+        <h3 className="line-clamp-2 text-sm font-medium leading-tight text-foreground">
+          {blog.title}
+        </h3>
+        <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">{blog.excerpt}</p>
+        <div className="mt-auto flex items-center gap-1 pt-3 text-[11px] text-muted-foreground">
+          <Calendar className="size-3" />
+          {formatDate(blog.createdAt)}
         </div>
       </div>
+    </div>
+  );
 
-      {blogs === undefined ? (
-        <BlogListSkeleton />
-      ) : filteredBlogs.length === 0 ? (
-        <EmptyState onCreateClick={handleCreateNew} t={t} />
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredBlogs.map((blog) => (
-            <BlogCard
-              key={blog._id}
-              blog={blog}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              onToggleFeatured={handleToggleFeatured}
-              onManageTranslations={handleManageTranslations}
-              t={t}
-            />
-          ))}
-        </div>
-      )}
+  return (
+    <>
+      <DataTable<Blog>
+        data={blogs}
+        columns={columns}
+        searchKeys={["title", "excerpt", "category"]}
+        searchPlaceholder={t("searchPlaceholder")}
+        filters={filters}
+        renderCard={renderCard}
+        rowActions={rowActions}
+        initialSort={{ columnId: "date", dir: "desc" }}
+        toolbarActions={
+          <Button onClick={handleCreateNew}>
+            <Plus className="mr-2 size-4" />
+            {t("addBlog")}
+          </Button>
+        }
+        emptyTitle={t("noBlogsFound")}
+        emptyIcon={FileText}
+      />
 
       <BlogForm
         key={editingBlog?._id || "new"}
@@ -427,6 +340,6 @@ export default function BlogsPage() {
           originalTitle={translatingBlog.title}
         />
       )}
-    </div>
+    </>
   );
 }

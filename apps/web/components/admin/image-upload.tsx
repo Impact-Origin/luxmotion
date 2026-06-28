@@ -61,7 +61,7 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
     <div className="space-y-4 w-full">
       <div
         className={cn(
-          "relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-[#e7ddca] transition-all hover:bg-[#A08248]/[0.06]/50",
+          "relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border transition-all hover:bg-accent",
           disabled && "opacity-50 cursor-not-allowed"
         )}
       >
@@ -71,7 +71,7 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
               <button
                 type="button"
                 onClick={handleRemove}
-                className="rounded-full bg-rose-500 p-1 text-white hover:bg-rose-600 transition-colors"
+                className="rounded-full bg-destructive p-1 text-white hover:bg-destructive/90 transition-colors"
                 disabled={disabled}
               >
                 <X className="h-4 w-4" />
@@ -85,18 +85,18 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-10 px-6">
-            <div className="mb-4 rounded-full bg-[#f1e8d8] p-3">
+            <div className="mb-4 rounded-full bg-muted p-3">
               {isUploading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-[#8a8074]" />
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               ) : (
-                <Upload className="h-6 w-6 text-[#8a8074]" />
+                <Upload className="h-6 w-6 text-muted-foreground" />
               )}
             </div>
             <div className="text-center">
-              <p className="text-sm font-semibold text-[#211c16]">
+              <p className="text-sm font-semibold text-foreground">
                 {isUploading ? "Uploading..." : "Click to upload image"}
               </p>
-              <p className="mt-1 text-xs text-[#8a8074]">
+              <p className="mt-1 text-xs text-muted-foreground">
                 PNG, JPG or WebP (max. 5MB)
               </p>
             </div>

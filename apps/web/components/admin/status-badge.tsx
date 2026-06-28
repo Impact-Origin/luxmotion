@@ -13,6 +13,10 @@ const STATUS_STYLES: Record<string, string> = {
   pending: "bg-[#fef3c7] text-[#92400e]",
   approved: "bg-[#dcfce7] text-[#166534]",
   rejected: "bg-[#fee2e2] text-[#991b1b]",
+  published: "bg-[#dcfce7] text-[#166534]",
+  draft: "bg-muted text-muted-foreground",
+  cancelled: "bg-[#fee2e2] text-[#991b1b]",
+  completed: "bg-[#dbeafe] text-[#1e40af]",
 }
 
 export function StatusBadge({

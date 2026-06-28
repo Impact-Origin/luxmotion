@@ -29,12 +29,12 @@ export default function AdminWeddingQuotesPage() {
         {
           key: "weddingDate",
           label: "Wedding date",
-          render: (r) => r.weddingDate || <span className="text-[#a99e8c]">—</span>,
+          render: (r) => r.weddingDate || <span className="text-muted-foreground">—</span>,
         },
         {
           key: "guests",
           label: "Guests",
-          render: (r) => r.guests ?? <span className="text-[#a99e8c]">—</span>,
+          render: (r) => r.guests ?? <span className="text-muted-foreground">—</span>,
         },
         {
           key: "vehicle",
@@ -43,7 +43,7 @@ export default function AdminWeddingQuotesPage() {
             r.vehicle ? (
               <span className="capitalize">{r.vehicle}</span>
             ) : (
-              <span className="text-[#a99e8c]">—</span>
+              <span className="text-muted-foreground">—</span>
             ),
         },
       ]}

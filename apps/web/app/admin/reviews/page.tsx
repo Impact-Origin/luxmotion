@@ -158,7 +158,7 @@ export default function AdminReviewsPage() {
               "h-4 w-4",
               star <= rating
                 ? "fill-yellow-400 text-yellow-400"
-                : "fill-[#e7ddca] text-[#d8cfc0]"
+                : "fill-muted text-muted-foreground/40"
             )}
           />
         ))}
@@ -169,7 +169,7 @@ export default function AdminReviewsPage() {
   if (!pendingReviews || !approvedReviews) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -178,8 +178,8 @@ export default function AdminReviewsPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
-          <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
+          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+          <p className="text-muted-foreground mt-1">{t("subtitle")}</p>
         </div>
       </div>
 
@@ -189,13 +189,10 @@ export default function AdminReviewsPage() {
             <Button
               variant={activeTab === "pending" ? "default" : "outline"}
               onClick={() => setActiveTab("pending")}
-              className={cn(
-                activeTab === "pending" && "bg-[#221c15] text-white hover:bg-[#3a3026]"
-              )}
             >
               {t("pending")}
               {pendingReviews && pendingReviews.length > 0 && (
-                <span className="ml-2 bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="ml-2 bg-[#fef3c7] text-[#92400e] text-xs px-2 py-0.5 rounded-full">
                   {pendingReviews.length}
                 </span>
               )}
@@ -203,9 +200,6 @@ export default function AdminReviewsPage() {
             <Button
               variant={activeTab === "approved" ? "default" : "outline"}
               onClick={() => setActiveTab("approved")}
-              className={cn(
-                activeTab === "approved" && "bg-[#221c15] text-white hover:bg-[#3a3026]"
-              )}
             >
               {t("approved")}
             </Button>
@@ -250,9 +244,9 @@ export default function AdminReviewsPage() {
                 <SelectItem key={option.id} value={option.id}>
                   <div className="flex items-center gap-2">
                     {option.type === "tour" ? (
-                      <Map className="h-3.5 w-3.5 text-[#a99e8c]" />
+                      <Map className="h-3.5 w-3.5 text-muted-foreground" />
                     ) : (
-                      <Calendar className="h-3.5 w-3.5 text-[#a99e8c]" />
+                      <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                     )}
                     <span className="truncate">{option.title}</span>
                   </div>
@@ -264,12 +258,12 @@ export default function AdminReviewsPage() {
       </div>
 
       {!reviews || reviews.length === 0 ? (
-        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
-          <MessageSquare className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
-          <h3 className="text-lg font-medium text-[#211c16] mb-2">
+        <div className="text-center py-12 bg-muted rounded-lg border-2 border-dashed border-border">
+          <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <h3 className="text-lg font-medium text-foreground mb-2">
             {activeTab === "pending" ? t("noPending") : t("noApproved")}
           </h3>
-          <p className="text-[#8a8074]">
+          <p className="text-muted-foreground">
             {activeTab === "pending" ? t("noPendingDescription") : t("noApprovedDescription")}
           </p>
         </div>
@@ -279,8 +273,8 @@ export default function AdminReviewsPage() {
             <div
               key={review._id}
               className={cn(
-                "bg-white rounded-xl border overflow-hidden hover:shadow-lg transition-shadow",
-                review.isFeatured ? "border-amber-300 ring-1 ring-amber-200" : "border-[#e7ddca]"
+                "bg-card rounded-xl border overflow-hidden hover:shadow-lg transition-shadow",
+                review.isFeatured ? "border-amber-300 ring-1 ring-amber-200" : "border-border"
               )}
             >
               {review.isFeatured && (
@@ -307,7 +301,7 @@ export default function AdminReviewsPage() {
                       )}
                       {activeTab === "approved" && (
                         <DropdownMenuItem onSelect={() => handleToggleFeatured(review._id, !!review.isFeatured)}>
-                          <Award className={cn("h-4 w-4 mr-2", review.isFeatured ? "text-amber-500" : "text-[#a99e8c]")} />
+                          <Award className={cn("h-4 w-4 mr-2", review.isFeatured ? "text-amber-500" : "text-muted-foreground")} />
                           {review.isFeatured ? t("removeFromTestimonials") : t("addToTestimonials")}
                         </DropdownMenuItem>
                       )}
@@ -322,30 +316,30 @@ export default function AdminReviewsPage() {
                   </DropdownMenu>
                 </div>
 
-                <p className="text-[#4a443c] text-sm line-clamp-4 mb-4">
+                <p className="text-foreground text-sm line-clamp-4 mb-4">
                   "{review.text}"
                 </p>
 
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="h-8 w-8 rounded-full bg-[#e7ddca] flex items-center justify-center text-[#5c554c] text-sm font-medium">
+                  <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground text-sm font-medium">
                     {review.author.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-[#211c16]">{review.author}</p>
-                    <p className="text-xs text-[#8a8074]">{review.nationality || t("unknownNationality")}</p>
-                    <p className="text-xs text-[#8a8074]">{formatDate(review.createdAt)}</p>
+                    <p className="text-sm font-medium text-foreground">{review.author}</p>
+                    <p className="text-xs text-muted-foreground">{review.nationality || t("unknownNationality")}</p>
+                    <p className="text-xs text-muted-foreground">{formatDate(review.createdAt)}</p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-[#efe7d8]">
+                <div className="pt-3 border-t border-border">
                   {review.tourTitle && (
-                    <div className="flex items-center gap-2 text-xs text-[#8a8074]">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Map className="h-3.5 w-3.5" />
                       <span className="truncate">{review.tourTitle}</span>
                     </div>
                   )}
                   {review.eventTitle && (
-                    <div className="flex items-center gap-2 text-xs text-[#8a8074]">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Calendar className="h-3.5 w-3.5" />
                       <span className="truncate">{review.eventTitle}</span>
                     </div>
@@ -354,7 +348,7 @@ export default function AdminReviewsPage() {
               </div>
 
               {activeTab === "pending" && (
-                <div className="px-5 py-3 bg-[#faf6ee] border-t border-[#efe7d8] flex gap-2">
+                <div className="px-5 py-3 bg-muted border-t border-border flex gap-2">
                   <Button
                     size="sm"
                     variant="outline"
@@ -375,7 +369,7 @@ export default function AdminReviewsPage() {
                 </div>
               )}
               {activeTab === "approved" && (
-                <div className="px-5 py-3 bg-[#faf6ee] border-t border-[#efe7d8]">
+                <div className="px-5 py-3 bg-muted border-t border-border">
                   <Button
                     size="sm"
                     variant="outline"
@@ -383,11 +377,11 @@ export default function AdminReviewsPage() {
                       "w-full",
                       review.isFeatured
                         ? "text-amber-600 border-amber-300 hover:bg-amber-50"
-                        : "text-[#5c554c] hover:bg-[#A08248]/[0.09]"
+                        : "text-muted-foreground hover:bg-accent"
                     )}
                     onClick={() => handleToggleFeatured(review._id, !!review.isFeatured)}
                   >
-                    <Award className={cn("h-4 w-4 mr-1", review.isFeatured ? "text-amber-500" : "text-[#a99e8c]")} />
+                    <Award className={cn("h-4 w-4 mr-1", review.isFeatured ? "text-amber-500" : "text-muted-foreground")} />
                     {review.isFeatured ? t("removeFromTestimonials") : t("addToTestimonials")}
                   </Button>
                 </div>

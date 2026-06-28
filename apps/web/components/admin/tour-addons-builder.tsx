@@ -96,7 +96,7 @@ function AddonCard({
   }
 
   return (
-    <div className="border border-[#e7ddca] rounded-lg p-4 space-y-4 bg-white">
+    <div className="border border-border rounded-lg p-4 space-y-4 bg-card">
       <div className="flex items-start gap-4">
         <div className="w-32 shrink-0">
           <Label className="text-xs mb-1 block">{t("form.addonImageLabel")}</Label>
@@ -193,7 +193,7 @@ function AddonCard({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-rose-500 hover:text-rose-700 hover:bg-rose-50"
+              className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
               onClick={() => onRemove(addon._id)}
               disabled={isSaving}
               title={t("form.removeAddon")}
@@ -230,7 +230,7 @@ export function TourAddonsBuilder({ entityId, entityType, originalLanguage }: To
 
   if (!entityId) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-[#a99e8c]">
+      <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
         <Gem className="h-10 w-10 mb-3" />
         <p className="text-sm">{t("form.saveFirst")}</p>
       </div>
@@ -280,16 +280,16 @@ export function TourAddonsBuilder({ entityId, entityType, originalLanguage }: To
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-[#211c16]">{t("form.addonsTitle")}</h3>
-        <p className="text-xs text-[#8a8074] mt-0.5">{t("form.addonsDescription")}</p>
+        <h3 className="text-sm font-semibold text-foreground">{t("form.addonsTitle")}</h3>
+        <p className="text-xs text-muted-foreground mt-0.5">{t("form.addonsDescription")}</p>
       </div>
 
       {addons === undefined ? (
         <div className="flex justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-[#a99e8c]" />
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
       ) : addons.length === 0 ? (
-        <div className="text-center py-8 text-[#a99e8c] text-sm">
+        <div className="text-center py-8 text-muted-foreground text-sm">
           {t("form.addonsDescription")}
         </div>
       ) : (

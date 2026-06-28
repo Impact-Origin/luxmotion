@@ -177,17 +177,17 @@ export function EventTranslationForm({
         </DialogHeader>
 
         <div className="flex-1 flex overflow-hidden">
-          <div className="w-[240px] border-r bg-[#faf6ee] p-4 overflow-y-auto shrink-0">
+          <div className="w-[240px] border-r bg-muted p-4 overflow-y-auto shrink-0">
             <div className="space-y-1">
-              <div className="px-3 py-2 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 Original
               </div>
-              <div className="px-3 py-2 rounded-lg bg-[#e7ddca] text-[#211c16] font-medium flex items-center gap-2">
+              <div className="px-3 py-2 rounded-lg bg-accent text-foreground font-medium flex items-center gap-2">
                 <span>{LANGUAGES.find((l) => l.value === originalLanguage)?.flag}</span>
                 <span>{LANGUAGES.find((l) => l.value === originalLanguage)?.label}</span>
               </div>
 
-              <div className="px-3 py-2 text-xs font-semibold text-[#8a8074] uppercase tracking-wider mt-4">
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-4">
                 Translations
               </div>
 
@@ -199,8 +199,8 @@ export function EventTranslationForm({
                   className={cn(
                     "w-full px-3 py-2 rounded-lg text-left font-medium flex items-center gap-2 transition-colors",
                     selectedLocale === lang.value
-                      ? "bg-[#221c15] text-white"
-                      : "hover:bg-[#A08248]/[0.09] text-[#4a443c]"
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-accent text-foreground"
                   )}
                 >
                   <span>{lang.flag}</span>
@@ -223,7 +223,7 @@ export function EventTranslationForm({
                         {LANGUAGES.find((l) => l.value === selectedLocale)?.flag}{" "}
                         {LANGUAGES.find((l) => l.value === selectedLocale)?.label} Translation
                       </h3>
-                      <p className="text-sm text-[#8a8074]">
+                      <p className="text-sm text-muted-foreground">
                         {hasTranslation(selectedLocale) ? "Edit existing translation" : "Create new translation"}
                       </p>
                     </div>
@@ -316,7 +316,7 @@ export function EventTranslationForm({
                     <Label className="text-base font-bold">SEO</Label>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-xs text-[#8a8074]">SEO Title</Label>
+                        <Label className="text-xs text-muted-foreground">SEO Title</Label>
                         <Input
                           value={seoTitle}
                           onChange={(e) => setSeoTitle(e.target.value)}
@@ -326,7 +326,7 @@ export function EventTranslationForm({
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs text-[#8a8074]">SEO Description</Label>
+                        <Label className="text-xs text-muted-foreground">SEO Description</Label>
                         <Textarea
                           value={seoDescription}
                           onChange={(e) => setSeoDescription(e.target.value)}
@@ -339,11 +339,10 @@ export function EventTranslationForm({
                   </div>
                 </div>
 
-                <div className="p-4 border-t bg-[#faf6ee] flex justify-end gap-3 shrink-0">
+                <div className="p-4 border-t bg-muted flex justify-end gap-3 shrink-0">
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-[#221c15] text-white hover:bg-[#3a3026]"
                   >
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {hasTranslation(selectedLocale) ? "Update Translation" : "Create Translation"}
@@ -351,9 +350,9 @@ export function EventTranslationForm({
                 </div>
               </form>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-[#8a8074]">
+              <div className="flex-1 flex items-center justify-center text-muted-foreground">
                 <div className="text-center">
-                  <Globe className="h-12 w-12 mx-auto mb-4 text-[#c9bfae]" />
+                  <Globe className="h-12 w-12 mx-auto mb-4 text-muted-foreground/60" />
                   <p className="font-medium">Select a language</p>
                   <p className="text-sm">Choose a language from the left to add or edit translations</p>
                 </div>

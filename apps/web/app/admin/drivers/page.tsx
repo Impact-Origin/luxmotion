@@ -4,25 +4,16 @@ import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select"
 import { DriverForm } from "@/components/admin/driver-form"
+import { StatusBadge } from "@/components/admin/status-badge"
+import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
 import {
   Plus,
-  Search,
   Pencil,
   Trash2,
   MoreHorizontal,
-  Loader2,
   UserCheck,
   MapPin,
-  Quote,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -43,7 +34,6 @@ import {
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog"
 import { toast } from "sonner"
-import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 
 export default function AdminDriversPage() {
@@ -52,35 +42,12 @@ export default function AdminDriversPage() {
   const [editingDriver, setEditingDriver] = React.useState<any>(null)
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
-  const [search, setSearch] = React.useState("")
-  const [statusFilter, setStatusFilter] = React.useState("all")
-
   const drivers = useQuery(api.drivers.list)
   const removeDriver = useMutation(api.drivers.remove)
 
-  const filteredDrivers = React.useMemo(() => {
-    if (!drivers) return []
+  type Driver = NonNullable<typeof drivers>[number]
 
-    return drivers.filter((driver) => {
-      if (search) {
-        const searchLower = search.toLowerCase()
-        if (
-          !driver.name.toLowerCase().includes(searchLower) &&
-          !driver.location.toLowerCase().includes(searchLower)
-        ) {
-          return false
-        }
-      }
-
-      if (statusFilter !== "all" && driver.status !== statusFilter) {
-        return false
-      }
-
-      return true
-    })
-  }, [drivers, search, statusFilter])
-
-  const handleEdit = (driver: any) => {
+  const handleEdit = (driver: Driver) => {
     setEditingDriver(driver)
     setIsFormOpen(true)
   }
@@ -103,150 +70,143 @@ export default function AdminDriversPage() {
     }
   }
 
-  const getStatusBadgeClass = (status: string) => {
-    switch (status) {
-      case "published":
-        return "bg-green-100 text-green-800"
-      case "draft":
-        return "bg-[#f1e8d8] text-[#2a241c]"
-      default:
-        return "bg-[#f1e8d8] text-[#2a241c]"
-    }
-  }
+  const rowActions = (driver: Driver) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
+          <MoreHorizontal className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-40">
+        <DropdownMenuItem onClick={() => handleEdit(driver)}>
+          <Pencil className="mr-2 size-4" />
+          {t("edit")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => setDeletingId(driver._id)}
+          className="text-destructive focus:text-destructive"
+        >
+          <Trash2 className="mr-2 size-4" />
+          {t("delete")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
 
-  if (!drivers) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
+  const columns: DataTableColumn<Driver>[] = [
+    {
+      id: "name",
+      header: t("title"),
+      sortAccessor: (d) => d.name.toLowerCase(),
+      cell: (d) => (
+        <div className="flex items-center gap-3">
+          <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-muted">
+            {d.imageUrl ? (
+              <Image src={d.imageUrl} alt={d.name} fill className="object-cover" />
+            ) : (
+              <UserCheck className="size-4 text-muted-foreground" />
+            )}
+          </div>
+          <div className="min-w-0">
+            <span className="font-medium text-foreground">{d.name}</span>
+            {d.location && (
+              <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                <MapPin className="size-3" />
+                {d.location}
+              </p>
+            )}
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "quote",
+      header: "Quote",
+      cell: (d) => (
+        <p className="max-w-md truncate text-sm italic text-muted-foreground">
+          &ldquo;{d.quote}&rdquo;
+        </p>
+      ),
+    },
+    {
+      id: "status",
+      header: t("status"),
+      cell: (d) => <StatusBadge status={d.status} label={t(d.status)} />,
+    },
+    {
+      id: "order",
+      header: "Order",
+      align: "right",
+      sortAccessor: (d) => d.order,
+      cell: (d) => <span className="tabular-nums text-muted-foreground">#{d.order}</span>,
+    },
+  ]
+
+  const filters: DataTableFilter<Driver>[] = [
+    {
+      id: "status",
+      label: t("allStatus"),
+      width: "w-[140px]",
+      options: [
+        { value: "published", label: t("published") },
+        { value: "draft", label: t("draft") },
+      ],
+      predicate: (d, val) => d.status === val,
+    },
+  ]
+
+  const renderCard = (driver: Driver) => (
+    <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center">
+      <div className="relative size-[100px] shrink-0 overflow-hidden rounded-full border border-border bg-muted">
+        {driver.imageUrl ? (
+          <Image src={driver.imageUrl} alt={driver.name} fill className="object-cover" />
+        ) : (
+          <div className="flex size-full items-center justify-center">
+            <UserCheck className="size-8 text-muted-foreground" />
+          </div>
+        )}
       </div>
-    )
-  }
+      <div>
+        <h3 className="font-medium text-foreground">{driver.name}</h3>
+        {driver.location && (
+          <p className="mt-0.5 flex items-center justify-center gap-1 text-sm text-muted-foreground">
+            <MapPin className="size-3" />
+            {driver.location}
+          </p>
+        )}
+      </div>
+      <p className="line-clamp-3 text-sm italic leading-snug text-muted-foreground">
+        &ldquo;{driver.quote}&rdquo;
+      </p>
+      <div className="mt-auto flex w-full items-center justify-between border-t border-border pt-3">
+        <StatusBadge status={driver.status} label={t(driver.status)} />
+        {rowActions(driver)}
+      </div>
+    </div>
+  )
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
-          <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
-        </div>
-        <Button onClick={handleCreate} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
-          <Plus className="h-4 w-4 mr-2" />
-          {t("addDriver")}
-        </Button>
-      </div>
-
-      <div className="flex gap-4 mb-6 flex-wrap">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
-          <Input
-            placeholder={t("searchPlaceholder")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
-        </div>
-
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder={t("status")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("allStatus")}</SelectItem>
-            <SelectItem value="published">{t("published")}</SelectItem>
-            <SelectItem value="draft">{t("draft")}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {filteredDrivers.length === 0 ? (
-        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
-          <UserCheck className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
-          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noDriversFound")}</h3>
-          <p className="text-[#8a8074] mb-4">
-            {drivers.length === 0 ? t("getStarted") : t("tryFilters")}
-          </p>
-          {drivers.length === 0 && (
-            <Button onClick={handleCreate} variant="outline">
-              <Plus className="h-4 w-4 mr-2" />
-              {t("createDriver")}
-            </Button>
-          )}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredDrivers.map((driver) => (
-            <div
-              key={driver._id}
-              className="bg-white rounded-xl border border-[#e7ddca] overflow-hidden hover:shadow-lg transition-shadow group p-6 flex flex-col items-center text-center"
-            >
-              <div className="relative mb-3">
-                <div className="size-[100px] rounded-full overflow-hidden ring-4 ring-[rgba(41,201,255,0.2)]">
-                  {driver.imageUrl ? (
-                    <Image
-                      src={driver.imageUrl}
-                      alt={driver.name}
-                      width={100}
-                      height={100}
-                      className="object-cover size-full"
-                    />
-                  ) : (
-                    <div className="size-full bg-[#f1e8d8] flex items-center justify-center">
-                      <UserCheck className="h-8 w-8 text-[#c9bfae]" />
-                    </div>
-                  )}
-                </div>
-
-                <span
-                  className={cn(
-                    "absolute -top-1 -right-1 px-2 py-0.5 rounded-full text-[10px] font-medium",
-                    getStatusBadgeClass(driver.status)
-                  )}
-                >
-                  {t(driver.status)}
-                </span>
-              </div>
-
-              <h3 className="font-bold text-[#0f1729] text-base">{driver.name}</h3>
-
-              {driver.location && (
-                <p className="text-[#29c9ff] text-sm font-medium mt-1">{driver.location}</p>
-              )}
-
-              <p className="text-[#65758b] text-sm italic mt-2 line-clamp-3 leading-[1.3]">
-                &ldquo;{driver.quote}&rdquo;
-              </p>
-
-              <div className="flex items-center gap-1 mt-3 text-xs text-[#a99e8c]">
-                #{driver.order}
-              </div>
-
-              <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="center">
-                    <DropdownMenuItem onClick={() => handleEdit(driver)}>
-                      <Pencil className="h-4 w-4 mr-2" />
-                      {t("edit")}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={() => setDeletingId(driver._id)}
-                      className="text-red-600"
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      {t("delete")}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+    <>
+      <DataTable<Driver>
+        data={drivers}
+        columns={columns}
+        searchKeys={["name", "location"]}
+        searchPlaceholder={t("searchPlaceholder")}
+        filters={filters}
+        renderCard={renderCard}
+        rowActions={rowActions}
+        initialSort={{ columnId: "order", dir: "asc" }}
+        toolbarActions={
+          <Button onClick={handleCreate}>
+            <Plus className="mr-2 size-4" />
+            {t("addDriver")}
+          </Button>
+        }
+        emptyTitle={t("noDriversFound")}
+        emptyDescription={t("tryFilters")}
+        emptyIcon={UserCheck}
+      />
 
       <DriverForm
         isOpen={isFormOpen}
@@ -269,13 +229,13 @@ export default function AdminDriversPage() {
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-destructive text-white hover:bg-destructive/90"
             >
               {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   )
 }

@@ -409,14 +409,14 @@ export function CorporateExperienceForm({
             <Label>Cover image (card thumbnail)</Label>
             <div className="flex items-start gap-3">
               {coverPreview ? (
-                <div className="relative h-24 w-32 border border-[#e7ddca] rounded overflow-hidden">
+                <div className="relative h-24 w-32 border border-border rounded overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={coverPreview} alt="" className="size-full object-cover" />
                 </div>
               ) : (
-                <div className="h-24 w-32 border border-dashed border-[#ddd0b8] rounded bg-[#faf6ee]" />
+                <div className="h-24 w-32 border border-dashed border-border rounded bg-muted" />
               )}
-              <label className="inline-flex items-center gap-2 h-9 px-3 text-sm border border-[#e7ddca] rounded-md cursor-pointer hover:bg-[#A08248]/[0.06]">
+              <label className="inline-flex items-center gap-2 h-9 px-3 text-sm border border-border rounded-md cursor-pointer hover:bg-accent">
                 <Upload className="size-4" />
                 Choose file
                 <input type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
@@ -428,7 +428,7 @@ export function CorporateExperienceForm({
             <Label>Gallery images (drawer thumbnails, max 8)</Label>
             <div className="flex flex-wrap gap-2">
               {galleryPreviews.map((src, i) => (
-                <div key={i} className="relative h-20 w-20 border border-[#e7ddca] rounded overflow-hidden group">
+                <div key={i} className="relative h-20 w-20 border border-border rounded overflow-hidden group">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={src} alt="" className="size-full object-cover" />
                   <button
@@ -441,8 +441,8 @@ export function CorporateExperienceForm({
                 </div>
               ))}
               {galleryImageIds.length < 8 && (
-                <label className="h-20 w-20 border border-dashed border-[#ddd0b8] rounded bg-[#faf6ee] cursor-pointer flex items-center justify-center hover:bg-[#A08248]/[0.09]">
-                  <Upload className="size-4 text-[#a99e8c]" />
+                <label className="h-20 w-20 border border-dashed border-border rounded bg-muted cursor-pointer flex items-center justify-center hover:bg-accent">
+                  <Upload className="size-4 text-muted-foreground" />
                   <input type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} />
                 </label>
               )}
@@ -470,7 +470,7 @@ export function CorporateExperienceForm({
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#efe7d8]">
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
             <Button type="button" variant="outline" onClick={onClose} disabled={submitting}>
               Cancel
             </Button>

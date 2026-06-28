@@ -77,14 +77,14 @@ export function MultiImageUpload({
   return (
     <div className="space-y-4 w-full">
       {label && (
-        <p className="text-sm text-[#8a8074]">{label}</p>
+        <p className="text-sm text-muted-foreground">{label}</p>
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {value.map((item, index) => (
           <div
             key={item.id}
-            className="relative aspect-video rounded-lg border border-[#e7ddca] overflow-hidden group"
+            className="relative aspect-video rounded-lg border border-border overflow-hidden group"
           >
             <img
               src={item.url}
@@ -94,7 +94,7 @@ export function MultiImageUpload({
             <button
               type="button"
               onClick={() => handleRemove(index)}
-              className="absolute top-2 right-2 rounded-full bg-rose-500 p-1 text-white hover:bg-rose-600 transition-colors opacity-0 group-hover:opacity-100"
+              className="absolute top-2 right-2 rounded-full bg-destructive p-1 text-white hover:bg-destructive/90 transition-colors opacity-0 group-hover:opacity-100"
               disabled={disabled}
             >
               <X className="h-3 w-3" />
@@ -108,17 +108,17 @@ export function MultiImageUpload({
         {canAddMore && (
           <div
             className={cn(
-              "relative aspect-video flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-[#e7ddca] transition-all hover:bg-[#A08248]/[0.06]/50 cursor-pointer",
+              "relative aspect-video flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border transition-all hover:bg-accent cursor-pointer",
               disabled && "opacity-50 cursor-not-allowed"
             )}
           >
             <div className="flex flex-col items-center justify-center">
               {isUploading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-[#a99e8c]" />
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               ) : (
                 <>
-                  <Plus className="h-6 w-6 text-[#a99e8c]" />
-                  <span className="mt-1 text-xs text-[#8a8074]">
+                  <Plus className="h-6 w-6 text-muted-foreground" />
+                  <span className="mt-1 text-xs text-muted-foreground">
                     {value.length}/{maxImages}
                   </span>
                 </>

@@ -13,29 +13,21 @@ interface StatsCardProps {
   className?: string;
 }
 
-const SERIF = "var(--font-title), 'Cormorant Garamond', serif";
-
 export function StatsCard({ title, value, icon: Icon, description, trend, className }: StatsCardProps) {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl border border-[#e7ddca] bg-white p-6 shadow-[0_1px_2px_rgba(33,28,22,0.04)] transition-all duration-200 hover:border-[#d8c7a3] hover:shadow-[0_10px_28px_rgba(160,130,72,0.10)]",
+        "rounded-xl border border-border bg-card p-6 transition-shadow hover:shadow-md",
         className,
       )}
     >
-      <span
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A96E]/50 to-transparent"
-      />
       <div className="flex items-start justify-between">
         <div className="space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[1.2px] text-[#8a8074]">{title}</p>
-          <div className="text-[34px] leading-none text-[#211c16]" style={{ fontFamily: SERIF }}>
-            {value}
-          </div>
+          <p className="text-[11px] font-medium uppercase tracking-[1.2px] text-muted-foreground">{title}</p>
+          <div className="text-[32px] font-medium leading-none text-foreground">{value}</div>
         </div>
-        <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#e7ddca] bg-[#A08248]/[0.07] text-[#A08248]">
-          <Icon className="h-5 w-5" strokeWidth={1.8} />
+        <div className="flex size-11 items-center justify-center rounded-lg border border-border bg-muted text-foreground">
+          <Icon className="size-5" strokeWidth={1.8} />
         </div>
       </div>
 
@@ -44,15 +36,15 @@ export function StatsCard({ title, value, icon: Icon, description, trend, classN
           {trend && (
             <span
               className={cn(
-                "rounded px-1.5 py-0.5 text-xs font-semibold",
-                trend.isPositive ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700",
+                "rounded px-1.5 py-0.5 text-xs font-medium",
+                trend.isPositive ? "bg-[#dcfce7] text-[#166534]" : "bg-[#fee2e2] text-[#991b1b]",
               )}
             >
               {trend.isPositive ? "+" : "-"}
               {Math.abs(trend.value)}%
             </span>
           )}
-          {description && <span className="text-xs text-[#8a8074]">{description}</span>}
+          {description && <span className="text-xs text-muted-foreground">{description}</span>}
         </div>
       )}
     </div>

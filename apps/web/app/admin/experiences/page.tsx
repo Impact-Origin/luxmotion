@@ -4,25 +4,8 @@ import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select"
 import { ExperienceForm } from "@/components/admin/experience-form"
-import {
-  Plus,
-  Search,
-  Pencil,
-  Trash2,
-  MoreHorizontal,
-  Loader2,
-  Briefcase,
-  MapPin,
-} from "lucide-react"
+import { Plus, Pencil, Trash2, MoreHorizontal, Briefcase, MapPin } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -42,8 +25,9 @@ import {
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog"
 import { toast } from "sonner"
-import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
+import { StatusBadge } from "@/components/admin/status-badge"
+import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
 
 export default function AdminExperiencesPage() {
   const t = useTranslations("adminExperiences")
@@ -51,38 +35,10 @@ export default function AdminExperiencesPage() {
   const [editingExperience, setEditingExperience] = React.useState<any>(null)
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
-  const [search, setSearch] = React.useState("")
-  const [statusFilter, setStatusFilter] = React.useState("all")
-  const [categoryFilter, setCategoryFilter] = React.useState("all")
-
   const experiences = useQuery(api.pastExperiences.list)
   const removeExperience = useMutation(api.pastExperiences.remove)
 
-  const filteredExperiences = React.useMemo(() => {
-    if (!experiences) return []
-
-    return experiences.filter((exp) => {
-      if (search) {
-        const searchLower = search.toLowerCase()
-        if (
-          !exp.title.toLowerCase().includes(searchLower) &&
-          !exp.location.toLowerCase().includes(searchLower)
-        ) {
-          return false
-        }
-      }
-
-      if (statusFilter !== "all" && exp.status !== statusFilter) {
-        return false
-      }
-
-      if (categoryFilter !== "all" && exp.category !== categoryFilter) {
-        return false
-      }
-
-      return true
-    })
-  }, [experiences, search, statusFilter, categoryFilter])
+  type ExperienceRow = NonNullable<typeof experiences>[number]
 
   const handleEdit = (experience: any) => {
     setEditingExperience(experience)
@@ -107,185 +63,169 @@ export default function AdminExperiencesPage() {
     }
   }
 
-  const getStatusBadgeClass = (status: string) => {
-    switch (status) {
-      case "published":
-        return "bg-green-100 text-green-800"
-      case "draft":
-        return "bg-[#f1e8d8] text-[#2a241c]"
-      default:
-        return "bg-[#f1e8d8] text-[#2a241c]"
-    }
-  }
-
   const getCategoryLabel = (category: string) => {
     return t(`categories.${category}`)
   }
 
-  if (!experiences) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
+  const rowActions = (exp: ExperienceRow) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
+          <MoreHorizontal className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => handleEdit(exp)}>
+          <Pencil className="mr-2 size-4" />
+          {t("edit")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => setDeletingId(exp._id)}
+          className="text-destructive focus:text-destructive"
+        >
+          <Trash2 className="mr-2 size-4" />
+          {t("delete")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+
+  const columns: DataTableColumn<ExperienceRow>[] = [
+    {
+      id: "title",
+      header: t("form.titleLabel"),
+      sortAccessor: (e) => e.title.toLowerCase(),
+      cell: (e) => (
+        <div className="flex items-center gap-3">
+          <div className="relative flex h-9 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-muted">
+            {e.imageUrl ? (
+              <Image src={e.imageUrl} alt={e.title} fill className="object-cover" />
+            ) : (
+              <Briefcase className="size-4 text-muted-foreground" />
+            )}
+          </div>
+          <div className="min-w-0">
+            <span className="font-medium text-foreground line-clamp-1">{e.title}</span>
+            <p className="text-xs text-muted-foreground line-clamp-1">{e.description}</p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "category",
+      header: t("category"),
+      sortAccessor: (e) => e.category,
+      cell: (e) => <span className="text-sm text-muted-foreground">{getCategoryLabel(e.category)}</span>,
+    },
+    {
+      id: "location",
+      header: t("form.locationLabel"),
+      cell: (e) =>
+        e.location ? (
+          <span className="inline-flex items-center gap-1.5 text-sm">
+            <MapPin className="size-3.5 text-muted-foreground" />
+            {e.location}
+          </span>
+        ) : (
+          <span className="text-sm text-muted-foreground">—</span>
+        ),
+    },
+    {
+      id: "status",
+      header: t("status"),
+      cell: (e) => <StatusBadge status={e.status} label={t(e.status)} />,
+    },
+  ]
+
+  const filters: DataTableFilter<ExperienceRow>[] = [
+    {
+      id: "status",
+      label: t("allStatus"),
+      width: "w-[140px]",
+      options: [
+        { value: "published", label: t("published") },
+        { value: "draft", label: t("draft") },
+      ],
+      predicate: (e, val) => e.status === val,
+    },
+    {
+      id: "category",
+      label: t("allCategories"),
+      width: "w-[160px]",
+      options: [
+        { value: "corporate", label: t("categories.corporate") },
+        { value: "weddings", label: t("categories.weddings") },
+        { value: "events", label: t("categories.events") },
+        { value: "privateTours", label: t("categories.privateTours") },
+      ],
+      predicate: (e, val) => e.category === val,
+    },
+  ]
+
+  const renderCard = (exp: ExperienceRow) => (
+    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
+      <div className="relative aspect-[16/9] border-b border-border bg-muted/40">
+        {exp.imageUrl ? (
+          <Image src={exp.imageUrl} alt={exp.title} fill className="object-cover" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <Briefcase className="size-8 text-muted-foreground" />
+          </div>
+        )}
+        <div className="absolute left-2 top-2 flex flex-wrap gap-1.5">
+          <StatusBadge status={exp.status} label={t(exp.status)} />
+          {exp.location && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-card/90 px-2 py-0.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+              <MapPin className="size-3" />
+              {exp.location}
+            </span>
+          )}
+        </div>
+        <div className="absolute right-2 top-2">{rowActions(exp)}</div>
       </div>
-    )
-  }
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="text-xs text-muted-foreground">{getCategoryLabel(exp.category)}</div>
+        <h3 className="line-clamp-1 font-medium text-foreground">{exp.title}</h3>
+        <p className="line-clamp-2 text-sm text-muted-foreground">{exp.description}</p>
+        {exp.tags && exp.tags.length > 0 && (
+          <div className="mt-auto flex flex-wrap gap-1 pt-2">
+            {exp.tags.map((tag: string) => (
+              <span key={tag} className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
 
   return (
     <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
-          <p className="text-[#8a8074] mt-1">{t("subtitle")}</p>
-        </div>
-        <Button onClick={handleCreate} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
-          <Plus className="h-4 w-4 mr-2" />
-          {t("addExperience")}
-        </Button>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+        <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
       </div>
 
-      <div className="flex gap-4 mb-6 flex-wrap">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
-          <Input
-            placeholder={t("searchPlaceholder")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
-        </div>
-
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder={t("status")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("allStatus")}</SelectItem>
-            <SelectItem value="published">{t("published")}</SelectItem>
-            <SelectItem value="draft">{t("draft")}</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder={t("category")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("allCategories")}</SelectItem>
-            <SelectItem value="corporate">{t("categories.corporate")}</SelectItem>
-            <SelectItem value="weddings">{t("categories.weddings")}</SelectItem>
-            <SelectItem value="events">{t("categories.events")}</SelectItem>
-            <SelectItem value="privateTours">{t("categories.privateTours")}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {filteredExperiences.length === 0 ? (
-        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
-          <Briefcase className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
-          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noExperiencesFound")}</h3>
-          <p className="text-[#8a8074] mb-4">
-            {experiences.length === 0 ? t("getStarted") : t("tryFilters")}
-          </p>
-          {experiences.length === 0 && (
-            <Button onClick={handleCreate} variant="outline">
-              <Plus className="h-4 w-4 mr-2" />
-              {t("createExperience")}
-            </Button>
-          )}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredExperiences.map((exp) => (
-            <div
-              key={exp._id}
-              className="bg-white rounded-xl border border-[#e7ddca] overflow-hidden hover:shadow-lg transition-shadow group"
-            >
-              <div className="relative h-48">
-                {exp.imageUrl ? (
-                  <Image
-                    src={exp.imageUrl}
-                    alt={exp.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-[#f1e8d8] flex items-center justify-center">
-                    <Briefcase className="h-12 w-12 text-[#c9bfae]" />
-                  </div>
-                )}
-
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <span
-                    className={cn(
-                      "px-2 py-1 rounded-full text-xs font-medium",
-                      getStatusBadgeClass(exp.status)
-                    )}
-                  >
-                    {t(exp.status)}
-                  </span>
-                  {exp.location && (
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-[#27c7ff] text-white flex items-center gap-1">
-                      <MapPin className="h-3 w-3" />
-                      {exp.location}
-                    </span>
-                  )}
-                </div>
-
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="secondary" size="sm" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleEdit(exp)}>
-                        <Pencil className="h-4 w-4 mr-2" />
-                        {t("edit")}
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => setDeletingId(exp._id)}
-                        className="text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        {t("delete")}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="text-xs text-[#8a8074] mb-2">
-                  {getCategoryLabel(exp.category)}
-                </div>
-
-                <h3 className="font-semibold text-[#211c16] line-clamp-1 mb-1">
-                  {exp.title}
-                </h3>
-
-                <p className="text-sm text-[#8a8074] line-clamp-2 mb-3">
-                  {exp.description}
-                </p>
-
-                {exp.tags && exp.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {exp.tags.map((tag: string) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 rounded-full bg-[#f1e8d8] text-[#5c554c] text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <DataTable<ExperienceRow>
+        data={experiences}
+        columns={columns}
+        searchKeys={["title", "location"]}
+        searchPlaceholder={t("searchPlaceholder")}
+        filters={filters}
+        renderCard={renderCard}
+        rowActions={rowActions}
+        toolbarActions={
+          <Button onClick={handleCreate}>
+            <Plus className="mr-2 size-4" />
+            {t("addExperience")}
+          </Button>
+        }
+        emptyTitle={t("noExperiencesFound")}
+        emptyDescription={experiences && experiences.length === 0 ? t("getStarted") : t("tryFilters")}
+        emptyIcon={Briefcase}
+      />
 
       <ExperienceForm
         isOpen={isFormOpen}
@@ -300,15 +240,13 @@ export default function AdminExperiencesPage() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("deleteTitle")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("deleteDescription")}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{t("deleteDescription")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-destructive text-white hover:bg-destructive/90"
             >
               {t("delete")}
             </AlertDialogAction>

@@ -36,10 +36,10 @@ const STATUS_FILTERS: Array<{ value: "all" | ApplicationStatus; label: string }>
 ]
 
 const STATUS_BADGE: Record<ApplicationStatus, string> = {
-  submitted: "bg-amber-50 text-amber-800 border-amber-200",
-  reviewing: "bg-sky-50 text-sky-800 border-sky-200",
-  approved: "bg-emerald-50 text-emerald-800 border-emerald-200",
-  rejected: "bg-rose-50 text-rose-800 border-rose-200",
+  submitted: "bg-[#fef3c7] text-[#92400e] border-[#fde68a]",
+  reviewing: "bg-muted text-muted-foreground border-border",
+  approved: "bg-[#dcfce7] text-[#166534] border-[#bbf7d0]",
+  rejected: "bg-[#fee2e2] text-[#991b1b] border-[#fecaca]",
 }
 
 const STATUS_LABEL: Record<ApplicationStatus, string> = {
@@ -99,8 +99,8 @@ export default function AdminDriverApplicationsPage() {
     <div className="flex flex-col gap-6 p-6">
       <header className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold text-[#211c16]">Driver Applications</h1>
-          <p className="text-sm text-[#8a8074]">
+          <h1 className="text-2xl font-semibold text-foreground">Driver Applications</h1>
+          <p className="text-sm text-muted-foreground">
             Review chauffeurs that have submitted the driver onboarding form.
           </p>
         </div>
@@ -116,15 +116,15 @@ export default function AdminDriverApplicationsPage() {
               className={cn(
                 "h-9 px-3 text-sm border rounded-md transition-colors",
                 filter === f.value
-                  ? "bg-[#221c15] border-[#221c15] text-white"
-                  : "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-[#A08248]/[0.06]",
+                  ? "bg-primary border-primary text-primary-foreground"
+                  : "bg-card border-border text-foreground hover:bg-accent",
               )}
             >
               {f.label}
               <span
                 className={cn(
                   "ml-2 text-xs",
-                  filter === f.value ? "text-[#c9bfae]" : "text-[#a99e8c]",
+                  filter === f.value ? "text-primary-foreground/70" : "text-muted-foreground",
                 )}
               >
                 {counts[f.value]}
@@ -133,30 +133,30 @@ export default function AdminDriverApplicationsPage() {
           ))}
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search name, email, plate, zone…"
-            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-[#e7ddca] rounded-md focus:outline-none focus:border-[#A08248]"
+            className="h-9 w-[280px] pl-9 pr-3 text-sm border border-border rounded-md focus:outline-none focus:border-ring"
           />
         </div>
       </div>
 
       {applications === undefined ? (
-        <div className="flex items-center justify-center py-20 text-[#a99e8c]">
+        <div className="flex items-center justify-center py-20 text-muted-foreground">
           <Loader2 className="size-6 animate-spin" />
         </div>
       ) : filtered && filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center text-[#a99e8c] gap-2">
+        <div className="flex flex-col items-center justify-center py-20 text-center text-muted-foreground gap-2">
           <Inbox className="size-8" />
           <p className="text-sm">No applications match these filters yet.</p>
         </div>
       ) : (
-        <div className="bg-white border border-[#e7ddca] rounded-lg overflow-hidden">
+        <div className="bg-card border border-border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-[#faf6ee] text-[#8a8074]">
+            <thead className="bg-muted text-muted-foreground">
               <tr>
                 <th className="text-left font-medium px-4 py-3">Driver</th>
                 <th className="text-left font-medium px-4 py-3">Email</th>
@@ -169,27 +169,27 @@ export default function AdminDriverApplicationsPage() {
                 <th className="text-right font-medium px-4 py-3">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#efe7d8]">
+            <tbody className="divide-y divide-border">
               {filtered?.map((a) => {
                 const status = a.status as ApplicationStatus
                 return (
-                  <tr key={a._id} className="hover:bg-[#A08248]/[0.06]/60">
-                    <td className="px-4 py-3 font-medium text-[#211c16]">
-                      {a.fullName || <span className="text-[#a99e8c]">—</span>}
+                  <tr key={a._id} className="hover:bg-accent">
+                    <td className="px-4 py-3 font-medium text-foreground">
+                      {a.fullName || <span className="text-muted-foreground">—</span>}
                     </td>
-                    <td className="px-4 py-3 text-[#4a443c]">{a.email}</td>
-                    <td className="px-4 py-3 text-[#4a443c]">{a.phone}</td>
-                    <td className="px-4 py-3 text-[#4a443c] capitalize">
+                    <td className="px-4 py-3 text-foreground">{a.email}</td>
+                    <td className="px-4 py-3 text-foreground">{a.phone}</td>
+                    <td className="px-4 py-3 text-foreground capitalize">
                       {a.operatingZone}
                     </td>
-                    <td className="px-4 py-3 text-[#4a443c]">
+                    <td className="px-4 py-3 text-foreground">
                       {[a.vehicleBrand, a.vehicleModel].filter(Boolean).join(" ") ||
                         "—"}
                     </td>
-                    <td className="px-4 py-3 text-[#8a8074]">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {formatDate(a.createdAt)}
                     </td>
-                    <td className="px-4 py-3 text-[#4a443c] font-medium">
+                    <td className="px-4 py-3 text-foreground font-medium">
                       #{a.queuePosition}
                     </td>
                     <td className="px-4 py-3">
@@ -223,7 +223,7 @@ export default function AdminDriverApplicationsPage() {
                             )
                               void remove({ id: a._id })
                           }}
-                          className="h-8 px-2 text-rose-600 hover:text-rose-700"
+                          className="h-8 px-2 text-destructive hover:text-destructive"
                         >
                           <Trash2 className="size-4" />
                         </Button>
@@ -273,13 +273,13 @@ function ApplicationDetailDialog({
         </DialogHeader>
 
         {!application ? (
-          <div className="flex items-center justify-center py-16 text-[#a99e8c]">
+          <div className="flex items-center justify-center py-16 text-muted-foreground">
             <Loader2 className="size-6 animate-spin" />
           </div>
         ) : (
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <div className="flex items-center gap-2 text-sm text-[#8a8074]">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span>#{application.queuePosition}</span>
                 <span>·</span>
                 <span>{formatDate(application.createdAt)}</span>
@@ -487,16 +487,16 @@ function StatusButton({
 }) {
   const TONES: Record<typeof tone, { active: string; idle: string }> = {
     neutral: {
-      active: "bg-sky-600 border-sky-600 text-white",
-      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-sky-50 hover:border-sky-200",
+      active: "bg-primary border-primary text-primary-foreground",
+      idle: "bg-card border-border text-foreground hover:bg-accent",
     },
     success: {
       active: "bg-emerald-600 border-emerald-600 text-white",
-      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-emerald-50 hover:border-emerald-200",
+      idle: "bg-card border-border text-foreground hover:bg-emerald-50 hover:border-emerald-200",
     },
     danger: {
       active: "bg-rose-600 border-rose-600 text-white",
-      idle: "bg-white border-[#e7ddca] text-[#4a443c] hover:bg-rose-50 hover:border-rose-200",
+      idle: "bg-card border-border text-foreground hover:bg-rose-50 hover:border-rose-200",
     },
   }
   const t = TONES[tone]
@@ -525,7 +525,7 @@ function Section({
 }) {
   return (
     <section className="flex flex-col gap-3">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8a8074] border-b border-[#e7ddca] pb-2">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground border-b border-border pb-2">
         {title}
       </h3>
       <div className="flex flex-col gap-2">{children}</div>
@@ -545,14 +545,14 @@ function Field({
   const text = typeof children === "string" ? children : ""
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-[#8a8074]">{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       <div className="flex items-center gap-2 min-w-0">
-        <span className="text-[#211c16] break-words">{children || "—"}</span>
+        <span className="text-foreground break-words">{children || "—"}</span>
         {copyable && text ? (
           <button
             type="button"
             onClick={() => void navigator.clipboard.writeText(text)}
-            className="text-[#a99e8c] hover:text-[#4a443c] transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Copy"
           >
             <FileText className="size-3.5" />
@@ -572,18 +572,18 @@ function FileLink({
 }) {
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-[#8a8074]">{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       {url ? (
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sky-600 hover:text-sky-700 underline truncate"
+          className="text-foreground hover:text-foreground/80 underline truncate"
         >
           Open file
         </a>
       ) : (
-        <span className="text-[#a99e8c]">Not uploaded</span>
+        <span className="text-muted-foreground">Not uploaded</span>
       )}
     </div>
   )
@@ -599,9 +599,9 @@ function PhotoGallery({
   const visible = urls.filter((u): u is string => Boolean(u))
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-[#8a8074]">{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       {visible.length === 0 ? (
-        <span className="text-[#a99e8c]">None uploaded</span>
+        <span className="text-muted-foreground">None uploaded</span>
       ) : (
         <div className="flex flex-wrap gap-2">
           {visible.map((u, i) => (
@@ -610,7 +610,7 @@ function PhotoGallery({
               href={u}
               target="_blank"
               rel="noopener noreferrer"
-              className="block size-20 border border-[#e7ddca] rounded overflow-hidden hover:border-[#c2b393] transition-colors"
+              className="block size-20 border border-border rounded overflow-hidden hover:border-ring transition-colors"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

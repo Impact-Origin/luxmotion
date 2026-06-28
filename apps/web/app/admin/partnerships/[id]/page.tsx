@@ -632,14 +632,14 @@ const ColorPicker = React.memo(function ColorPicker({
       className={cn(
         "space-y-2 p-3 rounded-lg transition-all duration-200",
         isSelected
-          ? "bg-blue-50 ring-2 ring-blue-400 shadow-sm"
-          : "hover:bg-[#A08248]/[0.06]",
+          ? "bg-accent ring-2 ring-ring shadow-sm"
+          : "hover:bg-accent",
       )}
     >
-      <Label className="text-xs font-semibold text-[#5c554c]">{label}</Label>
+      <Label className="text-xs font-semibold text-muted-foreground">{label}</Label>
       <div className="flex items-center gap-2">
         <div
-          className="h-10 w-10 rounded-lg border-2 border-[#e7ddca] shadow-sm shrink-0 cursor-pointer relative overflow-hidden"
+          className="h-10 w-10 rounded-lg border-2 border-border shadow-sm shrink-0 cursor-pointer relative overflow-hidden"
           style={{ backgroundColor: localValue }}
         >
           <input
@@ -652,7 +652,7 @@ const ColorPicker = React.memo(function ColorPicker({
         <Input
           value={localValue.toUpperCase()}
           onChange={(e) => handleChange(e.target.value)}
-          className="h-10 font-mono text-sm text-[#211c16] uppercase border-[#e7ddca]"
+          className="h-10 font-mono text-sm text-foreground uppercase border-border"
         />
       </div>
       <div className="flex flex-wrap gap-1.5">
@@ -660,9 +660,9 @@ const ColorPicker = React.memo(function ColorPicker({
           <button
             key={color}
             className={cn(
-              "h-5 w-5 rounded-full border border-[#e7ddca] transition-all hover:scale-110",
+              "h-5 w-5 rounded-full border border-border transition-all hover:scale-110",
               localValue.toUpperCase() === color.toUpperCase()
-                ? "ring-2 ring-blue-500 ring-offset-1 scale-110"
+                ? "ring-2 ring-ring ring-offset-1 scale-110"
                 : "",
             )}
             style={{ backgroundColor: color }}
@@ -704,32 +704,32 @@ const CollapsibleSection = React.memo(
         className={cn(
           "rounded-lg border transition-all",
           hasSelectedColor
-            ? "border-blue-200 bg-blue-50/30"
-            : "border-[#e7ddca]",
+            ? "border-border bg-accent/40"
+            : "border-border",
         )}
       >
         <button
           onClick={() => onToggle(section.id)}
-          className="w-full flex items-center justify-between p-3 hover:bg-[#A08248]/[0.06] rounded-lg transition-colors"
+          className="w-full flex items-center justify-between p-3 hover:bg-accent rounded-lg transition-colors"
         >
           <div className="flex items-center gap-2">
             <Icon
               className={cn(
                 "h-4 w-4",
-                hasSelectedColor ? "text-blue-500" : "text-[#a99e8c]",
+                hasSelectedColor ? "text-foreground" : "text-muted-foreground",
               )}
             />
-            <span className="text-sm font-semibold text-[#211c16]">
+            <span className="text-sm font-semibold text-foreground">
               {t(section.title)}
             </span>
             {hasSelectedColor && (
-              <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="h-2 w-2 rounded-full bg-foreground animate-pulse" />
             )}
           </div>
           {isExpanded ? (
-            <ChevronDown className="h-4 w-4 text-[#a99e8c]" />
+            <ChevronDown className="h-4 w-4 text-muted-foreground" />
           ) : (
-            <ChevronRight className="h-4 w-4 text-[#a99e8c]" />
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
           )}
         </button>
 
@@ -980,14 +980,14 @@ export default function PartnershipEditorPage({
   if (!partnership) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin h-8 w-8 border-4 border-[#e7ddca] border-t-[#221c15] rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-border border-t-foreground rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="fixed inset-0 top-16 bg-[#f1e8d8] flex flex-col overflow-hidden z-30">
-      <div className="h-14 bg-white border-b px-6 flex items-center justify-between shrink-0 shadow-sm">
+    <div className="fixed inset-0 top-16 bg-background flex flex-col overflow-hidden z-30">
+      <div className="h-14 bg-card border-b px-6 flex items-center justify-between shrink-0 shadow-sm">
         <div className="flex items-center gap-4">
           <Link href="/admin/partnerships">
             <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -1008,17 +1008,17 @@ export default function PartnershipEditorPage({
         <div className="flex items-center gap-3">
           {/* Page Type Toggle */}
           <Tabs value={pageType} onValueChange={(v: any) => setPageType(v)}>
-            <TabsList className="bg-[#f1e8d8]/50 border h-9 p-1 gap-1">
+            <TabsList className="bg-muted border h-9 p-1 gap-1">
               <TabsTrigger
                 value="landing"
-                className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm h-7 px-3 gap-1.5 transition-all duration-200"
+                className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm h-7 px-3 gap-1.5 transition-all duration-200"
               >
                 <Home className="h-3.5 w-3.5" />
                 <span className="text-xs font-medium">Landing</span>
               </TabsTrigger>
               <TabsTrigger
                 value="checkout"
-                className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm h-7 px-3 gap-1.5 transition-all duration-200"
+                className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm h-7 px-3 gap-1.5 transition-all duration-200"
               >
                 <ShoppingCart className="h-3.5 w-3.5" />
                 <span className="text-xs font-medium">Checkout</span>
@@ -1041,7 +1041,7 @@ export default function PartnershipEditorPage({
             size="sm"
             onClick={onSave}
             disabled={isSaving}
-            className="h-9 bg-[#221c15] text-white hover:bg-[#3a3026] gap-2 px-6"
+            className="h-9 gap-2 px-6"
           >
             <Save className="h-4 w-4" />
             {t("saveChanges")}
@@ -1050,13 +1050,13 @@ export default function PartnershipEditorPage({
       </div>
 
       <div className="flex-1 flex overflow-hidden">
-        <div className="w-[340px] bg-white border-r flex flex-col shrink-0">
-          <div className="p-4 border-b bg-[#faf6ee]">
-            <div className="flex items-center gap-2 text-sm font-medium text-[#211c16]">
-              <MousePointer className="h-4 w-4 text-blue-500" />
+        <div className="w-[340px] bg-card border-r flex flex-col shrink-0">
+          <div className="p-4 border-b bg-muted">
+            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+              <MousePointer className="h-4 w-4 text-muted-foreground" />
               {t("clickToEdit")}
             </div>
-            <p className="text-xs text-[#8a8074] mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               {isTransferLanding
                 ? t("clickToEditDescription")
                 : t("landingTemplateColorsHint")}
@@ -1066,7 +1066,7 @@ export default function PartnershipEditorPage({
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {pageType === "landing" && (
               <div className="space-y-2 mb-6">
-                <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                   {t("landingTemplate")}
                 </Label>
                 <Select
@@ -1086,11 +1086,11 @@ export default function PartnershipEditorPage({
                     ))}
                   </SelectContent>
                 </Select>
-                <p className="text-[10px] text-[#a99e8c] font-medium">
+                <p className="text-[10px] text-muted-foreground font-medium">
                   {t(`landingTemplateDescriptions.${landingTemplate}`)}
                 </p>
 
-                <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c] pt-2">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground pt-2">
                   Company Logo
                 </Label>
                 <ImageUpload
@@ -1103,11 +1103,11 @@ export default function PartnershipEditorPage({
                 />
 
                 <div className="pt-4 space-y-3">
-                  <Label className="text-xs font-bold uppercase tracking-widest text-[#a99e8c]">
+                  <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                     {tSeo("seoLabel")}
                   </Label>
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-[#5c554c]">
+                    <Label className="text-xs font-semibold text-muted-foreground">
                       {tSeo("seoTitleLabel")}
                     </Label>
                     <Input
@@ -1118,7 +1118,7 @@ export default function PartnershipEditorPage({
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-[#5c554c]">
+                    <Label className="text-xs font-semibold text-muted-foreground">
                       {tSeo("seoDescriptionLabel")}
                     </Label>
                     <Textarea
@@ -1168,11 +1168,11 @@ export default function PartnershipEditorPage({
         <div className="flex-1 flex flex-col p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-[#8a8074] uppercase tracking-wide">
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 {t("livePreview")}
               </span>
               <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs text-[#a99e8c] ml-2">
+              <span className="text-xs text-muted-foreground ml-2">
                 {pageType === "landing"
                   ? t(`landingTemplateOptions.${landingTemplate}`)
                   : "Checkout Flow"}
@@ -1184,16 +1184,16 @@ export default function PartnershipEditorPage({
                 value={activeTab}
                 onValueChange={(v: any) => setActiveTab(v)}
               >
-                <TabsList className="bg-[#f1e8d8]/50 border h-10 p-1 gap-1">
+                <TabsList className="bg-muted border h-10 p-1 gap-1">
                   <TabsTrigger
                     value="desktop"
-                    className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm h-8 w-10 p-0 transition-all duration-200"
+                    className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm h-8 w-10 p-0 transition-all duration-200"
                   >
                     <Monitor className="h-4 w-4" />
                   </TabsTrigger>
                   <TabsTrigger
                     value="mobile"
-                    className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm h-8 w-10 p-0 transition-all duration-200"
+                    className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm h-8 w-10 p-0 transition-all duration-200"
                   >
                     <Smartphone className="h-4 w-4" />
                   </TabsTrigger>
@@ -1204,7 +1204,7 @@ export default function PartnershipEditorPage({
                 variant="outline"
                 size="icon"
                 onClick={updatePreview}
-                className="h-10 w-10 bg-white hover:bg-[#A08248]/[0.06] border transition-all duration-200"
+                className="h-10 w-10 bg-card hover:bg-accent border transition-all duration-200"
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>
@@ -1213,10 +1213,10 @@ export default function PartnershipEditorPage({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-10 bg-white hover:bg-[#A08248]/[0.06] border gap-2 px-4 transition-all duration-200"
+                  className="h-10 bg-card hover:bg-accent border gap-2 px-4 transition-all duration-200"
                 >
-                  <ExternalLink className="h-4 w-4 text-[#8a8074]" />
-                  <span className="font-medium text-[#4a443c]">
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium text-foreground">
                     {t("viewLiveSite")}
                   </span>
                 </Button>
@@ -1227,7 +1227,7 @@ export default function PartnershipEditorPage({
           {/* Checkout Customization Step Navigation */}
           {pageType === "checkout" && (
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs font-semibold text-[#8a8074] uppercase tracking-wide mr-2">
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mr-2">
                 {t("customizationStep")}:
               </span>
               <button
@@ -1235,8 +1235,8 @@ export default function PartnershipEditorPage({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 1
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent",
                 )}
               >
                 {t("vehicleSelection")}
@@ -1246,8 +1246,8 @@ export default function PartnershipEditorPage({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 2
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent",
                 )}
               >
                 {t("transferInfoForm")}
@@ -1257,8 +1257,8 @@ export default function PartnershipEditorPage({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 3
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent",
                 )}
               >
                 {t("toursStep")}
@@ -1268,8 +1268,8 @@ export default function PartnershipEditorPage({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 4
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent",
                 )}
               >
                 {t("passengerInfo")}
@@ -1279,8 +1279,8 @@ export default function PartnershipEditorPage({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                   customizationStep === 5
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-[#f1e8d8] text-[#5c554c] hover:bg-[#A08248]/[0.12]",
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent",
                 )}
               >
                 {t("paymentStep")}
@@ -1291,10 +1291,10 @@ export default function PartnershipEditorPage({
           <div className="flex-1 relative flex items-center justify-center">
             <div
               className={cn(
-                "bg-white shadow-2xl transition-all duration-300 ease-in-out overflow-hidden",
+                "bg-card shadow-2xl transition-all duration-300 ease-in-out overflow-hidden",
                 activeTab === "desktop"
-                  ? "w-full h-full rounded-lg border border-[#e7ddca]"
-                  : "w-[375px] h-[812px] rounded-[3rem] border-[12px] border-[#221c15]",
+                  ? "w-full h-full rounded-lg border border-border"
+                  : "w-[375px] h-[812px] rounded-[3rem] border-[12px] border-foreground",
               )}
             >
               <DynamicThemeProvider

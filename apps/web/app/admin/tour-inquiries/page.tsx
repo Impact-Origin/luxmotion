@@ -33,7 +33,7 @@ export default function AdminTourInquiriesPage() {
           key: "tourTitle",
           label: "Tour",
           className: "max-w-[220px]",
-          render: (r) => <span className="line-clamp-1 text-[#5c554c]">{r.tourTitle || "—"}</span>,
+          render: (r) => <span className="line-clamp-1 text-muted-foreground">{r.tourTitle || "—"}</span>,
         },
         { key: "people", label: "People", render: (r) => r.people || "—" },
         { key: "budget", label: "Budget", render: (r) => fmtBudget(r) },

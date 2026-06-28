@@ -15,56 +15,58 @@ interface RecentBookingsProps {
 
 export function RecentBookings({ bookings }: RecentBookingsProps) {
   const statusConfig = {
-    pending: { label: "Pending", color: "text-amber-700 bg-amber-50 border-amber-100" },
-    confirmed: { label: "Confirmed", color: "text-blue-700 bg-blue-50 border-blue-100" },
-    completed: { label: "Completed", color: "text-emerald-700 bg-emerald-50 border-emerald-100" },
-    cancelled: { label: "Cancelled", color: "text-rose-700 bg-rose-50 border-rose-100" },
+    pending: { label: "Pending", color: "bg-[#fef3c7] text-[#92400e]" },
+    confirmed: { label: "Confirmed", color: "bg-muted text-muted-foreground" },
+    completed: { label: "Completed", color: "bg-[#dcfce7] text-[#166534]" },
+    cancelled: { label: "Cancelled", color: "bg-[#fee2e2] text-[#991b1b]" },
   } as const;
 
   return (
     <div className="w-full overflow-x-auto">
       <table className="w-full border-collapse">
         <thead>
-          <tr className="border-b border-[#efe7d8]">
-            <th className="text-left py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Customer</th>
-            <th className="text-left py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Route</th>
-            <th className="text-left py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Status</th>
-            <th className="text-right py-4 px-4 text-xs font-semibold text-[#8a8074] uppercase tracking-wider">Price</th>
+          <tr className="border-b border-border">
+            <th className="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Customer</th>
+            <th className="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Route</th>
+            <th className="px-4 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Status</th>
+            <th className="px-4 py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">Price</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#efe7d8] text-sm">
+        <tbody className="divide-y divide-border text-sm">
           {bookings.map((booking) => (
-            <tr key={booking._id} className="hover:bg-[#A08248]/[0.06]/50 transition-colors">
-              <td className="py-4 px-4">
+            <tr key={booking._id} className="transition-colors hover:bg-accent">
+              <td className="px-4 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-full bg-[#f1e8d8] flex items-center justify-center text-xs font-bold text-[#5c554c]">
+                  <div className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground">
                     {booking.customerName.charAt(0)}
                   </div>
-                  <span className="font-medium text-[#211c16]">{booking.customerName}</span>
+                  <span className="font-medium text-foreground">{booking.customerName}</span>
                 </div>
               </td>
-              <td className="py-4 px-4">
-                <div className="flex flex-col max-w-[250px]">
-                  <span className="text-[#211c16] truncate">{booking.pickupLocation}</span>
-                  <span className="text-xs text-[#8a8074] truncate">{booking.dropoffLocation}</span>
+              <td className="px-4 py-4">
+                <div className="flex max-w-[250px] flex-col">
+                  <span className="truncate text-foreground">{booking.pickupLocation}</span>
+                  <span className="truncate text-xs text-muted-foreground">{booking.dropoffLocation}</span>
                 </div>
               </td>
-              <td className="py-4 px-4">
-                <span className={cn(
-                  "inline-flex items-center px-2 py-0.5 rounded-full border text-[11px] font-semibold",
-                  statusConfig[booking.status].color
-                )}>
+              <td className="px-4 py-4">
+                <span
+                  className={cn(
+                    "inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium",
+                    statusConfig[booking.status].color,
+                  )}
+                >
                   {statusConfig[booking.status].label}
                 </span>
               </td>
-              <td className="py-4 px-4 text-right">
-                <span className="font-bold text-[#211c16]">€{booking.price.toFixed(2)}</span>
+              <td className="px-4 py-4 text-right">
+                <span className="font-medium text-foreground">€{booking.price.toFixed(2)}</span>
               </td>
             </tr>
           ))}
           {bookings.length === 0 && (
             <tr>
-              <td colSpan={4} className="py-12 text-center text-[#8a8074]">
+              <td colSpan={4} className="py-12 text-center text-muted-foreground">
                 No recent bookings found.
               </td>
             </tr>

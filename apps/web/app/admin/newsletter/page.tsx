@@ -59,7 +59,7 @@ export default function AdminNewsletterPage() {
   if (!subscriptions) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -68,8 +68,8 @@ export default function AdminNewsletterPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
-          <p className="text-[#8a8074] mt-1">{t("subtitle", { count: subscriptions.length })}</p>
+          <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+          <p className="text-muted-foreground mt-1">{t("subtitle", { count: subscriptions.length })}</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" onClick={downloadCSV} disabled={subscriptions.length === 0}>
@@ -89,32 +89,32 @@ export default function AdminNewsletterPage() {
       </div>
 
       {sorted.length === 0 ? (
-        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
-          <Newspaper className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
-          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noSubscribers")}</h3>
+        <div className="text-center py-12 bg-muted rounded-lg border-2 border-dashed border-border">
+          <Newspaper className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <h3 className="text-lg font-medium text-foreground mb-2">{t("noSubscribers")}</h3>
         </div>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
+        <div className="border border-border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-[#faf6ee] border-b">
+            <thead className="bg-muted border-b border-border">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-[#8a8074]">{t("email")}</th>
-                <th className="text-left px-4 py-3 font-medium text-[#8a8074]">{t("subscribed")}</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">{t("email")}</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">{t("subscribed")}</th>
               </tr>
             </thead>
             <tbody>
               {sorted.map((s) => (
-                <tr key={s._id} className="border-b last:border-b-0 hover:bg-[#A08248]/[0.06]">
+                <tr key={s._id} className="border-b border-border last:border-b-0 hover:bg-accent">
                   <td className="px-4 py-3">
                     <button
                       onClick={() => copyToClipboard(s.email)}
-                      className="flex items-center gap-1.5 text-[#4a443c] hover:text-[#211c16] group"
+                      className="flex items-center gap-1.5 text-foreground hover:text-foreground group"
                     >
                       {s.email}
                       <Copy className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
                   </td>
-                  <td className="px-4 py-3 text-[#8a8074] whitespace-nowrap">{formatDate(s.createdAt)}</td>
+                  <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{formatDate(s.createdAt)}</td>
                 </tr>
               ))}
             </tbody>

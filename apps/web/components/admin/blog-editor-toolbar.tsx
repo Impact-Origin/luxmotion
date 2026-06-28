@@ -62,7 +62,7 @@ function ToolbarButton({ onClick, isActive, disabled, tooltip, children }: Toolb
             disabled={disabled}
             className={cn(
               "h-8 w-8 rounded-md",
-              isActive && "bg-[#e7ddca] text-[#211c16]"
+              isActive && "bg-accent text-accent-foreground"
             )}
           >
             {children}
@@ -99,7 +99,7 @@ export function BlogEditorToolbar({ editor, onImageUpload }: BlogEditorToolbarPr
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-1 p-2 border-b border-[#e7ddca] bg-[#faf6ee] rounded-t-lg">
+    <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted rounded-t-lg">
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
         isActive={editor.isActive("bold")}
@@ -200,7 +200,7 @@ export function BlogEditorToolbar({ editor, onImageUpload }: BlogEditorToolbarPr
                   size="icon"
                   className={cn(
                     "h-8 w-8 rounded-md",
-                    editor.isActive("table") && "bg-[#e7ddca] text-[#211c16]",
+                    editor.isActive("table") && "bg-accent text-accent-foreground",
                   )}
                 >
                   <TableIcon className="h-4 w-4" />

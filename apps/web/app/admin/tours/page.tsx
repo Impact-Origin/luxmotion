@@ -4,19 +4,12 @@ import * as React from "react"
 import { useQuery, useMutation, useConvex } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select"
 import { TourForm } from "@/components/admin/tour-form"
 import { TourTranslationForm } from "@/components/admin/tour-translation-form"
+import { StatusBadge } from "@/components/admin/status-badge"
+import { DataTable, type DataTableColumn, type DataTableFilter } from "@/components/admin/data-table"
 import {
   Plus,
-  Search,
   Star,
   Award,
   Globe,
@@ -46,7 +39,6 @@ import {
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog"
 import { toast } from "sonner"
-import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 
 export default function AdminToursPage() {
@@ -56,11 +48,6 @@ export default function AdminToursPage() {
   const [translatingTour, setTranslatingTour] = React.useState<any>(null)
   const [deletingTourId, setDeletingTourId] = React.useState<string | null>(null)
 
-  const [search, setSearch] = React.useState("")
-  const [statusFilter, setStatusFilter] = React.useState("all")
-  const [categoryFilter, setCategoryFilter] = React.useState("all")
-  const [destinationFilter, setDestinationFilter] = React.useState("all")
-
   const convex = useConvex()
   const tours = useQuery(api.tours.list)
   const destinations = useQuery(api.tours.getDestinations)
@@ -69,37 +56,9 @@ export default function AdminToursPage() {
   const toggleBestseller = useMutation(api.tours.toggleBestseller)
   const [isLoadingTour, setIsLoadingTour] = React.useState(false)
 
-  const filteredTours = React.useMemo(() => {
-    if (!tours) return []
+  type Tour = NonNullable<typeof tours>[number]
 
-    return tours.filter((tour) => {
-      if (search) {
-        const searchLower = search.toLowerCase()
-        if (
-          !tour.title.toLowerCase().includes(searchLower) &&
-          !tour.destination.toLowerCase().includes(searchLower)
-        ) {
-          return false
-        }
-      }
-
-      if (statusFilter !== "all" && tour.status !== statusFilter) {
-        return false
-      }
-
-      if (categoryFilter !== "all" && tour.category !== categoryFilter) {
-        return false
-      }
-
-      if (destinationFilter !== "all" && tour.destination !== destinationFilter) {
-        return false
-      }
-
-      return true
-    })
-  }, [tours, search, statusFilter, categoryFilter, destinationFilter])
-
-  const handleEdit = async (tour: any) => {
+  const handleEdit = async (tour: Tour) => {
     setIsLoadingTour(true)
     try {
       const fullTour = await convex.query(api.tours.getById, { id: tour._id })
@@ -149,240 +108,218 @@ export default function AdminToursPage() {
     }
   }
 
-  const getStatusBadgeClass = (status: string) => {
-    switch (status) {
-      case "published":
-        return "bg-green-100 text-green-800"
-      case "draft":
-        return "bg-[#f1e8d8] text-[#2a241c]"
-      case "archived":
-        return "bg-red-100 text-red-800"
-      default:
-        return "bg-[#f1e8d8] text-[#2a241c]"
-    }
-  }
+  const priceSymbol = (currency: string) =>
+    currency === "EUR" ? "€" : currency === "USD" ? "$" : "£"
 
-  if (!tours) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#a99e8c]" />
-      </div>
-    )
-  }
-
-  return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-[#211c16]">{t("title")}</h1>
-          <p className="text-[#8a8074] mt-1">
-            {t("subtitle")}
-          </p>
-        </div>
-        <Button onClick={handleCreate} className="bg-[#221c15] text-white hover:bg-[#3a3026]">
-          <Plus className="h-4 w-4 mr-2" />
-          {t("addTour")}
+  const rowActions = (tour: Tour) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
+          <MoreHorizontal className="size-4" />
         </Button>
-      </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem onClick={() => handleEdit(tour)}>
+          <Pencil className="mr-2 size-4" />
+          {t("edit")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTranslatingTour(tour)}>
+          <Globe className="mr-2 size-4" />
+          {t("translations")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => window.open(`/tours/tour/${tour.slug}`, "_blank")}
+        >
+          <Eye className="mr-2 size-4" />
+          {t("preview")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => handleToggleFeatured(tour._id)}>
+          <Star className="mr-2 size-4" />
+          {tour.isFeatured ? t("removeFeatured") : t("markFeatured")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleToggleBestseller(tour._id)}>
+          <Award className="mr-2 size-4" />
+          {tour.isBestSeller ? t("removeBestSeller") : t("markBestSeller")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => setDeletingTourId(tour._id)}
+          className="text-destructive focus:text-destructive"
+        >
+          <Trash2 className="mr-2 size-4" />
+          {t("delete")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
 
-      <div className="flex gap-4 mb-6 flex-wrap">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a99e8c]" />
-          <Input
-            placeholder={t("searchPlaceholder")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
+  const columns: DataTableColumn<Tour>[] = [
+    {
+      id: "title",
+      header: t("title"),
+      sortAccessor: (tour) => tour.title.toLowerCase(),
+      cell: (tour) => (
+        <div className="flex items-center gap-3">
+          <div className="relative flex h-9 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-muted">
+            {tour.bannerImageUrl ? (
+              <Image src={tour.bannerImageUrl} alt={tour.title} fill className="object-cover" />
+            ) : (
+              <Map className="size-4 text-muted-foreground" />
+            )}
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="truncate font-medium text-foreground">{tour.title}</span>
+              {tour.isFeatured && <Star className="size-3.5 shrink-0 text-amber-500" />}
+              {tour.isBestSeller && <Award className="size-3.5 shrink-0 text-amber-600" />}
+            </div>
+            <p className="text-xs capitalize text-muted-foreground">
+              {tour.category} · {tour.destination}
+            </p>
+          </div>
         </div>
+      ),
+    },
+    {
+      id: "status",
+      header: t("status"),
+      cell: (tour) => <StatusBadge status={tour.status} />,
+    },
+    {
+      id: "duration",
+      header: "Duration",
+      cell: (tour) => <span className="text-sm text-muted-foreground">{tour.duration}</span>,
+    },
+    {
+      id: "rating",
+      header: "Rating",
+      align: "right",
+      sortAccessor: (tour) => tour.rating ?? 0,
+      cell: (tour) =>
+        tour.rating !== undefined && tour.rating > 0 ? (
+          <span className="inline-flex items-center gap-1 text-sm">
+            <Star className="size-3.5 fill-amber-400 text-amber-400" />
+            <span className="font-medium tabular-nums">{tour.rating.toFixed(1)}</span>
+            <span className="text-muted-foreground">({tour.reviewCount})</span>
+          </span>
+        ) : (
+          <span className="text-sm text-muted-foreground">—</span>
+        ),
+    },
+    {
+      id: "price",
+      header: "Price",
+      align: "right",
+      sortAccessor: (tour) => tour.basePrice,
+      cell: (tour) => (
+        <span className="font-medium tabular-nums">
+          {priceSymbol(tour.currency)}
+          {tour.basePrice.toFixed(2)}
+        </span>
+      ),
+    },
+  ]
 
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder={t("status")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("allStatus")}</SelectItem>
-            <SelectItem value="published">{t("published")}</SelectItem>
-            <SelectItem value="draft">{t("draft")}</SelectItem>
-            <SelectItem value="archived">{t("archived")}</SelectItem>
-          </SelectContent>
-        </Select>
+  const filters: DataTableFilter<Tour>[] = [
+    {
+      id: "status",
+      label: t("allStatus"),
+      width: "w-[140px]",
+      options: [
+        { value: "published", label: t("published") },
+        { value: "draft", label: t("draft") },
+        { value: "archived", label: t("archived") },
+      ],
+      predicate: (tour, val) => tour.status === val,
+    },
+    {
+      id: "category",
+      label: t("allCategories"),
+      width: "w-[150px]",
+      options: [
+        { value: "tours", label: t("tours") },
+        { value: "experiences", label: t("experiences") },
+        { value: "private", label: t("privateTours") },
+      ],
+      predicate: (tour, val) => tour.category === val,
+    },
+    {
+      id: "destination",
+      label: t("allDestinations"),
+      width: "w-[150px]",
+      options: (destinations ?? []).map((dest) => ({ value: dest, label: dest })),
+      predicate: (tour, val) => tour.destination === val,
+    },
+  ]
 
-        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder={t("category")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("allCategories")}</SelectItem>
-            <SelectItem value="tours">{t("tours")}</SelectItem>
-            <SelectItem value="experiences">{t("experiences")}</SelectItem>
-            <SelectItem value="private">{t("privateTours")}</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={destinationFilter} onValueChange={setDestinationFilter}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder={t("destination")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("allDestinations")}</SelectItem>
-            {destinations?.map((dest) => (
-              <SelectItem key={dest} value={dest}>
-                {dest}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {filteredTours.length === 0 ? (
-        <div className="text-center py-12 bg-[#faf6ee] rounded-lg border-2 border-dashed border-[#e7ddca]">
-          <Map className="h-12 w-12 mx-auto text-[#c9bfae] mb-4" />
-          <h3 className="text-lg font-medium text-[#211c16] mb-2">{t("noToursFound")}</h3>
-          <p className="text-[#8a8074] mb-4">
-            {tours.length === 0
-              ? t("getStarted")
-              : t("tryFilters")}
-          </p>
-          {tours.length === 0 && (
-            <Button onClick={handleCreate} variant="outline">
-              <Plus className="h-4 w-4 mr-2" />
-              {t("createTour")}
-            </Button>
+  const renderCard = (tour: Tour) => (
+    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
+      <div className="relative aspect-[16/9] border-b border-border bg-muted/40">
+        {tour.bannerImageUrl ? (
+          <Image src={tour.bannerImageUrl} alt={tour.title} fill className="object-cover" />
+        ) : (
+          <div className="flex size-full items-center justify-center">
+            <Map className="size-8 text-muted-foreground" />
+          </div>
+        )}
+        <div className="absolute left-2 top-2 flex flex-wrap gap-1.5">
+          <StatusBadge status={tour.status} />
+          {tour.isFeatured && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-card/90 px-2 py-0.5 text-xs font-medium text-foreground">
+              <Star className="size-3 text-amber-500" />
+              {t("featured")}
+            </span>
+          )}
+          {tour.isBestSeller && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-card/90 px-2 py-0.5 text-xs font-medium text-foreground">
+              <Award className="size-3 text-amber-600" />
+              {t("bestSeller")}
+            </span>
           )}
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTours.map((tour) => (
-            <div
-              key={tour._id}
-              className="bg-white rounded-xl border border-[#e7ddca] overflow-hidden hover:shadow-lg transition-shadow group"
-            >
-              <div className="relative h-48">
-                {tour.bannerImageUrl ? (
-                  <Image
-                    src={tour.bannerImageUrl}
-                    alt={tour.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-[#f1e8d8] flex items-center justify-center">
-                    <Map className="h-12 w-12 text-[#c9bfae]" />
-                  </div>
-                )}
-
-                <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
-                  <span
-                    className={cn(
-                      "px-2 py-1 rounded-full text-xs font-medium",
-                      getStatusBadgeClass(tour.status)
-                    )}
-                  >
-                    {tour.status}
-                  </span>
-                  {tour.isFeatured && (
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 flex items-center gap-1">
-                      <Star className="h-3 w-3" />
-                      {t("featured")}
-                    </span>
-                  )}
-                  {tour.isBestSeller && (
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 flex items-center gap-1">
-                      <Award className="h-3 w-3" />
-                      {t("bestSeller")}
-                    </span>
-                  )}
-                </div>
-
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="secondary" size="sm" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleEdit(tour)}>
-                        <Pencil className="h-4 w-4 mr-2" />
-                        {t("edit")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => setTranslatingTour(tour)}
-                      >
-                        <Globe className="h-4 w-4 mr-2" />
-                        {t("translations")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => window.open(`/tours/tour/${tour.slug}`, "_blank")}
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        {t("preview")}
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => handleToggleFeatured(tour._id)}>
-                        <Star className="h-4 w-4 mr-2" />
-                        {tour.isFeatured ? t("removeFeatured") : t("markFeatured")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleToggleBestseller(tour._id)}>
-                        <Award className="h-4 w-4 mr-2" />
-                        {tour.isBestSeller ? t("removeBestSeller") : t("markBestSeller")}
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => setDeletingTourId(tour._id)}
-                        className="text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        {t("delete")}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex items-center gap-2 text-xs text-[#8a8074] mb-2">
-                  <span className="capitalize">{tour.category}</span>
-                  <span>•</span>
-                  <span>{tour.destination}</span>
-                </div>
-
-                <h3 className="font-semibold text-[#211c16] line-clamp-2 mb-2">
-                  {tour.title}
-                </h3>
-
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#8a8074]">{tour.duration}</span>
-                  <span className="font-bold text-[#211c16]">
-                    {tour.currency === "EUR" ? "€" : tour.currency === "USD" ? "$" : "£"}
-                    {tour.basePrice.toFixed(2)}
-                  </span>
-                </div>
-
-                {tour.rating !== undefined && tour.rating > 0 && (
-                  <div className="flex items-center gap-1 mt-2 text-sm">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">{tour.rating.toFixed(1)}</span>
-                    <span className="text-[#8a8074]">({tour.reviewCount} {t("reviews")})</span>
-                  </div>
-                )}
-
-                <div className="flex items-center gap-1 mt-3">
-                  {tour.availableLanguages.map((lang: string) => (
-                    <span
-                      key={lang}
-                      className="px-2 py-0.5 rounded bg-[#f1e8d8] text-[#5c554c] text-xs font-medium uppercase"
-                    >
-                      {lang}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
+      </div>
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <p className="text-xs capitalize text-muted-foreground">
+              {tour.category} · {tour.destination}
+            </p>
+            <h3 className="line-clamp-2 font-medium text-foreground">{tour.title}</h3>
+          </div>
+          {rowActions(tour)}
         </div>
-      )}
+        <div className="mt-auto flex items-center justify-between border-t border-border pt-3 text-sm">
+          <span className="text-muted-foreground">{tour.duration}</span>
+          <span className="font-medium tabular-nums text-foreground">
+            {priceSymbol(tour.currency)}
+            {tour.basePrice.toFixed(2)}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+
+  return (
+    <>
+      <DataTable<Tour>
+        data={tours}
+        columns={columns}
+        searchKeys={["title", "destination"]}
+        searchPlaceholder={t("searchPlaceholder")}
+        filters={filters}
+        renderCard={renderCard}
+        rowActions={rowActions}
+        toolbarActions={
+          <Button onClick={handleCreate}>
+            <Plus className="mr-2 size-4" />
+            {t("addTour")}
+          </Button>
+        }
+        emptyTitle={t("noToursFound")}
+        emptyDescription={t("tryFilters")}
+        emptyIcon={Map}
+      />
 
       <TourForm
         isOpen={isFormOpen}
@@ -405,10 +342,10 @@ export default function AdminToursPage() {
       )}
 
       {isLoadingTour && (
-        <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 flex items-center gap-3 shadow-lg">
-            <Loader2 className="h-5 w-5 animate-spin text-[#5c554c]" />
-            <span className="text-[#4a443c] font-medium">{t("loadingTour")}</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+          <div className="flex items-center gap-3 rounded-lg bg-card p-6 shadow-lg">
+            <Loader2 className="size-5 animate-spin text-muted-foreground" />
+            <span className="font-medium text-foreground">{t("loadingTour")}</span>
           </div>
         </div>
       )}
@@ -425,13 +362,13 @@ export default function AdminToursPage() {
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-destructive text-white hover:bg-destructive/90"
             >
               {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   )
 }
