@@ -13,6 +13,18 @@ import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/admin/image-upload";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
+import {
+  PARTNERSHIP_LANDING_TEMPLATES,
+  DEFAULT_PARTNERSHIP_LANDING_TEMPLATE,
+  type PartnershipLandingTemplate,
+} from "@/lib/partnership-landing-templates";
 
 export default function NewPartnershipPage() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -23,6 +35,9 @@ export default function NewPartnershipPage() {
   const [name, setName] = React.useState("");
   const [slug, setSlug] = React.useState("");
   const [logoId, setLogoId] = React.useState<string | undefined>();
+  const [landingTemplate, setLandingTemplate] = React.useState<PartnershipLandingTemplate>(
+    DEFAULT_PARTNERSHIP_LANDING_TEMPLATE,
+  );
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +50,7 @@ export default function NewPartnershipPage() {
         content: {},
         logoId: logoId as any,
         status: "active",
+        landingTemplate,
       });
       toast.success("Partnership created");
       router.push(`/admin/partnerships/${id}`);
@@ -103,6 +119,30 @@ export default function NewPartnershipPage() {
             </div>
             <p className="text-[11px] uppercase tracking-tight text-muted-foreground">
               This will be the unique URL for this partner.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              {t("landingTemplate")}
+            </Label>
+            <Select
+              value={landingTemplate}
+              onValueChange={(v) => setLandingTemplate(v as PartnershipLandingTemplate)}
+            >
+              <SelectTrigger className="h-12">
+                <SelectValue placeholder={t("landingTemplate")} />
+              </SelectTrigger>
+              <SelectContent>
+                {PARTNERSHIP_LANDING_TEMPLATES.map((template) => (
+                  <SelectItem key={template} value={template}>
+                    {t(`landingTemplateOptions.${template}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-[11px] text-muted-foreground">
+              {t(`landingTemplateDescriptions.${landingTemplate}`)}
             </p>
           </div>
         </div>

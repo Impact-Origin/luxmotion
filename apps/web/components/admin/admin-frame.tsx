@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
+import { PanelLeft, PanelLeftClose } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
 import { AdminSidebar } from "./sidebar";
 import { GoogleMapsProvider } from "@/components/providers/google-maps-provider";
 
@@ -34,6 +36,7 @@ const ROUTE_META: Record<string, { section: string; title: string }> = {
 
 export function AdminFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = React.useState(false);
 
   // The sign-in route is public and gets its own full-screen layout — no shell.
   if (pathname?.startsWith("/admin/sign-in")) {
@@ -48,14 +51,25 @@ export function AdminFrame({ children }: { children: React.ReactNode }) {
 
   return (
     <GoogleMapsProvider>
-      <div className="flex min-h-screen w-full bg-background text-foreground antialiased">
-        <AdminSidebar />
+      <div className="flex h-screen w-full overflow-hidden bg-background text-foreground antialiased">
+        <AdminSidebar collapsed={collapsed} />
 
-        <div className="flex flex-1 flex-col overflow-clip">
-          <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b border-border bg-card/85 px-6 backdrop-blur lg:px-8">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[11px] font-medium text-muted-foreground">{section}</span>
-              <h1 className="text-[17px] font-medium leading-none text-foreground">{title}</h1>
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-card/85 px-4 backdrop-blur lg:px-6">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-9 shrink-0 text-muted-foreground"
+                onClick={() => setCollapsed((c) => !c)}
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              >
+                {collapsed ? <PanelLeft className="size-5" /> : <PanelLeftClose className="size-5" />}
+              </Button>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] font-medium text-muted-foreground">{section}</span>
+                <h1 className="text-[17px] font-medium leading-none text-foreground">{title}</h1>
+              </div>
             </div>
             <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[1.3px] text-muted-foreground">
               <span aria-hidden className="size-1.5 rounded-full bg-primary" />
@@ -69,7 +83,7 @@ export function AdminFrame({ children }: { children: React.ReactNode }) {
             </div>
           </header>
 
-          <main className="flex-1 overflow-y-auto p-6 lg:p-10">
+          <main className="min-h-0 flex-1 overflow-y-auto px-4 py-5 lg:px-8 lg:py-6">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
         </div>

@@ -9,7 +9,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="admin-theme min-h-screen bg-background">
+    <div className="admin-theme h-screen overflow-hidden bg-background">
       <AdminFrame>{children}</AdminFrame>
     </div>
   );

@@ -27,17 +27,14 @@ import {
   BarChart3,
   CalendarClock,
   Newspaper,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
 
-export function AdminSidebar() {
+export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname();
   const tNumbers = useTranslations("adminNumbers");
   const tAvailability = useTranslations("adminAvailability");
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   const sections = React.useMemo(
     () => [
@@ -99,18 +96,18 @@ export function AdminSidebar() {
   return (
     <div
       className={cn(
-        "relative z-20 flex flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 ease-in-out",
-        isCollapsed ? "w-[80px]" : "w-[264px]",
+        "relative z-20 flex h-full flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 ease-in-out",
+        collapsed ? "w-[80px]" : "w-[264px]",
       )}
     >
-      <div className="flex h-16 items-center border-b border-sidebar-border px-4">
+      <div className="flex h-16 shrink-0 items-center border-b border-sidebar-border px-4">
         <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
             <span className="relative h-[11px] w-[20px]">
               <Image src="/svgs/lm-monogram.svg" alt="LuxMotion" fill className="object-contain" priority />
             </span>
           </span>
-          {!isCollapsed && (
+          {!collapsed && (
             <span className="flex min-w-0 flex-col leading-none">
               <span className="truncate text-[15px] font-medium text-sidebar-primary">LuxMotion</span>
               <span className="mt-[3px] text-[10px] font-medium uppercase tracking-[2px] text-sidebar-foreground/60">
@@ -121,12 +118,12 @@ export function AdminSidebar() {
         </Link>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-3 py-4">
-        <nav className="flex flex-col gap-5">
+      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
+        <nav className="flex flex-col gap-3">
           {sections.map((section, si) => (
             <div key={section.label} className="flex flex-col gap-0.5">
-              {!isCollapsed ? (
-                <p className="px-3 pb-1.5 text-[10px] font-medium uppercase tracking-[1.5px] text-sidebar-foreground/45">
+              {!collapsed ? (
+                <p className="px-3 pb-1 text-[10px] font-medium uppercase tracking-[1.5px] text-sidebar-foreground/45">
                   {section.label}
                 </p>
               ) : si > 0 ? (
@@ -138,10 +135,10 @@ export function AdminSidebar() {
                   <Link
                     key={item.url}
                     href={item.url}
-                    title={isCollapsed ? item.title : undefined}
+                    title={collapsed ? item.title : undefined}
                     className={cn(
-                      "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                      isCollapsed && "justify-center",
+                      "group flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-[13px] transition-colors",
+                      collapsed && "justify-center",
                       isActive
                         ? "bg-sidebar-accent font-medium text-sidebar-primary"
                         : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-primary",
@@ -149,14 +146,14 @@ export function AdminSidebar() {
                   >
                     <item.icon
                       className={cn(
-                        "size-[18px] shrink-0 transition-colors",
+                        "size-4 shrink-0 transition-colors",
                         isActive
                           ? "text-sidebar-primary"
                           : "text-sidebar-foreground/60 group-hover:text-sidebar-primary",
                       )}
                       strokeWidth={1.8}
                     />
-                    {!isCollapsed && <span className="truncate">{item.title}</span>}
+                    {!collapsed && <span className="truncate">{item.title}</span>}
                   </Link>
                 );
               })}
@@ -165,10 +162,10 @@ export function AdminSidebar() {
         </nav>
       </div>
 
-      <div className="border-t border-sidebar-border p-4">
-        <div className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-between gap-3")}>
+      <div className="shrink-0 border-t border-sidebar-border p-3">
+        <div className={cn("flex items-center", collapsed ? "justify-center" : "justify-between gap-3")}>
           <UserNav />
-          {!isCollapsed && (
+          {!collapsed && (
             <div className="flex min-w-0 flex-col">
               <span className="truncate text-xs font-medium text-sidebar-primary">Admin account</span>
               <span className="text-[10px] text-sidebar-foreground/60">LuxMotion · v1.0.0</span>
@@ -176,15 +173,6 @@ export function AdminSidebar() {
           )}
         </div>
       </div>
-
-      <button
-        type="button"
-        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        className="absolute -right-3 top-[68px] z-30 flex h-6 w-6 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm transition-colors hover:text-sidebar-primary"
-        onClick={() => setIsCollapsed(!isCollapsed)}
-      >
-        {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
-      </button>
     </div>
   );
 }
