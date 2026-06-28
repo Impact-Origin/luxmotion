@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { pagedArgs, paginate, applySearch } from "./lib/pagination";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 const landingTemplateValidator = v.optional(
   v.union(
@@ -29,6 +29,16 @@ export const listPaged = query({
     let rows = await ctx.db.query("partnerships").collect();
 
     rows = applySearch(rows, a.search, [(r) => r.name, (r) => r.slug]);
+
+    const template = a.filters?.template;
+    if (template) rows = rows.filter((r) => (r.landingTemplate ?? "transfer") === template);
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => (r.status ?? "active") === status);
+
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      name: (r) => r.name.toLowerCase(),
+      slug: (r) => r.slug.toLowerCase(),
+    });
 
     const result = paginate(rows, a.page, a.pageSize);
     const withLogos = await Promise.all(
