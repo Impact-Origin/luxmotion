@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* This stylesheet is consumed by apps in sibling packages, so Tailwind v4's
+   automatic content detection (rooted at the importing app) never scans these UI
+   components. Register them explicitly — otherwise utilities used ONLY here, e.g.
+   `bg-popover` on every Radix popover/dropdown/select, are silently never
+   generated and those surfaces render with no background. Relative to this file. */
+@source "../**/*.{ts,tsx}";
+
 @custom-variant dark (&:is(.dark *));
 
 @keyframes lm-sheet-slide-in-right {
