@@ -190,6 +190,13 @@ export function ClockTimePicker({
     return () => window.removeEventListener("mouseup", handleGlobalMouseUp)
   }, [])
 
+  // Keep the AM/PM toggle in sync with the controlled value. `period` is seeded once from
+  // value.hours, so without this it goes stale (the value flips to PM but the dial stays on
+  // AM); the next hour pick then collapses back to AM and turns 12 (noon) into 00:00.
+  React.useEffect(() => {
+    setPeriod(value.hours >= 12 ? "PM" : "AM")
+  }, [value.hours])
+
   const handlePeriodChange = (newPeriod: "AM" | "PM") => {
     if (newPeriod === period) return
     setPeriod(newPeriod)

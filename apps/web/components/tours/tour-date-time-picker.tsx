@@ -117,9 +117,9 @@ export function TourDateTimePicker({
       setViewMonth(value.date.getMonth())
       setViewYear(value.date.getFullYear())
     }
-    if (value?.time) {
-      setSelectedTime(value.time)
-    }
+    // Symmetric sync: adopt a cleared time too (the old `if (value?.time)` could set a time
+    // but never clear it, so state went stale-truthy and the time appeared "stuck").
+    setSelectedTime(value?.time ?? null)
   }, [value])
 
   React.useEffect(() => {
@@ -233,9 +233,20 @@ export function TourDateTimePicker({
   }
 
   const handleDateSelect = (date: Date) => {
+    // Only drop the chosen time when the DAY actually changes (slots are per-day). Re-tapping
+    // the already-selected day must not wipe a previously-picked time.
+    const sameDay =
+      selectedDate != null &&
+      date.getFullYear() === selectedDate.getFullYear() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getDate() === selectedDate.getDate()
     setSelectedDate(date)
-    setSelectedTime(null)
-    onChange?.({ date, time: null })
+    if (sameDay) {
+      onChange?.({ date, time: selectedTime })
+    } else {
+      setSelectedTime(null)
+      onChange?.({ date, time: null })
+    }
     if (hideTime) setOpen(false)
   }
 

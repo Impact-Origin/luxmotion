@@ -39,8 +39,8 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
 
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(normalizedValue)
-  const [hours, setHours] = React.useState(0)
-  const [minutes, setMinutes] = React.useState(0)
+  const [hours, setHours] = React.useState(() => normalizedValue?.getHours() ?? 0)
+  const [minutes, setMinutes] = React.useState(() => normalizedValue?.getMinutes() ?? 0)
   const [viewMonth, setViewMonth] = React.useState(normalizedValue ? normalizedValue.getMonth() : new Date().getMonth())
   const [viewYear, setViewYear] = React.useState(normalizedValue ? normalizedValue.getFullYear() : new Date().getFullYear())
 
@@ -173,9 +173,12 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
                     selectedDate.getMonth() === today.getMonth() &&
                     selectedDate.getDate() === today.getDate()
     
-    let validHours = hours
-    let validMinutes = minutes
-    
+    // Stamp the date with the time already held in the shared value (the source of truth),
+    // not this instance's local hours/minutes — which can still be 0 on a freshly mounted /
+    // off-screen twin picker and would otherwise emit midnight and wipe a chosen time.
+    let validHours = normalizedValue?.getHours() ?? hours
+    let validMinutes = normalizedValue?.getMinutes() ?? minutes
+
     if (isToday) {
       const minHour = now.getHours()
       const minMinute = now.getMinutes()
@@ -213,8 +216,9 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
     
     setHours(validHours)
     setMinutes(validMinutes)
-    if (date) {
-      const newDate = new Date(date)
+    const baseDate = normalizedValue ?? date
+    if (baseDate) {
+      const newDate = new Date(baseDate)
       newDate.setHours(validHours, validMinutes)
       onChange?.(newDate)
     }
@@ -390,10 +394,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
             </span>
           </div>
           <div
-            onClick={(e) => {
-              e.stopPropagation()
-              handleTimeChange(0, 0)
-            }}
+            onClick={handleClear}
             className={cn("transition-colors ml-2 cursor-pointer", dark ? "text-[rgba(255,255,255,0.4)] hover:text-white" : "text-[#9ca3af] hover:text-[#6b7280]")}
           >
             <X className="w-4 h-4" />
