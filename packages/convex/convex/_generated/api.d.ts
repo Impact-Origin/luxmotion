@@ -24,6 +24,7 @@ import type * as googleReviews from "../googleReviews.js";
 import type * as http from "../http.js";
 import type * as ifthenpay from "../ifthenpay.js";
 import type * as instagram from "../instagram.js";
+import type * as lib_pagination from "../lib/pagination.js";
 import type * as lib_utils from "../lib/utils.js";
 import type * as marketingStats from "../marketingStats.js";
 import type * as newsletterSubscriptions from "../newsletterSubscriptions.js";
@@ -71,6 +72,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   ifthenpay: typeof ifthenpay;
   instagram: typeof instagram;
+  "lib/pagination": typeof lib_pagination;
   "lib/utils": typeof lib_utils;
   marketingStats: typeof marketingStats;
   newsletterSubscriptions: typeof newsletterSubscriptions;
