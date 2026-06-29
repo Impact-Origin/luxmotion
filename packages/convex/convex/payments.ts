@@ -41,8 +41,31 @@ export const updatePaymentStatus = internalMutation({
         .unique();
     }
 
+    // Fallback 1: match by the IfThenPay requestId (stored on the order at init and returned
+    // in every callback). Immune to the 15-char orderId truncation (ifthenpay init does
+    // substring(0,15)) that makes a long orderNumber never match exactly for cc/mbway.
+    if (!order && args.requestId) {
+      order = await ctx.db
+        .query("orders")
+        .filter((q) => q.eq(q.field("paymentRequestId"), args.requestId))
+        .first();
+    }
+
+    // Fallback 2: the truncated id is a prefix of the real orderNumber — match it back when
+    // exactly one order carries that prefix (unambiguous).
+    if (!order && args.orderNumber) {
+      const prefix = args.orderNumber;
+      const candidates = await ctx.db
+        .query("orders")
+        .withIndex("by_order_number", (q) =>
+          q.gte("orderNumber", prefix).lt("orderNumber", prefix + "￿"),
+        )
+        .take(2);
+      if (candidates.length === 1) order = candidates[0];
+    }
+
     if (!order) {
-      throw new Error(`Order not found: orderId=${args.orderId}, orderNumber=${args.orderNumber}`);
+      throw new Error(`Order not found: orderId=${args.orderId}, orderNumber=${args.orderNumber}, requestId=${args.requestId}`);
     }
 
     const updates: any = {

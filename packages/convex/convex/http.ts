@@ -324,7 +324,13 @@ async function handleIfThenPayCallback(
           await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: result.orderId });
         }
       } catch (err: any) {
-        console.warn(`[Ifthenpay][${method}] Order not found for paymentId=${orderId}`);
+        // Matched neither orderNumber, orderId, requestId, nor an unambiguous prefix — a paid
+        // callback we can't tie to an order. Log loudly (console.error → alertable) so it can
+        // be reconciled by hand; still return 200 so IfThenPay doesn't retry forever on a
+        // permanently-unmatchable id.
+        console.error(
+          `[Ifthenpay][${method}] UNMATCHED PAID CALLBACK — order not found. paymentId=${orderId} requestId=${requestId} amount=${amountStr}. Payment may have succeeded but the order is NOT confirmed; reconcile manually.`
+        );
         return new Response("ignored: order not found", { status: 200 });
       }
     } else {
