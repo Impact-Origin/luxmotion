@@ -197,9 +197,14 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
       return
     }
 
-    // Use the pre-calculated values from priceBreakdown (all fees included in rounding)
-    const totalAmount = priceBreakdown.total
-    const basePrice = priceBreakdown.transferPrice
+    // Use the pre-calculated values from priceBreakdown (all fees included in rounding).
+    // Upsell experiences are billed in THIS payment (added flat, untaxed — same as the
+    // order summary's `total + experiencesTotal`). Required: on confirmation, payments.ts
+    // creates each experience booking already marked "paid"/"completed", assuming this
+    // transfer charge covered it — so it must be included in the amount, or they ship free.
+    const experiencesTotal = experiences.reduce((sum, exp) => sum + exp.totalPrice, 0)
+    const totalAmount = priceBreakdown.total + experiencesTotal
+    const basePrice = priceBreakdown.transferPrice + experiencesTotal
     const taxAmount = priceBreakdown.tax
 
     const outboundAmount = isRoundTrip ? totalAmount / 2 : totalAmount
