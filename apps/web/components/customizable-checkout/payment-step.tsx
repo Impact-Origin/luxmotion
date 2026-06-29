@@ -203,7 +203,10 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
     // creates each experience booking already marked "paid"/"completed", assuming this
     // transfer charge covered it — so it must be included in the amount, or they ship free.
     const experiencesTotal = experiences.reduce((sum, exp) => sum + exp.totalPrice, 0)
-    const totalAmount = priceBreakdown.total + experiencesTotal
+    // Charge = transfer + upsell experiences + gratuity, matching the order summary's
+    // totalPriceWithExtras (priceBreakdownWithExtras.total + experiencesTotal + tipAmount).
+    // The tip was shown in the summary but never added to the charged amount.
+    const totalAmount = priceBreakdown.total + experiencesTotal + tipAmount
     const basePrice = priceBreakdown.transferPrice + experiencesTotal
     const taxAmount = priceBreakdown.tax
 
