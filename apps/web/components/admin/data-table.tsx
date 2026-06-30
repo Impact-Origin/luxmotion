@@ -31,6 +31,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@workspace/ui/components/toggle-group"
 import { Skeleton } from "@workspace/ui/components/skeleton"
 import { Button } from "@workspace/ui/components/button"
+import { AdminEmptyState } from "@/components/admin/empty-state"
 
 export type SortDir = "asc" | "desc"
 
@@ -280,13 +281,7 @@ export function DataTable<T extends { _id: string }>({
           </div>
         )
       ) : total === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card px-6 py-16 text-center">
-          {EmptyIcon && <EmptyIcon className="size-8 text-muted-foreground" />}
-          <p className="text-sm font-medium text-foreground">{emptyTitle}</p>
-          {emptyDescription && (
-            <p className="max-w-sm text-sm text-muted-foreground">{emptyDescription}</p>
-          )}
-        </div>
+        <AdminEmptyState icon={EmptyIcon} title={emptyTitle} description={emptyDescription} />
       ) : (
         <>
           {view === "card" && hasCard ? (

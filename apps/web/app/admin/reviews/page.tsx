@@ -33,6 +33,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu"
 import { toast } from "sonner"
 import { cn } from "@workspace/ui/lib/utils"
+import { AdminEmptyState } from "@/components/admin/empty-state"
 
 type TabType = "pending" | "approved"
 type SortOption = "newest" | "oldest" | "highestRating" | "lowestRating"
@@ -267,15 +268,11 @@ export default function AdminReviewsPage() {
       </div>
 
       {!reviews || reviews.length === 0 ? (
-        <div className="text-center py-12 bg-muted rounded-lg border-2 border-dashed border-border">
-          <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-medium text-foreground mb-2">
-            {activeTab === "pending" ? t("noPending") : t("noApproved")}
-          </h3>
-          <p className="text-muted-foreground">
-            {activeTab === "pending" ? t("noPendingDescription") : t("noApprovedDescription")}
-          </p>
-        </div>
+        <AdminEmptyState
+          icon={MessageSquare}
+          title={activeTab === "pending" ? t("noPending") : t("noApproved")}
+          description={activeTab === "pending" ? t("noPendingDescription") : t("noApprovedDescription")}
+        />
       ) : (
         <div className="flex flex-col gap-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

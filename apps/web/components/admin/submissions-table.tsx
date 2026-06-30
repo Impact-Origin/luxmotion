@@ -20,6 +20,7 @@ import {
 import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import { StatusBadge } from "@/components/admin/status-badge"
+import { AdminEmptyState } from "@/components/admin/empty-state"
 
 export type SubmissionStatus = "new" | "read" | "archived"
 
@@ -193,13 +194,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-12 bg-muted rounded-lg border-2 border-dashed border-border">
-          <Mail className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-medium text-foreground mb-2">{emptyTitle}</h3>
-          {emptyDescription && (
-            <p className="text-sm text-muted-foreground max-w-sm mx-auto">{emptyDescription}</p>
-          )}
-        </div>
+        <AdminEmptyState icon={Mail} title={emptyTitle} description={emptyDescription} />
       ) : (
         <div className="flex flex-col gap-3">
         <div className="border border-border rounded-lg overflow-hidden bg-card">
