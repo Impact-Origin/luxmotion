@@ -214,7 +214,7 @@ function CheckoutPageContent() {
         hasNearbyTours={hasNearbyTours}
       />
 
-      <main className="flex-1 bg-[#0D0D0D] text-white overflow-hidden pb-16">
+      <main className="flex-1 bg-[#0D0D0D] text-white overflow-x-hidden pb-16">
         <div key={currentStep} className={getAnimationClass()} style={getAnimationStyle()}>
           {currentStep === 1 && (
             <VehicleSelectionStep
