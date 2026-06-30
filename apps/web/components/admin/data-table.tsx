@@ -91,6 +91,8 @@ export interface DataTableProps<T> {
   emptyIcon?: React.ComponentType<{ className?: string }>
   loadingRows?: number
   className?: string
+  /** When set, clicking a table row calls this. Row-action cells stop propagation. */
+  onRowClick?: (row: T) => void
 }
 
 const ALL = "__all__"
@@ -118,6 +120,7 @@ export function DataTable<T extends { _id: string }>({
   emptyIcon: EmptyIcon,
   loadingRows = 6,
   className,
+  onRowClick,
 }: DataTableProps<T>) {
   const server = mode === "server"
   const [view, setView] = React.useState<"table" | "card">(defaultView)
@@ -330,7 +333,11 @@ export function DataTable<T extends { _id: string }>({
                 </TableHeader>
                 <TableBody>
                   {pageRows.map((row) => (
-                    <TableRow key={getRowId(row)}>
+                    <TableRow
+                      key={getRowId(row)}
+                      onClick={onRowClick ? () => onRowClick(row) : undefined}
+                      className={onRowClick ? "cursor-pointer" : undefined}
+                    >
                       {columns.map((col) => (
                         <TableCell
                           key={col.id}
@@ -339,7 +346,14 @@ export function DataTable<T extends { _id: string }>({
                           {col.cell(row)}
                         </TableCell>
                       ))}
-                      {rowActions && <TableCell className="text-right">{rowActions(row)}</TableCell>}
+                      {rowActions && (
+                        <TableCell
+                          className="text-right"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {rowActions(row)}
+                        </TableCell>
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>

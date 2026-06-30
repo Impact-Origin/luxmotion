@@ -28,6 +28,12 @@ import {
   type DataTableFilter,
   type DataTableQuery,
 } from "@/components/admin/data-table";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@workspace/ui/components/sheet";
 
 type OrderStatus = "draft" | "pending" | "confirmed" | "paid" | "completed" | "cancelled";
 
@@ -83,6 +89,175 @@ function formatTravel(value: string | undefined) {
   return value;
 }
 
+function money(n: number | undefined | null) {
+  if (n === undefined || n === null || Number.isNaN(n)) return undefined;
+  return `€${n.toFixed(2)}`;
+}
+
+function DetailSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-2">
+      <h3 className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {title}
+      </h3>
+      <dl className="divide-y divide-border overflow-hidden rounded-lg border border-border">
+        {children}
+      </dl>
+    </div>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
+  if (value === undefined || value === null || value === "" || value === "—") return null;
+  return (
+    <div className="flex items-start justify-between gap-4 px-3 py-2 text-sm">
+      <dt className="shrink-0 text-muted-foreground">{label}</dt>
+      <dd className="break-words text-right font-medium text-foreground">{value}</dd>
+    </div>
+  );
+}
+
+/** Side sheet with every relevant field of an order — opened by clicking a table row. */
+function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () => void }) {
+  return (
+    <Sheet open={!!order} onOpenChange={(o) => !o && onClose()}>
+      <SheetContent side="right" className="w-full gap-0 overflow-y-auto p-0 sm:max-w-lg">
+        {order && (
+          <>
+            <SheetHeader className="border-b border-border p-4">
+              <SheetTitle className="flex items-center gap-2 font-mono text-sm">
+                {order.orderNumber ?? "—"}
+                {order.isRoundTrip && <Repeat className="size-3.5 text-muted-foreground" />}
+              </SheetTitle>
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <StatusBadge status={order.status} />
+                <StatusBadge status={order.paymentStatus ?? "pending"} />
+                <span className="text-xs text-muted-foreground">
+                  {formatDateTime(order.createdAt)}
+                </span>
+              </div>
+            </SheetHeader>
+
+            <div className="flex flex-col gap-5 p-4">
+              <DetailSection title="Customer">
+                <DetailRow label="Name" value={order.customerName} />
+                <DetailRow label="Email" value={order.customerEmail} />
+                <DetailRow label="Phone" value={order.customerPhone} />
+                <DetailRow label="NIF" value={order.customerNif} />
+              </DetailSection>
+
+              {order.bookedForAnotherPerson && (
+                <DetailSection title="Passenger">
+                  <DetailRow label="Name" value={order.passengerName} />
+                  <DetailRow label="Email" value={order.passengerEmail} />
+                  <DetailRow label="WhatsApp" value={order.passengerWhatsapp} />
+                </DetailSection>
+              )}
+
+              <DetailSection title="Trip">
+                <DetailRow label="From" value={order.departure?.location} />
+                <DetailRow label="To" value={order.arrival?.location} />
+                {Array.isArray(order.stops) && order.stops.length > 0 && (
+                  <DetailRow
+                    label="Stops"
+                    value={order.stops.map((s: any) => s.location).join(" · ")}
+                  />
+                )}
+                <DetailRow label="Date" value={formatTravel(order.departureDate)} />
+                {order.isRoundTrip && (
+                  <DetailRow label="Return" value={formatTravel(order.arrivalDate)} />
+                )}
+                <DetailRow label="Round trip" value={order.isRoundTrip ? "Yes" : "No"} />
+                <DetailRow label="Passengers" value={order.passengers} />
+                {(order.adults != null || order.children != null) && (
+                  <DetailRow
+                    label="Adults / Children"
+                    value={`${order.adults ?? 0} / ${order.children ?? 0}`}
+                  />
+                )}
+                <DetailRow label="Vehicle" value={order.vehicleName} />
+                <DetailRow
+                  label="Distance"
+                  value={order.distance ? `${order.distance} km` : undefined}
+                />
+                <DetailRow
+                  label="Flight"
+                  value={
+                    order.flightNumber
+                      ? `${order.flightNumber}${order.airlineCompany ? ` · ${order.airlineCompany}` : ""}`
+                      : undefined
+                  }
+                />
+              </DetailSection>
+
+              <DetailSection title="Payment">
+                <DetailRow
+                  label="Method"
+                  value={
+                    order.paymentMethod
+                      ? (METHOD_LABEL[order.paymentMethod] ?? order.paymentMethod)
+                      : undefined
+                  }
+                />
+                <DetailRow label="Status" value={order.paymentStatus} />
+                <DetailRow label="Reference" value={order.paymentRequestId} />
+                <DetailRow label="MB Entity" value={order.paymentEntity} />
+                <DetailRow label="MB Reference" value={order.paymentReference} />
+              </DetailSection>
+
+              <DetailSection title="Pricing">
+                <DetailRow label="Base" value={money(order.basePrice)} />
+                {order.discountAmount ? (
+                  <DetailRow label="Discount" value={money(order.discountAmount)} />
+                ) : null}
+                {order.additionalFees ? (
+                  <DetailRow label="Fees" value={money(order.additionalFees)} />
+                ) : null}
+                {order.nightTax ? (
+                  <DetailRow label="Night tax" value={money(order.nightTax)} />
+                ) : null}
+                {order.airportServiceFee ? (
+                  <DetailRow label="Airport fee" value={money(order.airportServiceFee)} />
+                ) : null}
+                <DetailRow
+                  label="Total"
+                  value={<span className="text-base">{money(order.totalAmount)}</span>}
+                />
+              </DetailSection>
+
+              {(order.selectedCheckoutAddons?.length || order.selectedAddons?.length) ? (
+                <DetailSection title="Add-ons">
+                  {(order.selectedCheckoutAddons ?? []).map((a: any, i: number) => (
+                    <DetailRow key={`c${i}`} label={a.label} value={money(a.price)} />
+                  ))}
+                  {(order.selectedAddons ?? []).map((a: any, i: number) => (
+                    <DetailRow key={`a${i}`} label={`${a.title} ×${a.quantity}`} value={money(a.subtotal)} />
+                  ))}
+                </DetailSection>
+              ) : null}
+
+              {order.driverNotes && (
+                <DetailSection title="Notes">
+                  <div className="px-3 py-2 text-sm text-foreground">{order.driverNotes}</div>
+                </DetailSection>
+              )}
+
+              <DetailSection title="Meta">
+                <DetailRow label="Created" value={formatDateTime(order.createdAt)} />
+                <DetailRow label="Updated" value={formatDateTime(order.updatedAt)} />
+                <DetailRow
+                  label="Order ID"
+                  value={<span className="font-mono text-xs">{order._id}</span>}
+                />
+              </DetailSection>
+            </div>
+          </>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 export default function OrdersPage() {
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({
     page: 0,
@@ -95,6 +270,7 @@ export default function OrdersPage() {
   type Order = NonNullable<typeof res>["rows"][number];
 
   const [busyId, setBusyId] = React.useState<string | null>(null);
+  const [detailOrder, setDetailOrder] = React.useState<Order | null>(null);
 
   const changeStatus = async (o: Order, status: OrderStatus) => {
     if (o.status === status) return;
@@ -306,21 +482,25 @@ export default function OrdersPage() {
   );
 
   return (
-    <DataTable<Order>
-      mode="server"
-      data={res?.rows}
-      total={res?.total ?? 0}
-      pageSize={10}
-      onQueryChange={setTableQuery}
-      columns={columns}
-      searchKeys={["orderNumber", (o) => o.customerName, (o) => o.customerEmail]}
-      searchPlaceholder="Search by order #, name or e-mail"
-      filters={filters}
-      renderCard={renderCard}
-      rowActions={rowActions}
-      emptyTitle="No orders found"
-      emptyDescription="Orders from the checkout appear here. Adjust your search or filters."
-      emptyIcon={Receipt}
-    />
+    <>
+      <DataTable<Order>
+        mode="server"
+        data={res?.rows}
+        total={res?.total ?? 0}
+        pageSize={10}
+        onQueryChange={setTableQuery}
+        columns={columns}
+        searchKeys={["orderNumber", (o) => o.customerName, (o) => o.customerEmail]}
+        searchPlaceholder="Search by order #, name or e-mail"
+        filters={filters}
+        renderCard={renderCard}
+        rowActions={rowActions}
+        onRowClick={setDetailOrder}
+        emptyTitle="No orders found"
+        emptyDescription="Orders from the checkout appear here. Adjust your search or filters."
+        emptyIcon={Receipt}
+      />
+      <OrderDetailSheet order={detailOrder} onClose={() => setDetailOrder(null)} />
+    </>
   );
 }
