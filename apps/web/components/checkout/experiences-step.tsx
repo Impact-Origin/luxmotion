@@ -82,13 +82,24 @@ function CardRow({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     const el = ref.current
     if (!el) return
-    const raf = requestAnimationFrame(update)
+    update()
     el.addEventListener("scroll", update, { passive: true })
     window.addEventListener("resize", update)
+    // The row can start un-overflowed — the step is still animating in and the grid column
+    // hasn't constrained it yet, so a single mount measurement reads "no overflow" and the
+    // arrows stay hidden forever. Re-measure on every size change (container + each card) and
+    // a couple of beats later, so the arrows appear as soon as the row actually overflows.
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    for (const child of Array.from(el.children)) ro.observe(child)
+    const t1 = setTimeout(update, 150)
+    const t2 = setTimeout(update, 600)
     return () => {
-      cancelAnimationFrame(raf)
       el.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
+      ro.disconnect()
+      clearTimeout(t1)
+      clearTimeout(t2)
     }
   }, [update])
 
