@@ -4,9 +4,6 @@ import type { MutationCtx } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 
-// MBWay status codes: 000 = paid, 020 = rejected, 101 = expired, 122 = declined
-const MBWAY_FAILED_STATUSES = ["020", "101", "122"];
-
 function generateBookingNumber(): string {
   const t = Date.now().toString().slice(-10);
   const r = Math.floor(Math.random() * 1000)
@@ -447,117 +444,49 @@ export const startPaymentAction = action({
       return { success: true };
     }
 
-    const ifthenpayApi = api as any;
-
-    if (args.method === "mb") {
-      const result: any = await ctx.runAction(ifthenpayApi.ifthenpay.initMultibanco, {
-        orderId: bookingNumber,
-        amount: args.amount,
-        email: args.email,
-        useSandbox: false,
-      });
-      await ctx.runMutation(api.tourBookings.startPayment, {
-        bookingId: args.bookingId,
-        method: "mb",
-        totalAmount: args.amount,
-        paymentEntity: result.entity,
-        paymentReference: result.reference,
-      });
-      return {
-        success: true,
-        method: "mb",
-        entity: result.entity,
-        reference: result.reference,
-        message: result.message,
-      };
+    // Stripe Checkout — uma sessão hosted para o tour/experiência.
+    if (args.method !== "mb" && args.method !== "mbway" && args.method !== "ccard") {
+      throw new Error("Unsupported payment method");
+    }
+    if (!args.successUrl || !args.cancelUrl) {
+      throw new Error("successUrl and cancelUrl are required for Stripe payment");
     }
 
-    if (args.method === "mbway") {
-      if (!args.phoneNumber) {
-        throw new Error("Phone number required for MBWay");
-      }
-      const result = await ctx.runAction(ifthenpayApi.ifthenpay.initMbway, {
-        orderId: bookingNumber,
-        amount: args.amount,
-        phone: args.phoneNumber,
-        email: args.email,
-      });
-      await ctx.runMutation(api.tourBookings.startPayment, {
-        bookingId: args.bookingId,
-        method: "mbway",
-        totalAmount: args.amount,
-        paymentRequestId: result.requestId,
-      });
-      return {
-        success: true,
-        method: "mbway",
-        requestId: result.requestId,
-        message: result.message,
-        status: result.status,
-      };
-    }
+    const stripeApi = api as any;
+    const session: any = await ctx.runAction(stripeApi.stripe.createCheckoutSession, {
+      kind: "tour",
+      method: args.method, // "ccard" | "mbway" | "mb"
+      orderNumber: bookingNumber,
+      orderId: args.bookingId,
+      amount: args.amount,
+      description: booking.tourTitle
+        ? `${booking.tourTitle} (${bookingNumber})`
+        : `Easy Transfer ${bookingNumber}`,
+      email: args.email,
+      language: args.language,
+      successUrl: args.successUrl,
+      cancelUrl: args.errorUrl ?? args.cancelUrl,
+    });
 
-    if (args.method === "ccard") {
-      if (!args.successUrl || !args.errorUrl || !args.cancelUrl) {
-        throw new Error("Success, error, and cancel URLs required for credit card");
-      }
-      const result = await ctx.runAction(ifthenpayApi.ifthenpay.initCreditCard, {
-        orderId: bookingNumber,
-        amount: args.amount,
-        successUrl: args.successUrl,
-        errorUrl: args.errorUrl,
-        cancelUrl: args.cancelUrl,
-        language: args.language || "en",
-      });
-      await ctx.runMutation(api.tourBookings.startPayment, {
-        bookingId: args.bookingId,
-        method: "ccard",
-        totalAmount: args.amount,
-      });
-      return {
-        success: true,
-        method: "ccard",
-        paymentUrl: result.paymentUrl,
-        requestId: result.requestId,
-      };
-    }
+    // Guardar método + referência Stripe no booking. O webhook confirma pelo metadata.
+    await ctx.runMutation(api.tourBookings.startPayment, {
+      bookingId: args.bookingId,
+      method: args.method,
+      totalAmount: args.amount,
+      paymentRequestId: session.paymentIntentId ?? session.sessionId,
+    });
 
-    throw new Error("Unsupported payment method");
+    return {
+      success: true,
+      method: args.method,
+      checkoutUrl: session.checkoutUrl,
+      sessionId: session.sessionId,
+    };
   },
 });
 
-/** Verifica estado MBWay (rejeitado/expirado) e atualiza booking para failed se aplicável */
-export const checkPaymentStatus = action({
-  args: { bookingId: v.id("tourBookings") },
-  handler: async (ctx, args): Promise<{ paymentStatus: string; status: string } | null> => {
-    const booking = await ctx.runQuery(api.tourBookings.getById, { bookingId: args.bookingId });
-    if (!booking || booking.paymentMethod !== "mbway" || !booking.paymentRequestId) {
-      return booking ? { paymentStatus: booking.paymentStatus ?? "pending", status: booking.status } : null;
-    }
-    if (booking.paymentStatus === "completed" || booking.paymentStatus === "failed") {
-      return { paymentStatus: booking.paymentStatus, status: booking.status };
-    }
-    const ifthenpayApi = api as any;
-    const result = await ctx.runAction(ifthenpayApi.ifthenpay.checkMbwayStatus, {
-      requestId: booking.paymentRequestId,
-    });
-    console.log("[TourBookings] checkPaymentStatus IfThenPay result:", {
-      bookingNumber: booking.bookingNumber,
-      requestId: booking.paymentRequestId,
-      resultStatus: result?.status,
-      resultMessage: result?.message,
-      isFailed: result && MBWAY_FAILED_STATUSES.includes(result.status),
-    });
-    if (result && MBWAY_FAILED_STATUSES.includes(result.status)) {
-      console.log("[TourBookings] Setting payment failed for", booking.bookingNumber);
-      await ctx.runMutation(internal.tourBookings.setPaymentFailed, {
-        bookingNumber: booking.bookingNumber,
-      });
-      return { paymentStatus: "failed", status: "pending" };
-    }
-    return { paymentStatus: booking.paymentStatus ?? "pending", status: booking.status };
-  },
-});
+/* checkPaymentStatus removido na migração para Stripe — sem polling de MB Way; o estado é
+   confirmado pelo webhook do Stripe (que chama completeTourBookingPayment). */
 
 export const setPaymentFailed = internalMutation({
   args: { bookingNumber: v.string() },

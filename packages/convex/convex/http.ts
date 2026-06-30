@@ -1,6 +1,7 @@
 import { httpRouter } from "convex/server";
 import { httpAction } from "./_generated/server";
 import { api, internal } from "./_generated/api";
+import { constructStripeEvent } from "./stripe";
 
 const http = httpRouter();
 
@@ -171,238 +172,94 @@ http.route({
   }),
 });
 
-// ===================== IfThenPay Webhooks =====================
+// ===================== Stripe Webhook =====================
 
 /**
- * Helper para validar anti-phishing key do IfThenPay
+ * Single signed Stripe webhook (replaces the 3 IfThenPay GET callbacks). Verifies the
+ * signature (Web Crypto — see stripe.ts), maps the event to our payment status and reuses
+ * the EXISTING completion chain:
+ *  - checkout.session.completed (payment_status "paid")  → completed  [cards, immediate]
+ *  - checkout.session.async_payment_succeeded             → completed  [MB WAY / Multibanco]
+ *  - checkout.session.async_payment_failed / expired      → failed
+ * The order is matched by orderNumber from the session metadata — exact, no truncation
+ * (which is what previously left orders stuck "pending").
  */
-function validateAntiPhishingKey(key: string | null): boolean {
-  const expectedKey = process.env.IFTHENPAY_ANTIPHISHING_KEY;
-  if (!expectedKey) {
-    // Se não estiver configurado, aceitar (para desenvolvimento)
-    return true;
-  }
-  if (!key || key.length !== expectedKey.length) {
-    return false;
-  }
-  // Comparação segura (timing-safe)
-  let result = 0;
-  for (let i = 0; i < key.length; i++) {
-    result |= key.charCodeAt(i) ^ expectedKey.charCodeAt(i);
-  }
-  return result === 0;
-}
-
-/**
- * Helper para parse de amount (aceita vírgula ou ponto como separador decimal)
- */
-function parseAmount(amountStr: string | null): number | null {
-  if (!amountStr || amountStr.trim() === "") return null;
-  try {
-    return parseFloat(amountStr.replace(",", "."));
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Helper para parse de datetime (formato: dd-MM-yyyy HH:mm:ss)
- */
-function parseDateTime(dateTimeStr: string | null): number | null {
-  if (!dateTimeStr || dateTimeStr.trim() === "") return null;
-  try {
-    // Formato: "dd-MM-yyyy HH:mm:ss"
-    const [datePart, timePart] = dateTimeStr.split(" ");
-    if (!datePart || !timePart) {
-      return null;
+http.route({
+  path: "/webhooks/stripe",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    const secret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!secret) {
+      console.error("[Stripe] STRIPE_WEBHOOK_SECRET not configured");
+      return new Response("not configured", { status: 500 });
     }
-    const dateParts = datePart.split("-");
-    const timeParts = timePart.split(":");
-    if (dateParts.length < 3 || timeParts.length < 3) {
-      return null;
-    }
-    const day = Number(dateParts[0]);
-    const month = Number(dateParts[1]);
-    const year = Number(dateParts[2]);
-    const hour = Number(timeParts[0]);
-    const minute = Number(timeParts[1]);
-    const second = Number(timeParts[2]);
-    
-    if (isNaN(day) || isNaN(month) || isNaN(year) || isNaN(hour) || isNaN(minute) || isNaN(second)) {
-      return null;
-    }
-    
-    const date = new Date(year, month - 1, day, hour, minute, second);
-    return date.getTime();
-  } catch {
-    return null;
-  }
-}
 
-// MBWay: 000 = pago, 020 = rejeitado, 101 = expirado, 122 = recusado
-const IFTHENPAY_FAILED_STATUSES = ["020", "101", "122", "failed", "rejected", "declined", "expired"];
+    const payload = await request.text();
+    const sig = request.headers.get("stripe-signature");
 
-/**
- * Handler comum para callbacks do IfThenPay
- */
-async function handleIfThenPayCallback(
-  ctx: any,
-  method: "mb" | "mbway" | "cc",
-  key: string | null,
-  orderId: string | null,
-  amountStr: string | null,
-  requestId: string | null,
-  entity: string | null,
-  reference: string | null,
-  paymentDateTimeStr: string | null,
-  statusParam: string | null
-): Promise<Response> {
-  // 1) Validar anti-phishing key
-  if (!validateAntiPhishingKey(key)) {
-    return new Response("unauthorized", { status: 401 });
-  }
-
-  // 2) Validar orderId
-  if (!orderId || orderId.trim() === "") {
-    return new Response("missing orderId", { status: 400 });
-  }
-
-  // 3) Parse de valores
-  const amount = parseAmount(amountStr);
-  const paymentDateTime = paymentDateTimeStr ? parseDateTime(paymentDateTimeStr) : null;
-
-  const isFailedStatus = statusParam != null && IFTHENPAY_FAILED_STATUSES.includes(String(statusParam).toLowerCase());
-
-  // 4) Tour booking (TB) vs transfer order
-  const isTourBooking = typeof orderId === "string" && orderId.startsWith("TB");
-  if (isTourBooking) {
-    console.log(`[Ifthenpay][${method}] Tour booking callback:`, {
-      orderId,
-      statusParam,
-      isFailedStatus,
-      paymentStatusToSet: isFailedStatus ? "failed" : "completed",
-    });
+    let event: any;
     try {
-      await ctx.runAction(internal.tourBookings.completeTourBookingPayment, {
-        bookingNumber: orderId,
-        paymentStatus: isFailedStatus ? "failed" : "completed",
-      });
-      return new Response("ok", { status: 200 });
-    } catch (error: any) {
-      console.warn(`[Ifthenpay][${method}] Tour booking not found for paymentId=${orderId}`);
-      return new Response("ignored: tour booking not found", { status: 200 });
+      event = await constructStripeEvent(payload, sig, secret);
+    } catch (err: any) {
+      console.error("[Stripe] Webhook signature verification failed:", err?.message);
+      return new Response("invalid signature", { status: 400 });
     }
-  }
 
-  // 5) Atualizar status do pagamento (orders/transfers) e enviar webhook diretamente
-  try {
-    const result = await ctx.runMutation(internal.payments.updatePaymentStatus, {
-      orderNumber: orderId,
-      paymentStatus: "completed",
-      requestId: requestId || undefined,
-      entity: entity || undefined,
-      reference: reference || undefined,
-      amount: amount || undefined,
-      paymentDateTime: paymentDateTimeStr || undefined,
-    });
-    if (result?.orderId) {
-      await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: result.orderId });
+    const type: string = event.type;
+    const session: any = event.data?.object ?? {};
+    const meta: any = session.metadata ?? {};
+    const orderNumber: string | undefined = meta.orderNumber;
+    const kind: string | undefined = meta.kind;
+
+    let paymentStatus: "completed" | "failed" | null = null;
+    if (type === "checkout.session.completed") {
+      // Cards complete here ("paid"); async methods land here "unpaid" → still pending.
+      paymentStatus = session.payment_status === "paid" ? "completed" : null;
+    } else if (type === "checkout.session.async_payment_succeeded") {
+      paymentStatus = "completed";
+    } else if (type === "checkout.session.async_payment_failed" || type === "checkout.session.expired") {
+      paymentStatus = "failed";
     }
-  } catch (error: any) {
-    if (error.message?.includes("not found")) {
-      try {
-        const result = await ctx.runMutation(internal.payments.updatePaymentStatus, {
-          orderId: orderId,
-          paymentStatus: "completed",
-          requestId: requestId || undefined,
-          entity: entity || undefined,
-          reference: reference || undefined,
-          amount: amount || undefined,
-          paymentDateTime: paymentDateTimeStr || undefined,
+
+    // Nothing actionable (or async still pending) — ack so Stripe doesn't retry.
+    if (!paymentStatus) return new Response("ignored", { status: 200 });
+    if (!orderNumber) {
+      console.error("[Stripe] Webhook event without orderNumber metadata:", type, session.id);
+      return new Response("ignored: no orderNumber", { status: 200 });
+    }
+
+    const paymentIntentId: string | undefined =
+      typeof session.payment_intent === "string" ? session.payment_intent : undefined;
+    const amountEur: number | undefined =
+      typeof session.amount_total === "number" ? session.amount_total / 100 : undefined;
+
+    try {
+      if (kind === "tour" || orderNumber.startsWith("TB")) {
+        await ctx.runAction(internal.tourBookings.completeTourBookingPayment, {
+          bookingNumber: orderNumber,
+          paymentStatus,
         });
-        if (result?.orderId) {
+      } else {
+        const result = await ctx.runMutation(internal.payments.updatePaymentStatus, {
+          orderNumber,
+          paymentStatus,
+          requestId: paymentIntentId,
+          amount: amountEur,
+        });
+        if (paymentStatus === "completed" && result?.orderId) {
           await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: result.orderId });
         }
-      } catch (err: any) {
-        // Matched neither orderNumber, orderId, requestId, nor an unambiguous prefix — a paid
-        // callback we can't tie to an order. Log loudly (console.error → alertable) so it can
-        // be reconciled by hand; still return 200 so IfThenPay doesn't retry forever on a
-        // permanently-unmatchable id.
-        console.error(
-          `[Ifthenpay][${method}] UNMATCHED PAID CALLBACK — order not found. paymentId=${orderId} requestId=${requestId} amount=${amountStr}. Payment may have succeeded but the order is NOT confirmed; reconcile manually.`
-        );
-        return new Response("ignored: order not found", { status: 200 });
       }
-    } else {
-      throw error;
+    } catch (err: any) {
+      // Log loudly for manual reconciliation; still 200 so Stripe stops retrying.
+      console.error(
+        `[Stripe] Failed to apply '${paymentStatus}' for order ${orderNumber} (${type}):`,
+        err?.message,
+      );
+      return new Response("ignored: order not applied", { status: 200 });
     }
-  }
 
-  return new Response("ok", { status: 200 });
-}
-
-// Webhook: Credit Card Callback
-http.route({
-  path: "/webhooks/ifthenpay/callback/cc",
-  method: "GET",
-  handler: httpAction(async (ctx, request) => {
-    const url = new URL(request.url);
-    const key = url.searchParams.get("key");
-    const orderId = url.searchParams.get("orderId");
-    const amountStr = url.searchParams.get("amount");
-    const requestId = url.searchParams.get("requestId");
-    const paymentDateTimeStr = url.searchParams.get("payment_datetime");
-
-    const statusParam = url.searchParams.get("status");
-    return handleIfThenPayCallback(ctx, "cc", key, orderId, amountStr, requestId, null, null, paymentDateTimeStr, statusParam);
-  }),
-});
-
-// Webhook: MBWay Callback
-http.route({
-  path: "/webhooks/ifthenpay/callback/mbway",
-  method: "GET",
-  handler: httpAction(async (ctx, request) => {
-    const url = new URL(request.url);
-    const key = url.searchParams.get("key");
-    const orderId = url.searchParams.get("orderId");
-    const amountStr = url.searchParams.get("amount");
-    const requestId = url.searchParams.get("requestId");
-    const paymentDateTimeStr = url.searchParams.get("payment_datetime");
-    const statusParam = url.searchParams.get("status");
-
-    const allParams: Record<string, string> = {};
-    url.searchParams.forEach((value, name) => {
-      allParams[name] = value;
-    });
-    console.log("[Ifthenpay][mbway] Webhook received:", {
-      url: url.toString(),
-      queryParams: allParams,
-      orderId,
-      statusParam,
-      requestId,
-    });
-
-    return handleIfThenPayCallback(ctx, "mbway", key, orderId, amountStr, requestId, null, null, paymentDateTimeStr, statusParam);
-  }),
-});
-
-// Webhook: Multibanco Callback
-http.route({
-  path: "/webhooks/ifthenpay/callback/mb",
-  method: "GET",
-  handler: httpAction(async (ctx, request) => {
-    const url = new URL(request.url);
-    const key = url.searchParams.get("key");
-    const orderId = url.searchParams.get("orderId");
-    const amountStr = url.searchParams.get("amount");
-    const requestId = url.searchParams.get("requestId");
-    const entity = url.searchParams.get("entity");
-    const reference = url.searchParams.get("reference");
-    const paymentDateTimeStr = url.searchParams.get("payment_datetime");
-    const statusParam = url.searchParams.get("status");
-
-    return handleIfThenPayCallback(ctx, "mb", key, orderId, amountStr, requestId, entity, reference, paymentDateTimeStr, statusParam);
+    return new Response("ok", { status: 200 });
   }),
 });
 
@@ -890,9 +747,9 @@ http.route({
         }
       }
 
-      // Usar a action que integra com IfThenPay
-      const ifthenpayApi = api as any;
-      const result = await ctx.runAction(ifthenpayApi.orders.startPaymentAction, {
+      // Inicia o pagamento (Stripe Checkout) e devolve { checkoutUrl }.
+      const ordersApi = api as any;
+      const result = await ctx.runAction(ordersApi.orders.startPaymentAction, {
         orderId: convexOrderId,
         method: method as "mbway" | "mb" | "ccard" | "cash",
         amount: body.amount,

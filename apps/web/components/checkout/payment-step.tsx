@@ -396,11 +396,6 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
 
     const method = mapMethod(payment.method)
 
-    if (method === "mbway" && (!payment.mbwayPhone || !payment.mbwayPhone.trim())) {
-      setSubmitError(t("mbwayPhoneRequired"))
-      return
-    }
-
     updatePayment({ acceptTerms: true })
 
     const totalAmount = totalToPay
@@ -445,9 +440,10 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
       email: passenger.email?.trim() ? passenger.email.trim() : undefined,
       driverNotes: payment.specialRequest?.trim() ? payment.specialRequest.trim() : undefined,
       selectedCheckoutAddons: selectedCheckoutAddons?.length ? selectedCheckoutAddons : undefined,
-      successUrl: method === "ccard" ? successUrl : undefined,
-      errorUrl: method === "ccard" ? errorUrl : undefined,
-      cancelUrl: method === "ccard" ? cancelUrl : undefined,
+      // Todos os métodos Stripe são redirect → enviar sempre os URLs de retorno.
+      successUrl,
+      errorUrl,
+      cancelUrl,
       language: locale === "pt" ? "pt" : "en",
     }
 
@@ -488,20 +484,11 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
       }
 
       const resp = (await startPayment(convex, orderId, method, payload)) as {
-        paymentUrl?: string
-        redirectUrl?: string
+        checkoutUrl?: string
+        success?: boolean
       }
 
-      if (method === "ccard") {
-        const paymentUrl = resp?.paymentUrl || resp?.redirectUrl
-        if (typeof paymentUrl === "string" && paymentUrl) {
-          window.location.href = paymentUrl
-          return
-        } else {
-          throw new Error("Payment URL not received from payment provider")
-        }
-      }
-
+      // Cash: pago presencialmente — sem Stripe.
       if (method === "cash") {
         submitCheckout()
         setIsSubmitting(false)
@@ -509,18 +496,13 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         return
       }
 
-      if (method === "mbway") {
-        const response = resp as any
-        if (response?.success === true || response?.requestId || response?.status) {
-          submitCheckout()
-          setIsSubmitting(false)
-          setStep(confirmationStep)
-        } else {
-          throw new Error(response?.message || "Failed to start MB Way payment.")
-        }
+      // Cartão / MB WAY / Multibanco → Stripe Checkout (hosted). O webhook confirma o
+      // pagamento; ao voltar para ?success=true mostramos a confirmação.
+      if (resp?.checkoutUrl) {
+        window.location.href = resp.checkoutUrl
+        return
       }
-
-      setIsSubmitting(false)
+      throw new Error("Checkout URL not received from payment provider")
     } catch (e: any) {
       setSubmitError(e?.message || t("paymentError"))
       setIsSubmitting(false)

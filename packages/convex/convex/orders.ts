@@ -1071,216 +1071,64 @@ export const startPaymentAction = action({
       return { success: true };
     }
 
-    // 6. Usar orderNumber da ordem de ida para o pagamento
+    // 6. Stripe Checkout — uma única sessão hosted para o TOTAL da reserva.
     const orderNumber: string = order.orderNumber || args.orderId;
-    const ifthenpayApi = api as any;
 
-    // 4. Chamar IfThenPay baseado no método de pagamento
+    if (args.method !== "mb" && args.method !== "mbway" && args.method !== "ccard") {
+      throw new Error(`Unsupported payment method: ${args.method}`);
+    }
+    // Todos os métodos Stripe são redirect → precisamos do success + cancel URL.
+    if (!args.successUrl || !args.cancelUrl) {
+      throw new Error("successUrl and cancelUrl are required for Stripe payment");
+    }
+
+    // `api as any` porque o codegen (que adiciona `stripe` aos tipos gerados) não corre
+    // aqui — mesmo padrão que o ficheiro já usava para o `ifthenpayApi`.
+    const stripeApi = api as any;
     try {
-      if (args.method === "mb") {
-        // Multibanco - usar valor total se for round trip
-        const result: any = await ctx.runAction(ifthenpayApi.ifthenpay.initMultibanco, {
-          orderId: orderNumber,
-          amount: totalAmount, // Valor total (ida + volta se round trip)
-          email: args.email,
-          expiryDays: args.expiryDays,
-          description: args.description,
-          useSandbox: args.useSandbox,
-        });
+      const result: any = await ctx.runAction(stripeApi.stripe.createCheckoutSession, {
+        kind: "transfer",
+        method: args.method, // "ccard" | "mbway" | "mb"
+        orderNumber,
+        orderId: args.orderId,
+        // Total da reserva (ida + volta). O IfThenPay só cobrava a ida no cartão — corrigido.
+        amount: totalAmount,
+        description: args.description ?? `Easy Transfer ${orderNumber}`,
+        email: args.email,
+        language: args.language,
+        successUrl: args.successUrl,
+        cancelUrl: args.errorUrl ?? args.cancelUrl,
+      });
 
-        // Atualizar ordem com referências Multibanco
-        await ctx.runMutation(api.orders.updatePaymentReferences, {
-          orderId: args.orderId,
-          paymentEntity: result.entity,
-          paymentReference: result.reference,
-          paymentRequestId: undefined,
-        });
+      // Guardar a referência Stripe (paridade com paymentRequestId + reconciliação).
+      // O webhook faz o match pelo orderNumber no metadata, por isso isto é só informativo.
+      await ctx.runMutation(api.orders.updatePaymentReferences, {
+        orderId: args.orderId,
+        paymentEntity: undefined,
+        paymentReference: undefined,
+        paymentRequestId: result.paymentIntentId ?? result.sessionId,
+      });
 
-        return {
-          success: true,
-          method: "mb",
-          entity: result.entity,
-          reference: result.reference,
-          message: result.message,
-        };
-      } else if (args.method === "mbway") {
-        // MBWay - usar valor total se for round trip
-        if (!args.phoneNumber) {
-          throw new Error("Phone number required for MBWay");
-        }
-
-        const result = await ctx.runAction(ifthenpayApi.ifthenpay.initMbway, {
-          orderId: orderNumber,
-          amount: totalAmount, // Valor total (ida + volta se round trip)
-          phone: args.phoneNumber,
-          email: args.email,
-          description: args.description,
-        });
-
-        // Atualizar ordem com RequestId do MBWay
-        await ctx.runMutation(api.orders.updatePaymentReferences, {
-          orderId: args.orderId,
-          paymentEntity: undefined,
-          paymentReference: undefined,
-          paymentRequestId: result.requestId,
-        });
-
-        return {
-          success: true,
-          method: "mbway",
-          requestId: result.requestId,
-          message: result.message,
-          status: result.status,
-        };
-      } else if (args.method === "ccard") {
-        // Credit Card
-        if (!args.successUrl || !args.errorUrl || !args.cancelUrl) {
-          throw new Error("Success, error, and cancel URLs required for credit card");
-        }
-
-        const result = await ctx.runAction(ifthenpayApi.ifthenpay.initCreditCard, {
-          orderId: orderNumber,
-          amount: args.amount,
-          successUrl: args.successUrl,
-          errorUrl: args.errorUrl,
-          cancelUrl: args.cancelUrl,
-          language: args.language || "en",
-          useSandbox: args.useSandbox,
-        });
-
-        // Atualizar ordem com RequestId do cartão
-        await ctx.runMutation(api.orders.updatePaymentReferences, {
-          orderId: args.orderId,
-          paymentEntity: undefined,
-          paymentReference: undefined,
-          paymentRequestId: result.requestId,
-        });
-
-        return {
-          success: true,
-          method: "ccard",
-          paymentUrl: result.paymentUrl,
-          requestId: result.requestId,
-          message: result.message,
-        };
-      }
+      return {
+        success: true,
+        method: args.method,
+        checkoutUrl: result.checkoutUrl,
+        sessionId: result.sessionId,
+      };
     } catch (error: any) {
-      // Se falhar, atualizar status para failed
+      // Se a criação da sessão falhar, marcar como failed.
       await ctx.runMutation(api.orders.updatePaymentStatus, {
         orderId: args.orderId,
         paymentStatus: "failed",
       });
       throw error;
     }
-
-    throw new Error(`Unsupported payment method: ${args.method}`);
   },
 });
 
-/**
- * Action para verificar status de uma ordem MBWay específica
- * Usado para polling quando o webhook não funciona
- */
-export const checkMbwayOrderStatus = action({
-  args: {
-    orderId: v.optional(v.id("orders")),
-    orderNumber: v.optional(v.string()),
-  },
-  handler: async (ctx, args): Promise<{ status: string; message?: string; reason?: string; statusCode?: string }> => {
-    console.log("[Orders] checkMbwayOrderStatus called with:", { orderId: args.orderId, orderNumber: args.orderNumber });
-    let order: any = null;
-    
-    // Buscar ordem por orderId (Convex ID) ou orderNumber (string)
-    if (args.orderId) {
-      order = await ctx.runQuery(api.orders.getById, { orderId: args.orderId });
-    } else if (args.orderNumber) {
-      order = await ctx.runQuery(api.orders.getByOrderNumber, { orderNumber: args.orderNumber });
-    } else {
-      throw new Error("Either orderId or orderNumber must be provided");
-    }
-    
-    if (!order) {
-      console.warn("[Orders] checkMbwayOrderStatus - Order not found for", args);
-      throw new Error("Order not found");
-    }
-    
-    // Usar o _id do Convex para atualizações
-    const convexOrderId = order._id;
-
-    const paymentRequestId: string | undefined = order.paymentRequestId;
-    if (!paymentRequestId) {
-      return { status: "no_request_id", message: "No payment request ID found" };
-    }
-
-    if (order.paymentMethod !== "mbway") {
-      return { status: "not_mbway", message: "Order is not MBWay payment" };
-    }
-
-    if (order.paymentStatus === "completed") {
-      return { status: "already_completed", message: "Payment already completed" };
-    }
-
-    const ifthenpayApi = api as any;
-    try {
-      const status: any = await ctx.runAction(ifthenpayApi.ifthenpay.checkMbwayStatus, {
-        requestId: paymentRequestId,
-      });
-
-      const statusCodeRaw: unknown = status.status;
-      const statusCode: string | undefined =
-        typeof statusCodeRaw === "string" ? statusCodeRaw.trim() : undefined;
-
-      console.log("[Orders] checkMbwayOrderStatus IfThenPay result:", {
-        orderNumber: order.orderNumber,
-        orderId: convexOrderId,
-        requestId: paymentRequestId,
-        resultStatus: statusCode,
-        resultMessage: status?.message,
-        isFailedKnownCode: statusCode && ["020", "101", "122"].includes(statusCode),
-      });
-
-      // Atualizar status baseado no código retornado
-      if (statusCode === "000") {
-        // Pago - atualizar para completed
-        await ctx.runMutation(internal.payments.updatePaymentStatus, {
-          orderNumber: order.orderNumber,
-          paymentStatus: "completed",
-          requestId: paymentRequestId,
-        });
-        await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: convexOrderId });
-        return { status: "completed", message: status.message };
-      } else if (statusCode) {
-        // Qualquer código não-"000" é tratado como falha.
-        // Códigos conhecidos:
-        //  - "020" = rejeitado
-        //  - "101" = expirado
-        //  - "122" = declinado
-        // Mantemos estes motivos, mas garantimos que outros códigos também marcam como failed.
-        console.log("[Orders] Setting payment failed for order", order.orderNumber, "with statusCode:", statusCode);
-        await ctx.runMutation(internal.payments.updatePaymentStatus, {
-          orderNumber: order.orderNumber,
-          paymentStatus: "failed",
-          requestId: paymentRequestId,
-        });
-        const reason =
-          statusCode === "020"
-            ? "REJECTED"
-            : statusCode === "101"
-            ? "EXPIRED"
-            : statusCode === "122"
-            ? "DECLINED"
-            : `CODE_${statusCode}`;
-        return { status: "failed", reason, message: status.message, statusCode };
-      } else {
-        // Ainda pendente (sem código ou resposta inesperada)
-        return { status: "pending", message: status.message, statusCode };
-      }
-    } catch (error: any) {
-      console.warn(`[Orders] MBWay status check failed for orderId=${convexOrderId}`, error);
-      return { status: "error", message: error.message };
-    }
-  },
-});
+/* checkMbwayOrderStatus removido na migração para Stripe — o estado MB Way passa a ser
+   confirmado pelo webhook assinado do Stripe (checkout.session.async_payment_succeeded /
+   _failed), sem polling. */
 
 /**
  * Mutation para atualizar referências de pagamento na ordem

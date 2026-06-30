@@ -4,9 +4,6 @@ import { Check, Loader2, X, Plane, Car, Phone, Clock, CircleCheck } from "lucide
 import { useRouter, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
-import { useEffect, useRef, useState } from "react"
-import { useAction } from "convex/react"
-import { api } from "@workspace/convex/api"
 import { useSubscribeToOrderStatus } from "@/lib/orders"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -77,84 +74,23 @@ export function ConfirmationModal() {
 
   const orderStatus = useSubscribeToOrderStatus(orderId ? String(orderId) : null)
 
-  const checkMbwayStatus = useAction(api.orders.checkMbwayOrderStatus)
-  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const [isWaitingPayment, setIsWaitingPayment] = useState(false)
-  const [localPaymentFailed, setLocalPaymentFailed] = useState(false)
-
-  const isMbwayPending =
-    payment.method === "mbway" &&
-    orderStatus?.paymentStatus !== "completed" &&
-    orderStatus?.paymentStatus !== "failed"
-
-  useEffect(() => {
-    if (!isMbwayPending || !orderId) return
-    setLocalPaymentFailed(false)
-    setIsWaitingPayment(true)
-
-    const check = async () => {
-      try {
-        const result = await checkMbwayStatus({ orderNumber: String(orderId) })
-        if (result.status === "completed") {
-          if (pollingIntervalRef.current) {
-            clearInterval(pollingIntervalRef.current)
-            pollingIntervalRef.current = null
-          }
-          setIsWaitingPayment(false)
-        } else if (result.status === "failed") {
-          setLocalPaymentFailed(true)
-          if (pollingIntervalRef.current) {
-            clearInterval(pollingIntervalRef.current)
-            pollingIntervalRef.current = null
-          }
-          setIsWaitingPayment(false)
-        }
-      } catch (error: any) {
-        console.warn("[ConfirmationModal] MBWay status check error:", error)
-      }
-    }
-    check()
-    pollingIntervalRef.current = setInterval(check, 3000)
-    const timeout = setTimeout(() => {
-      if (pollingIntervalRef.current) {
-        clearInterval(pollingIntervalRef.current)
-        pollingIntervalRef.current = null
-      }
-    }, 5 * 60 * 1000)
-    return () => {
-      if (pollingIntervalRef.current) {
-        clearInterval(pollingIntervalRef.current)
-        pollingIntervalRef.current = null
-      }
-      clearTimeout(timeout)
-    }
-  }, [isMbwayPending, orderId, checkMbwayStatus])
-
-  useEffect(() => {
-    if (orderStatus?.paymentStatus === "completed" || orderStatus?.paymentStatus === "failed") {
-      if (orderStatus.paymentStatus === "failed") {
-        setLocalPaymentFailed(true)
-      }
-      setIsWaitingPayment(false)
-      if (pollingIntervalRef.current) {
-        clearInterval(pollingIntervalRef.current)
-        pollingIntervalRef.current = null
-      }
-    }
-  }, [orderStatus?.paymentStatus])
-
   const handleBackToHome = () => {
     resetCheckout()
     router.push("/")
   }
 
   const paymentFailed =
-    localPaymentFailed ||
-    orderStatus?.paymentStatus === "failed" ||
-    successFromUrl === "false"
+    orderStatus?.paymentStatus === "failed" || successFromUrl === "false"
 
-  const paymentDone =
-    !isWaitingPayment && !paymentFailed && (payment.method === "cash" ? true : true)
+  // O Stripe confirma os métodos assíncronos (MB WAY / Multibanco) por webhook. Até a ordem
+  // ficar completed/failed mostramos "a aguardar pagamento" — tudo reativo via subscrição
+  // ao estado da ordem, sem polling.
+  const isWaitingPayment =
+    payment.method !== "cash" &&
+    !paymentFailed &&
+    orderStatus?.paymentStatus !== "completed"
+
+  const paymentDone = !isWaitingPayment && !paymentFailed
 
   return (
     <div className="w-full">

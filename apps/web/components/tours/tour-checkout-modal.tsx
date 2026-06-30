@@ -273,26 +273,8 @@ export function TourCheckoutModal() {
     }
   }, [paymentStatus?.paymentStatus, waitingMbway])
 
-  useEffect(() => {
-    if (!waitingMbway || !bookingId) return
-    const check = async () => {
-      try {
-        const result = await convex.action(api.tourBookings.checkPaymentStatus, {
-          bookingId: bookingId as Id<"tourBookings">,
-        })
-        if (result?.paymentStatus === "failed") {
-          setWaitingMbway(false)
-          setPaymentComplete(false)
-          setPaymentRejected(true)
-        }
-      } catch {
-        // ignore
-      }
-    }
-    check()
-    const interval = setInterval(check, 3000)
-    return () => clearInterval(interval)
-  }, [waitingMbway, bookingId, convex])
+  // Sem polling de MB Way — o estado é confirmado pelo webhook do Stripe e chega por
+  // `paymentStatus` (subscrição reativa) ao useEffect acima.
 
   const tipOptions = [
     { percent: 0, label: "0%" },
@@ -444,11 +426,12 @@ export function TourCheckoutModal() {
 
       if (payment.method === "cash") {
         setPaymentComplete(true)
-      } else if (payment.method === "mbway") {
-        setWaitingMbway(true)
-      } else if (payment.method === "cartao" && result?.paymentUrl) {
-        window.location.href = result.paymentUrl
+      } else if (result?.checkoutUrl) {
+        // Cartão / MB WAY / Multibanco → Stripe Checkout (hosted).
+        window.location.href = result.checkoutUrl
         return
+      } else {
+        throw new Error("Checkout URL not received from payment provider")
       }
     } catch (e: any) {
       setSubmitError(e?.message || t("payment.paymentError"))

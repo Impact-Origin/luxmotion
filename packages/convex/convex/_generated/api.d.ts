@@ -22,7 +22,7 @@ import type * as events from "../events.js";
 import type * as flights from "../flights.js";
 import type * as googleReviews from "../googleReviews.js";
 import type * as http from "../http.js";
-import type * as ifthenpay from "../ifthenpay.js";
+import type * as stripe from "../stripe.js";
 import type * as instagram from "../instagram.js";
 import type * as lib_pagination from "../lib/pagination.js";
 import type * as lib_utils from "../lib/utils.js";
@@ -70,7 +70,7 @@ declare const fullApi: ApiFromModules<{
   flights: typeof flights;
   googleReviews: typeof googleReviews;
   http: typeof http;
-  ifthenpay: typeof ifthenpay;
+  stripe: typeof stripe;
   instagram: typeof instagram;
   "lib/pagination": typeof lib_pagination;
   "lib/utils": typeof lib_utils;
