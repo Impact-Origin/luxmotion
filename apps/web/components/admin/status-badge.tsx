@@ -17,6 +17,11 @@ const STATUS_STYLES: Record<string, string> = {
   draft: "bg-muted text-muted-foreground",
   cancelled: "bg-[#fee2e2] text-[#991b1b]",
   completed: "bg-[#dbeafe] text-[#1e40af]",
+  // Order lifecycle + payment states (used by /admin/orders)
+  confirmed: "bg-[#dbeafe] text-[#1e40af]",
+  paid: "bg-[#dcfce7] text-[#166534]",
+  processing: "bg-[#fef3c7] text-[#92400e]",
+  failed: "bg-[#fee2e2] text-[#991b1b]",
 }
 
 export function StatusBadge({

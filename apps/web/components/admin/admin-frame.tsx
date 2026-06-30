@@ -10,6 +10,7 @@ import { GoogleMapsProvider } from "@/components/providers/google-maps-provider"
 /* Section + page label per admin route, for the header breadcrumb. Mirrors the
    sidebar grouping. */
 const ROUTE_META: Record<string, { section: string; title: string }> = {
+  orders: { section: "Operations", title: "Orders" },
   vehicles: { section: "Fleet & partners", title: "Vehicles" },
   partnerships: { section: "Fleet & partners", title: "Partnerships" },
   "partner-leads": { section: "Fleet & partners", title: "Partner leads" },

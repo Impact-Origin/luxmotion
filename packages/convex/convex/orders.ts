@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { mutation, query, action, internalMutation } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
+import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 const ORDER_WEBHOOK_URL =
   process.env.EASYTRANSFER_ORDER_WEBHOOK_URL ??
@@ -1334,6 +1335,102 @@ export const updatePaymentStatus = mutation({
 
     const order = await ctx.db.get(args.orderId);
     return { order };
+  },
+});
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Admin /admin/orders — paginated listing + status management
+   ───────────────────────────────────────────────────────────────────────── */
+
+/** Server-paginated orders list for the admin DataTable (newest first). */
+export const listPaged = query({
+  args: pagedArgs,
+  handler: async (ctx, a) => {
+    // Newest first by default — most recent orders are what the admin acts on.
+    const all = await ctx.db.query("orders").order("desc").collect();
+
+    let rows = all.map((o) => ({
+      ...o,
+      routeLabel: `${o.departure?.location ?? "—"} → ${o.arrival?.location ?? "—"}`,
+    }));
+
+    rows = applySearch(rows, a.search, [
+      (r) => r.orderNumber,
+      (r) => r.customerName,
+      (r) => r.customerEmail,
+      (r) => r.customerPhone,
+      (r) => r.partnershipName,
+    ]);
+
+    const status = a.filters?.status;
+    if (status) rows = rows.filter((r) => r.status === status);
+    const paymentStatus = a.filters?.paymentStatus;
+    if (paymentStatus) rows = rows.filter((r) => r.paymentStatus === paymentStatus);
+    const method = a.filters?.method;
+    if (method) rows = rows.filter((r) => r.paymentMethod === method);
+
+    rows = applySort(rows, a.sortBy, a.sortDir, {
+      order: (r) => r.orderNumber ?? "",
+      customer: (r) => (r.customerName ?? "").toLowerCase(),
+      date: (r) => r.departureDate ?? "",
+      total: (r) => r.totalAmount ?? 0,
+      created: (r) => r.createdAt,
+    });
+
+    return paginate(rows, a.page, a.pageSize);
+  },
+});
+
+const ADMIN_ORDER_STATUS = v.union(
+  v.literal("draft"),
+  v.literal("pending"),
+  v.literal("confirmed"),
+  v.literal("paid"),
+  v.literal("completed"),
+  v.literal("cancelled"),
+);
+
+/** Plain status patch with no payment side-effects. Internal — only the admin action calls it. */
+export const adminSetStatus = internalMutation({
+  args: { orderId: v.id("orders"), status: ADMIN_ORDER_STATUS },
+  handler: async (ctx, { orderId, status }) => {
+    await ctx.db.patch(orderId, { status, updatedAt: Date.now() });
+  },
+});
+
+/**
+ * Admin: change an order's status from the back-office.
+ *
+ * Marking it "paid" routes through the SAME completion chain a real payment fires
+ * (internal.payments.updatePaymentStatus → completed): it sets status=paid +
+ * paymentStatus=completed, writes a `transactions` row, cascades to the round-trip
+ * leg, materialises any pending upsell experiences, and then POSTs the order webhook
+ * (driver dispatch / confirmation live downstream of that webhook). Orders that are
+ * already paid are NOT re-fired, so there's no duplicate transaction/webhook. Every
+ * other status is a plain patch.
+ */
+export const adminUpdateOrderStatus = action({
+  args: { orderId: v.id("orders"), status: ADMIN_ORDER_STATUS },
+  handler: async (
+    ctx,
+    { orderId, status },
+  ): Promise<{ success: boolean; triggered: boolean }> => {
+    const order = await ctx.runQuery(api.orders.getById, { orderId });
+    if (!order) throw new Error("Order not found");
+
+    const alreadyPaid = order.paymentStatus === "completed";
+    if (status === "paid" && !alreadyPaid) {
+      await ctx.runMutation(internal.payments.updatePaymentStatus, {
+        orderId,
+        orderNumber: order.orderNumber ?? undefined,
+        paymentStatus: "completed",
+      });
+      await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId });
+      return { success: true, triggered: true };
+    }
+
+    await ctx.runMutation(internal.orders.adminSetStatus, { orderId, status });
+    return { success: true, triggered: false };
   },
 });
 

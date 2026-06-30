@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
+  Receipt,
   Car,
   Building2,
   UserPlus,
@@ -39,6 +40,12 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
 
   const sections = React.useMemo(
     () => [
+      {
+        label: "Operations",
+        items: [
+          { title: "Orders", url: "/admin/orders", icon: Receipt },
+        ],
+      },
       {
         label: "Fleet & partners",
         items: [
