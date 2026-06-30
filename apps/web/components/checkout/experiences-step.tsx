@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
 import { AddExperienceModal } from "./add-experience-modal"
 import { CheckoutStepLayout } from "./shared/checkout-step-layout"
@@ -59,73 +59,10 @@ function toExperience(tour: NearbyTour): Experience {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center">
+    <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-2">
       <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
         {children}
       </span>
-    </div>
-  )
-}
-
-function CardRow({ children }: { children: React.ReactNode }) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const [canPrev, setCanPrev] = React.useState(false)
-  const [canNext, setCanNext] = React.useState(false)
-
-  const update = React.useCallback(() => {
-    const el = ref.current
-    if (!el) return
-    setCanPrev(el.scrollLeft > 8)
-    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 8)
-  }, [])
-
-  React.useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    update()
-    el.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", update)
-    // The row can start un-overflowed — the step is still animating in and the grid column
-    // hasn't constrained it yet, so a single mount measurement reads "no overflow" and the
-    // arrows stay hidden forever. Re-measure on every size change (container + each card) and
-    // a couple of beats later, so the arrows appear as soon as the row actually overflows.
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    for (const child of Array.from(el.children)) ro.observe(child)
-    const t1 = setTimeout(update, 150)
-    const t2 = setTimeout(update, 600)
-    return () => {
-      el.removeEventListener("scroll", update)
-      window.removeEventListener("resize", update)
-      ro.disconnect()
-      clearTimeout(t1)
-      clearTimeout(t2)
-    }
-  }, [update])
-
-  const nudge = (dir: 1 | -1) => {
-    const el = ref.current
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" })
-  }
-
-  const arrowClass =
-    "absolute top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#0D0D0D]/70 border border-[rgba(247,244,239,0.15)] text-[#F7F4EF] backdrop-blur-sm transition-colors hover:bg-[#C9A96E] hover:text-[#0D0D0D] hover:border-[#C9A96E]"
-
-  return (
-    <div className="relative">
-      <div ref={ref} className="flex gap-[13.6px] overflow-x-auto pb-1 scrollbar-hide">
-        {children}
-      </div>
-      {canPrev && (
-        <button type="button" aria-label="Anterior" onClick={() => nudge(-1)} className={`${arrowClass} left-1`}>
-          <ChevronLeft className="h-5 w-5" />
-        </button>
-      )}
-      {canNext && (
-        <button type="button" aria-label="Seguinte" onClick={() => nudge(1)} className={`${arrowClass} right-1`}>
-          <ChevronRight className="h-5 w-5" />
-        </button>
-      )}
     </div>
   )
 }
@@ -137,10 +74,10 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [selectedExperience, setSelectedExperience] = React.useState<Experience | null>(null)
 
-  const tours = nearbyTours.filter((t) => t.category === "tours")
-  const experiences = nearbyTours.filter((t) => t.category === "experiences")
-  const privateTours = nearbyTours.filter((t) => t.category === "private")
-  const events = nearbyTours.filter((t) => t.category === "events")
+  const tours = nearbyTours.filter((item) => item.category === "tours")
+  const experiences = nearbyTours.filter((item) => item.category === "experiences")
+  const privateTours = nearbyTours.filter((item) => item.category === "private")
+  const events = nearbyTours.filter((item) => item.category === "events")
 
   const handleOpenModal = (experience: Experience) => {
     setSelectedExperience(experience)
@@ -160,69 +97,56 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
     specialRequest: string
     totalPrice: number
   }) => {
-    if (selectedExperience) {
-      const tour = nearbyTours.find((t) => t._id === selectedExperience.id)
-      addExperience({
-        experienceId: selectedExperience.id,
-        slug: tour?.slug ?? "",
-        category: tour?.category ?? "tours",
-        title: selectedExperience.title,
-        passengers: data.passengers,
-        date: data.date,
-        time: data.time,
-        extras: data.selectedExtras,
-        specialRequest: data.specialRequest,
-        totalPrice: data.totalPrice,
-      })
-      handleCloseModal()
-      onContinue()
-    }
+    if (!selectedExperience) return
+    const tour = nearbyTours.find((item) => item._id === selectedExperience.id)
+    addExperience({
+      experienceId: selectedExperience.id,
+      slug: tour?.slug ?? "",
+      category: tour?.category ?? "tours",
+      title: selectedExperience.title,
+      passengers: data.passengers,
+      date: data.date,
+      time: data.time,
+      extras: data.selectedExtras,
+      specialRequest: data.specialRequest,
+      totalPrice: data.totalPrice,
+    })
+    handleCloseModal()
+    onContinue()
   }
-
-  const renderCard = (item: NearbyTour) => (
-    <ExperienceCard
-      key={item._id}
-      title={item.title}
-      price={item.basePrice}
-      duration={item.duration}
-      image={item.bannerImageUrl ?? "/images/placeholder-experience.png"}
-      distanceKm={item.distanceKm}
-      onAdd={() => handleOpenModal(toExperience(item))}
-    />
-  )
 
   const renderSection = (label: string, items: NearbyTour[]) => {
     if (items.length === 0) return null
     return (
       <section className="flex flex-col gap-4">
         <SectionLabel>{label}</SectionLabel>
-        <CardRow>{items.map(renderCard)}</CardRow>
+        {/* Uniform wrapping grid — every card is the same size, no horizontal scroll. */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+          {items.map((item) => (
+            <ExperienceCard
+              key={item._id}
+              title={item.title}
+              price={item.basePrice}
+              duration={item.duration}
+              image={item.bannerImageUrl ?? "/images/placeholder-experience.png"}
+              distanceKm={item.distanceKm}
+              onAdd={() => handleOpenModal(toExperience(item))}
+            />
+          ))}
+        </div>
       </section>
     )
   }
 
   const selectedItem = selectedExperience
-    ? nearbyTours.find((t) => t._id === selectedExperience.id)
+    ? nearbyTours.find((item) => item._id === selectedExperience.id)
     : null
   const selectedTourId = selectedItem?.category === "events" ? null : selectedItem?._id ?? null
 
-  const modal = selectedExperience && (
-    <AddExperienceModal
-      isOpen={isModalOpen}
-      onClose={handleCloseModal}
-      experience={selectedExperience}
-      tourId={selectedTourId}
-      onAdd={handleAddExperience}
-    />
-  )
-
   return (
     <CheckoutStepLayout>
-      <div className="flex flex-col gap-4 pb-10">
-        <h1
-          className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
-          style={SERIF_FONT}
-        >
+      <div className="flex flex-col gap-8 pb-10">
+        <h1 className="text-[24px] font-semibold leading-none text-[#F7F4EF]" style={SERIF_FONT}>
           {t("title")}
         </h1>
 
@@ -231,7 +155,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
         {renderSection(t("experiences"), experiences)}
         {renderSection(t("events"), events)}
 
-        <div className="flex items-center justify-between pt-6">
+        <div className="flex items-center justify-between gap-3 pt-2">
           <button
             type="button"
             onClick={onBack}
@@ -250,7 +174,15 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           </button>
         </div>
 
-        {modal}
+        {selectedExperience && (
+          <AddExperienceModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            experience={selectedExperience}
+            tourId={selectedTourId}
+            onAdd={handleAddExperience}
+          />
+        )}
       </div>
     </CheckoutStepLayout>
   )

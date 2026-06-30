@@ -14,7 +14,7 @@ interface ExperienceCardProps {
 
 export function ExperienceCard({ title, price, duration, image, onAdd }: ExperienceCardProps) {
   return (
-    <div className="bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] flex flex-col min-w-[220px] h-[260px] shrink-0 overflow-hidden">
+    <div className="bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] flex flex-col w-full h-[260px] overflow-hidden">
       <div className="relative flex-1 min-h-0 w-full">
         <Image
           src={image || "/placeholder.svg"}
