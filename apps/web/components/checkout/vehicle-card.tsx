@@ -43,11 +43,20 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onSelect?.(vehicle)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          onSelect?.(vehicle)
+        }
+      }}
       className={cn(
-        "relative flex flex-col gap-[10px] pt-6 pb-4 px-4 border transition-colors",
+        "relative flex flex-col gap-[10px] pt-6 pb-4 px-4 border transition-colors cursor-pointer",
         selected
           ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
-          : "bg-[#1E1D1B] border-[rgba(255,255,255,0.12)]"
+          : "bg-[#1E1D1B] border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.4)]"
       )}
     >
       {vehicle.isElectric && (
@@ -130,7 +139,10 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
 
       <button
         type="button"
-        onClick={() => onSelect?.(vehicle)}
+        onClick={(e) => {
+          e.stopPropagation()
+          onSelect?.(vehicle)
+        }}
         className={cn(
           "group flex items-center p-[10px] border w-full transition-colors",
           selected

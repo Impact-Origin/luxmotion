@@ -146,31 +146,41 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   return (
     <CheckoutStepLayout>
       <div className="flex flex-col gap-8 pb-10">
-        <h1 className="text-[24px] font-semibold leading-none text-[#F7F4EF]" style={SERIF_FONT}>
-          {t("title")}
-        </h1>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h1 className="text-[24px] font-semibold leading-none text-[#F7F4EF]" style={SERIF_FONT}>
+            {t("title")}
+          </h1>
+          <button
+            type="button"
+            onClick={onContinue}
+            className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] transition-colors"
+          >
+            {tCommon("continue")}
+            <ArrowRight className="w-4 h-4" strokeWidth={2} />
+          </button>
+        </div>
 
         {renderSection(t("extraStops"), privateTours)}
         {renderSection(t("tours"), tours)}
         {renderSection(t("experiences"), experiences)}
         {renderSection(t("events"), events)}
 
-        <div className="flex items-center justify-between gap-3 pt-2">
+        <div className="flex items-center justify-between gap-4 mt-2">
           <button
             type="button"
             onClick={onBack}
-            className="h-12 px-8 border border-[#999] text-[#999] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[#F7F4EF] hover:text-[#F7F4EF] transition-colors"
+            className="inline-flex items-center gap-2 h-12 px-6 text-[13px] font-semibold uppercase tracking-[1px] text-[#F7F4EF] bg-[#1A1918] border border-[rgba(255,255,255,0.08)] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors"
           >
-            <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
-            <span className="px-2">{tCommon("back")}</span>
+            <ArrowLeft className="w-4 h-4" strokeWidth={2} />
+            {tCommon("back")}
           </button>
           <button
             type="button"
             onClick={onContinue}
-            className="h-12 px-8 bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:bg-[#b89558] hover:border-[#b89558] transition-colors"
+            className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] transition-colors"
           >
-            <span className="px-2">{tCommon("continue")}</span>
-            <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2} />
+            {tCommon("continue")}
+            <ArrowRight className="w-4 h-4" strokeWidth={2} />
           </button>
         </div>
 
