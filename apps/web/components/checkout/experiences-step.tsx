@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
 import { AddExperienceModal } from "./add-experience-modal"
 import { CheckoutStepLayout } from "./shared/checkout-step-layout"
@@ -68,9 +68,53 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 function CardRow({ children }: { children: React.ReactNode }) {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [canPrev, setCanPrev] = React.useState(false)
+  const [canNext, setCanNext] = React.useState(false)
+
+  const update = React.useCallback(() => {
+    const el = ref.current
+    if (!el) return
+    setCanPrev(el.scrollLeft > 8)
+    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 8)
+  }, [])
+
+  React.useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const raf = requestAnimationFrame(update)
+    el.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", update)
+    return () => {
+      cancelAnimationFrame(raf)
+      el.removeEventListener("scroll", update)
+      window.removeEventListener("resize", update)
+    }
+  }, [update])
+
+  const nudge = (dir: 1 | -1) => {
+    const el = ref.current
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" })
+  }
+
+  const arrowClass =
+    "absolute top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#0D0D0D]/70 border border-[rgba(247,244,239,0.15)] text-[#F7F4EF] backdrop-blur-sm transition-colors hover:bg-[#C9A96E] hover:text-[#0D0D0D] hover:border-[#C9A96E]"
+
   return (
-    <div className="flex gap-[13.6px] overflow-x-auto pb-1 scrollbar-hide">
-      {children}
+    <div className="relative">
+      <div ref={ref} className="flex gap-[13.6px] overflow-x-auto pb-1 scrollbar-hide">
+        {children}
+      </div>
+      {canPrev && (
+        <button type="button" aria-label="Anterior" onClick={() => nudge(-1)} className={`${arrowClass} left-1`}>
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+      )}
+      {canNext && (
+        <button type="button" aria-label="Seguinte" onClick={() => nudge(1)} className={`${arrowClass} right-1`}>
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      )}
     </div>
   )
 }
