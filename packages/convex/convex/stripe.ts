@@ -52,7 +52,9 @@ export const createCheckoutSession = action({
     args,
   ): Promise<{ checkoutUrl: string; sessionId: string; paymentIntentId: string | null }> => {
     // Offer all online methods on the Stripe page unless a specific one is requested.
-    const methods = args.method ? [METHOD_TO_STRIPE[args.method]] : ["card", "mb_way", "multibanco"];
+    const methods: string[] = args.method
+      ? [METHOD_TO_STRIPE[args.method]!]
+      : ["card", "mb_way", "multibanco"];
 
     const unitAmount = Math.round(args.amount * 100); // cents
     if (!Number.isFinite(unitAmount) || unitAmount <= 0) {

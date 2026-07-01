@@ -551,7 +551,8 @@
       "themeToggle": "Toggle theme",
       "menu": "Menu",
       "close": "Close"
-    }
+    },
+    "payOnline": "Pay online"
   },
   "vehicle": {
     "electric": "Electric",
@@ -807,7 +808,8 @@
         "b2": "Wi-Fi during the trip",
         "b3": "iPhone and USB-C chargers"
       }
-    }
+    },
+    "payOnline": "Pay online"
   },
   "tourCheckout": {
     "title": "Book Tour",

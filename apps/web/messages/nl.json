@@ -551,7 +551,8 @@
       "themeToggle": "Thema wisselen",
       "menu": "Menu",
       "close": "Sluiten"
-    }
+    },
+    "payOnline": "Online betalen"
   },
   "vehicle": {
     "electric": "Elektrisch",
@@ -807,7 +808,8 @@
         "b2": "Wi-Fi tijdens de reis",
         "b3": "iPhone- en USB-C-opladers"
       }
-    }
+    },
+    "payOnline": "Online betalen"
   },
   "tourCheckout": {
     "title": "Tour boeken",

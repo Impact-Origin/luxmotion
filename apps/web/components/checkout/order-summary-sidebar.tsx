@@ -81,7 +81,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
   const priorityPickupPrice = payment.priorityPickup ? insurancePrice("priorityPickup", isRoundTrip) : 0;
   const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0;
   const insuranceTotal = premiumInsurancePrice + refundTermsPrice + priorityPickupPrice + comfortConnectionPrice;
-  const cardFeeRate = payment.method === "cartao" ? 0.02 : 0;
+  const cardFeeRate = 0; // taxa de cartão removida (Stripe escolhe o método; sobretaxa proibida na UE)
 
   const passengers = transfer.passengers;
   const luggage = calculateTotalLuggage(transfer.luggage);

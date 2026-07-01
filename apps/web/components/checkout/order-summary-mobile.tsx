@@ -78,7 +78,7 @@ export function OrderSummaryMobile() {
 
   const priceBreakdownWithExtras = calculatePriceBreakdown({
     basePrice: baseTotalPrice,
-    cardFeeRate: payment.method === "cartao" ? 0.02 : 0,
+    cardFeeRate: 0,
     insuranceTotal: insuranceTotal + extrasTotal,
   });
   const totalPriceWithExtras =
@@ -225,7 +225,7 @@ function OrderSummaryContent() {
 
   const priceBreakdown = calculatePriceBreakdown({
     basePrice: baseTotalPrice,
-    cardFeeRate: payment.method === "cartao" ? 0.02 : 0,
+    cardFeeRate: 0,
     insuranceTotal,
   });
   const totalPrice = priceBreakdown.total;
@@ -263,7 +263,7 @@ function OrderSummaryContent() {
   // Recalculate price breakdown with extras included
   const priceBreakdownWithExtras = calculatePriceBreakdown({
     basePrice: baseTotalPrice,
-    cardFeeRate: payment.method === "cartao" ? 0.02 : 0,
+    cardFeeRate: 0,
     insuranceTotal: insuranceTotal + extrasTotal,
   });
   const totalPriceWithExtras =

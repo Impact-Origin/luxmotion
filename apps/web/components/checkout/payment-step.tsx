@@ -289,7 +289,9 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
   // charged amount always == the displayed invoice. (These were shown but never charged.)
   const extrasTotal = calcExtras(transfer, isRoundTrip).total
 
-  const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
+  // Taxa de cartão removida — o Stripe escolhe o método (não sabemos se é cartão à partida) e
+  // cobrar sobretaxa em cartões de consumidor é proibido na UE.
+  const cardFeeRate = 0
 
   const experiencesTotal = experiences.reduce((sum, exp) => sum + exp.totalPrice, 0)
   const tipAmount = state.tipAmount ?? 0
@@ -668,122 +670,38 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         <SectionLabel>{t("methodHeading")}</SectionLabel>
 
         <div className="flex flex-col gap-[10px]">
-          <SubLabel>{t("methodFast")}</SubLabel>
+          {/* Pagar online → o Stripe mostra cartão / MB WAY / Multibanco na página dele,
+              por isso não repetimos o seletor aqui. Qualquer método != cash conta como online. */}
           <MethodRow
-            selected={payment.method === "googlepay"}
-            onSelect={() => updatePayment({ method: "googlepay" })}
-          >
-            <div className="flex-1 flex items-center justify-center">
-              <GooglePayLogo className="h-6" />
-            </div>
-          </MethodRow>
-        </div>
-
-        <div className="flex items-center gap-2 h-3">
-          <div className="flex-1 h-px bg-[rgba(255,255,255,0.12)]" />
-          <span className="text-[12px] text-[#999] lowercase">{t("or")}</span>
-          <div className="flex-1 h-px bg-[rgba(255,255,255,0.12)]" />
-        </div>
-
-        <div className="flex flex-col gap-[10px]">
-          <SubLabel>{t("methodCard")}</SubLabel>
-          <MethodRow
-            selected={payment.method === "cartao"}
+            selected={payment.method !== "cash"}
             onSelect={() => updatePayment({ method: "cartao" })}
             right={
-              <>
-                <VisaLogo className="h-6" />
-                <MastercardLogo className="h-6" />
-              </>
-            }
-          >
-            <CreditCard className="w-6 h-6 text-white" strokeWidth={2} />
-            <span className="text-[14px] text-white">{t("cardTitle")}</span>
-          </MethodRow>
-          <AnimatedCollapse isOpen={payment.method === "cartao"}>
-            <div
-              className={cn(
-                "flex items-center justify-between px-2 transition-[opacity,transform] duration-300 ease-out",
-                payment.method === "cartao" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
-              )}
-            >
-              <span className="text-[12px] text-[#999]">{t("cardFee")}</span>
-              <span className="text-[14px] font-semibold text-white">
-                € {priceBreakdown.cardFee.toFixed(2).replace(".", ",")}
-              </span>
-            </div>
-          </AnimatedCollapse>
-        </div>
-
-        <div className="flex flex-col gap-[10px]">
-          <SubLabel>{t("methodPortuguese")}</SubLabel>
-          <div className="grid grid-cols-2 gap-[10px]">
-            <MethodRow
-              selected={payment.method === "mbway"}
-              onSelect={() => updatePayment({ method: "mbway" })}
-            >
-              <div className="flex-1 flex items-center">
+              <div className="flex items-center gap-1.5">
+                <VisaLogo className="h-5" />
+                <MastercardLogo className="h-5" />
                 <Image
                   src="/checkout/payment/mbway.svg"
                   alt="MB Way"
-                  width={60}
-                  height={29}
-                  className="h-[29px] w-auto"
+                  width={42}
+                  height={20}
+                  className="h-[18px] w-auto"
                   unoptimized
                 />
-              </div>
-            </MethodRow>
-            <MethodRow
-              selected={payment.method === "multibanco"}
-              onSelect={() => updatePayment({ method: "multibanco" })}
-            >
-              <div className="flex-1 flex items-center">
                 <Image
                   src="/checkout/payment/multibanco.svg"
                   alt="Multibanco"
-                  width={81}
-                  height={29}
-                  className="h-[29px] w-auto"
+                  width={54}
+                  height={20}
+                  className="h-[18px] w-auto"
                   unoptimized
                 />
               </div>
-            </MethodRow>
-          </div>
-          <AnimatedCollapse isOpen={payment.method === "mbway"}>
-            <div
-              className={cn(
-                "pt-1 transition-[opacity,transform] duration-300 ease-out",
-                payment.method === "mbway" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
-              )}
-            >
-              <label className="block text-[12px] font-semibold text-white mb-2 leading-none">
-                {t("mbwayPhoneNumber")}
-              </label>
-              <PhoneInput
-                value={payment.mbwayPhone}
-                onChange={(v) => updatePayment({ mbwayPhone: v })}
-                defaultCountry="pt"
-                placeholder={t("mbwayPhonePlaceholder")}
-                dark
-              />
-            </div>
-          </AnimatedCollapse>
-        </div>
-
-        <div className="flex flex-col gap-[10px]">
-          <SubLabel>{t("methodInternational")}</SubLabel>
-          <MethodRow
-            selected={payment.method === "pix"}
-            onSelect={() => updatePayment({ method: "pix" })}
-            right={<span className="text-[12px] text-[#999]">BRL</span>}
+            }
           >
-            <PixLogo className="w-6 h-6" />
-            <span className="text-[14px] text-white lowercase">pix</span>
+            <CreditCard className="w-6 h-6 text-white" strokeWidth={2} />
+            <span className="text-[14px] text-white">{t("payOnline")}</span>
           </MethodRow>
-        </div>
 
-        <div className="flex flex-col gap-[10px]">
-          <SubLabel>{t("methodInPerson")}</SubLabel>
           <MethodRow
             selected={payment.method === "cash"}
             onSelect={() => updatePayment({ method: "cash" })}
