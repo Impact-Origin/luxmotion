@@ -36,7 +36,8 @@ const METHOD_TO_STRIPE: Record<string, string> = {
 export const createCheckoutSession = action({
   args: {
     kind: v.union(v.literal("transfer"), v.literal("tour")),
-    method: v.union(v.literal("ccard"), v.literal("mbway"), v.literal("mb")),
+    // Optional: when omitted, the Stripe page shows all online methods and the customer picks.
+    method: v.optional(v.union(v.literal("ccard"), v.literal("mbway"), v.literal("mb"))),
     orderNumber: v.string(),
     orderId: v.string(),
     amount: v.number(), // major units (EUR)
@@ -50,8 +51,8 @@ export const createCheckoutSession = action({
     _ctx,
     args,
   ): Promise<{ checkoutUrl: string; sessionId: string; paymentIntentId: string | null }> => {
-    const stripeMethod = METHOD_TO_STRIPE[args.method];
-    if (!stripeMethod) throw new Error(`Unsupported Stripe method: ${args.method}`);
+    // Offer all online methods on the Stripe page unless a specific one is requested.
+    const methods = args.method ? [METHOD_TO_STRIPE[args.method]] : ["card", "mb_way", "multibanco"];
 
     const unitAmount = Math.round(args.amount * 100); // cents
     if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
@@ -62,7 +63,7 @@ export const createCheckoutSession = action({
     p.set("mode", "payment");
     p.set("success_url", args.successUrl);
     p.set("cancel_url", args.cancelUrl);
-    p.set("payment_method_types[0]", stripeMethod);
+    methods.forEach((m, i) => p.set(`payment_method_types[${i}]`, m));
     p.set("line_items[0][quantity]", "1");
     p.set("line_items[0][price_data][currency]", "eur");
     p.set("line_items[0][price_data][unit_amount]", String(unitAmount));
@@ -106,6 +107,35 @@ export const createCheckoutSession = action({
     };
   },
 });
+
+/** Stripe payment_method type → our internal method code. */
+const STRIPE_TO_METHOD: Record<string, "ccard" | "mbway" | "mb"> = {
+  card: "ccard",
+  mb_way: "mbway",
+  multibanco: "mb",
+};
+
+/**
+ * After a Checkout Session completes, look up its PaymentIntent to learn which method the
+ * customer actually chose on Stripe's page, mapped to our internal code (undefined if it
+ * can't be determined — the order just keeps whatever method it had).
+ */
+export async function getUsedMethod(
+  paymentIntentId: string,
+): Promise<"ccard" | "mbway" | "mb" | undefined> {
+  try {
+    const res = await fetch(
+      `${STRIPE_API}/payment_intents/${paymentIntentId}?expand[]=payment_method`,
+      { headers: { Authorization: `Bearer ${secretKey()}` } },
+    );
+    if (!res.ok) return undefined;
+    const pi = (await res.json()) as { payment_method?: { type?: string } };
+    const type = pi?.payment_method?.type;
+    return type ? STRIPE_TO_METHOD[type] : undefined;
+  } catch {
+    return undefined;
+  }
+}
 
 /* ── Webhook signature verification (Web Crypto, no SDK) ──────────────────────
  * Implements the same scheme as stripe.webhooks.constructEvent. Pure async helper

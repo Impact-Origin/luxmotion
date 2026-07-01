@@ -21,6 +21,9 @@ export const updatePaymentStatus = internalMutation({
     amount: v.optional(v.number()),
     paymentDateTime: v.optional(v.string()), // ISO string
     metadata: v.optional(v.any()),
+    paymentMethod: v.optional(
+      v.union(v.literal("mbway"), v.literal("mb"), v.literal("ccard"), v.literal("cash")),
+    ),
   },
   handler: async (ctx, args) => {
     let order = null;
@@ -81,6 +84,8 @@ export const updatePaymentStatus = internalMutation({
       // Store transactionId in metadata or separate field
       updates.transactionId = args.transactionId;
     }
+    // Stripe: the real method the customer chose on the hosted page (set from the webhook).
+    if (args.paymentMethod) updates.paymentMethod = args.paymentMethod;
 
     if (args.paymentStatus === "completed") {
       updates.status = "paid";

@@ -1,7 +1,7 @@
 import { httpRouter } from "convex/server";
 import { httpAction } from "./_generated/server";
 import { api, internal } from "./_generated/api";
-import { constructStripeEvent } from "./stripe";
+import { constructStripeEvent, getUsedMethod } from "./stripe";
 
 const http = httpRouter();
 
@@ -240,11 +240,17 @@ http.route({
           paymentStatus,
         });
       } else {
+        // On success, learn which method the customer actually used on Stripe and record it.
+        const usedMethod =
+          paymentStatus === "completed" && paymentIntentId
+            ? await getUsedMethod(paymentIntentId)
+            : undefined;
         const result = await ctx.runMutation(internal.payments.updatePaymentStatus, {
           orderNumber,
           paymentStatus,
           requestId: paymentIntentId,
           amount: amountEur,
+          paymentMethod: usedMethod,
         });
         if (paymentStatus === "completed" && result?.orderId) {
           await ctx.runAction(internal.webhooks.sendOrderPayload, { orderId: result.orderId });
