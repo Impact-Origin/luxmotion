@@ -20,6 +20,7 @@ import {
   FreeCancellationBanner,
 } from "./shared";
 import { useCheckout } from "./checkout-context";
+import { insurancePrice } from "@/components/checkout/pricing";
 import {
   formatPrice,
   formatPriceShort,
@@ -41,19 +42,12 @@ export function OrderSummaryMobile() {
   const baseTotalPrice = basePrice;
 
   // Se for round trip, dobrar insurance e refund terms
-  const premiumInsurancePrice = payment.premiumInsurance
-    ? isRoundTrip
-      ? 18
-      : 9
-    : 0;
-  const refundTermsPrice = payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0;
-  const comfortConnectionPrice = payment.comfortConnection
-    ? isRoundTrip
-      ? 14
-      : 7
-    : 0;
+  const premiumInsurancePrice = payment.premiumInsurance ? insurancePrice("premiumInsurance", isRoundTrip) : 0;
+  const refundTermsPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0;
+  const priorityPickupPrice = payment.priorityPickup ? insurancePrice("priorityPickup", isRoundTrip) : 0;
+  const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0;
   const insuranceTotal =
-    premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice;
+    premiumInsurancePrice + refundTermsPrice + priorityPickupPrice + comfortConnectionPrice;
 
   const passengers = transfer.passengers;
   const luggage = calculateTotalLuggage(transfer.luggage);
@@ -222,19 +216,12 @@ function OrderSummaryContent() {
   const baseTotalPrice = basePrice;
   const nightTaxAmount = selectedVehicle?.nightTaxAmount ?? 0;
 
-  const premiumInsurancePrice = payment.premiumInsurance
-    ? isRoundTrip
-      ? 18
-      : 9
-    : 0;
-  const refundTermsPrice = payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0;
-  const comfortConnectionPrice = payment.comfortConnection
-    ? isRoundTrip
-      ? 14
-      : 7
-    : 0;
+  const premiumInsurancePrice = payment.premiumInsurance ? insurancePrice("premiumInsurance", isRoundTrip) : 0;
+  const refundTermsPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0;
+  const priorityPickupPrice = payment.priorityPickup ? insurancePrice("priorityPickup", isRoundTrip) : 0;
+  const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0;
   const insuranceTotal =
-    premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice;
+    premiumInsurancePrice + refundTermsPrice + priorityPickupPrice + comfortConnectionPrice;
 
   const priceBreakdown = calculatePriceBreakdown({
     basePrice: baseTotalPrice,
@@ -377,6 +364,13 @@ function OrderSummaryContent() {
     });
   }
 
+  if (payment.priorityPickup) {
+    invoiceItems.push({
+      key: "priorityPickup",
+      value: formatPrice(priorityPickupPrice),
+    });
+  }
+
   if (payment.comfortConnection) {
     invoiceItems.push({
       key: "comfortConnection",
@@ -497,6 +491,7 @@ function OrderSummaryContent() {
                     item.key.startsWith("subtotal") ||
                     item.key === "cardFee" ||
                     item.key === "premiumInsurance" ||
+                    item.key === "priorityPickup" ||
                     item.key === "comfortConnection" ||
                     item.key === "nightTax" ||
                     item.key === "childSeats" ||

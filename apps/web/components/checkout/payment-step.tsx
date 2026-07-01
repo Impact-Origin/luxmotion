@@ -17,6 +17,7 @@ import {
 import { PhoneInput } from "@/components/ui/phone-input"
 import { useTranslations, useLocale } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
+import { insurancePrice, calcExtras } from "@/components/checkout/pricing"
 import {
   calculatePriceBreakdown,
 } from "@/lib/format"
@@ -275,12 +276,18 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
   const baseTotalPrice = baseVehiclePrice
   const multiplier = isRoundTrip ? 2 : 1
 
-  const airportGuaranteePrice = payment.premiumInsurance ? 9 * multiplier : 0
-  const meetGreetPrice = payment.refundTerms ? 5 * multiplier : 0
-  const priorityPickupPrice = payment.priorityPickup ? 6 * multiplier : 0
-  const comfortPackPrice = payment.comfortConnection ? 7 * multiplier : 0
+  // Add-on prices from the shared ./pricing module (single source of truth) so the option
+  // cards, the invoice and the charge can never drift.
+  const airportGuaranteePrice = payment.premiumInsurance ? insurancePrice("premiumInsurance", isRoundTrip) : 0
+  const meetGreetPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0
+  const priorityPickupPrice = payment.priorityPickup ? insurancePrice("priorityPickup", isRoundTrip) : 0
+  const comfortPackPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0
   const addonsTotal =
     airportGuaranteePrice + meetGreetPrice + priorityPickupPrice + comfortPackPrice
+
+  // Luggage extras (child seats / surfboards / pets) — same helper the summary uses, so the
+  // charged amount always == the displayed invoice. (These were shown but never charged.)
+  const extrasTotal = calcExtras(transfer, isRoundTrip).total
 
   const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
 
@@ -292,9 +299,9 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
       calculatePriceBreakdown({
         basePrice: baseTotalPrice,
         cardFeeRate,
-        insuranceTotal: addonsTotal,
+        insuranceTotal: addonsTotal + extrasTotal,
       }),
-    [baseTotalPrice, cardFeeRate, addonsTotal],
+    [baseTotalPrice, cardFeeRate, addonsTotal, extrasTotal],
   )
 
   const totalToPay = priceBreakdown.total + experiencesTotal + tipAmount
@@ -544,7 +551,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         t("addons.airportGuarantee.b2"),
         t("addons.airportGuarantee.b3"),
       ],
-      priceLabel: `+€${9 * multiplier}`,
+      priceLabel: `+€${insurancePrice("premiumInsurance", isRoundTrip)}`,
       active: payment.premiumInsurance,
       onToggle: () => updatePayment({ premiumInsurance: !payment.premiumInsurance }),
       badge: t("addons.airportGuarantee.badge"),
@@ -560,7 +567,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         t("addons.meetGreet.b2"),
         t("addons.meetGreet.b3"),
       ],
-      priceLabel: `+€${5 * multiplier}`,
+      priceLabel: `+€${insurancePrice("refundTerms", isRoundTrip)}`,
       active: payment.refundTerms,
       onToggle: () => updatePayment({ refundTerms: !payment.refundTerms }),
       addLabel,
@@ -576,7 +583,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         t("addons.priorityPickup.b2"),
         t("addons.priorityPickup.b3"),
       ],
-      priceLabel: `+€${6 * multiplier}`,
+      priceLabel: `+€${insurancePrice("priorityPickup", isRoundTrip)}`,
       active: payment.priorityPickup,
       onToggle: () => updatePayment({ priorityPickup: !payment.priorityPickup }),
       addLabel,
@@ -591,7 +598,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         t("addons.comfortPack.b2"),
         t("addons.comfortPack.b3"),
       ],
-      priceLabel: `+€${7 * multiplier}`,
+      priceLabel: `+€${insurancePrice("comfortConnection", isRoundTrip)}`,
       active: payment.comfortConnection,
       onToggle: () => updatePayment({ comfortConnection: !payment.comfortConnection }),
       addLabel,

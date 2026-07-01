@@ -896,7 +896,8 @@
     "selectOrigin": "Selecteer vertrekpunt",
     "selectDestination": "Selecteer bestemming",
     "stopsLabel": "Stop(s)",
-    "totalRoundTrip": "Totaal - Retour"
+    "totalRoundTrip": "Totaal - Retour",
+    "priorityPickup": "Prioriteitsafhaling"
   },
   "confirmation": {
     "title": "Boekingsbevestiging",

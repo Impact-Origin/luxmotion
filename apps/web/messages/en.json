@@ -896,7 +896,8 @@
     "selectOrigin": "Select origin",
     "selectDestination": "Select destination",
     "stopsLabel": "Stop(s)",
-    "totalRoundTrip": "Total - Round trip"
+    "totalRoundTrip": "Total - Round trip",
+    "priorityPickup": "Priority Pick-up"
   },
   "confirmation": {
     "title": "Booking Confirmation",

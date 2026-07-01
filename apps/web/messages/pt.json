@@ -896,7 +896,8 @@
     "selectOrigin": "Selecione a origem",
     "selectDestination": "Selecione o destino",
     "stopsLabel": "Parada(s)",
-    "totalRoundTrip": "Total - Ida e volta"
+    "totalRoundTrip": "Total - Ida e volta",
+    "priorityPickup": "Pick-up Prioritário"
   },
   "confirmation": {
     "title": "Confirmação de reserva",

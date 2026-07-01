@@ -896,7 +896,8 @@
     "selectOrigin": "Abfahrtsort wählen",
     "selectDestination": "Zielort wählen",
     "stopsLabel": "Halt(e)",
-    "totalRoundTrip": "Gesamt - Hin- und Rückfahrt"
+    "totalRoundTrip": "Gesamt - Hin- und Rückfahrt",
+    "priorityPickup": "Priority Pick-up"
   },
   "confirmation": {
     "title": "Buchungsbestätigung",
