@@ -319,7 +319,7 @@ export function GooglePlacesInput({
   )
 
   if (!hasKey || !isLoaded) {
-    return <div className={cn("relative", className)}>{triggerInput}</div>
+    return <div className={cn("relative w-full", className)}>{triggerInput}</div>
   }
 
   if (inlineDropdown) {
@@ -348,7 +348,7 @@ export function GooglePlacesInput({
   return (
     <div 
       className={cn(
-        "relative h-full", 
+        "relative h-full w-full",
         showDropdown && "z-[100]",
         className
       )} 
