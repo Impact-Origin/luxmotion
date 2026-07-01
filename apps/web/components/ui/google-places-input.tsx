@@ -216,7 +216,7 @@ export function GooglePlacesInput({
               setShowDropdown(true)
             }}
             placeholder={placeholder}
-            className="flex-1 text-[13px] text-white placeholder:text-[rgba(var(--lm-text-rgb,255,255,255),0.22)] font-normal outline-none bg-transparent"
+            className="flex-1 min-w-0 w-full text-[13px] text-white placeholder:text-[rgba(var(--lm-text-rgb,255,255,255),0.22)] font-normal outline-none bg-transparent"
             style={{ caretColor: "var(--lm-accent,#C9A96E)" }}
           />
         </div>

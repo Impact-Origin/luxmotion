@@ -38,7 +38,7 @@ function FieldLabel({ children }: { children: ReactNode }) {
 
 function DarkFieldBox({ children }: { children: ReactNode }) {
   return (
-    <div className="h-12 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-3 flex items-center focus-within:border-[#C9A96E] transition-colors">
+    <div className="h-12 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-3 flex items-center [&>*]:min-w-0 [&>*]:flex-1 focus-within:border-[#C9A96E] transition-colors">
       {children}
     </div>
   )
