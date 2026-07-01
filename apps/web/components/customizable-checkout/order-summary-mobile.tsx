@@ -24,9 +24,9 @@ import {
   formatPrice,
   formatPriceShort,
   calculateTotalLuggage,
-  calculateTotalChildSeats,
   calculatePriceBreakdown,
 } from "@/lib/format";
+import { insurancePrice, calcExtras } from "@/components/customizable-checkout/pricing";
 
 export function OrderSummaryMobile() {
   const t = useTranslations("orderSummary");
@@ -159,37 +159,17 @@ function OrderSummaryContent() {
   const baseTotalPrice = basePrice;
   const nightTaxAmount = selectedVehicle?.nightTaxAmount ?? 0;
 
-  const premiumInsurancePrice = payment.premiumInsurance
-    ? isRoundTrip
-      ? 18
-      : 9
-    : 0;
-  const refundTermsPrice = payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0;
-  const comfortConnectionPrice = payment.comfortConnection
-    ? isRoundTrip
-      ? 14
-      : 7
-    : 0;
+  const premiumInsurancePrice = payment.premiumInsurance ? insurancePrice("premiumInsurance", isRoundTrip) : 0;
+  const refundTermsPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0;
+  const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0;
   const insuranceTotal =
     premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice;
 
   const passengers = transfer.passengers;
   const luggage = calculateTotalLuggage(transfer.luggage);
-  const childSeats = calculateTotalChildSeats(transfer.childSeats);
-  const surfboards = transfer.surfboardChecked
-    ? transfer.surfboard.standard + transfer.surfboard.upgraded
-    : 0;
-  const pets = transfer.petChecked
-    ? transfer.pet.small + transfer.pet.large
-    : 0;
-
-  // Calculate extra costs: child seats (5€ each), surfboards (5€ each), pets (10€ each)
-  // If round trip, double the costs (used in both directions)
-  const multiplier = isRoundTrip ? 2 : 1;
-  const childSeatsCost = childSeats * 5 * multiplier;
-  const surfboardsCost = surfboards * 5 * multiplier;
-  const petsCost = pets * 10 * multiplier;
-  const extrasTotal = childSeatsCost + surfboardsCost + petsCost;
+  // Luggage extras — shared with the payment charge so the invoice == the charge. See ./pricing.
+  const { childSeats, surfboards, pets, childSeatsCost, surfboardsCost, petsCost, total: extrasTotal } =
+    calcExtras(transfer, isRoundTrip);
 
   const experiencesTotal = experiences.reduce(
     (sum, exp) => sum + exp.totalPrice,

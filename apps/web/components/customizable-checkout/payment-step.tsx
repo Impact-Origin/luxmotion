@@ -16,6 +16,7 @@ import { useCheckout } from "@/components/customizable-checkout/checkout-context
 import { usePartnershipSlug } from "@/components/customizable-checkout/checkout-page"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { calculatePriceBreakdown } from "@/lib/format"
+import { insurancePrice, calcExtras } from "@/components/customizable-checkout/pricing"
 import {
   startPayment,
   useSubscribeToOrderStatus,
@@ -64,19 +65,24 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
   const baseVehiclePrice = selectedVehicle?.price ?? 0
   const baseTotalPrice = baseVehiclePrice
   // Se for round trip, dobrar insurance e refund terms
-  const premiumInsurancePrice = useMemo(() => (payment.premiumInsurance ? (isRoundTrip ? 18 : 9) : 0), [payment.premiumInsurance, isRoundTrip])
-  const refundTermsPrice = useMemo(() => (payment.refundTerms ? (isRoundTrip ? 10 : 5) : 0), [payment.refundTerms, isRoundTrip])
-  const comfortConnectionPrice = useMemo(() => (payment.comfortConnection ? (isRoundTrip ? 14 : 7) : 0), [payment.comfortConnection, isRoundTrip])
+  // All add-on prices come from the shared ./pricing module (single source of truth) so the
+  // option cards, the invoice and the charge can never drift apart.
+  const premiumInsurancePrice = payment.premiumInsurance ? insurancePrice("premiumInsurance", isRoundTrip) : 0
+  const refundTermsPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0
+  const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0
   const insuranceTotal = premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice
   const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
 
-  // Calculate price breakdown with all fees included in rounding
-  // This ensures the final total is always a clean whole number
+  // Luggage extras (child seats / surfboards / pets) — same helper the summary uses, so the
+  // charged amount always == the displayed invoice. (Surfboards were shown but never charged.)
+  const extrasTotal = calcExtras(transfer, isRoundTrip).total
+
+  // Price breakdown with all fees + extras included in rounding (clean whole-number total).
   const priceBreakdown = useMemo(() => calculatePriceBreakdown({
     basePrice: baseTotalPrice,
     cardFeeRate,
-    insuranceTotal,
-  }), [baseTotalPrice, cardFeeRate, insuranceTotal])
+    insuranceTotal: insuranceTotal + extrasTotal,
+  }), [baseTotalPrice, cardFeeRate, insuranceTotal, extrasTotal])
 
   // Tip logic
   const { tipPercent, tipAmount } = state
@@ -629,7 +635,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
                           </span>
                         </span>
                       )}
-                      <span className="text-[15px] font-bold text-[#222222] whitespace-nowrap">+€ {isRoundTrip ? "14" : "7"}</span>
+                      <span className="text-[15px] font-bold text-[#222222] whitespace-nowrap">+€ {insurancePrice("comfortConnection", isRoundTrip)}</span>
                     </div>
                   </div>
                 </div>
@@ -701,7 +707,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
           <InsuranceOptionCard
             id="premium"
             title={t("premiumInsurance")}
-            price={isRoundTrip ? "€ 18" : "€ 9"}
+            price={`€ ${insurancePrice("premiumInsurance", isRoundTrip)}`}
             subtitle={t("cancellationProtection")}
             benefits={premiumBenefits}
             checked={payment.premiumInsurance}
@@ -714,7 +720,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
           <InsuranceOptionCard
             id="terms-refund"
             title={t("refundTerms")}
-            price={isRoundTrip ? "€ 8" : "€ 4"}
+            price={`€ ${insurancePrice("refundTerms", isRoundTrip)}`}
             subtitle={t("refundTermsDesc")}
             benefits={refundBenefits}
             checked={payment.refundTerms}
