@@ -55,11 +55,17 @@ function CheckoutPageContent() {
   const experiencesStep = 2
   const isRoundTrip = transfer.bookReturn
 
-  // Redirect to confirmation when returning from successful payment (error/cancel stay on checkout)
+  // Returning from Stripe: ?success=true → confirmation (finalize the order); ?success=false
+  // (decline / cancel / ← back on the Stripe page) → the failure screen. No submitCheckout on
+  // failure — the payment didn't go through, so there's nothing to finalize; ConfirmationModal
+  // reads ?success=false and renders the "payment rejected" state.
   useEffect(() => {
     const success = searchParams?.get("success")
-    if (success === "true" && currentStep !== confirmationStep) {
+    if (currentStep === confirmationStep) return
+    if (success === "true") {
       submitCheckout()
+      setStep(confirmationStep)
+    } else if (success === "false") {
       setStep(confirmationStep)
     }
   }, [searchParams, currentStep, setStep, submitCheckout, confirmationStep])
