@@ -148,7 +148,8 @@
     "labelTo": "To",
     "labelDeparture": "Departure",
     "travelersCount": "{count} travelers",
-    "bookedToday": "Booked this today."
+    "bookedToday": "Booked this today.",
+    "minAdvanceNotice": "Bookings require at least {hours}h notice. Please choose a later time."
   },
   "features": {
     "title": "Why book with us?",

@@ -13,6 +13,71 @@ import { marketingStatsDefaults } from "@/hooks/use-marketing-stats";
 
 type FormState = typeof marketingStatsDefaults;
 
+function BookingSettingsCard() {
+  const t = useTranslations("adminNumbers");
+  const bookingSettings = useQuery(api.siteSettings.get);
+  const upsertBooking = useMutation(api.siteSettings.upsert);
+  const [minAdvanceHours, setMinAdvanceHours] = React.useState("2");
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    if (bookingSettings) {
+      setMinAdvanceHours(String(bookingSettings.minAdvanceBookingHours));
+    }
+  }, [bookingSettings]);
+
+  const save = async () => {
+    const parsed = Number.parseFloat(minAdvanceHours);
+    if (!Number.isFinite(parsed) || parsed < 0 || parsed > 720) {
+      toast.error("Enter a value between 0 and 720 hours");
+      return;
+    }
+    try {
+      setIsSaving(true);
+      await upsertBooking({ minAdvanceBookingHours: parsed });
+      toast.success(t("saveSuccess"));
+    } catch {
+      toast.error(t("saveError"));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold text-foreground">Booking</h2>
+        <p className="text-sm text-muted-foreground">
+          Minimum notice required to book a transfer — blocks last-minute
+          bookings. Set to 0 to allow booking at any time.
+        </p>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="minAdvanceBookingHours">Minimum advance (hours)</Label>
+        <div className="flex items-center gap-3">
+          <Input
+            id="minAdvanceBookingHours"
+            type="number"
+            min={0}
+            step={0.5}
+            className="max-w-[160px]"
+            value={minAdvanceHours}
+            onChange={(event) => setMinAdvanceHours(event.target.value)}
+          />
+          <Button
+            onClick={save}
+            disabled={isSaving || bookingSettings === undefined}
+            className="h-11 px-8 font-bold"
+          >
+            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isSaving ? t("saving") : t("save")}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminNumbersPage() {
   const t = useTranslations("adminNumbers");
   const settings = useQuery(api.marketingStats.get);
@@ -222,6 +287,7 @@ export default function AdminNumbersPage() {
 
   return (
     <div className="space-y-6">
+      <BookingSettingsCard />
       <div className="bg-card border border-border rounded-xl p-6 space-y-4">
         <h2 className="text-lg font-semibold text-foreground">
           {t("sections.reviews")}

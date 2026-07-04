@@ -148,7 +148,8 @@
     "labelTo": "Nach",
     "labelDeparture": "Abfahrt",
     "travelersCount": "{count} Reisende",
-    "bookedToday": "Heute gebucht."
+    "bookedToday": "Heute gebucht.",
+    "minAdvanceNotice": "Buchungen erfordern mindestens {hours} Std. Vorlaufzeit. Bitte wählen Sie eine spätere Uhrzeit."
   },
   "features": {
     "title": "Warum bei uns buchen?",

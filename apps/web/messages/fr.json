@@ -148,7 +148,8 @@
     "labelTo": "À",
     "labelDeparture": "Départ",
     "travelersCount": "{count} voyageurs",
-    "bookedToday": "Réservé aujourd'hui."
+    "bookedToday": "Réservé aujourd'hui.",
+    "minAdvanceNotice": "Les réservations nécessitent au moins {hours}h à l'avance. Choisissez une heure plus tardive."
   },
   "features": {
     "title": "Pourquoi réserver avec nous ?",

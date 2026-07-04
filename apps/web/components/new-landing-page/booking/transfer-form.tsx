@@ -112,6 +112,18 @@ export function TransferForm({
 
   return (
     <div className="flex flex-col lg:flex-row items-stretch min-h-[64px]">
+      {/* Mobile only: a Continue at the top too, so the CTA is reachable without
+          scrolling past all the stacked fields. Desktop keeps just the end one. */}
+      <button
+        type="button"
+        onClick={handleContinue}
+        className="lg:hidden flex items-center justify-center gap-3 px-6 py-4 w-full bg-[var(--lm-accent,#C9A96E)] transition-all hover:brightness-95 active:scale-95 cursor-pointer border-b border-[rgba(var(--lm-bg-rgb,13,13,13),0.12)]"
+      >
+        <span className="text-[14px] font-semibold uppercase tracking-[1.1px] text-[rgba(var(--lm-bg-rgb,13,13,13),0.96)]">
+          {t.continue}
+        </span>
+        <CircleCheckBig className="w-5 h-5 stroke-[1.2] text-[rgba(var(--lm-bg-rgb,13,13,13),0.96)]" />
+      </button>
       {/* From / Partida */}
       <motion.div
         layout

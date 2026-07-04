@@ -148,7 +148,8 @@
     "labelTo": "Para",
     "labelDeparture": "Partida",
     "travelersCount": "{count} viajantes",
-    "bookedToday": "Reservei isso hoje."
+    "bookedToday": "Reservei isso hoje.",
+    "minAdvanceNotice": "As reservas exigem no mínimo {hours}h de antecedência. Escolha uma hora mais tarde."
   },
   "features": {
     "title": "Porque agendar connosco?",

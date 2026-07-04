@@ -307,6 +307,14 @@ export default defineSchema({
     ),
   }).index("by_slug", ["slug"]),
 
+  // Global site-wide settings (singleton keyed by "global"). The transfer booking
+  // lead-time (minimum hours in advance) lives here so admins can tune it.
+  siteSettings: defineTable({
+    key: v.string(),
+    minAdvanceBookingHours: v.number(),
+    updatedAt: v.optional(v.number()),
+  }).index("by_key", ["key"]),
+
   emailVerifications: defineTable({
     email: v.string(),
     code: v.string(),

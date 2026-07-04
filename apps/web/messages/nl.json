@@ -148,7 +148,8 @@
     "labelTo": "Naar",
     "labelDeparture": "Vertrek",
     "travelersCount": "{count} reizigers",
-    "bookedToday": "Vandaag geboekt."
+    "bookedToday": "Vandaag geboekt.",
+    "minAdvanceNotice": "Boekingen vereisen minstens {hours} uur vooraf. Kies een later tijdstip."
   },
   "features": {
     "title": "Waarom bij ons boeken?",

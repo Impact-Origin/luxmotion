@@ -10,6 +10,8 @@ import { MobileDrawer } from "../ui/mobile-drawer"
 import { cn } from "@workspace/ui/lib/utils"
 import { ClockTimePicker } from "@/components/ui/clock-time-picker"
 import { ClockTimePicker as ClockTimePickerDark } from "@/components/new-landing-page/booking/clock-time-picker"
+import { useQuery } from "convex/react"
+import { api } from "@workspace/convex/api"
 
 interface DateTimePickerProps {
   value?: Date | string | number | null
@@ -65,8 +67,16 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
 
   const isMobile = useIsMobile()
 
+  // Minimum booking lead time (admin-configurable); default 2h while the query loads.
+  const bookingSettings = useQuery(api.siteSettings.get)
+
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  // Earliest bookable moment = now + lead time. Days before its calendar day are
+  // disabled; on that day the time is clamped up to it.
+  const minLeadMs = (bookingSettings?.minAdvanceBookingHours ?? 2) * 60 * 60 * 1000
+  const minDateTime = new Date(now.getTime() + minLeadMs)
+  const minDate = new Date(minDateTime.getFullYear(), minDateTime.getMonth(), minDateTime.getDate())
 
   React.useEffect(() => {
     if (normalizedValue) {
@@ -169,19 +179,19 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
     setDate(selectedDate)
     const newDate = new Date(selectedDate)
     
-    const isToday = selectedDate.getFullYear() === today.getFullYear() &&
-                    selectedDate.getMonth() === today.getMonth() &&
-                    selectedDate.getDate() === today.getDate()
-    
+    const isMinDay = selectedDate.getFullYear() === minDate.getFullYear() &&
+                    selectedDate.getMonth() === minDate.getMonth() &&
+                    selectedDate.getDate() === minDate.getDate()
+
     // Stamp the date with the time already held in the shared value (the source of truth),
     // not this instance's local hours/minutes — which can still be 0 on a freshly mounted /
     // off-screen twin picker and would otherwise emit midnight and wipe a chosen time.
     let validHours = normalizedValue?.getHours() ?? hours
     let validMinutes = normalizedValue?.getMinutes() ?? minutes
 
-    if (isToday) {
-      const minHour = now.getHours()
-      const minMinute = now.getMinutes()
+    if (isMinDay) {
+      const minHour = minDateTime.getHours()
+      const minMinute = minDateTime.getMinutes()
       
       if (validHours < minHour) {
         validHours = minHour
@@ -202,9 +212,9 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
     let validHours = newHours
     let validMinutes = newMinutes
     
-    if (isSelectedDateToday()) {
-      const minHour = now.getHours()
-      const minMinute = now.getMinutes()
+    if (isSelectedDateMinDay()) {
+      const minHour = minDateTime.getHours()
+      const minMinute = minDateTime.getMinutes()
       
       if (validHours < minHour) {
         validHours = minHour
@@ -258,14 +268,14 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
 
   const isDateInPast = (d: Date) => {
     const dateOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-    return dateOnly < today
+    return dateOnly < minDate
   }
 
-  const isSelectedDateToday = () => {
+  const isSelectedDateMinDay = () => {
     if (!date) return false
-    return date.getFullYear() === today.getFullYear() &&
-           date.getMonth() === today.getMonth() &&
-           date.getDate() === today.getDate()
+    return date.getFullYear() === minDate.getFullYear() &&
+           date.getMonth() === minDate.getMonth() &&
+           date.getDate() === minDate.getDate()
   }
 
   const calendarDays = generateCalendarDays()
@@ -429,7 +439,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       onChange={(time) => handleTimeChange(time.hours, time.minutes)}
       onCancel={() => setShowClockPicker(false)}
       onConfirm={() => setShowClockPicker(false)}
-      minTime={isSelectedDateToday() ? { hours: now.getHours(), minutes: now.getMinutes() } : undefined}
+      minTime={isSelectedDateMinDay() ? { hours: minDateTime.getHours(), minutes: minDateTime.getMinutes() } : undefined}
       headline="Select time"
       {...(gold && !dark ? { luxmotion: true } : {})}
     />
