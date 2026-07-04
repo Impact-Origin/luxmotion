@@ -293,6 +293,7 @@ export default defineSchema({
     theme: v.any(),
     content: v.optional(v.any()),
     logoId: v.optional(v.id("_storage")),
+    heroImageId: v.optional(v.id("_storage")),
     status: v.optional(v.string()),
     contactEmail: v.optional(v.string()),
     createdAt: v.optional(v.number()),

@@ -789,6 +789,8 @@ export default function PartnershipEditorPage({
   const [theme, setTheme] = React.useState<ThemeConfig>(defaultTheme);
   const [logoId, setLogoId] = React.useState<string | undefined>();
   const [logoUrl, setLogoUrl] = React.useState<string | null>(null);
+  const [heroImageId, setHeroImageId] = React.useState<string | undefined>();
+  const [heroImageUrl, setHeroImageUrl] = React.useState<string | null>(null);
   const [isSaving, setIsSaving] = React.useState(false);
   const [seoTitle, setSeoTitle] = React.useState("");
   const [seoDescription, setSeoDescription] = React.useState("");
@@ -807,6 +809,12 @@ export default function PartnershipEditorPage({
 
   const isTransferLanding =
     pageType === "landing" && landingTemplate === "transfer";
+
+  // The dark whitelabel templates render a configurable right-side hero photo.
+  const hasHeroImage =
+    pageType === "landing" &&
+    (landingTemplate === "whitelabel" ||
+      landingTemplate === "wedding-whitelabel");
 
   const previewUrl =
     pageType === "landing"
@@ -830,6 +838,8 @@ export default function PartnershipEditorPage({
       });
       setLogoId(partnership.logoId);
       setLogoUrl(partnership.logoUrl);
+      setHeroImageId(partnership.heroImageId);
+      setHeroImageUrl(partnership.heroImageUrl);
       setSeoTitle(partnership.content?.seoTitle || "");
       setSeoDescription(partnership.content?.seoDescription || "");
       setLandingTemplate(
@@ -861,6 +871,8 @@ export default function PartnershipEditorPage({
   themeRef.current = theme;
   const logoUrlRef = React.useRef(logoUrl);
   logoUrlRef.current = logoUrl;
+  const heroImageUrlRef = React.useRef(heroImageUrl);
+  heroImageUrlRef.current = heroImageUrl;
   const landingTemplateRef = React.useRef(landingTemplate);
   landingTemplateRef.current = landingTemplate;
   const partnerNameRef = React.useRef(partnership?.name ?? "");
@@ -876,6 +888,7 @@ export default function PartnershipEditorPage({
           type: "UPDATE_THEME",
           theme: themeRef.current,
           logoUrl: logoUrlRef.current,
+          heroImageUrl: heroImageUrlRef.current,
           landingTemplate: landingTemplateRef.current,
           partnerName: partnerNameRef.current,
         },
@@ -890,7 +903,7 @@ export default function PartnershipEditorPage({
     return () => {
       if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
     };
-  }, [theme, logoUrl, landingTemplate, updatePreview]);
+  }, [theme, logoUrl, heroImageUrl, landingTemplate, updatePreview]);
 
   React.useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -959,6 +972,7 @@ export default function PartnershipEditorPage({
         slug: partnership.slug,
         theme,
         logoId: logoId as any,
+        heroImageId: heroImageId as any,
         content: nextContent,
         status: partnership.status || "active",
         landingTemplate,
@@ -1101,6 +1115,26 @@ export default function PartnershipEditorPage({
                   }}
                   disabled={isSaving}
                 />
+
+                {hasHeroImage && (
+                  <>
+                    <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground pt-2">
+                      Hero Photo
+                    </Label>
+                    <p className="text-[10px] text-muted-foreground font-medium -mt-1">
+                      Right-side image on the landing hero. Leave empty to use
+                      the default.
+                    </p>
+                    <ImageUpload
+                      value={heroImageUrl}
+                      onChange={(id) => {
+                        setHeroImageId(id);
+                        if (!id) setHeroImageUrl(null);
+                      }}
+                      disabled={isSaving}
+                    />
+                  </>
+                )}
 
                 <div className="pt-4 space-y-3">
                   <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">

@@ -16,6 +16,9 @@ import { api } from "@workspace/convex/api"
 interface BookingWidgetProps {
   className?: string
   compact?: boolean
+  // On a partnership landing (/<slug>) the transfer booking must continue to that
+  // partner's checkout (/<slug>/checkout), not the main /checkout. Empty = main site.
+  checkoutBasePath?: string
 }
 
 interface LocationState {
@@ -25,7 +28,7 @@ interface LocationState {
   lng: number | null
 }
 
-export function BookingWidget({ className }: BookingWidgetProps) {
+export function BookingWidget({ className, checkoutBasePath = "" }: BookingWidgetProps) {
   const t = useTranslations("hero")
   const tCommon = useTranslations("common")
   const tTransfer = useTranslations("transfer")
@@ -291,7 +294,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       }
     }
 
-    router.push("/checkout")
+    router.push(`${checkoutBasePath}/checkout`)
   }
 
   return (

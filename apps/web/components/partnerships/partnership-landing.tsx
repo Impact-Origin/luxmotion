@@ -11,25 +11,36 @@ export function PartnershipLanding({
   template,
   theme,
   logoUrl,
+  heroImageUrl,
   partnerName,
+  partnershipSlug,
   isPreviewMode = false,
 }: {
   template?: PartnershipLandingTemplate | string | null;
   theme?: Partial<ThemeConfig>;
   logoUrl?: string | null;
+  heroImageUrl?: string | null;
   partnerName?: string;
+  partnershipSlug?: string;
   isPreviewMode?: boolean;
 }) {
   const resolvedTemplate = resolvePartnershipLandingTemplate(template);
 
   switch (resolvedTemplate) {
     case "whitelabel":
-      return <WhitelabelLanding logoUrl={logoUrl} />;
+      return (
+        <WhitelabelLanding
+          logoUrl={logoUrl}
+          heroImageUrl={heroImageUrl}
+          partnershipSlug={partnershipSlug}
+        />
+      );
     case "wedding-whitelabel":
       return (
         <WeddingWhitelabelLanding
           logoUrl={logoUrl}
           partnerName={partnerName}
+          heroImageUrl={heroImageUrl}
         />
       );
     case "transfer":

@@ -248,8 +248,10 @@ function LuxMotionAttribution() {
 
 export function WeddingWhitelabelHero({
   partnerName = PARTNER_NAME_PLACEHOLDER,
+  heroImageUrl,
 }: {
   partnerName?: string;
+  heroImageUrl?: string | null;
 }) {
   const t = useTranslations("weddingWhitelabel.hero")
 
@@ -263,7 +265,7 @@ export function WeddingWhitelabelHero({
         <div className="relative h-[358px] w-full">
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src="/wedding-whitelabel/couple.png"
+              src={heroImageUrl || "/wedding-whitelabel/couple.png"}
               alt={t("photoAlt")}
               fill
               priority
@@ -332,7 +334,7 @@ export function WeddingWhitelabelHero({
       <div className="hidden md:block relative h-[800px]">
         <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
-            src="/wedding-whitelabel/couple.png"
+            src={heroImageUrl || "/wedding-whitelabel/couple.png"}
             alt={t("photoAlt")}
             fill
             priority

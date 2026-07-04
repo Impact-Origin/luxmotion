@@ -11,13 +11,21 @@ import { CtaFinal } from "@/components/whitelabel/cta-final";
 
 export function WhitelabelLanding({
   logoUrl,
+  heroImageUrl,
+  partnershipSlug,
 }: {
   logoUrl?: string | null;
+  heroImageUrl?: string | null;
+  partnershipSlug?: string;
 }) {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">
       <Header whitelabel logoUrl={logoUrl} />
-      <Hero whitelabel />
+      <Hero
+        whitelabel
+        heroImageUrl={heroImageUrl}
+        checkoutBasePath={partnershipSlug ? `/${partnershipSlug}` : ""}
+      />
       <QualityProcess />
       <Testimonials />
       <Benefits />

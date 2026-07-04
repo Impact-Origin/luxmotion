@@ -150,7 +150,15 @@ const WHITELABEL_BG = "linear-gradient(180deg, rgba(var(--lm-bg-rgb,13,13,13),0.
 const WHITELABEL_DESCRIPTION =
   "O {{HOTEL_NAME}} tem o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido."
 
-export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
+export function Hero({
+  whitelabel = false,
+  heroImageUrl,
+  checkoutBasePath = "",
+}: {
+  whitelabel?: boolean
+  heroImageUrl?: string | null
+  checkoutBasePath?: string
+} = {}) {
   const t = useTranslations("hero")
   const { enter } = useEnterAnimation()
 
@@ -161,7 +169,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
     >
       <div className="absolute top-0 right-0 w-[46%] xl:w-[48%] 2xl:w-[50%] max-w-[850px] h-[540px] hidden lg:block">
         <Image
-          src="/hero-bg.png"
+          src={heroImageUrl || "/hero-bg.png"}
           alt=""
           fill
           className="object-cover object-[20%_center]"
@@ -171,7 +179,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
 
       <div className="relative lg:hidden overflow-hidden h-[320px]">
         <Image
-          src="/hero-bg.png"
+          src={heroImageUrl || "/hero-bg.png"}
           alt=""
           fill
           className="object-cover object-[center_30%]"
@@ -222,7 +230,7 @@ export function Hero({ whitelabel = false }: { whitelabel?: boolean } = {}) {
         </div>
 
         <div id="booking" className={cn("w-full scroll-mt-24", enter("delay-[400ms]"))}>
-          <BookingWidget />
+          <BookingWidget checkoutBasePath={checkoutBasePath} />
         </div>
 
         <div className={cn("flex flex-col lg:flex-row border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] divide-y lg:divide-y-0 lg:divide-x divide-[rgba(var(--lm-text-rgb,255,255,255),0.12)]", enter("delay-[500ms]"))}>

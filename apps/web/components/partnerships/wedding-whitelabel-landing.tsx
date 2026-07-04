@@ -16,15 +16,17 @@ import { WeddingWhitelabelFaq } from "@/components/wedding-whitelabel/wedding-wh
 export function WeddingWhitelabelLanding({
   logoUrl,
   partnerName,
+  heroImageUrl,
 }: {
   logoUrl?: string | null;
   partnerName?: string;
+  heroImageUrl?: string | null;
 }) {
   return (
     <div className="min-h-screen bg-[#EFE8DC]">
       <Header variant="light" whitelabel logoUrl={logoUrl} />
       <div className="pt-[60px] md:pt-[72px]">
-        <WeddingWhitelabelHero partnerName={partnerName} />
+        <WeddingWhitelabelHero partnerName={partnerName} heroImageUrl={heroImageUrl} />
         <WeddingWhitelabelStats partnerName={partnerName} />
         <WeddingWhitelabelQuoteSection />
         <WeddingWhitelabelMetrics />

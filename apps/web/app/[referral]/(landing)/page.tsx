@@ -57,7 +57,9 @@ export default async function ReferralLandingPage({
         template={landingTemplate}
         theme={partnership.theme}
         logoUrl={partnership.logoUrl}
+        heroImageUrl={partnership.heroImageUrl}
         partnerName={partnership.name}
+        partnershipSlug={referral}
       />
     </>
   );

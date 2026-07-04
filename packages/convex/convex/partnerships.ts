@@ -18,6 +18,7 @@ export const list = query({
       partnerships.map(async (p) => ({
         ...p,
         logoUrl: p.logoId ? await ctx.storage.getUrl(p.logoId) : null,
+        heroImageUrl: p.heroImageId ? await ctx.storage.getUrl(p.heroImageId) : null,
       }))
     );
   },
@@ -45,6 +46,7 @@ export const listPaged = query({
       result.rows.map(async (r) => ({
         ...r,
         logoUrl: r.logoId ? await ctx.storage.getUrl(r.logoId) : null,
+        heroImageUrl: r.heroImageId ? await ctx.storage.getUrl(r.heroImageId) : null,
       })),
     );
     return { ...result, rows: withLogos };
@@ -62,6 +64,7 @@ export const getBySlug = query({
     return {
       ...partnership,
       logoUrl: partnership.logoId ? await ctx.storage.getUrl(partnership.logoId) : null,
+      heroImageUrl: partnership.heroImageId ? await ctx.storage.getUrl(partnership.heroImageId) : null,
     };
   },
 });
@@ -74,6 +77,7 @@ export const getById = query({
     return {
       ...partnership,
       logoUrl: partnership.logoId ? await ctx.storage.getUrl(partnership.logoId) : null,
+      heroImageUrl: partnership.heroImageId ? await ctx.storage.getUrl(partnership.heroImageId) : null,
     };
   },
 });
@@ -108,6 +112,7 @@ export const update = mutation({
     theme: v.any(),
     content: v.optional(v.any()),
     logoId: v.optional(v.id("_storage")),
+    heroImageId: v.optional(v.id("_storage")),
     status: v.optional(v.string()),
     landingTemplate: landingTemplateValidator,
   },

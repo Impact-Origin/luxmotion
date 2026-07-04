@@ -16,6 +16,7 @@ function PartnershipPreviewContent() {
   const searchParams = useSearchParams();
   const [theme, setTheme] = useState<ThemeConfig>(defaultTheme);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [heroImageUrl, setHeroImageUrl] = useState<string | null>(null);
   const [partnerName, setPartnerName] = useState<string>("");
   const [landingTemplate, setLandingTemplate] =
     useState<PartnershipLandingTemplate>(
@@ -40,6 +41,9 @@ function PartnershipPreviewContent() {
         if (typeof event.data.logoUrl !== "undefined") {
           setLogoUrl(event.data.logoUrl);
         }
+        if (typeof event.data.heroImageUrl !== "undefined") {
+          setHeroImageUrl(event.data.heroImageUrl);
+        }
         if (typeof event.data.partnerName === "string") {
           setPartnerName(event.data.partnerName);
         }
@@ -62,6 +66,7 @@ function PartnershipPreviewContent() {
       template={landingTemplate}
       theme={theme}
       logoUrl={logoUrl}
+      heroImageUrl={heroImageUrl}
       partnerName={partnerName || undefined}
       isPreviewMode={isPreviewMode}
     />
