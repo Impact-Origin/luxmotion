@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
+import { useMinAdvanceBookingHours } from "@/hooks/use-min-advance-hours"
 import { TransferForm } from "./booking/transfer-form"
 import { EventsTourForm } from "./booking/events-tour-form"
 import type { TripType, PassengerState, TourPassengerState, LuggageState, WidgetProductItem } from "./booking/types"
@@ -34,7 +35,7 @@ export function BookingWidget({ className, checkoutBasePath = "" }: BookingWidge
   const tCommon = useTranslations("common")
   const tTransfer = useTranslations("transfer")
   const router = useRouter()
-  const bookingSettings = useQuery(api.siteSettings.get)
+  const minAdvanceHours = useMinAdvanceBookingHours()
 
   const [mounted, setMounted] = useState(false)
   const [tripType, setTripType] = useState<TripType>("roundTrip")
@@ -234,11 +235,9 @@ export function BookingWidget({ className, checkoutBasePath = "" }: BookingWidge
 
     // Minimum booking lead time (also enforced in the date picker; this warns if the
     // chosen time has since slipped under it, e.g. a stale value restored from storage).
-    const minLeadMs = (bookingSettings?.minAdvanceBookingHours ?? 2) * 60 * 60 * 1000
+    const minLeadMs = minAdvanceHours * 60 * 60 * 1000
     if (departureDate && departureDate.getTime() < Date.now() + minLeadMs) {
-      toast.error(
-        t("minAdvanceNotice", { hours: bookingSettings?.minAdvanceBookingHours ?? 2 }),
-      )
+      toast.error(t("minAdvanceNotice", { hours: minAdvanceHours }))
       return
     }
 

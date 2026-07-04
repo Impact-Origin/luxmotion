@@ -10,21 +10,20 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { marketingStatsDefaults } from "@/hooks/use-marketing-stats";
+import { useMinAdvanceBookingHours } from "@/hooks/use-min-advance-hours";
 
 type FormState = typeof marketingStatsDefaults;
 
 function BookingSettingsCard() {
   const t = useTranslations("adminNumbers");
-  const bookingSettings = useQuery(api.siteSettings.get);
+  const currentHours = useMinAdvanceBookingHours();
   const upsertBooking = useMutation(api.siteSettings.upsert);
   const [minAdvanceHours, setMinAdvanceHours] = React.useState("2");
   const [isSaving, setIsSaving] = React.useState(false);
 
   React.useEffect(() => {
-    if (bookingSettings) {
-      setMinAdvanceHours(String(bookingSettings.minAdvanceBookingHours));
-    }
-  }, [bookingSettings]);
+    setMinAdvanceHours(String(currentHours));
+  }, [currentHours]);
 
   const save = async () => {
     const parsed = Number.parseFloat(minAdvanceHours);
@@ -66,7 +65,7 @@ function BookingSettingsCard() {
           />
           <Button
             onClick={save}
-            disabled={isSaving || bookingSettings === undefined}
+            disabled={isSaving}
             className="h-11 px-8 font-bold"
           >
             {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

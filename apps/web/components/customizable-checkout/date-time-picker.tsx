@@ -9,8 +9,7 @@ import { useIsMobile } from "@/hooks/use-is-mobile"
 import { MobileDrawer } from "../ui/mobile-drawer"
 import { cn } from "@workspace/ui/lib/utils"
 import { ClockTimePicker } from "../ui/clock-time-picker"
-import { useQuery } from "convex/react"
-import { api } from "@workspace/convex/api"
+import { useMinAdvanceBookingHours } from "@/hooks/use-min-advance-hours"
 
 interface DateTimePickerProps {
   value?: Date | string | number | null
@@ -51,14 +50,14 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
 
   const isMobile = useIsMobile()
 
-  // Minimum booking lead time (admin-configurable); default 2h while the query loads.
-  const bookingSettings = useQuery(api.siteSettings.get)
+  // Minimum booking lead time (admin-configurable); default 2h until it loads / deploys.
+  const minAdvanceHours = useMinAdvanceBookingHours()
 
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   // Earliest bookable moment = now + lead time. Days before its calendar day are
   // disabled; on that day the time is clamped up to it.
-  const minLeadMs = (bookingSettings?.minAdvanceBookingHours ?? 2) * 60 * 60 * 1000
+  const minLeadMs = minAdvanceHours * 60 * 60 * 1000
   const minDateTime = new Date(now.getTime() + minLeadMs)
   const minDate = new Date(minDateTime.getFullYear(), minDateTime.getMonth(), minDateTime.getDate())
 
