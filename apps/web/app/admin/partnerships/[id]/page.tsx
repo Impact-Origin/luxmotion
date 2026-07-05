@@ -1109,9 +1109,9 @@ export default function PartnershipEditorPage({
                 </Label>
                 <ImageUpload
                   value={logoUrl}
-                  onChange={(id) => {
+                  onChange={(id, url) => {
                     setLogoId(id);
-                    if (!id) setLogoUrl(null);
+                    setLogoUrl(url ?? null);
                   }}
                   disabled={isSaving}
                 />
@@ -1127,9 +1127,9 @@ export default function PartnershipEditorPage({
                     </p>
                     <ImageUpload
                       value={heroImageUrl}
-                      onChange={(id) => {
+                      onChange={(id, url) => {
                         setHeroImageId(id);
-                        if (!id) setHeroImageUrl(null);
+                        setHeroImageUrl(url ?? null);
                       }}
                       disabled={isSaving}
                     />

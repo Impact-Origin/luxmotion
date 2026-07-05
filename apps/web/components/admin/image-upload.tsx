@@ -8,7 +8,7 @@ import { cn } from "@workspace/ui/lib/utils";
 
 interface ImageUploadProps {
   value?: string | null;
-  onChange: (storageId: string | undefined) => void;
+  onChange: (storageId: string | undefined, previewUrl?: string | null) => void;
   disabled?: boolean;
 }
 
@@ -41,7 +41,9 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
       });
 
       const { storageId } = await result.json();
-      onChange(storageId);
+      // Pass the local object URL too, so callers can reflect the new image in a live
+      // preview immediately instead of waiting for a save + refetch.
+      onChange(storageId, localUrl);
     } catch (error) {
       console.error("Upload failed:", error);
       setLocalPreview(null);
@@ -52,7 +54,7 @@ export function ImageUpload({ value, onChange, disabled }: ImageUploadProps) {
 
   const handleRemove = () => {
     setLocalPreview(null);
-    onChange(undefined);
+    onChange(undefined, null);
   };
 
   const displayUrl = localPreview || value;
