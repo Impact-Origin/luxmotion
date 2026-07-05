@@ -28,7 +28,7 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
             : cn(
                 "shadow-[0_10px_40px_rgba(0,0,0,0.25)] border animate-in fade-in duration-200",
                 popover
-                  ? "w-full"
+                  ? "w-full flex flex-col max-h-[var(--radix-popover-content-available-height)]"
                   : "absolute top-full left-0 right-0 mt-2 slide-in-from-top-2",
                 dark
                   ? "bg-[#1e1d1b] border-[rgba(255,255,255,0.12)] rounded-none"
@@ -39,7 +39,7 @@ export const LocationDropdown = forwardRef<HTMLDivElement, LocationDropdownProps
         )}
       >
         <div
-          className={cn("overflow-y-auto py-2 custom-scrollbar", inline ? "flex-1 min-h-0 -mx-4 px-4" : "max-h-[320px]")}
+          className={cn("overflow-y-auto py-2 custom-scrollbar", inline ? "flex-1 min-h-0 -mx-4 px-4" : popover ? "flex-1 min-h-0 max-h-[320px]" : "max-h-[320px]")}
           style={inline ? { touchAction: "pan-y" } : undefined}
         >
           {isLoading && suggestions.length === 0 && (
