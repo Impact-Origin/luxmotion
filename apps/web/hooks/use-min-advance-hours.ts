@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { useQueries } from "convex/react"
 import { api } from "@workspace/convex/api"
 
@@ -12,11 +13,17 @@ const DEFAULT_MIN_ADVANCE_HOURS = 2
  * on the backend yet — e.g. the Vercel frontend went live before `npx convex deploy`
  * ran — the result comes back as an Error VALUE instead of a thrown exception, so the
  * booking widget and date pickers fall back to the default instead of crashing.
+ *
+ * The queries object MUST be memoized: `useQueries` re-subscribes whenever its identity
+ * changes, so an inline object every render triggers an infinite re-render loop
+ * (React #301). Memoizing with an empty dep list keeps a single stable subscription.
  */
 export function useMinAdvanceBookingHours(): number {
-  const results = useQueries({
-    siteSettings: { query: api.siteSettings.get, args: {} },
-  })
+  const queries = useMemo(
+    () => ({ siteSettings: { query: api.siteSettings.get, args: {} } }),
+    [],
+  )
+  const results = useQueries(queries)
   const r = results.siteSettings as
     | { minAdvanceBookingHours?: number }
     | Error
