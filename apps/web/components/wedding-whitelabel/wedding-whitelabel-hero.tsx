@@ -271,6 +271,7 @@ export function WeddingWhitelabelHero({
               priority
               sizes="100vw"
               className="object-cover object-[60%_center]"
+              unoptimized={!!heroImageUrl}
             />
           </div>
           <div className="absolute right-4 bottom-[6px] w-[178px] h-[62px]">
@@ -341,6 +342,7 @@ export function WeddingWhitelabelHero({
             sizes="1058px"
             className="object-cover"
             style={{ objectPosition: "center" }}
+            unoptimized={!!heroImageUrl}
           />
         </div>
 

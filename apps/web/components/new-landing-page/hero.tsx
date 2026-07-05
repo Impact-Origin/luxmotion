@@ -174,6 +174,7 @@ export function Hero({
           fill
           className="object-cover object-[20%_center]"
           priority
+          unoptimized={!!heroImageUrl}
         />
       </div>
 
@@ -184,6 +185,7 @@ export function Hero({
           fill
           className="object-cover object-[center_30%]"
           priority
+          unoptimized={!!heroImageUrl}
         />
         <div
           className="absolute inset-0"
