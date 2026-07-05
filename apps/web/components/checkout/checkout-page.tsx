@@ -341,6 +341,17 @@ function VehicleSelectionStep({
               <ArrowRight className="size-4" strokeWidth={2} />
             </button>
           </div>
+          {/* Mobile: Continue at the top too (desktop shows it inline beside the
+              heading above). Full-width so it's easy to reach without scrolling. */}
+          <button
+            type="button"
+            onClick={onContinueFromVehicle}
+            disabled={!selectedVehicle}
+            className="sm:hidden inline-flex items-center justify-center gap-2 w-full mb-5 bg-[#C9A96E] hover:bg-[#b89558] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-6 py-3.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {tCommon("continue")}
+            <ArrowRight className="size-4" strokeWidth={2} />
+          </button>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {isLoading ? (
               [1, 2, 3, 4].map((i) => (
