@@ -16,22 +16,12 @@ function trimTrailingSlash(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
-// The canonical production origin. Used as the fallback so the sitemap, canonical
-// tags, OpenGraph and JSON-LD never leak "localhost" when NEXT_PUBLIC_SITE_URL isn't
-// configured in the deploy environment (as was the case in production). Set
-// NEXT_PUBLIC_SITE_URL to override (e.g. a staging domain).
-const PRODUCTION_SITE_URL = "https://www.easytransferportugal.com";
-
 export function getSiteUrl(): string {
   const envUrl =
     process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL;
 
   if (!envUrl) {
-    // Only fall back to localhost during local development; anywhere else use the
-    // real production domain so URLs are never "http://localhost:3000".
-    return process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : PRODUCTION_SITE_URL;
+    return "http://localhost:3000";
   }
 
   return trimTrailingSlash(withProtocol(envUrl));
