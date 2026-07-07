@@ -51,3 +51,4 @@ export const FLEET_BY_CATEGORY: FleetVehicle[][] = [
     { id: "28", img: "/fleet/autocar/bus-executive.webp", title: "Executive", briefcase: 56, wifi: true, passengers: 56, category: "autocarro" },
   ],
 ]
+
