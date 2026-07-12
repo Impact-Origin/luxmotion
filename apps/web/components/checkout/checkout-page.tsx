@@ -12,6 +12,7 @@ import { ExperiencesStep } from "@/components/checkout/experiences-step"
 import { CheckoutStepLayout } from "@/components/checkout/shared/checkout-step-layout"
 import { CheckoutProvider, useCheckout, DEV_ALLOW_STEP_SKIP, type Vehicle } from "@/components/checkout/checkout-context"
 import { useVehicles } from "@/hooks/use-vehicles"
+import { isAirportLocation } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
 import { useEffect, useMemo } from "react"
@@ -111,6 +112,7 @@ function CheckoutPageContent() {
     isNight,
     isNightReturn: transfer.bookReturn ? isNightReturn : undefined,
     bookReturn: transfer.bookReturn,
+    isAirportPickup: isAirportLocation(transfer.fromLocation),
     upgradeMode: upgradeMode,
     currentVehiclePassengers: selectedVehicle?.passengers ?? 0,
     currentVehicleLuggage: selectedVehicle?.luggage ?? 0,

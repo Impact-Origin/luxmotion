@@ -7012,6 +7012,9 @@
   },
   "emailVerification": {
     "errorSend": "Couldn't send the code. Please try again.",
+    "errorNotConfigured": "Email sending isn't set up yet. Please contact us.",
+    "errorInvalidEmail": "That email address looks invalid. Please check it.",
+    "errorSendFailed": "We couldn't deliver the code — check the address or try again shortly.",
     "errorExpired": "The code has expired. Request a new one.",
     "errorMismatch": "Incorrect code. Please check and try again.",
     "sending": "Sending…",

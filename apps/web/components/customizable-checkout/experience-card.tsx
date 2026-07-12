@@ -3,6 +3,7 @@
 import { Plus, Clock, MapPin } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { useMoney } from "@/components/currency-provider"
 
 interface ExperienceCardProps {
   title: string
@@ -15,6 +16,7 @@ interface ExperienceCardProps {
 
 export function ExperienceCard({ title, price, duration, image, distanceKm, onAdd }: ExperienceCardProps) {
   const t = useTranslations("experiences")
+  const { format } = useMoney()
 
   return (
     <div
@@ -80,7 +82,7 @@ export function ExperienceCard({ title, price, duration, image, distanceKm, onAd
           className="text-xl font-extrabold shrink-0"
           style={{ color: "var(--theme-checkout-order-summary-total-price, #222222)" }}
         >
-          EUR {price.toFixed(2)}
+          {format(price)}
         </div>
         <button
           data-theme-color="checkoutPrimaryButtonBg"

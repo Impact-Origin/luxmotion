@@ -6,7 +6,9 @@ import { api } from "@workspace/convex/api";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
-import { Loader2 } from "lucide-react";
+import { Switch } from "@workspace/ui/components/switch";
+import { useSiteSettings } from "@/hooks/use-site-settings";
+import { Loader2, X, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { marketingStatsDefaults } from "@/hooks/use-marketing-stats";
@@ -62,6 +64,259 @@ function BookingSettingsCard() {
             className="max-w-[160px]"
             value={minAdvanceHours}
             onChange={(event) => setMinAdvanceHours(event.target.value)}
+          />
+          <Button
+            onClick={save}
+            disabled={isSaving}
+            className="h-11 px-8 font-bold"
+          >
+            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isSaving ? t("saving") : t("save")}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnnouncementBarCard() {
+  const t = useTranslations("adminNumbers");
+  const settings = useSiteSettings();
+  const upsert = useMutation(api.siteSettings.upsert);
+  const [enabled, setEnabled] = React.useState(false);
+  const [messages, setMessages] = React.useState<string[]>([""]);
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    setEnabled(settings.announcementsEnabled);
+    setMessages(
+      settings.announcements.length > 0 ? settings.announcements : [""],
+    );
+  }, [settings]);
+
+  const save = async () => {
+    try {
+      setIsSaving(true);
+      await upsert({
+        announcementsEnabled: enabled,
+        announcements: messages
+          .map((m) => m.trim())
+          .filter((m) => m.length > 0),
+      });
+      toast.success(t("saveSuccess"));
+    } catch {
+      toast.error(t("saveError"));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-lg font-semibold text-foreground">
+            Announcement bar
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Scrolling banner shown at the very top of the site. Add one or more
+            messages; they scroll in a loop. Turn off to hide the bar.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <Switch
+            id="announcementsEnabled"
+            checked={enabled}
+            onCheckedChange={setEnabled}
+          />
+          <Label htmlFor="announcementsEnabled">{enabled ? "On" : "Off"}</Label>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        {messages.map((msg, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <Input
+              value={msg}
+              onChange={(event) =>
+                setMessages((prev) =>
+                  prev.map((m, idx) => (idx === i ? event.target.value : m)),
+                )
+              }
+              placeholder="e.g. Free cancellation up to 24h before your transfer"
+            />
+            <Button
+              variant="outline"
+              size="icon"
+              className="shrink-0"
+              onClick={() =>
+                setMessages((prev) =>
+                  prev.length > 1 ? prev.filter((_, idx) => idx !== i) : [""],
+                )
+              }
+              aria-label="Remove message"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+        <Button
+          variant="outline"
+          onClick={() => setMessages((prev) => [...prev, ""])}
+          className="gap-2"
+        >
+          <Plus className="h-4 w-4" /> Add message
+        </Button>
+      </div>
+
+      <div className="flex justify-end">
+        <Button
+          onClick={save}
+          disabled={isSaving}
+          className="h-11 px-8 font-bold"
+        >
+          {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isSaving ? t("saving") : t("save")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function CurrencyRatesCard() {
+  const t = useTranslations("adminNumbers");
+  const settings = useSiteSettings();
+  const upsert = useMutation(api.siteSettings.upsert);
+  const [rates, setRates] = React.useState({
+    BRL: "6.2",
+    USD: "1.08",
+    GBP: "0.85",
+  });
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    const r = settings.exchangeRates;
+    setRates({ BRL: String(r.BRL), USD: String(r.USD), GBP: String(r.GBP) });
+  }, [settings]);
+
+  const save = async () => {
+    const parsed = {
+      BRL: Number.parseFloat(rates.BRL),
+      USD: Number.parseFloat(rates.USD),
+      GBP: Number.parseFloat(rates.GBP),
+    };
+    if (Object.values(parsed).some((n) => !Number.isFinite(n) || n <= 0)) {
+      toast.error("Enter valid positive exchange rates");
+      return;
+    }
+    try {
+      setIsSaving(true);
+      await upsert({ exchangeRates: parsed });
+      toast.success(t("saveSuccess"));
+    } catch {
+      toast.error(t("saveError"));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const field = (key: "BRL" | "USD" | "GBP", label: string) => (
+    <div className="space-y-2">
+      <Label htmlFor={`rate-${key}`}>{label}</Label>
+      <Input
+        id={`rate-${key}`}
+        type="number"
+        min={0}
+        step="0.01"
+        value={rates[key]}
+        onChange={(event) =>
+          setRates((prev) => ({ ...prev, [key]: event.target.value }))
+        }
+      />
+    </div>
+  );
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold text-foreground">
+          Currency / Exchange rates
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          Approximate rates used to display prices in other currencies (how many
+          of each per 1 EUR). Payments are always charged in EUR.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {field("BRL", "1 EUR = ? BRL (R$)")}
+        {field("USD", "1 EUR = ? USD ($)")}
+        {field("GBP", "1 EUR = ? GBP (£)")}
+      </div>
+      <div className="flex justify-end">
+        <Button
+          onClick={save}
+          disabled={isSaving}
+          className="h-11 px-8 font-bold"
+        >
+          {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isSaving ? t("saving") : t("save")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function AirportSurchargeCard() {
+  const t = useTranslations("adminNumbers");
+  const settings = useSiteSettings();
+  const upsert = useMutation(api.siteSettings.upsert);
+  const [pct, setPct] = React.useState("12");
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    setPct(String(settings.airportSurchargePercent));
+  }, [settings]);
+
+  const save = async () => {
+    const parsed = Number.parseFloat(pct);
+    if (!Number.isFinite(parsed) || parsed < 0 || parsed > 100) {
+      toast.error("Enter a percentage between 0 and 100");
+      return;
+    }
+    try {
+      setIsSaving(true);
+      await upsert({ airportSurchargePercent: parsed });
+      toast.success(t("saveSuccess"));
+    } catch {
+      toast.error(t("saveError"));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold text-foreground">
+          Airport pickup surcharge
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          Extra percentage added to the base transfer fare when the pickup is an
+          airport (applied to the outbound leg only). Set to 0 to disable.
+        </p>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="airportSurchargePercent">Surcharge (%)</Label>
+        <div className="flex items-center gap-3">
+          <Input
+            id="airportSurchargePercent"
+            type="number"
+            min={0}
+            max={100}
+            step={0.5}
+            className="max-w-[160px]"
+            value={pct}
+            onChange={(event) => setPct(event.target.value)}
           />
           <Button
             onClick={save}
@@ -287,6 +542,9 @@ export default function AdminNumbersPage() {
   return (
     <div className="space-y-6">
       <BookingSettingsCard />
+      <AnnouncementBarCard />
+      <CurrencyRatesCard />
+      <AirportSurchargeCard />
       <div className="bg-card border border-border rounded-xl p-6 space-y-4">
         <h2 className="text-lg font-semibold text-foreground">
           {t("sections.reviews")}

@@ -6,7 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { MapPin, Clock, Users, Star, ArrowRight, Heart } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
-import { formatPrice } from "@/lib/format"
+import { useMoney } from "@/components/currency-provider"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
@@ -43,6 +43,7 @@ function Stars({ rating }: { rating: number }) {
 
 export function BrowseTourCard({ tour, list = false }: { tour: BrowseTourCardData; list?: boolean }) {
   const t = useTranslations("ultraLuxuryTours.browse")
+  const { format } = useMoney()
   const [saved, setSaved] = useState(false)
 
   return (
@@ -126,7 +127,7 @@ export function BrowseTourCard({ tour, list = false }: { tour: BrowseTourCardDat
               {t("from")}
             </span>
             <span className="leading-none text-[#a08248]" style={{ fontFamily: SERIF_FONT }}>
-              <span className="text-[32px] font-semibold">{formatPrice(tour.price)}</span>
+              <span className="text-[32px] font-semibold">{format(tour.price)}</span>
               <span className="text-[24px]">{t("perPerson")}</span>
             </span>
           </div>

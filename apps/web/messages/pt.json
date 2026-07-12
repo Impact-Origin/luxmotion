@@ -7181,6 +7181,9 @@
   },
   "emailVerification": {
     "errorSend": "Não foi possível enviar o código. Tenta novamente.",
+    "errorNotConfigured": "O envio de email ainda não está configurado. Contacta-nos.",
+    "errorInvalidEmail": "O endereço de email parece inválido. Verifica-o.",
+    "errorSendFailed": "Não conseguimos entregar o código. Verifica o endereço ou tenta daqui a pouco.",
     "errorExpired": "O código expirou. Pede um novo.",
     "errorMismatch": "Código incorreto. Verifica e tenta de novo.",
     "sending": "A enviar…",

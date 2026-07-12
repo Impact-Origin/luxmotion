@@ -41,11 +41,11 @@ export function SocialProofBar() {
 
   const trustpilot = (
     <Image
-      src="/trustpilot-logo.svg"
+      src="/trustpilot-logo-green.svg"
       alt="Trustpilot"
       width={69}
       height={19}
-      className="h-[14px] w-auto shrink-0 brightness-0 dark:brightness-100"
+      className="h-[14px] w-auto shrink-0"
       unoptimized
     />
   )

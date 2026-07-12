@@ -127,6 +127,11 @@ export interface TourWithDetails extends TourData {
     address?: string
     lat?: number
     lng?: number
+    translations?: Array<{
+      locale: string
+      title: string
+      description?: string
+    }>
   }>
   reviews: Array<{
     _id: string

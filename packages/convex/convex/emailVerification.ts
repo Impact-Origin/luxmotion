@@ -78,6 +78,11 @@ export const send = action({
     });
 
     if (!response.ok) {
+      // Surface the real Resend rejection in the Convex logs — the client only
+      // gets a generic reason, so this is the only place to see WHY it failed
+      // (unverified sending domain, bad API key, rate limit, etc.).
+      const detail = await response.text().catch(() => "");
+      console.error(`Resend send failed (${response.status}): ${detail}`);
       throw new Error("send_failed");
     }
 

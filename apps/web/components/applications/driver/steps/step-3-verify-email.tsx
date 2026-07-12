@@ -14,6 +14,18 @@ import { useDriverApplication } from "../driver-application-context"
 
 const OTP_LENGTH = 6
 
+// Map the Convex action's thrown reason to a specific translation key so the
+// user sees the real cause instead of a generic "couldn't send" message.
+function pickErrorKey(
+  err: unknown,
+): "errorNotConfigured" | "errorInvalidEmail" | "errorSendFailed" | "errorSend" {
+  const msg = err instanceof Error ? err.message : String(err)
+  if (msg.includes("email_not_configured")) return "errorNotConfigured"
+  if (msg.includes("invalid_email")) return "errorInvalidEmail"
+  if (msg.includes("send_failed")) return "errorSendFailed"
+  return "errorSend"
+}
+
 export function DriverStepVerifyEmail() {
   const t = useTranslations("driverApplication.stepVerifyEmail")
   const tCommon = useTranslations("common")
@@ -40,7 +52,7 @@ export function DriverStepVerifyEmail() {
     setSending(true)
     setError(null)
     sendCode({ email })
-      .catch(() => setError(tev("errorSend")))
+      .catch((err) => setError(tev(pickErrorKey(err))))
       .finally(() => setSending(false))
   }, [email, sendCode, tev])
 
@@ -52,8 +64,8 @@ export function DriverStepVerifyEmail() {
     try {
       await sendCode({ email })
       setStatus(tev("sent"))
-    } catch {
-      setError(tev("errorSend"))
+    } catch (err) {
+      setError(tev(pickErrorKey(err)))
     } finally {
       setSending(false)
     }

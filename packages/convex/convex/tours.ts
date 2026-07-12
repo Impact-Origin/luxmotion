@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query, mutation } from "./_generated/server";
+import { query, mutation, internalMutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
@@ -409,7 +409,11 @@ export const getBySlug = query({
         const imageUrl = stop.imageId
           ? await ctx.storage.getUrl(stop.imageId)
           : null;
-        return { ...stop, imageUrl };
+        const stopTranslations = await ctx.db
+          .query("tourStopTranslations")
+          .withIndex("by_stop", (q) => q.eq("stopId", stop._id))
+          .collect();
+        return { ...stop, imageUrl, translations: stopTranslations };
       }),
     );
 
@@ -476,6 +480,25 @@ export const getBySlug = query({
         ...translations.map((t) => t.locale),
       ],
     });
+  },
+});
+
+// One-off migration — run once via `npx convex run tours:migrateOriginalLanguageToPt`.
+// This site is PT-first, but tours were historically saved with originalLanguage "en"
+// (old admin-form default). That made the EN storefront short-circuit to the PT base
+// text instead of looking up a translation. Flip existing "en" tours to "pt".
+export const migrateOriginalLanguageToPt = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    const allTours = await ctx.db.query("tours").collect();
+    let updated = 0;
+    for (const tour of allTours) {
+      if (tour.originalLanguage === "en") {
+        await ctx.db.patch(tour._id, { originalLanguage: "pt" });
+        updated++;
+      }
+    }
+    return { updated, total: allTours.length };
   },
 });
 

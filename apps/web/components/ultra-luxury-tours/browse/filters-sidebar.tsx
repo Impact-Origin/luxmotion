@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react"
 import { useTranslations } from "next-intl"
 import { Check, ChevronUp, ChevronDown } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
-import { formatPrice } from "@/lib/format"
+import { useMoney } from "@/components/currency-provider"
 import type { BrowseFilters, FilterGroupKey, FilterOption } from "./browse-types"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
@@ -118,6 +118,7 @@ export function FiltersSidebar({
   onClear,
 }: FiltersSidebarProps) {
   const t = useTranslations("ultraLuxuryTours.browse")
+  const { format } = useMoney()
   const [boundMin, boundMax] = priceBounds
   const [valMin, valMax] = filters.price
 
@@ -171,8 +172,8 @@ export function FiltersSidebar({
       <FilterGroup index="05" title={t("groups.price")}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between text-[14px] font-semibold text-[#1c1b18]">
-            <span>{formatPrice(valMin)}</span>
-            <span>{formatPrice(valMax)}</span>
+            <span>{format(valMin)}</span>
+            <span>{format(valMax)}</span>
           </div>
           <div className="relative h-[3px] w-full bg-[rgba(28,27,24,0.16)]">
             <div
@@ -200,8 +201,8 @@ export function FiltersSidebar({
             />
           </div>
           <div className="flex items-center justify-between text-[12px] text-[rgba(28,27,24,0.38)]">
-            <span>{formatPrice(boundMin)}</span>
-            <span>{formatPrice(boundMax)}+</span>
+            <span>{format(boundMin)}</span>
+            <span>{format(boundMax)}+</span>
           </div>
         </div>
       </FilterGroup>

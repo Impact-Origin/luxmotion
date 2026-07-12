@@ -3,6 +3,7 @@
 import { Check } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@workspace/ui/lib/utils"
+import { useMoney } from "@/components/currency-provider"
 
 export interface BookingAddon {
   _id: string
@@ -27,9 +28,8 @@ export function BookingAddonsSelector({
   selectedAddonIds,
   onToggleAddon,
   totalGuests,
-  currency,
 }: BookingAddonsSelectorProps) {
-  const formatPrice = (value: number) => value.toLocaleString("de-DE")
+  const { format } = useMoney()
 
   if (addons.length === 0) return null
 
@@ -69,7 +69,7 @@ export function BookingAddonsSelector({
               )}
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
-              {isFree ? "Livre" : `+${formatPrice(addon.price)}${currency}`}
+              {isFree ? "Livre" : `+${format(addon.price)}`}
             </span>
           </button>
         )

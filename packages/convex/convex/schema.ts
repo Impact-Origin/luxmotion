@@ -312,6 +312,16 @@ export default defineSchema({
   siteSettings: defineTable({
     key: v.string(),
     minAdvanceBookingHours: v.number(),
+    // Scrolling announcement bar (marquee) shown at the top of landing pages.
+    announcementsEnabled: v.optional(v.boolean()),
+    announcements: v.optional(v.array(v.string())),
+    // Approximate display-currency conversion. Rates are "how many X per 1 EUR".
+    // Stripe still charges in EUR; these only drive the storefront price display.
+    exchangeRates: v.optional(
+      v.object({ BRL: v.number(), USD: v.number(), GBP: v.number() }),
+    ),
+    // Extra % added to the base transfer fare when the pickup is an airport.
+    airportSurchargePercent: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
   }).index("by_key", ["key"]),
 

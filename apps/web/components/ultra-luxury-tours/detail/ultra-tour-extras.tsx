@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Plus, Check, ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
-import { formatPrice } from "@/lib/format"
+import { useMoney } from "@/components/currency-provider"
 import type { BookingAddon } from "@/components/shared/booking-addons-selector"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
@@ -18,6 +18,7 @@ interface UltraTourExtrasProps {
 
 function ExtraCard({ addon, selected, onToggle }: { addon: BookingAddon; selected: boolean; onToggle: () => void }) {
   const t = useTranslations("tourDetails")
+  const { format } = useMoney()
   return (
     <div className="flex h-full flex-col border border-[rgba(154,117,53,0.22)] bg-[#f5f1eb]">
       <div className="relative aspect-[240/171] w-full overflow-hidden bg-[#1a1a1a]">
@@ -27,7 +28,7 @@ function ExtraCard({ addon, selected, onToggle }: { addon: BookingAddon; selecte
         <span className="text-[15px] font-bold leading-[1.3] text-[#0d0d0d]">{addon.title}</span>
         <div className="mt-auto flex items-end justify-between">
           <div className="flex flex-col">
-            <span className="text-[14px] font-bold text-[#0d0d0d]">{formatPrice(addon.price)}</span>
+            <span className="text-[14px] font-bold text-[#0d0d0d]">{format(addon.price)}</span>
             {addon.pricingType === "per_person" && (
               <span className="text-[12px] text-[#9a7535]">{t("perPerson")}</span>
             )}

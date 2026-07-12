@@ -1,5 +1,7 @@
 "use client";
 
+import { useMoney } from "@/components/currency-provider";
+
 import { useState, useEffect } from "react";
 import {
   ChevronDown,
@@ -228,6 +230,7 @@ function OrderSummaryContent() {
     cardFeeRate: 0,
     insuranceTotal,
   });
+  const { format, isEur } = useMoney();
   const totalPrice = priceBreakdown.total;
 
   // Para round trip, dividir o preço entre outbound e return
@@ -520,6 +523,11 @@ function OrderSummaryContent() {
             ? formatPrice(totalPriceWithExtras)
             : formatPriceShort(totalPriceWithExtras)}
         </div>
+        {!isEur && (
+          <div className="text-[13px] text-[#808080] whitespace-nowrap">
+            ≈ {format(totalPriceWithExtras)}
+          </div>
+        )}
         <div className="flex flex-col items-end gap-1 text-[14px]">
           <div className="text-[#222222]">{t("totalPrice")}</div>
           <div className="text-[#808080]">{t("taxesIncluded")}</div>

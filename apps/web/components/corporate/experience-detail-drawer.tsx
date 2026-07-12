@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, MapPin, Users, X } from "lucide-react"
 import { Sheet, SheetClose, SheetContent, SheetTitle } from "@workspace/ui/components/sheet"
 import { useTranslations } from "next-intl"
@@ -205,16 +206,18 @@ export function ExperienceDetailDrawer({
 
             <Divider />
 
-            <button
-              type="button"
-              className="inline-flex h-12 w-fit items-center bg-[#A08248] px-6 py-[9px] text-white transition-colors hover:bg-[#b89558]"
-              style={sans}
-            >
-              <span className="px-2 text-[14px] font-medium uppercase tracking-[1.1px]">
-                {td("cta")}
-              </span>
-              <ArrowRight className="size-[14px]" strokeWidth={2} />
-            </button>
+            <SheetClose asChild>
+              <Link
+                href="/corporate#request-proposal"
+                className="inline-flex h-12 w-fit items-center bg-[#A08248] px-6 py-[9px] text-white transition-colors hover:bg-[#b89558]"
+                style={sans}
+              >
+                <span className="px-2 text-[14px] font-medium uppercase tracking-[1.1px]">
+                  {td("cta")}
+                </span>
+                <ArrowRight className="size-[14px]" strokeWidth={2} />
+              </Link>
+            </SheetClose>
 
             <p className="text-[14px] leading-[1.4] text-[#696969]" style={sans}>
               {description}

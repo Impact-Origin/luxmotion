@@ -24,7 +24,8 @@ function InfoBox({ icon, label, value }: { icon: React.ReactNode; label: string;
           {label}
         </span>
         <span
-          className="text-[14px] font-medium text-white leading-none whitespace-nowrap"
+          className="text-[14px] font-medium text-white leading-none truncate"
+          title={value}
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {value}
@@ -48,7 +49,8 @@ function InfoBoxMobile({ icon, label, value }: { icon: React.ReactNode; label: s
           {label}
         </span>
         <span
-          className="text-[14px] font-medium text-white leading-none whitespace-nowrap"
+          className="text-[14px] font-medium text-white leading-none truncate"
+          title={value}
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {value}

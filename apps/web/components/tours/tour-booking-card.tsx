@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { BookingAddonsSelector, type BookingAddon } from "@/components/shared/booking-addons-selector"
+import { useMoney } from "@/components/currency-provider"
 
 interface TourBookingCardProps {
   price: number
@@ -74,6 +75,7 @@ function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: strin
 
 export function TourBookingCard({ price, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
+  const { format } = useMoney()
   const [dateTime, setDateTime] = useState<{ date: Date | null; time: string | null }>({ date: null, time: null })
   const [adults, setAdults] = useState(1)
   const [children, setChildren] = useState(0)
@@ -137,8 +139,6 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   const isBelowMin = minPassengers ? payingGuests < minPassengers : false
 
-  const formatPrice = (value: number) => value.toLocaleString("de-DE")
-
   const handleBook = () => {
     const selectedAddonsData = addons
       ?.filter((a) => selectedAddonIds.includes(a._id))
@@ -171,7 +171,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         <span className="text-[12px] font-semibold text-[#8c8680] tracking-[1.35px] uppercase">{t("from")}</span>
         <div className="flex items-baseline gap-[10px] mt-1">
           <span className="text-[48px] font-semibold text-[#C9A96E] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
-            {currency}{formatPrice(price)}
+            {format(price)}
           </span>
           <span className="text-[14px] text-[rgba(255,255,255,0.3)]">{t("perPerson")}</span>
         </div>
@@ -237,7 +237,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         <div className="border-t border-[rgba(255,255,255,0.06)] pt-4 pb-4 flex items-center justify-between">
           <span className="text-[12px] font-bold text-[#999] tracking-[1px] uppercase">{t("total")}</span>
           <span className="text-[32px] font-bold text-white" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
-            {currency}{formatPrice(total)}
+            {format(total)}
           </span>
         </div>
 

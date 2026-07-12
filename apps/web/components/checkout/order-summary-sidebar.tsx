@@ -33,6 +33,7 @@ import {
 } from "@/lib/format";
 import { insurancePrice, calcExtras } from "@/components/checkout/pricing";
 import { cn } from "@workspace/ui/lib/utils";
+import { useMoney } from "@/components/currency-provider";
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" };
 
@@ -73,6 +74,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
   const basePrice = selectedVehicle?.price ?? 0;
   const dayPrice = selectedVehicle?.dayPrice ?? basePrice;
   const isRoundTrip = transfer.bookReturn;
+  const { format, isEur } = useMoney();
   const baseTotalPrice = basePrice;
   const nightTaxAmount = selectedVehicle?.nightTaxAmount ?? 0;
 
@@ -501,6 +503,11 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
         >
           €{finalAmount}
         </p>
+        {!isEur && (
+          <p className="text-[13px] text-[#999] leading-none">
+            ≈ {format(totalPriceWithExtras)}
+          </p>
+        )}
         <div className="flex flex-col items-end gap-1 text-[14px] text-[#999]">
           <span>{t("totalPrice")}</span>
           <span>{t("taxesIncluded")}</span>

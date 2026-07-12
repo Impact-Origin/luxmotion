@@ -109,6 +109,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
               <TourDetailsHeader
                 title={tour.title}
                 rating={tour.rating}
+                reviewCount={tour.reviewCount}
                 tags={tour.tags}
                 duration={tour.duration}
                 tourType={tour.tourType}
@@ -161,7 +162,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
             </div>
 
             <div className="hidden lg:block w-[29%] min-w-[320px] max-w-[380px] shrink-0 pt-[20px] md:pt-[28px]">
-              <div className="sticky top-[70px]">
+              <div className="sticky top-[calc(var(--promo-h,0px)_+_70px)]">
                 <TourBookingCard
                   price={tour.price}
                   rating={tour.rating}

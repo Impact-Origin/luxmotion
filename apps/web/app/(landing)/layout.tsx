@@ -7,6 +7,7 @@ import { TourCheckoutProvider } from "@/components/tours/tour-checkout-context"
 import { TourCheckoutModal } from "@/components/tours/tour-checkout-modal"
 import { TourCheckoutReturnHandler } from "@/components/tours/tour-checkout-return-handler"
 import { WhatsAppFloat } from "@/components/new-landing-page/whatsapp-float"
+import { PromoBar } from "@/components/new-landing-page/promo-bar"
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
   }>) {
     return (
         <div className={`${fontSans.variable} ${fontTitle.variable} font-sans`}>
+            <PromoBar />
             <GoogleMapsProvider>
                 <TourCheckoutProvider>
                     {children}

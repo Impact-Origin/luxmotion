@@ -12,7 +12,7 @@ import { LightSelect } from "@/components/applications/shared/light-select"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { InquiryConfirmationModal } from "@/components/ultra-luxury-tours/detail/inquiry-confirmation-modal"
-import { formatPrice } from "@/lib/format"
+import { useMoney } from "@/components/currency-provider"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
@@ -64,6 +64,7 @@ export function UltraTourInquiryWidget({ price, currency = "€", rating, review
   const t = useTranslations("tourDetails")
   const ti = useTranslations("tourDetails.inquiry")
   const submitInquiry = useMutation(api.tourInquiries.submit)
+  const { format } = useMoney()
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -147,7 +148,7 @@ export function UltraTourInquiryWidget({ price, currency = "€", rating, review
         <div className="flex flex-col gap-[6px] border-b-[0.8px] border-[rgba(154,117,53,0.22)] px-6 pb-[21px] pt-6">
           <span className="text-[12px] font-semibold uppercase tracking-[1.35px] text-[#8c8680]">{ti("from")}</span>
           <span className="leading-none" style={{ fontFamily: SERIF_FONT }}>
-            <span className="text-[48px] font-semibold text-[#a08248]">{formatPrice(price)}</span>
+            <span className="text-[48px] font-semibold text-[#a08248]">{format(price)}</span>
             <span className="text-[14px] text-[#0d0d0d]">{ti("perPerson")}</span>
           </span>
           <span className="flex items-center gap-[6px] pt-[2px]">
@@ -219,8 +220,8 @@ export function UltraTourInquiryWidget({ price, currency = "€", rating, review
             <FieldLabel>{ti("budget")}</FieldLabel>
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between" style={{ fontFamily: SERIF_FONT }}>
-                <span className="text-[18px] text-[#a08248]">{currency}{budget[0].toLocaleString("de-DE")}</span>
-                <span className="text-[18px] text-[#a08248]">{currency}{budget[1].toLocaleString("de-DE")}</span>
+                <span className="text-[18px] text-[#a08248]">{format(budget[0])}</span>
+                <span className="text-[18px] text-[#a08248]">{format(budget[1])}</span>
               </div>
               <div className="relative h-[3px] w-full bg-[rgba(28,27,24,0.16)]">
                 <div className="absolute h-full bg-[#a08248]" style={{ left: `${pct(budget[0])}%`, right: `${100 - pct(budget[1])}%` }} />
@@ -244,9 +245,9 @@ export function UltraTourInquiryWidget({ price, currency = "€", rating, review
                 />
               </div>
               <div className="flex items-center justify-between text-[10px] text-[#696969]">
-                <span>{currency}500</span>
-                <span>{currency}25,000</span>
-                <span>{currency}50,000+</span>
+                <span>{format(500)}</span>
+                <span>{format(25000)}</span>
+                <span>{format(50000)}+</span>
               </div>
             </div>
           </div>

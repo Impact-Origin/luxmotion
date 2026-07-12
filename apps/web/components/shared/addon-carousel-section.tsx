@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { useSwipe } from "@/hooks/use-swipe"
+import { useMoney } from "@/components/currency-provider"
 
 export interface AddonItem {
   _id: string
@@ -54,9 +55,7 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
 
   const addonSwipe = useSwipe(handleNext, handlePrev)
 
-  const formatPrice = (value: number) => {
-    return value.toLocaleString("de-DE")
-  }
+  const { format } = useMoney()
 
   if (addons.length === 0) return null
 
@@ -128,7 +127,7 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
                 </h3>
                 <div className="flex items-center">
                   <span className="font-bold text-[#0c171c] text-[16px] leading-[1.2]">
-                    {addon.currency}{formatPrice(addon.price)}/
+                    {format(addon.price)}/
                   </span>
                   {addon.pricingType === "per_person" && (
                     <span className="text-[12.8px] text-[#54595f] ml-0.5">

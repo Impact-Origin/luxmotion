@@ -50,7 +50,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
   const [authorBio, setAuthorBio] = React.useState(initialData?.authorBio || "");
   const [authorAvatarId, setAuthorAvatarId] = React.useState<string | undefined>(initialData?.authorAvatarId);
   const [authorAvatarPreview, setAuthorAvatarPreview] = React.useState<string | null>(initialData?.authorAvatarUrl || null);
-  const [originalLanguage, setOriginalLanguage] = React.useState(initialData?.originalLanguage || "en");
+  const [originalLanguage, setOriginalLanguage] = React.useState(initialData?.originalLanguage || "pt");
   const [status, setStatus] = React.useState<"draft" | "published" | "archived">(initialData?.status || "draft");
   const [isFeatured, setIsFeatured] = React.useState(initialData?.isFeatured || false);
   const [isService, setIsService] = React.useState(initialData?.isService || false);
@@ -79,7 +79,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
       setAuthorBio(initialData.authorBio || "");
       setAuthorAvatarId(initialData.authorAvatarId);
       setAuthorAvatarPreview(initialData.authorAvatarUrl || null);
-      setOriginalLanguage(initialData.originalLanguage || "en");
+      setOriginalLanguage(initialData.originalLanguage || "pt");
       setStatus(initialData.status || "draft");
       setIsFeatured(initialData.isFeatured || false);
       setIsService(initialData.isService || false);
@@ -99,7 +99,7 @@ export function BlogForm({ isOpen, onClose, initialData }: BlogFormProps) {
       setAuthorBio("");
       setAuthorAvatarId(undefined);
       setAuthorAvatarPreview(null);
-      setOriginalLanguage("en");
+      setOriginalLanguage("pt");
       setStatus("draft");
       setIsFeatured(false);
       setIsService(false);

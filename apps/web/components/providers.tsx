@@ -4,6 +4,7 @@ import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { NextIntlClientProvider } from "next-intl"
 import { Toaster } from "@workspace/ui/components/sonner"
+import { CurrencyProvider } from "@/components/currency-provider"
 
 interface ProvidersProps {
   children: React.ReactNode
@@ -22,7 +23,7 @@ export function Providers({ children, locale, messages, timeZone }: ProvidersPro
         enableSystem={false}
         disableTransitionOnChange
       >
-        {children}
+        <CurrencyProvider>{children}</CurrencyProvider>
         <Toaster
           theme="dark"
           position="bottom-right"

@@ -7,6 +7,13 @@ const SETTINGS_KEY = "global";
 export const siteSettingsDefaults = {
   // Minimum hours a transfer must be booked in advance (blocks "same hour" bookings).
   minAdvanceBookingHours: 2,
+  // Scrolling announcement bar.
+  announcementsEnabled: false,
+  announcements: [] as string[],
+  // "How many X per 1 EUR" — display-only conversion; Stripe still charges EUR.
+  exchangeRates: { BRL: 6.2, USD: 1.08, GBP: 0.85 },
+  // Extra % added to the base transfer fare when the pickup is an airport.
+  airportSurchargePercent: 12,
 } as const;
 
 export const get = query({
@@ -23,22 +30,48 @@ export const get = query({
 
     return {
       minAdvanceBookingHours: existing.minAdvanceBookingHours,
+      announcementsEnabled:
+        existing.announcementsEnabled ??
+        siteSettingsDefaults.announcementsEnabled,
+      announcements: existing.announcements ?? [],
+      exchangeRates:
+        existing.exchangeRates ?? siteSettingsDefaults.exchangeRates,
+      airportSurchargePercent:
+        existing.airportSurchargePercent ??
+        siteSettingsDefaults.airportSurchargePercent,
     };
   },
 });
 
+// Merge-style upsert: each admin card saves only the fields it owns, so unset args
+// leave the other settings untouched (booking hours, announcements, exchange rates).
 export const upsert = mutation({
   args: {
-    minAdvanceBookingHours: v.number(),
+    minAdvanceBookingHours: v.optional(v.number()),
+    announcementsEnabled: v.optional(v.boolean()),
+    announcements: v.optional(v.array(v.string())),
+    exchangeRates: v.optional(
+      v.object({ BRL: v.number(), USD: v.number(), GBP: v.number() }),
+    ),
+    airportSurchargePercent: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     if (
-      !Number.isFinite(args.minAdvanceBookingHours) ||
-      args.minAdvanceBookingHours < 0 ||
-      args.minAdvanceBookingHours > 720
+      args.minAdvanceBookingHours !== undefined &&
+      (!Number.isFinite(args.minAdvanceBookingHours) ||
+        args.minAdvanceBookingHours < 0 ||
+        args.minAdvanceBookingHours > 720)
     ) {
       // 0 = no restriction; 720 = 30 days, a sane upper bound.
       throw new Error("minAdvanceBookingHours must be between 0 and 720");
+    }
+    if (
+      args.airportSurchargePercent !== undefined &&
+      (!Number.isFinite(args.airportSurchargePercent) ||
+        args.airportSurchargePercent < 0 ||
+        args.airportSurchargePercent > 100)
+    ) {
+      throw new Error("airportSurchargePercent must be between 0 and 100");
     }
 
     const existing = await ctx.db
@@ -46,17 +79,36 @@ export const upsert = mutation({
       .withIndex("by_key", (q) => q.eq("key", SETTINGS_KEY))
       .first();
 
-    const payload = {
-      key: SETTINGS_KEY,
-      minAdvanceBookingHours: args.minAdvanceBookingHours,
-      updatedAt: Date.now(),
-    };
+    const patch: {
+      minAdvanceBookingHours?: number;
+      announcementsEnabled?: boolean;
+      announcements?: string[];
+      exchangeRates?: { BRL: number; USD: number; GBP: number };
+      airportSurchargePercent?: number;
+      updatedAt: number;
+    } = { updatedAt: Date.now() };
+    if (args.minAdvanceBookingHours !== undefined)
+      patch.minAdvanceBookingHours = args.minAdvanceBookingHours;
+    if (args.announcementsEnabled !== undefined)
+      patch.announcementsEnabled = args.announcementsEnabled;
+    if (args.announcements !== undefined)
+      patch.announcements = args.announcements;
+    if (args.exchangeRates !== undefined)
+      patch.exchangeRates = args.exchangeRates;
+    if (args.airportSurchargePercent !== undefined)
+      patch.airportSurchargePercent = args.airportSurchargePercent;
 
     if (existing) {
-      await ctx.db.patch(existing._id, payload);
+      await ctx.db.patch(existing._id, patch);
       return existing._id;
     }
 
-    return await ctx.db.insert("siteSettings", payload);
+    return await ctx.db.insert("siteSettings", {
+      key: SETTINGS_KEY,
+      minAdvanceBookingHours:
+        args.minAdvanceBookingHours ??
+        siteSettingsDefaults.minAdvanceBookingHours,
+      ...patch,
+    });
   },
 });

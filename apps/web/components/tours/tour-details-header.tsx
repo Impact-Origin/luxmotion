@@ -6,6 +6,7 @@ import { TourInfoBoxes } from "./tour-info-boxes"
 interface TourDetailsHeaderProps {
   title: string
   rating: number
+  reviewCount?: number
   tags: string[]
   duration: string
   tourType: string
@@ -16,6 +17,7 @@ interface TourDetailsHeaderProps {
 export function TourDetailsHeader({
   title,
   rating,
+  reviewCount,
   tags,
   duration,
   tourType,
@@ -58,21 +60,23 @@ export function TourDetailsHeader({
           <span className="italic text-[#C9A96E] font-light">{lastWord}</span>
         </h1>
 
-        <div className="flex items-center gap-[10px] pt-[2.8px] w-full">
-          <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">★★★★★</span>
-          <span
-            className="text-[32px] md:text-[16px] text-white leading-none font-normal"
-            style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
-          >
-            {rating.toFixed(1)}
-          </span>
-          <span
-            className="text-[14px] md:text-[12px] text-[#999] leading-none"
-            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
-          >
-            · 317 {t("reviews")}
-          </span>
-        </div>
+        {reviewCount ? (
+          <div className="flex items-center gap-[10px] pt-[2.8px] w-full">
+            <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">★★★★★</span>
+            <span
+              className="text-[32px] md:text-[16px] text-white leading-none font-normal"
+              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+            >
+              {rating > 0 ? rating.toFixed(1) : "5.0"}
+            </span>
+            <span
+              className="text-[14px] md:text-[12px] text-[#999] leading-none"
+              style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            >
+              · {reviewCount} {t("reviews")}
+            </span>
+          </div>
+        ) : null}
       </div>
     </div>
   )

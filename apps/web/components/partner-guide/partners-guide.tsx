@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
 import {
-  Check, ArrowRight, Download, Star, Handshake, LayoutGrid,
+  Check, ArrowRight, Star, Handshake, LayoutGrid,
 } from "lucide-react"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { FeatureBar } from "./client-guide"
@@ -294,11 +294,6 @@ function PartnerStepRow({ step, index }: { step: PStep; index: number }) {
           <p className="mt-1 max-w-[480px] border-l-2 border-[#C9A96E] bg-[rgba(201,169,110,0.06)] px-4 py-3 text-[13px] leading-[1.5] text-[#cfc9bf]" style={sans}>
             <span className="font-semibold text-[#C9A96E]">{step.noteLabel}</span> {step.note}
           </p>
-          {step.button && (
-            <button type="button" className="mt-1 flex w-fit items-center gap-2 border border-[rgba(201,169,110,0.4)] px-5 py-3 text-[12px] font-semibold uppercase tracking-[1px] text-[#C9A96E] transition-colors hover:bg-[rgba(201,169,110,0.08)]" style={sans}>
-              <Download className="h-4 w-4" /> {step.button}
-            </button>
-          )}
         </div>
       </div>
       <div className={`relative flex items-center justify-center overflow-hidden bg-[#141414] px-7 py-14 md:px-10 md:py-16 ${textFirst ? "" : "lg:order-1"}`}>

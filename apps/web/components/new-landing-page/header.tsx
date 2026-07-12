@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
+import { CurrencySwitcher } from "@/components/new-landing-page/currency-switcher"
 
 const HERO_SCROLL_THRESHOLD = 320
 const MOBILE_MAX_WIDTH = 767
@@ -271,7 +272,7 @@ export function Header({
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "fixed top-[var(--promo-h,0px)] left-0 right-0 z-50 transition-all duration-300",
           isTransparent
             ? "bg-transparent"
             : isLight
@@ -346,6 +347,7 @@ export function Header({
 
           <div className="hidden xl:flex items-center gap-[8px]">
             {themeToggle}
+            <CurrencySwitcher variant={variant} />
             <LangSwitcher variant={variant} />
             <Link
               href="/checkout"
@@ -362,6 +364,7 @@ export function Header({
 
           <div className="xl:hidden flex items-center gap-[8px]">
             {themeToggle}
+            <CurrencySwitcher variant={variant} />
             <LangSwitcher variant={variant} />
             <button
               onClick={() => setMobileMenuOpen(true)}

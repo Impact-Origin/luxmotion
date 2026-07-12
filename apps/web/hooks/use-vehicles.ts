@@ -3,6 +3,7 @@
 import { useQuery } from "convex/react";
 import { api } from "@workspace/convex/api";
 import { useMemo } from "react";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 
 /** Percentagem de imposto de noite sobre o preço base (tarifa dia) das pernas em horário noturno (22h–08h). */
 const NIGHT_TAX_PERCENT = 20;
@@ -24,6 +25,8 @@ interface UseVehiclesProps {
   isNightReturn?: boolean;
   /** When true, price is computed for both outbound and return legs (each with its own night/day rate). */
   bookReturn?: boolean;
+  /** When true, the outbound pickup is an airport → +12% on that leg's base fare. */
+  isAirportPickup?: boolean;
   partnershipSlug?: string;
   upgradeMode?: boolean;
   currentVehiclePassengers?: number;
@@ -37,12 +40,14 @@ export function useVehicles({
   isNight,
   isNightReturn,
   bookReturn = false,
+  isAirportPickup = false,
   partnershipSlug,
   upgradeMode = false,
   currentVehiclePassengers = 0,
   currentVehicleLuggage = 0,
 }: UseVehiclesProps) {
   const convexVehicles = useQuery(api.vehicles.listActive, { partnershipSlug });
+  const { airportSurchargePercent } = useSiteSettings();
 
   const formattedVehicles = useMemo(() => {
     if (!convexVehicles) return [];
@@ -79,23 +84,31 @@ export function useVehicles({
         let nightTaxOutbound = 0;
         let nightTaxReturn = 0;
 
+        // Airport pickup surcharge ("ideia do Afonso"): +12% on the OUTBOUND leg's
+        // base fare only (the leg whose pickup is the airport). Applied to the base
+        // transfer fare, before the night tax and the downstream 6% tax/insurance/extras.
+        const airportPct = isAirportPickup ? airportSurchargePercent / 100 : 0;
+
         if (bookReturn && hasDistance) {
-          const dayPriceOutbound = Math.max(v.minimumPrice, dayRate * distance);
-          const dayPriceReturn = Math.max(v.minimumPrice, dayRate * distance);
-          dayFinalPrice = dayPriceOutbound + dayPriceReturn;
+          const dayBaseOutbound = Math.max(v.minimumPrice, dayRate * distance);
+          const dayBaseReturn = Math.max(v.minimumPrice, dayRate * distance);
+          const airportSurcharge = dayBaseOutbound * airportPct;
+          dayFinalPrice = dayBaseOutbound + dayBaseReturn + airportSurcharge;
           nightTaxOutbound = isNight
-            ? Math.max(dayPriceOutbound * (NIGHT_TAX_PERCENT / 100), NIGHT_TAX_MIN_EUR)
+            ? Math.max(dayBaseOutbound * (NIGHT_TAX_PERCENT / 100), NIGHT_TAX_MIN_EUR)
             : 0;
           nightTaxReturn = isNightReturn
-            ? Math.max(dayPriceReturn * (NIGHT_TAX_PERCENT / 100), NIGHT_TAX_MIN_EUR)
+            ? Math.max(dayBaseReturn * (NIGHT_TAX_PERCENT / 100), NIGHT_TAX_MIN_EUR)
             : 0;
           finalPrice = dayFinalPrice + nightTaxOutbound + nightTaxReturn;
           pricePerKmValue = dayRate;
         } else {
           const dayCalculatedPrice = hasDistance ? dayRate * distance : 0;
-          dayFinalPrice = hasDistance ? Math.max(v.minimumPrice, dayCalculatedPrice) : 0;
+          const dayBase = hasDistance ? Math.max(v.minimumPrice, dayCalculatedPrice) : 0;
+          const airportSurcharge = dayBase * airportPct;
+          dayFinalPrice = dayBase + airportSurcharge;
           nightTaxOutbound = isNight
-            ? Math.max(dayFinalPrice * (NIGHT_TAX_PERCENT / 100), NIGHT_TAX_MIN_EUR)
+            ? Math.max(dayBase * (NIGHT_TAX_PERCENT / 100), NIGHT_TAX_MIN_EUR)
             : 0;
           finalPrice = dayFinalPrice + nightTaxOutbound;
           pricePerKmValue = dayRate;
@@ -119,7 +132,7 @@ export function useVehicles({
           order: v.order,
         };
       });
-  }, [convexVehicles, passengers, luggage, distance, isNight, isNightReturn, bookReturn, upgradeMode, currentVehiclePassengers, currentVehicleLuggage]);
+  }, [convexVehicles, airportSurchargePercent, passengers, luggage, distance, isNight, isNightReturn, bookReturn, isAirportPickup, upgradeMode, currentVehiclePassengers, currentVehicleLuggage]);
 
   return {
     vehicles: formattedVehicles,

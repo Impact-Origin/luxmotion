@@ -13,7 +13,7 @@ export function PartnerGuide({ initialTab = "clients" }: { initialTab?: "clients
 
   return (
     <>
-      <div className="sticky top-[60px] z-30 border-b border-[rgba(255,255,255,0.1)] bg-[#0D0D0D]/90 backdrop-blur lg:top-[72px]">
+      <div className="sticky top-[calc(var(--promo-h,0px)_+_60px)] z-30 border-b border-[rgba(255,255,255,0.1)] bg-[#0D0D0D]/90 backdrop-blur lg:top-[calc(var(--promo-h,0px)_+_72px)]">
         <div className="mx-auto flex max-w-[1280px] items-stretch justify-center px-4">
           {(["clients", "partners"] as const).map((key) => {
             const active = tab === key

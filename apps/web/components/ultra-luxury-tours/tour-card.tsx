@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
 import { MapPin, Clock, Users, Star, ArrowRight } from "lucide-react"
-import { formatPrice } from "@/lib/format"
+import { useMoney } from "@/components/currency-provider"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
@@ -51,6 +51,7 @@ function MetaItem({ icon, label }: { icon: React.ReactNode; label: string }) {
 
 export function UltraTourCard({ tour }: { tour: UltraTourCardData }) {
   const t = useTranslations("ultraLuxuryTours.tours")
+  const { format } = useMoney()
 
   return (
     <Link
@@ -103,7 +104,7 @@ export function UltraTourCard({ tour }: { tour: UltraTourCardData }) {
               className="text-[32px] font-semibold leading-none text-[#C9A96E]"
               style={{ fontFamily: SERIF_FONT }}
             >
-              {formatPrice(tour.price)}
+              {format(tour.price)}
             </span>
           </div>
           <span className="flex size-[32px] items-center justify-center border border-[#C9A96E] text-[#C9A96E] transition-colors group-hover:bg-[#C9A96E] group-hover:text-[#0d0d0d]">

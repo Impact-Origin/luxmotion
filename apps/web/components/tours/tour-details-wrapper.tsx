@@ -49,14 +49,20 @@ export function TourDetailsWrapper({ slug }: TourDetailsWrapperProps) {
 
     included: included || tour.included || [],
     excluded: excluded || tour.excluded || [],
-    itinerary: tour.stops?.map((stop) => ({
-      time: stop.time,
-      title: stop.title,
-      description: stop.description || "",
-      image: stop.showImage ? (stop.imageUrl || undefined) : undefined,
-      lat: stop.lat,
-      lng: stop.lng,
-    })) || [],
+    itinerary: tour.stops?.map((stop) => {
+      const stopTranslation =
+        locale && locale !== tour.originalLanguage
+          ? stop.translations?.find((tr) => tr.locale === locale)
+          : null
+      return {
+        time: stop.time,
+        title: stopTranslation?.title ?? stop.title,
+        description: stopTranslation?.description ?? stop.description ?? "",
+        image: stop.showImage ? (stop.imageUrl || undefined) : undefined,
+        lat: stop.lat,
+        lng: stop.lng,
+      }
+    }) || [],
     pickup: tour.pickup || { title: "", address: "" },
     dropoff: tour.dropoff || { title: "", address: "" },
     mapCenter: tour.mapCenter || { lat: 38.7223, lng: -9.1393 },

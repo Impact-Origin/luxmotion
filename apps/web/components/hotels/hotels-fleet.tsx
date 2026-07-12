@@ -21,7 +21,7 @@ const BADGE_STYLES: Record<Badge, string> = {
 const EXECUTIVE: Veh[] = [
   { name: "Mercedes S400", image: "/fleet/vehicles/mercedes-s400.png", paxMin: 1, paxMax: 3, badges: [] },
   { name: "Porsche Panamera", image: "/fleet/vehicles/porsche-panamera.png", paxMin: 1, paxMax: 4, badges: [] },
-  { name: "Tesla Model Y", image: "/fleet/vehicles/tesla-model-y.png", paxMin: 1, paxMax: 4, badges: ["premium", "eco", "electric"] },
+  { name: "Mercedes Sprinter", image: "/fleet/vehicles/mercedes-sprinter.png", paxMin: 1, paxMax: 16, badges: ["premium"] },
   { name: "Mercedes EQV", image: "/fleet/van/Van executiva.webp", paxMin: 1, paxMax: 8, badges: ["premium", "eco", "electric"] },
   { name: "Bus Executive", image: "/fleet/vehicles/executive-coach.png", paxMin: 1, paxMax: 3, badges: [] },
 ]
@@ -31,7 +31,7 @@ const STANDARD: Veh[] = [
   { name: "Peugeot e-208", image: "/fleet/vehicles/peugeot-e208.png", paxMin: 1, paxMax: 4, badges: [] },
   { name: "Renault Clio", image: "/fleet/vehicles/renault-clio.png", paxMin: 1, paxMax: 4, badges: [] },
   { name: "Dacia Jogger", image: "/fleet/vehicles/dacia-jogger.png", paxMin: 1, paxMax: 5, badges: ["premium"] },
-  { name: "Mercedes Sprinter", image: "/fleet/vehicles/mercedes-sprinter.png", paxMin: 1, paxMax: 16, badges: ["premium"] },
+  { name: "Tesla Model Y", image: "/fleet/vehicles/tesla-model-y.png", paxMin: 1, paxMax: 4, badges: ["premium", "eco", "electric"] },
 ]
 
 const GALLERY = [

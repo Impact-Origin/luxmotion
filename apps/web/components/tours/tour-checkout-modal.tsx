@@ -19,6 +19,7 @@ import { useConvex, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import type { TourCheckoutTour } from "@/components/tours/tour-checkout-context"
+import { useMoney } from "@/components/currency-provider"
 
 const SERIF_FONT = "'Cormorant Garamond', serif"
 
@@ -99,8 +100,8 @@ function OrderSummarySidebar({
   selectedAddons?: Array<{ addonId: string; title: string; price: number; pricingType: "per_person" | "flat"; quantity: number; subtotal: number }>
   t: (key: string) => string
 }) {
+  const { format, isEur } = useMoney()
   if (!tour) return null
-  const currency = tour.currency ?? "€"
   const dateTime =
     bookingData?.date && bookingData.time
       ? `${bookingData.date.toLocaleDateString()} - ${bookingData.time}`
@@ -134,19 +135,19 @@ function OrderSummarySidebar({
             <p className="text-[11px] sm:text-[12px] text-[#999] mt-1 leading-[1.2]">{dateTime}</p>
             {guests > 0 && (
               <p className="text-[11px] sm:text-[12px] text-[#696969] mt-0.5">
-                {t("tourCheckout.passengers")}: {guests} × {currency}{tour.price.toFixed(2)}
+                {t("tourCheckout.passengers")}: {guests} × €{tour.price.toFixed(2)}
               </p>
             )}
           </div>
           <div className="text-right shrink-0 self-start">
-            <span className="font-bold text-[#F7F4EF] text-[14px] sm:text-[16px]">{currency}{basePrice.toFixed(2)}</span>
+            <span className="font-bold text-[#F7F4EF] text-[14px] sm:text-[16px]">€{basePrice.toFixed(2)}</span>
           </div>
         </div>
 
         <div className="mt-5 pt-5 border-t border-[rgba(255,255,255,0.06)] space-y-1.5">
           <div className="flex justify-between text-[12px] sm:text-[13px]">
             <span className="text-[#999]">{t("tourCheckout.subtotal")}</span>
-            <span className="font-medium text-[#F7F4EF]">{currency}{basePrice.toFixed(2)}</span>
+            <span className="font-medium text-[#F7F4EF]">€{basePrice.toFixed(2)}</span>
           </div>
           {selectedAddons && selectedAddons.length > 0 && (
             <>
@@ -159,19 +160,19 @@ function OrderSummarySidebar({
                   <span className="text-[#999]">
                     {addon.title}{addon.pricingType === "per_person" ? ` (×${addon.quantity})` : ""}
                   </span>
-                  <span className="font-medium text-[#F7F4EF]">{currency}{addon.subtotal.toFixed(2)}</span>
+                  <span className="font-medium text-[#F7F4EF]">€{addon.subtotal.toFixed(2)}</span>
                 </div>
               ))}
               <div className="flex justify-between text-[12px] sm:text-[13px]">
                 <span className="text-[#999]">{t("tourCheckout.addOnsTotal")}</span>
-                <span className="font-medium text-[#F7F4EF]">{currency}{(addonsTotal ?? 0).toFixed(2)}</span>
+                <span className="font-medium text-[#F7F4EF]">€{(addonsTotal ?? 0).toFixed(2)}</span>
               </div>
             </>
           )}
           {isStep4 && totalAmount !== basePrice + (addonsTotal ?? 0) && (
             <div className="flex justify-between text-[12px] sm:text-[13px]">
               <span className="text-[#999]">{t("tourCheckout.tip")}</span>
-              <span className="font-medium text-[#F7F4EF]">{currency}{(totalAmount - basePrice - (addonsTotal ?? 0)).toFixed(2)}</span>
+              <span className="font-medium text-[#F7F4EF]">€{(totalAmount - basePrice - (addonsTotal ?? 0)).toFixed(2)}</span>
             </div>
           )}
           <div className="flex justify-between items-baseline pt-3">
@@ -185,9 +186,14 @@ function OrderSummarySidebar({
               className="text-[22px] sm:text-[24px] font-bold text-[#C9A96E]"
               style={{ fontFamily: SERIF_FONT }}
             >
-              {currency}{totalAmount.toFixed(2)}
+              €{totalAmount.toFixed(2)}
             </span>
           </div>
+          {!isEur && (
+            <p className="text-[11px] text-[#999] text-right pt-1">
+              ≈ {format(totalAmount)}
+            </p>
+          )}
         </div>
 
         <button

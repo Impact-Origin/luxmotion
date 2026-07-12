@@ -7,6 +7,7 @@ import { TourGuestsDropdownContent } from "./tour-guests-dropdown"
 import type { TripType, TourPassengerState, WidgetProductItem } from "./types"
 import { cn } from "@workspace/ui/lib/utils"
 import { Themed } from "@/components/themed"
+import { useMoney } from "@/components/currency-provider"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
 import { useIsMobile } from "@/hooks/use-is-mobile"
@@ -65,6 +66,7 @@ export function EventsTourForm({
   const [showEventDropdown, setShowEventDropdown] = useState(false)
   const isMobile = useIsMobile()
   const { isPreviewMode } = useDynamicTheme()
+  const { format } = useMoney()
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
   const isEvents = tripType === "events"
   const hasRequiredDateTime =
@@ -402,7 +404,7 @@ export function EventsTourForm({
                 </button>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className="text-lg font-bold text-gray-900">EUR {(selectedItem.price * (passengers.adults + passengers.children || 1)).toFixed(2)}</span>
+                <span className="text-lg font-bold text-gray-900">{format(selectedItem.price * (passengers.adults + passengers.children || 1))}</span>
                 <button
                   type="button"
                   onClick={() => {

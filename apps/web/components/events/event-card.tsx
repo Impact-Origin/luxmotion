@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { Star, Calendar, MapPin, Clock } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
+import { useMoney } from "@/components/currency-provider"
 
 export interface EventCardData {
   slug: string
@@ -47,18 +48,7 @@ export function EventCard({ event, className }: EventCardProps) {
     })
   }
 
-  const getCurrencySymbol = (currency: string) => {
-    switch (currency) {
-      case "EUR":
-        return "€"
-      case "USD":
-        return "$"
-      case "GBP":
-        return "£"
-      default:
-        return currency
-    }
-  }
+  const { format } = useMoney()
 
   return (
     <Link
@@ -138,11 +128,11 @@ export function EventCard({ event, className }: EventCardProps) {
           <div className="text-right">
             {event.originalPrice && event.originalPrice > event.basePrice && (
               <span className="text-xs text-zinc-400 line-through mr-1">
-                {getCurrencySymbol(event.currency)}{event.originalPrice}
+                {format(event.originalPrice)}
               </span>
             )}
             <span className="font-bold text-zinc-900">
-              {getCurrencySymbol(event.currency)}{event.basePrice}
+              {format(event.basePrice)}
             </span>
           </div>
         </div>
