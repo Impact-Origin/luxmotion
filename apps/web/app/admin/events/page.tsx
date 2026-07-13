@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { EventForm } from "@/components/admin/event-form"
 import { EventTranslationForm } from "@/components/admin/event-translation-form"
 import {
   Plus,
@@ -43,8 +43,7 @@ import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQu
 
 export default function AdminEventsPage() {
   const t = useTranslations("adminEvents")
-  const [isFormOpen, setIsFormOpen] = React.useState(false)
-  const [editingEvent, setEditingEvent] = React.useState<any>(null)
+  const router = useRouter()
   const [translatingEvent, setTranslatingEvent] = React.useState<any>(null)
   const [deletingEventId, setDeletingEventId] = React.useState<string | null>(null)
 
@@ -58,13 +57,11 @@ export default function AdminEventsPage() {
   type EventRow = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (event: any) => {
-    setEditingEvent(event)
-    setIsFormOpen(true)
+    router.push(`/admin/events/${event._id}/edit`)
   }
 
   const handleCreate = () => {
-    setEditingEvent(null)
-    setIsFormOpen(true)
+    router.push("/admin/events/new")
   }
 
   const handleDelete = async () => {
@@ -312,15 +309,6 @@ export default function AdminEventsPage() {
         emptyTitle={t("noEventsFound")}
         emptyDescription={res && res.total === 0 ? t("getStarted") : t("tryFilters")}
         emptyIcon={Calendar}
-      />
-
-      <EventForm
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false)
-          setEditingEvent(null)
-        }}
-        initialData={editingEvent}
       />
 
       {translatingEvent && (

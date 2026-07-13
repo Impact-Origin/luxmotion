@@ -3,8 +3,8 @@
 import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { useRouter } from "next/navigation"
 import { Button } from "@workspace/ui/components/button"
-import { DriverForm } from "@/components/admin/driver-form"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import {
@@ -38,8 +38,7 @@ import Image from "next/image"
 
 export default function AdminDriversPage() {
   const t = useTranslations("adminDrivers")
-  const [isFormOpen, setIsFormOpen] = React.useState(false)
-  const [editingDriver, setEditingDriver] = React.useState<any>(null)
+  const router = useRouter()
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
@@ -49,13 +48,11 @@ export default function AdminDriversPage() {
   type Driver = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (driver: Driver) => {
-    setEditingDriver(driver)
-    setIsFormOpen(true)
+    router.push(`/admin/drivers/${driver._id}/edit`)
   }
 
   const handleCreate = () => {
-    setEditingDriver(null)
-    setIsFormOpen(true)
+    router.push("/admin/drivers/new")
   }
 
   const handleDelete = async () => {
@@ -211,15 +208,6 @@ export default function AdminDriversPage() {
         emptyTitle={t("noDriversFound")}
         emptyDescription={t("tryFilters")}
         emptyIcon={UserCheck}
-      />
-
-      <DriverForm
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false)
-          setEditingDriver(null)
-        }}
-        initialData={editingDriver}
       />
 
       <AlertDialog open={!!deletingId} onOpenChange={() => setDeletingId(null)}>

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@workspace/convex/api";
 import {
@@ -26,7 +27,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
-import { BlogForm } from "@/components/admin/blog-form";
 import { BlogTranslationForm } from "@/components/admin/blog-translation-form";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
@@ -53,6 +53,7 @@ function formatDate(timestamp: number): string {
 
 export default function BlogsPage() {
   const t = useTranslations("adminBlogs");
+  const router = useRouter();
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
   const res = useQuery(api.blogs.listPaged, tableQuery);
   const categories = useQuery(api.blogs.getCategories);
@@ -61,14 +62,11 @@ export default function BlogsPage() {
 
   type Blog = NonNullable<typeof res>["rows"][number];
 
-  const [isFormOpen, setIsFormOpen] = React.useState(false);
-  const [editingBlog, setEditingBlog] = React.useState<any>(null);
   const [isTranslationFormOpen, setIsTranslationFormOpen] = React.useState(false);
   const [translatingBlog, setTranslatingBlog] = React.useState<any>(null);
 
   const handleEdit = (blog: any) => {
-    setEditingBlog(blog);
-    setIsFormOpen(true);
+    router.push(`/admin/blogs/${blog._id}/edit`);
   };
 
   const handleDelete = async (id: any) => {
@@ -92,8 +90,7 @@ export default function BlogsPage() {
   };
 
   const handleCreateNew = () => {
-    setEditingBlog(null);
-    setIsFormOpen(true);
+    router.push("/admin/blogs/new");
   };
 
   const handleManageTranslations = (blog: any) => {
@@ -320,16 +317,6 @@ export default function BlogsPage() {
         }
         emptyTitle={t("noBlogsFound")}
         emptyIcon={FileText}
-      />
-
-      <BlogForm
-        key={editingBlog?._id || "new"}
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false);
-          setEditingBlog(null);
-        }}
-        initialData={editingBlog}
       />
 
       {translatingBlog && (

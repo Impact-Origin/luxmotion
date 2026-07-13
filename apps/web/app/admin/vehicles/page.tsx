@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@workspace/convex/api";
+import { useRouter } from "next/navigation";
 import { Plus, MoreVertical, Edit2, Trash2, Wifi, Zap, Building2, Car } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -14,11 +15,11 @@ import {
 } from "@workspace/ui/components/dropdown-menu";
 import Image from "next/image";
 import { toast } from "sonner";
-import { VehicleForm } from "@/components/admin/vehicle-form";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 
 export default function VehiclesPage() {
+  const router = useRouter();
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
   const res = useQuery(api.vehicles.listPaged, tableQuery);
   const partnerships = useQuery(api.partnerships.list);
@@ -26,12 +27,12 @@ export default function VehiclesPage() {
 
   type Vehicle = NonNullable<typeof res>["rows"][number];
 
-  const [isFormOpen, setIsFormOpen] = React.useState(false);
-  const [editingVehicle, setEditingVehicle] = React.useState<any>(null);
-
   const handleEdit = (vehicle: Vehicle) => {
-    setEditingVehicle(vehicle);
-    setIsFormOpen(true);
+    router.push(`/admin/vehicles/${vehicle._id}/edit`);
+  };
+
+  const handleCreate = () => {
+    router.push("/admin/vehicles/new");
   };
 
   const handleDelete = async (id: Vehicle["_id"]) => {
@@ -208,8 +209,7 @@ export default function VehiclesPage() {
   );
 
   return (
-    <>
-      <DataTable<Vehicle>
+    <DataTable<Vehicle>
         mode="server"
         data={res?.rows}
         total={res?.total ?? 0}
@@ -222,12 +222,7 @@ export default function VehiclesPage() {
         renderCard={renderCard}
         rowActions={rowActions}
         toolbarActions={
-          <Button
-            onClick={() => {
-              setEditingVehicle(null);
-              setIsFormOpen(true);
-            }}
-          >
+          <Button onClick={handleCreate}>
             <Plus className="mr-2 size-4" />
             Add vehicle
           </Button>
@@ -236,16 +231,5 @@ export default function VehiclesPage() {
         emptyDescription="Add a vehicle or adjust your search and filters."
         emptyIcon={Car}
       />
-
-      <VehicleForm
-        key={editingVehicle?._id || "new"}
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false);
-          setEditingVehicle(null);
-        }}
-        initialData={editingVehicle}
-      />
-    </>
   );
 }

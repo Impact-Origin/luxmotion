@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { ExperienceForm } from "@/components/admin/experience-form"
 import { Plus, Pencil, Trash2, MoreHorizontal, Briefcase, MapPin } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -31,8 +31,7 @@ import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQu
 
 export default function AdminExperiencesPage() {
   const t = useTranslations("adminExperiences")
-  const [isFormOpen, setIsFormOpen] = React.useState(false)
-  const [editingExperience, setEditingExperience] = React.useState<any>(null)
+  const router = useRouter()
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
@@ -42,13 +41,11 @@ export default function AdminExperiencesPage() {
   type ExperienceRow = NonNullable<typeof res>["rows"][number]
 
   const handleEdit = (experience: any) => {
-    setEditingExperience(experience)
-    setIsFormOpen(true)
+    router.push(`/admin/experiences/${experience._id}/edit`)
   }
 
   const handleCreate = () => {
-    setEditingExperience(null)
-    setIsFormOpen(true)
+    router.push("/admin/experiences/new")
   }
 
   const handleDelete = async () => {
@@ -225,15 +222,6 @@ export default function AdminExperiencesPage() {
         emptyTitle={t("noExperiencesFound")}
         emptyDescription={t("tryFilters")}
         emptyIcon={Briefcase}
-      />
-
-      <ExperienceForm
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false)
-          setEditingExperience(null)
-        }}
-        initialData={editingExperience}
       />
 
       <AlertDialog open={!!deletingId} onOpenChange={() => setDeletingId(null)}>

@@ -3,13 +3,7 @@
 import * as React from "react"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@workspace/ui/components/dialog"
+import { cn } from "@workspace/ui/lib/utils"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
@@ -39,22 +33,35 @@ import {
   DollarSign,
   Calendar,
   Gem,
+  X,
+  ArrowLeft,
+  ArrowRight,
+  Check,
 } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
+import { Tabs, TabsContent } from "@workspace/ui/components/tabs"
 import { LANGUAGES, PORTUGAL_LOCATIONS } from "./constants"
 import { useTranslations } from "next-intl"
 
+const STEP_ORDER = [
+  "basic",
+  "content",
+  "media",
+  "meeting",
+  "pricing",
+  "addons",
+  "settings",
+  "seo",
+]
+
 interface EventFormProps {
-  isOpen: boolean
   onClose: () => void
   initialData?: any
 }
 
-export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
+export function EventForm({ onClose, initialData }: EventFormProps) {
   const t = useTranslations("adminEvents")
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [activeTab, setActiveTab] = React.useState("basic")
-  const tabsScrollRef = React.useRef<HTMLDivElement>(null)
 
   const [title, setTitle] = React.useState("")
   const [subtitle, setSubtitle] = React.useState("")
@@ -148,7 +155,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
     } else {
       resetForm()
     }
-  }, [initialData, isOpen])
+  }, [initialData])
 
   const resetForm = () => {
     setTitle("")
@@ -195,6 +202,13 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Wizard: pressing Enter / submitting before the last step just advances.
+    if (activeTab !== "seo") {
+      const idx = STEP_ORDER.indexOf(activeTab)
+      setActiveTab(STEP_ORDER[Math.min(STEP_ORDER.length - 1, idx + 1)]!)
+      return
+    }
 
     if (!title.trim()) {
       toast.error(t("form.titleRequired"))
@@ -270,54 +284,93 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
     }
   }
 
+  const headerTitle = initialData ? t("form.editEvent") : t("form.addNewEvent")
+  const headerDescription = initialData
+    ? t("form.editDescription")
+    : t("form.createDescription")
+
+  const STEPS = [
+    { value: "basic", label: t("form.tabs.basic"), icon: Info },
+    { value: "content", label: t("form.tabs.content"), icon: FileText },
+    { value: "media", label: t("form.tabs.media"), icon: Image },
+    { value: "meeting", label: t("form.tabs.meetingPoint"), icon: MapPin },
+    { value: "pricing", label: t("form.tabs.pricing"), icon: DollarSign },
+    { value: "addons", label: t("form.tabs.addons"), icon: Gem },
+    { value: "settings", label: t("form.tabs.settings"), icon: Settings },
+    { value: "seo", label: t("form.tabs.seo"), icon: Search },
+  ]
+  const currentStepIndex = Math.max(0, STEP_ORDER.indexOf(activeTab))
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 flex flex-col overflow-hidden">
-        <DialogHeader className="p-6 border-b shrink-0">
-          <DialogTitle>{initialData ? t("form.editEvent") : t("form.addNewEvent")}</DialogTitle>
-          <DialogDescription>
-            {initialData
-              ? t("form.editDescription")
-              : t("form.createDescription")}
-          </DialogDescription>
-        </DialogHeader>
+    <form onSubmit={onSubmit} className="flex flex-col gap-5 pb-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-2xl font-semibold text-foreground">{headerTitle}</h2>
+          <p className="text-sm text-muted-foreground">{headerDescription}</p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar"
+          className="shrink-0 rounded-full h-9 w-9 flex items-center justify-center bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
 
-        <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
-            <div ref={tabsScrollRef} className="shrink-0 border-b border-border overflow-x-auto">
-              <TabsList className="h-auto w-full bg-transparent p-0 flex flex-wrap">
-                {[
-                  { value: "basic", label: t("form.tabs.basic"), icon: Info },
-                  { value: "content", label: t("form.tabs.content"), icon: FileText },
-                  { value: "media", label: t("form.tabs.media"), icon: Image },
-                  { value: "meeting", label: t("form.tabs.meetingPoint"), icon: MapPin },
-                  { value: "pricing", label: t("form.tabs.pricing"), icon: DollarSign },
-                  { value: "addons", label: t("form.tabs.addons"), icon: Gem },
-                  { value: "settings", label: t("form.tabs.settings"), icon: Settings },
-                  { value: "seo", label: t("form.tabs.seo"), icon: Search },
-                ].map((tab) => (
-                  <TabsTrigger
-                    key={tab.value}
-                    value={tab.value}
-                    onClick={(e) => {
-                      const el = e.currentTarget
-                      const container = tabsScrollRef.current
-                      if (container) {
-                        const offset = el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2
-                        container.scrollTo({ left: offset, behavior: "smooth" })
-                      }
-                    }}
-                    className="shrink-0 px-3 py-2.5 rounded-none border-b-2 border-transparent text-xs font-medium transition-all whitespace-nowrap data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent"
-                  >
-                    <tab.icon className="h-3.5 w-3.5 mr-1.5" />
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
+      <div className="sticky top-0 z-10 -mx-4 border-b border-border bg-background/95 px-4 py-3 backdrop-blur lg:-mx-8 lg:px-8">
+        <div className="mb-2 flex items-center justify-between text-xs font-medium uppercase tracking-[1px] text-muted-foreground">
+          <span className="truncate">{STEPS[currentStepIndex]?.label}</span>
+          <span className="shrink-0 pl-3 tabular-nums">
+            {currentStepIndex + 1} / {STEPS.length}
+          </span>
+        </div>
+        <div className="relative h-1 w-full overflow-hidden rounded bg-muted">
+          <div
+            className="absolute left-0 top-0 h-1 rounded bg-primary transition-[width] duration-300 ease-out"
+            style={{ width: `${((currentStepIndex + 1) / STEPS.length) * 100}%` }}
+          />
+        </div>
+        <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {STEPS.map((step, i) => {
+            const isActive = step.value === activeTab
+            const isDone = i < currentStepIndex
+            return (
+              <button
+                key={step.value}
+                type="button"
+                onClick={() => setActiveTab(step.value)}
+                className={cn(
+                  "flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                  isActive
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : isDone
+                      ? "border-primary/40 bg-primary/10 text-foreground hover:bg-primary/15"
+                      : "border-border bg-card text-muted-foreground hover:bg-accent hover:text-foreground",
+                )}
+              >
+                <span
+                  className={cn(
+                    "flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-semibold",
+                    isActive
+                      ? "bg-primary-foreground/20"
+                      : isDone
+                        ? "bg-primary/20"
+                        : "bg-muted",
+                  )}
+                >
+                  {isDone ? <Check className="h-3 w-3" /> : i + 1}
+                </span>
+                <span className="whitespace-nowrap">{step.label}</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
 
-            <div className="flex-1 min-h-0 bg-card">
-              <TabsContent value="basic" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <div className="rounded-lg border border-border bg-card">
+              <TabsContent value="basic" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -448,7 +501,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="content" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="content" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-1.5">
                   <Label className="text-sm font-semibold">{t("form.descriptionLabel")}</Label>
                   <BlogEditor
@@ -485,7 +538,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="media" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="media" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-1.5">
                   <Label className="text-sm font-semibold flex items-center gap-2">
                     <Image className="h-4 w-4" /> {t("form.bannerImageLabel")}
@@ -514,7 +567,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="meeting" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="meeting" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <GoogleMapsInput
                   value={meetingPoint}
                   onChange={setMeetingPoint}
@@ -523,7 +576,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 />
               </TabsContent>
 
-              <TabsContent value="pricing" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="pricing" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
                   <Label className="text-sm font-semibold flex items-center gap-2">
                     <DollarSign className="h-4 w-4" /> {t("form.pricingLabel")}
@@ -620,7 +673,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="addons" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="addons" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <TourAddonsBuilder
                   entityId={initialData?._id}
                   entityType="event"
@@ -628,7 +681,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 />
               </TabsContent>
 
-              <TabsContent value="settings" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="settings" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
                   <Label className="text-sm font-semibold flex items-center gap-2">
                     <Settings className="h-4 w-4" /> {t("form.publishingLabel")}
@@ -697,7 +750,7 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value="seo" className="h-full overflow-y-auto p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+              <TabsContent value="seo" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
                 <div className="space-y-4">
                   <Label className="text-sm font-semibold flex items-center gap-2">
                     <Search className="h-4 w-4" /> {t("form.seoLabel")}
@@ -728,30 +781,49 @@ export function EventForm({ isOpen, onClose, initialData }: EventFormProps) {
                   </div>
                 </div>
               </TabsContent>
-            </div>
-          </Tabs>
+        </div>
+      </Tabs>
 
-          <div className="p-6 border-t bg-muted flex justify-end gap-3 shrink-0">
+      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-between gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur lg:-mx-8 lg:px-8">
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            disabled={isSubmitting}
+            className="h-11 px-5"
+          >
+            {t("form.cancelButton")}
+          </Button>
+          {currentStepIndex > 0 && (
             <Button
               type="button"
-              variant="outline"
-              onClick={onClose}
+              variant="ghost"
+              onClick={() => setActiveTab(STEP_ORDER[currentStepIndex - 1]!)}
               disabled={isSubmitting}
-              className="h-11 px-6"
+              className="h-11 px-4"
             >
-              {t("form.cancelButton")}
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Anterior
             </Button>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="h-11 px-8 font-bold"
-            >
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {initialData ? t("form.saveChanges") : t("form.createEventButton")}
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+          )}
+        </div>
+        {currentStepIndex < STEP_ORDER.length - 1 ? (
+          <Button
+            type="button"
+            onClick={() => setActiveTab(STEP_ORDER[currentStepIndex + 1]!)}
+            className="h-11 px-8 font-bold"
+          >
+            Seguinte
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        ) : (
+          <Button type="submit" disabled={isSubmitting} className="h-11 px-8 font-bold">
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {initialData ? t("form.saveChanges") : t("form.createEventButton")}
+          </Button>
+        )}
+      </div>
+    </form>
   )
 }

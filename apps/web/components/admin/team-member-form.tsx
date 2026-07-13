@@ -3,13 +3,6 @@
 import * as React from "react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@workspace/ui/components/dialog"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Textarea } from "@workspace/ui/components/textarea"
@@ -23,16 +16,15 @@ import {
 } from "@workspace/ui/components/select"
 import { ImageUpload } from "@/components/admin/image-upload"
 import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
+import { Loader2, X } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 interface TeamMemberFormProps {
-  isOpen: boolean
   onClose: () => void
   initialData?: any
 }
 
-export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormProps) {
+export function TeamMemberForm({ onClose, initialData }: TeamMemberFormProps) {
   const t = useTranslations("adminTeam")
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
@@ -59,7 +51,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
     } else {
       resetForm()
     }
-  }, [initialData, isOpen])
+  }, [initialData])
 
   const resetForm = () => {
     setName("")
@@ -109,17 +101,28 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] p-0 flex flex-col overflow-hidden">
-        <DialogHeader className="p-6 border-b shrink-0">
-          <DialogTitle>{initialData ? t("form.editMember") : t("form.addNewMember")}</DialogTitle>
-          <DialogDescription>
+    <form onSubmit={onSubmit} className="flex flex-col gap-5">
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-2xl font-semibold text-foreground">
+            {initialData ? t("form.editMember") : t("form.addNewMember")}
+          </h2>
+          <p className="text-sm text-muted-foreground">
             {initialData ? t("form.editDescription") : t("form.createDescription")}
-          </DialogDescription>
-        </DialogHeader>
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar"
+          className="shrink-0 rounded-full h-9 w-9 flex items-center justify-center bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
 
-        <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
-          <div className="p-6 space-y-5 flex-1 min-h-0 overflow-y-auto">
+      <div className="rounded-lg border border-border bg-card">
+        <div className="p-6 space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">{t("form.nameLabel")} *</Label>
@@ -199,9 +202,10 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
                 />
               </div>
             </div>
-          </div>
+        </div>
+      </div>
 
-          <div className="p-6 border-t bg-muted flex justify-end gap-3 shrink-0">
+      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-end gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur lg:-mx-8 lg:px-8">
             <Button
               type="button"
               variant="outline"
@@ -219,9 +223,7 @@ export function TeamMemberForm({ isOpen, onClose, initialData }: TeamMemberFormP
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {initialData ? t("form.saveChanges") : t("form.createButton")}
             </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </form>
   )
 }
