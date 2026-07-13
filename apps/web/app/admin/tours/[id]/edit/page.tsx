@@ -20,18 +20,13 @@ export default function EditTourPage() {
 
   if (!tour) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex items-center justify-center py-24">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
 
   return (
-    <TourForm
-      variant="page"
-      isOpen
-      initialData={tour}
-      onClose={() => router.push("/admin/tours")}
-    />
+    <TourForm initialData={tour} onClose={() => router.push("/admin/tours")} />
   )
 }
