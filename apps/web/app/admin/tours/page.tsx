@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { useQuery, useMutation, useConvex } from "convex/react"
+import { useRouter } from "next/navigation"
+import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { TourForm } from "@/components/admin/tour-form"
 import { TourTranslationForm } from "@/components/admin/tour-translation-form"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
@@ -17,7 +17,6 @@ import {
   Trash2,
   Eye,
   MoreHorizontal,
-  Loader2,
   Map,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -43,39 +42,25 @@ import Image from "next/image"
 
 export default function AdminToursPage() {
   const t = useTranslations("adminTours")
-  const [isFormOpen, setIsFormOpen] = React.useState(false)
-  const [editingTour, setEditingTour] = React.useState<any>(null)
+  const router = useRouter()
   const [translatingTour, setTranslatingTour] = React.useState<any>(null)
   const [deletingTourId, setDeletingTourId] = React.useState<string | null>(null)
 
-  const convex = useConvex()
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
   const res = useQuery(api.tours.listPaged, tableQuery)
   const destinations = useQuery(api.tours.getDestinations)
   const removeTour = useMutation(api.tours.remove)
   const toggleFeatured = useMutation(api.tours.toggleFeatured)
   const toggleBestseller = useMutation(api.tours.toggleBestseller)
-  const [isLoadingTour, setIsLoadingTour] = React.useState(false)
 
   type Tour = NonNullable<typeof res>["rows"][number]
 
-  const handleEdit = async (tour: Tour) => {
-    setIsLoadingTour(true)
-    try {
-      const fullTour = await convex.query(api.tours.getById, { id: tour._id })
-      setEditingTour(fullTour)
-      setIsFormOpen(true)
-    } catch (error) {
-      console.error("Failed to load tour:", error)
-      toast.error("Failed to load tour details")
-    } finally {
-      setIsLoadingTour(false)
-    }
+  const handleEdit = (tour: Tour) => {
+    router.push(`/admin/tours/${tour._id}/edit`)
   }
 
   const handleCreate = () => {
-    setEditingTour(null)
-    setIsFormOpen(true)
+    router.push("/admin/tours/new")
   }
 
   const handleDelete = async () => {
@@ -328,15 +313,6 @@ export default function AdminToursPage() {
         emptyIcon={Map}
       />
 
-      <TourForm
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false)
-          setEditingTour(null)
-        }}
-        initialData={editingTour}
-      />
-
       {translatingTour && (
         <TourTranslationForm
           isOpen={!!translatingTour}
@@ -346,15 +322,6 @@ export default function AdminToursPage() {
           originalLanguage={translatingTour.originalLanguage}
           availableLanguages={translatingTour.availableLanguages}
         />
-      )}
-
-      {isLoadingTour && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-          <div className="flex items-center gap-3 rounded-lg bg-card p-6 shadow-lg">
-            <Loader2 className="size-5 animate-spin text-muted-foreground" />
-            <span className="font-medium text-foreground">{t("loadingTour")}</span>
-          </div>
-        </div>
       )}
 
       <AlertDialog open={!!deletingTourId} onOpenChange={() => setDeletingTourId(null)}>

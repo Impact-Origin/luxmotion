@@ -43,6 +43,7 @@ import {
   Calendar,
   List,
   Gem,
+  X,
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { LANGUAGES, PORTUGAL_LOCATIONS, TOUR_LANGUAGES, TOUR_TYPES, TOUR_CATEGORIES } from "./constants"
@@ -52,9 +53,11 @@ interface TourFormProps {
   isOpen: boolean
   onClose: () => void
   initialData?: any
+  /** "modal" (default) renders inside a Dialog; "page" renders full-screen for a dedicated route. */
+  variant?: "modal" | "page"
 }
 
-export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
+export function TourForm({ isOpen, onClose, initialData, variant = "modal" }: TourFormProps) {
   const t = useTranslations("adminTours")
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [activeTab, setActiveTab] = React.useState("basic")
@@ -488,19 +491,13 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
     )
   }
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 flex flex-col overflow-hidden">
-        <DialogHeader className="p-6 border-b shrink-0">
-          <DialogTitle>{initialData ? t("form.editTour") : t("form.addNewTour")}</DialogTitle>
-          <DialogDescription>
-            {initialData
-              ? t("form.editDescription")
-              : t("form.createDescription")}
-          </DialogDescription>
-        </DialogHeader>
+  const headerTitle = initialData ? t("form.editTour") : t("form.addNewTour")
+  const headerDescription = initialData
+    ? t("form.editDescription")
+    : t("form.createDescription")
 
-        <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
+  const formContent = (
+    <form onSubmit={onSubmit} className="flex-1 overflow-hidden flex flex-col">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
             <div className="shrink-0 border-b border-border">
               <TabsList className="h-auto w-full bg-transparent p-0 flex flex-wrap">
@@ -1118,6 +1115,38 @@ export function TourForm({ isOpen, onClose, initialData }: TourFormProps) {
             </Button>
           </div>
         </form>
+  )
+
+  if (variant === "page") {
+    return (
+      <div className="fixed inset-0 z-[100] flex flex-col bg-background">
+        <div className="p-6 border-b shrink-0 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-lg font-semibold text-foreground">{headerTitle}</h2>
+            <p className="text-sm text-muted-foreground">{headerDescription}</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar"
+            className="shrink-0 rounded-full h-9 w-9 flex items-center justify-center bg-muted text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        {formContent}
+      </div>
+    )
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] p-0 flex flex-col overflow-hidden">
+        <DialogHeader className="p-6 border-b shrink-0">
+          <DialogTitle>{headerTitle}</DialogTitle>
+          <DialogDescription>{headerDescription}</DialogDescription>
+        </DialogHeader>
+        {formContent}
       </DialogContent>
     </Dialog>
   )

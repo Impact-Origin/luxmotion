@@ -1,8 +1,0 @@
-Manual Vercel deploy trigger.
-
-Vercel skips empty commits, so this file provides a real diff to force a fresh
-production build (e.g. to re-test after fixing the GitHub↔Vercel account link).
-Safe to delete anytime.
-
-Last triggered: 2026-07-13
-Attempt: 2 (re-test after Vercel account link fix)
