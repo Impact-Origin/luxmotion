@@ -117,7 +117,7 @@ export function VehicleForm({ isOpen, onClose, initialData }: VehicleFormProps) 
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
-          <div className="p-6 space-y-5 flex-1">
+          <div className="p-6 space-y-5 flex-1 min-h-0 overflow-y-auto">
           <div className="space-y-3">
               <Label className="text-xs font-medium uppercase text-muted-foreground flex items-center gap-2">
                 <Info className="h-3.5 w-3.5" /> General Information

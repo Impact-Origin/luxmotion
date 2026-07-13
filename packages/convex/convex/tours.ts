@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation, internalMutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
+import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 function withDisplayedReviewCount<
@@ -1058,7 +1059,7 @@ export const remove = mutation({
       }
 
       if (stop.imageId) {
-        await ctx.storage.delete(stop.imageId);
+        await safeStorageDelete(ctx, stop.imageId);
       }
       await ctx.db.delete(stop._id);
     }
@@ -1077,7 +1078,7 @@ export const remove = mutation({
         await ctx.db.delete(at._id);
       }
       if (addon.imageId) {
-        await ctx.storage.delete(addon.imageId);
+        await safeStorageDelete(ctx, addon.imageId);
       }
       await ctx.db.delete(addon._id);
     }
@@ -1110,18 +1111,18 @@ export const remove = mutation({
     }
 
     if (tour.bannerImageId) {
-      await ctx.storage.delete(tour.bannerImageId);
+      await safeStorageDelete(ctx, tour.bannerImageId);
     }
 
     if (tour.additionalBannerIds) {
       for (const imageId of tour.additionalBannerIds) {
-        await ctx.storage.delete(imageId);
+        await safeStorageDelete(ctx, imageId);
       }
     }
 
     if (tour.galleryImageIds) {
       for (const imageId of tour.galleryImageIds) {
-        await ctx.storage.delete(imageId);
+        await safeStorageDelete(ctx, imageId);
       }
     }
 

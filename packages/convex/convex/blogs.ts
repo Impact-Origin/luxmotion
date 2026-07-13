@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { generateSlug, calculateReadTime } from "./lib/utils";
+import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
 export const list = query({
@@ -421,11 +422,11 @@ export const remove = mutation({
     }
 
     if (blog.heroImageId) {
-      await ctx.storage.delete(blog.heroImageId);
+      await safeStorageDelete(ctx, blog.heroImageId);
     }
 
     if (blog.authorAvatarId) {
-      await ctx.storage.delete(blog.authorAvatarId);
+      await safeStorageDelete(ctx, blog.authorAvatarId);
     }
 
     await ctx.db.delete(args.id);

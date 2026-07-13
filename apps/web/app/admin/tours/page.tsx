@@ -85,7 +85,9 @@ export default function AdminToursPage() {
       await removeTour({ id: deletingTourId as any })
       toast.success("Tour deleted successfully")
     } catch (error) {
-      toast.error("Failed to delete tour")
+      toast.error(
+        error instanceof Error ? error.message : "Failed to delete tour",
+      )
     } finally {
       setDeletingTourId(null)
     }

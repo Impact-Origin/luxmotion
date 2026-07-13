@@ -133,7 +133,7 @@ export function ExperienceForm({ isOpen, onClose, initialData }: ExperienceFormP
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
-          <div className="p-6 space-y-5 flex-1">
+          <div className="p-6 space-y-5 flex-1 min-h-0 overflow-y-auto">
             <div className="space-y-2">
               <Label htmlFor="title">{t("form.titleLabel")} *</Label>
               <Input

@@ -124,7 +124,7 @@ export function DriverForm({ isOpen, onClose, initialData }: DriverFormProps) {
         </DialogHeader>
 
         <form onSubmit={onSubmit} className="flex-1 min-h-0 flex flex-col">
-          <div className="p-6 space-y-5 flex-1">
+          <div className="p-6 space-y-5 flex-1 min-h-0 overflow-y-auto">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">{t("form.nameLabel")} *</Label>
