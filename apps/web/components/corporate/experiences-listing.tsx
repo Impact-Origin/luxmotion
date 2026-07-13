@@ -200,32 +200,6 @@ const FALLBACK_IMAGES = [
   "/corporate/experiences/experience-9.png",
 ]
 
-function buildMockExperiences(t: (k: string) => string): ExperienceDetail[] {
-  const td = (key: string) => t(`detail.${key}`)
-  const experienceItems = [
-    { strong: td("experienceItems.0.strong") || "", body: td("experienceItems.0.body") || "" },
-  ]
-  return FALLBACK_IMAGES.map((src, i) => ({
-    _id: `mock-${i}` as any,
-    titlePrefix: t("card.titlePrefix"),
-    titleAccent: t("card.titleAccent"),
-    shortDescription: t("card.description"),
-    duration: "halfDay" as const,
-    pillar: "experiences" as const,
-    subcategory: "teambuilding",
-    groupSize: td("metaPeople"),
-    durationLabel: td("metaDuration"),
-    location: td("metaLocation"),
-    description: td("description"),
-    experienceBody: td("experienceBody1"),
-    experienceItems,
-    routeHighlights: [],
-    whatsIncluded: [],
-    coverImageUrl: src,
-    galleryImageUrls: [src],
-  }))
-}
-
 export function ExperiencesListing() {
   const t = useTranslations("corporatePage.experiences")
   const tPillars = useTranslations("corporatePage.pillars")
@@ -237,7 +211,6 @@ export function ExperiencesListing() {
 
   const experiences = useMemo<ExperienceDetail[]>(() => {
     if (!published) return []
-    if (published.length === 0) return buildMockExperiences(t as any)
     return published.map((e: any) => ({
       _id: e._id,
       titlePrefix: e.titlePrefix,
@@ -257,7 +230,7 @@ export function ExperiencesListing() {
       coverImageUrl: e.coverImageUrl,
       galleryImageUrls: (e.galleryImageUrls ?? []).filter((u: any): u is string => Boolean(u)),
     }))
-  }, [published, t])
+  }, [published])
 
   const filtered = useMemo(() => {
     if (activeFilter === "all") return experiences
