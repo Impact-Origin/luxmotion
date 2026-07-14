@@ -12,7 +12,6 @@ const METHODS = [
   { src: "/wedding/pay-mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
   { src: "/wedding/pay-mbway.svg", alt: "MB Way", w: 42, h: 20 },
   { src: "/wedding/pay-multibanco.svg", alt: "Multibanco", w: 57, h: 20 },
-  { src: "/wedding/pay-paypal.svg", alt: "PayPal", w: 67, h: 16 },
 ] as const
 
 function PaymentPill({

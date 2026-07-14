@@ -20,6 +20,7 @@ import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import type { TourCheckoutTour } from "@/components/tours/tour-checkout-context"
 import { useMoney } from "@/components/currency-provider"
+import { readReferralCookie } from "@/lib/referral"
 
 const SERIF_FONT = "'Cormorant Garamond', serif"
 
@@ -321,6 +322,7 @@ export function TourCheckoutModal() {
         basePrice: Math.max(0, Number(tour.price) || 0) * guests,
         selectedAddons: selectedAddons?.length ? selectedAddons : undefined,
         addonsTotal: bookingData.addonsTotal ?? undefined,
+        referralSlug: readReferralCookie() ?? undefined,
       })
       const bookingNumber = (result as { bookingNumber?: string })?.bookingNumber
       const bookingId = (result as { bookingId?: string })?.bookingId ?? (result as { booking?: { _id: string } })?.booking?._id

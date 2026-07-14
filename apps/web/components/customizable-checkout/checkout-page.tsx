@@ -14,11 +14,14 @@ import { ExperiencesStep } from "@/components/customizable-checkout/experiences-
 import { CheckoutStepLayout } from "@/components/customizable-checkout/shared/checkout-step-layout"
 import { CheckoutProvider, useCheckout, DEV_ALLOW_STEP_SKIP, type Vehicle } from "@/components/customizable-checkout/checkout-context"
 import { useVehicles } from "@/hooks/use-vehicles"
+import { calculatePriceBreakdown } from "@/lib/format"
+import { ExperienceUpgradeModal } from "@/components/checkout/experience-upgrade-modal"
 import { isAirportLocation } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
-import { createContext, useContext, useEffect, useMemo } from "react"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import { initOrder, toBackendLocation, formatLocalDateTime } from "@/lib/orders"
+import { readReferralCookie } from "@/lib/referral"
 import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
@@ -174,7 +177,7 @@ function CheckoutPageContent() {
           departureDate: formatLocalDateTime(transfer.departureDate, true),
           isRoundTrip: false,
           returnDate: undefined,
-          partnershipSlug,
+          partnershipSlug: partnershipSlug || readReferralCookie() || undefined,
         })
 
         setOrder(resp.order.id, resp.order)
@@ -190,10 +193,42 @@ function CheckoutPageContent() {
     setStep(newStep)
   }
 
+  // Experience-upgrade upsell modal (premium vehicle offered for the selected standard one).
+  const [upgradeCandidate, setUpgradeCandidate] = useState<Vehicle | null>(null)
+  const [upgradeOfferSeen, setUpgradeOfferSeen] = useState(false)
+
+  // €-difference (tax-inclusive, whole euros) between a premium vehicle and the base one.
+  const upgradeDelta = (base: Vehicle, premium: Vehicle) =>
+    calculatePriceBreakdown(premium.price).total -
+    calculatePriceBreakdown(base.price).total
+
   const handleVehicleSelect = (vehicle: Vehicle) => {
     setSelectedVehicle(vehicle)
-    setShowTransferForm(true)
     setUpgradeMode(false)
+    // If an admin mapped a premium vehicle to this (standard) one, offer the
+    // upgrade once per session before opening the transfer form.
+    if (!upgradeOfferSeen) {
+      const premium = vehicles.find(
+        (v) => v.upgradeFromVehicleId === vehicle.id,
+      )
+      if (premium && upgradeDelta(vehicle, premium) > 0) {
+        setUpgradeCandidate(premium)
+        setUpgradeOfferSeen(true)
+        return
+      }
+    }
+    setShowTransferForm(true)
+  }
+
+  const handleUpgradeAccept = () => {
+    if (upgradeCandidate) setSelectedVehicle(upgradeCandidate)
+    setUpgradeCandidate(null)
+    setShowTransferForm(true)
+  }
+
+  const handleUpgradeDecline = () => {
+    setUpgradeCandidate(null)
+    setShowTransferForm(true)
   }
 
   const handleContinue = () => {
@@ -257,6 +292,18 @@ function CheckoutPageContent() {
       </main>
 
       <Footer />
+
+      {upgradeCandidate && selectedVehicle && (
+        <ExperienceUpgradeModal
+          open
+          variant="light"
+          onDecline={handleUpgradeDecline}
+          onAccept={handleUpgradeAccept}
+          vehicleName={upgradeCandidate.name}
+          vehicleImage={upgradeCandidate.image}
+          priceDelta={upgradeDelta(selectedVehicle, upgradeCandidate)}
+        />
+      )}
     </div>
   )
 }

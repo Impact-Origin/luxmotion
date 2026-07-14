@@ -20,6 +20,7 @@ import {
   Star,
   Car,
   CreditCard,
+  Copy,
   HelpCircle,
   ShoppingCart,
   Home,
@@ -1016,6 +1017,20 @@ export default function PartnershipEditorPage({
               partnerships={allPartnerships}
             />
             <p className="font-mono text-xs text-muted-foreground">/{partnership.slug}</p>
+            <button
+              type="button"
+              onClick={() => {
+                void navigator.clipboard.writeText(
+                  `https://www.easytransferportugal.com/${partnership.slug}`,
+                );
+                toast.success("Link de afiliado copiado");
+              }}
+              className="flex items-center gap-1.5 h-7 px-2.5 rounded-md border border-border bg-muted/40 hover:bg-accent text-xs text-muted-foreground hover:text-foreground transition-colors"
+              title={`Copiar link de afiliado: https://www.easytransferportugal.com/${partnership.slug}`}
+            >
+              <Copy className="h-3.5 w-3.5" />
+              <span className="hidden md:inline">Link de afiliado</span>
+            </button>
           </div>
         </div>
 

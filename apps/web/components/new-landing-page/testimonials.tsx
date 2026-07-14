@@ -245,7 +245,7 @@ export function Testimonials() {
 
           <div className="flex items-center justify-center gap-6">
             <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
-            <Image src="/trustpilot-logo.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto lm-logo-mono" unoptimized />
+            <Image src="/trustpilot-logo-green.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
           </div>
 
           <button

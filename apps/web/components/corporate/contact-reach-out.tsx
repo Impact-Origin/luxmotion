@@ -6,6 +6,7 @@ import { Mail, Phone, Shield, ArrowRight, CheckCircle2 } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { PhoneInput } from "@/components/ui/phone-input"
+import { readReferralCookie } from "@/lib/referral"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -77,6 +78,7 @@ function QuoteForm() {
         phone: phone.trim(),
         subject: subject.trim(),
         message: message.trim(),
+        referralSlug: readReferralCookie() ?? undefined,
       })
       setSubmitted(true)
     } catch {

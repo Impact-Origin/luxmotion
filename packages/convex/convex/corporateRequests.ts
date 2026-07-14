@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { resolveReferral } from "./lib/referral"
 
 const statusValidator = v.union(
   v.literal("submitted"),
@@ -19,13 +20,18 @@ export const submit = mutation({
     budget: v.optional(v.number()),
     vehicleType: v.optional(v.string()),
     notes: v.optional(v.string()),
+    referralSlug: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const { referralSlug, ...rest } = args
+    const ref = await resolveReferral(ctx, referralSlug)
     const total = await ctx.db.query("corporateRequests").collect()
     const queuePosition = total.length + 1
 
     const id = await ctx.db.insert("corporateRequests", {
-      ...args,
+      ...rest,
+      partnershipId: ref.partnershipId,
+      partnershipName: ref.partnershipName,
       status: "submitted",
       queuePosition,
       createdAt: Date.now(),

@@ -971,6 +971,17 @@
       }
     }
   },
+  "experienceUpgrade": {
+    "title": "Mejora de Experiencia",
+    "subtitle": "Viaja con más comodidad por solo",
+    "benefit1": "Asientos de piel premium",
+    "benefit2": "Más espacio para equipaje",
+    "benefit3": "Un viaje más silencioso",
+    "benefit4": "Un conductor más experimentado",
+    "socialProof": "El 68% de los clientes de aeropuerto eligen esta opción",
+    "decline": "No, gracias",
+    "accept": "Mejorar"
+  },
   "addExperience": {
     "title": "Añadir",
     "modalTitle": "Añadir Experiencia",

@@ -971,6 +971,17 @@
       }
     }
   },
+  "experienceUpgrade": {
+    "title": "Ervaring Upgraden",
+    "subtitle": "Reis comfortabeler voor slechts",
+    "benefit1": "Premium lederen stoelen",
+    "benefit2": "Meer ruimte voor bagage",
+    "benefit3": "Een stillere rit",
+    "benefit4": "Een meer ervaren chauffeur",
+    "socialProof": "68% van de luchthavenklanten kiest deze optie",
+    "decline": "Nee, bedankt",
+    "accept": "Upgraden"
+  },
   "addExperience": {
     "title": "Toevoegen",
     "modalTitle": "Ervaring toevoegen",

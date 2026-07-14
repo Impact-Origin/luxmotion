@@ -3,6 +3,7 @@ import { DynamicThemeProvider } from "@/components/dynamic-theme-provider"
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
 import { notFound } from "next/navigation";
+import { CaptureReferral } from "@/components/referral/capture-referral";
 
 export default async function Page({
   params
@@ -19,6 +20,9 @@ export default async function Page({
 
   return (
     <DynamicThemeProvider theme={partnership.theme}>
+      {/* Valid, active partnership: drop a first-party referral cookie so a later
+          order (even one placed on the main-site checkout) still attributes here. */}
+      <CaptureReferral slug={referral} />
       <CheckoutPage partnershipSlug={referral} />
     </DynamicThemeProvider>
   )

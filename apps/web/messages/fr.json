@@ -971,6 +971,17 @@
       }
     }
   },
+  "experienceUpgrade": {
+    "title": "Surclassement d'Expérience",
+    "subtitle": "Voyagez plus confortablement pour seulement",
+    "benefit1": "Sièges en cuir premium",
+    "benefit2": "Plus d'espace pour les bagages",
+    "benefit3": "Un trajet plus silencieux",
+    "benefit4": "Un chauffeur plus expérimenté",
+    "socialProof": "68 % des clients aéroport choisissent cette option",
+    "decline": "Non, merci",
+    "accept": "Surclasser"
+  },
   "addExperience": {
     "title": "Ajouter",
     "modalTitle": "Ajouter une expérience",

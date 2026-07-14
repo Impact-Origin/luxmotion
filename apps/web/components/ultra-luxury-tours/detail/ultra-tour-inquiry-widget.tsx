@@ -13,6 +13,7 @@ import { PhoneInput } from "@/components/ui/phone-input"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { InquiryConfirmationModal } from "@/components/ultra-luxury-tours/detail/inquiry-confirmation-modal"
 import { useMoney } from "@/components/currency-provider"
+import { readReferralCookie } from "@/lib/referral"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
@@ -111,6 +112,7 @@ export function UltraTourInquiryWidget({ price, currency = "€", rating, review
         budgetMax: budget[1],
         interests: interests.trim(),
         marketingOptIn: optIn,
+        referralSlug: readReferralCookie() ?? undefined,
       })
       setConfirmation({ name: submittedName, email: submittedEmail, reference: inquiryReference(String(id)) })
       setName("")

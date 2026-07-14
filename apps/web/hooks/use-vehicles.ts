@@ -130,6 +130,8 @@ export function useVehicles({
           isElectric: v.isElectric,
           hasWifi: v.hasWifi,
           order: v.order,
+          // Premium upsell: the standard vehicle this one is an upgrade of (if any).
+          upgradeFromVehicleId: v.upgradeFromVehicleId as string | undefined,
         };
       });
   }, [convexVehicles, airportSurchargePercent, passengers, luggage, distance, isNight, isNightReturn, bookReturn, isAirportPickup, upgradeMode, currentVehiclePassengers, currentVehicleLuggage]);

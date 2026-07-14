@@ -17,18 +17,23 @@ export function WeddingWhitelabelLanding({
   logoUrl,
   partnerName,
   heroImageUrl,
+  partnershipSlug,
 }: {
   logoUrl?: string | null;
   partnerName?: string;
   heroImageUrl?: string | null;
+  partnershipSlug?: string;
 }) {
+  // On a partner page, "Reserve" must go to that partner's checkout so the
+  // booking attributes; the standalone /wedding-whitelabel page keeps /checkout.
+  const reserveHref = partnershipSlug ? `/${partnershipSlug}/checkout` : "/checkout";
   return (
     <div className="min-h-screen bg-[#EFE8DC]">
-      <Header variant="light" whitelabel logoUrl={logoUrl} />
+      <Header variant="light" whitelabel logoUrl={logoUrl} reserveHref={reserveHref} />
       <div className="pt-[60px] md:pt-[72px]">
         <WeddingWhitelabelHero partnerName={partnerName} heroImageUrl={heroImageUrl} />
         <WeddingWhitelabelStats partnerName={partnerName} />
-        <WeddingWhitelabelQuoteSection />
+        <WeddingWhitelabelQuoteSection partnershipSlug={partnershipSlug} />
         <WeddingWhitelabelMetrics />
         <WeddingWhitelabelOffer />
         <WeddingWhitelabelTestimonials />

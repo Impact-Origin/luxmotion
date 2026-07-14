@@ -3,13 +3,13 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, X, Lock, CheckCircle2, CreditCard, Banknote, Calendar, MessageSquare, ShieldCheck, Info } from "lucide-react"
+import { ChevronDown, X, Lock, CheckCircle2, CreditCard, Calendar, MessageSquare, ShieldCheck, Info } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover"
 import { InputWithIcon } from "@/components/ui/input-with-icon"
-import { InsuranceOptionCard, PaymentMethodButton, AnimatedCollapse, FormField } from "@/components/customizable-checkout/shared"
+import { InsuranceOptionCard, AnimatedCollapse, FormField } from "@/components/customizable-checkout/shared"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { useTranslations, useLocale } from "next-intl"
 import { useCheckout } from "@/components/customizable-checkout/checkout-context"
@@ -71,7 +71,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
   const refundTermsPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0
   const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0
   const insuranceTotal = premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice
-  const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
+  const cardFeeRate = 0
 
   // Luggage extras (child seats / surfboards / pets) — same helper the summary uses, so the
   // charged amount always == the displayed invoice. (Surfboards were shown but never charged.)
@@ -112,24 +112,6 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
       setTip(percent, customValue ?? 0)
     }
   }, [baseTotalPrice, setTip])
-
-  const paymentMethods: { method: UiPaymentMethod; icon: React.ReactNode; label: string }[] = [
-    { method: "cartao", icon: <CreditCard className="w-7 h-7 md:w-8 md:h-8 text-[#222222]" />, label: t("card") },
-    { method: "cash", icon: <Banknote className="w-7 h-7 md:w-8 md:h-8 text-[#222222]" />, label: t("cash") },
-    {
-      method: "mbway",
-      icon: (
-        <Image
-          src="/mbway_checkout.png"
-          alt="MB Way"
-          width={32}
-          height={32}
-          className="w-7 h-7 md:w-8 md:h-8 object-contain"
-        />
-      ),
-      label: t("mbway"),
-    },
-  ]
 
   const premiumBenefits = [
     { text: t("cancelUpTo4h") },
@@ -414,18 +396,6 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
               />
             </div>
           )}
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
-          {paymentMethods.map(({ method, icon, label }) => (
-            <PaymentMethodButton
-              key={method}
-              selected={payment.method === method}
-              onSelect={() => updatePayment({ method })}
-              icon={icon}
-              label={label}
-            />
-          ))}
         </div>
 
         {payment.method === "cartao" && (

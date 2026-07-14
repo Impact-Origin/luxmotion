@@ -18,6 +18,7 @@ import {
 import { PhoneInput } from "@/components/ui/phone-input"
 import { CountryCombobox } from "@/components/ui/country-combobox"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
+import { readReferralCookie } from "@/lib/referral"
 
 const INPUT =
   "w-full h-[44px] bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] px-[13px] text-[14px] text-[var(--lm-text,#fff)] placeholder:text-[var(--lm-muted,#696969)] outline-none focus:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-colors"
@@ -163,6 +164,7 @@ export function ContactSection() {
         email: form.email,
         phone: form.phone || undefined,
         message: parts || "(no details)",
+        referralSlug: readReferralCookie() ?? undefined,
       })
       toast.success(t("submitSuccess"))
       setForm({

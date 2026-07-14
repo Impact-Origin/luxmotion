@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useTranslations } from "next-intl"
 import {
   Check, ArrowRight, Info, ShieldCheck, MessageSquare, Clock, Headphones,
-  Plane, UserCheck, BadgeCheck,
+  Plane, UserCheck,
 } from "lucide-react"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { Reveal } from "@/components/common/reveal"
@@ -351,37 +351,9 @@ function Communication({ t }: { t: ReturnType<typeof useTranslations> }) {
   )
 }
 
-/* ---------------------------------- cta ------------------------------------ */
-
-function ClientCta({ t, onSwitch }: { t: ReturnType<typeof useTranslations>; onSwitch: () => void }) {
-  return (
-    <section className="relative overflow-hidden bg-[#0D0D0D] px-4 py-24">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(201,169,110,0.6) 50%, transparent)" }} />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[440px]" style={{ background: "radial-gradient(55% 88% at 50% 0%, rgba(201,169,110,0.14), transparent 70%)" }} />
-      <div className="relative mx-auto flex max-w-[720px] flex-col items-center gap-5 text-center">
-        <span className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={sans}>
-          <span className="h-px w-7 bg-[#C9A96E]" /> {t("ctaEyebrow")} <span className="h-px w-7 bg-[#C9A96E]" />
-        </span>
-        <h2 className="text-[40px] leading-[1.1] text-white sm:text-[54px]" style={serif}>
-          {t("ctaPrefix")} <span className="italic text-[#C9A96E]">{t("ctaAccent")}</span>
-        </h2>
-        <p className="max-w-[540px] text-[16px] leading-[1.55] text-[#9a9a9a]" style={sans}>{t("ctaSubtitle")}</p>
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/#booking" className="group inline-flex h-[54px] items-center justify-center gap-2 bg-[#C9A96E] px-8 text-[13px] font-semibold uppercase tracking-[1.2px] text-[#1a1510] transition-colors hover:bg-[#d4b87f]" style={sans}>
-            {t("ctaPrimary")} <BadgeCheck className="h-4 w-4" />
-          </Link>
-          <button onClick={onSwitch} className="group inline-flex h-[54px] items-center justify-center gap-2 border border-[rgba(255,255,255,0.2)] px-8 text-[13px] font-semibold uppercase tracking-[1.2px] text-white transition-colors hover:border-[#C9A96E] hover:text-[#C9A96E]" style={sans}>
-            {t("ctaSecondary")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </button>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 /* --------------------------------- export ---------------------------------- */
 
-export function ClientGuide({ onSwitch }: { onSwitch: () => void }) {
+export function ClientGuide() {
   const t = useTranslations("partnerGuide.clients")
   const steps = t.raw("steps") as Step[]
   const features = t.raw("features") as string[]
@@ -401,7 +373,6 @@ export function ClientGuide({ onSwitch }: { onSwitch: () => void }) {
       </section>
       <Reveal><Communication t={t} /></Reveal>
       <Testimonials />
-      <Reveal><ClientCta t={t} onSwitch={onSwitch} /></Reveal>
     </>
   )
 }

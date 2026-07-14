@@ -17,7 +17,7 @@ import {
 } from "@workspace/ui/components/select";
 import { ImageUpload } from "./image-upload";
 import { toast } from "sonner";
-import { Loader2, Briefcase, Baby, Zap, Wifi, Info, X } from "lucide-react";
+import { Loader2, Briefcase, Baby, Zap, Wifi, Info, X, Sparkles } from "lucide-react";
 
 interface VehicleFormProps {
   onClose: () => void;
@@ -28,7 +28,8 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
   const partnerships = useQuery(api.partnerships.list);
-  
+  const allVehicles = useQuery(api.vehicles.list);
+
   const [name, setName] = React.useState(initialData?.name || "");
   const [imageId, setImageId] = React.useState<string | undefined>(initialData?.imageId);
   const [partnershipId, setPartnershipId] = React.useState<string | undefined>(initialData?.partnershipId || "global");
@@ -49,6 +50,10 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
   const [isElectric, setIsElectric] = React.useState(initialData?.isElectric ?? false);
   const [status, setStatus] = React.useState<"active" | "inactive" | "maintenance">(initialData?.status || "active");
   const [order, setOrder] = React.useState(initialData?.order || 0);
+  // Experience-upgrade upsell: the STANDARD vehicle this premium vehicle is an upgrade of.
+  const [upgradeFromVehicleId, setUpgradeFromVehicleId] = React.useState<string>(
+    initialData?.upgradeFromVehicleId || "none",
+  );
 
   const createVehicle = useMutation(api.vehicles.create);
   const updateVehicle = useMutation(api.vehicles.update);
@@ -79,6 +84,10 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
         isElectric,
         status,
         order: Number(order),
+        upgradeFromVehicleId:
+          upgradeFromVehicleId === "none"
+            ? undefined
+            : (upgradeFromVehicleId as any),
       };
 
       if (initialData) {
@@ -360,6 +369,41 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
               </div>
             </div>
           </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-xs font-medium uppercase text-muted-foreground flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5" /> Upgrade de Experiência
+              </Label>
+              <div className="space-y-2">
+                <Label htmlFor="upgradeFrom">
+                  Este veículo é um upgrade de (veículo standard)
+                </Label>
+                <Select
+                  value={upgradeFromVehicleId}
+                  onValueChange={setUpgradeFromVehicleId}
+                  disabled={isSubmitting}
+                >
+                  <SelectTrigger className="h-9" id="upgradeFrom">
+                    <SelectValue placeholder="Nenhum — não é um upgrade" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Nenhum — não é um upgrade</SelectItem>
+                    {allVehicles
+                      ?.filter((v) => v._id !== initialData?._id)
+                      .map((v) => (
+                        <SelectItem key={v._id} value={v._id}>
+                          {v.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  Se este for um veículo premium, escolha o veículo standard
+                  correspondente. No checkout, quem escolher o standard verá um
+                  convite para fazer upgrade para este.
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-8 px-2">

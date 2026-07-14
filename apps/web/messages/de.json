@@ -971,6 +971,17 @@
       }
     }
   },
+  "experienceUpgrade": {
+    "title": "Erlebnis-Upgrade",
+    "subtitle": "Reisen Sie komfortabler für nur",
+    "benefit1": "Premium-Ledersitze",
+    "benefit2": "Mehr Platz für Gepäck",
+    "benefit3": "Eine leisere Fahrt",
+    "benefit4": "Ein erfahrenerer Fahrer",
+    "socialProof": "68 % der Flughafenkunden wählen diese Option",
+    "decline": "Nein, danke",
+    "accept": "Upgraden"
+  },
   "addExperience": {
     "title": "Hinzufügen",
     "modalTitle": "Erlebnis hinzufügen",

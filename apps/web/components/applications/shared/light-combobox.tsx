@@ -93,7 +93,7 @@ export function LightCombobox({
             style={SANS_FONT}
           />
         </div>
-        <div className="max-h-[260px] overflow-y-auto">
+        <div className="max-h-[260px] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#d4d4d8_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d4d4d8] [&::-webkit-scrollbar-thumb:hover]:bg-[#a1a1aa]">
           {filtered.length === 0 ? (
             <div
               className="flex h-[44px] items-center px-[13px] text-[14px] text-[rgba(140,134,128,0.85)]"

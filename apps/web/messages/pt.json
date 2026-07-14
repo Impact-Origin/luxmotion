@@ -973,6 +973,17 @@
       }
     }
   },
+  "experienceUpgrade": {
+    "title": "Upgrade de Experiência",
+    "subtitle": "Viaje com mais conforto por apenas",
+    "benefit1": "Assentos em pele premium",
+    "benefit2": "Mais espaço para bagagem",
+    "benefit3": "Viagem mais silenciosa",
+    "benefit4": "Motorista mais experiente",
+    "socialProof": "68% dos clientes de aeroporto escolhem esta opção",
+    "decline": "Não, obrigado",
+    "accept": "Fazer upgrade"
+  },
   "addExperience": {
     "title": "Adicionar",
     "modalTitle": "Adicionar Experiência",

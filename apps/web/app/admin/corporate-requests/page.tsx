@@ -184,6 +184,7 @@ export default function AdminCorporateRequestsPage() {
                 <th className="text-left font-medium px-4 py-3">Event date</th>
                 <th className="text-left font-medium px-4 py-3">Guests</th>
                 <th className="text-left font-medium px-4 py-3">Budget</th>
+                <th className="text-left font-medium px-4 py-3">Parceiro</th>
                 <th className="text-left font-medium px-4 py-3">Submitted</th>
                 <th className="text-left font-medium px-4 py-3">#</th>
                 <th className="text-left font-medium px-4 py-3">Status</th>
@@ -206,6 +207,7 @@ export default function AdminCorporateRequestsPage() {
                     </td>
                     <td className="px-4 py-3 text-foreground">{r.guests ?? "—"}</td>
                     <td className="px-4 py-3 text-foreground">{formatBudget(r.budget)}</td>
+                    <td className="px-4 py-3 text-foreground">{r.partnershipName ?? "Easy Transfer"}</td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {formatDateTime(r.createdAt)}
                     </td>

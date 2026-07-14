@@ -973,6 +973,17 @@
       }
     }
   },
+  "experienceUpgrade": {
+    "title": "Experience Upgrade",
+    "subtitle": "Travel in more comfort for only",
+    "benefit1": "Premium leather seats",
+    "benefit2": "More luggage space",
+    "benefit3": "A quieter ride",
+    "benefit4": "A more experienced driver",
+    "socialProof": "68% of airport clients choose this option",
+    "decline": "No, thanks",
+    "accept": "Upgrade"
+  },
   "addExperience": {
     "title": "Add",
     "modalTitle": "Add Experience",

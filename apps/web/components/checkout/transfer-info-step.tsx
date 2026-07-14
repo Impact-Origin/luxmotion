@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
 import { GooglePlacesInput } from "@/components/ui/google-places-input"
 import { initOrder, createReturnOrder, registTrip, selectCar, toBackendLocation, formatLocalDate, formatLocalDateTime, lookupFlight } from "@/lib/orders"
+import { readReferralCookie } from "@/lib/referral"
 import { useState, useMemo, type ReactNode, type ComponentType } from "react"
 import { useConvex } from "convex/react"
 import { calculatePriceBreakdown } from "@/lib/format"
@@ -682,6 +683,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           departureDate: formatLocalDateTime(departureDate, true),
           isRoundTrip: false,
           returnDate: undefined,
+          // Main-site checkout: attribute to the referring partner via cookie.
+          partnershipSlug: readReferralCookie() || undefined,
         }
         const initResp = await initOrder(convex, initOrderPayload)
         currentOrderId = initResp.order.id

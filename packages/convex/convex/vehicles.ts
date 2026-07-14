@@ -118,6 +118,31 @@ export const getById = query({
   },
 });
 
+/**
+ * Checkout upsell: given the vehicle the customer selected, return the premium
+ * vehicle configured as its experience-upgrade (or null). Reverse lookup via the
+ * `by_upgrade_from` index — the premium vehicle stores `upgradeFromVehicleId`.
+ */
+export const getUpgradeFor = query({
+  args: { vehicleId: v.id("vehicles") },
+  handler: async (ctx, args) => {
+    const upgrade = await ctx.db
+      .query("vehicles")
+      .withIndex("by_upgrade_from", (q) =>
+        q.eq("upgradeFromVehicleId", args.vehicleId),
+      )
+      .filter((q) => q.eq(q.field("status"), "active"))
+      .first();
+    if (!upgrade) return null;
+    return {
+      ...upgrade,
+      imageUrl: upgrade.imageId
+        ? await ctx.storage.getUrl(upgrade.imageId)
+        : null,
+    };
+  },
+});
+
 export const create = mutation({
   args: {
     name: v.string(),
@@ -142,6 +167,7 @@ export const create = mutation({
       v.literal("maintenance")
     ),
     order: v.number(),
+    upgradeFromVehicleId: v.optional(v.id("vehicles")),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("vehicles", args);
@@ -173,6 +199,7 @@ export const update = mutation({
       v.literal("maintenance")
     ),
     order: v.number(),
+    upgradeFromVehicleId: v.optional(v.id("vehicles")),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;

@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { resolveReferral } from "./lib/referral";
 
 export const submit = mutation({
   args: {
@@ -14,10 +15,15 @@ export const submit = mutation({
     dropoff: v.optional(v.string()),
     vehicle: v.optional(v.string()),
     message: v.optional(v.string()),
+    referralSlug: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const { referralSlug, ...rest } = args;
+    const ref = await resolveReferral(ctx, referralSlug);
     await ctx.db.insert("schoolQuoteSubmissions", {
-      ...args,
+      ...rest,
+      partnershipId: ref.partnershipId,
+      partnershipName: ref.partnershipName,
       status: "new",
       createdAt: Date.now(),
     });

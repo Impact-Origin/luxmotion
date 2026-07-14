@@ -21,6 +21,8 @@ export interface Vehicle {
   isElectric: boolean
   hasWifi?: boolean
   order?: number
+  /** Standard vehicle this one is a premium upgrade of (checkout upsell). */
+  upgradeFromVehicleId?: string
 }
 
 export interface TransferState {
@@ -168,7 +170,7 @@ const initialPassengerState: PassengerState = {
 }
 
 const initialPaymentState: PaymentState = {
-  method: "cash",
+  method: "cartao",
   cardNumber: "",
   expiry: "",
   cvc: "",

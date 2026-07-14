@@ -3,6 +3,7 @@ import { mutation, query, action, internalMutation } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
+import { resolveReferral } from "./lib/referral";
 
 const ORDER_WEBHOOK_URL =
   process.env.EASYTRANSFER_ORDER_WEBHOOK_URL ??
@@ -60,15 +61,12 @@ export const init = mutation({
     const isRoundTrip = args.isRoundTrip ?? false;
     const passengers = args.passengers ?? (args.adults ?? 0) + (args.children ?? 0);
 
-    let partnershipName: string = "Easy Transfer";
-    if (args.partnershipSlug) {
-      const partnership = await ctx.db
-        .query("partnerships")
-        .withIndex("by_slug", (q) => q.eq("slug", args.partnershipSlug!))
-        .first();
-      if (partnership) partnershipName = partnership.name;
-    }
-    
+    // Attribute the order to an affiliate/partnership by its URL slug. Falls back
+    // to the main site label when there's no slug or the slug matches nothing.
+    const ref = await resolveReferral(ctx, args.partnershipSlug);
+    const partnershipName: string = ref.partnershipName ?? "Easy Transfer";
+    const partnershipId = ref.partnershipId;
+
     // Gerar orderNumber único para a ordem de ida
     const outboundOrderNumber = `ET${now}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
     
@@ -79,6 +77,7 @@ export const init = mutation({
     const outboundOrderId = await ctx.db.insert("orders", {
       orderNumber: outboundOrderNumber,
       partnershipName,
+      partnershipId,
       departure: {
         location: args.departure.location,
         placeId: args.departure.placeId ?? undefined,
@@ -119,6 +118,7 @@ export const init = mutation({
         orderNumber: returnOrderNumber,
         relatedOrderId: outboundOrderId, // Link to outbound order
         partnershipName,
+        partnershipId,
         departure: {
           location: args.arrival.location, // Swapped: return starts from arrival
           placeId: args.arrival.placeId ?? undefined,
@@ -220,12 +220,14 @@ export const createReturnOrder = mutation({
     });
     
     const outboundPartnershipName = (outboundOrder as { partnershipName?: string }).partnershipName;
+    const outboundPartnershipId = (outboundOrder as { partnershipId?: Id<"partnerships"> }).partnershipId;
 
     // Criar ordem de retorno (mesma parceria/origem que a ordem de ida)
     const returnOrderId = await ctx.db.insert("orders", {
       orderNumber: returnOrderNumber,
       relatedOrderId: args.outboundOrderId, // Link to outbound order
       partnershipName: outboundPartnershipName ?? "Easy Transfer",
+      partnershipId: outboundPartnershipId,
       departure: {
         location: args.departure.location,
         placeId: args.departure.placeId ?? undefined,

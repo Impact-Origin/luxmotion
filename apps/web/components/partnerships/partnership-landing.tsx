@@ -41,6 +41,7 @@ export function PartnershipLanding({
           logoUrl={logoUrl}
           partnerName={partnerName}
           heroImageUrl={heroImageUrl}
+          partnershipSlug={partnershipSlug}
         />
       );
     case "transfer":

@@ -3,6 +3,7 @@ import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { CaptureReferral } from "@/components/referral/capture-referral";
 import { JsonLd } from "@/components/seo/json-ld";
 import { createNoIndexMetadata, createPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/structured-data";
@@ -39,6 +40,9 @@ export default async function ReferralLandingPage({
 
   return (
     <>
+      {/* Valid, active partnership: drop a first-party referral cookie so lead
+          forms and checkouts elsewhere on the site can attribute back here. */}
+      <CaptureReferral slug={referral} />
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", url: "/" },

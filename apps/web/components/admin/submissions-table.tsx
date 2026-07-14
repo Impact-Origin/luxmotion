@@ -207,6 +207,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                     {c.label}
                   </th>
                 ))}
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[130px]">Parceiro</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[160px]">Date</th>
                 <th className="px-4 py-3 w-[120px]" />
               </tr>
@@ -241,6 +242,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                         )}
                       </td>
                     ))}
+                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{((row as Record<string, unknown>).partnershipName as string) ?? "Easy Transfer"}</td>
                     <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{formatDate(row.createdAt)}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">

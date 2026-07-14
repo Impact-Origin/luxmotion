@@ -12,12 +12,15 @@ import { ExperiencesStep } from "@/components/checkout/experiences-step"
 import { CheckoutStepLayout } from "@/components/checkout/shared/checkout-step-layout"
 import { CheckoutProvider, useCheckout, DEV_ALLOW_STEP_SKIP, type Vehicle } from "@/components/checkout/checkout-context"
 import { useVehicles } from "@/hooks/use-vehicles"
+import { calculatePriceBreakdown } from "@/lib/format"
+import { ExperienceUpgradeModal } from "@/components/checkout/experience-upgrade-modal"
 import { isAirportLocation } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { ArrowRight } from "lucide-react"
 import { initOrder, toBackendLocation, formatLocalDateTime } from "@/lib/orders"
+import { readReferralCookie } from "@/lib/referral"
 import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
@@ -35,6 +38,10 @@ function CheckoutPageContent() {
   const searchParams = useSearchParams()
   const { state, setStep, setSelectedVehicle, setShowTransferForm, setOrder, updateDistance, setUpgradeMode, submitCheckout, setNearbyTours } = useCheckout()
   const { currentStep, direction, selectedVehicle, showTransferForm, transfer, distance: storedDistance, orderId, upgradeMode, hasNearbyTours, nearbyToursLoaded } = state
+
+  // Experience-upgrade upsell modal (premium vehicle offered for the selected standard one).
+  const [upgradeCandidate, setUpgradeCandidate] = useState<Vehicle | null>(null)
+  const [upgradeOfferSeen, setUpgradeOfferSeen] = useState(false)
 
   const confirmationStep = hasNearbyTours ? 5 : 4
   const passengerStep = hasNearbyTours ? 3 : 2
@@ -159,6 +166,9 @@ function CheckoutPageContent() {
           departureDate: formatLocalDateTime(transfer.departureDate, true),
           isRoundTrip: false,
           returnDate: undefined,
+          // Main-site checkout has no on-page partner slug; attribute via the
+          // affiliate referral cookie if one was set on a partner landing.
+          partnershipSlug: readReferralCookie() || undefined,
         })
 
         setOrder(resp.order.id, resp.order)
@@ -188,8 +198,7 @@ function CheckoutPageContent() {
     setUpgradeMode(false)
   }
 
-  const handleContinueFromVehicle = () => {
-    if (!selectedVehicle) return
+  const proceedToTransferForm = () => {
     setShowTransferForm(true)
     // Showing the transfer form doesn't change currentStep (so the step-change
     // scroll effect doesn't fire). On desktop, jump back to the top so the form
@@ -197,6 +206,39 @@ function CheckoutPageContent() {
     if (window.innerWidth >= 1024) {
       window.scrollTo({ top: 0, behavior: "smooth" })
     }
+  }
+
+  // €-difference (tax-inclusive, whole euros) between a premium vehicle and the base one.
+  const upgradeDelta = (base: Vehicle, premium: Vehicle) =>
+    calculatePriceBreakdown(premium.price).total -
+    calculatePriceBreakdown(base.price).total
+
+  const handleContinueFromVehicle = () => {
+    if (!selectedVehicle) return
+    // If an admin mapped a premium vehicle to the selected (standard) one, offer
+    // the upgrade once per session before advancing to the transfer form.
+    if (!upgradeOfferSeen) {
+      const premium = vehicles.find(
+        (v) => v.upgradeFromVehicleId === selectedVehicle.id,
+      )
+      if (premium && upgradeDelta(selectedVehicle, premium) > 0) {
+        setUpgradeCandidate(premium)
+        setUpgradeOfferSeen(true)
+        return
+      }
+    }
+    proceedToTransferForm()
+  }
+
+  const handleUpgradeAccept = () => {
+    if (upgradeCandidate) setSelectedVehicle(upgradeCandidate)
+    setUpgradeCandidate(null)
+    proceedToTransferForm()
+  }
+
+  const handleUpgradeDecline = () => {
+    setUpgradeCandidate(null)
+    proceedToTransferForm()
   }
 
   const handleContinue = () => {
@@ -271,6 +313,17 @@ function CheckoutPageContent() {
       </main>
 
       <Footer />
+
+      {upgradeCandidate && selectedVehicle && (
+        <ExperienceUpgradeModal
+          open
+          onDecline={handleUpgradeDecline}
+          onAccept={handleUpgradeAccept}
+          vehicleName={upgradeCandidate.name}
+          vehicleImage={upgradeCandidate.image}
+          priceDelta={upgradeDelta(selectedVehicle, upgradeCandidate)}
+        />
+      )}
     </div>
   )
 }

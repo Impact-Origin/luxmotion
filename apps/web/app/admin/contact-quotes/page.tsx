@@ -101,6 +101,9 @@ export default function ContactQuotesPage() {
                   Company
                 </th>
                 <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 py-3">
+                  Parceiro
+                </th>
+                <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 py-3">
                   Subject
                 </th>
                 <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 py-3">
@@ -115,7 +118,7 @@ export default function ContactQuotesPage() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-muted-foreground text-sm">
+                  <td colSpan={7} className="text-center py-12 text-muted-foreground text-sm">
                     No quote requests found
                   </td>
                 </tr>
@@ -137,6 +140,11 @@ export default function ContactQuotesPage() {
                       <div className="text-sm text-muted-foreground flex items-center gap-1.5">
                         <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
                         {r.company}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="text-sm text-muted-foreground">
+                        {r.partnershipName ?? "Easy Transfer"}
                       </div>
                     </td>
                     <td className="px-4 py-3">

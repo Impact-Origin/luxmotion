@@ -17,6 +17,7 @@ import {
 import { PhoneInput } from "@/components/ui/phone-input"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
+import { readReferralCookie } from "@/lib/referral"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -364,7 +365,11 @@ function SectionHeading({
   )
 }
 
-export function WeddingWhitelabelQuoteSection() {
+export function WeddingWhitelabelQuoteSection({
+  partnershipSlug,
+}: {
+  partnershipSlug?: string
+} = {}) {
   const t = useTranslations("weddingWhitelabel.quote")
   const [selectedVehicle, setSelectedVehicle] = useState<string>("standard")
   const [phone, setPhone] = useState("")
@@ -428,6 +433,7 @@ export function WeddingWhitelabelQuoteSection() {
         budget,
         vehicle: selectedVehicle,
         message: composedMessage || undefined,
+        referralSlug: partnershipSlug || readReferralCookie() || undefined,
       })
       toast.success(t("successToast"))
       formEl.reset()

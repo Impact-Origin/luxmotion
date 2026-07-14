@@ -32,6 +32,9 @@ export interface HeaderProps {
   whitelabel?: boolean
   logoUrl?: string | null
   themeToggle?: ReactNode
+  /** Destination for the "Reserve" CTA. Defaults to the main-site checkout.
+   *  On a partner page pass `/${slug}/checkout` so the reservation attributes. */
+  reserveHref?: string
 }
 
 function LuxMotionLogo({ className, variant = "dark" }: { className?: string; variant?: HeaderVariant }) {
@@ -145,6 +148,7 @@ export function Header({
   whitelabel = false,
   logoUrl,
   themeToggle,
+  reserveHref = "/checkout",
 }: HeaderProps = {}) {
   const isLight = variant === "light"
   const t = useTranslations("header")
@@ -350,7 +354,7 @@ export function Header({
             <CurrencySwitcher variant={variant} />
             <LangSwitcher variant={variant} />
             <Link
-              href="/checkout"
+              href={reserveHref}
               className={cn(
                 "h-[40px] px-[22px] flex items-center justify-center text-[14px] font-medium uppercase tracking-[1.1px] transition-all cursor-pointer",
                 isLight
@@ -512,7 +516,7 @@ export function Header({
               isLight ? "bg-[#F0EDE8] border-[rgba(28,27,24,0.08)]" : "bg-[#0D0D0D] border-[#2A2A2A]"
             )}>
               <Link
-                href="/checkout"
+                href={reserveHref}
                 className={cn(
                   "w-full h-12 flex items-center justify-center font-medium text-[14px] uppercase tracking-[1.1px] active:scale-[0.98] transition-all",
                   isLight

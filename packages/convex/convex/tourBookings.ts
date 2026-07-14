@@ -3,6 +3,7 @@ import { mutation, query, action, internalMutation, internalAction } from "./_ge
 import type { MutationCtx } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
+import { resolveReferral } from "./lib/referral";
 
 function generateBookingNumber(): string {
   const t = Date.now().toString().slice(-10);
@@ -32,9 +33,11 @@ export const init = mutation({
       subtotal: v.number(),
     }))),
     addonsTotal: v.optional(v.number()),
+    referralSlug: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
+    const ref = await resolveReferral(ctx, args.referralSlug);
     let bookingNumber = generateBookingNumber();
     let existing = await ctx.db
       .query("tourBookings")
@@ -62,6 +65,8 @@ export const init = mutation({
       basePrice: args.basePrice,
       selectedAddons: args.selectedAddons ?? undefined,
       addonsTotal: args.addonsTotal ?? undefined,
+      partnershipId: ref.partnershipId,
+      partnershipName: ref.partnershipName,
       tipPercent: 0,
       tipAmount: 0,
       totalAmount,

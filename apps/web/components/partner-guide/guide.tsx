@@ -38,9 +38,9 @@ export function PartnerGuide({ initialTab = "clients" }: { initialTab?: "clients
       </div>
 
       {tab === "clients" ? (
-        <ClientGuide onSwitch={() => setTab("partners")} />
+        <ClientGuide />
       ) : (
-        <PartnersGuide onSwitch={() => setTab("clients")} />
+        <PartnersGuide />
       )}
     </>
   )

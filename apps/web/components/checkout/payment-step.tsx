@@ -10,8 +10,6 @@ import {
   Clock,
   Package,
   Check,
-  CreditCard,
-  Banknote,
   ShieldCheck,
 } from "lucide-react"
 import { PhoneInput } from "@/components/ui/phone-input"
@@ -166,45 +164,6 @@ function TipChip({
   )
 }
 
-function RadioDot({ selected }: { selected: boolean }) {
-  return (
-    <span
-      className={cn(
-        "relative w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-colors",
-        selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.35)]",
-      )}
-    >
-      {selected && <span className="w-[10px] h-[10px] rounded-full bg-[#C9A96E]" />}
-    </span>
-  )
-}
-
-interface MethodRowProps {
-  selected: boolean
-  onSelect: () => void
-  children: React.ReactNode
-  right?: React.ReactNode
-  className?: string
-}
-
-function MethodRow({ selected, onSelect, children, right, className }: MethodRowProps) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={cn(
-        "w-full h-[56px] flex items-center px-2 bg-[#1E1D1B] border transition-colors",
-        selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.2)]",
-        className,
-      )}
-    >
-      <RadioDot selected={selected} />
-      <div className="ml-2 flex items-center gap-2 flex-1 min-w-0">{children}</div>
-      {right && <div className="ml-auto flex items-center gap-2 pr-2">{right}</div>}
-    </button>
-  )
-}
-
 function GooglePayLogo({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 64 26" className={className} xmlns="http://www.w3.org/2000/svg">
@@ -214,24 +173,6 @@ function GooglePayLogo({ className }: { className?: string }) {
       <path fill="#34A853" d="M11.2 20.8c2.7 0 5-.9 6.7-2.4l-3.3-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H2.2v2.6c1.6 3.3 5 5.4 9 5.4z"/>
       <path fill="#FBBC04" d="M5.6 12.8c-.4-1.3-.4-2.6 0-3.9V6.3H2.2c-1.4 2.7-1.4 5.9 0 8.6z"/>
       <path fill="#EA4335" d="M11.2 4.8c1.4 0 2.7.5 3.7 1.5l2.9-2.9C16 1.8 13.7.8 11.2.8c-4 0-7.4 2.1-9 5.4l3.4 2.6c.8-2.2 3-4 5.6-4z"/>
-    </svg>
-  )
-}
-
-function VisaLogo({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 48 16" className={className} xmlns="http://www.w3.org/2000/svg">
-      <text x="0" y="13" fontFamily="Arial Black,Arial,sans-serif" fontStyle="italic" fontWeight="900" fontSize="15" fill="#1A1F71">VISA</text>
-    </svg>
-  )
-}
-
-function MastercardLogo({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 20" className={className} xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="10" r="8" fill="#EB001B" />
-      <circle cx="20" cy="10" r="8" fill="#F79E1B" />
-      <path d="M16 4.2a8 8 0 010 11.6 8 8 0 010-11.6z" fill="#FF5F00" />
     </svg>
   )
 }
@@ -664,57 +605,6 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
             />
           </div>
         </AnimatedCollapse>
-      </div>
-
-      <div className="flex flex-col gap-4 pt-2">
-        <SectionLabel>{t("methodHeading")}</SectionLabel>
-
-        <div className="flex flex-col gap-[10px]">
-          {/* Pagar online → o Stripe mostra cartão / MB WAY / Multibanco na página dele,
-              por isso não repetimos o seletor aqui. Qualquer método != cash conta como online. */}
-          <MethodRow
-            selected={payment.method !== "cash"}
-            onSelect={() => updatePayment({ method: "cartao" })}
-            right={
-              <div className="flex items-center gap-1.5">
-                <VisaLogo className="h-5" />
-                <MastercardLogo className="h-5" />
-                <Image
-                  src="/checkout/payment/mbway.svg"
-                  alt="MB Way"
-                  width={42}
-                  height={20}
-                  className="h-[18px] w-auto"
-                  unoptimized
-                />
-                <Image
-                  src="/checkout/payment/multibanco.svg"
-                  alt="Multibanco"
-                  width={54}
-                  height={20}
-                  className="h-[18px] w-auto"
-                  unoptimized
-                />
-              </div>
-            }
-          >
-            <CreditCard className="w-6 h-6 text-white" strokeWidth={2} />
-            <span className="text-[14px] text-white">{t("payOnline")}</span>
-          </MethodRow>
-
-          <MethodRow
-            selected={payment.method === "cash"}
-            onSelect={() => updatePayment({ method: "cash" })}
-            right={
-              <span className="text-[12px] text-[#999] uppercase tracking-[0.5px]">
-                {t("payAtDriver")}
-              </span>
-            }
-          >
-            <Banknote className="w-6 h-6 text-[#C9A96E]" strokeWidth={2} />
-            <span className="text-[14px] text-white">{t("cash")}</span>
-          </MethodRow>
-        </div>
       </div>
 
       <div className="flex flex-col gap-4 pt-2">

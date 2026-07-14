@@ -169,7 +169,7 @@ export function Hero({
     >
       <div className="absolute top-0 right-0 w-[46%] xl:w-[48%] 2xl:w-[50%] max-w-[850px] h-[540px] hidden lg:block">
         <Image
-          src={heroImageUrl || "/hero-bg.png"}
+          src={heroImageUrl || "/hero-bg.webp"}
           alt=""
           fill
           className="object-cover object-[20%_center]"
@@ -180,7 +180,7 @@ export function Hero({
 
       <div className="relative lg:hidden overflow-hidden h-[320px]">
         <Image
-          src={heroImageUrl || "/hero-bg.png"}
+          src={heroImageUrl || "/hero-bg.webp"}
           alt=""
           fill
           className="object-cover object-[center_30%]"

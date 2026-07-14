@@ -15,6 +15,7 @@ import { useCheckout } from "@/components/customizable-checkout/checkout-context
 import { usePartnershipSlug } from "@/components/customizable-checkout/checkout-page"
 import { GooglePlacesInput } from "@/components/ui/google-places-input"
 import { initOrder, createReturnOrder, registTrip, selectCar, toBackendLocation, formatLocalDate, formatLocalDateTime, lookupFlight } from "@/lib/orders"
+import { readReferralCookie } from "@/lib/referral"
 import { useConvex } from "convex/react"
 import { useState, useMemo } from "react"
 import { calculatePriceBreakdown } from "@/lib/format"
@@ -436,7 +437,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           departureDate: formatLocalDateTime(departureDate, true),
           isRoundTrip: false, // Sempre criar apenas 1 ordem inicialmente
           returnDate: undefined,
-          partnershipSlug,
+          partnershipSlug: partnershipSlug || readReferralCookie() || undefined,
         }
         const initResp = await initOrder(convex, initOrderPayload)
         currentOrderId = initResp.order.id

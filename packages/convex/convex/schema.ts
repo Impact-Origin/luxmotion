@@ -212,6 +212,8 @@ export default defineSchema({
 
     // Origem da reserva: "Easy Transfer" (site principal) ou nome da parceria (ex: "Vila Galé")
     partnershipName: v.optional(v.string()),
+    // Affiliate/partnership this order was attributed to (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
 
     // Timestamps
     createdAt: v.number(),
@@ -282,10 +284,14 @@ export default defineSchema({
       v.literal("maintenance"),
     ),
     order: v.number(),
+    // Experience-upgrade upsell: when set, THIS (premium) vehicle is offered as an
+    // upgrade to customers who selected the referenced (standard) vehicle at checkout.
+    upgradeFromVehicleId: v.optional(v.id("vehicles")),
   })
     .index("by_status", ["status"])
     .index("by_order", ["order"])
-    .index("by_partnership", ["partnershipId"]),
+    .index("by_partnership", ["partnershipId"])
+    .index("by_upgrade_from", ["upgradeFromVehicleId"]),
 
   partnerships: defineTable({
     name: v.string(),
@@ -677,6 +683,9 @@ export default defineSchema({
     status: v.optional(
       v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
     ),
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
     createdAt: v.number(),
   }).index("by_created", ["createdAt"]),
 
@@ -688,6 +697,9 @@ export default defineSchema({
     status: v.optional(
       v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
     ),
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_created", ["createdAt"])
@@ -881,6 +893,10 @@ export default defineSchema({
     vehicleType: v.optional(v.string()),
     notes: v.optional(v.string()),
 
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
+
     status: v.union(
       v.literal("submitted"),
       v.literal("reviewing"),
@@ -908,6 +924,9 @@ export default defineSchema({
       v.literal("resolved"),
       v.literal("archived"),
     ),
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_created", ["createdAt"])
@@ -948,6 +967,9 @@ export default defineSchema({
     status: v.optional(
       v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
     ),
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_created", ["createdAt"])
@@ -968,6 +990,9 @@ export default defineSchema({
     status: v.optional(
       v.union(v.literal("new"), v.literal("read"), v.literal("archived")),
     ),
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_created", ["createdAt"])
@@ -1179,6 +1204,9 @@ export default defineSchema({
       v.literal("completed"),
       v.literal("cancelled"),
     ),
+    // Affiliate/partnership attribution (referral link).
+    partnershipId: v.optional(v.id("partnerships")),
+    partnershipName: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
