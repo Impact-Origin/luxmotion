@@ -60,6 +60,14 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
 
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(initialData?.imageUrl || null);
 
+  // Upgrade-from options: only vehicles from the SAME source (same owner — global
+  // or the same partnership) as the one being edited, excluding itself. Labelled
+  // with capacity + price because several vehicles can share the same name.
+  const upgradeFromOptions = (allVehicles ?? []).filter((v) => {
+    if (v._id === initialData?._id) return false;
+    return (v.partnershipId ?? "global") === partnershipId;
+  });
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -160,7 +168,11 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
                   <Label htmlFor="ownership">Owner / Partnership</Label>
               <Select
                     value={partnershipId}
-                    onValueChange={setPartnershipId}
+                    onValueChange={(val) => {
+                      setPartnershipId(val);
+                      // Owner changed → clear the upgrade mapping (options are owner-scoped).
+                      setUpgradeFromVehicleId("none");
+                    }}
                 disabled={isSubmitting}
               >
                     <SelectTrigger className="h-9">
@@ -389,19 +401,18 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">Nenhum — não é um upgrade</SelectItem>
-                    {allVehicles
-                      ?.filter((v) => v._id !== initialData?._id)
-                      .map((v) => (
-                        <SelectItem key={v._id} value={v._id}>
-                          {v.name}
-                        </SelectItem>
-                      ))}
+                    {upgradeFromOptions.map((v) => (
+                      <SelectItem key={v._id} value={v._id}>
+                        {`${v.name} · ${v.passengers} pax · ${v.luggage} malas · €${v.pricePerKm.toFixed(2)}/km${v.status !== "active" ? " · inativo" : ""}`}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">
                   Se este for um veículo premium, escolha o veículo standard
-                  correspondente. No checkout, quem escolher o standard verá um
-                  convite para fazer upgrade para este.
+                  correspondente (só aparecem veículos do mesmo dono). No checkout,
+                  quem escolher o standard verá um convite para fazer upgrade para
+                  este.
                 </p>
               </div>
             </div>
@@ -435,7 +446,7 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
         </div>
       </div>
 
-      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-end gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur lg:-mx-8 lg:px-8">
+      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-end gap-3 border-t border-border bg-background px-4 py-3 lg:-mx-8 lg:px-8">
         <Button
           type="button"
           variant="outline"

@@ -217,7 +217,7 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
         </button>
       </div>
 
-      <div className="sticky top-0 z-10 -mx-4 border-b border-border bg-background/95 px-4 py-3 backdrop-blur lg:-mx-8 lg:px-8">
+      <div className="sticky top-0 z-10 -mx-4 border-b border-border bg-background px-4 py-3 lg:-mx-8 lg:px-8">
         <div className="mb-2 flex items-center justify-between text-xs font-medium uppercase tracking-[1px] text-muted-foreground">
           <span className="truncate">{STEPS[currentStepIndex]?.label}</span>
           <span className="shrink-0 pl-3 tabular-nums">
@@ -625,7 +625,7 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
             </div>
           </Tabs>
 
-      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-between gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur lg:-mx-8 lg:px-8">
+      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-between gap-3 border-t border-border bg-background px-4 py-3 lg:-mx-8 lg:px-8">
         <div className="flex items-center gap-2">
           <Button
             type="button"
