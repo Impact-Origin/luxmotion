@@ -3,9 +3,11 @@ import { internalAction } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import type { Doc } from "./_generated/dataModel";
 
+// Centralizado na API EasyTransfer (via Supabase Edge Function -> /webhooks/nova-reserva).
+// N8N removido do circuito de reservas (era um ponto de falha sem retry).
 const ORDER_WEBHOOK_URL =
   process.env.EASYTRANSFER_ORDER_WEBHOOK_URL ??
-  "https://webhooks.easytransferericeira.com/webhook/73c31c3b-49ad-47f9-b8fa-40e8e7369a36";
+  "https://vmtcugydsqkbfzuyajxh.supabase.co/functions/v1/webhook-nova-reserva";
 
 const LEAD_WEBHOOK_URL =
   process.env.EASYTRANSFER_LEAD_WEBHOOK_URL ??
@@ -22,9 +24,12 @@ const LEAD_WEBHOOK_URL =
 export const sendOrderPayload = internalAction({
   args: {
     orderId: v.id("orders"),
+    attempt: v.optional(v.number()),
   },
   handler: async (ctx, args): Promise<void> => {
-    console.log("[Webhook] ENVIO WEBHOOK — sendOrderPayload INICIADO — orderId:", args.orderId);
+    const attempt = args.attempt ?? 1;
+    const MAX_ATTEMPTS = 5;
+    console.log(`[Webhook] ENVIO WEBHOOK — sendOrderPayload INICIADO — orderId: ${args.orderId} (tentativa ${attempt}/${MAX_ATTEMPTS})`);
     const order: Doc<"orders"> | null = await ctx.runQuery(api.orders.getById, {
       orderId: args.orderId,
     });
@@ -53,24 +58,36 @@ export const sendOrderPayload = internalAction({
     const body = JSON.stringify({ orders });
 
     console.log("[Webhook] ENVIO WEBHOOK — Enviando POST para:", ORDER_WEBHOOK_URL, "| orders:", orders.length, "| orderIds:", orders.map((o) => o._id));
+    let ok = false;
     try {
       const res = await fetch(ORDER_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
       });
-      if (res.ok) {
+      ok = res.ok;
+      if (ok) {
         console.log("[Webhook] ENVIO WEBHOOK — Payload enviado com sucesso. POST OK:", res.status, res.statusText);
       } else {
-        console.warn(
-          "[Webhook] POST failed:",
-          res.status,
-          res.statusText,
-          await res.text()
-        );
+        console.warn("[Webhook] POST failed (tentativa " + attempt + "):", res.status, res.statusText, await res.text());
       }
     } catch (e) {
-      console.warn("[Webhook] POST error:", e);
+      console.warn("[Webhook] POST error (tentativa " + attempt + "):", e);
+    }
+
+    // Retry com backoff exponencial — evita perder reservas se a API/edge estiver
+    // temporariamente indisponivel. Antes, uma falha aqui perdia a reserva em silencio.
+    if (!ok) {
+      if (attempt < MAX_ATTEMPTS) {
+        const delayMs = Math.min(5 * 60_000, 5_000 * 2 ** (attempt - 1)); // 5s,10s,20s,40s... (max 5min)
+        console.warn(`[Webhook] Reagendando envio (tentativa ${attempt + 1}/${MAX_ATTEMPTS}) em ${delayMs}ms — order ${args.orderId}`);
+        await ctx.scheduler.runAfter(delayMs, internal.webhooks.sendOrderPayload, {
+          orderId: args.orderId,
+          attempt: attempt + 1,
+        });
+      } else {
+        console.error(`[Webhook] FALHA DEFINITIVA apos ${MAX_ATTEMPTS} tentativas — RESERVA PODE TER-SE PERDIDO — order ${args.orderId}. Verificar manualmente.`);
+      }
     }
   },
 });
