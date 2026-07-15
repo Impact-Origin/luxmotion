@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { resolveReferral } from "./lib/referral";
 
 export const submit = mutation({
@@ -26,6 +27,21 @@ export const submit = mutation({
       partnershipName: ref.partnershipName,
       status: "new",
       createdAt: Date.now(),
+    });
+
+    // Confirmacao ao cliente (via API EasyTransfer -> template SendGrid Wedding)
+    await ctx.scheduler.runAfter(0, internal.webhooks.sendPedido, {
+      tipo: "wedding",
+      email: args.email,
+      nome: args.fullName,
+      dados: {
+        evento_tipo: "Casamento",
+        data_evento: args.weddingDate ?? "",
+        local_cerimonia: args.venue ?? "",
+        local_festa: args.venue ?? "",
+        num_convidados: args.guests != null ? String(args.guests) : "",
+        veiculos_estimados: args.numVehicles != null ? String(args.numVehicles) : "",
+      },
     });
   },
 });

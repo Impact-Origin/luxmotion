@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { resolveReferral } from "./lib/referral";
 
 export const submit = mutation({
@@ -26,6 +27,17 @@ export const submit = mutation({
       partnershipName: ref.partnershipName,
       status: "new",
       createdAt: Date.now(),
+    });
+
+    // Confirmacao ao cliente (via API EasyTransfer -> template SendGrid School)
+    await ctx.scheduler.runAfter(0, internal.webhooks.sendPedido, {
+      tipo: "school",
+      email: args.email,
+      nome: args.name,
+      dados: {
+        escola_nome: "",
+        numero_alunos: args.children != null ? String(args.children) : "",
+      },
     });
   },
 });
