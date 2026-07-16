@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@workspace/convex/api";
-import { Plus, MoreVertical, Trash2, ExternalLink, Settings, Building2 } from "lucide-react";
+import { Plus, MoreVertical, Trash2, ExternalLink, Settings, Building2, BarChart3 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -86,6 +86,12 @@ export default function PartnershipsPage() {
           <Link href={`/admin/partnerships/${p._id}`}>
             <Settings className="mr-2 size-4 text-muted-foreground" />
             {t("settings")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/admin/partnerships/${p._id}/leads`}>
+            <BarChart3 className="mr-2 size-4 text-muted-foreground" />
+            Leads &amp; encomendas
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

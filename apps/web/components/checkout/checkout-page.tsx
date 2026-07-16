@@ -14,6 +14,7 @@ import { CheckoutProvider, useCheckout, DEV_ALLOW_STEP_SKIP, type Vehicle } from
 import { useVehicles } from "@/hooks/use-vehicles"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { ExperienceUpgradeModal } from "@/components/checkout/experience-upgrade-modal"
+import { CheckoutThemeProvider, useCheckoutTheme } from "@/components/checkout/checkout-theme"
 import { isAirportLocation } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
@@ -27,9 +28,11 @@ import { useTranslations } from "next-intl"
 
 export function CheckoutPage() {
   return (
-    <CheckoutProvider>
-      <CheckoutPageContent />
-    </CheckoutProvider>
+    <CheckoutThemeProvider>
+      <CheckoutProvider>
+        <CheckoutPageContent />
+      </CheckoutProvider>
+    </CheckoutThemeProvider>
   )
 }
 
@@ -37,6 +40,7 @@ function CheckoutPageContent() {
   const convex = useConvex()
   const searchParams = useSearchParams()
   const { state, setStep, setSelectedVehicle, setShowTransferForm, setOrder, updateDistance, setUpgradeMode, submitCheckout, setNearbyTours } = useCheckout()
+  const { theme } = useCheckoutTheme()
   const { currentStep, direction, selectedVehicle, showTransferForm, transfer, distance: storedDistance, orderId, upgradeMode, hasNearbyTours, nearbyToursLoaded } = state
 
   // Experience-upgrade upsell modal (premium vehicle offered for the selected standard one).
@@ -264,7 +268,7 @@ function CheckoutPageContent() {
         hasNearbyTours={hasNearbyTours}
       />
 
-      <main className="flex-1 bg-[#0D0D0D] text-white overflow-x-hidden pb-16">
+      <main className="flex-1 bg-[var(--ck-bg,#0d0d0d)] text-[var(--ck-text,#f7f4ef)] overflow-x-hidden pb-16">
         <div key={currentStep} className={getAnimationClass()} style={getAnimationStyle()}>
           {currentStep === 1 && (
             <VehicleSelectionStep
@@ -317,6 +321,7 @@ function CheckoutPageContent() {
       {upgradeCandidate && selectedVehicle && (
         <ExperienceUpgradeModal
           open
+          variant={theme}
           onDecline={handleUpgradeDecline}
           onAccept={handleUpgradeAccept}
           vehicleName={upgradeCandidate.name}
@@ -381,7 +386,7 @@ function VehicleSelectionStep({
         <div className="flex flex-col pt-8 lg:pr-6">
           <div className="flex items-center justify-between gap-4 mb-5">
             <h2
-              className="text-[28px] lg:text-[36px] font-normal text-[#F7F4EF] leading-none"
+              className="text-[28px] lg:text-[36px] font-normal text-[var(--ck-text,#f7f4ef)] leading-none"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {t("chooseYourVehicle")}
@@ -390,7 +395,7 @@ function VehicleSelectionStep({
               type="button"
               onClick={onContinueFromVehicle}
               disabled={!selectedVehicle}
-              className="hidden sm:inline-flex items-center gap-2 bg-[#C9A96E] hover:bg-[#b89558] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-6 py-3.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+              className="hidden sm:inline-flex items-center gap-2 bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-6 py-3.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
             >
               {tCommon("continue")}
               <ArrowRight className="size-4" strokeWidth={2} />
@@ -403,7 +408,7 @@ function VehicleSelectionStep({
               type="button"
               onClick={onContinueFromVehicle}
               disabled={!selectedVehicle}
-              className="inline-flex items-center gap-2 bg-[#C9A96E] hover:bg-[#b89558] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-8 py-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-8 py-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {tCommon("continue")}
               <ArrowRight className="size-4" strokeWidth={2} />
@@ -414,22 +419,22 @@ function VehicleSelectionStep({
               [1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="h-[285px] bg-[#1A1A1A] border border-[rgba(201,169,110,0.08)] animate-pulse"
+                  className="h-[285px] bg-[var(--ck-surface,#1a1a1a)] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.08)] animate-pulse"
                 />
               ))
             ) : routeError === "no_route" ? (
-              <div className="col-span-full py-20 text-center bg-[#141414] border border-dashed border-[rgba(201,169,110,0.22)]">
+              <div className="col-span-full py-20 text-center bg-[var(--ck-surface-sunken,#141414)] border border-dashed border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)]">
                 <p className="text-[#F5F5F5] font-medium mb-2">No driving route found between these locations.</p>
-                <p className="text-[rgba(255,255,255,0.55)] text-sm">Please check if both locations are accessible by car.</p>
+                <p className="text-[rgba(var(--ck-text-rgb,255,255,255),0.55)] text-sm">Please check if both locations are accessible by car.</p>
               </div>
             ) : routeError === "api_error" ? (
-              <div className="col-span-full py-20 text-center bg-[#141414] border border-dashed border-[rgba(201,169,110,0.22)]">
+              <div className="col-span-full py-20 text-center bg-[var(--ck-surface-sunken,#141414)] border border-dashed border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)]">
                 <p className="text-[#F5F5F5] font-medium mb-2">Unable to calculate route.</p>
-                <p className="text-[rgba(255,255,255,0.55)] text-sm">Please try again or contact support.</p>
+                <p className="text-[rgba(var(--ck-text-rgb,255,255,255),0.55)] text-sm">Please try again or contact support.</p>
               </div>
             ) : vehicles.length === 0 ? (
-              <div className="col-span-full py-20 text-center bg-[#141414] border border-dashed border-[rgba(201,169,110,0.22)]">
-                <p className="text-[#C9A96E] font-medium">{t("noVehicles")}</p>
+              <div className="col-span-full py-20 text-center bg-[var(--ck-surface-sunken,#141414)] border border-dashed border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)]">
+                <p className="text-[var(--ck-accent,#c9a96e)] font-medium">{t("noVehicles")}</p>
               </div>
             ) : (
               vehicles.map((vehicle) => (
@@ -448,7 +453,7 @@ function VehicleSelectionStep({
               type="button"
               onClick={onContinueFromVehicle}
               disabled={!selectedVehicle}
-              className="inline-flex items-center gap-2 bg-[#C9A96E] hover:bg-[#b89558] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-8 py-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#1E1D1B] font-semibold uppercase tracking-[0.08em] text-[13px] px-8 py-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {tCommon("continue")}
               <ArrowRight className="size-4" strokeWidth={2} />

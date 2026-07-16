@@ -21,7 +21,7 @@ const SERIF_FONT = {
 
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <label className="block text-[12px] font-semibold text-white mb-2 leading-none">
+    <label className="block text-[12px] font-semibold text-[var(--ck-text,#f7f4ef)] mb-2 leading-none">
       {children}
       {required && <span className="text-[#E32828]">*</span>}
     </label>
@@ -48,7 +48,7 @@ function DarkInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       autoComplete={autoComplete}
-      className="w-full h-[44px] px-[13px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+      className="w-full h-[44px] px-[13px] bg-[var(--ck-surface,#1e1d1b)] border border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] text-[14px] text-[var(--ck-text,#f7f4ef)] placeholder:text-[var(--ck-text-subtle,#696969)] focus:outline-none focus:border-[var(--ck-accent,#c9a96e)] transition-colors"
     />
   )
 }
@@ -67,22 +67,22 @@ function RadioCard({
       type="button"
       onClick={onSelect}
       className={cn(
-        "w-full h-[44px] flex items-center gap-2 px-[15px] bg-[#1E1D1B] border transition-colors",
-        selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.2)]",
+        "w-full h-[44px] flex items-center gap-2 px-[15px] bg-[var(--ck-surface,#1e1d1b)] border transition-colors",
+        selected ? "border-[var(--ck-accent,#c9a96e)]" : "border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] hover:border-[rgba(var(--ck-text-rgb,255,255,255),0.2)]",
       )}
     >
       <span
         className={cn(
           "relative w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-colors",
-          selected ? "border-[#C9A96E]" : "border-[rgba(255,255,255,0.35)]",
+          selected ? "border-[var(--ck-accent,#c9a96e)]" : "border-[rgba(var(--ck-text-rgb,255,255,255),0.35)]",
         )}
       >
-        {selected && <span className="w-[10px] h-[10px] rounded-full bg-[#C9A96E]" />}
+        {selected && <span className="w-[10px] h-[10px] rounded-full bg-[var(--ck-accent,#c9a96e)]" />}
       </span>
       <span
         className={cn(
           "text-[14px] font-normal leading-[20.992px]",
-          selected ? "text-white" : "text-[#999]",
+          selected ? "text-[var(--ck-text,#f7f4ef)]" : "text-[var(--ck-text-muted,#999999)]",
         )}
       >
         {label}
@@ -207,7 +207,7 @@ export function PassengerInfoForm({ onContinue, onBack }: PassengerInfoFormProps
   return (
     <div className="flex flex-col gap-4 pb-10">
       <h1
-        className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
+        className="text-[24px] font-semibold leading-none text-[var(--ck-text,#f7f4ef)]"
         style={SERIF_FONT}
       >
         {t("title")}
@@ -298,8 +298,8 @@ export function PassengerInfoForm({ onContinue, onBack }: PassengerInfoFormProps
               </div>
             </div>
 
-            <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center">
-              <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+            <div className="border-b-[0.8px] border-[rgba(var(--ck-text-rgb,247,244,239),0.08)] pb-[0.8px] h-6 flex items-center">
+              <span className="text-[12px] font-bold text-[var(--ck-text-muted,#999999)] uppercase tracking-[1.152px] leading-none">
                 {t("mainPassengerData")}
               </span>
             </div>
@@ -351,7 +351,7 @@ export function PassengerInfoForm({ onContinue, onBack }: PassengerInfoFormProps
         <button
           type="button"
           onClick={onBack}
-          className="h-12 px-8 border border-[#999] text-[#999] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[#F7F4EF] hover:text-[#F7F4EF] transition-colors"
+          className="h-12 px-8 border border-[var(--ck-text-muted,#999999)] text-[var(--ck-text-muted,#999999)] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[var(--ck-text,#f7f4ef)] hover:text-[var(--ck-text,#f7f4ef)] transition-colors"
         >
           <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
           <span className="px-2">{tCommon("back")}</span>
@@ -360,7 +360,7 @@ export function PassengerInfoForm({ onContinue, onBack }: PassengerInfoFormProps
           type="button"
           onClick={handleContinue}
           disabled={isSubmitting}
-          className="h-12 px-8 bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:bg-[#b89558] hover:border-[#b89558] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="h-12 px-8 bg-[var(--ck-accent,#c9a96e)] border border-[var(--ck-accent,#c9a96e)] text-[var(--ck-bg,#0d0d0d)] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:bg-[var(--ck-accent-hover,#b89558)] hover:border-[var(--ck-accent-hover,#b89558)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span className="px-2">{tCommon("continue")}</span>
           <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2} />

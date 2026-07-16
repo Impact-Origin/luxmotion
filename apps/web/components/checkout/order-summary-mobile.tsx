@@ -104,14 +104,14 @@ export function OrderSummaryMobile() {
 
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
-              <h2 className="text-[18px] font-bold text-[#222222] leading-tight">
+              <h2 className="text-[18px] font-bold text-[var(--ck-surface-2,#222222)] leading-tight">
                 {t("title")}
               </h2>
               <div className="mt-1.5 flex flex-col">
-                <span className="text-[14px] text-[#222222]">
+                <span className="text-[14px] text-[var(--ck-surface-2,#222222)]">
                   {t("totalPrice")}
                 </span>
-                <span className="text-[14px] text-[#808080]">
+                <span className="text-[14px] text-[var(--ck-text-muted,#999999)]">
                   {t("taxesIncluded")}
                 </span>
               </div>
@@ -403,7 +403,7 @@ function OrderSummaryContent() {
           className="w-full flex items-center justify-between"
         >
           <div className="flex items-center gap-2.5">
-            <h3 className="text-[18px] font-bold text-[#222222]">
+            <h3 className="text-[18px] font-bold text-[var(--ck-surface-2,#222222)]">
               {t("itinerary")}
             </h3>
             <div className="flex items-center bg-[#e9f9ff] rounded-full px-2 py-1">
@@ -458,7 +458,7 @@ function OrderSummaryContent() {
       </div>
 
       <div className="flex justify-center">
-        <div className="w-full border-t border-[#bfbfbf]" />
+        <div className="w-full border-t border-[var(--ck-text-muted,#999999)]" />
       </div>
 
       <div className="pt-0.5">
@@ -466,7 +466,7 @@ function OrderSummaryContent() {
           onClick={() => setIsInvoiceExpanded(!isInvoiceExpanded)}
           className="w-full flex items-center justify-between"
         >
-          <h3 className="text-[18px] font-bold text-[#222222]">
+          <h3 className="text-[18px] font-bold text-[var(--ck-surface-2,#222222)]">
             {t("invoice")}
           </h3>
           <ChevronDown
@@ -483,7 +483,7 @@ function OrderSummaryContent() {
               <span>{t("itemDescription")}</span>
               <span>{t("price")}</span>
             </div>
-            <div className="flex flex-col gap-4 text-[12px] text-[#808080]">
+            <div className="flex flex-col gap-4 text-[12px] text-[var(--ck-text-muted,#999999)]">
               {invoiceItems.map((item, index) => (
                 <InvoiceLineItem
                   key={`${item.key}-${index}`}
@@ -514,7 +514,7 @@ function OrderSummaryContent() {
       </div>
 
       <div className="flex justify-center">
-        <div className="w-full border-t border-[#bfbfbf]" />
+        <div className="w-full border-t border-[var(--ck-text-muted,#999999)]" />
       </div>
 
       <div className="flex flex-col items-end gap-2">
@@ -524,13 +524,13 @@ function OrderSummaryContent() {
             : formatPriceShort(totalPriceWithExtras)}
         </div>
         {!isEur && (
-          <div className="text-[13px] text-[#808080] whitespace-nowrap">
+          <div className="text-[13px] text-[var(--ck-text-muted,#999999)] whitespace-nowrap">
             ≈ {format(totalPriceWithExtras)}
           </div>
         )}
         <div className="flex flex-col items-end gap-1 text-[14px]">
-          <div className="text-[#222222]">{t("totalPrice")}</div>
-          <div className="text-[#808080]">{t("taxesIncluded")}</div>
+          <div className="text-[var(--ck-surface-2,#222222)]">{t("totalPrice")}</div>
+          <div className="text-[var(--ck-text-muted,#999999)]">{t("taxesIncluded")}</div>
         </div>
       </div>
 
@@ -539,7 +539,7 @@ function OrderSummaryContent() {
         description={t("freeCancellationDesc")}
       />
 
-      <div className="flex items-center justify-center gap-2 text-[12px] text-[#808080]">
+      <div className="flex items-center justify-center gap-2 text-[12px] text-[var(--ck-text-muted,#999999)]">
         <span className="text-lg">🔥</span>
         <span>{t("bookedToday", { count: dailyBookedCount })}</span>
       </div>

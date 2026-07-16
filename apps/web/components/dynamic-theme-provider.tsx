@@ -330,6 +330,9 @@ export interface ThemeColors {
 export interface ThemeConfig {
   colors: ThemeColors;
   borderRadius: number;
+  /** Per-partnership theme mode for the whitelabel landing (+ checkout, later):
+   *  "switch" shows the light/dark toggle, "dark"/"light" lock it. Default "switch". */
+  themeMode?: "switch" | "dark" | "light";
 }
 
 export const defaultTheme: ThemeConfig = {

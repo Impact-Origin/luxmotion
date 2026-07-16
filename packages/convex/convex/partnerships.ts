@@ -129,3 +129,68 @@ export const remove = mutation({
   },
 });
 
+// Per-partnership dashboard: everything attributed to a partnership across every
+// lead/order surface (affiliate attribution via partnershipId). Full-table scans
+// + filter — fine for the admin (these tables are modest); add by_partnership
+// indexes if any grows large.
+export const getLeadStats = query({
+  args: { partnershipId: v.id("partnerships") },
+  handler: async (ctx, { partnershipId }) => {
+    const summarize = (rows: any[]) => {
+      const mine = rows.filter((r) => r.partnershipId === partnershipId);
+      const recent = [...mine]
+        .sort(
+          (a, b) =>
+            (b.createdAt ?? b._creationTime) - (a.createdAt ?? a._creationTime),
+        )
+        .slice(0, 8)
+        .map((r) => ({
+          _id: r._id as string,
+          label:
+            r.fullName ||
+            r.name ||
+            r.author ||
+            r.companyName ||
+            r.company ||
+            r.email ||
+            "—",
+          email: (r.email as string | undefined) ?? null,
+          status: (r.status as string | undefined) ?? null,
+          createdAt: (r.createdAt as number | undefined) ?? r._creationTime,
+        }));
+      return { count: mine.length, recent };
+    };
+
+    const [
+      orders,
+      tourInquiries,
+      tourBookings,
+      contactSubmissions,
+      contactQuotes,
+      corporateRequests,
+      schoolQuoteSubmissions,
+      weddingQuoteSubmissions,
+    ] = await Promise.all([
+      ctx.db.query("orders").collect(),
+      ctx.db.query("tourInquiries").collect(),
+      ctx.db.query("tourBookings").collect(),
+      ctx.db.query("contactSubmissions").collect(),
+      ctx.db.query("contactQuotes").collect(),
+      ctx.db.query("corporateRequests").collect(),
+      ctx.db.query("schoolQuoteSubmissions").collect(),
+      ctx.db.query("weddingQuoteSubmissions").collect(),
+    ]);
+
+    return {
+      orders: summarize(orders),
+      tourInquiries: summarize(tourInquiries),
+      tourBookings: summarize(tourBookings),
+      contactSubmissions: summarize(contactSubmissions),
+      contactQuotes: summarize(contactQuotes),
+      corporateRequests: summarize(corporateRequests),
+      schoolQuoteSubmissions: summarize(schoolQuoteSubmissions),
+      weddingQuoteSubmissions: summarize(weddingQuoteSubmissions),
+    };
+  },
+});
+

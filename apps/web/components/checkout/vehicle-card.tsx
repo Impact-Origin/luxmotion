@@ -55,8 +55,8 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
       className={cn(
         "relative flex flex-col gap-[10px] pt-6 pb-4 px-4 border transition-colors cursor-pointer",
         selected
-          ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
-          : "bg-[#1E1D1B] border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.4)]"
+          ? "bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.07)] border-[var(--ck-accent,#c9a96e)]"
+          : "bg-[var(--ck-surface,#1e1d1b)] border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)]"
       )}
     >
       {vehicle.isElectric && (
@@ -76,8 +76,8 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
         }}
         aria-label={t("included")}
         className={cn(
-          "absolute right-0 top-0 p-[10px] transition-colors hover:text-[#C9A96E]",
-          selected ? "text-[#C9A96E]" : "text-[rgba(247,244,239,0.55)]"
+          "absolute right-0 top-0 p-[10px] transition-colors hover:text-[var(--ck-accent,#c9a96e)]",
+          selected ? "text-[var(--ck-accent,#c9a96e)]" : "text-[rgba(var(--ck-text-rgb,247,244,239),0.55)]"
         )}
       >
         <Info className="size-6" strokeWidth={1.5} />
@@ -94,26 +94,26 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
       </div>
 
       <div className="flex items-start justify-between w-full">
-        <h3 className="text-[16px] font-bold text-[#F7F4EF] leading-[21.76px]">
+        <h3 className="text-[16px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[21.76px]">
           {vehicle.name}
         </h3>
         <div className="flex flex-col items-end">
           {hasDistance ? (
             <>
-              <p className="text-[20px] font-bold text-[#F7F4EF] leading-[28.16px] text-right">
+              <p className="text-[20px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[28.16px] text-right">
                 €{displayPrice}
               </p>
-              <p className="text-[8px] text-[rgba(247,244,239,0.38)] leading-[14.85px] text-right">
+              <p className="text-[8px] text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] leading-[14.85px] text-right">
                 {t("vatIncluded")}
               </p>
             </>
           ) : (
             <>
-              <p className="text-[20px] font-bold text-[#F7F4EF] leading-[28.16px] text-right whitespace-nowrap">
+              <p className="text-[20px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[28.16px] text-right whitespace-nowrap">
                 €{pricePerKm}
-                <span className="text-[12px] text-[rgba(247,244,239,0.38)] font-normal">/km</span>
+                <span className="text-[12px] text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] font-normal">/km</span>
               </p>
-              <p className="text-[8px] text-[rgba(247,244,239,0.38)] leading-[14.85px] text-right">
+              <p className="text-[8px] text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] leading-[14.85px] text-right">
                 {t("selectRouteForPrice")}
               </p>
             </>
@@ -122,17 +122,17 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
       </div>
 
       <div className="flex items-center gap-[8px] w-full">
-        <Users className="size-[18px] text-[#999]" strokeWidth={1.5} />
-        <span className="text-[14px] text-[#999] leading-none">{vehicle.passengers}</span>
-        <Briefcase className="size-[18px] text-[#999] ml-1" strokeWidth={1.5} />
-        <span className="text-[14px] text-[#999] leading-none">{vehicle.luggage}</span>
-        <Wifi className="size-[18px] text-[#999] ml-1" strokeWidth={1.5} />
-        <span className="text-[14px] text-[#999] leading-none">{tCommon("yes")}</span>
+        <Users className="size-[18px] text-[var(--ck-text-muted,#999999)]" strokeWidth={1.5} />
+        <span className="text-[14px] text-[var(--ck-text-muted,#999999)] leading-none">{vehicle.passengers}</span>
+        <Briefcase className="size-[18px] text-[var(--ck-text-muted,#999999)] ml-1" strokeWidth={1.5} />
+        <span className="text-[14px] text-[var(--ck-text-muted,#999999)] leading-none">{vehicle.luggage}</span>
+        <Wifi className="size-[18px] text-[var(--ck-text-muted,#999999)] ml-1" strokeWidth={1.5} />
+        <span className="text-[14px] text-[var(--ck-text-muted,#999999)] leading-none">{tCommon("yes")}</span>
       </div>
 
       <div className="flex items-center gap-[4px] w-full">
-        <ShieldCheck className="size-[14px] text-[#9A7535]" strokeWidth={1.5} />
-        <span className="text-[8px] font-normal uppercase text-[#9A7535] leading-none tracking-[0.3px]">
+        <ShieldCheck className="size-[14px] text-[var(--ck-accent-strong,#9a7535)]" strokeWidth={1.5} />
+        <span className="text-[8px] font-normal uppercase text-[var(--ck-accent-strong,#9a7535)] leading-none tracking-[0.3px]">
           {t("fixedPriceGuaranteed")}
         </span>
       </div>
@@ -146,24 +146,24 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
         className={cn(
           "group flex items-center p-[10px] border w-full transition-colors",
           selected
-            ? "border-[#C9A96E] bg-[rgba(201,169,110,0.08)]"
-            : "border-[rgba(255,255,255,0.12)] hover:border-[rgba(201,169,110,0.4)] hover:bg-[rgba(201,169,110,0.04)]"
+            ? "border-[var(--ck-accent,#c9a96e)] bg-[rgba(var(--ck-accent-rgb,201,169,110),0.08)]"
+            : "border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] hover:bg-[rgba(var(--ck-accent-rgb,201,169,110),0.04)]"
         )}
       >
         <div
           className={cn(
             "size-[15px] rounded-[2px] border-[0.833px] flex items-center justify-center shrink-0 transition-colors",
             selected
-              ? "border-[#C9A96E] bg-[rgba(154,117,53,0.22)]"
-              : "border-[rgba(255,255,255,0.12)] group-hover:border-[rgba(201,169,110,0.5)]"
+              ? "border-[var(--ck-accent,#c9a96e)] bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.22)]"
+              : "border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] group-hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.5)]"
           )}
         >
-          {selected && <Check className="size-[10px] text-[#C9A96E]" strokeWidth={3} />}
+          {selected && <Check className="size-[10px] text-[var(--ck-accent,#c9a96e)]" strokeWidth={3} />}
         </div>
         <span
           className={cn(
             "text-[12px] font-semibold uppercase leading-none px-[8px] transition-colors",
-            selected ? "text-[#C9A96E]" : "text-[#696969] group-hover:text-[#C9A96E]"
+            selected ? "text-[var(--ck-accent,#c9a96e)]" : "text-[var(--ck-text-subtle,#696969)] group-hover:text-[var(--ck-accent,#c9a96e)]"
           )}
         >
           {selected ? tCommon("selected") : tCommon("select")}

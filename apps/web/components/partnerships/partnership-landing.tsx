@@ -33,6 +33,7 @@ export function PartnershipLanding({
           logoUrl={logoUrl}
           heroImageUrl={heroImageUrl}
           partnershipSlug={partnershipSlug}
+          themeMode={theme?.themeMode}
         />
       );
     case "wedding-whitelabel":

@@ -42,8 +42,8 @@ interface PaymentStepProps {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-[0.8px] h-6 flex items-center w-full">
-      <span className="text-[12px] font-bold text-[#C9A96E] uppercase tracking-[1.152px] leading-none">
+    <div className="border-b-[0.8px] border-[rgba(var(--ck-text-rgb,247,244,239),0.08)] pb-[0.8px] h-6 flex items-center w-full">
+      <span className="text-[12px] font-bold text-[var(--ck-accent,#c9a96e)] uppercase tracking-[1.152px] leading-none">
         {children}
       </span>
     </div>
@@ -52,7 +52,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SubLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[12px] font-bold text-[#C9A96E] uppercase tracking-[1.152px] leading-none">
+    <span className="text-[12px] font-bold text-[var(--ck-accent,#c9a96e)] uppercase tracking-[1.152px] leading-none">
       {children}
     </span>
   )
@@ -86,25 +86,25 @@ function AddonCard({
   tagline,
 }: AddonCardProps) {
   return (
-    <div className="relative bg-[#1E1D1B] border-2 border-[rgba(154,117,53,0.22)] flex flex-col gap-[10px] px-6 py-4">
+    <div className="relative bg-[var(--ck-surface,#1e1d1b)] border-2 border-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.22)] flex flex-col gap-[10px] px-6 py-4">
       {badge && (
-        <div className="absolute top-[-2px] right-[22.8px] bg-[#A27425] px-2 py-1">
-          <span className="block translate-y-[1px] text-[8px] font-semibold text-white uppercase tracking-[1px] leading-[14.08px]">
+        <div className="absolute top-[-2px] right-[22.8px] bg-[var(--ck-accent-hover,#b89558)] px-2 py-1">
+          <span className="block translate-y-[1px] text-[8px] font-semibold text-[var(--ck-text,#f7f4ef)] uppercase tracking-[1px] leading-[14.08px]">
             {badge}
           </span>
         </div>
       )}
       <div className="flex items-center gap-2 w-full">
-        <div className="bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] p-[10px] shrink-0">
-          <div className="w-5 h-5 text-[#C9A96E] flex items-center justify-center">
+        <div className="bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.07)] border border-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.22)] p-[10px] shrink-0">
+          <div className="w-5 h-5 text-[var(--ck-accent,#c9a96e)] flex items-center justify-center">
             {icon}
           </div>
         </div>
         <div className="flex-1 flex flex-col min-w-0">
-          <p className="text-[14px] font-bold text-white leading-[22.528px]">{title}</p>
-          <p className="text-[12px] text-[#999] leading-[19.2px]">{subtitle}</p>
+          <p className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[22.528px]">{title}</p>
+          <p className="text-[12px] text-[var(--ck-text-muted,#999999)] leading-[19.2px]">{subtitle}</p>
         </div>
-        <p className="text-[16px] font-bold text-[#C9A96E] leading-[24.32px] whitespace-nowrap">
+        <p className="text-[16px] font-bold text-[var(--ck-accent,#c9a96e)] leading-[24.32px] whitespace-nowrap">
           {priceLabel}
         </p>
       </div>
@@ -112,14 +112,14 @@ function AddonCard({
       <ul className="flex flex-col gap-1 w-full">
         {bullets.map((b, i) => (
           <li key={i} className="flex items-center gap-[6px]">
-            <Check className="w-3 h-3 text-[#C9A96E] shrink-0" strokeWidth={3} />
-            <span className="text-[12px] text-[#999] leading-[19.2px]">{b}</span>
+            <Check className="w-3 h-3 text-[var(--ck-accent,#c9a96e)] shrink-0" strokeWidth={3} />
+            <span className="text-[12px] text-[var(--ck-text-muted,#999999)] leading-[19.2px]">{b}</span>
           </li>
         ))}
       </ul>
 
       {tagline && (
-        <p className="text-[12px] text-[#C9A96E] leading-[19.2px]">{tagline}</p>
+        <p className="text-[12px] text-[var(--ck-accent,#c9a96e)] leading-[19.2px]">{tagline}</p>
       )}
 
       <button
@@ -128,8 +128,8 @@ function AddonCard({
         className={cn(
           "h-10 w-full flex items-center justify-center gap-1 px-[22px] py-[9px] text-[14px] font-medium uppercase tracking-[1.1px] border transition-colors",
           active
-            ? "bg-[#C9A96E] border-[#C9A96E] text-[#0D0D0D] hover:bg-[#b89558] hover:border-[#b89558]"
-            : "bg-[#A27425] border-[#C9A96E] text-white hover:bg-[#8f6420]",
+            ? "bg-[var(--ck-accent,#c9a96e)] border-[var(--ck-accent,#c9a96e)] text-[var(--ck-bg,#0d0d0d)] hover:bg-[var(--ck-accent-hover,#b89558)] hover:border-[var(--ck-accent-hover,#b89558)]"
+            : "bg-[var(--ck-accent-hover,#b89558)] border-[var(--ck-accent,#c9a96e)] text-[var(--ck-text,#f7f4ef)] hover:bg-[#8f6420]",
         )}
       >
         <span>{active ? removeLabel : addLabel}</span>
@@ -155,8 +155,8 @@ function TipChip({
       className={cn(
         "flex-1 h-10 flex items-center justify-center text-[14px] font-medium border transition-colors",
         selected
-          ? "border-[#C9A96E] text-[#C9A96E] bg-[rgba(154,117,53,0.07)]"
-          : "border-[rgba(255,255,255,0.12)] text-[#999] hover:border-[rgba(255,255,255,0.3)] hover:text-white",
+          ? "border-[var(--ck-accent,#c9a96e)] text-[var(--ck-accent,#c9a96e)] bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.07)]"
+          : "border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] text-[var(--ck-text-muted,#999999)] hover:border-[rgba(var(--ck-text-rgb,255,255,255),0.3)] hover:text-[var(--ck-text,#f7f4ef)]",
       )}
     >
       {label}
@@ -552,7 +552,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
   return (
     <div className="flex flex-col gap-4 pb-10">
       <h1
-        className="text-[24px] font-semibold leading-none text-[#F7F4EF]"
+        className="text-[24px] font-semibold leading-none text-[var(--ck-text,#f7f4ef)]"
         style={SERIF_FONT}
       >
         {t("title")}
@@ -590,13 +590,13 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
               tipPercent === -1 ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
             )}
           >
-            <label className="block text-[12px] text-[#999] mb-1">{t("tipCustomPercent")}</label>
+            <label className="block text-[12px] text-[var(--ck-text-muted,#999999)] mb-1">{t("tipCustomPercent")}</label>
             <input
               type="number"
               min={0}
               max={100}
               step={1}
-              className="w-full h-[44px] px-[13px] bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+              className="w-full h-[44px] px-[13px] bg-[var(--ck-surface,#1e1d1b)] border border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] text-[14px] text-[var(--ck-text,#f7f4ef)] placeholder:text-[var(--ck-text-subtle,#696969)] focus:outline-none focus:border-[var(--ck-accent,#c9a96e)] transition-colors"
               placeholder="e.g. 5"
               onChange={(e) => {
                 const p = parseFloat(e.target.value) || 0
@@ -613,20 +613,20 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
           value={payment.specialRequest}
           onChange={(e) => updatePayment({ specialRequest: e.target.value })}
           placeholder={t("specialRequestPlaceholderNew")}
-          className="w-full min-h-[80px] px-4 py-2 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors resize-none"
+          className="w-full min-h-[80px] px-4 py-2 bg-[var(--ck-surface,#1e1d1b)] border border-[var(--ck-border,rgba(var(--ck-text-rgb,255,255,255),0.12))] text-[14px] text-[var(--ck-text,#f7f4ef)] placeholder:text-[var(--ck-text-subtle,#696969)] focus:outline-none focus:border-[var(--ck-accent,#c9a96e)] transition-colors resize-none"
         />
       </div>
 
-      <div className="flex items-center gap-3 bg-[rgba(154,117,53,0.07)] border border-[rgba(154,117,53,0.22)] px-4 py-2">
-        <ShieldCheck className="w-6 h-6 text-[#C9A96E] shrink-0" strokeWidth={2} />
-        <p className="text-[12px] text-[#F7F4EF] leading-[18px]">
+      <div className="flex items-center gap-3 bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.07)] border border-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.22)] px-4 py-2">
+        <ShieldCheck className="w-6 h-6 text-[var(--ck-accent,#c9a96e)] shrink-0" strokeWidth={2} />
+        <p className="text-[12px] text-[var(--ck-text,#f7f4ef)] leading-[18px]">
           <span className="font-semibold">{t("sslBannerLead")} </span>
           {t("sslBannerMid")}{" "}
-          <Link href="/terms-and-conditions" target="_blank" className="text-[#C9A96E] underline">
+          <Link href="/terms-and-conditions" target="_blank" className="text-[var(--ck-accent,#c9a96e)] underline">
             {t("termsAndConditions")}
           </Link>{" "}
           {t("acceptTermsAnd")}{" "}
-          <Link href="/refund" target="_blank" className="text-[#C9A96E] underline">
+          <Link href="/refund" target="_blank" className="text-[var(--ck-accent,#c9a96e)] underline">
             {t("privacyPolicy")}
           </Link>
           .
@@ -637,7 +637,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         type="button"
         onClick={handlePay}
         disabled={isSubmitting}
-        className="h-12 w-full bg-[#C9A96E] border border-[#C9A96E] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-1 hover:bg-[#b89558] hover:border-[#b89558] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="h-12 w-full bg-[var(--ck-accent,#c9a96e)] border border-[var(--ck-accent,#c9a96e)] text-[var(--ck-bg,#0d0d0d)] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-1 hover:bg-[var(--ck-accent-hover,#b89558)] hover:border-[var(--ck-accent-hover,#b89558)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <span>{t("payButton")}</span>
         <span className="font-bold">€{Math.round(totalToPay)}</span>
@@ -659,7 +659,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         <button
           type="button"
           onClick={onBack}
-          className="h-12 px-8 border border-[#999] text-[#999] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[#F7F4EF] hover:text-[#F7F4EF] transition-colors"
+          className="h-12 px-8 border border-[var(--ck-text-muted,#999999)] text-[var(--ck-text-muted,#999999)] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center gap-2 hover:border-[var(--ck-text,#f7f4ef)] hover:text-[var(--ck-text,#f7f4ef)] transition-colors"
         >
           <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
           <span className="px-2">{tCommon("back")}</span>

@@ -1119,6 +1119,38 @@ export default function PartnershipEditorPage({
                   {t(`landingTemplateDescriptions.${landingTemplate}`)}
                 </p>
 
+                {landingTemplate === "whitelabel" && (
+                  <>
+                    <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground pt-2">
+                      Tema (claro / escuro)
+                    </Label>
+                    <Select
+                      value={theme.themeMode ?? "switch"}
+                      onValueChange={(value) =>
+                        setTheme((prev) => ({
+                          ...prev,
+                          themeMode: value as "switch" | "dark" | "light",
+                        }))
+                      }
+                    >
+                      <SelectTrigger className="h-11">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="switch">
+                          Com botão de tema (claro/escuro)
+                        </SelectItem>
+                        <SelectItem value="dark">Só escuro</SelectItem>
+                        <SelectItem value="light">Só claro</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-[10px] text-muted-foreground font-medium">
+                      Define se a landing desta parceria mostra o botão de tema
+                      ou fica fixa num tema.
+                    </p>
+                  </>
+                )}
+
                 <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground pt-2">
                   Company Logo
                 </Label>

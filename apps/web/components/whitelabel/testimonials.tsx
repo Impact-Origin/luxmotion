@@ -50,37 +50,37 @@ type Review = {
 function ReviewCard({ review, color }: { review: Review; color: string }) {
   const initial = review.name.charAt(0).toUpperCase()
   return (
-    <div className="relative bg-[#1a1a1a] flex flex-col gap-[10px] p-5 group overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+    <div className="relative bg-[var(--lm-surface,#1a1a1a)] flex flex-col gap-[10px] p-5 group overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--lm-accent,#c9a96e)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
       <div className="flex items-center gap-[10px]">
         <div
           className="size-9 rounded-full flex items-center justify-center shrink-0"
           style={{ backgroundColor: color }}
         >
-          <span className="text-[14px] text-white" style={SANS_FONT}>
+          <span className="text-[14px] text-[var(--lm-text,#fff)]" style={SANS_FONT}>
             {initial}
           </span>
         </div>
         <div className="flex-1 min-w-0">
           <p
-            className="text-[14px] font-semibold text-white leading-none"
+            className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-none"
             style={SANS_FONT}
           >
             {review.name}
           </p>
           <p
-            className="text-[12px] text-[#8c8680] leading-none mt-1"
+            className="text-[12px] text-[var(--lm-muted,#8c8680)] leading-none mt-1"
             style={SANS_FONT}
           >
             {review.date}
           </p>
         </div>
       </div>
-      <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">
+      <span className="text-[14px] text-[var(--lm-accent,#c9a96e)] tracking-[1px] leading-none">
         ★★★★★
       </span>
       <p
-        className="text-[13px] text-[rgba(255,255,255,0.55)] leading-[1.35]"
+        className="text-[13px] text-[rgba(var(--lm-text-rgb,255,255,255),0.55)] leading-[1.35]"
         style={SANS_FONT}
       >
         {review.text}
@@ -103,7 +103,7 @@ function LogoPill({
   label?: string
 }) {
   return (
-    <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] flex items-center gap-1.5 px-2.5 h-7">
+    <div className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] flex items-center gap-1.5 px-2.5 h-7">
       <Image
         src={src}
         alt={alt}
@@ -114,7 +114,7 @@ function LogoPill({
       />
       {label ? (
         <span
-          className="text-[11px] font-medium text-[rgba(255,255,255,0.75)] leading-none"
+          className="text-[11px] font-medium text-[rgba(var(--lm-text-rgb,255,255,255),0.75)] leading-none"
           style={SANS_FONT}
         >
           {label}
@@ -128,7 +128,7 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
   return (
     <div className="flex items-center gap-4">
       <span
-        className="text-[64px] leading-none text-[#C9A96E] font-light"
+        className="text-[64px] leading-none text-[var(--lm-accent,#c9a96e)] font-light"
         style={SERIF_FONT}
       >
         4.9
@@ -138,13 +138,13 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
-              className="size-[14px] text-[#C9A96E] fill-[#C9A96E]"
+              className="size-[14px] text-[var(--lm-accent,#c9a96e)] fill-[var(--lm-accent,#c9a96e)]"
               strokeWidth={0}
             />
           ))}
         </div>
         <p
-          className="text-[12px] text-[rgba(255,255,255,0.55)] leading-none"
+          className="text-[12px] text-[rgba(var(--lm-text-rgb,255,255,255),0.55)] leading-none"
           style={SANS_FONT}
         >
           {reviewsCount}
@@ -183,25 +183,25 @@ export function Testimonials() {
   }, [featuredReviews])
 
   return (
-    <section className="bg-[#141414] px-4 lg:px-[82px] pt-14 lg:pt-20 pb-14 lg:pb-20">
+    <section className="bg-[var(--lm-surface,#141414)] px-4 lg:px-[82px] pt-14 lg:pt-20 pb-14 lg:pb-20">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-12">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
             <span
-              className="text-[12px] font-medium uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              className="text-[12px] font-medium uppercase tracking-[2px] text-[var(--lm-accent,#c9a96e)] leading-none"
               style={SANS_FONT}
             >
               {t("eyebrow")}
             </span>
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
           </div>
           <h2
-            className="text-[32px] lg:text-[48px] font-light leading-[1.1] text-white"
+            className="text-[32px] lg:text-[48px] font-light leading-[1.1] text-[var(--lm-text,#fff)]"
             style={SERIF_FONT}
           >
             {t("titlePre")}{" "}
-            <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#c9a96e)]">{t("titleAccent")}</span>
           </h2>
         </div>
 

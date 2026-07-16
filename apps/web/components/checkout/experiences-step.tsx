@@ -59,8 +59,8 @@ function toExperience(tour: NearbyTour): Experience {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="border-b-[0.8px] border-[rgba(247,244,239,0.08)] pb-2">
-      <span className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] leading-none">
+    <div className="border-b-[0.8px] border-[rgba(var(--ck-text-rgb,247,244,239),0.08)] pb-2">
+      <span className="text-[12px] font-bold text-[var(--ck-text-muted,#999)] uppercase tracking-[1.152px] leading-none">
         {children}
       </span>
     </div>
@@ -147,13 +147,13 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
     <CheckoutStepLayout>
       <div className="flex flex-col gap-8 pb-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-[24px] font-semibold leading-none text-[#F7F4EF]" style={SERIF_FONT}>
+          <h1 className="text-[24px] font-semibold leading-none text-[var(--ck-text,#f7f4ef)]" style={SERIF_FONT}>
             {t("title")}
           </h1>
           <button
             type="button"
             onClick={onContinue}
-            className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] transition-colors"
+            className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#0D0D0D] transition-colors"
           >
             {tCommon("continue")}
             <ArrowRight className="w-4 h-4" strokeWidth={2} />
@@ -169,7 +169,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 h-12 px-6 text-[13px] font-semibold uppercase tracking-[1px] text-[#F7F4EF] bg-[#1A1918] border border-[rgba(255,255,255,0.08)] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors"
+            className="inline-flex items-center gap-2 h-12 px-6 text-[13px] font-semibold uppercase tracking-[1px] text-[var(--ck-text,#f7f4ef)] bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.08)] hover:border-[var(--ck-accent,#c9a96e)] hover:text-[var(--ck-accent,#c9a96e)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" strokeWidth={2} />
             {tCommon("back")}
@@ -177,7 +177,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           <button
             type="button"
             onClick={onContinue}
-            className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] transition-colors"
+            className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#0D0D0D] transition-colors"
           >
             {tCommon("continue")}
             <ArrowRight className="w-4 h-4" strokeWidth={2} />

@@ -145,7 +145,7 @@ export function SocialProofBar() {
   )
 }
 
-const WHITELABEL_BG = "linear-gradient(180deg, rgba(var(--lm-bg-rgb,13,13,13),0.20) 0%, rgba(var(--lm-bg-rgb,13,13,13),0.55) 50%, rgba(var(--lm-bg-rgb,13,13,13),0.96) 82%, #0D0D0D 100%, #14100A 0%, #0D0D0D 60%, #0A0A08 100%)"
+const WHITELABEL_BG = "linear-gradient(180deg, rgba(var(--lm-bg-rgb,13,13,13),0.20) 0%, rgba(var(--lm-bg-rgb,13,13,13),0.55) 50%, rgba(var(--lm-bg-rgb,13,13,13),0.96) 82%, var(--lm-bg,#0D0D0D) 100%)"
 
 const WHITELABEL_DESCRIPTION =
   "O {{HOTEL_NAME}} tem o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido."

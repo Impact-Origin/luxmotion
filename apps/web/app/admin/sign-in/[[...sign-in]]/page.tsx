@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useSignIn } from "@clerk/nextjs";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSignIn, useAuth } from "@clerk/nextjs";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const SERIF = "var(--font-title), 'Cormorant Garamond', serif";
@@ -31,6 +31,27 @@ function OfficialLogo() {
 export default function Page() {
   const clerk = useSignIn();
   const router = useRouter();
+  const { isLoaded: authLoaded, isSignedIn } = useAuth();
+  const searchParams = useSearchParams();
+
+  const destination = React.useCallback(() => {
+    const raw = searchParams?.get("redirect_url");
+    if (!raw) return "/admin";
+    try {
+      const u = new URL(raw, window.location.origin);
+      if (u.origin === window.location.origin) return u.pathname + u.search;
+    } catch {
+      /* ignore */
+    }
+    return raw.startsWith("/") ? raw : "/admin";
+  }, [searchParams]);
+
+  // Already signed in → skip the form and go straight to the admin (fixes the
+  // "You're already signed in" dead-end when a session already exists).
+  React.useEffect(() => {
+    if (authLoaded && isSignedIn) router.replace(destination());
+  }, [authLoaded, isSignedIn, router, destination]);
+
   const [identifier, setIdentifier] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPw, setShowPw] = React.useState(false);
@@ -53,12 +74,18 @@ export default function Page() {
       }
       if (res.status === "complete") {
         await setActive({ session: res.createdSessionId });
-        router.push("/admin");
+        router.push(destination());
         return;
       }
       console.error("[admin sign-in] incomplete status:", res.status, res);
       setError(`Não foi possível concluir o início de sessão (estado: ${res.status}).`);
     } catch (err) {
+      // Session already active → not an error; just go to the admin.
+      const code = (err as { errors?: { code?: string }[] })?.errors?.[0]?.code;
+      if (code === "session_exists") {
+        router.replace(destination());
+        return;
+      }
       console.error("[admin sign-in] error:", err);
       const msg =
         (err as { errors?: { longMessage?: string; message?: string }[] })?.errors?.[0]
@@ -66,6 +93,14 @@ export default function Page() {
       setError(msg);
     }
     setLoading(false);
+  }
+
+  if (authLoaded && isSignedIn) {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center bg-[#14110c] text-[#f3ecdd]">
+        <Loader2 className="h-6 w-6 animate-spin text-[#C9A96E]" />
+      </div>
+    );
   }
 
   return (

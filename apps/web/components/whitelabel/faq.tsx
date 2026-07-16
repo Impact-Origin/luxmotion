@@ -34,21 +34,21 @@ function FaqItem({
 }) {
   const t = useTranslations(`whitelabel.faq.items.${id}`)
   return (
-    <div className="border-b border-[rgba(255,255,255,0.07)] lg:pr-4">
+    <div className="border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] lg:pr-4">
       <button
         type="button"
         onClick={onToggle}
         className="flex items-center justify-between w-full py-[22px] text-left group gap-3"
       >
         <span
-          className="text-[14px] font-medium text-white"
+          className="text-[14px] font-medium text-[var(--lm-text,#fff)]"
           style={SANS_FONT}
         >
           {t("question")}
         </span>
-        <div className="size-8 border-[1.143px] border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 group-hover:border-[rgba(201,169,110,0.5)] transition-colors">
+        <div className="size-8 border-[1.143px] border-[rgba(var(--lm-text-rgb,255,255,255),0.3)] flex items-center justify-center shrink-0 group-hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-colors">
           <Plus
-            className={`size-[18px] text-white/60 transition-transform duration-300 ${
+            className={`size-[18px] text-[rgba(var(--lm-text-rgb,255,255,255),0.6)] transition-transform duration-300 ${
               isOpen ? "rotate-45" : ""
             }`}
           />
@@ -60,7 +60,7 @@ function FaqItem({
         }`}
       >
         <p
-          className="text-[14px] leading-[1.6] text-[#999]"
+          className="text-[14px] leading-[1.6] text-[var(--lm-muted,#999)]"
           style={SANS_FONT}
         >
           {t("answer")}
@@ -75,25 +75,25 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section className="bg-[#141414] border-t border-[rgba(255,255,255,0.07)] px-4 lg:px-[82px] pt-14 lg:pt-[72px] pb-14 lg:pb-[72px]">
+    <section className="bg-[var(--lm-surface,#141414)] border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] px-4 lg:px-[82px] pt-14 lg:pt-[72px] pb-14 lg:pb-[72px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6 items-center">
         <div className="flex flex-col gap-2 items-center text-center">
           <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
             <span
-              className="text-[12px] font-medium uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              className="text-[12px] font-medium uppercase tracking-[2px] text-[var(--lm-accent,#c9a96e)] leading-none"
               style={SANS_FONT}
             >
               {t("eyebrow")}
             </span>
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
           </div>
           <h2
-            className="text-[32px] lg:text-[48px] font-light leading-[1.1] text-white"
+            className="text-[32px] lg:text-[48px] font-light leading-[1.1] text-[var(--lm-text,#fff)]"
             style={SERIF_FONT}
           >
             {t("titlePre")}{" "}
-            <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#c9a96e)]">{t("titleAccent")}</span>
           </h2>
         </div>
 

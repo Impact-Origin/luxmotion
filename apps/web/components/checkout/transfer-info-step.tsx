@@ -25,7 +25,7 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <div className="text-[12px] font-bold text-[#999] uppercase tracking-[1.152px] mt-8 mb-3">
+    <div className="text-[12px] font-bold text-[var(--ck-text-muted,#999)] uppercase tracking-[1.152px] mt-8 mb-3">
       {children}
     </div>
   )
@@ -33,13 +33,13 @@ function SectionLabel({ children }: { children: ReactNode }) {
 
 function FieldLabel({ children }: { children: ReactNode }) {
   return (
-    <label className="block text-[14px] font-medium text-[#F7F4EF] mb-2">{children}</label>
+    <label className="block text-[14px] font-medium text-[var(--ck-text,#f7f4ef)] mb-2">{children}</label>
   )
 }
 
 function DarkFieldBox({ children }: { children: ReactNode }) {
   return (
-    <div className="h-12 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-3 flex items-center [&>*]:min-w-0 [&>*]:flex-1 focus-within:border-[#C9A96E] transition-colors">
+    <div className="h-12 bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] px-3 flex items-center [&>*]:min-w-0 [&>*]:flex-1 focus-within:border-[var(--ck-accent,#c9a96e)] transition-colors">
       {children}
     </div>
   )
@@ -64,18 +64,18 @@ function DarkCounter({
         type="button"
         onClick={() => value > min && onChange(value - 1)}
         disabled={value <= min}
-        className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(255,255,255,0.12)] text-[#F7F4EF] hover:bg-[rgba(255,255,255,0.04)] disabled:text-[rgba(247,244,239,0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
+        className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[var(--ck-text,#f7f4ef)] hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.04)] disabled:text-[rgba(var(--ck-text-rgb,247,244,239),0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
       >
         <Minus className="w-3.5 h-3.5" strokeWidth={2} />
       </button>
-      <div className="w-10 h-8 flex items-center justify-center border-y-[1.5px] border-[rgba(255,255,255,0.12)]">
-        <span className={cn("text-[14px] font-medium tabular-nums", value > 0 ? "text-white" : "text-[#696969]")}>{value}</span>
+      <div className="w-10 h-8 flex items-center justify-center border-y-[1.5px] border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
+        <span className={cn("text-[14px] font-medium tabular-nums", value > 0 ? "text-[var(--ck-text,#f7f4ef)]" : "text-[var(--ck-text-subtle,#696969)]")}>{value}</span>
       </div>
       <button
         type="button"
         onClick={() => value < max && onChange(value + 1)}
         disabled={value >= max}
-        className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(255,255,255,0.12)] text-[#F7F4EF] hover:bg-[rgba(255,255,255,0.04)] disabled:text-[rgba(247,244,239,0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
+        className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[var(--ck-text,#f7f4ef)] hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.04)] disabled:text-[rgba(var(--ck-text-rgb,247,244,239),0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
       >
         <Plus className="w-3.5 h-3.5" strokeWidth={2} />
       </button>
@@ -99,7 +99,7 @@ function DarkInput({
   return (
     <div className="relative">
       {leftIcon && (
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C9A96E]">{leftIcon}</div>
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ck-accent,#c9a96e)]">{leftIcon}</div>
       )}
       <input
         type="text"
@@ -107,8 +107,8 @@ function DarkInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={cn(
-          "w-full h-12 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] text-[14px] text-white placeholder:text-[#696969]",
-          "focus:outline-none focus:border-[#C9A96E] transition-colors",
+          "w-full h-12 bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] text-[14px] text-[var(--ck-text,#f7f4ef)] placeholder:text-[var(--ck-text-subtle,#696969)]",
+          "focus:outline-none focus:border-[var(--ck-accent,#c9a96e)] transition-colors",
           leftIcon ? "pl-10" : "pl-4",
           rightAdornment ? "pr-12" : "pr-4",
         )}
@@ -144,12 +144,12 @@ function IconOptionCard({
       className={cn(
         "relative border p-4 pt-8 md:pt-4 flex flex-col gap-2 items-center transition-colors",
         selected
-          ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
-          : "bg-[#1A1918] border-[rgba(255,255,255,0.06)]",
+          ? "bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.07)] border-[var(--ck-accent,#c9a96e)]"
+          : "bg-[var(--ck-surface,#1a1918)] border-[rgba(var(--ck-text-rgb,255,255,255),0.06)]",
       )}
     >
       {badge && (
-        <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[9px] font-bold text-[#9A7535] uppercase tracking-[0.72px]">
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[9px] font-bold text-[var(--ck-accent-strong,#9a7535)] uppercase tracking-[0.72px]">
           <CircleAlert className="w-3 h-3" strokeWidth={1.8} />
           {badge}
         </span>
@@ -164,12 +164,12 @@ function IconOptionCard({
             className={cn("shrink-0 object-contain", iconImageClassName ?? "w-6 h-6")}
           />
         ) : Icon ? (
-          <Icon className="w-6 h-6 text-[#C9A96E] shrink-0" strokeWidth={1.6} />
+          <Icon className="w-6 h-6 text-[var(--ck-accent,#c9a96e)] shrink-0" strokeWidth={1.6} />
         ) : null}
         <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[12px] font-bold text-[#F7F4EF] leading-[19.2px]">{title}</span>
+          <span className="text-[12px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[19.2px]">{title}</span>
           {subtitle && (
-            <span className="text-[10px] font-medium text-[rgba(247,244,239,0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
+            <span className="text-[10px] font-medium text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
               {subtitle}
             </span>
           )}
@@ -204,12 +204,12 @@ function ImageOptionCard({
       className={cn(
         "relative border p-4 flex flex-col gap-2 items-center transition-colors",
         selected
-          ? "bg-[rgba(154,117,53,0.07)] border-[#C9A96E]"
-          : "bg-[#1E1D1B] border-[rgba(247,244,239,0.08)]",
+          ? "bg-[rgba(var(--ck-accent-tint-rgb,154,117,53),0.07)] border-[var(--ck-accent,#c9a96e)]"
+          : "bg-[var(--ck-surface,#1e1d1b)] border-[rgba(var(--ck-text-rgb,247,244,239),0.08)]",
       )}
     >
       {badge && (
-        <span className="absolute top-3 right-3 text-[9px] font-bold text-[#9A7535] uppercase tracking-[0.72px] z-10">
+        <span className="absolute top-3 right-3 text-[9px] font-bold text-[var(--ck-accent-strong,#9a7535)] uppercase tracking-[0.72px] z-10">
           {badge}
         </span>
       )}
@@ -226,9 +226,9 @@ function ImageOptionCard({
         />
       </div>
       <div className="flex flex-col items-center gap-0.5 text-center">
-        <span className="text-[12px] font-bold text-[#F7F4EF] leading-[19.2px]">{title}</span>
+        <span className="text-[12px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[19.2px]">{title}</span>
         {subtitle && (
-          <span className="text-[10px] font-medium text-[rgba(247,244,239,0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
+          <span className="text-[10px] font-medium text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] uppercase tracking-[0.1px] leading-[14.85px] whitespace-nowrap">
             {subtitle}
           </span>
         )}
@@ -249,7 +249,7 @@ function FlightTimeline({
 }) {
   const t = useTranslations("transfer")
   return (
-    <div className="flex items-stretch gap-2 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-4 py-3">
+    <div className="flex items-stretch gap-2 bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] px-4 py-3">
       <TimelineStop icon={PlaneLanding} time={arrivalTime} label={t("landing")} />
       <TimelineConnector />
       <TimelineStop icon={Clock} time={"00:30"} label={t("wait")} />
@@ -273,17 +273,17 @@ function TimelineStop({
   const alignClass = align === "end" ? "items-end" : align === "center" ? "items-center" : "items-start"
   return (
     <div className={cn("flex flex-col min-w-[60px]", alignClass)}>
-      <div className="w-8 h-8 border border-[rgba(201,169,110,0.4)] flex items-center justify-center mb-1">
-        <Icon className="w-4 h-4 text-[#C9A96E]" strokeWidth={1.6} />
+      <div className="w-8 h-8 border border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] flex items-center justify-center mb-1">
+        <Icon className="w-4 h-4 text-[var(--ck-accent,#c9a96e)]" strokeWidth={1.6} />
       </div>
-      <span className="text-[14px] font-bold text-white tabular-nums leading-tight">{time || "--:--"}</span>
-      <span className="text-[10px] text-[#999] uppercase tracking-[0.5px] mt-0.5">{label}</span>
+      <span className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)] tabular-nums leading-tight">{time || "--:--"}</span>
+      <span className="text-[10px] text-[var(--ck-text-muted,#999)] uppercase tracking-[0.5px] mt-0.5">{label}</span>
     </div>
   )
 }
 
 function TimelineConnector() {
-  return <div className="flex-1 border-t border-dashed border-[rgba(201,169,110,0.4)] mt-4" />
+  return <div className="flex-1 border-t border-dashed border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] mt-4" />
 }
 
 function formatFlightTime(value: string | Date | null | undefined): string | null {
@@ -858,7 +858,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   return (
     <div className="w-full">
       <h2
-        className="text-[28px] md:text-[32px] font-normal text-[#F7F4EF] mb-6 leading-none"
+        className="text-[28px] md:text-[32px] font-normal text-[var(--ck-text,#f7f4ef)] mb-6 leading-none"
         style={SERIF_FONT}
       >
         {t("tripDetails")}
@@ -871,8 +871,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           className={cn(
             "h-12 text-[13px] font-semibold uppercase tracking-[1px] transition-colors",
             transfer.transferType === "ida"
-              ? "bg-[#C9A96E] text-[#0D0D0D]"
-              : "bg-[#1A1918] text-[#999] border border-[rgba(255,255,255,0.06)] hover:text-[#F7F4EF]",
+              ? "bg-[var(--ck-accent,#c9a96e)] text-[#0D0D0D]"
+              : "bg-[var(--ck-surface,#1a1918)] text-[var(--ck-text-muted,#999)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] hover:text-[var(--ck-text,#f7f4ef)]",
           )}
         >
           {t("outbound")}
@@ -883,8 +883,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           className={cn(
             "h-12 text-[13px] font-semibold uppercase tracking-[1px] transition-colors",
             transfer.transferType === "volta"
-              ? "bg-[#C9A96E] text-[#0D0D0D]"
-              : "bg-[#1A1918] text-[#999] border border-[rgba(255,255,255,0.06)] hover:text-[#F7F4EF]",
+              ? "bg-[var(--ck-accent,#c9a96e)] text-[#0D0D0D]"
+              : "bg-[var(--ck-surface,#1a1918)] text-[var(--ck-text-muted,#999)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] hover:text-[var(--ck-text,#f7f4ef)]",
           )}
         >
           {t("return")}
@@ -894,15 +894,15 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       {transfer.transferType === "volta" && (
         <label
           htmlFor="book-return"
-          className="flex items-center gap-2 cursor-pointer mb-4 bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-3 py-2.5"
+          className="flex items-center gap-2 cursor-pointer mb-4 bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] px-3 py-2.5"
         >
           <Checkbox
             id="book-return"
             checked={transfer.bookReturn}
             onCheckedChange={(checked: boolean) => updateTransfer({ bookReturn: checked })}
-            className="border-[rgba(201,169,110,0.5)] data-[state=checked]:bg-[#C9A96E] data-[state=checked]:border-[#C9A96E]"
+            className="border-[rgba(var(--ck-accent-rgb,201,169,110),0.5)] data-[state=checked]:bg-[var(--ck-accent,#c9a96e)] data-[state=checked]:border-[var(--ck-accent,#c9a96e)]"
           />
-          <span className="text-[13px] text-[#F7F4EF]">{t("bookReturn")}</span>
+          <span className="text-[13px] text-[var(--ck-text,#f7f4ef)]">{t("bookReturn")}</span>
         </label>
       )}
 
@@ -945,7 +945,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           <button
             type="button"
             onClick={handleAddStop}
-            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#C9A96E] hover:text-[#b89558] transition-colors mb-4"
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[var(--ck-accent,#c9a96e)] hover:text-[var(--ck-accent-hover,#b89558)] transition-colors mb-4"
           >
             <Plus className="w-4 h-4" strokeWidth={2} />
             {t("addStop")}
@@ -959,7 +959,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
               <button
                 type="button"
                 onClick={() => handleRemoveStop(index)}
-                className="text-[#696969] hover:text-[#C9A96E] transition-colors -mt-1"
+                className="text-[var(--ck-text-subtle,#696969)] hover:text-[var(--ck-accent,#c9a96e)] transition-colors -mt-1"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1061,7 +1061,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 onClick={handleFlightLookup}
                 className={cn(
                   "transition-colors",
-                  activeAirlineCompany ? "text-[#C9A96E]" : "text-[#696969] hover:text-[#C9A96E]"
+                  activeAirlineCompany ? "text-[var(--ck-accent,#c9a96e)]" : "text-[var(--ck-text-subtle,#696969)] hover:text-[var(--ck-accent,#c9a96e)]"
                 )}
                 aria-label="Search flight"
               >
@@ -1070,7 +1070,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
             }
           />
           {activeAirlineCompany && (
-            <p className="mt-1.5 text-[11px] font-semibold text-[#C9A96E]">
+            <p className="mt-1.5 text-[11px] font-semibold text-[var(--ck-accent,#c9a96e)]">
               ✓ {activeAirlineCompany}
             </p>
           )}
@@ -1083,8 +1083,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         )}
 
         <div className="flex items-start gap-2 mb-2 pl-1">
-          <Info className="w-3.5 h-3.5 text-[#696969] flex-shrink-0 mt-0.5" />
-          <p className="text-[11px] text-[#999] leading-[1.5]">{t("flightInfo")}</p>
+          <Info className="w-3.5 h-3.5 text-[var(--ck-text-subtle,#696969)] flex-shrink-0 mt-0.5" />
+          <p className="text-[11px] text-[var(--ck-text-muted,#999)] leading-[1.5]">{t("flightInfo")}</p>
         </div>
 
         <SectionLabel>{t("passengers")}</SectionLabel>
@@ -1199,14 +1199,14 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         )}
 
         <div className="mt-6">
-          <label htmlFor="terms" className="flex items-center gap-3 cursor-pointer bg-[#1A1918] border border-[rgba(255,255,255,0.06)] px-4 py-3">
+          <label htmlFor="terms" className="flex items-center gap-3 cursor-pointer bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.06)] px-4 py-3">
             <Checkbox
               id="terms"
               checked={transfer.acceptTerms}
               onCheckedChange={(checked: boolean) => updateTransfer({ acceptTerms: checked })}
-              className="border-[rgba(201,169,110,0.5)] data-[state=checked]:bg-[#C9A96E] data-[state=checked]:border-[#C9A96E]"
+              className="border-[rgba(var(--ck-accent-rgb,201,169,110),0.5)] data-[state=checked]:bg-[var(--ck-accent,#c9a96e)] data-[state=checked]:border-[var(--ck-accent,#c9a96e)]"
             />
-            <span className="text-[13px] text-[#F7F4EF] leading-relaxed">{t("agreeTerms")}</span>
+            <span className="text-[13px] text-[var(--ck-text,#f7f4ef)] leading-relaxed">{t("agreeTerms")}</span>
           </label>
         </div>
       </AnimatedCollapse>
@@ -1218,7 +1218,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       )}
 
       {flightSuccess && (
-        <div className="mt-4 text-[12px] text-[#C9A96E]" aria-live="polite">
+        <div className="mt-4 text-[12px] text-[var(--ck-accent,#c9a96e)]" aria-live="polite">
           {flightSuccess}
         </div>
       )}
@@ -1228,7 +1228,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           type="button"
           onClick={handleBack}
           disabled={isSubmitting}
-          className="inline-flex items-center gap-2 h-12 px-6 text-[13px] font-semibold uppercase tracking-[1px] text-[#F7F4EF] bg-[#1A1918] border border-[rgba(255,255,255,0.08)] hover:border-[#C9A96E] hover:text-[#C9A96E] transition-colors disabled:opacity-50"
+          className="inline-flex items-center gap-2 h-12 px-6 text-[13px] font-semibold uppercase tracking-[1px] text-[var(--ck-text,#f7f4ef)] bg-[var(--ck-surface,#1a1918)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.08)] hover:border-[var(--ck-accent,#c9a96e)] hover:text-[var(--ck-accent,#c9a96e)] transition-colors disabled:opacity-50"
         >
           <ArrowLeft className="w-4 h-4" strokeWidth={2} />
           {tCommon("back")}
@@ -1237,7 +1237,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           type="button"
           onClick={handleContinue}
           disabled={isSubmitting || !transfer.acceptTerms}
-          className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[#C9A96E] hover:bg-[#b89558] text-[#0D0D0D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="inline-flex items-center gap-2 h-12 px-8 text-[13px] font-semibold uppercase tracking-[1px] bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#0D0D0D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {transfer.transferType === "ida"
             ? tCommon("continue")
@@ -1259,12 +1259,12 @@ function UpgradeBanner({
   onClick: () => void
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 bg-[rgba(201,169,110,0.07)] border border-[rgba(201,169,110,0.22)] px-4 py-3 mt-3 animate-in fade-in duration-300">
-      <p className="text-[12px] text-[#F7F4EF]">{message}</p>
+    <div className="flex items-center justify-between gap-3 bg-[rgba(var(--ck-accent-rgb,201,169,110),0.07)] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] px-4 py-3 mt-3 animate-in fade-in duration-300">
+      <p className="text-[12px] text-[var(--ck-text,#f7f4ef)]">{message}</p>
       <button
         type="button"
         onClick={onClick}
-        className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[1px] text-[#C9A96E] hover:text-[#b89558] transition-colors"
+        className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[1px] text-[var(--ck-accent,#c9a96e)] hover:text-[var(--ck-accent-hover,#b89558)] transition-colors"
       >
         {label}
         <ChevronRight className="w-3.5 h-3.5" strokeWidth={2} />

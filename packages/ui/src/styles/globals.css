@@ -113,6 +113,29 @@ html.lm-home-light::-webkit-scrollbar-corner {
   background: #e8e0d3;
 }
 
+/* Light main checkout: flip the page scrollbar to ivory/gold.
+   Toggled on <html> by CheckoutThemeProvider (checkout-theme.tsx). */
+html.lm-checkout-light {
+  scrollbar-color: #a08248 #e8e0d3;
+}
+
+html.lm-checkout-light::-webkit-scrollbar-track {
+  background: #e8e0d3;
+}
+
+html.lm-checkout-light::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #b99a63 0%, #a08248 100%);
+  border: 2px solid #e8e0d3;
+}
+
+html.lm-checkout-light::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c2a673 0%, #ab8d50 100%);
+}
+
+html.lm-checkout-light::-webkit-scrollbar-corner {
+  background: #e8e0d3;
+}
+
 /* Monochrome logos (e.g. Trustpilot's white wordmark) that must turn black on
    the light homepage but stay white everywhere else (dark pages + home dark). */
 .home-theme:not(.dark) .lm-logo-mono {
@@ -257,6 +280,53 @@ html.lm-home-light::-webkit-scrollbar-corner {
   --lm-inverse-text: #1a1612;
 }
 
+/* Main checkout — switchable dark (default) / light theme. Dark values reproduce
+   the current checkout; light values reuse the home-light (wedding) palette.
+   Toggled by CheckoutThemeProvider (checkout-theme.tsx). Every checkout color is
+   authored as var(--ck-x, <current-dark-hex>) so contexts WITHOUT .checkout-theme
+   (corporate / schools / tours / admin preview) fall back to the exact current
+   dark look — the toggle only affects /checkout. */
+.checkout-theme.dark {
+  --ck-bg: #0d0d0d;
+  --ck-surface: #1e1d1b;
+  --ck-surface-2: #222222;
+  --ck-surface-sunken: #141414;
+  --ck-text: #f7f4ef;
+  --ck-text-rgb: 247, 244, 239;
+  --ck-text-muted: #999999;
+  --ck-text-subtle: #696969;
+  --ck-border: rgba(255, 255, 255, 0.12);
+  --ck-border-strong: rgba(255, 255, 255, 0.25);
+  --ck-hover: rgba(255, 255, 255, 0.04);
+  --ck-divider: rgba(247, 244, 239, 0.08);
+  --ck-accent: #c9a96e;
+  --ck-accent-rgb: 201, 169, 110;
+  --ck-accent-hover: #b89558;
+  --ck-accent-strong: #9a7535;
+  --ck-accent-tint-rgb: 154, 117, 53;
+  --ck-banner-bg: #a08248;
+}
+.checkout-theme.light {
+  --ck-bg: #efe8dc;
+  --ck-surface: #faf7f2;
+  --ck-surface-2: #ece4d6;
+  --ck-surface-sunken: #f2ede4;
+  --ck-text: #1a1612;
+  --ck-text-rgb: 26, 22, 18;
+  --ck-text-muted: #5a5249;
+  --ck-text-subtle: #9c9488;
+  --ck-border: rgba(154, 117, 53, 0.22);
+  --ck-border-strong: rgba(154, 117, 53, 0.45);
+  --ck-hover: rgba(168, 131, 58, 0.06);
+  --ck-divider: rgba(26, 22, 18, 0.1);
+  --ck-accent: #a08248;
+  --ck-accent-rgb: 160, 130, 72;
+  --ck-accent-hover: #8a6f3c;
+  --ck-accent-strong: #8a6f3c;
+  --ck-accent-tint-rgb: 160, 130, 72;
+  --ck-banner-bg: #a08248;
+}
+
 @theme inline {
   --breakpoint-xs: 375px;
   --animate-ping-strong: lm-ping-strong 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -324,6 +394,16 @@ html.lm-home-light::-webkit-scrollbar-corner {
   .checkout-dark .checkbox-custom[data-state="checked"] {
     background-color: #c9a96e !important;
     border-color: #c9a96e !important;
+  }
+
+  .checkout-theme.light .checkbox-custom {
+    background-color: transparent;
+    border-color: rgba(160, 130, 72, 0.5);
+  }
+
+  .checkout-theme.light .checkbox-custom[data-state="checked"] {
+    background-color: #a08248 !important;
+    border-color: #a08248 !important;
   }
 
   @keyframes slideInRight {

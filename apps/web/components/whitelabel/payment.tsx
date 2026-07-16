@@ -23,7 +23,7 @@ const LOGOS: Logo[] = [
 
 function LogoPill({ logo }: { logo: Logo }) {
   return (
-    <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-[3px] h-10 px-[15px] flex items-center justify-center opacity-90">
+    <div className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.03)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] rounded-[3px] h-10 px-[15px] flex items-center justify-center opacity-90">
       <Image
         src={logo.src}
         alt={logo.alt}
@@ -39,27 +39,27 @@ function LogoPill({ logo }: { logo: Logo }) {
 export function Payment() {
   const t = useTranslations("whitelabel.payment")
   return (
-    <section className="bg-[#0D0D0D] px-4 lg:px-[82px] pt-12 lg:pt-16 pb-12 lg:pb-16">
+    <section className="bg-[var(--lm-bg,#0d0d0d)] px-4 lg:px-[82px] pt-12 lg:pt-16 pb-12 lg:pb-16">
       <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         <div className="flex-1 flex flex-col gap-4 items-start w-full">
           <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
             <span
-              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#c9a96e)] leading-none"
               style={SANS_FONT}
             >
               {t("eyebrow")}
             </span>
           </div>
           <h2
-            className="text-[36px] lg:text-[48px] font-light leading-[1.05] text-white"
+            className="text-[36px] lg:text-[48px] font-light leading-[1.05] text-[var(--lm-text,#fff)]"
             style={SERIF_FONT}
           >
             {t("titlePre")}{" "}
-            <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#c9a96e)]">{t("titleAccent")}</span>
           </h2>
           <p
-            className="text-[16px] lg:text-[18px] leading-[1.3] text-[rgba(255,255,255,0.55)]"
+            className="text-[16px] lg:text-[18px] leading-[1.3] text-[rgba(var(--lm-text-rgb,255,255,255),0.55)]"
             style={SANS_FONT}
           >
             {t("subtitle")}
@@ -73,18 +73,18 @@ export function Payment() {
 
           <div className="flex flex-wrap gap-4 items-center pt-1">
             <div className="flex items-center gap-1.5">
-              <ShieldCheck className="size-[14px] text-[#C9A96E]" strokeWidth={1.75} />
+              <ShieldCheck className="size-[14px] text-[var(--lm-accent,#c9a96e)]" strokeWidth={1.75} />
               <span
-                className="text-[12px] text-[#999] leading-none"
+                className="text-[12px] text-[var(--lm-muted,#999)] leading-none"
                 style={SANS_FONT}
               >
                 {t("secure")}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Lock className="size-[14px] text-[#C9A96E]" strokeWidth={1.75} />
+              <Lock className="size-[14px] text-[var(--lm-accent,#c9a96e)]" strokeWidth={1.75} />
               <span
-                className="text-[12px] text-[#999] leading-none"
+                className="text-[12px] text-[var(--lm-muted,#999)] leading-none"
                 style={SANS_FONT}
               >
                 {t("ssl")}

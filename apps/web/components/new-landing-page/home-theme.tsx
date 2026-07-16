@@ -28,13 +28,28 @@ export function useHomeTheme() {
  * localStorage. This is intentionally independent of the global next-themes
  * provider (which is `forcedTheme="light"`) so the rest of the site is untouched.
  */
-export function HomeThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = React.useState<HomeTheme>("light")
+export function HomeThemeProvider({
+  children,
+  mode = "switch",
+}: {
+  children: React.ReactNode
+  /** "switch" = user-toggleable (default, follows localStorage); "dark"/"light"
+   *  lock the theme (used by white-label partners that pick a fixed mode). */
+  mode?: "switch" | "dark" | "light"
+}) {
+  const forced = mode !== "switch"
+  const [theme, setTheme] = React.useState<HomeTheme>(
+    mode === "dark" ? "dark" : "light",
+  )
 
   React.useEffect(() => {
+    if (forced) {
+      setTheme(mode === "dark" ? "dark" : "light")
+      return
+    }
     const saved = window.localStorage.getItem(STORAGE_KEY)
     if (saved === "dark" || saved === "light") setTheme(saved)
-  }, [])
+  }, [forced, mode])
 
   // The page scrollbar lives on <html> (outside this wrapper), so mirror the
   // home theme onto <html> to drive the light/dark scrollbar (see globals.css).
@@ -46,6 +61,7 @@ export function HomeThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme])
 
   const toggle = React.useCallback(() => {
+    if (forced) return
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light"
       try {
@@ -55,7 +71,7 @@ export function HomeThemeProvider({ children }: { children: React.ReactNode }) {
       }
       return next
     })
-  }, [])
+  }, [forced])
 
   return (
     <HomeThemeContext.Provider value={{ theme, toggle, isHome: true }}>

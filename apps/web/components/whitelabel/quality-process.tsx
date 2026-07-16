@@ -30,24 +30,24 @@ type Step = {
 function StepCard({ step }: { step: Step }) {
   const { Icon } = step
   return (
-    <div className="bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(201,169,110,0.06)] border border-[rgba(255,255,255,0.07)] hover:border-[rgba(201,169,110,0.4)] transition-colors duration-200 p-6 flex flex-col gap-3 w-[317px] lg:w-auto lg:flex-1 shrink-0 self-stretch">
+    <div className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.03)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] transition-colors duration-200 p-6 flex flex-col gap-3 w-[317px] lg:w-auto lg:flex-1 shrink-0 self-stretch">
       <p
-        className="text-[48px] font-medium leading-none text-[rgba(255,255,255,0.12)]"
+        className="text-[48px] font-medium leading-none text-[rgba(var(--lm-text-rgb,255,255,255),0.12)]"
         style={SERIF_FONT}
       >
         {step.num}
       </p>
-      <div className="size-11 flex items-center justify-center bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.18)]">
-        <Icon className="size-[18px] text-[#C9A96E]" strokeWidth={1.75} />
+      <div className="size-11 flex items-center justify-center bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.18)]">
+        <Icon className="size-[18px] text-[var(--lm-accent,#c9a96e)]" strokeWidth={1.75} />
       </div>
       <h3
-        className="text-[14px] font-bold text-white leading-normal"
+        className="text-[14px] font-bold text-[var(--lm-text,#fff)] leading-normal"
         style={SANS_FONT}
       >
         {step.heading}
       </h3>
       <p
-        className="text-[14px] leading-[1.2] text-[rgba(255,255,255,0.4)]"
+        className="text-[14px] leading-[1.2] text-[rgba(var(--lm-text-rgb,255,255,255),0.4)]"
         style={SANS_FONT}
       >
         {step.body}
@@ -59,10 +59,10 @@ function StepCard({ step }: { step: Step }) {
 function ArrowConnector({ leftPercent }: { leftPercent: number }) {
   return (
     <div
-      className="hidden lg:flex absolute size-8 bg-[#1C1B18] items-center justify-center pointer-events-none -translate-x-1/2 -translate-y-1/2"
+      className="hidden lg:flex absolute size-8 bg-[var(--lm-surface,#1c1b18)] items-center justify-center pointer-events-none -translate-x-1/2 -translate-y-1/2"
       style={{ left: `${leftPercent}%`, top: "50%" }}
     >
-      <ArrowRight className="size-[18px] text-[#C9A96E]" strokeWidth={2} />
+      <ArrowRight className="size-[18px] text-[var(--lm-accent,#c9a96e)]" strokeWidth={2} />
     </div>
   )
 }
@@ -116,7 +116,7 @@ export function QualityProcess() {
   ]
 
   return (
-    <section className="bg-[#0D0D0D] px-4 lg:px-[82px] pt-8 lg:pt-10 pb-8 lg:pb-20">
+    <section className="bg-[var(--lm-bg,#0d0d0d)] px-4 lg:px-[82px] pt-8 lg:pt-10 pb-8 lg:pb-20">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-[52px]">
         <div
           ref={headerRef}
@@ -125,24 +125,24 @@ export function QualityProcess() {
           }`}
         >
           <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
             <span
-              className="text-[12px] font-medium uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              className="text-[12px] font-medium uppercase tracking-[2px] text-[var(--lm-accent,#c9a96e)] leading-none"
               style={SANS_FONT}
             >
               {t("eyebrow")}
             </span>
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
           </div>
           <h2
-            className="text-[36px] lg:text-[48px] font-light leading-[1.05] text-white"
+            className="text-[36px] lg:text-[48px] font-light leading-[1.05] text-[var(--lm-text,#fff)]"
             style={SERIF_FONT}
           >
             {t("titlePre")}{" "}
-            <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#c9a96e)]">{t("titleAccent")}</span>
           </h2>
           <p
-            className="text-[16px] lg:text-[18px] leading-[1.3] text-[rgba(255,255,255,0.55)] max-w-[926px]"
+            className="text-[16px] lg:text-[18px] leading-[1.3] text-[rgba(var(--lm-text-rgb,255,255,255),0.55)] max-w-[926px]"
             style={SANS_FONT}
           >
             {t("subtitle")}
