@@ -20,6 +20,8 @@ interface CheckoutHeaderProps {
 }
 
 function LuxMotionLogo() {
+  const { theme } = useCheckoutTheme()
+  const isLight = theme === "light"
   return (
     <Link href="/" className="flex items-center gap-[10px] shrink-0">
       <div className="relative w-[45px] h-[45px] border-[1.9px] border-[var(--ck-accent,#c9a96e)] flex items-center justify-center shrink-0">
@@ -34,6 +36,7 @@ function LuxMotionLogo() {
             alt="LuxMotion"
             fill
             className="object-contain object-left"
+            style={isLight ? { filter: "brightness(0)" } : undefined}
             priority
           />
         </div>
