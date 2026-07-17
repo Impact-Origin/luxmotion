@@ -181,18 +181,16 @@ export default function PartnershipLeadsPage() {
   const partnership = useQuery(api.partnerships.getById, { id });
   const stats = useQuery(api.partnerships.getLeadStats, { partnershipId: id });
 
-  const catItems = CATEGORIES.map((c) => ({
-    label: c.label,
+  // Only categories that actually produced leads for this partner are shown —
+  // a hotel never gets weddings, so its wedding category simply never appears.
+  const cats = CATEGORIES.map((c) => ({
+    ...c,
     count: stats?.[c.key]?.count ?? 0,
-  })).sort((a, b) => b.count - a.count);
-
-  const toursTotal =
-    (stats?.tourInquiries?.count ?? 0) + (stats?.tourBookings?.count ?? 0);
-  const quotesTotal =
-    (stats?.contactQuotes?.count ?? 0) +
-    (stats?.corporateRequests?.count ?? 0) +
-    (stats?.schoolQuoteSubmissions?.count ?? 0) +
-    (stats?.weddingQuoteSubmissions?.count ?? 0);
+  }));
+  const nonZero = cats
+    .filter((c) => c.count > 0)
+    .sort((a, b) => b.count - a.count);
+  const topCats = nonZero.slice(0, 3);
 
   const activity = React.useMemo(() => {
     if (!stats) return [];
@@ -235,7 +233,7 @@ export default function PartnershipLeadsPage() {
         </div>
       </div>
 
-      {/* KPIs */}
+      {/* KPIs — Total + the partner's most active categories (dynamic) */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Kpi
           label="Total atribuído"
@@ -243,13 +241,9 @@ export default function PartnershipLeadsPage() {
           Icon={ShoppingCart}
           highlight
         />
-        <Kpi
-          label="Encomendas"
-          value={dash(stats?.orders?.count ?? 0)}
-          Icon={ShoppingCart}
-        />
-        <Kpi label="Tours" value={dash(toursTotal)} Icon={Compass} />
-        <Kpi label="Orçamentos" value={dash(quotesTotal)} Icon={FileText} />
+        {topCats.map((c) => (
+          <Kpi key={c.key} label={c.label} value={c.count} Icon={c.Icon} />
+        ))}
       </div>
 
       {/* Charts */}
@@ -262,10 +256,14 @@ export default function PartnershipLeadsPage() {
           )}
         </Card>
         <Card title="Por categoria">
-          {stats ? (
-            <CategoryBars items={catItems} />
-          ) : (
+          {!stats ? (
             <div className="h-40 animate-pulse rounded bg-muted" />
+          ) : nonZero.length === 0 ? (
+            <div className="py-10 text-center text-sm text-muted-foreground">
+              Sem leads atribuídas ainda.
+            </div>
+          ) : (
+            <CategoryBars items={nonZero} />
           )}
         </Card>
       </div>
