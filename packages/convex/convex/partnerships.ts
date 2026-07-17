@@ -136,13 +136,14 @@ export const remove = mutation({
 export const getLeadStats = query({
   args: { partnershipId: v.id("partnerships") },
   handler: async (ctx, { partnershipId }) => {
-    const summarize = (rows: any[]) => {
-      const mine = rows.filter((r) => r.partnershipId === partnershipId);
-      const recent = [...mine]
-        .sort(
-          (a, b) =>
-            (b.createdAt ?? b._creationTime) - (a.createdAt ?? a._creationTime),
-        )
+    const at = (r: any): number => r.createdAt ?? r._creationTime;
+    const mineOf = (rows: any[]) =>
+      rows.filter((r) => r.partnershipId === partnershipId);
+
+    const summarize = (mine: any[]) => ({
+      count: mine.length,
+      recent: [...mine]
+        .sort((a, b) => at(b) - at(a))
         .slice(0, 8)
         .map((r) => ({
           _id: r._id as string,
@@ -156,10 +157,9 @@ export const getLeadStats = query({
             "—",
           email: (r.email as string | undefined) ?? null,
           status: (r.status as string | undefined) ?? null,
-          createdAt: (r.createdAt as number | undefined) ?? r._creationTime,
-        }));
-      return { count: mine.length, recent };
-    };
+          createdAt: at(r),
+        })),
+    });
 
     const [
       orders,
@@ -181,15 +181,44 @@ export const getLeadStats = query({
       ctx.db.query("weddingQuoteSubmissions").collect(),
     ]);
 
+    const groups = {
+      orders: mineOf(orders),
+      tourInquiries: mineOf(tourInquiries),
+      tourBookings: mineOf(tourBookings),
+      contactSubmissions: mineOf(contactSubmissions),
+      contactQuotes: mineOf(contactQuotes),
+      corporateRequests: mineOf(corporateRequests),
+      schoolQuoteSubmissions: mineOf(schoolQuoteSubmissions),
+      weddingQuoteSubmissions: mineOf(weddingQuoteSubmissions),
+    };
+
+    // Monthly timeline — total attributed per month over the last 6 months.
+    const MONTHS_PT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const now = new Date(Date.now());
+    const months = Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+      return { key: `${d.getFullYear()}-${d.getMonth()}`, label: MONTHS_PT[d.getMonth()] ?? "", count: 0 };
+    });
+    const idx = new Map(months.map((m) => [m.key, m]));
+    for (const mine of Object.values(groups)) {
+      for (const r of mine) {
+        const d = new Date(at(r));
+        const m = idx.get(`${d.getFullYear()}-${d.getMonth()}`);
+        if (m) m.count += 1;
+      }
+    }
+
     return {
-      orders: summarize(orders),
-      tourInquiries: summarize(tourInquiries),
-      tourBookings: summarize(tourBookings),
-      contactSubmissions: summarize(contactSubmissions),
-      contactQuotes: summarize(contactQuotes),
-      corporateRequests: summarize(corporateRequests),
-      schoolQuoteSubmissions: summarize(schoolQuoteSubmissions),
-      weddingQuoteSubmissions: summarize(weddingQuoteSubmissions),
+      orders: summarize(groups.orders),
+      tourInquiries: summarize(groups.tourInquiries),
+      tourBookings: summarize(groups.tourBookings),
+      contactSubmissions: summarize(groups.contactSubmissions),
+      contactQuotes: summarize(groups.contactQuotes),
+      corporateRequests: summarize(groups.corporateRequests),
+      schoolQuoteSubmissions: summarize(groups.schoolQuoteSubmissions),
+      weddingQuoteSubmissions: summarize(groups.weddingQuoteSubmissions),
+      total: Object.values(groups).reduce((s, m) => s + m.length, 0),
+      timeline: months.map((m) => ({ label: m.label, count: m.count })),
     };
   },
 });
