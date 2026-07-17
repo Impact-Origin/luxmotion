@@ -333,6 +333,9 @@ export interface ThemeConfig {
   /** Per-partnership theme mode for the whitelabel landing (+ checkout, later):
    *  "switch" shows the light/dark toggle, "dark"/"light" lock it. Default "switch". */
   themeMode?: "switch" | "dark" | "light";
+  /** Lead categories this partner offers — these always appear in the partner's
+   *  leads dashboard (categories with actual leads show regardless). */
+  services?: string[];
 }
 
 export const defaultTheme: ThemeConfig = {

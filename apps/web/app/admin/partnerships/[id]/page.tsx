@@ -1152,6 +1152,50 @@ export default function PartnershipEditorPage({
                 )}
 
                 <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground pt-2">
+                  Serviços oferecidos
+                </Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {([
+                    ["orders", "Transfers"],
+                    ["tourInquiries", "Pedidos tour"],
+                    ["tourBookings", "Reservas tour"],
+                    ["contactSubmissions", "Contactos"],
+                    ["contactQuotes", "Orçamentos"],
+                    ["corporateRequests", "Corporate"],
+                    ["schoolQuoteSubmissions", "Escolas"],
+                    ["weddingQuoteSubmissions", "Casamentos"],
+                  ] as const).map(([key, label]) => {
+                    const on = (theme.services ?? []).includes(key);
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() =>
+                          setTheme((prev) => {
+                            const cur = new Set(prev.services ?? []);
+                            if (on) cur.delete(key);
+                            else cur.add(key);
+                            return { ...prev, services: Array.from(cur) };
+                          })
+                        }
+                        className={cn(
+                          "rounded-full border px-2.5 py-1 text-xs transition-colors",
+                          on
+                            ? "border-primary bg-primary/10 text-foreground"
+                            : "border-border text-muted-foreground hover:bg-accent",
+                        )}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="text-[10px] font-medium text-muted-foreground">
+                  Aparecem sempre no dashboard de leads desta parceria. Categorias
+                  sem serviço aparecem só se tiverem leads.
+                </p>
+
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground pt-2">
                   Company Logo
                 </Label>
                 <ImageUpload

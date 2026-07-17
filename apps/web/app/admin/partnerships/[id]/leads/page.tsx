@@ -183,14 +183,22 @@ export default function PartnershipLeadsPage() {
 
   // Only categories that actually produced leads for this partner are shown —
   // a hotel never gets weddings, so its wedding category simply never appears.
+  const services =
+    (partnership?.theme?.services as string[] | undefined) ?? null;
   const cats = CATEGORIES.map((c) => ({
     ...c,
     count: stats?.[c.key]?.count ?? 0,
   }));
-  const nonZero = cats
-    .filter((c) => c.count > 0)
+  // Show a category if the partner offers it (configured services) OR it has
+  // leads. Without configured services, fall back to "only categories with leads".
+  const visible = cats
+    .filter((c) =>
+      services && services.length > 0
+        ? services.includes(c.key) || c.count > 0
+        : c.count > 0,
+    )
     .sort((a, b) => b.count - a.count);
-  const topCats = nonZero.slice(0, 3);
+  const topCats = visible.filter((c) => c.count > 0).slice(0, 3);
 
   const activity = React.useMemo(() => {
     if (!stats) return [];
@@ -258,12 +266,12 @@ export default function PartnershipLeadsPage() {
         <Card title="Por categoria">
           {!stats ? (
             <div className="h-40 animate-pulse rounded bg-muted" />
-          ) : nonZero.length === 0 ? (
+          ) : visible.length === 0 ? (
             <div className="py-10 text-center text-sm text-muted-foreground">
               Sem leads atribuídas ainda.
             </div>
           ) : (
-            <CategoryBars items={nonZero} />
+            <CategoryBars items={visible} />
           )}
         </Card>
       </div>
