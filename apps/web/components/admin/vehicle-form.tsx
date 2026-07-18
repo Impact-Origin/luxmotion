@@ -109,7 +109,8 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
       onClose();
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong");
+      const msg = error instanceof Error ? error.message : String(error);
+      toast.error(msg && msg !== "[object Object]" ? msg : "Something went wrong");
     } finally {
       setIsSubmitting(false);
     }

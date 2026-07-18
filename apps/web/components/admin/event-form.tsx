@@ -278,7 +278,8 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       onClose()
     } catch (error) {
       console.error(error)
-      toast.error(t("form.errorGeneric"))
+      const msg = error instanceof Error ? error.message : String(error)
+      toast.error(msg && msg !== "[object Object]" ? msg : t("form.errorGeneric"))
     } finally {
       setIsSubmitting(false)
     }

@@ -351,7 +351,9 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
                   title: day.title,
                   titleAccent: day.titleAccent || undefined,
                   hoursActive: day.hoursActive || undefined,
-                  nights: day.nights ? parseInt(day.nights) : undefined,
+                  nights: Number.isFinite(parseInt(day.nights))
+                    ? parseInt(day.nights)
+                    : undefined,
                   hotel: day.hotel || undefined,
                   stops: day.stops
                     .filter((s) => s.title.trim())
@@ -361,8 +363,12 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
                       title: s.title,
                       description: s.description || undefined,
                       imageId: (s.imageId as any) || undefined,
-                      lat: s.lat ? parseFloat(s.lat) : undefined,
-                      lng: s.lng ? parseFloat(s.lng) : undefined,
+                      lat: Number.isFinite(parseFloat(s.lat))
+                        ? parseFloat(s.lat)
+                        : undefined,
+                      lng: Number.isFinite(parseFloat(s.lng))
+                        ? parseFloat(s.lng)
+                        : undefined,
                     })),
                 }))
                 .filter((day) => day.title.trim() || day.stops.length > 0)
@@ -492,8 +498,13 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
 
       onClose()
     } catch (error) {
-      console.error(error)
-      toast.error(t("form.errorGeneric"))
+      console.error("[tour-form] save failed:", error)
+      // Surface the real backend/validation error instead of a generic message
+      // (a generic toast is exactly what hides bugs like this one).
+      const msg = error instanceof Error ? error.message : String(error)
+      toast.error(
+        msg && msg !== "[object Object]" ? msg : t("form.errorGeneric"),
+      )
     } finally {
       setIsSubmitting(false)
     }
