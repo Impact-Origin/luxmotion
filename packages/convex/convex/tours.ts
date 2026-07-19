@@ -886,21 +886,23 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("tours"),
-    title: v.string(),
+    title: v.optional(v.string()),
     subtitle: v.optional(v.string()),
-    description: v.any(),
-    tourType: v.string(),
-    originalLanguage: v.string(),
-    category: v.union(
-      v.literal("tours"),
-      v.literal("experiences"),
-      v.literal("private"),
-      v.literal("events"),
+    description: v.optional(v.any()),
+    tourType: v.optional(v.string()),
+    originalLanguage: v.optional(v.string()),
+    category: v.optional(
+      v.union(
+        v.literal("tours"),
+        v.literal("experiences"),
+        v.literal("private"),
+        v.literal("events"),
+      ),
     ),
-    destination: v.string(),
-    isFeatured: v.boolean(),
-    isBestSeller: v.boolean(),
-    isActive: v.boolean(),
+    destination: v.optional(v.string()),
+    isFeatured: v.optional(v.boolean()),
+    isBestSeller: v.optional(v.boolean()),
+    isActive: v.optional(v.boolean()),
     isUltraLuxury: v.optional(v.boolean()),
     tourTypeTag: v.optional(
       v.union(
@@ -935,19 +937,21 @@ export const update = mutation({
         }),
       ),
     ),
-    status: v.union(
-      v.literal("draft"),
-      v.literal("published"),
-      v.literal("archived"),
+    status: v.optional(
+      v.union(
+        v.literal("draft"),
+        v.literal("published"),
+        v.literal("archived"),
+      ),
     ),
-    duration: v.string(),
+    duration: v.optional(v.string()),
     durationMinutes: v.optional(v.number()),
-    groupSize: v.string(),
+    groupSize: v.optional(v.string()),
     maxGroupSize: v.optional(v.number()),
-    languages: v.array(v.string()),
-    basePrice: v.number(),
+    languages: v.optional(v.array(v.string())),
+    basePrice: v.optional(v.number()),
     originalPrice: v.optional(v.number()),
-    currency: v.string(),
+    currency: v.optional(v.string()),
     bannerImageId: v.optional(v.id("_storage")),
     additionalBannerIds: v.optional(v.array(v.id("_storage"))),
     additionalBannerTypes: v.optional(

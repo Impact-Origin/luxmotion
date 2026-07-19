@@ -99,18 +99,20 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("pastExperiences"),
-    title: v.string(),
-    description: v.string(),
-    location: v.string(),
-    category: v.union(
-      v.literal("corporate"),
-      v.literal("weddings"),
-      v.literal("events"),
-      v.literal("privateTours")
+    title: v.optional(v.string()),
+    description: v.optional(v.string()),
+    location: v.optional(v.string()),
+    category: v.optional(
+      v.union(
+        v.literal("corporate"),
+        v.literal("weddings"),
+        v.literal("events"),
+        v.literal("privateTours")
+      )
     ),
     tags: v.optional(v.array(v.string())),
     imageId: v.optional(v.id("_storage")),
-    status: v.union(v.literal("draft"), v.literal("published")),
+    status: v.optional(v.union(v.literal("draft"), v.literal("published"))),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;

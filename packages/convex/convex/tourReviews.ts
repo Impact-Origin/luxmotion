@@ -336,10 +336,10 @@ export const toggleFeatured = mutation({
 export const update = mutation({
   args: {
     id: v.id("tourReviews"),
-    author: v.string(),
+    author: v.optional(v.string()),
     avatar: v.optional(v.string()),
-    rating: v.number(),
-    text: v.string(),
+    rating: v.optional(v.number()),
+    text: v.optional(v.string()),
     source: v.optional(v.string()),
     nationality: v.optional(v.string()),
   },

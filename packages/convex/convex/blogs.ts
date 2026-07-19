@@ -343,18 +343,18 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("blogs"),
-    title: v.string(),
-    excerpt: v.string(),
-    content: v.any(),
+    title: v.optional(v.string()),
+    excerpt: v.optional(v.string()),
+    content: v.optional(v.any()),
     heroImageId: v.optional(v.id("_storage")),
-    category: v.string(),
-    author: v.string(),
+    category: v.optional(v.string()),
+    author: v.optional(v.string()),
     authorRole: v.optional(v.string()),
     authorBio: v.optional(v.string()),
     authorAvatarId: v.optional(v.id("_storage")),
-    originalLanguage: v.string(),
-    status: v.union(v.literal("draft"), v.literal("published"), v.literal("archived")),
-    isFeatured: v.boolean(),
+    originalLanguage: v.optional(v.string()),
+    status: v.optional(v.union(v.literal("draft"), v.literal("published"), v.literal("archived"))),
+    isFeatured: v.optional(v.boolean()),
     isService: v.optional(v.boolean()),
     seoTitle: v.optional(v.string()),
     seoDescription: v.optional(v.string()),
@@ -375,7 +375,8 @@ export const update = mutation({
       }
     }
 
-    const isService = isServiceArg ?? false;
+    // Partial-update safe: only flip isService when it's explicitly provided.
+    const isService = isServiceArg ?? existing.isService ?? false;
     if (isService && !existing.isService) {
       const serviceCount = await ctx.db
         .query("blogs")
@@ -386,7 +387,6 @@ export const update = mutation({
       }
     }
 
-    const readTimeMinutes = calculateReadTime(data.content);
     const now = Date.now();
 
     let publishedAt = existing.publishedAt;
@@ -397,7 +397,10 @@ export const update = mutation({
     await ctx.db.patch(id, {
       ...data,
       isService,
-      readTimeMinutes,
+      // Only recompute read time when the content actually changed.
+      ...(data.content !== undefined
+        ? { readTimeMinutes: calculateReadTime(data.content) }
+        : {}),
       publishedAt,
       updatedAt: now,
     });

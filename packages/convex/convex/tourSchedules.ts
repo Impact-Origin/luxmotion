@@ -190,16 +190,18 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("tourSchedules"),
-    activeDays: v.array(v.number()),
-    timeSlots: v.array(
-      v.object({
-        startTime: v.string(),
-        endTime: v.optional(v.string()),
-      })
+    activeDays: v.optional(v.array(v.number())),
+    timeSlots: v.optional(
+      v.array(
+        v.object({
+          startTime: v.string(),
+          endTime: v.optional(v.string()),
+        })
+      )
     ),
     validFrom: v.optional(v.number()),
     validUntil: v.optional(v.number()),
-    isActive: v.boolean(),
+    isActive: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;

@@ -177,28 +177,30 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("vehicles"),
-    name: v.string(),
+    name: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     partnershipId: v.optional(v.id("partnerships")),
-    passengers: v.number(),
-    luggage: v.number(),
+    passengers: v.optional(v.number()),
+    luggage: v.optional(v.number()),
     maxBackpacks: v.optional(v.number()),
     maxHandLuggage: v.optional(v.number()),
     maxCheckedBaggage: v.optional(v.number()),
     maxChildSeats: v.optional(v.number()),
     maxBabySeats: v.optional(v.number()),
     maxBoosterSeats: v.optional(v.number()),
-    pricePerKm: v.number(),
-    pricePerKmNight: v.number(),
-    minimumPrice: v.number(),
-    hasWifi: v.boolean(),
-    isElectric: v.boolean(),
-    status: v.union(
-      v.literal("active"),
-      v.literal("inactive"),
-      v.literal("maintenance")
+    pricePerKm: v.optional(v.number()),
+    pricePerKmNight: v.optional(v.number()),
+    minimumPrice: v.optional(v.number()),
+    hasWifi: v.optional(v.boolean()),
+    isElectric: v.optional(v.boolean()),
+    status: v.optional(
+      v.union(
+        v.literal("active"),
+        v.literal("inactive"),
+        v.literal("maintenance")
+      )
     ),
-    order: v.number(),
+    order: v.optional(v.number()),
     upgradeFromVehicleId: v.optional(v.id("vehicles")),
   },
   handler: async (ctx, args) => {

@@ -90,12 +90,12 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("drivers"),
-    name: v.string(),
-    location: v.string(),
-    quote: v.string(),
+    name: v.optional(v.string()),
+    location: v.optional(v.string()),
+    quote: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
-    status: v.union(v.literal("draft"), v.literal("published")),
-    order: v.number(),
+    status: v.optional(v.union(v.literal("draft"), v.literal("published"))),
+    order: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;

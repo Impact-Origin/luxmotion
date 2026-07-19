@@ -113,11 +113,11 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("tourStops"),
-    time: v.string(),
-    title: v.string(),
+    time: v.optional(v.string()),
+    title: v.optional(v.string()),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
-    showImage: v.boolean(),
+    showImage: v.optional(v.boolean()),
     address: v.optional(v.string()),
     placeId: v.optional(v.string()),
     lat: v.optional(v.number()),

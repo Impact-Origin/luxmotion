@@ -107,14 +107,14 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("partnerships"),
-    name: v.string(),
-    slug: v.string(),
-    theme: v.any(),
+    name: v.optional(v.string()),
+    slug: v.optional(v.string()),
+    theme: v.optional(v.any()),
     content: v.optional(v.any()),
     logoId: v.optional(v.id("_storage")),
     heroImageId: v.optional(v.id("_storage")),
     status: v.optional(v.string()),
-    landingTemplate: landingTemplateValidator,
+    landingTemplate: v.optional(landingTemplateValidator),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;
