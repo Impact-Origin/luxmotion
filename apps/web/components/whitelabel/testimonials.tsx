@@ -16,9 +16,9 @@ const SANS_FONT = {
 } as const
 
 const REVIEW_PHOTOS = [
-  "/reviews/review-1.png",
-  "/reviews/review-2.png",
-  "/reviews/review-3.png",
+  "/reviews/review-1.webp",
+  "/reviews/review-2.webp",
+  "/reviews/review-3.webp",
 ] as const
 
 const AVATAR_COLORS = ["#9c27b0", "#1976d2", "#43a047"] as const

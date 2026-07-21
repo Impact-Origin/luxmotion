@@ -9,10 +9,10 @@ import { api } from "@workspace/convex/api"
 import { useSwipe } from "@/hooks/use-swipe"
 
 const REVIEW_PHOTOS = [
-  "/reviews/review-1.png",
-  "/reviews/review-2.png",
-  "/reviews/review-3.png",
-  "/reviews/review-4.png",
+  "/reviews/review-1.webp",
+  "/reviews/review-2.webp",
+  "/reviews/review-3.webp",
+  "/reviews/review-4.webp",
 ]
 
 const AVATAR_COLORS = [

@@ -33,9 +33,10 @@ function FeatureCard({
   )
 }
 
-const REVIEW_COUNT = 387
+// Total real da ficha Google (confirmado na API: 324, média 4.9).
+const REVIEW_COUNT = 324
 
-const SOCIAL_AVATARS = ["/reviews/review-1.png", "/reviews/review-2.png", "/reviews/review-3.png"]
+const SOCIAL_AVATARS = ["/reviews/review-1.webp", "/reviews/review-2.webp", "/reviews/review-3.webp"]
 
 export function SocialProofBar() {
   const t = useTranslations("hero")
