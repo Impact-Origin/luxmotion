@@ -1,9 +1,53 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
+
+/**
+ * Vídeo de fundo, mudo e em ciclo. Só arranca quando entra no ecrã — e pára
+ * ao sair, para não estar a descodificar fora de vista (bateria/rede).
+ */
+function CinematicVideo({ label }: { label: string }) {
+  const ref = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        if (!entry) return
+        if (entry.isIntersecting) {
+          // play() rejeita se o browser bloquear — mudo, não deve acontecer.
+          void el.play().catch(() => {})
+        } else {
+          el.pause()
+        }
+      },
+      { threshold: 0.25 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  return (
+    <video
+      ref={ref}
+      className="absolute inset-0 h-full w-full object-cover"
+      src="/video/home-cinematic.mp4"
+      poster="/video/home-cinematic-poster.webp"
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-label={label}
+    />
+  )
+}
 
 export function CinematicBanner() {
   const t = useTranslations("cinematicBanner")
@@ -41,14 +85,7 @@ export function CinematicBanner() {
             WebkitMaskPosition: "center",
           }}
         >
-          <Image
-            src="/cinematic/hero.png"
-            alt={t("photoAlt")}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
+          <CinematicVideo label={t("photoAlt")} />
         </div>
       </div>
 
