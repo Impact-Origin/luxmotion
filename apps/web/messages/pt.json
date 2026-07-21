@@ -652,7 +652,7 @@
     "extraStop": "Paragem extra",
     "tours": "Tours",
     "experiences": "Experiências",
-    "privateTours": "Tours Privados",
+    "privateTours": "Tours de Luxo",
     "events": "Eventos",
     "title": "Experiências no destino",
     "subtitle": "Melhore a sua viagem com estas experiências próximas",
@@ -937,11 +937,11 @@
   },
   "exclusive": "Exclusivo",
   "tours": {
-    "sectionLabel": "Tours Privados",
+    "sectionLabel": "Tours de Luxo",
     "titleGold": "Portugal,",
     "titleRest": "Além do\nEsperado.",
     "description": "Experiências privadas de dia inteiro concebidas para viajantes exigentes. Desenhadas para quem prefere a experiência ao itinerário.",
-    "cardLabel": "Privado · Dia Inteiro",
+    "cardLabel": "Luxo · Dia Inteiro",
     "exploreAll": "Explorar todos os destinos",
     "previousSlide": "Slide anterior",
     "nextSlide": "Próximo slide",
@@ -1133,7 +1133,7 @@
       "expertGuides": "Guias Locais Especializados"
     },
     "redesign": {
-      "label": "Private Tours · Portugal",
+      "label": "Luxury Tours · Portugal",
       "headingLine1": "Descubra a",
       "headingLine2": "Alma de Portugal",
       "subtitle": "Motorista particular. Itinerários selecionados. Cada estrada em Portugal — vivenciada como merece ser.",
@@ -1157,7 +1157,7 @@
     "rating": "Melhor Avaliação",
     "categoryTours": "Tours",
     "categoryExperiences": "Experiências",
-    "categoryPrivate": "Tours Privados",
+    "categoryPrivate": "Tours de Luxo",
     "loadMore": "Carregar mais",
     "noResults": "Nenhum tour encontrado",
     "clearSearch": "Limpar pesquisa"
@@ -1428,32 +1428,32 @@
       "cards": {
         "lisboa": {
           "name": "Lisboa",
-          "label": "Tour Privado",
+          "label": "Tour de Luxo",
           "subtitle": "Meio dia · Dia inteiro · Personalizado"
         },
         "porto": {
           "name": "Porto",
-          "label": "Tour Privado",
+          "label": "Tour de Luxo",
           "subtitle": "Dia inteiro · Vários dias"
         },
         "algarve": {
           "name": "Algarve",
-          "label": "Private · Full Day",
+          "label": "Luxury · Full Day",
           "subtitle": "Dia inteiro · Vários dias"
         },
         "ericeira": {
           "name": "Ericeira",
-          "label": "Private · Full Day",
+          "label": "Luxury · Full Day",
           "subtitle": "Dia inteiro · Vários dias"
         },
         "alentejo": {
           "name": "Alentejo",
-          "label": "Tour Privado",
+          "label": "Tour de Luxo",
           "subtitle": "Dia inteiro · Vários dias"
         },
         "madeira": {
           "name": "Madeira",
-          "label": "Tour Privado",
+          "label": "Tour de Luxo",
           "subtitle": "Dia inteiro · Vários dias"
         }
       }
@@ -1576,12 +1576,12 @@
       "subtitle": "Experiências privadas de dia inteiro selecionadas para viajantes exigentes. Pensadas para quem prefere experiência a itinerário.",
       "cards": {
         "luxury": {
-          "label": "Tour Privado",
+          "label": "Tour de Luxo",
           "title": "Luxo Viagem",
           "description": "Bentley, Mercedes Classe S, Tesla — cada veículo é uma declaração. Cada transferência é uma experiência em si."
         },
         "itineraries": {
-          "label": "Tour Privado",
+          "label": "Tour de Luxo",
           "title": "Feito sob medida Itinerários",
           "description": "Região vinícola, vilas escondidas, litorais dramáticos. O seu ritmo, as suas paragens, o seu Portugal."
         },
@@ -2095,7 +2095,7 @@
   },
   "adminTours": {
     "title": "Tours",
-    "subtitle": "Gerir os seus tours, experiências e tours privados",
+    "subtitle": "Gerir os seus tours, experiências e tours de luxo",
     "addTour": "Adicionar Tour",
     "searchPlaceholder": "Pesquisar tours...",
     "status": "Estado",
@@ -2107,7 +2107,7 @@
     "allCategories": "Todas as Categorias",
     "tours": "Tours",
     "experiences": "Experiências",
-    "privateTours": "Tours Privados",
+    "privateTours": "Tours de Luxo",
     "destination": "Destino",
     "allDestinations": "Todos os Destinos",
     "noToursFound": "Nenhum tour encontrado",
@@ -2719,7 +2719,7 @@
         "corporate": "Corporativo",
         "weddings": "Casamentos",
         "events": "Eventos",
-        "privateTours": "Tours Privados"
+        "privateTours": "Tours de Luxo"
       },
       "empty": "Ainda não há experiências nesta categoria.",
       "eyebrow": "Experiências Passadas",
@@ -2943,7 +2943,7 @@
       "corporate": "Corporativo",
       "weddings": "Casamentos",
       "events": "Eventos",
-      "privateTours": "Tours Privados"
+      "privateTours": "Tours de Luxo"
     },
     "noExperiencesFound": "Nenhuma experiência encontrada",
     "getStarted": "Comece por criar a sua primeira experiência.",

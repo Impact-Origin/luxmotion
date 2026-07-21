@@ -39,7 +39,7 @@ export default function ToursPage() {
       <JsonLd
         data={
           buildServiceSchema({
-            name: "Private Tours in Portugal",
+            name: "Luxury Tours in Portugal",
             description: "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
             path: "/tours",
             image: "/tours_hero.jpg",

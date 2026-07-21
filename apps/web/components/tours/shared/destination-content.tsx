@@ -114,7 +114,7 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
             {privateTours.length > 0 && (
               <CategorySection
-                title="Private Tours"
+                title="Luxury Tours"
                 titleHighlight="from"
                 destination={destination}
                 tours={privateTours}

@@ -652,7 +652,7 @@
     "extraStop": "Extra stop",
     "tours": "Tours",
     "experiences": "Experiences",
-    "privateTours": "Private Tours",
+    "privateTours": "Luxury Tours",
     "events": "Events",
     "title": "Experiences at destination",
     "subtitle": "Enhance your trip with these experiences nearby",
@@ -937,11 +937,11 @@
   },
   "exclusive": "Exclusive",
   "tours": {
-    "sectionLabel": "Private Tours",
+    "sectionLabel": "Luxury Tours",
     "titleGold": "Portugal,",
     "titleRest": "Beyond\nthe Expected.",
     "description": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
-    "cardLabel": "Private · Full Day",
+    "cardLabel": "Luxury · Full Day",
     "exploreAll": "Explore all destinations",
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
@@ -1134,7 +1134,7 @@
       "expertGuides": "Expert Local Guides"
     },
     "redesign": {
-      "label": "Private Tours · Portugal",
+      "label": "Luxury Tours · Portugal",
       "headingLine1": "Discover the",
       "headingLine2": "Soul of Portugal",
       "subtitle": "Private driver. Curated itineraries. Every road in Portugal — experienced as it deserves to be.",
@@ -1158,7 +1158,7 @@
     "rating": "Best Rating",
     "categoryTours": "Tours",
     "categoryExperiences": "Experiences",
-    "categoryPrivate": "Private Tours",
+    "categoryPrivate": "Luxury Tours",
     "loadMore": "Load more",
     "noResults": "No tours found",
     "clearSearch": "Clear search"
@@ -1429,32 +1429,32 @@
       "cards": {
         "lisboa": {
           "name": "Lisbon",
-          "label": "Private Tour",
+          "label": "Luxury Tour",
           "subtitle": "Half day · Full day · Custom"
         },
         "porto": {
           "name": "Porto",
-          "label": "Private Tour",
+          "label": "Luxury Tour",
           "subtitle": "Full day · Multi-day"
         },
         "algarve": {
           "name": "Algarve",
-          "label": "Private · Full Day",
+          "label": "Luxury · Full Day",
           "subtitle": "Full day · Multi-day"
         },
         "ericeira": {
           "name": "Ericeira",
-          "label": "Private · Full Day",
+          "label": "Luxury · Full Day",
           "subtitle": "Full day · Multi-day"
         },
         "alentejo": {
           "name": "Alentejo",
-          "label": "Private Tour",
+          "label": "Luxury Tour",
           "subtitle": "Full day · Multi-day"
         },
         "madeira": {
           "name": "Madeira",
-          "label": "Private Tour",
+          "label": "Luxury Tour",
           "subtitle": "Full day · Multi-day"
         }
       }
@@ -1577,12 +1577,12 @@
       "subtitle": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
       "cards": {
         "luxury": {
-          "label": "Private Tour",
+          "label": "Luxury Tour",
           "title": "Luxury Travel",
           "description": "Bentley, Mercedes S-Class, Tesla — every vehicle is a statement. Every transfer is an experience in itself."
         },
         "itineraries": {
-          "label": "Private Tour",
+          "label": "Luxury Tour",
           "title": "Custom Itineraries",
           "description": "Wine regions, hidden villages, dramatic coastlines. Your pace, your stops, your Portugal."
         },
@@ -2096,7 +2096,7 @@
   },
   "adminTours": {
     "title": "Tours",
-    "subtitle": "Manage your tours, experiences, and private tours",
+    "subtitle": "Manage your tours, experiences, and luxury tours",
     "addTour": "Add Tour",
     "searchPlaceholder": "Search tours...",
     "status": "Status",
@@ -2108,7 +2108,7 @@
     "allCategories": "All Categories",
     "tours": "Tours",
     "experiences": "Experiences",
-    "privateTours": "Private Tours",
+    "privateTours": "Luxury Tours",
     "destination": "Destination",
     "allDestinations": "All Destinations",
     "noToursFound": "No tours found",
@@ -2720,7 +2720,7 @@
         "corporate": "Corporate",
         "weddings": "Weddings",
         "events": "Events",
-        "privateTours": "Private Tours"
+        "privateTours": "Luxury Tours"
       },
       "empty": "No experiences in this category yet.",
       "eyebrow": "Past Experiences",
@@ -2944,7 +2944,7 @@
       "corporate": "Corporate",
       "weddings": "Weddings",
       "events": "Events",
-      "privateTours": "Private Tours"
+      "privateTours": "Luxury Tours"
     },
     "noExperiencesFound": "No experiences found",
     "getStarted": "Get started by creating your first experience.",

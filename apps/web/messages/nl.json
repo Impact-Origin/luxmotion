@@ -652,7 +652,7 @@
     "extraStop": "Extra stop",
     "tours": "Rondleidingen",
     "experiences": "Ervaringen",
-    "privateTours": "Privérondleidingen",
+    "privateTours": "Luxe Rondleidingen",
     "events": "Evenementen",
     "title": "Ervaringen op bestemming",
     "subtitle": "Verrijk uw reis met deze ervaringen in de buurt",
@@ -935,11 +935,11 @@
   },
   "exclusive": "Exclusief",
   "tours": {
-    "sectionLabel": "Privétours",
+    "sectionLabel": "Luxe Tours",
     "titleGold": "Portugal,",
     "titleRest": "voorbij\nhet verwachte.",
     "description": "Privédagtochten samengesteld voor veeleisende reizigers. Bedacht voor wie de ervaring verkiest boven het reisschema.",
-    "cardLabel": "Privé · Hele dag",
+    "cardLabel": "Luxe · Hele dag",
     "exploreAll": "Ontdek alle bestemmingen",
     "previousSlide": "Vorige dia",
     "nextSlide": "Volgende dia",
@@ -1131,7 +1131,7 @@
       "expertGuides": "Deskundige Lokale Gidsen"
     },
     "redesign": {
-      "label": "Private Tours · Portugal",
+      "label": "Luxury Tours · Portugal",
       "headingLine1": "Ontdek de",
       "headingLine2": "Ziel van Portugal",
       "subtitle": "Privéchauffeur. Geselecteerde routes. Elke weg in Portugal — beleefd zoals het verdient.",
@@ -1155,7 +1155,7 @@
     "rating": "Beste Beoordeling",
     "categoryTours": "Tours",
     "categoryExperiences": "Ervaringen",
-    "categoryPrivate": "Privé Tours",
+    "categoryPrivate": "Luxe Tours",
     "loadMore": "Meer laden",
     "noResults": "Geen tours gevonden",
     "clearSearch": "Zoekopdracht wissen"
@@ -1427,32 +1427,32 @@
       "cards": {
         "lisboa": {
           "name": "Lissabon",
-          "label": "Privétour",
+          "label": "Luxe Tour",
           "subtitle": "Halve dag · Hele dag · Op maat"
         },
         "porto": {
           "name": "Porto",
-          "label": "Privétour",
+          "label": "Luxe Tour",
           "subtitle": "Hele dag · Meerdaags"
         },
         "algarve": {
           "name": "Algarve",
-          "label": "Privé · Hele Dag",
+          "label": "Luxe · Hele Dag",
           "subtitle": "Hele dag · Meerdaags"
         },
         "ericeira": {
           "name": "Ericeira",
-          "label": "Privé · Hele Dag",
+          "label": "Luxe · Hele Dag",
           "subtitle": "Hele dag · Meerdaags"
         },
         "alentejo": {
           "name": "Alentejo",
-          "label": "Privétour",
+          "label": "Luxe Tour",
           "subtitle": "Hele dag · Meerdaags"
         },
         "madeira": {
           "name": "Madeira",
-          "label": "Privétour",
+          "label": "Luxe Tour",
           "subtitle": "Hele dag · Meerdaags"
         }
       }
@@ -1575,12 +1575,12 @@
       "subtitle": "Privé dagexcursies samengesteld voor veeleisende reizigers. Ontworpen voor wie ervaring boven reisschema verkiest.",
       "cards": {
         "luxury": {
-          "label": "Privétour",
+          "label": "Luxe Tour",
           "title": "Luxe Reizen",
           "description": "Bentley, Mercedes S-Klasse, Tesla — elk voertuig is een statement. Elke transfer is een ervaring op zich."
         },
         "itineraries": {
-          "label": "Privétour",
+          "label": "Luxe Tour",
           "title": "Op Maat Gemaakte Routes",
           "description": "Wijnregio's, verborgen dorpen, dramatische kustlijnen. Uw tempo, uw stops, uw Portugal."
         },
@@ -2082,7 +2082,7 @@
   },
   "adminTours": {
     "title": "Tours",
-    "subtitle": "Beheer uw tours, ervaringen en privétours",
+    "subtitle": "Beheer uw tours, ervaringen en luxe tours",
     "addTour": "Tour toevoegen",
     "searchPlaceholder": "Tours zoeken...",
     "status": "Status",
@@ -2094,7 +2094,7 @@
     "allCategories": "Alle Categorieën",
     "tours": "Tours",
     "experiences": "Ervaringen",
-    "privateTours": "Privétours",
+    "privateTours": "Luxe Tours",
     "destination": "Bestemming",
     "allDestinations": "Alle Bestemmingen",
     "noToursFound": "Geen tours gevonden",
@@ -2534,7 +2534,7 @@
         "corporate": "Zakelijk",
         "weddings": "Bruiloften",
         "events": "Evenementen",
-        "privateTours": "Privé Tours"
+        "privateTours": "Luxe Tours"
       },
       "empty": "Nog geen ervaringen in deze categorie.",
       "eyebrow": "Eerdere Ervaringen",
@@ -2758,7 +2758,7 @@
       "corporate": "Zakelijk",
       "weddings": "Bruiloften",
       "events": "Evenementen",
-      "privateTours": "Privé Tours"
+      "privateTours": "Luxe Tours"
     },
     "noExperiencesFound": "Geen ervaringen gevonden",
     "getStarted": "Begin met het aanmaken van uw eerste ervaring.",
