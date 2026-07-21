@@ -72,19 +72,7 @@ export function CinematicBanner() {
       </div>
 
       <div className="relative w-full h-[340px] md:h-[480px] lg:h-[590px] pointer-events-none select-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            maskImage: "url('/cinematic/mask.svg')",
-            WebkitMaskImage: "url('/cinematic/mask.svg')",
-            maskSize: "100% 100%",
-            WebkitMaskSize: "100% 100%",
-            maskRepeat: "no-repeat",
-            WebkitMaskRepeat: "no-repeat",
-            maskPosition: "center",
-            WebkitMaskPosition: "center",
-          }}
-        >
+        <div className="absolute inset-0">
           <CinematicVideo label={t("photoAlt")} />
         </div>
       </div>
