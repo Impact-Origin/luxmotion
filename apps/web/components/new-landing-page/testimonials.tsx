@@ -42,7 +42,7 @@ function CarouselArrow({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Reviews anteriores" : "Reviews seguintes"}
-      className={`absolute top-1/2 -translate-y-1/2 z-10 grid size-11 place-items-center border border-[rgba(var(--lm-text-rgb,255,255,255),0.2)] bg-[var(--lm-bg,#0D0D0D)]/80 text-[var(--lm-text,#fff)] backdrop-blur-sm transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)] ${
+      className={`absolute top-[367px] -translate-y-1/2 z-10 grid size-11 place-items-center border border-[rgba(var(--lm-text-rgb,255,255,255),0.2)] bg-[var(--lm-bg,#0D0D0D)]/80 text-[var(--lm-text,#fff)] backdrop-blur-sm transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)] ${
         isPrev ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2"
       }`}
     >
@@ -330,7 +330,7 @@ export function Testimonials() {
           </button>
         </div>
 
-        <div className="hidden md:flex flex-col gap-6 w-full mt-10">
+        <div className="relative hidden md:flex flex-col gap-6 w-full mt-10">
           <div className="relative">
             <div className="overflow-hidden">
             <div
@@ -373,10 +373,12 @@ export function Testimonials() {
                 ))}
               </div>
             </div>
-
-            <CarouselArrow direction="prev" onClick={prevPage} />
-            <CarouselArrow direction="next" onClick={nextPage} />
           </div>
+
+          {/* Na costura entre as duas linhas: a das fotos tem 355px e o gap
+              são 24px, logo o meio da junção está a 367px do topo do bloco. */}
+          <CarouselArrow direction="prev" onClick={prevPage} />
+          <CarouselArrow direction="next" onClick={nextPage} />
         </div>
 
         <div className="md:hidden flex flex-col gap-6 w-full mt-10" {...swipeHandlers}>
