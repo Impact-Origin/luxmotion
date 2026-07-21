@@ -9,11 +9,11 @@ import { cn } from "@workspace/ui/lib/utils"
 import { useSwipe } from "@/hooks/use-swipe"
 
 const services = [
-  { id: "transfers", image: "/services/transfers.png", href: "/#booking" },
-  { id: "tours", image: "/services/tours.png", href: "/tours" },
-  { id: "weddings", image: "/services/weddings.png", href: "/wedding" },
-  { id: "events", image: "/services/events.png", href: "/events" },
-  { id: "corporate", image: "/services/corporate.png", href: "/corporate" },
+  { id: "transfers", image: "/services/transfers.webp", href: "/#booking" },
+  { id: "tours", image: "/services/tours.webp", href: "/tours" },
+  { id: "weddings", image: "/services/weddings.webp", href: "/wedding" },
+  { id: "events", image: "/services/events.webp", href: "/events" },
+  { id: "corporate", image: "/services/corporate.webp", href: "/corporate" },
 ]
 
 interface ServiceCardProps {
