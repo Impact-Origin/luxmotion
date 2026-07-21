@@ -22,12 +22,15 @@ function TiltCard({
   primary,
   subtitle,
   tagline,
+  className,
 }: {
   src: string
   alt: string
   primary: string
   subtitle: string
   tagline: string
+  /** Substitui o dimensionamento por omissão (usado para destacar o do meio). */
+  className?: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, mx: 50, my: 50 })
@@ -47,7 +50,7 @@ function TiltCard({
 
   return (
     <div
-      className="relative flex-1 min-w-0 self-stretch"
+      className={cn("relative min-w-0", className ?? "flex-1 self-stretch")}
       style={{ perspective: "1200px" }}
     >
       <div
@@ -209,26 +212,22 @@ export function WeddingGallerySection() {
 
         {/* A do meio domina: mais larga e à altura toda; as laterais recolhem. */}
         <div className="hidden md:flex gap-[10px] items-center justify-center w-full pt-[42px] h-[608.21px]">
-          {PHOTOS.map((p, i) => {
-            const isCentre = i === 1
-            return (
-              <div
-                key={i}
-                className={cn(
-                  "relative min-w-0 transition-all duration-500 ease-out",
-                  isCentre ? "flex-[1.35] h-full" : "flex-[0.85] h-[86%]",
-                )}
-              >
-                <TiltCard
-                  src={p.src}
-                  primary={p.primary}
-                  subtitle={p.subtitle}
-                  tagline={p.tagline}
-                  alt={t("photoAlt", { index: i + 1 })}
-                />
-              </div>
-            )
-          })}
+          {PHOTOS.map((p, i) => (
+            <TiltCard
+              key={i}
+              src={p.src}
+              primary={p.primary}
+              subtitle={p.subtitle}
+              tagline={p.tagline}
+              alt={t("photoAlt", { index: i + 1 })}
+              // Filho direto do flex: sem wrapper, senão perde a altura.
+              className={
+                i === 1
+                  ? "flex-[1.35] self-stretch"
+                  : "flex-[0.85] self-center h-[86%]"
+              }
+            />
+          ))}
         </div>
 
         <div className="md:hidden w-full pt-2" {...swipe}>
