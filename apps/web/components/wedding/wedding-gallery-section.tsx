@@ -23,6 +23,7 @@ function TiltCard({
   subtitle,
   tagline,
   className,
+  restRotateY = 0,
 }: {
   src: string
   alt: string
@@ -31,6 +32,11 @@ function TiltCard({
   tagline: string
   /** Substitui o dimensionamento por omissão (usado para destacar o do meio). */
   className?: string
+  /**
+   * Rotação 3D em repouso. As laterais viram para dentro (aresta exterior
+   * afastada), o centro fica direito. A inclinação do rato soma-se a esta.
+   */
+  restRotateY?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, mx: 50, my: 50 })
@@ -59,7 +65,7 @@ function TiltCard({
         onPointerLeave={onLeave}
         className="group relative h-full w-full bg-white overflow-hidden shadow-[0_10px_30px_-10px_rgba(13,13,13,0.25)] hover:shadow-[0_40px_70px_-20px_rgba(13,13,13,0.5)]"
         style={{
-          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+          transform: `rotateX(${tilt.rx}deg) rotateY(${restRotateY + tilt.ry}deg)`,
           transformStyle: "preserve-3d",
           transition: "transform 350ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 350ms ease-out",
         }}
@@ -226,6 +232,9 @@ export function WeddingGallerySection() {
                   ? "flex-[1.35] self-stretch"
                   : "flex-[0.85] self-center h-[86%]"
               }
+              // Laterais viram para dentro; a do meio fica de frente. 6.1° dá
+              // o rácio 0.970 entre arestas medido na referência.
+              restRotateY={i === 0 ? -6.1 : i === 2 ? 6.1 : 0}
             />
           ))}
         </div>
