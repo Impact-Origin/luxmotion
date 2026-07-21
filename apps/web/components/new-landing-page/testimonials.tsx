@@ -263,14 +263,13 @@ export function Testimonials() {
   // Janela deslizante: cada clique avança UMA review, não um bloco de quatro.
   const startIdx =
     reviews.length > 0 ? ((currentPage % reviews.length) + reviews.length) % reviews.length : 0
-  const desktopPageIdx = startIdx
-  const desktopReviews = Array.from(
-    { length: Math.min(desktopItemsPerPage, reviews.length) },
-    (_, i) => reviews[(startIdx + i) % reviews.length]!,
-  )
-  const desktopPhotos = Array.from(
-    { length: desktopItemsPerPage },
-    (_, i) => REVIEW_PHOTOS[(startIdx + i) % REVIEW_PHOTOS.length]!
+  // Faixa duplicada: os itens ficam montados e a faixa translada, por isso
+  // desliza de verdade em vez de piscar. A cópia garante conteúdo à direita
+  // enquanto se avança até ao fim da lista.
+  const reviewTrack = [...reviews, ...reviews]
+  const photoTrack = Array.from(
+    { length: reviews.length + desktopItemsPerPage },
+    (_, i) => REVIEW_PHOTOS[i % REVIEW_PHOTOS.length]!,
   )
   const mobileReview = reviews[currentPage % reviews.length]
   const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
@@ -333,11 +332,16 @@ export function Testimonials() {
 
         <div className="hidden md:flex flex-col gap-6 w-full mt-10">
           <div className="relative">
-            <div className="flex gap-[2px]">
-              {desktopPhotos.map((photo, i) => (
+            <div className="overflow-hidden">
+            <div
+              className="flex gap-[2px] transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${startIdx * (100 / desktopItemsPerPage)}%)` }}
+            >
+              {photoTrack.map((photo, i) => (
                 <div
-                  key={`${desktopPageIdx}-${i}`}
-                  className="flex-1 relative h-[355px] animate-in fade-in duration-500"
+                  key={i}
+                  style={{ flex: `0 0 calc(${100 / desktopItemsPerPage}% - 2px)` }}
+                  className="relative h-[355px]"
                 >
                   <Image
                     src={photo}
@@ -349,19 +353,25 @@ export function Testimonials() {
                 </div>
               ))}
             </div>
+            </div>
           </div>
 
           {/* Setas laterais para percorrer as restantes reviews. */}
           <div className="relative">
-            <div className="flex gap-[2px]">
-              {desktopReviews.map((review, i) => (
-                <div
-                  key={`${desktopPageIdx}-${i}`}
-                  className="flex-1 animate-in fade-in slide-in-from-right-4 duration-500"
-                >
-                  <ReviewCard review={review} />
-                </div>
-              ))}
+            <div className="overflow-hidden">
+              <div
+                className="flex gap-[2px] transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${startIdx * (100 / desktopItemsPerPage)}%)` }}
+              >
+                {reviewTrack.map((review, i) => (
+                  <div
+                    key={i}
+                    style={{ flex: `0 0 calc(${100 / desktopItemsPerPage}% - 2px)` }}
+                  >
+                    <ReviewCard review={review} />
+                  </div>
+                ))}
+              </div>
             </div>
 
             <CarouselArrow direction="prev" onClick={prevPage} />
