@@ -31,6 +31,11 @@ export function DriverForm({ onClose, initialData }: DriverFormProps) {
   const [name, setName] = React.useState("")
   const [location, setLocation] = React.useState("")
   const [quote, setQuote] = React.useState("")
+  const [description, setDescription] = React.useState("")
+  const [languages, setLanguages] = React.useState("")
+  const [vehicle, setVehicle] = React.useState("")
+  const [rating, setRating] = React.useState("")
+  const [rides, setRides] = React.useState("")
   const [imageId, setImageId] = React.useState<string | undefined>()
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
   const [status, setStatus] = React.useState<"draft" | "published">("draft")
@@ -44,6 +49,11 @@ export function DriverForm({ onClose, initialData }: DriverFormProps) {
       setName(initialData.name || "")
       setLocation(initialData.location || "")
       setQuote(initialData.quote || "")
+      setDescription(initialData.description || "")
+      setLanguages(initialData.languages || "")
+      setVehicle(initialData.vehicle || "")
+      setRating(initialData.rating || "")
+      setRides(initialData.rides?.toString() || "")
       setImageId(initialData.imageId)
       setPreviewUrl(initialData.imageUrl || null)
       setStatus(initialData.status || "draft")
@@ -57,6 +67,11 @@ export function DriverForm({ onClose, initialData }: DriverFormProps) {
     setName("")
     setLocation("")
     setQuote("")
+    setDescription("")
+    setLanguages("")
+    setVehicle("")
+    setRating("")
+    setRides("")
     setImageId(undefined)
     setPreviewUrl(null)
     setStatus("draft")
@@ -83,6 +98,13 @@ export function DriverForm({ onClose, initialData }: DriverFormProps) {
         name,
         location,
         quote,
+        // Sent as-is (empty string included) so clearing a field in the admin
+        // actually clears it; the public hook falls back to the translated copy.
+        description,
+        languages,
+        vehicle,
+        rating,
+        rides: rides.trim() === "" ? undefined : Number(rides) || 0,
         imageId: imageId as any,
         status,
         order: parseInt(order) || 0,
@@ -167,6 +189,72 @@ export function DriverForm({ onClose, initialData }: DriverFormProps) {
                 disabled={isSubmitting}
                 className="min-h-[80px]"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="description">{t("form.descriptionLabel")}</Label>
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder={t("form.descriptionPlaceholder")}
+                disabled={isSubmitting}
+                className="min-h-[100px]"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="languages">{t("form.languagesLabel")}</Label>
+                <Input
+                  id="languages"
+                  value={languages}
+                  onChange={(e) => setLanguages(e.target.value)}
+                  placeholder={t("form.languagesPlaceholder")}
+                  disabled={isSubmitting}
+                  className="h-9"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="vehicle">{t("form.vehicleLabel")}</Label>
+                <Input
+                  id="vehicle"
+                  value={vehicle}
+                  onChange={(e) => setVehicle(e.target.value)}
+                  placeholder={t("form.vehiclePlaceholder")}
+                  disabled={isSubmitting}
+                  className="h-9"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="rating">{t("form.ratingLabel")}</Label>
+                <Input
+                  id="rating"
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                  placeholder={t("form.ratingPlaceholder")}
+                  disabled={isSubmitting}
+                  className="h-9"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="rides">{t("form.ridesLabel")}</Label>
+                <Input
+                  id="rides"
+                  type="number"
+                  min="0"
+                  value={rides}
+                  onChange={(e) => setRides(e.target.value)}
+                  placeholder={t("form.ridesPlaceholder")}
+                  disabled={isSubmitting}
+                  className="h-9"
+                />
+              </div>
             </div>
 
             <div className="space-y-2">

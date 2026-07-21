@@ -3,26 +3,12 @@
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight } from "lucide-react"
-import { useQuery } from "convex/react"
-import { api } from "@workspace/convex/api"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
-
-type Driver = {
-  id: string
-  name: string
-  location: string
-  quote: string
-  image: string
-}
-
-const FALLBACK_DRIVERS: Driver[] = [
-  { id: "joao", name: "João", location: "Lisboa", image: "/about/driver-joao.png", quote: "“Every guest is a friend I haven't met yet. I love sharing the hidden gems of my city.”" },
-  { id: "maria", name: "Maria", location: "Porto", image: "/about/driver-maria.png", quote: "“Safety and comfort are my priorities. I treat every passenger like family.”" },
-  { id: "pedro", name: "Pedro", location: "Algarve", image: "/about/driver-pedro.png", quote: "“20 years of driving taught me that the journey matters as much as the destination.”" },
-]
+import { usePublishedDrivers, type PublicDriver as Driver } from "@/hooks/use-published-drivers"
 
 function DriverCard({ d }: { d: Driver }) {
+  const tDrivers = useTranslations("drivers")
   return (
     <div className="group relative bg-[#0D0D0D] hover:bg-[#161412] transition-colors duration-500 ease-out border border-[rgba(154,117,53,0.22)] flex flex-col items-center px-9 py-12 h-full w-full">
       <span
@@ -54,6 +40,38 @@ function DriverCard({ d }: { d: Driver }) {
       >
         {d.quote}
       </p>
+
+      <p
+        className="text-[#8c8680] text-[12px] leading-[1.4] text-center mt-4"
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+      >
+        {d.description}
+      </p>
+
+      <div className="mt-auto pt-6 flex flex-col items-center gap-3 w-full">
+        <div className="flex flex-col items-center gap-[6px]">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {tDrivers("languages")}
+          </span>
+          <span
+            className="text-[12px] text-[#999] text-center"
+            style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+          >
+            {d.languages}
+          </span>
+        </div>
+
+        <div className="inline-flex items-center gap-[7px] px-4 py-3 bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)]">
+          <span className="text-[12px] font-semibold text-[#C9A96E] leading-none">{d.rating}</span>
+          <span className="text-[12px] text-[#C9A96E] tracking-[2px] leading-none">★★★★★</span>
+          <span className="text-[12px] text-[#8c8680] tracking-[0.44px] leading-none">
+            · {d.rides.toLocaleString()} {tDrivers("rides")}
+          </span>
+        </div>
+      </div>
     </div>
   )
 }
@@ -88,7 +106,7 @@ export function DriversSection() {
   const t = useTranslations("aboutPage.drivers")
   const [idx, setIdx] = useState(0)
   const [pageSize, setPageSize] = useState(3)
-  const dbDrivers = useQuery(api.drivers.listPublished)
+  const drivers = usePublishedDrivers()
 
   useEffect(() => {
     const update = () => setPageSize(window.innerWidth >= 768 ? 3 : 1)
@@ -96,22 +114,6 @@ export function DriversSection() {
     window.addEventListener("resize", update)
     return () => window.removeEventListener("resize", update)
   }, [])
-
-  const drivers: Driver[] =
-    dbDrivers && dbDrivers.length > 0
-      ? dbDrivers.map((d) => ({
-          id: d._id,
-          name: d.name,
-          location: d.location,
-          quote: d.quote,
-          image: d.imageUrl ?? "/about/driver-joao.png",
-        }))
-      : FALLBACK_DRIVERS.map((d) => ({
-          ...d,
-          name: t(`items.${d.id}.name`),
-          location: t(`items.${d.id}.location`),
-          quote: t(`items.${d.id}.quote`),
-        }))
 
   const maxIdx = Math.max(0, drivers.length - pageSize)
   const safeIdx = Math.min(idx, maxIdx)

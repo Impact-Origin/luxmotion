@@ -205,23 +205,23 @@
       },
       "xl": {
         "label": "XL",
-        "passengers": "1–5 passagiers"
+        "passengers": "3–4 passagiers"
       },
       "executivo": {
         "label": "Executive",
-        "passengers": "1–4 passagiers"
+        "passengers": "1–3 passagiers"
       },
       "van": {
         "label": "Bestelbus",
-        "passengers": "8 passagiers"
+        "passengers": "5–8 passagiers"
       },
       "minibus": {
         "label": "Minibus",
-        "passengers": "16 passagiers"
+        "passengers": "9–22 passagiers"
       },
       "bus": {
         "label": "Touringcar",
-        "passengers": "56 passagiers"
+        "passengers": "20–56 passagiers"
       }
     },
     "featured": {
@@ -2551,7 +2551,9 @@
         "tennisCascais": "Evenement · Estoril Open",
         "webSummit": "Zakelijk · Web Summit Lisbon",
         "golfAlgarve": "Tour · Algarve Golf",
-        "weddingPenhaLonga": "Bruiloft · Penha Longa"
+        "weddingPenhaLonga": "Bruiloft · Penha Longa",
+        "vipChauffeurLisbon": "VIP-chauffeursservice, Lissabon",
+        "privateAviation": "Transfers privéluchtvaart"
       }
     },
     "drivers": {
@@ -2570,17 +2572,26 @@
         "joao": {
           "name": "João",
           "location": "Lissabon",
-          "quote": "“Elke gast is een vriend die ik nog niet heb ontmoet. Ik deel graag de verborgen pareltjes van mijn stad.”"
+          "quote": "“Elke gast is een vriend die ik nog niet heb ontmoet. Ik deel graag de verborgen pareltjes van mijn stad.”",
+          "description": "100% Lissabonner en gepassioneerd om gasten het Portugal te tonen dat hotelbrochures missen. Hij kent de beste tafels, de rustigste kustwegen en het exacte moment waarop het licht de Taag raakt.",
+          "languages": "Nederlands, Portugees, Engels",
+          "vehicle": "Mercedes S-Klasse"
         },
         "maria": {
           "name": "Maria",
           "location": "Porto",
-          "quote": "“Veiligheid en comfort zijn mijn prioriteit. Ik behandel elke passagier als familie.”"
+          "quote": "“Veiligheid en comfort zijn mijn prioriteit. Ik behandel elke passagier als familie.”",
+          "description": "Geboren in Porto en wijnliefhebber, begeleidt ze al meer dan tien jaar bezoekers door de Douro-vallei. Haar ontspannen stijl maakt van lange transfers gesprekken met een oude vriendin.",
+          "languages": "Nederlands, Portugees, Frans",
+          "vehicle": "Mercedes V-Klasse"
         },
         "pedro": {
           "name": "Pedro",
           "location": "Algarve",
-          "quote": "“20 jaar rijden leerde me dat de reis net zo belangrijk is als de bestemming.”"
+          "quote": "“20 jaar rijden leerde me dat de reis net zo belangrijk is als de bestemming.”",
+          "description": "Geboren en getogen in de Algarve kent Pedro elke verborgen baai en elk zonsondergangpunt aan de zuidkust. Punctueel, discreet en een meester in het onvergetelijk maken van elke rit.",
+          "languages": "Nederlands, Portugees, Duits",
+          "vehicle": "Mercedes E-Klasse"
         }
       }
     },
@@ -2740,7 +2751,17 @@
       "createButton": "Chauffeur Toevoegen",
       "successCreated": "Chauffeur succesvol toegevoegd",
       "successUpdated": "Chauffeur succesvol bijgewerkt",
-      "errorGeneric": "Er is iets misgegaan"
+      "errorGeneric": "Er is iets misgegaan",
+      "descriptionLabel": "Beschrijving",
+      "descriptionPlaceholder": "Langere biografie op de carrousel van de homepage",
+      "languagesLabel": "Talen",
+      "languagesPlaceholder": "Nederlands, Portugees, Engels",
+      "vehicleLabel": "Voertuig",
+      "vehiclePlaceholder": "Mercedes S-Klasse",
+      "ratingLabel": "Beoordeling",
+      "ratingPlaceholder": "4.98",
+      "ridesLabel": "Ritten",
+      "ridesPlaceholder": "1615"
     }
   },
   "adminExperiences": {

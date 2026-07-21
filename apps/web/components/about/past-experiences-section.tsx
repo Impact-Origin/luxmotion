@@ -28,6 +28,8 @@ const PHOTOS: Photo[] = [
   { src: "/about/exp-websummit.jpg", alt: "Web Summit Lisbon", cat: "corporate", labelKey: "photos.webSummit" },
   { src: "/about/exp-golf.jpg", alt: "Golf course at sunset", cat: "tours", labelKey: "photos.golfAlgarve" },
   { src: "/about/exp-wedding.png", alt: "Wedding ceremony procession", cat: "weddings", labelKey: "photos.weddingPenhaLonga" },
+  { src: "/about/exp-vip-chauffeur-lisbon.webp", alt: "LuxMotion chauffeur with a VIP guest beside a Mercedes E-Class in Lisbon", cat: "events", labelKey: "photos.vipChauffeurLisbon" },
+  { src: "/about/exp-private-aviation.webp", alt: "LuxMotion Sprinter van beside a private jet on the apron", cat: "corporate", labelKey: "photos.privateAviation" },
 ]
 
 function PhotoTile({ photo, label, className }: { photo: Photo; label: string; className?: string }) {
@@ -89,7 +91,10 @@ export function PastExperiencesSection() {
     [active],
   )
 
-  const showAsymmetric = active === "all" && filtered.length === 4
+  // The hero layout needs exactly 4 tiles; anything beyond that falls into the
+  // regular grid underneath it.
+  const showAsymmetric = active === "all" && filtered.length >= 4
+  const overflow = showAsymmetric ? filtered.slice(4) : []
 
   const handleCategory = (cat: Category) => {
     setActive(cat)
@@ -166,6 +171,13 @@ export function PastExperiencesSection() {
                 <PhotoTile photo={filtered[2]!} label={t(filtered[2]!.labelKey)} className="w-[509px] h-full shrink-0" />
                 <PhotoTile photo={filtered[3]!} label={t(filtered[3]!.labelKey)} className="flex-1 h-full" />
               </div>
+              {overflow.length > 0 && (
+                <div className="grid grid-cols-2 gap-[2px] w-full">
+                  {overflow.map((p) => (
+                    <PhotoTile key={p.src} photo={p} label={t(p.labelKey)} className="h-[394px]" />
+                  ))}
+                </div>
+              )}
             </div>
           ) : filtered.length === 0 ? (
             <p className="text-center text-[#999] py-16">{t("empty")}</p>

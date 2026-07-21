@@ -205,23 +205,23 @@
       },
       "xl": {
         "label": "XL",
-        "passengers": "1–5 pasajeros"
+        "passengers": "3–4 pasajeros"
       },
       "executivo": {
         "label": "Ejecutivo",
-        "passengers": "1–4 pasajeros"
+        "passengers": "1–3 pasajeros"
       },
       "van": {
         "label": "Furgoneta",
-        "passengers": "8 pasajeros"
+        "passengers": "5–8 pasajeros"
       },
       "minibus": {
         "label": "Minibús",
-        "passengers": "16 pasajeros"
+        "passengers": "9–22 pasajeros"
       },
       "bus": {
         "label": "Autobús",
-        "passengers": "56 pasajeros"
+        "passengers": "20–56 pasajeros"
       }
     },
     "featured": {
@@ -2567,7 +2567,9 @@
         "tennisCascais": "Evento · Estoril Open",
         "webSummit": "Corporativo · Web Summit Lisbon",
         "golfAlgarve": "Tour · Algarve Golf",
-        "weddingPenhaLonga": "Boda · Penha Longa"
+        "weddingPenhaLonga": "Boda · Penha Longa",
+        "vipChauffeurLisbon": "Servicio de chófer VIP, Lisboa",
+        "privateAviation": "Traslados de aviación privada"
       }
     },
     "drivers": {
@@ -2586,17 +2588,26 @@
         "joao": {
           "name": "João",
           "location": "Lisboa",
-          "quote": "“Cada huésped es un amigo que aún no he conocido. Me encanta compartir los rincones ocultos de mi ciudad.”"
+          "quote": "“Cada huésped es un amigo que aún no he conocido. Me encanta compartir los rincones ocultos de mi ciudad.”",
+          "description": "100% lisboeta y apasionado por mostrar a los clientes el Portugal que los folletos de hotel se pierden. Conoce las mejores mesas, las carreteras costeras más tranquilas y el momento exacto en que la luz golpea el Tajo.",
+          "languages": "Español, Portugués, Inglés",
+          "vehicle": "Mercedes Clase S"
         },
         "maria": {
           "name": "Maria",
           "location": "Oporto",
-          "quote": "“La seguridad y el confort son mis prioridades. Trato a cada pasajero como a mi familia.”"
+          "quote": "“La seguridad y el confort son mis prioridades. Trato a cada pasajero como a mi familia.”",
+          "description": "Nacida en Oporto y entusiasta del vino, lleva más de una década guiando visitantes por el valle del Duero. Su estilo cercano convierte los trayectos largos en conversaciones con una vieja amiga.",
+          "languages": "Español, Portugués, Francés",
+          "vehicle": "Mercedes Clase V"
         },
         "pedro": {
           "name": "Pedro",
           "location": "Algarve",
-          "quote": "“20 años conduciendo me enseñaron que el viaje importa tanto como el destino.”"
+          "quote": "“20 años conduciendo me enseñaron que el viaje importa tanto como el destino.”",
+          "description": "Nacido y criado en el Algarve, Pedro conoce cada cala escondida y cada mirador al atardecer de la costa sur. Puntual, discreto y experto en el arte de hacer memorable cada viaje.",
+          "languages": "Español, Portugués, Alemán",
+          "vehicle": "Mercedes Clase E"
         }
       }
     },
@@ -2756,7 +2767,17 @@
       "createButton": "Añadir Conductor",
       "successCreated": "Conductor añadido con éxito",
       "successUpdated": "Conductor actualizado con éxito",
-      "errorGeneric": "Algo salió mal"
+      "errorGeneric": "Algo salió mal",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Biografía más larga mostrada en el carrusel de la página de inicio",
+      "languagesLabel": "Idiomas",
+      "languagesPlaceholder": "Español, Portugués, Inglés",
+      "vehicleLabel": "Vehículo",
+      "vehiclePlaceholder": "Mercedes Clase S",
+      "ratingLabel": "Valoración",
+      "ratingPlaceholder": "4.98",
+      "ridesLabel": "Viajes",
+      "ridesPlaceholder": "1615"
     }
   },
   "adminExperiences": {

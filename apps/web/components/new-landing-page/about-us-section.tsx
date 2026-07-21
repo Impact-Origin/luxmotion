@@ -24,12 +24,13 @@ export function AboutUsSection() {
                 />
               </div>
               <div className="flex flex-col gap-[3px] lg:gap-[4px]">
+                {/* Wordmark branco: lm-logo-mono passa-o a preto no tema claro. */}
                 <Image
                   src="/svgs/luxmotion-text.svg"
                   alt="LuxMotion"
                   width={110}
                   height={13}
-                  className="w-[80px] lg:w-[110px] h-auto"
+                  className="lm-logo-mono w-[80px] lg:w-[110px] h-auto"
                 />
                 <span
                   className="text-[7px] lg:text-[9.57px] tracking-[1.1px] lg:tracking-[1.34px] text-[var(--lm-muted,#999)] font-normal leading-none"

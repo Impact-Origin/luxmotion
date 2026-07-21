@@ -12,53 +12,7 @@ import {
   Check,
 } from "lucide-react"
 import { useSwipe } from "@/hooks/use-swipe"
-
-type Driver = {
-  id: string
-  name: string
-  image: string
-  description: string
-  vehicle: string
-  languages: string
-  rating: string
-  rides: number
-}
-
-const DRIVERS: readonly Driver[] = [
-  {
-    id: "miguel",
-    name: "Miguel",
-    image: "/drivers/miguel.png",
-    description:
-      "100% Lisbonense and passionate about showing guests the Portugal that hotel brochures miss. He knows the finest restaurant tables, the quietest coastal roads, and the exact moment the light hits the Tagus.",
-    vehicle: "Mercedes S-Class",
-    languages: "English, Portuguese, Spanish",
-    rating: "4.98",
-    rides: 1615,
-  },
-  {
-    id: "rui",
-    name: "Rui",
-    image: "/drivers/miguel.png",
-    description:
-      "Porto-born wine enthusiast who has been guiding visitors through the Douro valley for over a decade. Rui's easygoing style makes long transfers feel like conversations with an old friend.",
-    vehicle: "Mercedes V-Class",
-    languages: "English, Portuguese, French",
-    rating: "4.96",
-    rides: 1247,
-  },
-  {
-    id: "tiago",
-    name: "Tiago",
-    image: "/drivers/miguel.png",
-    description:
-      "Born and raised in the Algarve, Tiago knows every hidden cove and sunset viewpoint along the southern coast. Punctual, discreet, and fluent in the art of making every ride memorable.",
-    vehicle: "Mercedes E-Class",
-    languages: "English, Portuguese, German",
-    rating: "4.99",
-    rides: 2103,
-  },
-] as const
+import { usePublishedDrivers, type PublicDriver as Driver } from "@/hooks/use-published-drivers"
 
 const VETTING_STEPS = [
   { key: "step1", icon: ListChecks, gold: false },
@@ -69,8 +23,11 @@ const VETTING_STEPS = [
 
 export function OurDriversSection() {
   const t = useTranslations("drivers")
-  const [current, setCurrent] = useState(0)
+  const DRIVERS = usePublishedDrivers()
+  const [rawCurrent, setCurrent] = useState(0)
   const total = DRIVERS.length
+  // The list length can change once Convex resolves, so never point past the end.
+  const current = Math.min(rawCurrent, total - 1)
 
   const goPrev = useCallback(() => {
     setCurrent((c) => (c > 0 ? c - 1 : c))

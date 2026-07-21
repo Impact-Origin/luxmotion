@@ -205,23 +205,23 @@
       },
       "xl": {
         "label": "XL",
-        "passengers": "1–5 Passagiere"
+        "passengers": "3–4 Passagiere"
       },
       "executivo": {
         "label": "Executive",
-        "passengers": "1–4 Passagiere"
+        "passengers": "1–3 Passagiere"
       },
       "van": {
         "label": "Van",
-        "passengers": "8 Passagiere"
+        "passengers": "5–8 Passagiere"
       },
       "minibus": {
         "label": "Minibus",
-        "passengers": "16 Passagiere"
+        "passengers": "9–22 Passagiere"
       },
       "bus": {
         "label": "Reisebus",
-        "passengers": "56 Passagiere"
+        "passengers": "20–56 Passagiere"
       }
     },
     "featured": {
@@ -2648,7 +2648,9 @@
         "tennisCascais": "Event · Estoril Open",
         "webSummit": "Firmenkunden · Web Summit Lisbon",
         "golfAlgarve": "Tour · Algarve Golf",
-        "weddingPenhaLonga": "Hochzeit · Penha Longa"
+        "weddingPenhaLonga": "Hochzeit · Penha Longa",
+        "vipChauffeurLisbon": "VIP-Chauffeurservice, Lissabon",
+        "privateAviation": "Transfers für Privatflüge"
       }
     },
     "drivers": {
@@ -2667,17 +2669,26 @@
         "joao": {
           "name": "João",
           "location": "Lissabon",
-          "quote": "„Jeder Gast ist ein Freund, den ich noch nicht kenne. Ich liebe es, die verborgenen Schätze meiner Stadt zu zeigen.“"
+          "quote": "„Jeder Gast ist ein Freund, den ich noch nicht kenne. Ich liebe es, die verborgenen Schätze meiner Stadt zu zeigen.“",
+          "description": "Zu 100 % Lissabonner und mit Leidenschaft dabei, Gästen das Portugal zu zeigen, das Hotelbroschüren übersehen. Er kennt die besten Tische, die ruhigsten Küstenstraßen und den genauen Moment, in dem das Licht auf den Tejo trifft.",
+          "languages": "Deutsch, Portugiesisch, Englisch",
+          "vehicle": "Mercedes S-Klasse"
         },
         "maria": {
           "name": "Maria",
           "location": "Porto",
-          "quote": "„Sicherheit und Komfort haben Priorität. Ich behandle jeden Fahrgast wie Familie.“"
+          "quote": "„Sicherheit und Komfort haben Priorität. Ich behandle jeden Fahrgast wie Familie.“",
+          "description": "In Porto geboren und weinbegeistert, führt sie seit über einem Jahrzehnt Besucher durch das Douro-Tal. Ihre lockere Art lässt lange Transfers wie Gespräche unter alten Freunden wirken.",
+          "languages": "Deutsch, Portugiesisch, Französisch",
+          "vehicle": "Mercedes V-Klasse"
         },
         "pedro": {
           "name": "Pedro",
           "location": "Algarve",
-          "quote": "„20 Jahre Fahrerfahrung haben mich gelehrt: Die Reise zählt genauso viel wie das Ziel.“"
+          "quote": "„20 Jahre Fahrerfahrung haben mich gelehrt: Die Reise zählt genauso viel wie das Ziel.“",
+          "description": "In der Algarve geboren und aufgewachsen, kennt Pedro jede versteckte Bucht und jeden Sonnenuntergangspunkt der Südküste. Pünktlich, diskret und ein Meister darin, jede Fahrt unvergesslich zu machen.",
+          "languages": "Deutsch, Portugiesisch, Englisch",
+          "vehicle": "Mercedes E-Klasse"
         }
       }
     },
@@ -2837,7 +2848,17 @@
       "createButton": "Fahrer hinzufügen",
       "successCreated": "Fahrer erfolgreich hinzugefügt",
       "successUpdated": "Fahrer erfolgreich aktualisiert",
-      "errorGeneric": "Etwas ist schiefgelaufen"
+      "errorGeneric": "Etwas ist schiefgelaufen",
+      "descriptionLabel": "Beschreibung",
+      "descriptionPlaceholder": "Längere Biografie für das Karussell auf der Startseite",
+      "languagesLabel": "Sprachen",
+      "languagesPlaceholder": "Deutsch, Portugiesisch, Englisch",
+      "vehicleLabel": "Fahrzeug",
+      "vehiclePlaceholder": "Mercedes S-Klasse",
+      "ratingLabel": "Bewertung",
+      "ratingPlaceholder": "4.98",
+      "ridesLabel": "Fahrten",
+      "ridesPlaceholder": "1615"
     }
   },
   "adminExperiences": {

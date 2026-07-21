@@ -16,7 +16,6 @@ export type FleetVehicle = {
   bags: number
   hasAc?: boolean
   hasWifi?: boolean
-  variant?: "default" | "large"
 }
 
 const BADGE_STYLES: Record<FleetBadge, string> = {
@@ -80,14 +79,10 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           <MetaItem icon={<User className="size-[14px]" strokeWidth={1.5} />}>
-            {vehicle.variant === "large"
-              ? t("meta.upToPax", { count: vehicle.paxMax })
-              : t("meta.pax", { min: vehicle.paxMin, max: vehicle.paxMax })}
+            {t("meta.pax", { min: vehicle.paxMin, max: vehicle.paxMax })}
           </MetaItem>
           <MetaItem icon={<Briefcase className="size-[14px]" strokeWidth={1.5} />}>
-            {vehicle.variant === "large"
-              ? t("meta.largeCargo")
-              : t("meta.bags", { count: vehicle.bags })}
+            {t("meta.bags", { count: vehicle.bags })}
           </MetaItem>
           {vehicle.hasAc && (
             <MetaItem icon={<AirVent className="size-[14px]" strokeWidth={1.5} />}>

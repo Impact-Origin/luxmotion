@@ -1045,6 +1045,13 @@ export default defineSchema({
     name: v.string(),
     location: v.string(),
     quote: v.string(),
+    // Richer profile shown on the home page carousel. Optional so rows created
+    // before this migration keep validating.
+    description: v.optional(v.string()),
+    languages: v.optional(v.string()),
+    vehicle: v.optional(v.string()),
+    rating: v.optional(v.string()),
+    rides: v.optional(v.number()),
     imageId: v.optional(v.id("_storage")),
     status: v.union(v.literal("draft"), v.literal("published")),
     order: v.number(),
