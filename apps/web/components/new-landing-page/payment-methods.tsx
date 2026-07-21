@@ -35,11 +35,11 @@ export function PaymentMethods() {
               </p>
 
               <div className="grid grid-cols-3 gap-[6px] xl:gap-[24px] w-full max-w-[320px]">
-                <Image src="/images/visa.png" alt="Visa" width={100} height={60} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/mastercard-logo.png" alt="Mastercard" width={100} height={60} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/multibanco-logo.png" alt="Multibanco" width={100} height={60} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/mbway-logo.png" alt="MB WAY" width={100} height={60} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/paypal-logo.png" alt="PayPal" width={100} height={60} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
+                <Image src="/images/visa.png" alt="Visa" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/mastercard-logo.png" alt="Mastercard" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/multibanco-logo.png" alt="Multibanco" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/mbway-logo.png" alt="MB WAY" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/paypal-logo.png" alt="PayPal" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
               </div>
             </div>
           </div>
@@ -60,11 +60,11 @@ export function PaymentMethods() {
               </p>
 
               <div className="grid grid-cols-3 gap-[6px] w-full max-w-[240px]">
-                <Image src="/images/visa.png" alt="Visa" width={70} height={42} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/mastercard-logo.png" alt="Mastercard" width={70} height={42} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/multibanco-logo.png" alt="Multibanco" width={70} height={42} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/mbway-logo.png" alt="MB WAY" width={70} height={42} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
-                <Image src="/paypal-logo.png" alt="PayPal" width={70} height={42} className="object-contain w-full h-auto brightness-0 dark:brightness-100" />
+                <Image src="/images/visa.png" alt="Visa" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/mastercard-logo.png" alt="Mastercard" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/multibanco-logo.png" alt="Multibanco" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/mbway-logo.png" alt="MB WAY" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/paypal-logo.png" alt="PayPal" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
               </div>
             </div>
           </div>

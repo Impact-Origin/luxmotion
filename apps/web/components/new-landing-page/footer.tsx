@@ -10,10 +10,10 @@ const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boo
   { src: "/footer/badges/clean-safe.png", alt: "Clean & Safe", w: 44, h: 44, cover: true },
   { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 44, h: 44 },
   { src: "/footer/badges/pme.png", alt: "PME Líder", w: 38, h: 44 },
-  { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 43, h: 44 },
+  { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 43, h: 44, mask: true },
   { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 40, h: 44 },
   { src: "/footer/badges/turismo-portugal.png", alt: "Turismo de Portugal", w: 84, h: 38, mask: true },
-  { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510", w: 61, h: 38 },
+  { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510", w: 61, h: 38, mask: true },
   { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações", w: 84, h: 39, mask: true },
 ]
 
@@ -140,7 +140,7 @@ function BrandColumn({
               <Image src="/footer/logo-lm.svg" alt="LM" width={20} height={11} />
             </div>
             <div className="flex flex-col">
-              <Image src="/footer/logo-luxmotion.svg" alt="LuxMotion" width={73} height={8} className="brightness-0 dark:brightness-100" />
+              <Image src="/footer/logo-luxmotion.svg" alt="LuxMotion" width={73} height={8} className="[.home-theme:not(.dark)_&]:brightness-0" />
               <span
                 className="text-[6.4px] text-[var(--lm-muted,#999)] tracking-[0.9px] mt-1"
                 style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
