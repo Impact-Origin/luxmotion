@@ -160,7 +160,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           </button>
         </div>
 
-        {renderSection(t("extraStops"), privateTours)}
+        {renderSection(t("privateTours"), privateTours)}
         {renderSection(t("tours"), tours)}
         {renderSection(t("experiences"), experiences)}
         {renderSection(t("events"), events)}

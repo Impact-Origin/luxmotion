@@ -172,7 +172,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
 
   return (
     <div className="checkout-experiences-step max-w-[1036px] mx-auto px-4 py-8 space-y-14">
-      {renderSection(t("extraStop"), privateTours)}
+      {renderSection(t("privateTours"), privateTours)}
       {renderSection(t("tours"), tours)}
       {renderSection(t("experiences"), experiences)}
       {renderSection(t("events"), events)}
