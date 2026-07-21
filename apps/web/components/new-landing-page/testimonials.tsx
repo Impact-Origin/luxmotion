@@ -8,12 +8,52 @@ import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { useSwipe } from "@/hooks/use-swipe"
 
+// Faixa de fotos de clientes/viagens reais. É uma galeria — não são avatares
+// de quem escreveu as reviews, por isso não atribui autoria a ninguém.
 const REVIEW_PHOTOS = [
+  "/reviews/vip-bruno-fernandes.webp",
+  "/reviews/vip-joao-cancelo.webp",
+  "/reviews/vip-vitinha-futebol-player.webp",
+  "/reviews/vip-maxi-araujo.webp",
+  "/reviews/vip-virginia-fonseca-vip.webp",
+  "/reviews/vip-famous-leo-dias.webp",
+  "/reviews/vip-matuevipclient.webp",
+  "/reviews/vip-famous-singer.webp",
+  "/reviews/vip-singer.webp",
+  "/reviews/vip-vipclient-singer.webp",
+  "/reviews/vip-vipclient.webp",
+  "/reviews/vip-football-player.webp",
   "/reviews/review-1.webp",
   "/reviews/review-2.webp",
   "/reviews/review-3.webp",
   "/reviews/review-4.webp",
 ]
+
+function CarouselArrow({
+  direction,
+  onClick,
+}: {
+  direction: "prev" | "next"
+  onClick: () => void
+}) {
+  const isPrev = direction === "prev"
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isPrev ? "Reviews anteriores" : "Reviews seguintes"}
+      className={`absolute top-1/2 -translate-y-1/2 z-10 grid size-11 place-items-center border border-[rgba(var(--lm-text-rgb,255,255,255),0.2)] bg-[var(--lm-bg,#0D0D0D)]/80 text-[var(--lm-text,#fff)] backdrop-blur-sm transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)] ${
+        isPrev ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2"
+      }`}
+    >
+      <ChevronRight className={`size-5 ${isPrev ? "rotate-180" : ""}`} />
+    </button>
+  )
+}
+
+/** Ficha da empresa no Google, para abrir as reviews todas. */
+const GOOGLE_REVIEWS_URL =
+  "https://search.google.com/local/reviews?placeid=ChIJP6WNOw7VHg0RycnlntHqPaQ"
 
 const AVATAR_COLORS = [
   "#5f6368", "#9c27b0", "#1976d2", "#546e7a",
@@ -68,7 +108,13 @@ function ReviewCard({ review }: { review: Review }) {
   const showPhoto = !!review.photo && !photoFailed
 
   return (
-    <div className="relative bg-[var(--lm-surface,#1a1a1a)] flex flex-col gap-[11px] px-5 py-6 h-full group overflow-hidden">
+    <a
+      href={GOOGLE_REVIEWS_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      // Altura fixa: sem isto uma review muito longa esticava a linha toda.
+      className="relative bg-[var(--lm-surface,#1a1a1a)] flex flex-col gap-[11px] px-5 py-6 h-[260px] group overflow-hidden cursor-pointer transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)]"
+    >
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--lm-accent,#C9A96E)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
       <div className="flex items-center gap-[10px]">
         <div
@@ -108,8 +154,11 @@ function ReviewCard({ review }: { review: Review }) {
           </svg>
         </div>
       </div>
-      <p className="text-[14px] text-[var(--lm-text,#fff)]/55 leading-[1.2]">{review.text}</p>
-    </div>
+      {/* O resto da review lê-se no Google, para onde o cartão liga. */}
+      <p className="text-[14px] text-[var(--lm-text,#fff)]/55 leading-[1.4] overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:6]">
+        {review.text}
+      </p>
+    </a>
   )
 }
 
@@ -293,12 +342,18 @@ export function Testimonials() {
             </div>
           </div>
 
-          <div className="flex gap-[2px]">
-            {desktopReviews.map((review, i) => (
-              <div key={`${desktopPageIdx}-${i}`} className="flex-1">
-                <ReviewCard review={review} />
-              </div>
-            ))}
+          {/* Setas laterais para percorrer as restantes reviews. */}
+          <div className="relative">
+            <div className="flex gap-[2px]">
+              {desktopReviews.map((review, i) => (
+                <div key={`${desktopPageIdx}-${i}`} className="flex-1">
+                  <ReviewCard review={review} />
+                </div>
+              ))}
+            </div>
+
+            <CarouselArrow direction="prev" onClick={prevPage} />
+            <CarouselArrow direction="next" onClick={nextPage} />
           </div>
         </div>
 
