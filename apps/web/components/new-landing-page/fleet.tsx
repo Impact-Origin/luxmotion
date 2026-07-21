@@ -213,7 +213,7 @@ function CategoryCard({
     <button
       type="button"
       onClick={onClick}
-      className={`relative flex-1 min-w-0 border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex flex-col items-center cursor-pointer transition-colors duration-200 hover:bg-[#222222] overflow-hidden ${
+      className={`relative flex-1 min-w-0 border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex flex-col items-center cursor-pointer transition-colors duration-200 hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.10)] overflow-hidden ${
         active ? "bg-[var(--lm-bg,#0D0D0D)]" : "bg-[var(--lm-surface,#1A1A1A)]"
       }`}
     >

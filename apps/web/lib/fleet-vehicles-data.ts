@@ -154,6 +154,18 @@ export const MINIBUS_VEHICLES: FleetVehicle[] = [
     hasWifi: true,
     variant: "large",
   },
+  {
+    id: "mercedes-maybach-sprinter",
+    name: "Mercedes Maybach Sprinter",
+    image: "/fleet/vehicles/mercedes-maybach-sprinter.webp",
+    badges: ["available"],
+    paxMin: 1,
+    paxMax: 22,
+    bags: 0,
+    hasAc: true,
+    hasWifi: true,
+    variant: "large",
+  },
 ]
 
 export const COACH_VEHICLES: FleetVehicle[] = [
@@ -189,4 +201,15 @@ export const VAN_VEHICLES: FleetVehicle[] = [
   execBase("toyota-hiace", "Toyota HiAce", "/fleet/vehicles/toyota-hiace.png", ["available"]),
   execBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/Mercedes V Class.webp", ["available"]),
   execBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/van/Van executiva.webp", ["eco", "electric"]),
+  {
+    id: "mercedes-maybach-v-class-2025",
+    name: "Van Mercedes Maybach Class V 2025",
+    image: "/fleet/van/mercedes-maybach-v-class-2025.webp",
+    badges: ["available"],
+    paxMin: 1,
+    paxMax: 7,
+    bags: 4,
+    hasAc: true,
+    hasWifi: true,
+  },
 ]
