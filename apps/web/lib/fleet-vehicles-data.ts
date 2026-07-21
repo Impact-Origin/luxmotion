@@ -260,17 +260,5 @@ const classic = (
 const p = (...names: string[]) => names.map((n) => `/fleet/v/${n}.webp`)
 
 export const CLASSIC_VEHICLES: FleetVehicle[] = [
-  classic("rolls-royce-silver-cloud", "Rolls-Royce Silver Cloud", p("silver-cloud-1", "silver-cloud-2", "silver-cloud-3"), 4, 2),
-  classic("rolls-royce-silver-shadow", "Rolls-Royce Silver Shadow", p("silver-shadow-1", "silver-shadow-2", "silver-shadow-3"), 4, 2),
-  classic("jaguar-e-type", "Jaguar E-Type", p("jaguar-etype-1", "jaguar-etype-2", "jaguar-etype-3"), 2, 1),
-  classic("jaguar-s-type", "Jaguar S-Type", p("jaguar-stype-1", "jaguar-stype-2"), 4, 2),
-  classic("mg-classico-branco", "MG Clássico (Branco)", p("mg-branco-1", "mg-branco-2", "mg-branco-3"), 2, 1),
-  classic("mg-classico-preto", "MG Clássico (Preto)", p("mg-preto-1", "mg-preto-2", "mg-preto-3"), 2, 1),
-  classic("mini-classico-branco", "Mini Clássico (Branco)", p("mini-branco-1", "mini-branco-2", "mini-branco-3"), 4, 1),
-  classic("mini-classico-preto", "Mini Clássico (Preto)", p("mini-preto-1", "mini-preto-2", "mini-preto-3"), 4, 1),
-  classic("vw-carocha-branco", "VW Carocha (Branco)", p("carocha-branco-1", "carocha-branco-2", "carocha-branco-3"), 4, 1),
-  classic("vw-carocha-preto", "VW Carocha (Preto)", p("carocha-preto-1", "carocha-preto-2", "carocha-preto-3"), 4, 1),
-  classic("vw-pao-de-forma", "VW Pão de Forma", p("kombi-1"), 8, 3),
-  classic("vespa-sidecar", "Vespa Clássica com Sidecar", p("vespa-1", "vespa-2"), 2, 1),
   classic("porsche-356-speedster", "Porsche 356 Speedster", p("porsche-356-1"), 2, 1),
 ]
