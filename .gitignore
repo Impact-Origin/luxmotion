@@ -60,3 +60,6 @@ docs/
 *.log.*.*.*.*.*
 nul
 packages/convex/convex/tsconfig.json
+
+# Imagens-fonte de trabalho (não são servidas; otimizadas manualmente para public/)
+apps/web/public/novas_imagens/
