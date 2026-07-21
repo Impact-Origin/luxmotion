@@ -23,6 +23,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "convex.easytransferportugal.com",
       },
+      // Fotos de perfil dos autores das reviews do Google
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+      },
     ],
   },
 }

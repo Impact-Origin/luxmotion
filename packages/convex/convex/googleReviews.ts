@@ -82,65 +82,88 @@ export const _store = internalMutation({
 });
 
 /**
- * Fetch the latest reviews from Google Places and store them. Runs daily via
- * cron; can also be triggered manually from the Convex dashboard to populate
- * the cache the first time, once the env vars are set.
+ * The Featurable widget that mirrors our Google Business listing. Overridable
+ * via env var, but defaulted so the cron works without extra configuration.
+ */
+const FEATURABLE_WIDGET_ID =
+  process.env.FEATURABLE_WIDGET_ID ??
+  "67727f04-6a40-498a-80eb-24c531a84524";
+
+/**
+ * Google shows non-English reviews as "(Translated by Google) <english>
+ * (Original) <original>". Keep the translated half and drop the marker.
+ */
+function cleanReviewText(raw: string): string {
+  let text = raw.trim();
+  const originalAt = text.indexOf("(Original)");
+  if (originalAt !== -1) text = text.slice(0, originalAt);
+  return text.replace(/^\(Translated by Google\)\s*/i, "").trim();
+}
+
+/** English relative description, matching what the Places API used to return. */
+function relativeFrom(time: number, now: number): string {
+  if (!time) return "";
+  const days = Math.floor((now - time) / 86_400_000);
+  if (days <= 1) return "a day ago";
+  if (days < 30) return `${days} days ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return months === 1 ? "a month ago" : `${months} months ago`;
+  const years = Math.floor(months / 12);
+  return years === 1 ? "a year ago" : `${years} years ago`;
+}
+
+/**
+ * Fetch the latest reviews and store them. Runs daily via cron; can also be
+ * triggered manually from the Convex dashboard to populate the cache.
+ *
+ * Sourced from Featurable rather than the Places API directly: Places caps the
+ * response at 5 review texts, while the widget feed carries the full recent set
+ * (with reviewer photos) plus the real aggregate rating and review count.
  */
 export const fetchGoogleReviews = internalAction({
   args: {},
   handler: async (
     ctx,
   ): Promise<{ ok: boolean; count?: number; error?: string }> => {
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-    const placeId = process.env.GOOGLE_PLACE_ID;
-    if (!apiKey || !placeId) {
-      console.error(
-        "[GoogleReviews] Missing GOOGLE_PLACES_API_KEY or GOOGLE_PLACE_ID env var",
-      );
-      return {
-        ok: false,
-        error: "Missing GOOGLE_PLACES_API_KEY or GOOGLE_PLACE_ID",
-      };
-    }
     try {
-      const url = `https://places.googleapis.com/v1/places/${encodeURIComponent(
-        placeId,
-      )}?languageCode=en`;
-      const res = await fetch(url, {
-        headers: {
-          "X-Goog-Api-Key": apiKey,
-          "X-Goog-FieldMask": "rating,userRatingCount,reviews",
-        },
-      });
-      const data = await res.json();
+      const url = `https://featurable.com/api/v1/widgets/${FEATURABLE_WIDGET_ID}`;
+      const res = await fetch(url, { redirect: "follow" });
       if (!res.ok) {
-        const message = data?.error?.message ?? res.statusText;
-        console.error("[GoogleReviews] API error:", res.status, message);
-        return { ok: false, error: `${res.status}: ${message}` };
+        console.error("[GoogleReviews] API error:", res.status, res.statusText);
+        return { ok: false, error: `${res.status}: ${res.statusText}` };
       }
+      const data = await res.json();
+      if (!data?.success) {
+        return { ok: false, error: "Featurable returned success=false" };
+      }
+
+      const now = Date.now();
       const reviews: GoogleReview[] = (data.reviews ?? [])
-        .map((r: any) => {
-          const parsed = r.publishTime ? Date.parse(r.publishTime) : 0;
+        .map((r: any): GoogleReview => {
+          const parsed = r.createTime ? Date.parse(r.createTime) : 0;
+          const time = Number.isNaN(parsed) ? 0 : parsed;
           return {
-            author: r.authorAttribution?.displayName ?? "Google user",
-            rating: typeof r.rating === "number" ? r.rating : 5,
-            text: r.text?.text ?? r.originalText?.text ?? "",
-            relativeTime: r.relativePublishTimeDescription ?? "",
-            time: Number.isNaN(parsed) ? 0 : parsed,
-            profilePhotoUrl: r.authorAttribution?.photoUri,
-            language: r.text?.languageCode,
+            author: r.reviewer?.displayName ?? "Google user",
+            rating: typeof r.starRating === "number" ? r.starRating : 5,
+            text: cleanReviewText(r.comment ?? ""),
+            relativeTime: relativeFrom(time, now),
+            time,
+            profilePhotoUrl: r.reviewer?.profilePhotoUrl,
           };
         })
-        .filter((r: GoogleReview) => r.text.trim().length > 0);
+        .filter((r: GoogleReview) => r.text.length > 0)
+        // Newest first, so the carousel leads with fresh reviews.
+        .sort((a: GoogleReview, b: GoogleReview) => b.time - a.time);
 
       await ctx.runMutation(internal.googleReviews._store, {
-        rating: typeof data.rating === "number" ? data.rating : 0,
+        rating:
+          typeof data.averageRating === "number" ? data.averageRating : 0,
         total:
-          typeof data.userRatingCount === "number" ? data.userRatingCount : 0,
+          typeof data.totalReviewCount === "number" ? data.totalReviewCount : 0,
         reviews,
       });
       console.log(
-        `[GoogleReviews] Stored ${reviews.length} reviews (rating ${data.rating}, total ${data.userRatingCount})`,
+        `[GoogleReviews] Stored ${reviews.length} reviews (rating ${data.averageRating}, total ${data.totalReviewCount})`,
       );
       return { ok: true, count: reviews.length };
     } catch (err: any) {

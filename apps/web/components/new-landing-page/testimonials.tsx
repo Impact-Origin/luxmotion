@@ -57,20 +57,36 @@ type Review = {
   color: string
   rating: number
   text: string
+  /** Foto real do autor (Google). Sem ela, cai na inicial sobre cor sólida. */
+  photo?: string
 }
 
 function ReviewCard({ review }: { review: Review }) {
   const initial = review.name.charAt(0).toUpperCase()
+  // Uma foto que falhe a carregar não deve deixar o avatar vazio.
+  const [photoFailed, setPhotoFailed] = useState(false)
+  const showPhoto = !!review.photo && !photoFailed
 
   return (
     <div className="relative bg-[var(--lm-surface,#1a1a1a)] flex flex-col gap-[11px] px-5 py-6 h-full group overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--lm-accent,#C9A96E)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
       <div className="flex items-center gap-[10px]">
         <div
-          className="size-9 rounded-full flex items-center justify-center shrink-0"
-          style={{ backgroundColor: review.color }}
+          className="size-9 rounded-full flex items-center justify-center shrink-0 overflow-hidden relative"
+          style={{ backgroundColor: showPhoto ? undefined : review.color }}
         >
-          <span className="text-[14px] text-[var(--lm-text,#fff)]">{initial}</span>
+          {showPhoto ? (
+            <Image
+              src={review.photo!}
+              alt={review.name}
+              fill
+              sizes="36px"
+              className="object-cover"
+              onError={() => setPhotoFailed(true)}
+            />
+          ) : (
+            <span className="text-[14px] text-[var(--lm-text,#fff)]">{initial}</span>
+          )}
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-none">{review.name}</p>
@@ -159,6 +175,7 @@ export function Testimonials() {
       color: AVATAR_COLORS[i % AVATAR_COLORS.length] ?? "#5f6368",
       rating: review.rating,
       text: review.text,
+      photo: review.profilePhotoUrl,
     }))
     if (fromGoogle.length > 0) return fromGoogle
 
