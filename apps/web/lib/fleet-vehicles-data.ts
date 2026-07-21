@@ -282,4 +282,5 @@ export const CLASSIC_VEHICLES: FleetVehicle[] = [
   classic("vw-carocha-preto", "VW Carocha (Preto)", p("carocha-preto-1", "carocha-preto-2", "carocha-preto-3"), 4, 1),
   classic("vw-pao-de-forma", "VW Pão de Forma", p("kombi-1"), 8, 3),
   classic("vespa-sidecar", "Vespa Clássica com Sidecar", p("vespa-1", "vespa-2"), 2, 1),
+  classic("porsche-356-speedster", "Porsche 356 Speedster", p("porsche-356-1"), 2, 1),
 ]
