@@ -195,7 +195,9 @@ export function PhoneInput({
                 }
               />
             </div>
-            <div className="max-h-[260px] overflow-y-auto">
+            {/* Sem isto a lista herda o scrollbar escuro do <html> e fica com
+                uma barra preta sobre o dropdown claro. */}
+            <div className={`max-h-[260px] overflow-y-auto ${dark ? "" : "lm-scroll-light"}`}>
               {filteredCountries.map((country) => (
                 <button
                   key={country.iso2}

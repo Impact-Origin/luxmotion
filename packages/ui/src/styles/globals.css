@@ -113,6 +113,32 @@ html.lm-home-light::-webkit-scrollbar-corner {
   background: #e8e0d3;
 }
 
+/* Painéis com scroll próprio (dropdowns, listas) herdam o scrollbar-color
+   escuro do <html> e ficam com uma barra preta sobre fundo claro. Aplicar
+   .lm-scroll-light no contentor que faz overflow para o corrigir. */
+.lm-scroll-light {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(154, 117, 53, 0.5) #efe8dc;
+}
+
+.lm-scroll-light::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.lm-scroll-light::-webkit-scrollbar-track {
+  background: #efe8dc;
+}
+
+.lm-scroll-light::-webkit-scrollbar-thumb {
+  background: rgba(154, 117, 53, 0.5);
+  border-radius: 4px;
+}
+
+.lm-scroll-light::-webkit-scrollbar-thumb:hover {
+  background: rgba(154, 117, 53, 0.75);
+}
+
 /* Light main checkout: flip the page scrollbar to ivory/gold.
    Toggled on <html> by CheckoutThemeProvider (checkout-theme.tsx). */
 html.lm-checkout-light {
