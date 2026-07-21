@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useSwipe } from "@/hooks/use-swipe"
+import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -206,17 +207,28 @@ export function WeddingGallerySection() {
           headingAccent={t("headingAccent")}
         />
 
-        <div className="hidden md:flex gap-[10px] items-stretch justify-center w-full pt-[42px] h-[608.21px]">
-          {PHOTOS.map((p, i) => (
-            <TiltCard
-              key={i}
-              src={p.src}
-              primary={p.primary}
-              subtitle={p.subtitle}
-              tagline={p.tagline}
-              alt={t("photoAlt", { index: i + 1 })}
-            />
-          ))}
+        {/* A do meio domina: mais larga e à altura toda; as laterais recolhem. */}
+        <div className="hidden md:flex gap-[10px] items-center justify-center w-full pt-[42px] h-[608.21px]">
+          {PHOTOS.map((p, i) => {
+            const isCentre = i === 1
+            return (
+              <div
+                key={i}
+                className={cn(
+                  "relative min-w-0 transition-all duration-500 ease-out",
+                  isCentre ? "flex-[1.35] h-full" : "flex-[0.85] h-[86%]",
+                )}
+              >
+                <TiltCard
+                  src={p.src}
+                  primary={p.primary}
+                  subtitle={p.subtitle}
+                  tagline={p.tagline}
+                  alt={t("photoAlt", { index: i + 1 })}
+                />
+              </div>
+            )
+          })}
         </div>
 
         <div className="md:hidden w-full pt-2" {...swipe}>
