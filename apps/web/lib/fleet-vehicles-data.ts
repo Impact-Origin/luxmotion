@@ -126,7 +126,6 @@ export const EXECUTIVE_VEHICLES: FleetVehicle[] = [
   execBase("mercedes-eqs", "Mercedes EQS", "/fleet/vehicles/mercedes-eqs.png", ["eco", "electric"]),
   execBase("mercedes-s-class", "Mercedes S Class", "/fleet/vehicles/mercedes-s-class.png", ["available"]),
   execBase("mercedes-e-class-station", "Mercedes E Class Station", "/fleet/vehicles/mercedes-e-class-station.png", ["available"]),
-  execBase("mercedes-eqs-amg", "Mercedes EQS AMG", "/fleet/vehicles/mercedes-eqs-amg.png", ["available"]),
   execBase("tesla-model-s", "Tesla Model S", "/fleet/vehicles/tesla-model-s.png", ["eco", "electric"]),
 ]
 

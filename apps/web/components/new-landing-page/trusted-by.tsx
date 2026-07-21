@@ -6,17 +6,25 @@ import { useTranslations } from "next-intl"
 import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const logos = [
-  { name: "American Airlines", src: "/trustedby/american-airlines-easy-transfer.png" },
-  { name: "Bentley", src: "/trustedby/bentley-logo-easy-transfer.png" },
-  { name: "BMW", src: "/trustedby/BMW-logo-easy-transfer.png" },
-  { name: "Emirates", src: "/trustedby/Emirates-Logo-easy-transfer.png" },
-  { name: "Four Seasons", src: "/trustedby/Four-Seasons-Logo-easy-transfer.png" },
-  { name: "Hilton", src: "/trustedby/Hilton-Logo-easy-transfer.png" },
-  { name: "Mercedes-Benz", src: "/trustedby/mercedes-benz-logo-easy-transfer.png" },
-  { name: "NetJets", src: "/trustedby/NetJets-logo-easy-transfer.png" },
-  { name: "Pestana", src: "/trustedby/pestana-logo-easy-transfer.png" },
-  { name: "TAP", src: "/trustedby/tap-logo-easy-transfer.png" },
-  { name: "Vila Galé", src: "/trustedby/vila-gale-easy-transfer.png" },
+  { name: "American Airlines", src: "/trustedby/american-airlines.webp" },
+  { name: "Aston Martin", src: "/trustedby/aston-martin.webp" },
+  { name: "Bentley", src: "/trustedby/bentley.webp" },
+  { name: "BMW", src: "/trustedby/bmw.webp" },
+  { name: "Bridgestone", src: "/trustedby/bridgestone.webp" },
+  { name: "Continental", src: "/trustedby/continental.webp" },
+  { name: "EasyJet", src: "/trustedby/easyjet.webp" },
+  { name: "EBAA", src: "/trustedby/ebaa.webp" },
+  { name: "Emirates", src: "/trustedby/emirates.webp" },
+  { name: "Four Seasons", src: "/trustedby/four-seasons.webp" },
+  { name: "Franklin", src: "/trustedby/franklin.webp" },
+  { name: "Hilton", src: "/trustedby/hilton.webp" },
+  { name: "Mercedes-Benz", src: "/trustedby/mercedes-benz.webp" },
+  { name: "Michelin", src: "/trustedby/michelin.webp" },
+  { name: "NetJets", src: "/trustedby/netjets.webp" },
+  { name: "Pestana", src: "/trustedby/pestana.webp" },
+  { name: "TAP", src: "/trustedby/tap.webp" },
+  { name: "Vila Galé", src: "/trustedby/vila-gale.webp" },
+  { name: "World Surf League", src: "/trustedby/world-surf-league.webp" },
 ]
 
 export function TrustedBy() {
