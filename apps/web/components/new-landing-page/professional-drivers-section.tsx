@@ -17,7 +17,7 @@ export function ProfessionalDriversSection() {
         <div className="flex-1 relative mb-32 md:mb-0">
           <div className="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden">
             <Image
-              src="/b2b/professional-drivers.png"
+              src="/b2b/professional-drivers.webp"
               alt={t("photoAlt")}
               fill
               className="object-cover"

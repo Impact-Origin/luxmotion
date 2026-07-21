@@ -223,7 +223,7 @@ export function WeddingPlannerHero() {
       <div className="md:hidden px-4 pt-6 pb-10 flex flex-col gap-6">
         <div className="relative h-[358px] w-full overflow-hidden">
           <Image
-            src="/wedding-planner/hero-bride.png"
+            src="/wedding-planner/hero-bride.webp"
             alt={t("photoAlt")}
             fill
             priority
@@ -261,7 +261,7 @@ export function WeddingPlannerHero() {
       <div className="hidden md:block relative h-[800px]">
         <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
-            src="/wedding-planner/hero-bride.png"
+            src="/wedding-planner/hero-bride.webp"
             alt={t("photoAlt")}
             fill
             priority

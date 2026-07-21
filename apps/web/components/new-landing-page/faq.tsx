@@ -84,7 +84,7 @@ export function FAQ() {
         <div className="w-full md:w-[380px] xl:w-[605px] shrink-0 aspect-[605/577] rounded-[4px] overflow-hidden relative">
           <div className="absolute w-[160.19%] h-[154.34%] left-[-9.86%] top-[-33.34%]">
             <Image
-              src="/faq/driver-photo.png"
+              src="/faq/driver-photo.webp"
               alt={t("photoAlt")}
               fill
               className="object-cover"
