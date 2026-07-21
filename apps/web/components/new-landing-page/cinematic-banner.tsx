@@ -92,9 +92,10 @@ export function CinematicBanner() {
             className="flex flex-col lg:flex-1"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
-            {/* Branco fixo, não --lm-text: esta faixa tem fundo escuro nos dois
-                temas, e no claro o token é escuro e o texto desaparecia. */}
-            <p className="font-light text-[32px] md:text-[40px] leading-none text-white">
+            {/* Champanhe: a meio caminho entre o branco e o dourado da linha
+                seguinte. Cor fixa, não --lm-text — a faixa é escura nos dois
+                temas e no claro o token é escuro, fazendo sumir o texto. */}
+            <p className="font-light text-[32px] md:text-[40px] leading-none text-[#E4D5B7]">
               {t("line1")}
             </p>
             <p className="font-light italic text-[32px] md:text-[40px] leading-none text-[var(--lm-accent,#C9A96E)]">
