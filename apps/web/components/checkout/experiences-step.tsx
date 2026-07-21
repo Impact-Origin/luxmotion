@@ -193,6 +193,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
             onClose={handleCloseModal}
             experience={selectedExperience}
             tourId={selectedTourId}
+            flatPrice={selectedItem?.category === "stops"}
             onAdd={handleAddExperience}
           />
         )}

@@ -120,6 +120,11 @@ interface AddExperienceModalProps {
   onClose: () => void;
   experience: Experience;
   tourId: string | null;
+  /**
+   * Paragens extra têm preço fixo definido no admin — não multiplicam por
+   * passageiro como os tours (4 pax numa paragem de €15 são €15, não €60).
+   */
+  flatPrice?: boolean;
   onAdd: (data: {
     passengers: number;
     date: Date | undefined;
@@ -135,6 +140,7 @@ export function AddExperienceModal({
   onClose,
   experience,
   tourId,
+  flatPrice = false,
   onAdd,
 }: AddExperienceModalProps) {
   const t = useTranslations("addExperience");
@@ -204,7 +210,10 @@ export function AddExperienceModal({
     const extrasTotal = experience.extras
       .filter((extra) => selectedExtras.includes(extra.id))
       .reduce((sum, extra) => sum + extra.price, 0);
-    return experience.basePrice * (totalGuests || 1) + extrasTotal;
+    const base = flatPrice
+      ? experience.basePrice
+      : experience.basePrice * (totalGuests || 1);
+    return base + extrasTotal;
   };
 
   const handleAdd = () => {

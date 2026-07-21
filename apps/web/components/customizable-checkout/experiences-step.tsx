@@ -124,6 +124,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
       onClose={handleCloseModal}
       experience={selectedExperience}
       tourId={selectedTourId}
+      flatPrice={selectedItem?.category === "stops"}
       onAdd={handleAddExperience}
     />
   )
