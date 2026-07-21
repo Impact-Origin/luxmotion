@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { Plane, Phone, ShieldCheck, BadgeCheck } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
@@ -145,6 +146,101 @@ export function SocialProofBar() {
   )
 }
 
+// Ordem definida pelo prefixo numérico dos ficheiros originais:
+// geral → corporate → wedding → tour → school (as verticais do negócio).
+const HERO_SLIDES = [
+  "/hero/1-luxmotion.webp",
+  "/hero/2-corporate.webp",
+  "/hero/3-wedding.webp",
+  "/hero/4-tour.webp",
+  "/hero/5-school.webp",
+] as const
+
+const SLIDE_INTERVAL_MS = 5500
+
+/**
+ * Avança sozinho, mas com timeout em vez de interval: como o efeito depende do
+ * índice, clicar num ponto reinicia a contagem em vez de saltar logo a seguir.
+ */
+function useHeroSlideshow(enabled: boolean) {
+  const [index, setIndex] = React.useState(0)
+
+  React.useEffect(() => {
+    if (!enabled) return
+    // Quem pediu menos animação ao sistema fica com a primeira imagem fixa.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const id = window.setTimeout(
+      () => setIndex((i) => (i + 1) % HERO_SLIDES.length),
+      SLIDE_INTERVAL_MS,
+    )
+    return () => window.clearTimeout(id)
+  }, [enabled, index])
+
+  return [index, setIndex] as const
+}
+
+function HeroSlides({
+  activeIndex,
+  positionClass,
+  sizes,
+}: {
+  activeIndex: number
+  positionClass: string
+  sizes: string
+}) {
+  return (
+    <>
+      {HERO_SLIDES.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt=""
+          fill
+          sizes={sizes}
+          // Só a primeira conta para o LCP; as outras entram depois.
+          priority={i === 0}
+          className={cn(
+            "object-cover transition-opacity duration-[1200ms] ease-in-out",
+            positionClass,
+            i === activeIndex ? "opacity-100" : "opacity-0",
+          )}
+        />
+      ))}
+    </>
+  )
+}
+
+function SlideDots({
+  activeIndex,
+  onSelect,
+  className,
+}: {
+  activeIndex: number
+  onSelect: (i: number) => void
+  className: string
+}) {
+  return (
+    <div className={cn("absolute z-20 flex items-center gap-2", className)}>
+      {HERO_SLIDES.map((src, i) => (
+        <button
+          key={src}
+          type="button"
+          onClick={() => onSelect(i)}
+          aria-label={`Imagem ${i + 1} de ${HERO_SLIDES.length}`}
+          aria-current={i === activeIndex}
+          className={cn(
+            "h-[3px] rounded-full transition-all duration-500 ease-out",
+            i === activeIndex
+              ? "w-7 bg-[var(--lm-accent,#C9A96E)]"
+              : "w-3 bg-[rgba(var(--lm-text-rgb,255,255,255),0.35)] hover:bg-[rgba(var(--lm-text-rgb,255,255,255),0.7)]",
+          )}
+        />
+      ))}
+    </div>
+  )
+}
+
 const WHITELABEL_BG = "linear-gradient(180deg, rgba(var(--lm-bg-rgb,13,13,13),0.20) 0%, rgba(var(--lm-bg-rgb,13,13,13),0.55) 50%, rgba(var(--lm-bg-rgb,13,13,13),0.96) 82%, var(--lm-bg,#0D0D0D) 100%)"
 
 const WHITELABEL_DESCRIPTION =
@@ -161,6 +257,9 @@ export function Hero({
 } = {}) {
   const t = useTranslations("hero")
   const { enter } = useEnterAnimation()
+  // As parcerias fixam a sua própria imagem; só o hero principal roda.
+  const slideshow = !heroImageUrl
+  const [activeSlide, setActiveSlide] = useHeroSlideshow(slideshow)
 
   return (
     <section
@@ -168,25 +267,48 @@ export function Hero({
       style={whitelabel ? { background: WHITELABEL_BG } : undefined}
     >
       <div className="absolute top-0 right-0 w-[46%] xl:w-[48%] 2xl:w-[50%] max-w-[850px] h-[540px] hidden lg:block">
-        <Image
-          src={heroImageUrl || "/hero-bg.webp"}
-          alt=""
-          fill
-          className="object-cover object-[20%_center]"
-          priority
-          unoptimized={!!heroImageUrl}
-        />
+        {slideshow ? (
+          <>
+            <HeroSlides
+              activeIndex={activeSlide}
+              positionClass="object-[20%_center]"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+            />
+            <SlideDots
+              activeIndex={activeSlide}
+              onSelect={setActiveSlide}
+              className="bottom-6 right-8"
+            />
+          </>
+        ) : (
+          <Image
+            src={heroImageUrl}
+            alt=""
+            fill
+            className="object-cover object-[20%_center]"
+            priority
+            unoptimized
+          />
+        )}
       </div>
 
       <div className="relative lg:hidden overflow-hidden h-[320px]">
-        <Image
-          src={heroImageUrl || "/hero-bg.webp"}
-          alt=""
-          fill
-          className="object-cover object-[center_30%]"
-          priority
-          unoptimized={!!heroImageUrl}
-        />
+        {slideshow ? (
+          <HeroSlides
+            activeIndex={activeSlide}
+            positionClass="object-[center_30%]"
+            sizes="100vw"
+          />
+        ) : (
+          <Image
+            src={heroImageUrl}
+            alt=""
+            fill
+            className="object-cover object-[center_30%]"
+            priority
+            unoptimized
+          />
+        )}
         <div
           className="absolute inset-0"
           style={{
@@ -194,6 +316,15 @@ export function Hero({
               "linear-gradient(transparent 20%, rgba(var(--lm-bg-rgb,13,13,13),0.6) 65%, var(--lm-bg,#0D0D0D) 100%)",
           }}
         />
+        {slideshow && (
+          // Zona segura: o header fixo tapa o topo e o conteúdo sobe -mt-10
+          // por cima do fundo da imagem — isto fica folgado entre os dois.
+          <SlideDots
+            activeIndex={activeSlide}
+            onSelect={setActiveSlide}
+            className="bottom-16 left-1/2 -translate-x-1/2"
+          />
+        )}
       </div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 lg:px-12 lg:pt-[136px] lg:pb-[96px] -mt-10 lg:mt-0 flex flex-col gap-6 lg:gap-12">
