@@ -75,6 +75,15 @@ export function CinematicBanner() {
         <div className="absolute inset-0">
           <CinematicVideo label={t("photoAlt")} />
         </div>
+        {/* Fundido a subir: o vídeo dissolve-se no fundo da secção em vez de
+            acabar num corte reto por cima do texto. */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.75) 35%, rgba(10,10,10,0) 100%)",
+          }}
+        />
       </div>
 
       <div className="relative z-10 px-6 md:px-12 lg:px-[82px] pt-10 md:pt-12 lg:pt-[39px] pb-12 md:pb-16 lg:pb-[39px]">
@@ -83,7 +92,9 @@ export function CinematicBanner() {
             className="flex flex-col lg:flex-1"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
-            <p className="font-light text-[32px] md:text-[40px] leading-none text-[var(--lm-text,#fff)]">
+            {/* Branco fixo, não --lm-text: esta faixa tem fundo escuro nos dois
+                temas, e no claro o token é escuro e o texto desaparecia. */}
+            <p className="font-light text-[32px] md:text-[40px] leading-none text-white">
               {t("line1")}
             </p>
             <p className="font-light italic text-[32px] md:text-[40px] leading-none text-[var(--lm-accent,#C9A96E)]">
