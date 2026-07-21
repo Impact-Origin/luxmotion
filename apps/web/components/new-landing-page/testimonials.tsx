@@ -260,11 +260,17 @@ export function Testimonials() {
 
   const swipeHandlers = useSwipe(nextPage, prevPage)
 
-  const desktopPageIdx = desktopPages > 0 ? ((currentPage % desktopPages) + desktopPages) % desktopPages : 0
-  const desktopReviews = reviews.slice(desktopPageIdx * desktopItemsPerPage, desktopPageIdx * desktopItemsPerPage + desktopItemsPerPage)
+  // Janela deslizante: cada clique avança UMA review, não um bloco de quatro.
+  const startIdx =
+    reviews.length > 0 ? ((currentPage % reviews.length) + reviews.length) % reviews.length : 0
+  const desktopPageIdx = startIdx
+  const desktopReviews = Array.from(
+    { length: Math.min(desktopItemsPerPage, reviews.length) },
+    (_, i) => reviews[(startIdx + i) % reviews.length]!,
+  )
   const desktopPhotos = Array.from(
     { length: desktopItemsPerPage },
-    (_, i) => REVIEW_PHOTOS[(desktopPageIdx * desktopItemsPerPage + i) % REVIEW_PHOTOS.length]!
+    (_, i) => REVIEW_PHOTOS[(startIdx + i) % REVIEW_PHOTOS.length]!
   )
   const mobileReview = reviews[currentPage % reviews.length]
   const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
@@ -329,7 +335,10 @@ export function Testimonials() {
           <div className="relative">
             <div className="flex gap-[2px]">
               {desktopPhotos.map((photo, i) => (
-                <div key={`${desktopPageIdx}-${i}`} className="flex-1 relative h-[355px]">
+                <div
+                  key={`${desktopPageIdx}-${i}`}
+                  className="flex-1 relative h-[355px] animate-in fade-in duration-500"
+                >
                   <Image
                     src={photo}
                     alt={`Client photo ${i + 1}`}
@@ -346,7 +355,10 @@ export function Testimonials() {
           <div className="relative">
             <div className="flex gap-[2px]">
               {desktopReviews.map((review, i) => (
-                <div key={`${desktopPageIdx}-${i}`} className="flex-1">
+                <div
+                  key={`${desktopPageIdx}-${i}`}
+                  className="flex-1 animate-in fade-in slide-in-from-right-4 duration-500"
+                >
                   <ReviewCard review={review} />
                 </div>
               ))}
