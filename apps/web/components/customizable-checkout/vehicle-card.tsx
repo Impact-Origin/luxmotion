@@ -10,6 +10,7 @@ import { VehicleInfoTooltip } from "@/components/customizable-checkout/vehicle-i
 interface Vehicle {
   id: string
   name: string
+  examples?: string
   price: number
   pricePerKm?: number
   hasDistance?: boolean
@@ -379,7 +380,7 @@ className="flex items-baseline justify-end gap-1 text-2xl font-bold leading-none
       </div>
 
       {showInfo && (
-        <VehicleInfoTooltip vehicleName={vehicle.name} onClose={() => setShowInfo(false)} />
+        <VehicleInfoTooltip vehicleName={vehicle.name} examples={vehicle.examples} onClose={() => setShowInfo(false)} />
       )}
     </div>
   )

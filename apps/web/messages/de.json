@@ -257,7 +257,8 @@
       "executivo": "Executive",
       "van": "Van",
       "minibus": "Minibus",
-      "autocarro": "Reisebus"
+      "autocarro": "Reisebus",
+      "classicos": "Klassiker"
     },
     "vehiclesTitle": "Wählen Sie Ihr Fahrzeug",
     "vehiclesSubtitle": "Jedes Fahrzeug unserer Flotte wird nach höchsten Standards gewartet und sorgt für eine komfortable und sichere Reise.",
@@ -325,6 +326,10 @@
     "coach": {
       "headingFirst": "Konferenzen &",
       "headingAccent": "Große Events"
+    },
+    "classics": {
+      "headingFirst": "Zeitlose Wagen,",
+      "headingAccent": "Unvergessliche Ankünfte."
     }
   },
   "trustSection": {

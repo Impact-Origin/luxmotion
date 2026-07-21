@@ -131,7 +131,7 @@ function BlogDetailContent({ slug }: { slug: string }) {
               avatarUrl: blog.authorAvatarUrl,
             }}
             related={sidebarRelated}
-            bookHref="/checkout"
+            bookHref="/#booking"
             className="order-last lg:order-none lg:sticky lg:top-[88px]"
           />
         </div>

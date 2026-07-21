@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const DEFAULT_SITE_NAME = "Easy Transfer";
 const DEFAULT_DESCRIPTION =
   "Private transfers, tours, events, and premium mobility services across Portugal.";
-const DEFAULT_OG_IMAGE = "/hero-composition.png";
+const DEFAULT_OG_IMAGE = "/og-luxmotion.jpg";
 
 function withProtocol(url: string): string {
   if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -21,7 +21,10 @@ export function getSiteUrl(): string {
     process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL;
 
   if (!envUrl) {
-    return "http://localhost:3000";
+    // Sem NEXT_PUBLIC_SITE_URL, o og:image saía como localhost e as
+    // pré-visualizações partilhadas ficavam sem imagem. O domínio de produção é
+    // o default seguro; em dev a env var continua a mandar.
+    return "https://easytransferportugal.com";
   }
 
   return trimTrailingSlash(withProtocol(envUrl));

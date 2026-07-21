@@ -210,7 +210,18 @@ class GoogleReviewsBoundary extends Component<
   }
 }
 
-export function Testimonials() {
+/**
+ * A secção de reviews de clientes. As páginas que a reutilizam podem trocar o
+ * cabeçalho (ex. /tours e /about-us dizem "Clientes e Empresas") sem duplicar o
+ * componente — o resto, incluindo as reviews do Google, é partilhado.
+ */
+export function Testimonials({
+  sectionLabel,
+  heading,
+}: {
+  sectionLabel?: string
+  heading?: string
+} = {}) {
   const t = useTranslations("testimonials")
   const [currentPage, setCurrentPage] = useState(0)
   const [googleReviews, setGoogleReviews] = useState<GoogleReviewsData | null>(null)
@@ -291,12 +302,12 @@ export function Testimonials() {
             <div className="flex items-center gap-2">
               <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
               <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]" style={{ fontFamily: "var(--font-sans), Inter, sans-serif" }}>
-                {t("sectionLabel")}
+                {sectionLabel ?? t("sectionLabel")}
               </span>
               <div className="w-8 h-px bg-[var(--lm-accent,#C9A96E)]" />
             </div>
             <h2 className="font-light text-[36px] md:text-[48px] text-[var(--lm-text,#f5f5f5)] text-center leading-none">
-              {t("heading")}
+              {heading ?? t("heading")}
             </h2>
           </div>
 

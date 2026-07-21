@@ -10,6 +10,7 @@ import { FlagImage } from "react-international-phone"
 import { locales, localeNames, localeCountryIso, type Locale } from "@/i18n/config"
 import { TrustBanner } from "@/components/checkout/trust-banner"
 import { useCheckoutTheme } from "@/components/checkout/checkout-theme"
+import { CurrencySwitcher } from "@/components/new-landing-page/currency-switcher"
 
 interface CheckoutHeaderProps {
   currentStep?: number
@@ -149,6 +150,7 @@ export function CheckoutHeader({
   const t = useTranslations("checkout.steps")
   const tNav = useTranslations("checkout.nav")
   const tCommon = useTranslations("common")
+  const { theme } = useCheckoutTheme()
 
   const steps = hasNearbyTours
     ? [
@@ -171,6 +173,8 @@ export function CheckoutHeader({
     if (allowStepSkip) onStepClick?.(step)
   }
 
+  const headerIsLight = theme === "light"
+
   return (
     <header className="bg-[var(--ck-bg,#0d0d0d)] border-b border-[var(--ck-divider,rgba(var(--ck-text-rgb,247,244,239),0.08))]">
       <div className="max-w-[1440px] mx-auto px-4 md:px-[48px] 2xl:px-[130px] h-[60px] md:h-[72px] flex items-center justify-between">
@@ -178,8 +182,10 @@ export function CheckoutHeader({
 
         <div className="flex items-center gap-[12px]">
           <LiveCount text={tNav("reservationsToday", { count: reservationsToday })} />
-          <LangPill />
+          {/* Mesma ordem do header da landing: tema → moeda → idioma. */}
           <ThemeToggle label={tNav("themeToggle")} />
+          <CurrencySwitcher variant={headerIsLight ? "light" : "dark"} />
+          <LangPill />
           <Link
             href="/"
             aria-label={tNav("menu")}

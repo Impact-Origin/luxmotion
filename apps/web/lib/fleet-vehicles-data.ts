@@ -5,6 +5,7 @@ export const STANDARD_VEHICLES: FleetVehicle[] = [
     id: "fiat-tipo-station",
     name: "Fiat Tipo Station",
     image: "/fleet/vehicles/fiat-tipo-station.png",
+    images: ["/fleet/v/fiat-tipo-1.webp", "/fleet/v/fiat-tipo-2.webp"],
     badges: ["available"],
     paxMin: 1,
     paxMax: 3,
@@ -16,6 +17,7 @@ export const STANDARD_VEHICLES: FleetVehicle[] = [
     id: "dacia-sandero",
     name: "Dacia Sandero ECO-G 100",
     image: "/fleet/vehicles/dacia-sandero.png",
+    images: ["/fleet/v/dacia-sandero-1.webp", "/fleet/v/dacia-sandero-2.webp"],
     badges: ["available"],
     paxMin: 1,
     paxMax: 3,
@@ -27,6 +29,7 @@ export const STANDARD_VEHICLES: FleetVehicle[] = [
     id: "peugeot-e208",
     name: "Peugeot e-208",
     image: "/fleet/vehicles/peugeot-e208.png",
+    images: ["/fleet/v/peugeot-e208-1.webp", "/fleet/v/peugeot-e208-2.webp"],
     badges: ["eco", "electric"],
     paxMin: 1,
     paxMax: 3,
@@ -38,6 +41,7 @@ export const STANDARD_VEHICLES: FleetVehicle[] = [
     id: "renault-clio",
     name: "Renault Clio",
     image: "/fleet/vehicles/renault-clio.png",
+    images: ["/fleet/v/renault-clio-1.webp", "/fleet/v/renault-clio-2.webp"],
     badges: ["available"],
     paxMin: 1,
     paxMax: 3,
@@ -52,6 +56,7 @@ export const XL_VEHICLES: FleetVehicle[] = [
     id: "renault-grand-scenic",
     name: "Renault Grand Scenic",
     image: "/fleet/vehicles/renault-grand-scenic.png",
+    images: ["/fleet/v/grand-scenic-1.webp", "/fleet/v/grand-scenic-2.webp"],
     badges: ["available"],
     paxMin: 3,
     paxMax: 4,
@@ -96,6 +101,7 @@ export const XL_VEHICLES: FleetVehicle[] = [
     id: "dacia-jogger",
     name: "Dacia Jogger",
     image: "/fleet/vehicles/dacia-jogger.png",
+    images: ["/fleet/v/dacia-jogger-1.webp", "/fleet/v/dacia-jogger-2.webp"],
     badges: ["available"],
     paxMin: 3,
     paxMax: 4,
@@ -105,10 +111,17 @@ export const XL_VEHICLES: FleetVehicle[] = [
   },
 ]
 
-const execBase = (id: string, name: string, image: string, badges: FleetVehicle["badges"]): FleetVehicle => ({
+const execBase = (
+  id: string,
+  name: string,
+  image: string,
+  badges: FleetVehicle["badges"],
+  images?: string[],
+): FleetVehicle => ({
   id,
   name,
   image,
+  images,
   badges,
   paxMin: 1,
   paxMax: 3,
@@ -119,13 +132,13 @@ const execBase = (id: string, name: string, image: string, badges: FleetVehicle[
 
 export const EXECUTIVE_VEHICLES: FleetVehicle[] = [
   execBase("mercedes-s400", "Mercedes S400", "/fleet/vehicles/mercedes-s400.png", ["available"]),
-  execBase("porsche-panamera", "Porsche Panamera", "/fleet/vehicles/porsche-panamera.png", ["available"]),
+  execBase("porsche-panamera", "Porsche Panamera", "/fleet/vehicles/porsche-panamera.png", ["available"], ["/fleet/v/panamera-1.webp", "/fleet/v/panamera-2.webp"]),
   execBase("tesla-model-y", "Tesla Model Y", "/fleet/vehicles/tesla-model-y.png", ["eco", "electric"]),
-  execBase("mercedes-eqe", "Mercedes EQE", "/fleet/vehicles/mercedes-eqe.png", ["eco", "electric"]),
-  execBase("bentley-flying-spur", "Bentley Flying Spur", "/fleet/vehicles/bentley-flying-spur.png", ["available"]),
-  execBase("mercedes-eqs", "Mercedes EQS", "/fleet/vehicles/mercedes-eqs.png", ["eco", "electric"]),
-  execBase("mercedes-s-class", "Mercedes S Class", "/fleet/vehicles/mercedes-s-class.png", ["available"]),
-  execBase("mercedes-e-class-station", "Mercedes E Class Station", "/fleet/vehicles/mercedes-e-class-station.png", ["available"]),
+  execBase("mercedes-eqe", "Mercedes EQE", "/fleet/vehicles/mercedes-eqe.png", ["eco", "electric"], ["/fleet/v/eqe-1.webp", "/fleet/v/eqe-2.webp"]),
+  execBase("bentley-flying-spur", "Bentley Flying Spur", "/fleet/vehicles/bentley-flying-spur.png", ["available"], ["/fleet/v/bentley-1.webp", "/fleet/v/bentley-2.webp", "/fleet/v/bentley-3.webp"]),
+  execBase("mercedes-eqs", "Mercedes EQS", "/fleet/vehicles/mercedes-eqs.png", ["eco", "electric"], ["/fleet/v/eqs-1.webp", "/fleet/v/eqs-2.webp"]),
+  execBase("mercedes-s-class", "Mercedes S Class", "/fleet/vehicles/mercedes-s-class.png", ["available"], ["/fleet/v/s-class-1.webp", "/fleet/v/s-class-2.webp"]),
+  execBase("mercedes-e-class-station", "Mercedes E Class Station", "/fleet/vehicles/mercedes-e-class-station.png", ["available"], ["/fleet/v/e-station-1.webp", "/fleet/v/e-station-2.webp"]),
   execBase("tesla-model-s", "Tesla Model S", "/fleet/vehicles/tesla-model-s.png", ["eco", "electric"]),
 ]
 
@@ -134,6 +147,7 @@ export const MINIBUS_VEHICLES: FleetVehicle[] = [
     id: "mercedes-sprinter",
     name: "Mercedes Sprinter",
     image: "/fleet/vehicles/mercedes-sprinter.png",
+    images: ["/fleet/v/sprinter-1.webp", "/fleet/v/sprinter-2.webp"],
     badges: ["available"],
     paxMin: 9,
     paxMax: 16,
@@ -170,6 +184,7 @@ export const COACH_VEHICLES: FleetVehicle[] = [
     id: "standard-coach",
     name: "Standard Coach",
     image: "/fleet/vehicles/standard-coach.png",
+    images: ["/fleet/v/coach-1.webp", "/fleet/v/coach-2.webp"],
     badges: ["available"],
     paxMin: 20,
     paxMax: 56,
@@ -181,6 +196,7 @@ export const COACH_VEHICLES: FleetVehicle[] = [
     id: "executive-coach",
     name: "Executive Coach",
     image: "/fleet/vehicles/executive-coach.png",
+    images: ["/fleet/v/coach-1.webp", "/fleet/v/coach-2.webp"],
     badges: ["available"],
     paxMin: 20,
     paxMax: 56,
@@ -196,11 +212,12 @@ const vanBase = (
   name: string,
   image: string,
   badges: FleetVehicle["badges"],
-  { paxMax = 8, bags = 8 }: { paxMax?: number; bags?: number } = {},
+  { paxMax = 8, bags = 8, images }: { paxMax?: number; bags?: number; images?: string[] } = {},
 ): FleetVehicle => ({
   id,
   name,
   image,
+  images,
   badges,
   paxMin: 5,
   paxMax,
@@ -211,14 +228,15 @@ const vanBase = (
 
 export const VAN_VEHICLES: FleetVehicle[] = [
   vanBase("mercedes-vito", "Mercedes Vito", "/fleet/vehicles/mercedes-vito.png", ["available"]),
-  vanBase("peugeot-traveller", "Peugeot Traveller", "/fleet/vehicles/peugeot-traveller.png", ["eco", "electric"]),
+  vanBase("peugeot-traveller", "Peugeot Traveller", "/fleet/vehicles/peugeot-traveller.png", ["eco", "electric"], { images: ["/fleet/v/traveller-1.webp", "/fleet/v/traveller-2.webp"] }),
   vanBase("toyota-hiace", "Toyota HiAce", "/fleet/vehicles/toyota-hiace.png", ["available"]),
-  vanBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/Mercedes V Class.webp", ["available"], { paxMax: 7, bags: 7 }),
-  vanBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/van/Van executiva.webp", ["eco", "electric"], { paxMax: 7, bags: 7 }),
+  vanBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/Mercedes V Class.webp", ["available"], { paxMax: 7, bags: 7, images: ["/fleet/v/v-class-1.webp", "/fleet/v/v-class-2.webp"] }),
+  vanBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/van/Van executiva.webp", ["eco", "electric"], { paxMax: 7, bags: 7, images: ["/fleet/v/eqv-1.webp", "/fleet/v/eqv-2.webp"] }),
   {
     id: "mercedes-maybach-v-class-2025",
     name: "Van Mercedes Maybach Class V 2025",
     image: "/fleet/van/mercedes-maybach-v-class-2025.webp",
+    images: ["/fleet/v/maybach-van-1.webp", "/fleet/v/maybach-van-2.webp", "/fleet/v/maybach-van-3.webp"],
     badges: ["available"],
     paxMin: 2,
     paxMax: 5,
@@ -226,4 +244,42 @@ export const VAN_VEHICLES: FleetVehicle[] = [
     hasAc: true,
     hasWifi: true,
   },
+]
+
+// Clássicos e veículos de coleção. As capacidades são as lotações reais destes
+// modelos — confirmar antes de abrir a reservas, se for esse o caso.
+const classic = (
+  id: string,
+  name: string,
+  photos: string[],
+  paxMax: number,
+  bags: number,
+): FleetVehicle => ({
+  id,
+  name,
+  image: photos[0]!,
+  images: photos,
+  badges: ["available"],
+  paxMin: 1,
+  paxMax,
+  bags,
+  hasAc: false,
+  hasWifi: false,
+})
+
+const p = (...names: string[]) => names.map((n) => `/fleet/v/${n}.webp`)
+
+export const CLASSIC_VEHICLES: FleetVehicle[] = [
+  classic("rolls-royce-silver-cloud", "Rolls-Royce Silver Cloud", p("silver-cloud-1", "silver-cloud-2", "silver-cloud-3"), 4, 2),
+  classic("rolls-royce-silver-shadow", "Rolls-Royce Silver Shadow", p("silver-shadow-1", "silver-shadow-2", "silver-shadow-3"), 4, 2),
+  classic("jaguar-e-type", "Jaguar E-Type", p("jaguar-etype-1", "jaguar-etype-2", "jaguar-etype-3"), 2, 1),
+  classic("jaguar-s-type", "Jaguar S-Type", p("jaguar-stype-1", "jaguar-stype-2"), 4, 2),
+  classic("mg-classico-branco", "MG Clássico (Branco)", p("mg-branco-1", "mg-branco-2", "mg-branco-3"), 2, 1),
+  classic("mg-classico-preto", "MG Clássico (Preto)", p("mg-preto-1", "mg-preto-2", "mg-preto-3"), 2, 1),
+  classic("mini-classico-branco", "Mini Clássico (Branco)", p("mini-branco-1", "mini-branco-2", "mini-branco-3"), 4, 1),
+  classic("mini-classico-preto", "Mini Clássico (Preto)", p("mini-preto-1", "mini-preto-2", "mini-preto-3"), 4, 1),
+  classic("vw-carocha-branco", "VW Carocha (Branco)", p("carocha-branco-1", "carocha-branco-2", "carocha-branco-3"), 4, 1),
+  classic("vw-carocha-preto", "VW Carocha (Preto)", p("carocha-preto-1", "carocha-preto-2", "carocha-preto-3"), 4, 1),
+  classic("vw-pao-de-forma", "VW Pão de Forma", p("kombi-1"), 8, 3),
+  classic("vespa-sidecar", "Vespa Clássica com Sidecar", p("vespa-1", "vespa-2"), 2, 1),
 ]

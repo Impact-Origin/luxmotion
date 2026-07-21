@@ -263,6 +263,9 @@ export default defineSchema({
 
   vehicles: defineTable({
     name: v.string(),
+    // Modelos concretos desta classe, ex. "Renault Clio, Fiat Tipo". Mostrado
+    // a seguir ao nome para o cliente saber que carro esperar.
+    examples: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     partnershipId: v.optional(v.id("partnerships")),
     passengers: v.number(),

@@ -87,7 +87,8 @@ function AuthorCard({ author }: { author: SidebarAuthor }) {
   )
 }
 
-function BookCtaCard({ bookHref = "/checkout" }: { bookHref?: string }) {
+// Mesmo motivo do RESERVE no header: o checkout sem viagem escolhida fica vazio.
+function BookCtaCard({ bookHref = "/#booking" }: { bookHref?: string }) {
   const t = useTranslations("blogArticle.bookCta")
 
   return (

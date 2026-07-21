@@ -1,8 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { AirVent, Briefcase, User, Wifi } from "lucide-react"
+import { AirVent, Briefcase, ChevronLeft, ChevronRight, User, Wifi } from "lucide-react"
 
 export type FleetBadge = "available" | "eco" | "electric"
 
@@ -10,6 +11,8 @@ export type FleetVehicle = {
   id: string
   name: string
   image: string
+  /** Fotos extra (frente, trás, interior). Sem isto o card mostra só `image`. */
+  images?: string[]
   badges: FleetBadge[]
   paxMin: number
   paxMax: number
@@ -49,22 +52,7 @@ export function FleetVehicleCardDark({ vehicle }: { vehicle: FleetVehicle }) {
         ))}
       </div>
 
-      <div className="relative h-[180px] w-full bg-[#0d0d0d] z-[2]">
-        <Image
-          src={vehicle.image}
-          alt={vehicle.name}
-          fill
-          className="object-contain transition-transform duration-500 group-hover:scale-[1.015]"
-          sizes="(min-width: 768px) 25vw, 50vw"
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,0,0,0.1) 33.22%, rgba(201,169,110,0.1) 100%)",
-          }}
-        />
-      </div>
+      <VehiclePhotos vehicle={vehicle} />
 
       <div className="flex flex-col gap-3 px-5 pt-[18px] pb-6 flex-1 z-[1]">
         <h3
@@ -105,6 +93,79 @@ function MetaItem({ icon, children }: { icon: React.ReactNode; children: React.R
     <div className="flex items-center gap-[5px] h-[15px]">
       <span className="shrink-0 text-[#999999]">{icon}</span>
       <span className="leading-none whitespace-nowrap">{children}</span>
+    </div>
+  )
+}
+
+/**
+ * Fotos do veículo. Com mais do que uma (frente, trás, interior) mostra setas e
+ * pontos; com uma só é uma imagem estática, sem controlos.
+ */
+function VehiclePhotos({ vehicle }: { vehicle: FleetVehicle }) {
+  const photos = vehicle.images?.length ? vehicle.images : [vehicle.image]
+  const [idx, setIdx] = useState(0)
+  const many = photos.length > 1
+  // As setas vivem dentro do card, que já tem hover próprio — parar a
+  // propagação evita disparar o link/hover do card ao trocar de foto.
+  const go = (e: React.MouseEvent, delta: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIdx((i) => (i + delta + photos.length) % photos.length)
+  }
+
+  return (
+    <div className="relative h-[180px] w-full bg-[#0d0d0d] z-[2] overflow-hidden">
+      {photos.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt={vehicle.name}
+          fill
+          className={`object-contain transition-opacity duration-300 ${
+            i === idx ? "opacity-100" : "opacity-0"
+          }`}
+          sizes="(min-width: 768px) 25vw, 50vw"
+        />
+      ))}
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.1) 33.22%, rgba(201,169,110,0.1) 100%)",
+        }}
+      />
+
+      {many && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => go(e, -1)}
+            aria-label="Foto anterior"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-[3] grid size-7 place-items-center rounded-full bg-black/40 text-white/80 opacity-0 transition group-hover:opacity-100 hover:bg-black/70 hover:text-white"
+          >
+            <ChevronLeft className="size-4" strokeWidth={2} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => go(e, 1)}
+            aria-label="Foto seguinte"
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-[3] grid size-7 place-items-center rounded-full bg-black/40 text-white/80 opacity-0 transition group-hover:opacity-100 hover:bg-black/70 hover:text-white"
+          >
+            <ChevronRight className="size-4" strokeWidth={2} />
+          </button>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-[3] flex gap-1">
+            {photos.map((src, i) => (
+              <span
+                key={src}
+                className={`h-[3px] rounded-full transition-all ${
+                  i === idx ? "w-4 bg-[#C9A96E]" : "w-[3px] bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

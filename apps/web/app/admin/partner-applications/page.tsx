@@ -19,12 +19,12 @@ import {
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@workspace/ui/components/dialog"
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@workspace/ui/components/sheet"
 import { cn } from "@workspace/ui/lib/utils"
 
 type ApplicationStatus = "submitted" | "reviewing" | "approved" | "rejected"
@@ -244,7 +244,7 @@ export default function AdminPartnerApplicationsPage() {
         </div>
       )}
 
-      <ApplicationDetailDialog
+      <ApplicationDetailSheet
         id={activeId}
         onOpenChange={(open) => {
           if (!open) setActiveId(null)
@@ -255,7 +255,7 @@ export default function AdminPartnerApplicationsPage() {
   )
 }
 
-function ApplicationDetailDialog({
+function ApplicationDetailSheet({
   id,
   onOpenChange,
   onSetStatus,
@@ -270,13 +270,13 @@ function ApplicationDetailDialog({
   )
 
   return (
-    <Dialog open={id !== null} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>
+    <Sheet open={id !== null} onOpenChange={onOpenChange}>
+      <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle>
             {application?.companyName || "Partner application"}
-          </DialogTitle>
-        </DialogHeader>
+          </SheetTitle>
+        </SheetHeader>
 
         {!application ? (
           <div className="flex items-center justify-center py-16 text-muted-foreground">
@@ -412,13 +412,13 @@ function ApplicationDetailDialog({
           </div>
         )}
 
-        <DialogClose asChild>
+        <SheetClose asChild>
           <Button variant="outline" className="self-end">
             Close
           </Button>
-        </DialogClose>
-      </DialogContent>
-    </Dialog>
+        </SheetClose>
+      </SheetContent>
+    </Sheet>
   )
 }
 

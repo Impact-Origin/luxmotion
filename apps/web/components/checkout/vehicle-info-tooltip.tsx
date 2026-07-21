@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl"
 
 interface VehicleInfoTooltipProps {
   vehicleName: string
+  /** Modelos concretos desta classe, ex. "Renault Clio, Fiat Tipo". */
+  examples?: string
   onClose: () => void
 }
 
@@ -19,7 +21,7 @@ const SERIF_FONT = {
 
 type InfoItem = { text: string; sub?: string }
 
-export function VehicleInfoTooltip({ vehicleName, onClose }: VehicleInfoTooltipProps) {
+export function VehicleInfoTooltip({ vehicleName, examples, onClose }: VehicleInfoTooltipProps) {
   const t = useTranslations("vehicle")
   const tCommon = useTranslations("common")
   const [phase, setPhase] = useState<DrawerPhase>("entering")
@@ -99,74 +101,62 @@ export function VehicleInfoTooltip({ vehicleName, onClose }: VehicleInfoTooltipP
         onTransitionEnd={handleTransitionEnd}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-[var(--ck-bg,#0d0d0d)] z-10 px-4 md:px-8 pt-4 md:pt-8 pb-2 md:pb-0 md:mb-6">
+        <div className="sticky top-0 bg-[var(--ck-bg,#0d0d0d)] z-10 px-4 md:px-6 pt-4 md:pt-6 pb-3 md:pb-4">
           <h2
-            className="text-2xl md:text-4xl font-semibold text-center text-[var(--ck-text,#f7f4ef)] pr-12 md:pr-0"
+            className="text-lg md:text-2xl font-normal text-[var(--ck-text,#f7f4ef)] pr-12"
             style={SERIF_FONT}
           >
-            {vehicleName}
+            {examples ? `${vehicleName} - ${examples}` : vehicleName}
           </h2>
           <button
             type="button"
             onClick={handleClose}
-            className="absolute right-4 top-4 md:right-6 md:top-6 flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-[rgba(var(--ck-text-rgb,255,255,255),0.06)] hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[var(--ck-text,#f7f4ef)] transition-colors"
+            className="absolute right-4 top-4 md:right-6 md:top-5 flex items-center justify-center w-9 h-9 rounded-full bg-[rgba(var(--ck-text-rgb,255,255,255),0.06)] hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[var(--ck-text,#f7f4ef)] transition-colors"
             aria-label={tCommon("close")}
           >
             <X className="w-5 h-5" strokeWidth={2.5} />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 px-4 md:px-8 pb-6 md:pb-8 pt-2 md:pt-0">
-          <div className="bg-[rgba(var(--ck-text-rgb,255,255,255),0.03)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.1)] p-4 md:p-6">
-            <h3 className="text-base md:text-2xl font-bold text-[var(--ck-text,#f7f4ef)] mb-3 md:mb-4">
-              {t("included")}
-            </h3>
-
-            <div className="space-y-2 md:space-y-3">
-              {included.map((item, i) => (
-                <div key={i} className="flex items-start gap-2 md:gap-3">
-                  <Check
-                    className="w-4 h-4 md:w-5 md:h-5 text-[#2E7D52] flex-shrink-0 mt-0.5"
-                    strokeWidth={3}
-                  />
-                  <div>
-                    <p className="text-[var(--ck-text,#f7f4ef)] text-sm md:text-base font-semibold leading-snug">
-                      {item.text}
-                    </p>
-                    {item.sub && (
-                      <p className="text-[var(--ck-text-muted,#999)] text-xs md:text-sm">{item.sub}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-[rgba(var(--ck-text-rgb,255,255,255),0.03)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.1)] p-4 md:p-6">
-            <h3 className="text-base md:text-2xl font-bold text-[var(--ck-text,#f7f4ef)] mb-3 md:mb-4">
-              {t("notIncluded")}
-            </h3>
-
-            <div className="space-y-2 md:space-y-3">
-              {notIncluded.map((item, i) => (
-                <div key={i} className="flex items-start gap-2 md:gap-3">
-                  <X
-                    className="w-4 h-4 md:w-5 md:h-5 text-[#E32828] flex-shrink-0 mt-0.5"
-                    strokeWidth={3}
-                  />
-                  <div>
-                    <p className="text-[var(--ck-text,#f7f4ef)] text-sm md:text-base font-semibold leading-snug">
-                      {item.text}
-                    </p>
-                    {item.sub && (
-                      <p className="text-[var(--ck-text-muted,#999)] text-xs md:text-sm">{item.sub}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Caixa única dividida ao meio — não dois cartões soltos. */}
+        <div className="mx-4 md:mx-6 mb-4 md:mb-6 border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
+          <InfoColumn title={t("included")} items={included} tone="included" />
+          <InfoColumn title={t("notIncluded")} items={notIncluded} tone="notIncluded" />
         </div>
+      </div>
+    </div>
+  )
+}
+
+function InfoColumn({
+  title,
+  items,
+  tone,
+}: {
+  title: string
+  items: InfoItem[]
+  tone: "included" | "notIncluded"
+}) {
+  const Icon = tone === "included" ? Check : X
+  const iconColor = tone === "included" ? "text-[#2E7D52]" : "text-[#E32828]"
+
+  return (
+    <div className="p-4 md:p-5">
+      <h3 className="text-sm md:text-base font-semibold text-[var(--ck-text,#f7f4ef)] mb-3">
+        {title}
+      </h3>
+      <div className="space-y-2">
+        {items.map((item, i) => (
+          <div key={i} className="flex items-start gap-2">
+            <Icon className={`w-4 h-4 flex-shrink-0 mt-0.5 ${iconColor}`} strokeWidth={3} />
+            <p className="text-[var(--ck-text,#f7f4ef)] text-sm leading-snug">
+              {item.text}
+              {item.sub && (
+                <span className="text-[var(--ck-text-muted,#999)]"> {item.sub}</span>
+              )}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -11,6 +11,7 @@ import { cn } from "@workspace/ui/lib/utils"
 interface Vehicle {
   id: string
   name: string
+  examples?: string
   price: number
   pricePerKm?: number
   hasDistance?: boolean
@@ -171,7 +172,7 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
       </button>
 
       {showInfo && (
-        <VehicleInfoTooltip vehicleName={vehicle.name} onClose={() => setShowInfo(false)} />
+        <VehicleInfoTooltip vehicleName={vehicle.name} examples={vehicle.examples} onClose={() => setShowInfo(false)} />
       )}
     </div>
   )

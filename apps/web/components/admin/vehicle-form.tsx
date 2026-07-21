@@ -31,6 +31,7 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
   const allVehicles = useQuery(api.vehicles.list);
 
   const [name, setName] = React.useState(initialData?.name || "");
+  const [examples, setExamples] = React.useState(initialData?.examples || "");
   const [imageId, setImageId] = React.useState<string | undefined>(initialData?.imageId);
   const [partnershipId, setPartnershipId] = React.useState<string | undefined>(initialData?.partnershipId || "global");
   const [passengers, setPassengers] = React.useState(initialData?.passengers || 4);
@@ -75,6 +76,7 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
       
       const data = {
         name,
+        examples,
         imageId: imageId as any,
         partnershipId: partnershipId === "global" ? undefined : partnershipId as any,
         passengers: Number(passengers),
@@ -165,6 +167,20 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
                     className="h-9"
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="examples">Example Models</Label>
+              <Input
+                id="examples"
+                value={examples}
+                onChange={(e) => setExamples(e.target.value)}
+                placeholder="e.g. Renault Clio, Fiat Tipo"
+                disabled={isSubmitting}
+                className="h-9"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
                   <Label htmlFor="ownership">Owner / Partnership</Label>
               <Select
@@ -447,7 +463,8 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
         </div>
       </div>
 
-      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-end gap-3 border-t border-border bg-background px-4 py-3 lg:-mx-8 lg:px-8">
+      {/* Rodapé no fim do formulário: em sticky tapava os últimos campos. */}
+      <div className="-mx-4 flex items-center justify-end gap-3 border-t border-border bg-background px-4 py-4 lg:-mx-8 lg:px-8">
         <Button
           type="button"
           variant="outline"

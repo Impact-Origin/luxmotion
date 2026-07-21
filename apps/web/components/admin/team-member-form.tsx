@@ -206,7 +206,7 @@ export function TeamMemberForm({ onClose, initialData }: TeamMemberFormProps) {
         </div>
       </div>
 
-      <div className="sticky bottom-0 z-10 -mx-4 flex items-center justify-end gap-3 border-t border-border bg-background px-4 py-3 lg:-mx-8 lg:px-8">
+      <div className="-mx-4 flex items-center justify-end gap-3 border-t border-border bg-background px-4 py-4 lg:-mx-8 lg:px-8">
             <Button
               type="button"
               variant="outline"

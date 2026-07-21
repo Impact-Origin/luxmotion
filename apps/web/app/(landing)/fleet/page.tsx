@@ -3,7 +3,7 @@ import { FleetCarousel } from "@/components/fleet/fleet-carousel"
 import { FleetTitleBlock } from "@/components/fleet/fleet-title-block"
 import { FleetCategoryFilter } from "@/components/fleet/fleet-category-filter"
 import { FleetCategorySection } from "@/components/fleet/fleet-category-section"
-import { STANDARD_VEHICLES, XL_VEHICLES, EXECUTIVE_VEHICLES, VAN_VEHICLES, MINIBUS_VEHICLES, COACH_VEHICLES } from "@/lib/fleet-vehicles-data"
+import { STANDARD_VEHICLES, XL_VEHICLES, EXECUTIVE_VEHICLES, VAN_VEHICLES, MINIBUS_VEHICLES, COACH_VEHICLES, CLASSIC_VEHICLES } from "@/lib/fleet-vehicles-data"
 import { getTranslations as getT } from "next-intl/server"
 import { Footer } from "@/components/new-landing-page/footer"
 import type { Metadata } from "next"
@@ -96,6 +96,13 @@ export default async function FleetPage() {
           headingAccent={t("coach.headingAccent")}
           vehicles={COACH_VEHICLES}
           desktopColumns={2}
+        />
+        <FleetCategorySection
+          categoryKey="classicos"
+          categoryLabelKey="category.classicos"
+          headingFirst={t("classics.headingFirst")}
+          headingAccent={t("classics.headingAccent")}
+          vehicles={CLASSIC_VEHICLES}
         />
         <div className="h-12 md:h-16" />
       </div>

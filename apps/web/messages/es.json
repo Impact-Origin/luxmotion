@@ -257,7 +257,8 @@
       "executivo": "Ejecutivo",
       "van": "Van",
       "minibus": "Minibús",
-      "autocarro": "Autocar"
+      "autocarro": "Autocar",
+      "classicos": "Clásicos"
     },
     "vehiclesTitle": "Elija Su Vehículo",
     "vehiclesSubtitle": "Cada vehículo de nuestra flota se mantiene con los más altos estándares, garantizando un viaje cómodo y seguro.",
@@ -325,6 +326,10 @@
     "coach": {
       "headingFirst": "Conferencias y",
       "headingAccent": "Grandes Eventos"
+    },
+    "classics": {
+      "headingFirst": "Coches Atemporales,",
+      "headingAccent": "Llegadas Inolvidables."
     }
   },
   "trustSection": {

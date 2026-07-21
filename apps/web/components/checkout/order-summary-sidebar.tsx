@@ -355,6 +355,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
                 {showVehicleInfo && (
                   <VehicleInfoTooltip
                     vehicleName={selectedVehicle.name}
+                    examples={selectedVehicle.examples}
                     onClose={() => setShowVehicleInfo(false)}
                   />
                 )}

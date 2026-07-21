@@ -5,6 +5,8 @@ import { useState, useEffect, useRef } from "react"
 
 interface VehicleInfoTooltipProps {
   vehicleName: string
+  /** Modelos concretos desta classe, ex. "Renault Clio, Fiat Tipo". */
+  examples?: string
   onClose: () => void
 }
 
@@ -12,7 +14,7 @@ type DrawerPhase = "entering" | "entered" | "exiting"
 
 const EXIT_ANIMATION_MS = 320
 
-export function VehicleInfoTooltip({ vehicleName, onClose }: VehicleInfoTooltipProps) {
+export function VehicleInfoTooltip({ vehicleName, examples, onClose }: VehicleInfoTooltipProps) {
   const [phase, setPhase] = useState<DrawerPhase>("entering")
   const drawerRef = useRef<HTMLDivElement>(null)
   const onCloseCalledRef = useRef(false)
@@ -74,7 +76,7 @@ export function VehicleInfoTooltip({ vehicleName, onClose }: VehicleInfoTooltipP
       >
         <div className="sticky top-0 bg-white z-10 relative px-4 md:px-8 pt-4 md:pt-8 pb-2 md:pb-0 md:mb-6">
           <h2 className="text-lg md:text-4xl font-bold text-center text-[#222222] pr-12 md:pr-0">
-            {vehicleName}
+            {examples ? `${vehicleName} - ${examples}` : vehicleName}
           </h2>
           <button
             type="button"

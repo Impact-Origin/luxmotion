@@ -146,6 +146,7 @@ export const getUpgradeFor = query({
 export const create = mutation({
   args: {
     name: v.string(),
+    examples: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     partnershipId: v.optional(v.id("partnerships")),
     passengers: v.number(),
@@ -178,6 +179,7 @@ export const update = mutation({
   args: {
     id: v.id("vehicles"),
     name: v.optional(v.string()),
+    examples: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     partnershipId: v.optional(v.id("partnerships")),
     passengers: v.optional(v.number()),

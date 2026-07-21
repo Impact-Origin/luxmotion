@@ -50,7 +50,7 @@ export default function SitePrincipal() {
             name: "Private Transfers and Tours in Portugal",
             description: "Airport transfers, city transfers, and premium tours across Portugal.",
             path: "/",
-            image: "/hero-composition.png",
+            image: "/og-luxmotion.jpg",
             areaServed: "Portugal",
           })
         }

@@ -92,11 +92,15 @@ export function ValuesSection() {
             "linear-gradient(to bottom, transparent 0%, black 18%, black 100%)",
         }}
       >
+        {/* A foto é 3:2 e a banda é ~3:1, por isso o corte é agressivo. Ancorado
+            a 36% para manter a frota inteira e o máximo de torre possível — ao
+            centro cortaria os carros. */}
         <Image
-          src="/about/values-fleet.png"
+          src="/about/values-fleet.webp"
           alt={t("imageAlt")}
           fill
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "center 36%" }}
           sizes="(max-width: 768px) 100vw, 1280px"
         />
       </div>

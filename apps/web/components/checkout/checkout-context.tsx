@@ -8,6 +8,8 @@ export const DEV_ALLOW_STEP_SKIP = true
 export interface Vehicle {
   id: string
   name: string
+  /** Modelos concretos desta classe, ex. "Renault Clio, Fiat Tipo". */
+  examples?: string
   price: number
   dayPrice?: number
   /** Imposto de noite (percentagem sobre tarifa dia) – total para fatura. */

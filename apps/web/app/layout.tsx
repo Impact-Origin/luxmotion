@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: "Easy Transfer | Private Transfers and Tours in Portugal",
     description:
       "Private transfers, tours, events, and premium mobility services across Portugal.",
-    images: [{ url: absoluteUrl("/hero-composition.png") }],
+    images: [{ url: absoluteUrl("/og-luxmotion.jpg") }],
     locale: "pt_PT",
   },
   twitter: {
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "Easy Transfer | Private Transfers and Tours in Portugal",
     description:
       "Private transfers, tours, events, and premium mobility services across Portugal.",
-    images: [absoluteUrl("/hero-composition.png")],
+    images: [absoluteUrl("/og-luxmotion.jpg")],
   },
   robots: {
     index: true,

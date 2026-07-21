@@ -257,7 +257,8 @@
       "executivo": "Executive",
       "van": "Bus",
       "minibus": "Minibus",
-      "autocarro": "Touringcar"
+      "autocarro": "Touringcar",
+      "classicos": "Klassiekers"
     },
     "vehiclesTitle": "Kies Uw Voertuig",
     "vehiclesSubtitle": "Elk voertuig in onze vloot wordt onderhouden volgens de hoogste normen, wat zorgt voor een comfortabele en veilige reis.",
@@ -325,6 +326,10 @@
     "coach": {
       "headingFirst": "Conferenties &",
       "headingAccent": "Grote Evenementen"
+    },
+    "classics": {
+      "headingFirst": "Tijdloze Auto's,",
+      "headingAccent": "Onvergetelijke Aankomsten."
     }
   },
   "trustSection": {

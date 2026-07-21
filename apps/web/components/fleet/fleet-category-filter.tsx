@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 
-const CATEGORIES = ["standard", "xl", "executivo", "van", "minibus", "autocarro"] as const
+const CATEGORIES = ["standard", "xl", "executivo", "van", "minibus", "autocarro", "classicos"] as const
 type Category = (typeof CATEGORIES)[number]
 
 type Props = {

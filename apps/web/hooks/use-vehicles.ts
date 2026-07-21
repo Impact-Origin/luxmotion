@@ -117,6 +117,7 @@ export function useVehicles({
         return {
           id: v._id,
           name: v.name,
+          examples: v.examples,
           price: finalPrice,
           dayPrice: dayFinalPrice,
           nightTaxAmount: nightTaxOutbound + nightTaxReturn,

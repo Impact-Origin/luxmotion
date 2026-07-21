@@ -257,7 +257,8 @@
       "executivo": "Executive",
       "van": "Van",
       "minibus": "Minibus",
-      "autocarro": "Coach"
+      "autocarro": "Coach",
+      "classicos": "Classics"
     },
     "vehiclesTitle": "Choose Your Vehicle",
     "vehiclesSubtitle": "Every vehicle in our fleet is maintained to the highest standards, ensuring a comfortable and safe journey.",
@@ -325,6 +326,10 @@
     "coach": {
       "headingFirst": "Conferences &",
       "headingAccent": "Grand Events"
+    },
+    "classics": {
+      "headingFirst": "Timeless Cars,",
+      "headingAccent": "Unforgettable Arrivals."
     }
   },
   "trustSection": {

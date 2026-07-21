@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
-import { CurrencySwitcher } from "@/components/new-landing-page/currency-switcher"
 
 const HERO_SCROLL_THRESHOLD = 320
 const MOBILE_MAX_WIDTH = 767
@@ -148,7 +147,10 @@ export function Header({
   whitelabel = false,
   logoUrl,
   themeToggle,
-  reserveHref = "/checkout",
+  // O checkout precisa de uma viagem já escolhida — mandar para lá a partir de
+  // outra página abre um checkout vazio. O destino certo é o widget de reserva
+  // na home, onde a viagem é definida.
+  reserveHref = "/#booking",
 }: HeaderProps = {}) {
   const isLight = variant === "light"
   const t = useTranslations("header")
@@ -351,7 +353,6 @@ export function Header({
 
           <div className="hidden xl:flex items-center gap-[8px]">
             {themeToggle}
-            <CurrencySwitcher variant={variant} />
             <LangSwitcher variant={variant} />
             <Link
               href={reserveHref}
@@ -368,7 +369,6 @@ export function Header({
 
           <div className="xl:hidden flex items-center gap-[8px]">
             {themeToggle}
-            <CurrencySwitcher variant={variant} />
             <LangSwitcher variant={variant} />
             <button
               onClick={() => setMobileMenuOpen(true)}
