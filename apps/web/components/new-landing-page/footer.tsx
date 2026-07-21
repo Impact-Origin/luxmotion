@@ -18,12 +18,14 @@ const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boo
   { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações", w: 84, h: 39, mask: true },
 ]
 
+// `mono` marca os logos que contêm branco e desaparecem no tema claro. O
+// mastercard é só cor de marca, por isso fica intacto.
 const PAYMENTS = [
-  { src: "/footer/payments/visa.svg", alt: "Visa", w: 48, h: 16 },
-  { src: "/footer/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
-  { src: "/footer/payments/mbway.svg", alt: "MB WAY", w: 42, h: 20 },
-  { src: "/footer/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20 },
-  { src: "/footer/payments/paypal.svg", alt: "PayPal", w: 67, h: 16 },
+  { src: "/footer/payments/visa.svg", alt: "Visa", w: 48, h: 16, mono: true },
+  { src: "/footer/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24, mono: false },
+  { src: "/footer/payments/mbway.svg", alt: "MB WAY", w: 42, h: 20, mono: true },
+  { src: "/footer/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20, mono: true },
+  { src: "/footer/payments/paypal.svg", alt: "PayPal", w: 67, h: 16, mono: true },
 ]
 
 const SOCIALS = [
@@ -92,7 +94,13 @@ export function Footer({
               key={p.alt}
               className="relative h-[34px] bg-[rgba(var(--lm-text-rgb,255,255,255),0.03)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] rounded-[3px] opacity-55 flex items-center justify-center px-[15px] cursor-default transition-all duration-300 ease-out hover:opacity-100 hover:scale-110 hover:-translate-y-1 hover:z-10 hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)] hover:shadow-[0_8px_20px_-6px_rgba(var(--lm-accent-rgb,201,169,110),0.4)]"
             >
-              <Image src={p.src} alt={p.alt} width={p.w} height={p.h} className="object-contain" />
+              <Image
+                src={p.src}
+                alt={p.alt}
+                width={p.w}
+                height={p.h}
+                className={`object-contain ${p.mono ? "[.home-theme:not(.dark)_&]:brightness-0" : ""}`}
+              />
             </div>
           ))}
         </div>
