@@ -43,6 +43,7 @@ export const TOUR_CATEGORIES = [
   { value: "tours", label: "Tours" },
   { value: "experiences", label: "Experiences" },
   { value: "private", label: "Luxury Tours" },
+  { value: "stops", label: "Extra Stops" },
   { value: "events", label: "Events" },
 ] as const;
 

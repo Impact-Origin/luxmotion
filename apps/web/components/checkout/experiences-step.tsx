@@ -19,7 +19,7 @@ export interface NearbyTour {
   basePrice: number
   duration: string
   distanceKm: number
-  category: "tours" | "experiences" | "private" | "events"
+  category: "tours" | "experiences" | "private" | "stops" | "events"
   addons?: {
     _id: string
     title: string
@@ -77,6 +77,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   const tours = nearbyTours.filter((item) => item.category === "tours")
   const experiences = nearbyTours.filter((item) => item.category === "experiences")
   const privateTours = nearbyTours.filter((item) => item.category === "private")
+  const stops = nearbyTours.filter((item) => item.category === "stops")
   const events = nearbyTours.filter((item) => item.category === "events")
 
   const handleOpenModal = (experience: Experience) => {
@@ -160,6 +161,8 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           </button>
         </div>
 
+        {/* Paragens primeiro: são extras curtos no próprio trajeto. */}
+        {renderSection(t("extraStops"), stops)}
         {renderSection(t("privateTours"), privateTours)}
         {renderSection(t("tours"), tours)}
         {renderSection(t("experiences"), experiences)}

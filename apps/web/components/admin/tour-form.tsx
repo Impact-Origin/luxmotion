@@ -74,7 +74,7 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
   const [description, setDescription] = React.useState<any>(null)
   const [tourType, setTourType] = React.useState("Group Tour")
   const [originalLanguage, setOriginalLanguage] = React.useState("pt")
-  const [category, setCategory] = React.useState<"tours" | "experiences" | "private" | "events">("tours")
+  const [category, setCategory] = React.useState<"tours" | "experiences" | "private" | "stops" | "events">("tours")
   const [destination, setDestination] = React.useState("Lisboa")
   const [duration, setDuration] = React.useState("")
   const [groupSize, setGroupSize] = React.useState("")

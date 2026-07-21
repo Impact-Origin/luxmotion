@@ -16,6 +16,7 @@ export function ExperiencesStepPreview({ nearbyTours }: ExperiencesStepPreviewPr
   const tours = nearbyTours.filter((item) => item.category === "tours")
   const experiences = nearbyTours.filter((item) => item.category === "experiences")
   const privateTours = nearbyTours.filter((item) => item.category === "private")
+  const stops = nearbyTours.filter((item) => item.category === "stops")
   const events = nearbyTours.filter((item) => item.category === "events")
 
   const renderSection = (title: string, items: NearbyTour[]) => {
@@ -58,6 +59,7 @@ export function ExperiencesStepPreview({ nearbyTours }: ExperiencesStepPreviewPr
         </h1>
       </div>
 
+      {renderSection(t("extraStops"), stops)}
       {renderSection(t("tours"), tours)}
       {renderSection(t("experiences"), experiences)}
       {renderSection(t("privateTours"), privateTours)}

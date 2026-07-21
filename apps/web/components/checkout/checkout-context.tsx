@@ -65,7 +65,7 @@ export interface TransferState {
 export interface ExperienceSelection {
   experienceId: string
   slug: string
-  category: "tours" | "experiences" | "private" | "events"
+  category: "tours" | "experiences" | "private" | "stops" | "events"
   title: string
   passengers: number
   date: Date | undefined

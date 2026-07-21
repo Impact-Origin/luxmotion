@@ -397,6 +397,7 @@ export default defineSchema({
       v.literal("tours"),
       v.literal("experiences"),
       v.literal("private"),
+      v.literal("stops"),
       v.literal("events"),
     ),
     destination: v.string(),

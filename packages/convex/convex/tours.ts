@@ -135,7 +135,9 @@ export const listPublished = query({
       .collect();
     const toursWithUrls = await Promise.all(
       tours
-        .filter((t) => t.isUltraLuxury !== true)
+        // "stops" são extras de checkout (paragens no trajeto), não tours
+        // para navegar — não entram nas listagens públicas.
+        .filter((t) => t.isUltraLuxury !== true && t.category !== "stops")
         .map(async (tour) => {
         const bannerImageUrl = tour.bannerImageId
           ? await ctx.storage.getUrl(tour.bannerImageId)
@@ -171,7 +173,10 @@ export const listByDestination = query({
       .withIndex("by_destination", (q) => q.eq("destination", args.destination))
       .collect();
     const publishedTours = tours.filter(
-      (t) => t.status === "published" && t.isUltraLuxury !== true,
+      (t) =>
+        t.status === "published" &&
+        t.isUltraLuxury !== true &&
+        t.category !== "stops",
     );
 
     const toursWithUrls = await Promise.all(
@@ -197,6 +202,7 @@ export const listByCategory = query({
       v.literal("tours"),
       v.literal("experiences"),
       v.literal("private"),
+      v.literal("stops"),
       v.literal("events"),
     ),
   },
@@ -233,6 +239,7 @@ export const listByDestinationAndCategory = query({
       v.literal("tours"),
       v.literal("experiences"),
       v.literal("private"),
+      v.literal("stops"),
       v.literal("events"),
     ),
   },
@@ -750,6 +757,7 @@ export const create = mutation({
       v.literal("tours"),
       v.literal("experiences"),
       v.literal("private"),
+      v.literal("stops"),
       v.literal("events"),
     ),
     destination: v.string(),
@@ -896,6 +904,7 @@ export const update = mutation({
         v.literal("tours"),
         v.literal("experiences"),
         v.literal("private"),
+        v.literal("stops"),
         v.literal("events"),
       ),
     ),

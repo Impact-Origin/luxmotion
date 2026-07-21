@@ -42,6 +42,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
   const tours = nearbyTours.filter((t) => t.category === "tours")
   const experiences = nearbyTours.filter((t) => t.category === "experiences")
   const privateTours = nearbyTours.filter((t) => t.category === "private")
+  const stops = nearbyTours.filter((t) => t.category === "stops")
   const events = nearbyTours.filter((t) => t.category === "events")
 
   const handleOpenModal = (experience: Experience) => {
@@ -140,6 +141,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
           </h1>
         </div>
 
+        {renderSection(t("extraStops"), stops)}
         {renderSection(t("tours"), tours)}
         {renderSection(t("experiences"), experiences)}
         {renderSection(t("privateTours"), privateTours)}
@@ -172,6 +174,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
 
   return (
     <div className="checkout-experiences-step max-w-[1036px] mx-auto px-4 py-8 space-y-14">
+      {renderSection(t("extraStops"), stops)}
       {renderSection(t("privateTours"), privateTours)}
       {renderSection(t("tours"), tours)}
       {renderSection(t("experiences"), experiences)}
