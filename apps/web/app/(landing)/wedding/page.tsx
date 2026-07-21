@@ -33,8 +33,10 @@ export default function WeddingPage() {
       <Header variant="light" />
       <div className="pt-[72px]">
         <WeddingHero />
-        <WeddingOfferSection />
+        {/* O orçamento vem logo a seguir ao hero: é o que a página vende. */}
+        <WeddingQuoteSection />
         <WeddingStatsSection />
+        <WeddingOfferSection />
         <WeddingTestimonials />
         <WeddingBenefitsSection />
         <WeddingGallerySection />
@@ -42,7 +44,6 @@ export default function WeddingPage() {
         <WeddingDiffSection />
         <WeddingFleetSection />
         <WeddingPaymentSection />
-        <WeddingQuoteSection />
         <WeddingFaqSection />
       </div>
       <Footer />

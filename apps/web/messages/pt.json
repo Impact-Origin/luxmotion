@@ -3412,7 +3412,8 @@
         "numVehicles": "Número de Veículos",
         "budget": "Qual o budget que tem disponível?",
         "vehicleType": "Tipo de Veículo Preferido",
-        "notes": "Notas Adicionais"
+        "notes": "Notas Adicionais",
+        "extras": "Extras"
       },
       "placeholders": {
         "fullName": "O seu nome completo",
@@ -3435,7 +3436,54 @@
       "vehiclesScrollNext": "Próximos veículos",
       "vehiclesScrollPrev": "Veículos anteriores",
       "successToast": "Pedido enviado — respondemos em poucas horas.",
-      "errorToast": "Não foi possível enviar. Tente novamente."
+      "errorToast": "Não foi possível enviar. Tente novamente.",
+      "extras": {
+        "mostRequested": "Mais Pedido",
+        "selectedLabel": "Extras Selecionados",
+        "itemsLabel": "{count, plural, one {# item} other {# itens}}",
+        "fromPrice": "A partir de",
+        "unitMain": "Viatura principal",
+        "unitPerCar": "Por viatura",
+        "unitPerArrival": "Por chegada",
+        "unitPerMoment": "Por momento",
+        "unitPerGuest": "Mínimo 10",
+        "unitOnLocation": "2h no local",
+        "pricePerGuest": "/pp",
+        "items": {
+          "matricula": {
+            "title": "Matrícula Personalizada",
+            "desc": "Placa decorativa removível com as iniciais ou nomes dos noivos e a data. Tipografia em ouro sobre fundo cremoso. Discreta e elegante."
+          },
+          "floral": {
+            "title": "Decoração floral premium",
+            "desc": "Composição de flores frescas no capot da viatura principal, coordenada com a paleta do bouquet da noiva. Florista parceira de Sintra."
+          },
+          "champanhe": {
+            "title": "Pack champanhe a bordo",
+            "desc": "Veuve Clicquot ou Moët & Chandon refrigerados, duas taças de cristal, serviço discreto pelo chauffeur. Pequeno brinde antes da cerimónia."
+          },
+          "justMarried": {
+            "title": "Fita & latas Just Married",
+            "desc": "Fita personalizada em ouro com nomes e data, latas decorativas a tilintar atrás da viatura. O clássico, feito com elegância."
+          },
+          "redCarpet": {
+            "title": "Tapete vermelho à chegada",
+            "desc": "Red carpet desenrolado à descida da viatura, dois postes em ouro com cordão. Dois assistentes uniformizados no momento de chegada."
+          },
+          "petalas": {
+            "title": "Pétalas de rosa naturais",
+            "desc": "Dispersão coreografada de pétalas frescas na chegada ou saída dos noivos. Apenas flores naturais, biodegradáveis, em tons coordenados."
+          },
+          "welcomeKit": {
+            "title": "Kit boas-vindas para convidados",
+            "desc": "Água Évian, toalha fria perfumada com lavanda e leque elegante com monograma do casal. Servido nas viaturas de cortejo."
+          },
+          "classicCar": {
+            "title": "Veículo clássico para fotografia",
+            "desc": "Rolls-Royce Phantom dos anos 60, Mercedes 280SE Cabriolet ou Bentley S2. Estacionado no local da cerimónia para sessão fotográfica."
+          }
+        }
+      }
     },
     "faq": {
       "eyebrow": "FAQ",

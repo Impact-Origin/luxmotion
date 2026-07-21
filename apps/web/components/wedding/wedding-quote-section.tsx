@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { ArrowLeft, ArrowRight, Calendar } from "lucide-react"
+import { ArrowLeft, ArrowRight, Calendar, Check } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { toast } from "sonner"
@@ -20,6 +20,116 @@ import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
+
+type ExtraPriceShape = "flat" | "perGuest"
+
+interface ExtraDef {
+  id: string
+  image: string
+  price: number
+  unitKey: string
+  priceShape: ExtraPriceShape
+  mostRequested?: boolean
+}
+
+// Preços por extra. O kit de boas-vindas é o único cobrado por convidado.
+const EXTRAS: ExtraDef[] = [
+  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.png", price: 45, unitKey: "unitMain", priceShape: "flat" },
+  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.png", price: 180, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
+  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.png", price: 95, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.png", price: 25, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.png", price: 120, unitKey: "unitPerArrival", priceShape: "flat" },
+  { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 60, unitKey: "unitPerMoment", priceShape: "flat" },
+  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.png", price: 12, unitKey: "unitPerGuest", priceShape: "perGuest" },
+  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.png", price: 350, unitKey: "unitOnLocation", priceShape: "flat", mostRequested: true },
+]
+
+function ExtraCard({
+  def,
+  title,
+  desc,
+  unitLabel,
+  mostRequestedLabel,
+  pricePerGuestSuffix,
+  selected,
+  onToggle,
+}: {
+  def: ExtraDef
+  title: string
+  desc: string
+  unitLabel: string
+  mostRequestedLabel: string
+  pricePerGuestSuffix: string
+  selected: boolean
+  onToggle: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={selected}
+      className={cn(
+        "group text-left flex flex-col bg-white border transition-colors w-full overflow-hidden focus:outline-none",
+        selected
+          ? "border-[#a8833a]"
+          : "border-[rgba(168,131,58,0.18)] hover:border-[rgba(168,131,58,0.55)]",
+      )}
+    >
+      <div className="relative w-full aspect-[164/126] bg-[#faf7f2] overflow-hidden">
+        <Image
+          src={def.image}
+          alt={title}
+          fill
+          sizes="(min-width: 768px) 25vw, 50vw"
+          className="object-cover"
+        />
+        {def.mostRequested && (
+          <span
+            className="absolute top-2 left-2 inline-flex items-center bg-[#a08248] text-white text-[9px] font-semibold uppercase tracking-[1px] px-2 py-1"
+            style={SANS_FONT}
+          >
+            {mostRequestedLabel}
+          </span>
+        )}
+        <span
+          className={cn(
+            "absolute top-2 right-2 inline-flex items-center justify-center size-5 border transition-colors",
+            selected
+              ? "bg-[#a08248] border-[#a08248] text-white"
+              : "bg-white/90 border-[rgba(168,131,58,0.35)] text-transparent group-hover:border-[#a08248]",
+          )}
+          aria-hidden
+        >
+          <Check className="size-3.5" strokeWidth={3} />
+        </span>
+      </div>
+      <div className="flex flex-col gap-2 px-3 pt-3 pb-2 flex-1">
+        <h3 className="text-[16px] leading-tight font-normal text-[#1a1612]" style={SERIF_FONT}>
+          {title}
+        </h3>
+        <p className="text-[12px] leading-[1.35] text-[#7a746e] line-clamp-4" style={SANS_FONT}>
+          {desc}
+        </p>
+      </div>
+      <div className="mt-auto bg-[#faf7f2] border-t border-[rgba(168,131,58,0.12)] px-3 py-2 flex items-baseline justify-between gap-2">
+        <span className="text-[18px] font-light text-[#a08248] leading-none" style={SERIF_FONT}>
+          €{def.price}
+          {def.priceShape === "perGuest" && (
+            <span className="text-[11px] font-normal" style={SANS_FONT}>
+              {pricePerGuestSuffix}
+            </span>
+          )}
+        </span>
+        <span
+          className="text-[9px] font-semibold uppercase tracking-[0.9px] text-[#7a746e] text-right leading-tight"
+          style={SANS_FONT}
+        >
+          {unitLabel}
+        </span>
+      </div>
+    </button>
+  )
+}
 
 const VEHICLE_OPTIONS = [
   { id: "standard", src: "/wedding/quote-standard.png", labelKey: "vehicles.standard" },
@@ -261,6 +371,22 @@ export function WeddingQuoteSection() {
   const [numVehicles, setNumVehicles] = useState<string>("")
   const [budget, setBudget] = useState<number>(BUDGET_MIN)
   const [submitting, setSubmitting] = useState(false)
+  const [selectedExtras, setSelectedExtras] = useState<Set<string>>(new Set())
+
+  // "A partir de": os por-convidado contam uma unidade até sabermos o nº real.
+  const selectedExtrasTotal = useMemo(
+    () => EXTRAS.filter((e) => selectedExtras.has(e.id)).reduce((sum, e) => sum + e.price, 0),
+    [selectedExtras],
+  )
+
+  function toggleExtra(id: string) {
+    setSelectedExtras((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
   const submitMutation = useMutation(api.weddingQuoteSubmissions.submit)
   const budgetPct = ((budget - BUDGET_MIN) / (BUDGET_MAX - BUDGET_MIN)) * 100
   const { ref: revealRef, reveal } = useScrollReveal<HTMLDivElement>()
@@ -286,7 +412,19 @@ export function WeddingQuoteSection() {
         numVehicles: numVehiclesNum,
         budget,
         vehicle: selectedVehicle,
-        message: (fd.get("notes") || "").toString() || undefined,
+        // Os extras não têm campo próprio no schema — vão anexados à mensagem,
+        // como no formulário whitelabel.
+        message:
+          [
+            (fd.get("notes") || "").toString() || null,
+            selectedExtras.size
+              ? `Extras: ${EXTRAS.filter((e) => selectedExtras.has(e.id))
+                  .map((e) => t(`extras.items.${e.id}.title`))
+                  .join(", ")}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join("\n\n") || undefined,
       })
       toast.success(t("successToast"))
       formEl.reset()
@@ -442,6 +580,50 @@ export function WeddingQuoteSection() {
                 label: t(o.labelKey),
               }))}
             />
+          </div>
+
+          <div className="flex flex-col gap-3 w-full">
+            <FieldLabel text={t("fields.extras")} />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-[6px]">
+              {EXTRAS.map((def) => (
+                <ExtraCard
+                  key={def.id}
+                  def={def}
+                  title={t(`extras.items.${def.id}.title`)}
+                  desc={t(`extras.items.${def.id}.desc`)}
+                  unitLabel={t(`extras.${def.unitKey}`)}
+                  mostRequestedLabel={t("extras.mostRequested")}
+                  pricePerGuestSuffix={t("extras.pricePerGuest")}
+                  selected={selectedExtras.has(def.id)}
+                  onToggle={() => toggleExtra(def.id)}
+                />
+              ))}
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 border border-[rgba(168,131,58,0.18)] bg-white px-4 md:px-5 py-3 md:py-4">
+              <div className="flex flex-col gap-1">
+                <span
+                  className="text-[10px] font-semibold uppercase tracking-[1.35px] text-[#7a746e] leading-none"
+                  style={SANS_FONT}
+                >
+                  {t("extras.selectedLabel")}
+                </span>
+                <span className="text-[14px] text-[#1a1612] leading-none" style={SANS_FONT}>
+                  {t("extras.itemsLabel", { count: selectedExtras.size })}
+                </span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-[14px] text-[#7a746e] leading-none" style={SANS_FONT}>
+                  {t("extras.fromPrice")}
+                </span>
+                <span
+                  className="text-[28px] md:text-[32px] font-light text-[#a08248] leading-none italic"
+                  style={SERIF_FONT}
+                >
+                  €{selectedExtrasTotal}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2 w-full">

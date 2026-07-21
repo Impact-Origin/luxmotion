@@ -3227,7 +3227,8 @@
         "numVehicles": "Nombre de Véhicules",
         "budget": "Quel budget avez-vous disponible ?",
         "vehicleType": "Type de Véhicule Préféré",
-        "notes": "Notes Supplémentaires"
+        "notes": "Notes Supplémentaires",
+        "extras": "Extras"
       },
       "placeholders": {
         "fullName": "Votre nom complet",
@@ -3250,7 +3251,54 @@
       "vehiclesScrollNext": "Véhicules suivants",
       "vehiclesScrollPrev": "Véhicules précédents",
       "successToast": "Demande envoyée — nous répondrons sous quelques heures.",
-      "errorToast": "Envoi impossible. Veuillez réessayer."
+      "errorToast": "Envoi impossible. Veuillez réessayer.",
+      "extras": {
+        "mostRequested": "Le plus demandé",
+        "selectedLabel": "Extras sélectionnés",
+        "itemsLabel": "{count, plural, one {# article} other {# articles}}",
+        "fromPrice": "À partir de",
+        "unitMain": "Véhicule principal",
+        "unitPerCar": "Par véhicule",
+        "unitPerArrival": "Par arrivée",
+        "unitPerMoment": "Par moment",
+        "unitPerGuest": "Min. 10",
+        "unitOnLocation": "2h sur place",
+        "pricePerGuest": "/pers.",
+        "items": {
+          "matricula": {
+            "title": "Plaque personnalisée",
+            "desc": "Plaque décorative amovible avec les initiales ou noms des mariés et la date. Typographie dorée sur fond crème. Discrète et élégante."
+          },
+          "floral": {
+            "title": "Décoration florale premium",
+            "desc": "Composition de fleurs fraîches sur le capot du véhicule principal, coordonnée avec la palette du bouquet de la mariée. Fleuriste partenaire à Sintra."
+          },
+          "champanhe": {
+            "title": "Champagne à bord",
+            "desc": "Veuve Clicquot ou Moët & Chandon glacés, deux flûtes en cristal, service discret par le chauffeur. Un petit toast avant la cérémonie."
+          },
+          "justMarried": {
+            "title": "Ruban & boîtes Just Married",
+            "desc": "Ruban personnalisé en or avec noms et date, boîtes décoratives traînant derrière le véhicule. Le classique, réalisé avec élégance."
+          },
+          "redCarpet": {
+            "title": "Tapis rouge à l'arrivée",
+            "desc": "Tapis rouge déroulé à la descente du véhicule, deux poteaux dorés avec cordon. Deux assistants en uniforme au moment de l'arrivée."
+          },
+          "petalas": {
+            "title": "Pétales de rose naturels",
+            "desc": "Dispersion chorégraphiée de pétales fraîches à l'arrivée ou au départ des mariés. Uniquement des fleurs naturelles, biodégradables, dans des tons coordonnés."
+          },
+          "welcomeKit": {
+            "title": "Kit de bienvenue invités",
+            "desc": "Eau Evian, serviette fraîche parfumée à la lavande et éventail élégant au monogramme du couple. Servi dans les véhicules du cortège."
+          },
+          "classicCar": {
+            "title": "Véhicule classique pour photo",
+            "desc": "Rolls-Royce Phantom des années 60, Mercedes 280SE Cabriolet ou Bentley S2. Stationné sur le lieu de la cérémonie pour la séance photo."
+          }
+        }
+      }
     },
     "faq": {
       "eyebrow": "FAQ",

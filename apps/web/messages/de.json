@@ -3324,7 +3324,8 @@
         "numVehicles": "Anzahl Fahrzeuge",
         "budget": "Welches Budget steht zur Verfügung?",
         "vehicleType": "Bevorzugter Fahrzeugtyp",
-        "notes": "Zusätzliche Hinweise"
+        "notes": "Zusätzliche Hinweise",
+        "extras": "Extras"
       },
       "placeholders": {
         "fullName": "Ihr vollständiger Name",
@@ -3347,7 +3348,54 @@
       "vehiclesScrollNext": "Nächste Fahrzeuge",
       "vehiclesScrollPrev": "Vorherige Fahrzeuge",
       "successToast": "Anfrage gesendet — wir antworten innerhalb weniger Stunden.",
-      "errorToast": "Konnte nicht gesendet werden. Bitte erneut versuchen."
+      "errorToast": "Konnte nicht gesendet werden. Bitte erneut versuchen.",
+      "extras": {
+        "mostRequested": "Meistgewählt",
+        "selectedLabel": "Ausgewählte Extras",
+        "itemsLabel": "{count, plural, one {# Element} other {# Elemente}}",
+        "fromPrice": "Ab",
+        "unitMain": "Hauptfahrzeug",
+        "unitPerCar": "Pro Fahrzeug",
+        "unitPerArrival": "Pro Ankunft",
+        "unitPerMoment": "Pro Moment",
+        "unitPerGuest": "Min. 10",
+        "unitOnLocation": "2 Std. vor Ort",
+        "pricePerGuest": "/Pers.",
+        "items": {
+          "matricula": {
+            "title": "Personalisiertes Nummernschild",
+            "desc": "Abnehmbare Dekoplatte mit Initialen oder Namen des Paares und Datum. Goldtypografie auf cremefarbenem Grund. Dezent und elegant."
+          },
+          "floral": {
+            "title": "Premium-Blumendekoration",
+            "desc": "Komposition aus frischen Blumen auf der Motorhaube des Hauptfahrzeugs, abgestimmt auf die Brautstrauß-Palette. Floristen-Partner in Sintra."
+          },
+          "champanhe": {
+            "title": "Champagner an Bord",
+            "desc": "Gekühlter Veuve Clicquot oder Moët & Chandon, zwei Kristallflöten, diskreter Service durch den Chauffeur. Ein kleiner Toast vor der Zeremonie."
+          },
+          "justMarried": {
+            "title": "Just-Married-Band & Dosen",
+            "desc": "Personalisiertes Goldband mit Namen und Datum, dekorative Dosen, die hinter dem Fahrzeug klingeln. Der Klassiker, elegant umgesetzt."
+          },
+          "redCarpet": {
+            "title": "Roter Teppich bei Ankunft",
+            "desc": "Roter Teppich beim Aussteigen aus dem Fahrzeug, zwei goldene Pfosten mit Kordel. Zwei uniformierte Assistenten im Moment der Ankunft."
+          },
+          "petalas": {
+            "title": "Natürliche Rosenblätter",
+            "desc": "Choreografiertes Streuen frischer Blütenblätter bei Ankunft oder Auszug des Paares. Nur natürliche, biologisch abbaubare Blüten in abgestimmten Tönen."
+          },
+          "welcomeKit": {
+            "title": "Willkommens-Kit für Gäste",
+            "desc": "Evian-Wasser, parfümiertes Kühltuch mit Lavendel und eleganter Fächer mit Monogramm des Paares. Serviert in den Konvoi-Fahrzeugen."
+          },
+          "classicCar": {
+            "title": "Klassisches Fahrzeug für Foto",
+            "desc": "Rolls-Royce Phantom aus den 60ern, Mercedes 280SE Cabriolet oder Bentley S2. Geparkt am Zeremonienort für die Foto-Session."
+          }
+        }
+      }
     },
     "faq": {
       "eyebrow": "FAQ",

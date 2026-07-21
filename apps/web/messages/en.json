@@ -3413,7 +3413,8 @@
         "numVehicles": "Number of Vehicles",
         "budget": "What budget do you have available?",
         "vehicleType": "Preferred Vehicle Type",
-        "notes": "Additional Notes"
+        "notes": "Additional Notes",
+        "extras": "Extras"
       },
       "placeholders": {
         "fullName": "Your full name",
@@ -3436,7 +3437,54 @@
       "vehiclesScrollNext": "Next vehicles",
       "vehiclesScrollPrev": "Previous vehicles",
       "successToast": "Quote request sent — we will reply within hours.",
-      "errorToast": "Could not send. Please try again."
+      "errorToast": "Could not send. Please try again.",
+      "extras": {
+        "mostRequested": "Most Requested",
+        "selectedLabel": "Selected Extras",
+        "itemsLabel": "{count, plural, one {# item} other {# items}}",
+        "fromPrice": "Starting from",
+        "unitMain": "Main vehicle",
+        "unitPerCar": "Per vehicle",
+        "unitPerArrival": "Per arrival",
+        "unitPerMoment": "Per moment",
+        "unitPerGuest": "Min. 10",
+        "unitOnLocation": "2h on location",
+        "pricePerGuest": "/pp",
+        "items": {
+          "matricula": {
+            "title": "Personalised Number Plate",
+            "desc": "Removable decorative plate with the couple's initials or names and the date. Gold typography on a cream background. Discreet and elegant."
+          },
+          "floral": {
+            "title": "Premium floral decoration",
+            "desc": "Fresh-flower composition on the main vehicle's bonnet, coordinated with the bride's bouquet palette. Sintra-based florist partner."
+          },
+          "champanhe": {
+            "title": "Champagne on board",
+            "desc": "Chilled Veuve Clicquot or Moët & Chandon, two crystal flutes, discreet service by the chauffeur. A small toast before the ceremony."
+          },
+          "justMarried": {
+            "title": "Just Married ribbon & cans",
+            "desc": "Personalised gold ribbon with names and date, decorative cans trailing behind the vehicle. The classic, done with elegance."
+          },
+          "redCarpet": {
+            "title": "Red carpet on arrival",
+            "desc": "Red carpet rolled out as you step down from the vehicle, two gold stanchions with rope. Two uniformed attendants at the moment of arrival."
+          },
+          "petalas": {
+            "title": "Natural rose petals",
+            "desc": "Choreographed dispersal of fresh petals at the couple's arrival or exit. Only natural, biodegradable flowers in coordinated tones."
+          },
+          "welcomeKit": {
+            "title": "Guest welcome kit",
+            "desc": "Evian water, scented cool towel with lavender and an elegant fan with the couple's monogram. Served in the procession vehicles."
+          },
+          "classicCar": {
+            "title": "Classic car for photography",
+            "desc": "1960s Rolls-Royce Phantom, Mercedes 280SE Cabriolet or Bentley S2. Parked at the ceremony venue for the photo session."
+          }
+        }
+      }
     },
     "faq": {
       "eyebrow": "FAQ",

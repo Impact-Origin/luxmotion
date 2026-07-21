@@ -3227,7 +3227,8 @@
         "numVehicles": "Aantal Voertuigen",
         "budget": "Welk budget heeft u beschikbaar?",
         "vehicleType": "Voorkeursvoertuig",
-        "notes": "Aanvullende Notities"
+        "notes": "Aanvullende Notities",
+        "extras": "Extra's"
       },
       "placeholders": {
         "fullName": "Uw volledige naam",
@@ -3250,7 +3251,54 @@
       "vehiclesScrollNext": "Volgende voertuigen",
       "vehiclesScrollPrev": "Vorige voertuigen",
       "successToast": "Aanvraag verzonden — we reageren binnen enkele uren.",
-      "errorToast": "Verzenden mislukt. Probeer het opnieuw."
+      "errorToast": "Verzenden mislukt. Probeer het opnieuw.",
+      "extras": {
+        "mostRequested": "Meest Gevraagd",
+        "selectedLabel": "Geselecteerde Extra's",
+        "itemsLabel": "{count, plural, one {# item} other {# items}}",
+        "fromPrice": "Vanaf",
+        "unitMain": "Hoofdvoertuig",
+        "unitPerCar": "Per voertuig",
+        "unitPerArrival": "Per aankomst",
+        "unitPerMoment": "Per moment",
+        "unitPerGuest": "Min. 10",
+        "unitOnLocation": "2u ter plaatse",
+        "pricePerGuest": "/pp",
+        "items": {
+          "matricula": {
+            "title": "Gepersonaliseerd nummerbord",
+            "desc": "Afneembare decoratieve plaat met initialen of namen van het paar en de datum. Gouden typografie op crème ondergrond. Discreet en elegant."
+          },
+          "floral": {
+            "title": "Premium bloemendecoratie",
+            "desc": "Compositie van verse bloemen op de motorkap van het hoofdvoertuig, afgestemd op het palet van het bruidsboeket. Floristpartner in Sintra."
+          },
+          "champanhe": {
+            "title": "Champagne aan boord",
+            "desc": "Gekoelde Veuve Clicquot of Moët & Chandon, twee kristallen flûtes, discrete service door de chauffeur. Een kleine toost vóór de ceremonie."
+          },
+          "justMarried": {
+            "title": "Just Married lint & blikjes",
+            "desc": "Gepersonaliseerd gouden lint met namen en datum, decoratieve blikjes rinkelend achter het voertuig. De klassieker, met elegantie uitgevoerd."
+          },
+          "redCarpet": {
+            "title": "Rode loper bij aankomst",
+            "desc": "Rode loper uitgerold bij het uitstappen, twee gouden palen met koord. Twee geüniformeerde assistenten op het moment van aankomst."
+          },
+          "petalas": {
+            "title": "Natuurlijke rozenblaadjes",
+            "desc": "Gechoreografeerde verspreiding van verse blaadjes bij aankomst of vertrek van het paar. Alleen natuurlijke, biologisch afbreekbare bloemen in afgestemde tinten."
+          },
+          "welcomeKit": {
+            "title": "Welkomstkit voor gasten",
+            "desc": "Evian-water, geparfumeerde koele handdoek met lavendel en elegante waaier met monogram van het paar. Geserveerd in de stoetvoertuigen."
+          },
+          "classicCar": {
+            "title": "Klassiek voertuig voor foto's",
+            "desc": "Rolls-Royce Phantom uit de jaren 60, Mercedes 280SE Cabriolet of Bentley S2. Geparkeerd op de ceremonielocatie voor de fotosessie."
+          }
+        }
+      }
     },
     "faq": {
       "eyebrow": "FAQ",
