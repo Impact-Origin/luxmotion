@@ -30,10 +30,11 @@ function FoundersWatermark({ size = "desktop" }: { size?: "desktop" | "mobile" }
       </div>
       <div className="flex flex-col">
         <div className="relative" style={{ width: wordmarkW, height: wordmarkH }}>
-          <Image src="/svgs/luxmotion-text.svg" alt="LuxMotion" fill className="object-contain object-left" priority />
+          {/* Wordmark branco: lm-logo-mono passa-o a preto no tema claro. */}
+          <Image src="/svgs/luxmotion-text.svg" alt="LuxMotion" fill className="lm-logo-mono object-contain object-left" priority />
         </div>
         <span
-          className="text-[#999] uppercase whitespace-nowrap"
+          className="text-[var(--lm-muted,#999)] uppercase whitespace-nowrap"
           style={{
             fontFamily: "var(--font-sans), system-ui, sans-serif",
             fontSize: tagSize,
