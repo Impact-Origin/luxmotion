@@ -54,7 +54,7 @@ export function WeddingPlannersSection() {
         <div className="flex-1 relative">
           <div className="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden">
             <Image
-              src="/b2b/wedding-planners.png"
+              src="/b2b/wedding-planners.webp"
               alt={t("photoAlt")}
               fill
               className="object-cover"
