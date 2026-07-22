@@ -177,7 +177,9 @@ export function CheckoutHeader({
 
   return (
     <header className="bg-[var(--ck-bg,#0d0d0d)] border-b border-[var(--ck-divider,rgba(var(--ck-text-rgb,247,244,239),0.08))]">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-[48px] 2xl:px-[130px] h-[60px] md:h-[72px] flex items-center justify-between">
+      {/* Mesmo container do conteúdo (checkout-page: max-w-[1200px] px-6) para o
+          logo cair sobre a margem esquerda e o idioma sobre a direita. */}
+      <div className="max-w-[1200px] mx-auto px-6 h-[60px] md:h-[72px] flex items-center justify-between">
         <LuxMotionLogo />
 
         <div className="flex items-center gap-[12px]">
