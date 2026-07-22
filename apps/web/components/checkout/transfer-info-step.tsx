@@ -941,6 +941,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
               }}
               placeholder={t("departureLocation")}
               variant="tours-hero-dark"
+              dropdownDark={isDarkCheckout}
               hideLeftIcon
             />
           </DarkFieldBox>
@@ -975,6 +976,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 onChange={(v) => handleUpdateStop(index, v)}
                 placeholder={t("destinationLocation")}
                 variant="tours-hero-dark"
+                dropdownDark={isDarkCheckout}
                 hideLeftIcon
               />
             </DarkFieldBox>
@@ -1010,6 +1012,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
               }}
               placeholder={t("destinationLocation")}
               variant="tours-hero-dark"
+              dropdownDark={isDarkCheckout}
               hideLeftIcon
             />
           </DarkFieldBox>
