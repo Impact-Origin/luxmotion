@@ -7,6 +7,7 @@ import { DateTimePicker } from "@/components/checkout/date-time-picker"
 import { AnimatedCollapse } from "@/components/checkout/shared"
 import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
+import { useCheckoutTheme } from "@/components/checkout/checkout-theme"
 import { GooglePlacesInput } from "@/components/ui/google-places-input"
 import { initOrder, createReturnOrder, registTrip, selectCar, toBackendLocation, formatLocalDate, formatLocalDateTime, lookupFlight } from "@/lib/orders"
 import { readReferralCookie } from "@/lib/referral"
@@ -298,6 +299,10 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const convex = useConvex()
   const tCommon = useTranslations("common")
   const { state, updateTransfer, setOrder, setStep, setUpgradeMode, setShowTransferForm } = useCheckout()
+  // O DateTimePicker "new-widget" força tema escuro; passar o tema real do
+  // checkout para o texto da data não ficar branco em light mode.
+  const { theme: checkoutTheme } = useCheckoutTheme()
+  const isDarkCheckout = checkoutTheme === "dark"
   const { transfer, selectedVehicle, distance, routeDuration, orderId, payment, experiences } = state
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
@@ -1018,6 +1023,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 value={transfer.departureDate}
                 onChange={(d) => updateTransfer({ departureDate: d })}
                 variant="new-widget"
+                dark={isDarkCheckout}
                 hideLeftIcon
               />
             </DarkFieldBox>
@@ -1033,6 +1039,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 onChange={(d) => updateTransfer({ returnDate: d })}
                 placeholder={t("return") || "Regresso"}
                 variant="new-widget"
+                dark={isDarkCheckout}
                 hideLeftIcon
               />
             </DarkFieldBox>

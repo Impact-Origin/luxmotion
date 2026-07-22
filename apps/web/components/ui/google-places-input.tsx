@@ -216,8 +216,11 @@ export function GooglePlacesInput({
               setShowDropdown(true)
             }}
             placeholder={placeholder}
-            className="flex-1 min-w-0 w-full text-[13px] text-white placeholder:text-[rgba(var(--lm-text-rgb,255,255,255),0.22)] font-normal outline-none bg-transparent"
-            style={{ caretColor: "var(--lm-accent,#C9A96E)" }}
+            /* Tokens do checkout: em light mode o texto e o placeholder passam
+               a escuro em vez de branco. No tours-hero (sem .checkout-theme) os
+               fallbacks mantêm o aspeto claro sobre fundo escuro. */
+            className="flex-1 min-w-0 w-full text-[13px] text-[var(--ck-text,#f7f4ef)] placeholder:text-[var(--ck-text-subtle,#696969)] font-normal outline-none bg-transparent"
+            style={{ caretColor: "var(--ck-accent,#c9a96e)" }}
           />
         </div>
       ) : isToursHero ? (
