@@ -118,8 +118,10 @@ export function VehicleInfoTooltip({ vehicleName, examples, onClose }: VehicleIn
           </button>
         </div>
 
-        {/* Caixa única dividida ao meio — não dois cartões soltos. */}
-        <div className="mx-4 md:mx-6 mb-4 md:mb-6 border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
+        {/* Bandas verde/vermelho a sangrar até às bordas: sem margens nem border
+            à volta — o verde encosta à esquerda e ao fundo, o vermelho à direita
+            e ao fundo. Só fica o divisor central entre as duas. */}
+        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
           <InfoColumn title={t("included")} items={included} tone="included" />
           <InfoColumn title={t("notIncluded")} items={notIncluded} tone="notIncluded" />
         </div>
