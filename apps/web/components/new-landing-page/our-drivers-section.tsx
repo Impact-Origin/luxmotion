@@ -76,8 +76,8 @@ export function OurDriversSection() {
                   aria-hidden={!active}
                   className={`col-start-1 row-start-1 transition-[opacity,transform,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     active
-                      ? "opacity-100 translate-y-0 blur-0 pointer-events-auto"
-                      : "opacity-0 translate-y-3 blur-[2px] pointer-events-none"
+                      ? "opacity-100 translate-x-0 blur-0 pointer-events-auto"
+                      : "opacity-0 translate-x-6 blur-[2px] pointer-events-none"
                   }`}
                 >
                   <DriverSlide
