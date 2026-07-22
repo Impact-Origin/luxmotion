@@ -222,11 +222,15 @@ function CheckoutPageContent() {
     // If an admin mapped a premium vehicle to the selected (standard) one, offer
     // the upgrade once per session before advancing to the transfer form.
     if (!upgradeOfferSeen) {
-      const premium = vehicles.find(
-        (v) => v.upgradeFromVehicleId === selectedVehicle.id,
-      )
-      if (premium && upgradeDelta(selectedVehicle, premium) > 0) {
-        setUpgradeCandidate(premium)
+      // O mapa de upgrade pode estar guardado em qualquer um dos dois veículos
+      // do par: o rótulo do admin pede que o premium aponte para o standard, mas
+      // os dados reais têm o standard a apontar para o premium. Aceitamos as duas
+      // direções e, com o guard de delta > 0, oferecemos sempre só o mais caro.
+      const linked =
+        vehicles.find((v) => v.id === selectedVehicle.upgradeFromVehicleId) ??
+        vehicles.find((v) => v.upgradeFromVehicleId === selectedVehicle.id)
+      if (linked && upgradeDelta(selectedVehicle, linked) > 0) {
+        setUpgradeCandidate(linked)
         setUpgradeOfferSeen(true)
         return
       }

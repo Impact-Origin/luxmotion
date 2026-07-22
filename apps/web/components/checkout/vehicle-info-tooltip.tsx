@@ -139,10 +139,10 @@ function InfoColumn({
 }) {
   const Icon = tone === "included" ? Check : X
   const iconColor = tone === "included" ? "text-[#2E7D52]" : "text-[#E32828]"
-  // Fundo verde/vermelho por trás de cada coluna (inline: a classe arbitrária
-  // com rgba não é fiável no Tailwind).
+  // Fundo verde/vermelho por trás de cada coluna, bem visível (inline: a classe
+  // arbitrária com rgba não é fiável no Tailwind).
   const colBg =
-    tone === "included" ? "rgba(46,125,82,0.16)" : "rgba(227,40,40,0.14)"
+    tone === "included" ? "rgba(46,125,82,0.32)" : "rgba(227,40,40,0.28)"
 
   return (
     <div className="p-4 md:p-5" style={{ backgroundColor: colBg }}>
