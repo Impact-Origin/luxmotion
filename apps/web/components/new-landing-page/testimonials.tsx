@@ -32,17 +32,22 @@ const REVIEW_PHOTOS = [
 function CarouselArrow({
   direction,
   onClick,
+  topClass,
+  label,
 }: {
   direction: "prev" | "next"
   onClick: () => void
+  /** Posição vertical: centra-se na linha das fotos ou na das reviews. */
+  topClass: string
+  label: string
 }) {
   const isPrev = direction === "prev"
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={isPrev ? "Reviews anteriores" : "Reviews seguintes"}
-      className={`absolute top-[367px] -translate-y-1/2 z-10 grid size-11 place-items-center border border-[rgba(var(--lm-text-rgb,255,255,255),0.2)] bg-[var(--lm-bg,#0D0D0D)]/80 text-[var(--lm-text,#fff)] backdrop-blur-sm transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)] ${
+      aria-label={label}
+      className={`absolute ${topClass} -translate-y-1/2 z-10 grid size-11 place-items-center border border-[rgba(var(--lm-text-rgb,255,255,255),0.2)] bg-[var(--lm-bg,#0D0D0D)]/80 text-[var(--lm-text,#fff)] backdrop-blur-sm transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)] ${
         isPrev ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2"
       }`}
     >
@@ -224,6 +229,8 @@ export function Testimonials({
 } = {}) {
   const t = useTranslations("testimonials")
   const [currentPage, setCurrentPage] = useState(0)
+  // Página das fotos, separada da das reviews: cada carrossel anda sozinho.
+  const [photoPage, setPhotoPage] = useState(0)
   const [googleReviews, setGoogleReviews] = useState<GoogleReviewsData | null>(null)
   const featuredReviews = useQuery(api.tourReviews.listFeatured)
 
@@ -271,17 +278,24 @@ export function Testimonials({
 
   const swipeHandlers = useSwipe(nextPage, prevPage)
 
-  // Janela deslizante: cada clique avança UMA review, não um bloco de quatro.
-  const startIdx =
+  const nextPhoto = useCallback(() => {
+    setPhotoPage((p) => (p + 1) % REVIEW_PHOTOS.length)
+  }, [])
+  const prevPhoto = useCallback(() => {
+    setPhotoPage((p) => (p - 1 + REVIEW_PHOTOS.length) % REVIEW_PHOTOS.length)
+  }, [])
+
+  // Janela deslizante: cada clique avança UMA posição, não um bloco de quatro.
+  // Índices separados para que fotos e reviews andem de forma independente.
+  const reviewStartIdx =
     reviews.length > 0 ? ((currentPage % reviews.length) + reviews.length) % reviews.length : 0
+  const photoStartIdx =
+    ((photoPage % REVIEW_PHOTOS.length) + REVIEW_PHOTOS.length) % REVIEW_PHOTOS.length
   // Faixa duplicada: os itens ficam montados e a faixa translada, por isso
   // desliza de verdade em vez de piscar. A cópia garante conteúdo à direita
   // enquanto se avança até ao fim da lista.
   const reviewTrack = [...reviews, ...reviews]
-  const photoTrack = Array.from(
-    { length: reviews.length + desktopItemsPerPage },
-    (_, i) => REVIEW_PHOTOS[i % REVIEW_PHOTOS.length]!,
-  )
+  const photoTrack = [...REVIEW_PHOTOS, ...REVIEW_PHOTOS]
   const mobileReview = reviews[currentPage % reviews.length]
   const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
 
@@ -346,7 +360,7 @@ export function Testimonials({
             <div className="overflow-hidden">
             <div
               className="flex gap-[2px] transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${startIdx * (100 / desktopItemsPerPage)}%)` }}
+              style={{ transform: `translateX(-${photoStartIdx * (100 / desktopItemsPerPage)}%)` }}
             >
               {photoTrack.map((photo, i) => (
                 <div
@@ -372,7 +386,7 @@ export function Testimonials({
             <div className="overflow-hidden">
               <div
                 className="flex gap-[2px] transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${startIdx * (100 / desktopItemsPerPage)}%)` }}
+                style={{ transform: `translateX(-${reviewStartIdx * (100 / desktopItemsPerPage)}%)` }}
               >
                 {reviewTrack.map((review, i) => (
                   <div
@@ -386,10 +400,13 @@ export function Testimonials({
             </div>
           </div>
 
-          {/* Na costura entre as duas linhas: a das fotos tem 355px e o gap
-              são 24px, logo o meio da junção está a 367px do topo do bloco. */}
-          <CarouselArrow direction="prev" onClick={prevPage} />
-          <CarouselArrow direction="next" onClick={nextPage} />
+          {/* Fotos e reviews têm setas próprias. A linha das fotos mede 355px
+              (centro ~178) e a das reviews começa a 379px (355+24 de gap) e
+              mede 260px (centro ~509). Cada par anda só o seu carrossel. */}
+          <CarouselArrow direction="prev" onClick={prevPhoto} topClass="top-[178px]" label="Fotos anteriores" />
+          <CarouselArrow direction="next" onClick={nextPhoto} topClass="top-[178px]" label="Fotos seguintes" />
+          <CarouselArrow direction="prev" onClick={prevPage} topClass="top-[509px]" label="Reviews anteriores" />
+          <CarouselArrow direction="next" onClick={nextPage} topClass="top-[509px]" label="Reviews seguintes" />
         </div>
 
         <div className="md:hidden flex flex-col gap-6 w-full mt-10" {...swipeHandlers}>
