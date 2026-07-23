@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { internal } from "./_generated/api"
 import { resolveReferral } from "./lib/referral"
 
 const statusValidator = v.union(
@@ -35,6 +36,14 @@ export const submit = mutation({
       status: "submitted",
       queuePosition,
       createdAt: Date.now(),
+    })
+
+    // Confirmacao ao cliente (via API EasyTransfer -> template SendGrid Corporate)
+    await ctx.scheduler.runAfter(0, internal.webhooks.sendPedido, {
+      tipo: "corporate",
+      email: args.email,
+      nome: args.fullName,
+      dados: {},
     })
 
     return { id, queuePosition }
