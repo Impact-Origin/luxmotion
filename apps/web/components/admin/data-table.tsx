@@ -234,11 +234,13 @@ export function DataTable<T extends { _id: string }>({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={ALL}>{f.label}</SelectItem>
-              {f.options.map((o) => (
-                <SelectItem key={o.value} value={o.value}>
-                  {o.label}
-                </SelectItem>
-              ))}
+              {f.options
+                .filter((o) => o.value !== "")
+                .map((o) => (
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         ))}

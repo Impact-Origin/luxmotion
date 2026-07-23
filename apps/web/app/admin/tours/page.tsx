@@ -236,7 +236,9 @@ export default function AdminToursPage() {
       id: "destination",
       label: t("allDestinations"),
       width: "w-[150px]",
-      options: (destinations ?? []).map((dest) => ({ value: dest, label: dest })),
+      options: (destinations ?? [])
+        .filter((dest): dest is string => Boolean(dest?.trim()))
+        .map((dest) => ({ value: dest, label: dest })),
       predicate: (tour, val) => tour.destination === val,
     },
   ]

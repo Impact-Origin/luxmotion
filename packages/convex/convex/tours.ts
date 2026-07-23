@@ -693,7 +693,8 @@ export const getDestinations = query({
       ...new Set(
         tours
           .filter((t) => t.isUltraLuxury !== true)
-          .map((t) => t.destination),
+          .map((t) => t.destination)
+          .filter((d) => d.trim() !== ""),
       ),
     ];
     return destinations.sort();
