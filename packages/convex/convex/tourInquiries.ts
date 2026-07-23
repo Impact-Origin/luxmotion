@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { resolveReferral } from "./lib/referral";
 
 export const submit = mutation({
@@ -24,13 +25,27 @@ export const submit = mutation({
   handler: async (ctx, args) => {
     const { referralSlug, ...rest } = args;
     const ref = await resolveReferral(ctx, referralSlug);
-    return await ctx.db.insert("tourInquiries", {
+    const id = await ctx.db.insert("tourInquiries", {
       ...rest,
       partnershipId: ref.partnershipId,
       partnershipName: ref.partnershipName,
       status: "new",
       createdAt: Date.now(),
     });
+
+    // Confirmacao ao cliente (via API EasyTransfer -> template SendGrid Tour)
+    await ctx.scheduler.runAfter(0, internal.webhooks.sendPedido, {
+      tipo: "tour",
+      email: args.email,
+      nome: args.name,
+      dados: {
+        nome_tour: args.tourTitle ?? "",
+        data_tour: args.date ?? "",
+        total_passageiros: args.people ?? "",
+      },
+    });
+
+    return id;
   },
 });
 

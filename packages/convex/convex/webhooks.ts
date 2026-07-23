@@ -13,6 +13,45 @@ const LEAD_WEBHOOK_URL =
   process.env.EASYTRANSFER_LEAD_WEBHOOK_URL ??
   "https://webhooks.easytransferericeira.com/webhook/novo_lead";
 
+// Pedidos nao-transfer (tour/casamento/corporate/escola) -> confirmacao por email.
+const PEDIDO_WEBHOOK_URL =
+  process.env.EASYTRANSFER_PEDIDO_WEBHOOK_URL ??
+  "https://vmtcugydsqkbfzuyajxh.supabase.co/functions/v1/webhook-pedido";
+
+/**
+ * Internal action: envia um pedido nao-transfer para a API EasyTransfer, que
+ * dispara o email de confirmacao ao cliente com o template SendGrid do tipo.
+ */
+export const sendPedido = internalAction({
+  args: {
+    tipo: v.string(),
+    email: v.string(),
+    nome: v.optional(v.string()),
+    dados: v.optional(v.any()),
+  },
+  handler: async (_ctx, args): Promise<void> => {
+    try {
+      const res = await fetch(PEDIDO_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tipo: args.tipo,
+          email: args.email,
+          nome: args.nome,
+          dados: args.dados ?? {},
+        }),
+      });
+      if (res.ok) {
+        console.log("[Pedido] Confirmacao enviada:", args.tipo, args.email);
+      } else {
+        console.warn("[Pedido] POST failed:", res.status, res.statusText, await res.text());
+      }
+    } catch (e) {
+      console.warn("[Pedido] POST error:", e);
+    }
+  },
+});
+
 /**
  * Internal action: after payment is confirmed (transfer or tour), build the order
  * payload (outbound + return if round trip) and POST to the EasyTransfer webhook.
