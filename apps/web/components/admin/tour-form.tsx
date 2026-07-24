@@ -754,16 +754,16 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
 
                   <div className="space-y-1.5">
                     <Label>{t("form.tourLanguagesLabel")}</Label>
-                    {/* flex-1 + wrap: os botões preenchem cada linha por igual
-                        (incluindo a última) e mantêm a mesma altura. */}
-                    <div className="flex flex-wrap gap-2">
+                    {/* Grelha de colunas iguais: os botões preenchem a largura
+                        toda, do mesmo tamanho, sem espaços no meio. */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
                       {TOUR_LANGUAGES.map((lang) => (
                         <button
                           key={lang}
                           type="button"
                           onClick={() => toggleTourLanguage(lang)}
                           disabled={isSubmitting}
-                          className={`flex-1 min-w-[84px] h-9 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                          className={`w-full h-9 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                             tourLanguages.includes(lang)
                               ? "bg-primary text-primary-foreground"
                               : "bg-muted text-muted-foreground hover:bg-accent"
