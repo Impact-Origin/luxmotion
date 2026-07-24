@@ -64,6 +64,15 @@ interface TourFormProps {
   initialData?: any
 }
 
+// Idioma guardado pode vir por extenso ("English") de dados antigos; mapeia-o
+// ao código ("en") para bater com as opções do Select e ficar pré-preenchido.
+function normalizeLang(v?: string): string {
+  if (!v) return "pt"
+  if (LANGUAGES.some((l) => l.value === v)) return v
+  const byLabel = LANGUAGES.find((l) => l.label.toLowerCase() === v.toLowerCase())
+  return byLabel ? byLabel.value : v
+}
+
 export function TourForm({ onClose, initialData }: TourFormProps) {
   const t = useTranslations("adminTours")
   const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -151,7 +160,7 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
       setSubtitle(initialData.subtitle || "")
       setDescription(initialData.description || null)
       setTourType(initialData.tourType || "Group Tour")
-      setOriginalLanguage(initialData.originalLanguage || "pt")
+      setOriginalLanguage(normalizeLang(initialData.originalLanguage))
       setCategory(initialData.category || "tours")
       setDestination(initialData.destination || "Lisboa")
       setDuration(initialData.duration || "")
@@ -675,6 +684,14 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
+                          {/* Valor guardado que não está na lista padrão (o
+                              tourType é livre no schema) — mostra-o à mesma. */}
+                          {tourType &&
+                            !TOUR_TYPES.includes(
+                              tourType as (typeof TOUR_TYPES)[number],
+                            ) && (
+                              <SelectItem value={tourType}>{tourType}</SelectItem>
+                            )}
                           {TOUR_TYPES.map((type) => (
                             <SelectItem key={type} value={type}>
                               {type}
@@ -691,6 +708,13 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
+                          {/* Segurança: valor guardado fora da lista conhecida. */}
+                          {originalLanguage &&
+                            !LANGUAGES.some((l) => l.value === originalLanguage) && (
+                              <SelectItem value={originalLanguage}>
+                                {originalLanguage}
+                              </SelectItem>
+                            )}
                           {LANGUAGES.map((lang) => (
                             <SelectItem key={lang.value} value={lang.value}>
                               {lang.label}
@@ -730,6 +754,8 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
 
                   <div className="space-y-1.5">
                     <Label>{t("form.tourLanguagesLabel")}</Label>
+                    {/* flex-1 + wrap: os botões preenchem cada linha por igual
+                        (incluindo a última) e mantêm a mesma altura. */}
                     <div className="flex flex-wrap gap-2">
                       {TOUR_LANGUAGES.map((lang) => (
                         <button
@@ -737,7 +763,7 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
                           type="button"
                           onClick={() => toggleTourLanguage(lang)}
                           disabled={isSubmitting}
-                          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                          className={`flex-1 min-w-[84px] h-9 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                             tourLanguages.includes(lang)
                               ? "bg-primary text-primary-foreground"
                               : "bg-muted text-muted-foreground hover:bg-accent"
