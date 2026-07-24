@@ -81,10 +81,13 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
   const [title, setTitle] = React.useState("")
   const [subtitle, setSubtitle] = React.useState("")
   const [description, setDescription] = React.useState<any>(null)
-  const [tourType, setTourType] = React.useState("Group Tour")
-  const [originalLanguage, setOriginalLanguage] = React.useState("pt")
-  const [category, setCategory] = React.useState<"tours" | "experiences" | "private" | "stops" | "events">("tours")
-  const [destination, setDestination] = React.useState("Lisboa")
+  // Lazy-init a partir do initialData: o Radix Select não reflete um valor
+  // mudado depois de montar (via useEffect), por isso o valor tem de estar
+  // certo já no primeiro render, senão o dropdown aparece vazio ao editar.
+  const [tourType, setTourType] = React.useState<string>(initialData?.tourType || "Group Tour")
+  const [originalLanguage, setOriginalLanguage] = React.useState<string>(normalizeLang(initialData?.originalLanguage))
+  const [category, setCategory] = React.useState<"tours" | "experiences" | "private" | "stops" | "events">(initialData?.category || "tours")
+  const [destination, setDestination] = React.useState<string>(initialData?.destination || "Lisboa")
   const [duration, setDuration] = React.useState("")
   const [groupSize, setGroupSize] = React.useState("")
   const [tourLanguages, setTourLanguages] = React.useState<string[]>(["English"])
@@ -105,7 +108,7 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
 
   const [basePrice, setBasePrice] = React.useState("")
   const [originalPrice, setOriginalPrice] = React.useState("")
-  const [currency, setCurrency] = React.useState("EUR")
+  const [currency, setCurrency] = React.useState<string>(initialData?.currency || "EUR")
   const [minPassengers, setMinPassengers] = React.useState("")
   const [maxPassengers, setMaxPassengers] = React.useState("")
 
@@ -126,12 +129,12 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
 
   const [bookingDeadlineHours, setBookingDeadlineHours] = React.useState("")
 
-  const [status, setStatus] = React.useState<"draft" | "published" | "archived">("draft")
+  const [status, setStatus] = React.useState<"draft" | "published" | "archived">(initialData?.status || "draft")
   const [isFeatured, setIsFeatured] = React.useState(false)
   const [isBestSeller, setIsBestSeller] = React.useState(false)
   const [isActive, setIsActive] = React.useState(true)
   const [isUltraLuxury, setIsUltraLuxury] = React.useState(false)
-  const [tourTypeTag, setTourTypeTag] = React.useState<string>("")
+  const [tourTypeTag, setTourTypeTag] = React.useState<string>(initialData?.tourTypeTag || "")
   const [durationDays, setDurationDays] = React.useState("")
   const [cancellationPolicy, setCancellationPolicy] = React.useState("")
   const [tags, setTags] = React.useState("")
