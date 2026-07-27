@@ -62,13 +62,18 @@ export function CorporateHero() {
   return (
     <>
       <section className="relative hidden h-[680px] w-full overflow-hidden md:block">
-        <Image
-          src="/corporate/hero.png"
-          alt=""
-          fill
-          priority
-          sizes="(max-width: 1920px) 100vw, 1920px"
-          className="object-cover object-center"
+        {/* Vídeo de fundo, silenciado e em loop. O poster segura o
+            enquadramento enquanto o primeiro frame não pinta. */}
+        <video
+          src="/video/corporate-hero.mp4"
+          poster="/video/corporate-hero-poster.webp"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div
           className="absolute inset-0"
