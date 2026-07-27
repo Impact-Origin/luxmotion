@@ -128,7 +128,10 @@ export function ThreePillars() {
               src={src}
               alt=""
               fill
-              sizes="(max-width: 768px) 100vw, 425px"
+              /* A caixa é retrato e as fotos são horizontais: com object-cover
+                 corta-se a largura, por isso é preciso pedir muito mais px do
+                 que os 425 da caixa — senão vinham imagens baixas e ampliadas. */
+              sizes="(max-width: 768px) 160vw, 1000px"
               priority={i === 0}
               className={`object-cover transition-opacity duration-700 ease-out ${
                 i === slide ? "opacity-100" : "opacity-0"
