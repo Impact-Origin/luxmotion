@@ -10,12 +10,14 @@ import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const PARTNERS = [
-  { src: "/schools/partners/bentley.png", alt: "Bentley" },
-  { src: "/schools/partners/american-airlines.png", alt: "American Airlines" },
-  { src: "/schools/partners/michelin.png", alt: "Michelin" },
-  { src: "/schools/partners/ebaa.png", alt: "EBAA" },
-  { src: "/schools/partners/pestana.png", alt: "Pestana" },
-  { src: "/schools/partners/mercedes-benz.png", alt: "Mercedes-Benz" },
+  { src: "/schools/partners/carlucci-american.webp", alt: "Carlucci American International School of Lisbon" },
+  { src: "/schools/partners/st-julians.webp", alt: "St. Julian's School" },
+  { src: "/schools/partners/charles-lepierre.webp", alt: "Lycée Français Charles Lepierre" },
+  { src: "/schools/partners/kings-college-cascais.webp", alt: "King's College School Cascais" },
+  { src: "/schools/partners/international-school.webp", alt: "International Sharing School" },
+  { src: "/schools/partners/salesianos-estoril.webp", alt: "Salesianos do Estoril" },
+  { src: "/schools/partners/instituto-superior-tecnico.webp", alt: "Instituto Superior Técnico" },
+  { src: "/schools/partners/torres-vedras.webp", alt: "Torres Vedras" },
 ] as const
 
 function PartnerLogo({ src, alt }: { src: string; alt: string }) {
