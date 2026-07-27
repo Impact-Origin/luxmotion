@@ -91,6 +91,9 @@ export function ToursHero() {
             "linear-gradient(155deg, rgba(10,14,15,0.8) 0%, rgba(15,26,20,0.8) 35%, rgba(20,17,10,0.8) 70%, rgba(13,13,13,0.8) 100%)",
         }}
       />
+      {/* Fade em baixo: o vídeo dissolve-se na secção seguinte (#0D0D0D) em
+          vez de cortar a direito, como nos ultra luxury. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#0D0D0D] md:h-44" />
 
       <div className="relative z-10 flex flex-col items-center gap-6 md:gap-7 px-4 md:px-8 py-[89px] w-full max-w-[710px]">
         <div className="flex items-center gap-2">
