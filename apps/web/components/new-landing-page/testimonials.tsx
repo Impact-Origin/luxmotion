@@ -56,6 +56,32 @@ function CarouselArrow({
   )
 }
 
+/** Seta para mobile: sobreposta e centrada dentro de cada carrossel (fotos /
+ *  reviews), inset das bordas para não sair da coluna (px-4). */
+function MobileArrow({
+  direction,
+  onClick,
+  label,
+}: {
+  direction: "prev" | "next"
+  onClick: () => void
+  label: string
+}) {
+  const isPrev = direction === "prev"
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className={`absolute top-1/2 -translate-y-1/2 z-10 grid size-9 place-items-center border border-[rgba(var(--lm-text-rgb,255,255,255),0.2)] bg-[var(--lm-bg,#0D0D0D)]/70 text-[var(--lm-text,#fff)] backdrop-blur-sm transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)] ${
+        isPrev ? "left-2" : "right-2"
+      }`}
+    >
+      <ChevronRight className={`size-5 ${isPrev ? "rotate-180" : ""}`} />
+    </button>
+  )
+}
+
 /** Ficha da empresa no Google, para abrir as reviews todas. */
 const GOOGLE_REVIEWS_URL =
   "https://search.google.com/local/reviews?placeid=ChIJP6WNOw7VHg0RycnlntHqPaQ"
@@ -284,6 +310,8 @@ export function Testimonials({
   const prevPhoto = useCallback(() => {
     setPhotoPage((p) => (p - 1 + REVIEW_PHOTOS.length) % REVIEW_PHOTOS.length)
   }, [])
+  // Swipe próprio das fotos em mobile (independente das reviews).
+  const photoSwipeHandlers = useSwipe(nextPhoto, prevPhoto)
 
   // Janela deslizante: cada clique avança UMA posição, não um bloco de quatro.
   // Índices separados para que fotos e reviews andem de forma independente.
@@ -297,7 +325,9 @@ export function Testimonials({
   const reviewTrack = [...reviews, ...reviews]
   const photoTrack = [...REVIEW_PHOTOS, ...REVIEW_PHOTOS]
   const mobileReview = reviews[currentPage % reviews.length]
-  const mobilePhotoIdx = currentPage % REVIEW_PHOTOS.length
+  // Fotos no mobile seguem o seu próprio índice (photoPage), como no desktop,
+  // para andarem independentes das reviews com as suas próprias setas.
+  const mobilePhotoIdx = photoStartIdx
 
   return (
     <section id="reviews" className="bg-[var(--lm-bg,#0D0D0D)] pt-[60px] pb-6 relative">
@@ -409,22 +439,32 @@ export function Testimonials({
           <CarouselArrow direction="next" onClick={nextPage} topClass="top-[509px]" label="Reviews seguintes" />
         </div>
 
-        <div className="md:hidden flex flex-col gap-6 w-full mt-10" {...swipeHandlers}>
-          <div className="flex gap-[2px]">
-            {[mobilePhotoIdx, (mobilePhotoIdx + 1) % REVIEW_PHOTOS.length].map((idx) => (
-              <div key={idx} className="flex-1 relative h-[220px]">
-                <Image
-                  src={REVIEW_PHOTOS[idx]!}
-                  alt={`Client photo ${idx + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="50vw"
-                />
-              </div>
-            ))}
+        <div className="md:hidden flex flex-col gap-6 w-full mt-10">
+          {/* Fotos — setas próprias + swipe, independentes das reviews. */}
+          <div className="relative" {...photoSwipeHandlers}>
+            <div className="flex gap-[2px]">
+              {[mobilePhotoIdx, (mobilePhotoIdx + 1) % REVIEW_PHOTOS.length].map((idx) => (
+                <div key={idx} className="flex-1 relative h-[220px]">
+                  <Image
+                    src={REVIEW_PHOTOS[idx]!}
+                    alt={`Client photo ${idx + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="50vw"
+                  />
+                </div>
+              ))}
+            </div>
+            <MobileArrow direction="prev" onClick={prevPhoto} label="Fotos anteriores" />
+            <MobileArrow direction="next" onClick={nextPhoto} label="Fotos seguintes" />
           </div>
 
-          <ReviewCard review={mobileReview!} />
+          {/* Reviews — setas próprias + swipe. */}
+          <div className="relative" {...swipeHandlers}>
+            <ReviewCard review={mobileReview!} />
+            <MobileArrow direction="prev" onClick={prevPage} label="Reviews anteriores" />
+            <MobileArrow direction="next" onClick={nextPage} label="Reviews seguintes" />
+          </div>
         </div>
       </div>
     </section>
