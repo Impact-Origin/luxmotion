@@ -155,6 +155,12 @@ export function Header({
   const isLight = variant === "light"
   const t = useTranslations("header")
   const pathname = usePathname()
+  // O "Reserve" por defeito aponta para o widget de reserva na home (#booking).
+  // Vindo de OUTRA página, queremos aterrar no topo da home (não com scroll até
+  // ao #booking), por isso largamos o hash fora da home. Overrides de parceiro
+  // (ex.: /slug/checkout) ficam intactos.
+  const effectiveReserveHref =
+    reserveHref === "/#booking" && pathname !== "/" ? "/" : reserveHref
   const [isScrolled, setIsScrolled] = useState(false)
   const [overHero, setOverHero] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
@@ -355,7 +361,7 @@ export function Header({
             {themeToggle}
             <LangSwitcher variant={variant} />
             <Link
-              href={reserveHref}
+              href={effectiveReserveHref}
               className={cn(
                 "h-[40px] px-[22px] flex items-center justify-center text-[14px] font-medium uppercase tracking-[1.1px] transition-all cursor-pointer",
                 isLight
@@ -516,7 +522,7 @@ export function Header({
               isLight ? "bg-[#F0EDE8] border-[rgba(28,27,24,0.08)]" : "bg-[#0D0D0D] border-[#2A2A2A]"
             )}>
               <Link
-                href={reserveHref}
+                href={effectiveReserveHref}
                 className={cn(
                   "w-full h-12 flex items-center justify-center font-medium text-[14px] uppercase tracking-[1.1px] active:scale-[0.98] transition-all",
                   isLight
