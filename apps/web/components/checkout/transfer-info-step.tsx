@@ -15,7 +15,6 @@ import { useState, useMemo, type ReactNode, type ComponentType } from "react"
 import { useConvex } from "convex/react"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { api } from "@workspace/convex/api"
-import { toast } from "sonner"
 import { cn } from "@workspace/ui/lib/utils"
 
 interface TransferInfoStepProps {
@@ -307,6 +306,9 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
   const [flightSuccess, setFlightSuccess] = useState("")
+  // Aviso suave (cor neutra) para quando o voo não é confirmado ou a API falha —
+  // nunca um erro vermelho nem uma mensagem técnica. Ver handleFlightLookup.
+  const [flightNotice, setFlightNotice] = useState("")
 
   const isRoundTrip = transfer.bookReturn
   const isReturnTab = transfer.transferType === "volta"
@@ -355,6 +357,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const setTransferType = (transferType: "ida" | "volta") => {
     setError("")
     setFlightSuccess("")
+    setFlightNotice("")
     updateTransfer({ transferType })
   }
 
@@ -489,15 +492,21 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const handleFlightLookup = async () => {
     setError("")
     setFlightSuccess("")
+    setFlightNotice("")
     if (!activeFlightNumber) {
-      setError(t("enterFlightNumber"))
+      setFlightNotice(t("enterFlightNumber"))
       return
     }
     if (!activeFlightDate) {
-      setError(t("selectDateFirst"))
+      setFlightNotice(t("selectDateFirst"))
       return
     }
 
+    // A confirmação do voo é um extra de conveniência (como na Welcome Pickups):
+    // se encontrarmos, preenchemos companhia + hora de chegada; se NÃO
+    // encontrarmos, ou se a API/Amadeus falhar, guardamos à mesma o número de
+    // voo e deixamos a reserva seguir. Nunca mostramos erros técnicos ao
+    // cliente nem bloqueamos o checkout.
     try {
       const depDate = formatLocalDate(activeFlightDate)
       const resp = await lookupFlight(convex, {
@@ -515,15 +524,12 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         )
         setFlightSuccess(t("flightVerified", { airline: resp.airlineCompany }))
       } else {
-        toast.error(t("flightNotFound") || "Flight not found", {
-          description:
-            t("flightNotFoundDesc") ||
-            `Could not find flight ${activeFlightNumber} on ${depDate}. Please verify the flight number and date.`,
-        })
+        setFlightNotice(t("flightNotConfirmed"))
       }
     } catch (e: any) {
+      // Best-effort: uma falha na pesquisa não pode partir o checkout.
       console.error("Flight lookup failed:", e)
-      setError(e?.message || t("flightNotFound"))
+      setFlightNotice(t("flightNotConfirmed"))
     }
   }
 
@@ -602,20 +608,11 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       return
     }
 
-    const outboundFlightNeedsVerification = Boolean(
-      transfer.outboundFlightNumber &&
-        (!transfer.outboundArrivalDate || !transfer.outboundAirlineCompany)
-    )
-    const returnFlightNeedsVerification = Boolean(
-      isRoundTrip &&
-        transfer.returnFlightNumber &&
-        (!transfer.returnArrivalDate || !transfer.returnAirlineCompany)
-    )
-    if (outboundFlightNeedsVerification || returnFlightNeedsVerification) {
-      setError(t("verifyFlight") || "Please verify the flight information.")
-      return
-    }
-
+    // NÃO bloqueamos a continuação quando o voo não foi confirmado. O número de
+    // voo é opcional e é guardado tal como foi escrito; a equipa confirma os
+    // detalhes (a submissão já usa "Unknown" como fallback da companhia).
+    // Bloquear aqui prendia clientes com voos válidos que a Amadeus não conhece
+    // — exatamente o problema reportado. (comportamento à Welcome Pickups)
     setIsSubmitting(true)
     try {
       let fromPlaceId = transfer.fromPlaceId
@@ -1055,6 +1052,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
             value={activeFlightNumber}
             onChange={(v) => {
               setFlightSuccess("")
+              setFlightNotice("")
               updateTransfer(
                 buildFlightTransferUpdate({
                   flightNumber: v,
@@ -1082,6 +1080,11 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           {activeAirlineCompany && (
             <p className="mt-1.5 text-[11px] font-semibold text-[var(--ck-accent,#c9a96e)]">
               ✓ {activeAirlineCompany}
+            </p>
+          )}
+          {!activeAirlineCompany && flightNotice && (
+            <p className="mt-1.5 text-[11px] text-[var(--ck-text-muted,#999)] leading-[1.5]">
+              {flightNotice}
             </p>
           )}
         </div>

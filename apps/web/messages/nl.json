@@ -646,6 +646,7 @@
     "flightNotFoundDesc": "De vlucht kon niet worden gevonden. Controleer het vluchtnummer en de datum.",
     "enterFlightNumber": "Voer een vluchtnummer in",
     "selectDateFirst": "Selecteer eerst een datum",
+    "flightNotConfirmed": "We konden deze vlucht niet automatisch bevestigen, maar we hebben het nummer opgeslagen — ons team controleert de details.",
     "fillLocations": "Vul herkomst en bestemming in.",
     "extrasRoundTripTooltip": "Bij retourtjes worden extras per rit in rekening gebracht. Het getoonde bedrag is het totaal (heen- + terugreis).",
     "landing": "Landing",

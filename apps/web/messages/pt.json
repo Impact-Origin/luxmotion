@@ -646,6 +646,7 @@
     "flightNotFoundDesc": "Não foi possível encontrar o voo. Por favor, verifique o número do voo e a data.",
     "enterFlightNumber": "Por favor, insira o número do voo",
     "selectDateFirst": "Por favor, selecione primeiro a data",
+    "flightNotConfirmed": "Não conseguimos confirmar este voo automaticamente, mas guardámos o número — a nossa equipa confirma os detalhes.",
     "fillLocations": "Por favor, preencha a origem e o destino.",
     "extrasRoundTripTooltip": "Em viagens de ida e volta, os extras são cobrados por trajeto. O valor indicado corresponde ao total (ida + volta).",
     "landing": "Pouso",

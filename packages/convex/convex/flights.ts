@@ -552,13 +552,14 @@ export const lookupFlightAction = action({
         flight,
       });
     } catch (error: any) {
-      // Se for erro de "Flight not found" ou similar, retornar null em vez de lançar erro
-      if (error.message?.includes("Flight not found") || error.message?.includes("not found")) {
-        console.log("[Flights] Flight not found in catch block, returning null");
-        return null;
-      }
-      // Para outros erros, ainda lançar exceção
-      throw new Error(error.message || "Failed to lookup flight");
+      // A pesquisa de voo é um enriquecimento best-effort (à Welcome Pickups):
+      // NUNCA deve rebentar no cliente nem bloquear a reserva. Qualquer falha —
+      // não encontrado, formato inválido, companhia (ICAO) desconhecida, data
+      // fora do intervalo, erro 4xx/5xx da Amadeus ou falha de OAuth — devolve
+      // null. O cliente guarda à mesma o número de voo e a equipa confirma os
+      // detalhes. Registamos o motivo no servidor para diagnóstico.
+      console.log("[Flights] lookupFlightAction returning null:", error?.message);
+      return null;
     }
   },
 });

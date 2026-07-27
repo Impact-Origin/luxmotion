@@ -20,7 +20,6 @@ import { useConvex } from "convex/react"
 import { useState, useMemo } from "react"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { api } from "@workspace/convex/api"
-import { toast } from "sonner"
 
 interface TransferInfoStepProps {
   onContinue: () => void
@@ -67,6 +66,8 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
   const [flightSuccess, setFlightSuccess] = useState("")
+  // Aviso suave (neutro) quando o voo não é confirmado — nunca um erro técnico.
+  const [flightNotice, setFlightNotice] = useState("")
 
   const isRoundTrip = transfer.bookReturn // Se bookReturn está marcado, é round trip (independente da aba)
   const isReturnTab = transfer.transferType === "volta"
@@ -114,6 +115,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const setTransferType = (transferType: "ida" | "volta") => {
     setError("")
     setFlightSuccess("")
+    setFlightNotice("")
     updateTransfer({ transferType })
   }
   
@@ -242,15 +244,20 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
   const handleFlightLookup = async () => {
     setError("")
     setFlightSuccess("")
+    setFlightNotice("")
     if (!activeFlightNumber) {
-      setError(t("enterFlightNumber"))
+      setFlightNotice(t("enterFlightNumber"))
       return
     }
     if (!activeFlightDate) {
-      setError(t("selectDateFirst"))
+      setFlightNotice(t("selectDateFirst"))
       return
     }
 
+    // Confirmação do voo = extra de conveniência (à Welcome Pickups): se
+    // encontrarmos, preenchemos companhia + hora de chegada; se não, ou se a
+    // API falhar, guardamos à mesma o número e deixamos seguir. Sem erros
+    // técnicos, sem bloquear o checkout.
     try {
       const depDate = formatLocalDate(activeFlightDate)
       const resp = await lookupFlight(convex, {
@@ -268,16 +275,12 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
         )
         setFlightSuccess(t("flightVerified", { airline: resp.airlineCompany }))
       } else {
-        // Voo não encontrado - mostrar toast
-        toast.error(t("flightNotFound") || "Flight not found", {
-          description:
-            t("flightNotFoundDesc") ||
-            `Could not find flight ${activeFlightNumber} on ${depDate}. Please verify the flight number and date.`,
-        })
+        setFlightNotice(t("flightNotConfirmed"))
       }
     } catch (e: any) {
+      // Best-effort: uma falha na pesquisa não pode partir o checkout.
       console.error("Flight lookup failed:", e)
-      setError(e?.message || t("flightNotFound"))
+      setFlightNotice(t("flightNotConfirmed"))
     }
   }
 
@@ -350,19 +353,9 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       return
     }
 
-    const outboundFlightNeedsVerification = Boolean(
-      transfer.outboundFlightNumber &&
-        (!transfer.outboundArrivalDate || !transfer.outboundAirlineCompany)
-    )
-    const returnFlightNeedsVerification = Boolean(
-      isRoundTrip &&
-        transfer.returnFlightNumber &&
-        (!transfer.returnArrivalDate || !transfer.returnAirlineCompany)
-    )
-    if (outboundFlightNeedsVerification || returnFlightNeedsVerification) {
-      setError(t("verifyFlight"))
-      return
-    }
+    // Não bloqueamos a continuação quando o voo não foi confirmado — o número é
+    // opcional e guardado tal como escrito; a submissão usa "Unknown" como
+    // fallback da companhia. (comportamento à Welcome Pickups)
 
     setIsSubmitting(true)
     try {
@@ -770,6 +763,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
               value={activeFlightNumber}
               onChange={(v) => {
                 setFlightSuccess("")
+                setFlightNotice("")
                 updateTransfer(
                   buildFlightTransferUpdate({
                     flightNumber: v,
@@ -790,6 +784,11 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
             {activeAirlineCompany && (
               <p className="mt-1.5 text-xs font-semibold text-[#27c7ff]">
                 ✓ {activeAirlineCompany}
+              </p>
+            )}
+            {!activeAirlineCompany && flightNotice && (
+              <p className="mt-1.5 text-xs text-[#808080] leading-[1.5]">
+                {flightNotice}
               </p>
             )}
           </div>

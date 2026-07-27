@@ -646,6 +646,7 @@
     "flightNotFoundDesc": "Der Flug konnte nicht gefunden werden. Bitte überprüfen Sie die Flugnummer und das Datum.",
     "enterFlightNumber": "Bitte geben Sie eine Flugnummer ein",
     "selectDateFirst": "Bitte wählen Sie zuerst ein Datum aus",
+    "flightNotConfirmed": "Wir konnten diesen Flug nicht automatisch bestätigen, aber wir haben die Nummer gespeichert — unser Team prüft die Details.",
     "fillLocations": "Bitte geben Sie Abfahrtsort und Zielort an.",
     "extrasRoundTripTooltip": "Bei Hin- und Rückfahrt werden Extras pro Fahrt berechnet. Der angezeigte Betrag ist der Gesamtbetrag (Hin- + Rückfahrt).",
     "landing": "Landung",

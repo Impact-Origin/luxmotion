@@ -646,6 +646,7 @@
     "flightNotFoundDesc": "Could not find the flight. Please verify the flight number and date.",
     "enterFlightNumber": "Please enter a flight number",
     "selectDateFirst": "Please select a date first",
+    "flightNotConfirmed": "We couldn't confirm this flight automatically, but we've saved the number — our team will check the details.",
     "fillLocations": "Please fill in origin and destination.",
     "extrasRoundTripTooltip": "On round trips, extras are charged per leg. The amount shown is the total (outbound + return).",
     "landing": "Landing",
