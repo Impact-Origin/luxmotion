@@ -247,7 +247,7 @@ export function Header({
         { href: "/events", label: t("events") },
         { href: "/ultra-luxury-tours", label: t("luxuryTours") },
         { href: "/corporate", label: t("corporate") },
-        { href: "/corporate/contact", label: t("corporateContact") },
+        // /corporate/contact fica fora do menu — chega-se lá pelas experiências.
         { href: "/wedding", label: t("weddings") },
         { href: "/schools", label: t("school") },
       ]
