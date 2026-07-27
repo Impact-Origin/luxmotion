@@ -203,7 +203,13 @@ export function GooglePlacesInput({
           />
         </div>
       ) : isToursHeroDark ? (
-        <div className="w-full h-full relative flex items-center gap-2 pl-[13px] pr-[12px]">
+        <div className={cn(
+          "w-full h-full relative flex items-center gap-2 pr-[12px]",
+          // Sem ícone (checkout), o pl-[13px] era só o espaço da lupa e deixava
+          // o texto ~25px indentado face ao label. Encosta à esquerda (o box já
+          // dá o padding). Com ícone (tours hero) mantém-se o espaço da lupa.
+          hideLeftIcon ? "pl-0" : "pl-[13px]",
+        )}>
           {!hideLeftIcon && <Search className="w-[24px] h-[24px] text-[var(--lm-accent,#C9A96E)] shrink-0" />}
           <input
             suppressHydrationWarning
