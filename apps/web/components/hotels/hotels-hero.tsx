@@ -33,7 +33,10 @@ export function HotelsHero() {
             {t("intro")}
           </p>
 
-          <div className="mt-7">
+          {/* As variáveis --lm-* só existem dentro de .home-theme. Esta página
+              não a tem, por isso o bloco caía nos fallbacks claros e o texto
+              ficava preto sobre preto. Aqui o contexto é escuro. */}
+          <div className="home-theme dark mt-7">
             <SocialProofBar />
           </div>
 

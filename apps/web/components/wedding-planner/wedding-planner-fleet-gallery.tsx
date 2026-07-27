@@ -8,7 +8,6 @@ import { cn } from "@workspace/ui/lib/utils"
 
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
-/** Estúdio sobre fundo branco — daí o cartão claro, para o recorte assentar. */
 const VEHICLES = [
   { src: "/wedding-planner/fleet-gallery/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
   { src: "/wedding-planner/fleet-gallery/mercedes-s-class.webp", name: "Mercedes S-Class" },
@@ -98,14 +97,15 @@ export function WeddingPlannerFleetGallery() {
               data-card
               className="shrink-0 snap-start flex flex-col gap-2 w-[calc(100%-8px)] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-8px)]"
             >
-              <div className="group relative w-full aspect-[324/323] overflow-hidden bg-white">
+              <div className="group relative w-full aspect-[324/323] overflow-hidden">
                 <Image
                   src={v.src}
                   alt={v.name}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  /* contain: são recortes de estúdio, cortá-los comeria o carro. */
-                  className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+                  /* cover: são fotos de local, não recortes — preenchem o
+                     cartão em vez de deixarem bandas à volta. */
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
               </div>
               <div className="flex items-stretch gap-[10px]">
