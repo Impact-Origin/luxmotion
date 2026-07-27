@@ -130,7 +130,10 @@ export function SocialProofBar() {
   /* Célula 3 — Trustpilot e Google EMPILHADOS, sem divisor entre eles.
      As marcas usam Montserrat (a fonte dos próprios logótipos). */
   const MONTSERRAT = "var(--font-montserrat), Montserrat, var(--font-sans), sans-serif"
-  const verified = (mark: React.ReactNode, name: string, s: number) => (
+  /* nameNudge: acerto óptico só no nome da marca (px, negativo = para a
+     esquerda). A estrela do Trustpilot é um glifo com folga lateral, por isso
+     a palavra parecia mais afastada do que "Google" do seu ícone. */
+  const verified = (mark: React.ReactNode, name: string, s: number, nameNudge = 0) => (
     <div className="flex items-center shrink-0" style={{ gap: `${10 * s}px` }}>
       {mark}
       <div className="flex flex-col" style={{ gap: `${6 * s}px` }}>
@@ -142,7 +145,11 @@ export function SocialProofBar() {
         </span>
         <span
           className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
-          style={{ fontSize: `${17 * s}px`, fontFamily: MONTSERRAT }}
+          style={{
+            fontSize: `${17 * s}px`,
+            fontFamily: MONTSERRAT,
+            marginLeft: nameNudge ? `${nameNudge * s}px` : undefined,
+          }}
         >
           {name}
         </span>
@@ -178,7 +185,7 @@ export function SocialProofBar() {
       className="flex flex-1 flex-col justify-center min-w-0"
       style={{ gap: `${12 * s}px`, paddingLeft: `${leftPad * s}px` }}
     >
-      {verified(trustpilotMark(s), "Trustpilot", s)}
+      {verified(trustpilotMark(s), "Trustpilot", s, -4)}
       {verified(googleMark(s), "Google", s)}
     </div>
   )
