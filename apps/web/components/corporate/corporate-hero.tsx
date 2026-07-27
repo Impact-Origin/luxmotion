@@ -82,6 +82,10 @@ export function CorporateHero() {
               "linear-gradient(180deg, rgba(44,44,44,0.043) 17.7%, rgba(0,0,0,0.84) 74.8%), linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 100%)",
           }}
         />
+        {/* Fade em baixo, como nos tours: o vídeo escurece até preto em vez de
+            cortar a direito. Aqui a secção seguinte é creme, por isso não
+            dissolve para dentro dela — só remata a hero. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#0D0D0D] md:h-44" />
 
         <div className="relative mx-auto flex h-full max-w-[1440px] flex-col items-start justify-center gap-6 px-[48px] py-[40px]">
           <div className="flex w-[680px] max-w-full flex-col items-start gap-6">
