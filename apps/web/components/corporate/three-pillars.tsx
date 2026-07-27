@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
@@ -9,29 +9,58 @@ import { useTranslations } from "next-intl"
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
+/** Cada pilar tem três fotos que se sucedem em fade. */
 const PILLARS = [
   {
     id: "standard" as const,
-    image: "/corporate/pillar-1.png",
+    images: [
+      "/corporate/pillars/standard-1.webp",
+      "/corporate/pillars/standard-2.webp",
+      "/corporate/pillars/standard-3.webp",
+    ],
     items: ["incentive", "gala", "conventions", "congresses", "meetings", "cultural"],
   },
   {
     id: "experiences" as const,
-    image: "/corporate/pillar-2.png",
+    images: [
+      "/corporate/pillars/experiences-1.webp",
+      "/corporate/pillars/experiences-2.webp",
+      "/corporate/pillars/experiences-3.webp",
+    ],
     items: ["teambuilding", "activities", "sightseeing", "foodwine", "sport", "entertainment"],
   },
   {
     id: "logistics" as const,
-    image: "/corporate/pillar-3.png",
+    images: [
+      "/corporate/pillars/logistics-1.webp",
+      "/corporate/pillars/logistics-2.webp",
+      "/corporate/pillars/logistics-3.webp",
+    ],
     items: ["airport", "premium", "hotels", "guides"],
   },
 ]
 
+const SLIDE_MS = 4500
+
 export function ThreePillars() {
   const t = useTranslations("corporatePage.pillars")
   const [active, setActive] = useState(0)
+  const [slide, setSlide] = useState(0)
   const pillar = PILLARS[active]!
   const pillarKey = pillar.id
+
+  // As fotos do pilar activo passam sozinhas; trocar de pilar recomeça no 1.
+  useEffect(() => {
+    setSlide(0)
+  }, [active])
+
+  useEffect(() => {
+    const id = window.setInterval(
+      () => setSlide((s) => (s + 1) % pillar.images.length),
+      SLIDE_MS
+    )
+    return () => window.clearInterval(id)
+  }, [pillar.images.length])
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-6 bg-[#0D0D0D] px-4 py-12 md:px-[82px] md:py-[60px]">
@@ -91,13 +120,37 @@ export function ThreePillars() {
 
       <div className="flex w-full max-w-[1280px] flex-col items-stretch gap-6 md:flex-row md:gap-12">
         <div className="relative h-[400px] w-full shrink-0 overflow-hidden md:h-[525px] md:w-[425px]">
-          <Image
-            src={pillar.image}
-            alt=""
-            fill
-            className="object-cover"
-          />
+          {/* As três ficam montadas e alternam em opacidade — assim o fade é
+              suave e não há salto enquanto a seguinte carrega. */}
+          {pillar.images.map((src, i) => (
+            <Image
+              key={src}
+              src={src}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 425px"
+              priority={i === 0}
+              className={`object-cover transition-opacity duration-700 ease-out ${
+                i === slide ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+
+          {/* Pontos: mostram em que foto vai e deixam saltar para outra. */}
+          <div className="absolute right-4 top-4 flex items-center gap-1.5">
+            {pillar.images.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setSlide(i)}
+                aria-label={`Foto ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === slide ? "w-4 bg-[#C9A96E]" : "w-1.5 bg-white/45 hover:bg-white/70"
+                }`}
+              />
+            ))}
+          </div>
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4">
             <p
               className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]"
