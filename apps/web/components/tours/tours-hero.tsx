@@ -67,7 +67,7 @@ export function ToursHero() {
           anterior enquanto o vídeo não pinta o primeiro frame. */}
       <video
         src="/video/tours-hero.mp4"
-        poster="/tours-page/hero-bg.png"
+        poster="/video/tours-hero-poster.webp"
         autoPlay
         muted
         loop
