@@ -8,6 +8,10 @@ import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { toast } from "sonner"
 import {
+  GooglePlacesInput,
+  type GooglePlaceValue,
+} from "@/components/ui/google-places-input"
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -21,6 +25,13 @@ import { readReferralCookie } from "@/lib/referral"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
+
+const EMPTY_PLACE: GooglePlaceValue = {
+  location: "",
+  placeId: null,
+  lat: null,
+  lng: null,
+}
 
 const VEHICLE_OPTIONS = [
   { id: "standard", src: "/wedding/quote-standard.png", labelKey: "vehicles.standard" },
@@ -375,6 +386,7 @@ export function WeddingWhitelabelQuoteSection({
 } = {}) {
   const t = useTranslations("weddingWhitelabel.quote")
   const [selectedVehicle, setSelectedVehicle] = useState<string>("standard")
+  const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [phone, setPhone] = useState("")
   const [numVehicles, setNumVehicles] = useState<string>("")
   const [budget, setBudget] = useState<number>(BUDGET_MIN)
@@ -431,7 +443,7 @@ export function WeddingWhitelabelQuoteSection({
         weddingDate: (fd.get("weddingDate") || "").toString() || undefined,
         guests,
         venue: (fd.get("venue") || "").toString() || undefined,
-        pickup: (fd.get("pickup") || "").toString() || undefined,
+        pickup: pickup.location.trim() || undefined,
         numVehicles: numVehiclesNum,
         budget,
         vehicle: selectedVehicle,
@@ -441,6 +453,8 @@ export function WeddingWhitelabelQuoteSection({
       toast.success(t("successToast"))
       formEl.reset()
       setPhone("")
+      // O reset() do form não chega a campos controlados.
+      setPickup(EMPTY_PLACE)
       setNumVehicles("")
       setBudget(BUDGET_MIN)
       setSelectedVehicle("standard")
@@ -585,7 +599,15 @@ export function WeddingWhitelabelQuoteSection({
 
           <div className="flex flex-col gap-2 w-full">
             <FieldLabel text={t("fields.pickup")} />
-            <TextInput name="pickup" placeholder={t("placeholders.pickup")} />
+            {/* Sugestões do Google, como no formulário do /wedding. */}
+            <GooglePlacesInput
+              value={pickup}
+              onChange={setPickup}
+              placeholder={t("placeholders.pickup")}
+              ariaLabel={t("fields.pickup")}
+              variant="quote"
+              hideLeftIcon
+            />
           </div>
 
           <div className="flex flex-col gap-2 w-full">

@@ -8,6 +8,10 @@ import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { toast } from "sonner"
 import {
+  GooglePlacesInput,
+  type GooglePlaceValue,
+} from "@/components/ui/google-places-input"
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -129,6 +133,13 @@ function ExtraCard({
       </div>
     </button>
   )
+}
+
+const EMPTY_PLACE: GooglePlaceValue = {
+  location: "",
+  placeId: null,
+  lat: null,
+  lng: null,
 }
 
 // O clássico e o supercarro reaproveitam os recortes da secção "Explore the
@@ -372,6 +383,7 @@ function formatBudget(value: number, locale: string) {
 export function WeddingQuoteSection() {
   const t = useTranslations("wedding.quote")
   const [selectedVehicle, setSelectedVehicle] = useState<string>("standard")
+  const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [phone, setPhone] = useState("")
   const [numVehicles, setNumVehicles] = useState<string>("")
   const [budget, setBudget] = useState<number>(BUDGET_MIN)
@@ -413,7 +425,7 @@ export function WeddingQuoteSection() {
         weddingDate: (fd.get("weddingDate") || "").toString() || undefined,
         guests,
         venue: (fd.get("venue") || "").toString() || undefined,
-        pickup: (fd.get("pickup") || "").toString() || undefined,
+        pickup: pickup.location.trim() || undefined,
         numVehicles: numVehiclesNum,
         budget,
         vehicle: selectedVehicle,
@@ -434,6 +446,8 @@ export function WeddingQuoteSection() {
       toast.success(t("successToast"))
       formEl.reset()
       setPhone("")
+      // O reset() do form não chega a campos controlados.
+      setPickup(EMPTY_PLACE)
       setNumVehicles("")
       setBudget(BUDGET_MIN)
       setSelectedVehicle("standard")
@@ -569,7 +583,17 @@ export function WeddingQuoteSection() {
 
           <div className="flex flex-col gap-2 w-full">
             <FieldLabel text={t("fields.pickup")} />
-            <TextInput name="pickup" placeholder={t("placeholders.pickup")} />
+            {/* Campo com sugestões do Google (variante "quote": mesmo estilo do
+                TextInput que aqui estava). É controlado, por isso o valor vai
+                do estado e não do FormData. */}
+            <GooglePlacesInput
+              value={pickup}
+              onChange={setPickup}
+              placeholder={t("placeholders.pickup")}
+              ariaLabel={t("fields.pickup")}
+              variant="quote"
+              hideLeftIcon
+            />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
