@@ -3,7 +3,6 @@
 import { useRef } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { ArrowRight } from "lucide-react"
 import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
@@ -12,11 +11,11 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const CARDS = [
-  { id: "noivos", src: "/wedding-planner/services/noivos.png" },
-  { id: "convidados", src: "/wedding-planner/services/convidados.png" },
-  { id: "aeroporto", src: "/wedding-planner/services/aeroporto.png" },
-  { id: "tours", src: "/wedding-planner/services/tours.png" },
-  { id: "autocarro", src: "/wedding-planner/services/autocarro.png" },
+  { id: "noivos", src: "/wedding-planner/services/noivos.webp" },
+  { id: "convidados", src: "/wedding-planner/services/convidados.webp" },
+  { id: "aeroporto", src: "/wedding-planner/services/aeroporto.webp" },
+  { id: "tours", src: "/wedding-planner/services/tours.webp" },
+  { id: "autocarro", src: "/wedding-planner/services/autocarro.webp" },
 ] as const
 
 function ServiceCard({
@@ -38,19 +37,13 @@ function ServiceCard({
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[47%] to-black to-[84%]" />
-      <div className="relative z-10 p-4 flex items-center justify-between gap-3">
+      <div className="relative z-10 p-4">
         <span
           className="text-[24px] leading-none text-white font-semibold"
           style={SERIF_FONT}
         >
           {title}
         </span>
-        <button
-          aria-label={title}
-          className="size-8 shrink-0 inline-flex items-center justify-center border-[1.143px] border-[rgba(255,255,255,0.3)] hover:border-white group-hover:border-white transition-colors"
-        >
-          <ArrowRight className="size-[18.286px] text-white transition-transform duration-300 ease-out group-hover:translate-x-0.5" strokeWidth={1.5} />
-        </button>
       </div>
     </div>
   )

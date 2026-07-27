@@ -10,12 +10,17 @@ import { cn } from "@workspace/ui/lib/utils"
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const LOGOS = [
-  { src: "/trustedby/figma/bentley.png", alt: "Bentley" },
-  { src: "/trustedby/figma/american-airlines.png", alt: "American Airlines" },
-  { src: "/trustedby/figma/michelin.png", alt: "Michelin" },
-  { src: "/trustedby/figma/ebaa.png", alt: "EBAA" },
-  { src: "/trustedby/figma/pestana.png", alt: "Pestana Hotel Group" },
-  { src: "/trustedby/figma/mercedes-benz.png", alt: "Mercedes-Benz" },
+  { src: "/wedding/partners/penha-longa.webp", alt: "Penha Longa" },
+  { src: "/wedding/partners/quinta-da-pacheca.webp", alt: "Quinta da Pacheca" },
+  { src: "/wedding/partners/quinta-santana.webp", alt: "Quinta de Sant'Ana" },
+  { src: "/wedding/partners/quinta-dazenha.webp", alt: "Quinta d'Azenha" },
+  { src: "/wedding/partners/quinta-amadeus.webp", alt: "Quinta Amadeu's" },
+  { src: "/wedding/partners/casa-do-souto.webp", alt: "Casa do Souto" },
+  { src: "/wedding/partners/monte-bello.webp", alt: "Monte Bello" },
+  { src: "/wedding/partners/casamentos-pt.svg", alt: "Casamentos.pt" },
+  { src: "/wedding/partners/zankyou.webp", alt: "Zankyou" },
+  { src: "/wedding/partners/kiss-and-tell.webp", alt: "Kiss & Tell" },
+  { src: "/wedding/partners/mercedes-benz-2010.svg", alt: "Mercedes-Benz" },
 ] as const
 
 function LogoCell({ src, alt }: { src: string; alt: string }) {
@@ -35,7 +40,9 @@ function LogoCell({ src, alt }: { src: string; alt: string }) {
 export function WeddingPlannerTrustedBy() {
   const t = useTranslations("weddingPlanner.trustedBy")
   const marqueeRef = useRef<HTMLDivElement>(null)
-  useAutoScrollMarquee(marqueeRef)
+  // activeBelow alto: a faixa roda em qualquer largura. No desktop era uma fila
+  // estática, que com onze logótipos deixaria de caber.
+  useAutoScrollMarquee(marqueeRef, { activeBelow: 99999, speedPxPerSec: 32 })
   const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
@@ -48,19 +55,20 @@ export function WeddingPlannerTrustedBy() {
           {t("eyebrow")}
         </span>
 
-        <div className="hidden md:flex w-full items-center justify-between">
-          {LOGOS.map((l) => (
-            <LogoCell key={l.src} src={l.src} alt={l.alt} />
-          ))}
-        </div>
-
         <div
           ref={marqueeRef}
-          className="md:hidden w-full overflow-x-auto -mx-4 px-4 scrollbar-hide"
+          className="w-full overflow-x-auto -mx-4 px-4 md:-mx-12 md:px-12 scrollbar-hide"
         >
+          {/* Lista duplicada para a faixa dar a volta sem corte visível. */}
           <div className="flex items-center gap-10 w-max">
             {[...LOGOS, ...LOGOS].map((l, i) => (
-              <LogoCell key={`${l.src}-${i}`} src={l.src} alt={l.alt} />
+              <LogoCell
+                key={`${l.src}-${i}`}
+                src={l.src}
+                /* A segunda volta é decorativa: sem alt para não repetir os
+                   nomes num leitor de ecrã. */
+                alt={i < LOGOS.length ? l.alt : ""}
+              />
             ))}
           </div>
         </div>
