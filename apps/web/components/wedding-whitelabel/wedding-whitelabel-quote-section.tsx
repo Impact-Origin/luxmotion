@@ -25,8 +25,11 @@ const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as c
 const VEHICLE_OPTIONS = [
   { id: "standard", src: "/wedding/quote-standard.png", labelKey: "vehicles.standard" },
   { id: "executive", src: "/wedding/quote-executive.png", labelKey: "vehicles.executive" },
-  { id: "firstclass", src: "/wedding/quote-firstclass.png", labelKey: "vehicles.firstClass" },
+  { id: "limousine", src: "/wedding/quote-firstclass.png", labelKey: "vehicles.limousine" },
+  { id: "classic", src: "/wedding/fleet-classic.png", labelKey: "vehicles.classic" },
+  { id: "supercar", src: "/wedding/fleet-supercar.png", labelKey: "vehicles.supercar" },
   { id: "van", src: "/wedding/quote-van.png", labelKey: "vehicles.van" },
+  { id: "minibus", src: "/wedding/quote-minibus.webp", labelKey: "vehicles.minibus" },
   { id: "coach", src: "/wedding/quote-coach.png", labelKey: "vehicles.coach" },
 ] as const
 

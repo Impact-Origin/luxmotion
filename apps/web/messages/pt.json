@@ -3431,9 +3431,12 @@
       "vehicles": {
         "standard": "Standard",
         "executive": "Executivo",
-        "firstClass": "First Class",
         "van": "Carrinha",
-        "coach": "Autocarro"
+        "coach": "Autocarro",
+        "limousine": "Limusine",
+        "classic": "Clássico",
+        "supercar": "Supercarro",
+        "minibus": "Minibus"
       },
       "vehiclesScrollNext": "Próximos veículos",
       "vehiclesScrollPrev": "Veículos anteriores",
@@ -5665,9 +5668,12 @@
       "vehicles": {
         "standard": "Standard",
         "executive": "Executivo",
-        "firstClass": "First Class",
         "van": "Carrinha",
-        "coach": "Autocarro"
+        "coach": "Autocarro",
+        "limousine": "Limusine",
+        "classic": "Clássico",
+        "supercar": "Supercarro",
+        "minibus": "Minibus"
       },
       "vehiclesScrollNext": "Próximos veículos",
       "vehiclesScrollPrev": "Veículos anteriores",

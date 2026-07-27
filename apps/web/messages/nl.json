@@ -3246,9 +3246,12 @@
       "vehicles": {
         "standard": "Standard",
         "executive": "Executive",
-        "firstClass": "First Class",
         "van": "Bus",
-        "coach": "Touringcar"
+        "coach": "Touringcar",
+        "limousine": "Limousine",
+        "classic": "Klassiek",
+        "supercar": "Supercar",
+        "minibus": "Minibus"
       },
       "vehiclesScrollNext": "Volgende voertuigen",
       "vehiclesScrollPrev": "Vorige voertuigen",
@@ -5480,9 +5483,12 @@
       "vehicles": {
         "standard": "Standard",
         "executive": "Executive",
-        "firstClass": "First Class",
         "van": "Van",
-        "coach": "Touringcar"
+        "coach": "Touringcar",
+        "limousine": "Limousine",
+        "classic": "Klassiek",
+        "supercar": "Supercar",
+        "minibus": "Minibus"
       },
       "vehiclesScrollNext": "Volgende voertuigen",
       "vehiclesScrollPrev": "Vorige voertuigen",

@@ -3262,9 +3262,12 @@
       "vehicles": {
         "standard": "Standard",
         "executive": "Ejecutivo",
-        "firstClass": "First Class",
         "van": "Furgoneta",
-        "coach": "Autocar"
+        "coach": "Autocar",
+        "limousine": "Limusina",
+        "classic": "Clásico",
+        "supercar": "Superdeportivo",
+        "minibus": "Minibús"
       },
       "vehiclesScrollNext": "Siguientes vehículos",
       "vehiclesScrollPrev": "Vehículos anteriores",
@@ -5496,9 +5499,12 @@
       "vehicles": {
         "standard": "Standard",
         "executive": "Ejecutivo",
-        "firstClass": "First Class",
         "van": "Furgoneta",
-        "coach": "Autobús"
+        "coach": "Autobús",
+        "limousine": "Limusina",
+        "classic": "Clásico",
+        "supercar": "Superdeportivo",
+        "minibus": "Minibús"
       },
       "vehiclesScrollNext": "Siguientes vehículos",
       "vehiclesScrollPrev": "Vehículos anteriores",
