@@ -36,16 +36,10 @@ function FeatureCard({
 // Total real da ficha Google (confirmado na API: 324, média 4.9).
 const REVIEW_COUNT = 324
 
-// Recortes quadrados centrados no rosto. As /reviews/review-*.webp são fotos de
-// local (Belém, Regaleira) — dentro de um círculo de 46px mostravam céu e pedra,
-// não caras.
-const SOCIAL_AVATARS = [
-  "/reviews/avatar-1.webp",
-  "/reviews/avatar-2.webp",
-  "/reviews/avatar-3.webp",
-  "/reviews/avatar-4.webp",
-  "/reviews/avatar-5.webp",
-]
+// Retratos genéricos (os do desenho). Não usar as fotos dos clientes reais das
+// reviews aqui — e as /reviews/review-*.webp são fotos de local, que dentro de
+// um círculo mostravam céu e pedra em vez de caras.
+const SOCIAL_AVATARS = ["/reviewer-1.png", "/reviewer-2.png", "/reviewer-3.png"]
 
 export function SocialProofBar() {
   const t = useTranslations("hero")
