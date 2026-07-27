@@ -7,15 +7,15 @@ import { cn } from "@workspace/ui/lib/utils"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
-// As medidas seguem o viewBox de cada SVG. O Visa vinha a 30x14 (2.14:1) com um
-// viewBox de 3.09:1 — com object-contain encaixava pela largura e ficava com
-// 9.7px de altura, muito mais pequeno que os outros.
+// Medidas exactas do viewBox de cada SVG, como no /schools. O Visa vinha a
+// 30x14 (2.14:1) contra um viewBox de 3.09:1 — com object-contain encaixava
+// pela largura e ficava com 9.7px de altura, ao lado de um Mastercard de 24.
 const METHODS = [
-  { src: "/wedding/pay-visa.svg", alt: "Visa", w: 44, h: 14 },
+  { src: "/wedding/pay-visa.svg", alt: "Visa", w: 36.727, h: 11.875 },
   { src: "/wedding/pay-mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
-  { src: "/wedding/pay-mbway.svg", alt: "MB Way", w: 42, h: 20 },
-  { src: "/wedding/pay-multibanco.svg", alt: "Multibanco", w: 57, h: 20 },
-  { src: "/wedding/pay-paypal.svg", alt: "PayPal", w: 54, h: 13 },
+  { src: "/wedding/pay-mbway.svg", alt: "MB Way", w: 41.956, h: 20.383 },
+  { src: "/wedding/pay-multibanco.svg", alt: "Multibanco", w: 56.789, h: 20.408 },
+  { src: "/wedding/pay-paypal.svg", alt: "PayPal", w: 67.492, h: 16.351 },
 ] as const
 
 function PaymentPill({

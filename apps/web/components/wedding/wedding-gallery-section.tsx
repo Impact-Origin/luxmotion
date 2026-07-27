@@ -180,17 +180,20 @@ function TiltCard({
 function NavArrow({
   direction,
   onClick,
+  disabled,
 }: {
   direction: "left" | "right"
   onClick: () => void
+  disabled?: boolean
 }) {
   const Icon = direction === "left" ? ArrowLeft : ArrowRight
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-label={direction === "left" ? "Previous" : "Next"}
-      className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center hover:border-[#a08248] transition-colors shrink-0 cursor-pointer"
+      className="size-12 border-[1.714px] border-[rgba(154,117,53,0.22)] flex items-center justify-center hover:border-[#a08248] disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0 cursor-pointer"
     >
       <Icon className="size-[18px] text-[#a08248]" strokeWidth={1.5} />
     </button>
@@ -248,29 +251,14 @@ export function WeddingGallerySection() {
   const t = useTranslations("wedding.gallery")
   const [page, setPage] = useState(0)
 
-  // Sentido do último movimento, para a entrada vir do lado certo.
-  const [dir, setDir] = useState(1)
-  const next = useCallback(() => {
-    setDir(1)
-    setPage((p) => (p + 1) % PHOTOS.length)
-  }, [])
-  const prev = useCallback(() => {
-    setDir(-1)
-    setPage((p) => (p - 1 + PHOTOS.length) % PHOTOS.length)
-  }, [])
-  const swipe = useSwipe(next, prev)
-
-  // Remontar com key={page} dispara a animação de entrada a cada mudança.
-  const slideIn = cn(
-    "animate-in fade-in duration-500 ease-out",
-    dir > 0 ? "slide-in-from-right-16" : "slide-in-from-left-16",
+  // Sem dar a volta: numa faixa deslizante, saltar do 31 para o 1 varria a lista
+  // toda de uma vez. Nos extremos as setas ficam desligadas.
+  const next = useCallback(
+    () => setPage((p) => Math.min(p + 1, PHOTOS.length - 1)),
+    [],
   )
-
-  // A actual ao centro, ladeada pela anterior e pela seguinte (dá a volta).
-  const visible = [-1, 0, 1].map((offset) => {
-    const index = (page + offset + PHOTOS.length) % PHOTOS.length
-    return { photo: PHOTOS[index]!, index }
-  })
+  const prev = useCallback(() => setPage((p) => Math.max(p - 1, 0)), [])
+  const swipe = useSwipe(next, prev)
 
   return (
     <section className="bg-[#f7f4ef] px-4 md:px-20 py-14 md:py-24">
@@ -281,52 +269,60 @@ export function WeddingGallerySection() {
           headingAccent={t("headingAccent")}
         />
 
-        {/* Janela de três — a anterior, a actual e a seguinte — que anda com as
-            setas. Antes desenhava-se a lista toda de uma vez, por isso no
-            desktop as setas não faziam nada. A do meio domina: mais larga e à
-            altura toda; as laterais recolhem. */}
-        <div
-          key={page}
-          className={cn(
-            "hidden md:flex gap-[10px] items-center justify-center w-full pt-[42px] h-[608.21px]",
-            slideIn,
-          )}
-        >
-          {visible.map(({ photo, index }, i) => (
-            <TiltCard
-              key={`${photo.src}-${i}`}
-              src={photo.src}
-              primary={photo.primary}
-              subtitle={photo.subtitle}
-              tagline={photo.tagline}
-              alt={t("photoAlt", { index: index + 1 })}
-              // Filho direto do flex: sem wrapper, senão perde a altura.
-              className={
-                i === 1
-                  ? "flex-[1.35] self-stretch"
-                  : "flex-[0.85] self-center h-[86%]"
-              }
-              // Laterais viram para dentro; a do meio fica de frente. 6.1° dá
-              // o rácio 0.970 entre arestas medido na referência.
-              restRotateY={i === 0 ? -6.1 : i === 2 ? 6.1 : 0}
-            />
-          ))}
+        {/* Faixa com TODAS as fotos que desliza. Antes desenhavam-se três com
+            key={page}: cada passo desmontava e remontava os cartões, e a foto
+            nova entrava em branco enquanto carregava — era esse o flash. Assim
+            os cartões ficam montados e só se translada a faixa. A do meio
+            domina: à altura toda; as laterais recolhem e viram para dentro. */}
+        <div className="hidden md:block w-full pt-[42px] overflow-hidden">
+          <div
+            className="flex items-center h-[608.21px] transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ transform: `translateX(${(1 - page) * (100 / 3)}%)` }}
+          >
+            {PHOTOS.map((photo, i) => (
+              <div
+                key={photo.src}
+                className="shrink-0 basis-1/3 h-full flex items-center px-[5px]"
+              >
+                <TiltCard
+                  src={photo.src}
+                  primary={photo.primary}
+                  subtitle={photo.subtitle}
+                  tagline={photo.tagline}
+                  alt={t("photoAlt", { index: i + 1 })}
+                  className={cn(
+                    "w-full transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    i === page ? "h-full" : "h-[86%]",
+                  )}
+                  // 6.1° dá o rácio 0.970 entre arestas medido na referência.
+                  restRotateY={i === page ? 0 : i < page ? -6.1 : 6.1}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="md:hidden w-full pt-2 overflow-hidden" {...swipe}>
-          <div key={page} className={cn("relative h-[531.21px] w-full", slideIn)}>
-            <TiltCard
-              src={PHOTOS[page]!.src}
-              primary={PHOTOS[page]!.primary}
-              subtitle={PHOTOS[page]!.subtitle}
-              tagline={PHOTOS[page]!.tagline}
-              alt={t("photoAlt", { index: page + 1 })}
-            />
+          <div
+            className="flex h-[531.21px] transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ transform: `translateX(-${page * 100}%)` }}
+          >
+            {PHOTOS.map((photo, i) => (
+              <div key={photo.src} className="relative shrink-0 basis-full h-full">
+                <TiltCard
+                  src={photo.src}
+                  primary={photo.primary}
+                  subtitle={photo.subtitle}
+                  tagline={photo.tagline}
+                  alt={t("photoAlt", { index: i + 1 })}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
         <div className="flex items-center justify-center gap-4 pt-2">
-          <NavArrow direction="left" onClick={prev} />
+          <NavArrow direction="left" onClick={prev} disabled={page === 0} />
           {/* Com esta quantidade de fotos, uma fila de pontos era só ruído. */}
           {PHOTOS.length > 8 ? (
             <span
@@ -339,7 +335,11 @@ export function WeddingGallerySection() {
           ) : (
             <Dots pages={PHOTOS.length} current={page} />
           )}
-          <NavArrow direction="right" onClick={next} />
+          <NavArrow
+            direction="right"
+            onClick={next}
+            disabled={page === PHOTOS.length - 1}
+          />
         </div>
       </div>
     </section>
