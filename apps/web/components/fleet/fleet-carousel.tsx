@@ -9,6 +9,9 @@ import type { MediaItem } from "@/components/shared/media-bento-grid"
 
 // Todas as fotos da frota. Exteriores primeiro, interiores no fim.
 const HERO_IMAGES = [
+  // As duas fotos de conjunto abrem a galeria.
+  "/fleet/v/geral-frota-belem.webp",
+  "/fleet/v/geral-airport-cascais.webp",
   "/fleet/v/bentley-1.webp",
   "/fleet/v/bentley-2.webp",
   "/fleet/v/bentley-3.webp",
@@ -57,6 +60,10 @@ const HERO_IMAGES = [
   "/fleet/v/mg-branco-2.webp",
   "/fleet/v/mg-branco-3.webp",
   "/fleet/v/mg-preto-1.webp",
+  // Novas fotos de frota, a meio da lista.
+  "/fleet/v/frota-ponte.webp",
+  "/fleet/v/frota-belem.webp",
+  "/fleet/v/vw-t2-mafra.webp",
   "/fleet/v/mg-preto-2.webp",
   "/fleet/v/mg-preto-3.webp",
   "/fleet/v/mini-branco-1.webp",
