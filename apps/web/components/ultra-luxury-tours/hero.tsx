@@ -29,6 +29,9 @@ export function UltraLuxuryToursHero() {
       />
       {/* Véu escuro para o texto continuar legível por cima do vídeo. */}
       <div className="absolute inset-0 -z-10 bg-[rgba(13,13,13,0.72)]" />
+      {/* Fade em baixo: o vídeo dissolve-se no fundo da página em vez de
+          cortar a direito. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-b from-transparent to-[#0D0D0D] md:h-44" />
 
       <div className="relative flex w-full max-w-[680px] flex-col gap-6">
         <div className="flex items-center justify-center gap-2">
