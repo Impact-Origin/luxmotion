@@ -2,11 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import { ArrowLeft, ArrowRight, Star } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
-
-const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const VEHICLES = [
   { src: "/wedding-planner/fleet-gallery/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
@@ -16,18 +14,6 @@ const VEHICLES = [
   { src: "/wedding-planner/fleet-gallery/mercedes-sprinter.webp", name: "Mercedes Sprinter" },
   { src: "/wedding-planner/fleet-gallery/man-coach.webp", name: "MAN Coach" },
 ] as const
-
-function StarRow() {
-  return (
-    <div className="flex items-center gap-[3px] shrink-0 px-[14px] h-[36px] border-r-[0.889px] border-[rgba(255,255,255,0.22)]">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className="bg-[#c9a96e] w-6 h-6 flex items-center justify-center">
-          <Star className="w-3 h-3 text-[#0d0d0d]" fill="#0d0d0d" strokeWidth={0} />
-        </span>
-      ))}
-    </div>
-  )
-}
 
 function NavArrow({
   direction,
@@ -95,30 +81,17 @@ export function WeddingPlannerFleetGallery() {
             <div
               key={v.src}
               data-card
-              className="shrink-0 snap-start flex flex-col gap-2 w-[calc(100%-8px)] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-8px)]"
+              className="group relative shrink-0 snap-start w-[calc(100%-8px)] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-8px)] aspect-[324/323] overflow-hidden"
             >
-              <div className="group relative w-full aspect-[324/323] overflow-hidden">
-                <Image
-                  src={v.src}
-                  alt={v.name}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  /* cover: são fotos de local, não recortes — preenchem o
-                     cartão em vez de deixarem bandas à volta. */
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                />
-              </div>
-              <div className="flex items-stretch gap-[10px]">
-                <StarRow />
-                <div className="flex-1 min-w-0 bg-[#e8e3db] flex items-center justify-center px-4 py-[14px]">
-                  <span
-                    className="text-[14px] text-[#070d0f] text-center tracking-[0.28px] leading-[15px]"
-                    style={SANS}
-                  >
-                    {v.name}
-                  </span>
-                </div>
-              </div>
+              <Image
+                src={v.src}
+                alt={v.name}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                /* cover: são fotos de local, não recortes — preenchem o
+                   cartão em vez de deixarem bandas à volta. */
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              />
             </div>
           ))}
         </div>
