@@ -16,9 +16,9 @@ interface ServiceCard {
 }
 
 const SERVICES: ServiceCard[] = [
-  { id: "luxury", icon: Plane, image: "/tours-page/svc-luxury.png", href: "/tours/results?category=luxury" },
-  { id: "itineraries", icon: House, image: "/tours-page/svc-itineraries.png", href: "/tours/results?category=custom" },
-  { id: "transfers", icon: MapPinned, image: "/tours-page/svc-transfers.png", href: "/tours/results?category=transfers" },
+  { id: "luxury", icon: Plane, image: "/tours-page/svc-luxury.webp", href: "/tours/results?category=luxury" },
+  { id: "itineraries", icon: House, image: "/tours-page/svc-itineraries.webp", href: "/tours/results?category=custom" },
+  { id: "transfers", icon: MapPinned, image: "/tours-page/svc-transfers.webp", href: "/tours/results?category=transfers" },
 ]
 
 function ServiceCardItem({

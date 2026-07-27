@@ -9,7 +9,8 @@ import { cn } from "@workspace/ui/lib/utils"
 import { useSwipe } from "@/hooks/use-swipe"
 
 const DESTINATIONS = [
-  { id: "lisboa", image: "/tours-page/dest-lisboa-2.png" },
+  // Mesma foto de Lisboa que a home usa (a anterior mostrava Óbidos).
+  { id: "lisboa", image: "/regions_lisboa.png" },
   { id: "porto", image: "/tours-page/dest-porto.png" },
   { id: "algarve", image: "/tours-page/dest-algarve.png" },
   { id: "ericeira", image: "/tours-page/dest-ericeira.png" },

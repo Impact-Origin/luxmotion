@@ -426,7 +426,7 @@ export function ContactSection() {
             <div className="group bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] p-6 flex gap-4 items-center hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] hover:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:-translate-y-0.5 transition-all duration-300 ease-out">
               <div className="relative size-[80px] md:size-[114px] shrink-0 rounded-full overflow-hidden">
                 <Image
-                  src="/tours-page/support-avatar.png"
+                  src="/tours-page/support-avatar.webp"
                   alt="Carolina Pinheiro"
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
