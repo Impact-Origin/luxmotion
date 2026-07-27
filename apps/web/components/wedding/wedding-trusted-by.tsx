@@ -10,12 +10,17 @@ import { cn } from "@workspace/ui/lib/utils"
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const LOGOS = [
-  { src: "/trustedby/figma/bentley.png", alt: "Bentley" },
-  { src: "/trustedby/figma/american-airlines.png", alt: "American Airlines" },
-  { src: "/trustedby/figma/michelin.png", alt: "Michelin" },
-  { src: "/trustedby/figma/ebaa.png", alt: "EBAA" },
-  { src: "/trustedby/figma/pestana.png", alt: "Pestana Hotel Group" },
-  { src: "/trustedby/figma/mercedes-benz.png", alt: "Mercedes-Benz" },
+  { src: "/wedding/partners/penha-longa.webp", alt: "Penha Longa" },
+  { src: "/wedding/partners/quinta-da-pacheca.webp", alt: "Quinta da Pacheca" },
+  { src: "/wedding/partners/quinta-santana.webp", alt: "Quinta de Sant'Ana" },
+  { src: "/wedding/partners/quinta-dazenha.webp", alt: "Quinta d'Azenha" },
+  { src: "/wedding/partners/quinta-amadeus.webp", alt: "Quinta Amadeu's" },
+  { src: "/wedding/partners/casa-do-souto.webp", alt: "Casa do Souto" },
+  { src: "/wedding/partners/monte-bello.webp", alt: "Monte Bello" },
+  { src: "/wedding/partners/casamentos-pt.svg", alt: "Casamentos.pt" },
+  { src: "/wedding/partners/zankyou.webp", alt: "Zankyou" },
+  { src: "/wedding/partners/kiss-and-tell.webp", alt: "Kiss & Tell" },
+  { src: "/wedding/partners/mercedes-benz-2010.svg", alt: "Mercedes-Benz" },
 ] as const
 
 function LogoCell({ src, alt }: { src: string; alt: string }) {

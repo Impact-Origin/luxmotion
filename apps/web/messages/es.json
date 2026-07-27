@@ -5260,8 +5260,8 @@
           "options": {
             "standard": "Standard",
             "executive": "Executive",
-            "firstClass": "First Class",
             "van": "Van",
+            "minibus": "Minibús",
             "bus": "Bus"
           }
         },

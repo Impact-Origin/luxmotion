@@ -12,7 +12,15 @@ const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as c
 
 // Fotos de casamentos reais. A legenda só mostra o local quando o sabemos —
 // nas restantes fica só "Portugal", em vez de repetir o país duas vezes.
-const PHOTOS = [
+type GalleryPhoto = {
+  src: string
+  primary: string
+  /** Só nas fotos onde sabemos o local; caso contrário fica escondido. */
+  subtitle?: string
+  tagline?: string
+}
+
+const PHOTOS: readonly GalleryPhoto[] = [
   { src: "/wedding/recent/1055587.webp", primary: "Portugal" },
   { src: "/wedding/recent/1528188276.webp", primary: "Portugal" },
   { src: "/wedding/recent/carro-casamento-classico.webp", primary: "Portugal" },
@@ -44,7 +52,7 @@ const PHOTOS = [
   { src: "/wedding/recent/wedding-car.webp", primary: "Portugal" },
   { src: "/wedding/recent/wedding-van.webp", primary: "Portugal" },
   { src: "/wedding/recent/wedding.webp", primary: "Portugal" },
-] as const
+]
 
 function TiltCard({
   src,

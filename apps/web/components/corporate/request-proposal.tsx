@@ -13,11 +13,12 @@ import { readReferralCookie } from "@/lib/referral"
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
+// Por capacidade, do mais pequeno ao maior.
 const VEHICLES = [
   { id: "standard" as const, image: "/fleet/cat-standard.png" },
   { id: "executive" as const, image: "/fleet/cat-executivo.png" },
-  { id: "firstClass" as const, image: "/fleet/cat-xl.png" },
   { id: "van" as const, image: "/fleet/cat-van.png" },
+  { id: "minibus" as const, image: "/fleet/cat-minibus.png" },
   { id: "bus" as const, image: "/fleet/cat-bus.png" },
 ]
 
