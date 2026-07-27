@@ -43,7 +43,7 @@ export function EventsHero() {
   return (
     <section className="relative w-full h-[480px] md:h-[533px] overflow-hidden">
       <Image
-        src="/events/hero-bg.png"
+        src="/events/hero-meo-arena.webp"
         alt=""
         fill
         className="object-cover"

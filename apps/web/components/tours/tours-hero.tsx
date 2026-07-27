@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl"
 import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@workspace/ui/lib/utils"
 import { GooglePlacesInput, type GooglePlaceValue } from "@/components/ui/google-places-input"
-import Image from "next/image"
 
 const TRUST_BADGES: { icon: LucideIcon; key: string }[] = [
   { icon: ShieldCheck, key: "safe" },
@@ -64,12 +63,18 @@ export function ToursHero() {
 
   return (
     <section className="relative w-full min-h-[500px] md:min-h-[596px] flex items-center justify-center overflow-hidden">
-      <Image
-        src="/tours-page/hero-bg.png"
-        alt=""
-        fill
-        className="object-cover"
-        priority
+      {/* Vídeo de fundo, silenciado e em loop. O poster mantém o enquadramento
+          anterior enquanto o vídeo não pinta o primeiro frame. */}
+      <video
+        src="/video/tours-hero.mp4"
+        poster="/tours-page/hero-bg.png"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover"
       />
 
       <div

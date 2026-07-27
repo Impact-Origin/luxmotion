@@ -184,7 +184,7 @@ export function ContactSection() {
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row items-stretch gap-0 md:gap-12">
         <div className="relative w-full md:flex-1 h-[300px] md:h-auto md:min-h-[800px] overflow-hidden">
           <Image
-            src="/tours-page/contact-bg.png"
+            src="/tours-page/contact-left.webp"
             alt=""
             fill
             className="object-cover"

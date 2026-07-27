@@ -308,10 +308,14 @@ class GoogleReviewsBoundary extends Component<
 export function Testimonials({
   sectionLabel,
   heading,
+  /** Faixa de fotos própria da página (o /tours usa as suas). */
+  photos,
 }: {
   sectionLabel?: string
   heading?: string
+  photos?: readonly string[]
 } = {}) {
+  const PHOTOS = photos && photos.length > 0 ? photos : REVIEW_PHOTOS
   const t = useTranslations("testimonials")
   const [currentPage, setCurrentPage] = useState(0)
   // Página das fotos, separada da das reviews: cada carrossel anda sozinho.
@@ -364,10 +368,10 @@ export function Testimonials({
   const swipeHandlers = useSwipe(nextPage, prevPage)
 
   const nextPhoto = useCallback(() => {
-    setPhotoPage((p) => (p + 1) % REVIEW_PHOTOS.length)
+    setPhotoPage((p) => (p + 1) % PHOTOS.length)
   }, [])
   const prevPhoto = useCallback(() => {
-    setPhotoPage((p) => (p - 1 + REVIEW_PHOTOS.length) % REVIEW_PHOTOS.length)
+    setPhotoPage((p) => (p - 1 + PHOTOS.length) % PHOTOS.length)
   }, [])
   // Swipe próprio das fotos em mobile (independente das reviews).
   const photoSwipeHandlers = useSwipe(nextPhoto, prevPhoto)
@@ -377,12 +381,12 @@ export function Testimonials({
   const reviewStartIdx =
     reviews.length > 0 ? ((currentPage % reviews.length) + reviews.length) % reviews.length : 0
   const photoStartIdx =
-    ((photoPage % REVIEW_PHOTOS.length) + REVIEW_PHOTOS.length) % REVIEW_PHOTOS.length
+    ((photoPage % PHOTOS.length) + PHOTOS.length) % PHOTOS.length
   // Faixa duplicada: os itens ficam montados e a faixa translada, por isso
   // desliza de verdade em vez de piscar. A cópia garante conteúdo à direita
   // enquanto se avança até ao fim da lista.
   const reviewTrack = [...reviews, ...reviews]
-  const photoTrack = [...REVIEW_PHOTOS, ...REVIEW_PHOTOS]
+  const photoTrack = [...PHOTOS, ...PHOTOS]
   const mobileReview = reviews[currentPage % reviews.length]
   // Fotos no mobile seguem o seu próprio índice (photoPage), como no desktop,
   // para andarem independentes das reviews com as suas próprias setas.
@@ -502,10 +506,10 @@ export function Testimonials({
           {/* Fotos — setas próprias + swipe, independentes das reviews. */}
           <div className="relative" {...photoSwipeHandlers}>
             <div className="flex gap-[2px]">
-              {[mobilePhotoIdx, (mobilePhotoIdx + 1) % REVIEW_PHOTOS.length].map((idx) => (
+              {[mobilePhotoIdx, (mobilePhotoIdx + 1) % PHOTOS.length].map((idx) => (
                 <div key={idx} className="flex-1 relative h-[220px]">
                   <Image
-                    src={REVIEW_PHOTOS[idx]!}
+                    src={PHOTOS[idx]!}
                     alt={`Client photo ${idx + 1}`}
                     fill
                     className="object-cover"

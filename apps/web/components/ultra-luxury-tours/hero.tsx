@@ -14,8 +14,23 @@ export function UltraLuxuryToursHero() {
   const t = useTranslations("ultraLuxuryTours.hero")
 
   return (
-    <section className="flex flex-col items-center justify-center bg-[#0D0D0D] px-4 py-6 md:min-h-[600px] md:px-12 md:py-10">
-      <div className="flex w-full max-w-[680px] flex-col gap-6">
+    <section className="relative isolate flex flex-col items-center justify-center overflow-hidden bg-[#0D0D0D] px-4 py-6 md:min-h-[600px] md:px-12 md:py-10">
+      {/* Mesmo vídeo cinemático da home, silenciado e em loop. */}
+      <video
+        src="/video/home-cinematic.mp4"
+        poster="/video/home-cinematic-poster.webp"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 h-full w-full object-cover"
+      />
+      {/* Véu escuro para o texto continuar legível por cima do vídeo. */}
+      <div className="absolute inset-0 -z-10 bg-[rgba(13,13,13,0.72)]" />
+
+      <div className="relative flex w-full max-w-[680px] flex-col gap-6">
         <div className="flex items-center justify-center gap-2">
           <div className="h-px w-8 max-w-[82px] min-w-[32px] bg-[#C9A96E]" />
           <span className="text-[12px] font-semibold uppercase leading-none tracking-[2px] text-[#C9A96E]">
