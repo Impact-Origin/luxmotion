@@ -113,13 +113,13 @@ export function SocialProofBar() {
         </div>
         <span
           className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
-          style={{ fontSize: `${18 * s}px`, marginTop: `${13 * s}px` }}
+          style={{ fontSize: `${18 * s}px`, marginTop: `${11 * s}px` }}
         >
           {t("fromReviews", { count: REVIEW_COUNT })}
         </span>
         <span
           className="flex items-center leading-none text-[var(--lm-muted,#6b6259)] whitespace-nowrap"
-          style={{ fontSize: `${15 * s}px`, gap: `${6 * s}px`, marginTop: `${11 * s}px` }}
+          style={{ fontSize: `${15 * s}px`, gap: `${6 * s}px`, marginTop: `${9 * s}px` }}
         >
           <BadgeCheck
             className="shrink-0 fill-[#22A45D] text-[var(--lm-bg,#efe8dc)]"
@@ -190,7 +190,7 @@ export function SocialProofBar() {
   const bar = (s: number, className: string) => (
     <div
       className={`items-stretch rounded-[8px] w-full ${shell} ${className}`}
-      style={{ gap: `${20 * s}px`, padding: `${16 * s}px ${20 * s}px` }}
+      style={{ gap: `${20 * s}px`, padding: `${11 * s}px ${20 * s}px` }}
     >
       {rating(s)}
       {vDivider}
