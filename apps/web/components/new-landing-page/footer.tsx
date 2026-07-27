@@ -68,7 +68,7 @@ export function Footer({
           <NavColumn
             title={t("usefulLinks")}
             links={[
-              { href: "/corporate/contact", label: t("corporateContact") },
+              // /corporate/contact fora da navegação — chega-se lá pelas experiências.
               { href: "/faqs", label: t("faqs") },
               { href: "/terms-and-conditions", label: t("termsAndConditions") },
               { href: "/refund", label: t("refund") },
