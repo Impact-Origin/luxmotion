@@ -36,7 +36,16 @@ function FeatureCard({
 // Total real da ficha Google (confirmado na API: 324, média 4.9).
 const REVIEW_COUNT = 324
 
-const SOCIAL_AVATARS = ["/reviews/review-1.webp", "/reviews/review-2.webp", "/reviews/review-3.webp"]
+// Recortes quadrados centrados no rosto. As /reviews/review-*.webp são fotos de
+// local (Belém, Regaleira) — dentro de um círculo de 46px mostravam céu e pedra,
+// não caras.
+const SOCIAL_AVATARS = [
+  "/reviews/avatar-1.webp",
+  "/reviews/avatar-2.webp",
+  "/reviews/avatar-3.webp",
+  "/reviews/avatar-4.webp",
+  "/reviews/avatar-5.webp",
+]
 
 export function SocialProofBar() {
   const t = useTranslations("hero")
@@ -47,94 +56,149 @@ export function SocialProofBar() {
     <div className="w-px self-stretch shrink-0 bg-[rgba(var(--lm-text-rgb,26,22,18),0.14)]" />
   )
 
-  const rating = (
-    <div className="flex flex-col items-start gap-[3px] shrink-0">
+  /* Célula 1 — 4.9 grande em serif, estrelas e EXCELLENT RATING, alinhados à
+     esquerda. */
+  const rating = (s: number) => (
+    <div className="flex flex-col items-start justify-center shrink-0">
       <span
-        className="text-[30px] leading-[0.8] font-normal text-[var(--lm-text,#1a1612)]"
-        style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+        className="font-normal leading-[0.9] text-[var(--lm-text,#1a1612)]"
+        style={{
+          fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+          fontSize: `${42 * s}px`,
+        }}
       >
         4.9
       </span>
-      <span className="text-[12px] leading-none tracking-[1.5px] text-[var(--lm-accent,#a08248)]">★★★★★</span>
-      <span className="text-[9px] font-semibold uppercase tracking-[1.4px] leading-[1.3] text-[var(--lm-accent,#a08248)]">
+      <span
+        className="leading-none text-[var(--lm-accent,#a08248)]"
+        style={{ fontSize: `${16 * s}px`, letterSpacing: `${3.5 * s}px`, marginTop: `${7 * s}px` }}
+      >
+        ★★★★★
+      </span>
+      <span
+        className="font-semibold uppercase leading-none text-[var(--lm-accent,#a08248)]"
+        style={{ fontSize: `${11 * s}px`, letterSpacing: `${2.4 * s}px`, marginTop: `${9 * s}px` }}
+      >
         {t("excellentRating")}
       </span>
     </div>
   )
 
-  const reviews = (
-    <div className="flex items-center gap-3 shrink-0">
-      <div className="relative h-9 shrink-0" style={{ width: `${(SOCIAL_AVATARS.length - 1) * 22 + 36}px` }}>
-        {SOCIAL_AVATARS.map((src, i) => (
-          <div
-            key={src}
-            className="absolute top-0 size-9 overflow-hidden rounded-full border-2 border-[var(--lm-bg,#efe8dc)]"
-            style={{ left: `${i * 22}px`, zIndex: i }}
-          >
-            <Image src={src} alt="" fill className="object-cover" sizes="36px" />
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-col gap-[3px]">
-        <span className="text-[13px] font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap">
+  /* Célula 2 — avatares POR CIMA, depois "From N Reviews" e "Verified guests",
+     tudo centrado. */
+  const reviews = (s: number) => {
+    const av = 38 * s
+    const step = 26 * s
+    return (
+      <div className="flex flex-col items-center justify-center shrink-0">
+        <div
+          className="relative shrink-0"
+          style={{ height: `${av}px`, width: `${(SOCIAL_AVATARS.length - 1) * step + av}px` }}
+        >
+          {SOCIAL_AVATARS.map((src, i) => (
+            <div
+              key={src}
+              className="absolute top-0 overflow-hidden rounded-full bg-[var(--lm-bg,#efe8dc)]"
+              style={{
+                left: `${i * step}px`,
+                zIndex: i,
+                width: `${av}px`,
+                height: `${av}px`,
+                boxShadow: `0 0 0 ${2.5 * s}px var(--lm-bg,#efe8dc)`,
+              }}
+            >
+              <Image src={src} alt="" fill className="object-cover" sizes="48px" />
+            </div>
+          ))}
+        </div>
+        <span
+          className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
+          style={{ fontSize: `${16 * s}px`, marginTop: `${14 * s}px` }}
+        >
           {t("fromReviews", { count: REVIEW_COUNT })}
         </span>
-        <span className="flex items-center gap-1 text-[12px] leading-none text-[#1E9E63] whitespace-nowrap">
-          <BadgeCheck className="size-3.5 shrink-0" strokeWidth={2.2} />
+        <span
+          className="flex items-center leading-none text-[var(--lm-muted,#6b6259)] whitespace-nowrap"
+          style={{ fontSize: `${13 * s}px`, gap: `${5 * s}px`, marginTop: `${10 * s}px` }}
+        >
+          <BadgeCheck
+            className="shrink-0 fill-[#22A45D] text-[var(--lm-bg,#efe8dc)]"
+            style={{ width: `${16 * s}px`, height: `${16 * s}px` }}
+            strokeWidth={2}
+          />
           {t("verifiedGuests")}
         </span>
       </div>
-    </div>
-  )
+    )
+  }
 
-  const verified = (mark: React.ReactNode, name: string) => (
-    <div className="flex items-center gap-2 shrink-0">
+  /* Célula 3 — Trustpilot e Google EMPILHADOS, sem divisor entre eles. */
+  const verified = (mark: React.ReactNode, name: string, s: number) => (
+    <div className="flex items-center shrink-0" style={{ gap: `${9 * s}px` }}>
       {mark}
-      <div className="flex flex-col gap-[3px]">
-        <span className="text-[9px] font-semibold uppercase tracking-[1.3px] leading-none text-[var(--lm-muted,#5a5249)] whitespace-nowrap">
+      <div className="flex flex-col" style={{ gap: `${6 * s}px` }}>
+        <span
+          className="font-medium uppercase leading-none text-[var(--lm-muted,#8a8178)] whitespace-nowrap"
+          style={{ fontSize: `${10 * s}px`, letterSpacing: `${2 * s}px` }}
+        >
           {t("verifiedBy")}
         </span>
-        <span className="text-[15px] font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap">
+        <span
+          className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
+          style={{ fontSize: `${19 * s}px` }}
+        >
           {name}
         </span>
       </div>
     </div>
   )
 
-  const trustpilotMark = (
-    <span className="text-[22px] leading-none text-[#00B67A]" aria-hidden="true">★</span>
+  const trustpilotMark = (s: number) => (
+    <span
+      className="leading-none text-[#00B67A] shrink-0"
+      style={{ fontSize: `${27 * s}px` }}
+      aria-hidden="true"
+    >
+      ★
+    </span>
   )
-  const googleMark = (
-    <Image src="/svgs/google-icon.svg" alt="" width={20} height={20} className="size-[19px] shrink-0" />
+  const googleMark = (s: number) => (
+    <Image
+      src="/svgs/google-icon.svg"
+      alt=""
+      width={24}
+      height={24}
+      className="shrink-0"
+      style={{ width: `${23 * s}px`, height: `${23 * s}px` }}
+    />
+  )
+
+  const verifiedStack = (s: number) => (
+    <div className="flex flex-col justify-center shrink-0" style={{ gap: `${15 * s}px` }}>
+      {verified(trustpilotMark(s), "Trustpilot", s)}
+      {verified(googleMark(s), "Google", s)}
+    </div>
+  )
+
+  const bar = (s: number, className: string) => (
+    <div
+      className={`items-stretch rounded-[10px] w-max ${shell} ${className}`}
+      style={{ gap: `${28 * s}px`, padding: `${20 * s}px ${28 * s}px` }}
+    >
+      {rating(s)}
+      {vDivider}
+      {reviews(s)}
+      {vDivider}
+      {verifiedStack(s)}
+    </div>
   )
 
   return (
     <>
-      {/* Desktop: single row, four cells */}
-      <div className={`hidden lg:flex flex-nowrap items-center gap-5 rounded-[14px] px-6 py-3 w-max ${shell}`}>
-        {rating}
-        {vDivider}
-        {reviews}
-        {vDivider}
-        {verified(trustpilotMark, "Trustpilot")}
-        {vDivider}
-        {verified(googleMark, "Google")}
-      </div>
-
-      {/* Mobile: rounded card, two rows */}
-      <div className={`flex lg:hidden flex-col gap-3.5 w-full rounded-2xl px-4 py-4 ${shell}`}>
-        <div className="flex items-center gap-4">
-          {rating}
-          {vDivider}
-          {reviews}
-        </div>
-        <div className="h-px w-full bg-[rgba(var(--lm-text-rgb,26,22,18),0.1)]" />
-        <div className="flex items-center gap-4">
-          {verified(trustpilotMark, "Trustpilot")}
-          {vDivider}
-          {verified(googleMark, "Google")}
-        </div>
-      </div>
+      {/* Desktop */}
+      {bar(1, "hidden lg:flex")}
+      {/* Mobile: mesmo bloco, à escala */}
+      {bar(0.62, "flex lg:hidden max-w-full")}
     </>
   )
 }
