@@ -58,7 +58,8 @@ export function UltraLuxuryToursHero() {
           {t("subtitle")}
         </p>
 
-        <div className="flex h-[104px] w-full items-stretch justify-center gap-[2px] border border-[rgba(28,27,24,0.08)] bg-[rgba(28,27,24,0.08)] p-px md:h-[84px]">
+        {/* Sem caixa: as métricas assentam direto sobre o vídeo. */}
+        <div className="flex h-[104px] w-full items-stretch justify-center gap-[2px] p-px md:h-[84px]">
           {METRICS.map((metric) => (
             <div key={metric.labelKey} className="flex flex-col gap-1 px-4 py-[18px]">
               <span
