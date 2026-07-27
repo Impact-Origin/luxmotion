@@ -162,7 +162,7 @@ function HeaderBlock({
             className="h-8 w-auto object-contain"
           />
           <Image
-            src="/trustpilot-logo.svg"
+            src="/trustpilot-logo-dark.svg"
             alt="Trustpilot"
             width={104}
             height={28}
