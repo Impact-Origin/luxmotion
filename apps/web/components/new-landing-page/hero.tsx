@@ -108,7 +108,7 @@ export function SocialProofBar() {
         </div>
         <span
           className={`font-semibold leading-tight text-center text-[var(--lm-text,#1a1612)] ${s === 1 ? "whitespace-nowrap" : ""}`}
-          style={{ fontSize: `${18 * s}px`, marginTop: `${9 * s}px` }}
+          style={{ fontSize: `${16 * s}px`, marginTop: `${9 * s}px` }}
         >
           {t("fromReviews", { count: REVIEW_COUNT })}
         </span>
@@ -142,7 +142,7 @@ export function SocialProofBar() {
         </span>
         <span
           className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
-          style={{ fontSize: `${20 * s}px`, fontFamily: MONTSERRAT }}
+          style={{ fontSize: `${17 * s}px`, fontFamily: MONTSERRAT }}
         >
           {name}
         </span>
