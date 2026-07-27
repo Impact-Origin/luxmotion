@@ -10,10 +10,40 @@ import { cn } from "@workspace/ui/lib/utils"
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
+// Fotos de casamentos reais. A legenda só mostra o local quando o sabemos —
+// nas restantes fica só "Portugal", em vez de repetir o país duas vezes.
 const PHOTOS = [
-  { src: "/wedding/gallery-1.png", primary: "Douro", subtitle: "Portugal", tagline: "Vinhas e votos" },
-  { src: "/wedding/gallery-2.png", primary: "Sintra", subtitle: "Portugal", tagline: "Floresta encantada" },
-  { src: "/wedding/gallery-3.png", primary: "Algarve", subtitle: "Portugal", tagline: "Falésias ao pôr-do-sol" },
+  { src: "/wedding/recent/1055587.webp", primary: "Portugal" },
+  { src: "/wedding/recent/1528188276.webp", primary: "Portugal" },
+  { src: "/wedding/recent/carro-casamento-classico.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-02-convidados-coach-quinta.webp", primary: "Quinta", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-03-noiva-sai-v-class.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-04-noivos-beijo-classico-ribbons.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-05-convidados-v-class-regaleira.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-06-noivo-padrinhos-s-class.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-08-saida-confetti-mercedes.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-09-convidados-coach-vinha-douro.webp", primary: "Douro", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-10-noivos-banco-traseiro-mercedes.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-12-convoy-dois-mercedes-alameda.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-13-noivos-caminham-calcada-mercedes.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-14-convidados-v-class-cascais-mar.webp", primary: "Cascais", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-18-mercedes-entrada-quinta-decor.webp", primary: "Quinta", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-foto-frota.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamentos.webp", primary: "Portugal" },
+  { src: "/wedding/recent/cascais-wedding.webp", primary: "Cascais", subtitle: "Portugal" },
+  { src: "/wedding/recent/comporta-wedding.webp", primary: "Comporta", subtitle: "Portugal" },
+  { src: "/wedding/recent/foto-frota-casamento.webp", primary: "Portugal" },
+  { src: "/wedding/recent/foto-sintra-2.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/foto-sintra-3.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/foto-sintra.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/lisboa-wedding.webp", primary: "Lisboa", subtitle: "Portugal" },
+  { src: "/wedding/recent/portfolio-wedding-02-vclass-coastal.webp", primary: "Costa", subtitle: "Portugal" },
+  { src: "/wedding/recent/portfolio-wedding-03-chauffeur-sclass-palace.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/porto-wedding.webp", primary: "Porto", subtitle: "Portugal" },
+  { src: "/wedding/recent/service-casamentos-eqs-arrival.webp", primary: "Portugal" },
+  { src: "/wedding/recent/wedding-car.webp", primary: "Portugal" },
+  { src: "/wedding/recent/wedding-van.webp", primary: "Portugal" },
+  { src: "/wedding/recent/wedding.webp", primary: "Portugal" },
 ] as const
 
 function TiltCard({
@@ -28,8 +58,8 @@ function TiltCard({
   src: string
   alt: string
   primary: string
-  subtitle: string
-  tagline: string
+  subtitle?: string
+  tagline?: string
   /** Substitui o dimensionamento por omissão (usado para destacar o do meio). */
   className?: string
   /**
@@ -81,7 +111,10 @@ function TiltCard({
             src={src}
             alt={alt}
             fill
-            sizes="(min-width: 768px) 33vw, 100vw"
+            /* O cartão é retrato e há fotos horizontais: com object-cover corta-se
+               a largura, por isso é preciso pedir bem mais px do que a largura do
+               cartão — senão vinham imagens baixas e ampliadas. */
+            sizes="(min-width: 768px) 80vw, 160vw"
             className="object-cover select-none"
             draggable={false}
           />
@@ -111,18 +144,22 @@ function TiltCard({
           >
             {primary}
           </span>
-          <span
-            className="text-[14px] md:text-[15px] font-semibold uppercase tracking-[3.5px] text-white/85 drop-shadow-[0_3px_14px_rgba(0,0,0,0.6)]"
-            style={SANS_FONT}
-          >
-            {subtitle}
-          </span>
-          <span
-            className="mt-2 text-[14px] md:text-[15px] italic text-white/80 drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)]"
-            style={SERIF_FONT}
-          >
-            {tagline}
-          </span>
+          {subtitle && (
+            <span
+              className="text-[14px] md:text-[15px] font-semibold uppercase tracking-[3.5px] text-white/85 drop-shadow-[0_3px_14px_rgba(0,0,0,0.6)]"
+              style={SANS_FONT}
+            >
+              {subtitle}
+            </span>
+          )}
+          {tagline && (
+            <span
+              className="mt-2 text-[14px] md:text-[15px] italic text-white/80 drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)]"
+              style={SERIF_FONT}
+            >
+              {tagline}
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -207,6 +244,12 @@ export function WeddingGallerySection() {
   )
   const swipe = useSwipe(next, prev)
 
+  // A actual ao centro, ladeada pela anterior e pela seguinte (dá a volta).
+  const visible = [-1, 0, 1].map((offset) => {
+    const index = (page + offset + PHOTOS.length) % PHOTOS.length
+    return { photo: PHOTOS[index]!, index }
+  })
+
   return (
     <section className="bg-[#f7f4ef] px-4 md:px-20 py-14 md:py-24">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-4 items-center">
@@ -216,16 +259,19 @@ export function WeddingGallerySection() {
           headingAccent={t("headingAccent")}
         />
 
-        {/* A do meio domina: mais larga e à altura toda; as laterais recolhem. */}
+        {/* Janela de três — a anterior, a actual e a seguinte — que anda com as
+            setas. Antes desenhava-se a lista toda de uma vez, por isso no
+            desktop as setas não faziam nada. A do meio domina: mais larga e à
+            altura toda; as laterais recolhem. */}
         <div className="hidden md:flex gap-[10px] items-center justify-center w-full pt-[42px] h-[608.21px]">
-          {PHOTOS.map((p, i) => (
+          {visible.map(({ photo, index }, i) => (
             <TiltCard
-              key={i}
-              src={p.src}
-              primary={p.primary}
-              subtitle={p.subtitle}
-              tagline={p.tagline}
-              alt={t("photoAlt", { index: i + 1 })}
+              key={`${photo.src}-${i}`}
+              src={photo.src}
+              primary={photo.primary}
+              subtitle={photo.subtitle}
+              tagline={photo.tagline}
+              alt={t("photoAlt", { index: index + 1 })}
               // Filho direto do flex: sem wrapper, senão perde a altura.
               className={
                 i === 1
@@ -251,9 +297,20 @@ export function WeddingGallerySection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 pt-2">
+        <div className="flex items-center justify-center gap-4 pt-2">
           <NavArrow direction="left" onClick={prev} />
-          <Dots pages={PHOTOS.length} current={page} />
+          {/* Com esta quantidade de fotos, uma fila de pontos era só ruído. */}
+          {PHOTOS.length > 8 ? (
+            <span
+              className="text-[13px] tabular-nums tracking-[2px] text-[#a08248] select-none"
+              style={SANS_FONT}
+              aria-live="polite"
+            >
+              {String(page + 1).padStart(2, "0")} / {String(PHOTOS.length).padStart(2, "0")}
+            </span>
+          ) : (
+            <Dots pages={PHOTOS.length} current={page} />
+          )}
           <NavArrow direction="right" onClick={next} />
         </div>
       </div>
