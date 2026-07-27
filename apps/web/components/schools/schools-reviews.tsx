@@ -192,7 +192,7 @@ export function SchoolsReviews() {
           </div>
           <div className="flex gap-[18.834px] items-center justify-center">
             <a
-              href="https://maps.app.goo.gl/uErDVp3HagakGnAf7"
+              href="https://maps.app.goo.gl/tkYzTBBAHKnf7N467"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Google"

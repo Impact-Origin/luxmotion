@@ -5,6 +5,11 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight, BadgeCheck, Star } from "lucide-react"
 import { useSwipe } from "@/hooks/use-swipe"
+import {
+  GOOGLE_REVIEWS_URL,
+  TRUSTPILOT_REVIEWS_URL,
+  REVIEW_LINK_PROPS,
+} from "@/lib/review-links"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -154,14 +159,17 @@ function HeaderBlock({
           ))}
         </div>
         <div className="flex items-center gap-[18.834px]">
-          <Image
+          <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google" className="transition-opacity hover:opacity-70">
+            <Image
             src="/google-logo.png"
             alt="Google"
             width={94}
             height={32}
             className="h-8 w-auto object-contain"
           />
-          <Image
+          </a>
+          <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot" className="transition-opacity hover:opacity-70">
+            <Image
             src="/trustpilot-logo-dark.svg"
             alt="Trustpilot"
             width={104}
@@ -169,6 +177,7 @@ function HeaderBlock({
             className="h-7 w-auto"
             unoptimized
           />
+          </a>
         </div>
         <p
           className="text-[18px] font-light text-[#696969] leading-[1.3] text-center"

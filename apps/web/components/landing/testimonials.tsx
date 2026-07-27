@@ -9,6 +9,11 @@ import { useState, useMemo, useRef, useEffect, useCallback } from "react"
 import { useSwipe } from "@/hooks/use-swipe"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import {
+  GOOGLE_REVIEWS_URL,
+  TRUSTPILOT_REVIEWS_URL,
+  REVIEW_LINK_PROPS,
+} from "@/lib/review-links"
 
 type Testimonial = {
   name: string
@@ -191,8 +196,14 @@ export function Testimonials() {
           </div>
 
           <div className="mb-8 flex items-center justify-center gap-6">
-            <Image src="/google-logo.png" alt="Google" width={100} height={33} className="h-auto w-24" />
-            <Image src="/trustpilot-logo.png" alt="Trustpilot" width={120} height={33} className="h-auto w-28" />
+            <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google"
+               className="transition-opacity hover:opacity-70">
+              <Image src="/google-logo.png" alt="Google" width={100} height={33} className="h-auto w-24" />
+            </a>
+            <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
+               className="transition-opacity hover:opacity-70">
+              <Image src="/trustpilot-logo.png" alt="Trustpilot" width={120} height={33} className="h-auto w-28" />
+            </a>
           </div>
 
           <div className="mx-auto max-w-5xl">

@@ -10,37 +10,38 @@ import { cn } from "@workspace/ui/lib/utils"
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
-// Fotos de casamentos reais. A legenda só mostra o local quando o sabemos —
-// nas restantes fica só "Portugal", em vez de repetir o país duas vezes.
+// Fotos de casamentos reais. A legenda só aparece quando sabemos o local —
+// nas restantes a foto fica limpa, em vez de repetir "Portugal" em todas.
 type GalleryPhoto = {
   src: string
-  primary: string
+  /** Só quando sabemos o local — senão a foto fica sem legenda. */
+  primary?: string
   /** Só nas fotos onde sabemos o local; caso contrário fica escondido. */
   subtitle?: string
   tagline?: string
 }
 
 const PHOTOS: readonly GalleryPhoto[] = [
-  { src: "/wedding/recent/1055587.webp", primary: "Portugal" },
-  { src: "/wedding/recent/1528188276.webp", primary: "Portugal" },
-  { src: "/wedding/recent/carro-casamento-classico.webp", primary: "Portugal" },
+  { src: "/wedding/recent/1055587.webp" },
+  { src: "/wedding/recent/1528188276.webp" },
+  { src: "/wedding/recent/carro-casamento-classico.webp" },
   { src: "/wedding/recent/casamento-02-convidados-coach-quinta.webp", primary: "Quinta", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-03-noiva-sai-v-class.webp", primary: "Portugal" },
-  { src: "/wedding/recent/casamento-04-noivos-beijo-classico-ribbons.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-03-noiva-sai-v-class.webp" },
+  { src: "/wedding/recent/casamento-04-noivos-beijo-classico-ribbons.webp" },
   { src: "/wedding/recent/casamento-05-convidados-v-class-regaleira.webp", primary: "Sintra", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-06-noivo-padrinhos-s-class.webp", primary: "Portugal" },
-  { src: "/wedding/recent/casamento-08-saida-confetti-mercedes.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-06-noivo-padrinhos-s-class.webp" },
+  { src: "/wedding/recent/casamento-08-saida-confetti-mercedes.webp" },
   { src: "/wedding/recent/casamento-09-convidados-coach-vinha-douro.webp", primary: "Douro", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-10-noivos-banco-traseiro-mercedes.webp", primary: "Portugal" },
-  { src: "/wedding/recent/casamento-12-convoy-dois-mercedes-alameda.webp", primary: "Portugal" },
-  { src: "/wedding/recent/casamento-13-noivos-caminham-calcada-mercedes.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-10-noivos-banco-traseiro-mercedes.webp" },
+  { src: "/wedding/recent/casamento-12-convoy-dois-mercedes-alameda.webp" },
+  { src: "/wedding/recent/casamento-13-noivos-caminham-calcada-mercedes.webp" },
   { src: "/wedding/recent/casamento-14-convidados-v-class-cascais-mar.webp", primary: "Cascais", subtitle: "Portugal" },
   { src: "/wedding/recent/casamento-18-mercedes-entrada-quinta-decor.webp", primary: "Quinta", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-foto-frota.webp", primary: "Portugal" },
-  { src: "/wedding/recent/casamentos.webp", primary: "Portugal" },
+  { src: "/wedding/recent/casamento-foto-frota.webp" },
+  { src: "/wedding/recent/casamentos.webp" },
   { src: "/wedding/recent/cascais-wedding.webp", primary: "Cascais", subtitle: "Portugal" },
   { src: "/wedding/recent/comporta-wedding.webp", primary: "Comporta", subtitle: "Portugal" },
-  { src: "/wedding/recent/foto-frota-casamento.webp", primary: "Portugal" },
+  { src: "/wedding/recent/foto-frota-casamento.webp" },
   { src: "/wedding/recent/foto-sintra-2.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/foto-sintra-3.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/foto-sintra.webp", primary: "Sintra", subtitle: "Portugal" },
@@ -48,10 +49,10 @@ const PHOTOS: readonly GalleryPhoto[] = [
   { src: "/wedding/recent/portfolio-wedding-02-vclass-coastal.webp", primary: "Costa", subtitle: "Portugal" },
   { src: "/wedding/recent/portfolio-wedding-03-chauffeur-sclass-palace.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/porto-wedding.webp", primary: "Porto", subtitle: "Portugal" },
-  { src: "/wedding/recent/service-casamentos-eqs-arrival.webp", primary: "Portugal" },
-  { src: "/wedding/recent/wedding-car.webp", primary: "Portugal" },
-  { src: "/wedding/recent/wedding-van.webp", primary: "Portugal" },
-  { src: "/wedding/recent/wedding.webp", primary: "Portugal" },
+  { src: "/wedding/recent/service-casamentos-eqs-arrival.webp" },
+  { src: "/wedding/recent/wedding-car.webp" },
+  { src: "/wedding/recent/wedding-van.webp" },
+  { src: "/wedding/recent/wedding.webp" },
 ]
 
 function TiltCard({
@@ -65,7 +66,7 @@ function TiltCard({
 }: {
   src: string
   alt: string
-  primary: string
+  primary?: string
   subtitle?: string
   tagline?: string
   /** Substitui o dimensionamento por omissão (usado para destacar o do meio). */
@@ -138,6 +139,7 @@ function TiltCard({
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.78)] from-0% via-[rgba(13,13,13,0.25)] via-35% to-transparent to-65%" />
 
+        {primary && (
         <div
           className="pointer-events-none absolute left-7 right-7 bottom-7 flex flex-col gap-1"
           style={{
@@ -169,6 +171,7 @@ function TiltCard({
             </span>
           )}
         </div>
+        )}
       </div>
     </div>
   )
@@ -245,12 +248,23 @@ export function WeddingGallerySection() {
   const t = useTranslations("wedding.gallery")
   const [page, setPage] = useState(0)
 
-  const next = useCallback(() => setPage((p) => (p + 1) % PHOTOS.length), [])
-  const prev = useCallback(
-    () => setPage((p) => (p - 1 + PHOTOS.length) % PHOTOS.length),
-    [],
-  )
+  // Sentido do último movimento, para a entrada vir do lado certo.
+  const [dir, setDir] = useState(1)
+  const next = useCallback(() => {
+    setDir(1)
+    setPage((p) => (p + 1) % PHOTOS.length)
+  }, [])
+  const prev = useCallback(() => {
+    setDir(-1)
+    setPage((p) => (p - 1 + PHOTOS.length) % PHOTOS.length)
+  }, [])
   const swipe = useSwipe(next, prev)
+
+  // Remontar com key={page} dispara a animação de entrada a cada mudança.
+  const slideIn = cn(
+    "animate-in fade-in duration-500 ease-out",
+    dir > 0 ? "slide-in-from-right-16" : "slide-in-from-left-16",
+  )
 
   // A actual ao centro, ladeada pela anterior e pela seguinte (dá a volta).
   const visible = [-1, 0, 1].map((offset) => {
@@ -271,7 +285,13 @@ export function WeddingGallerySection() {
             setas. Antes desenhava-se a lista toda de uma vez, por isso no
             desktop as setas não faziam nada. A do meio domina: mais larga e à
             altura toda; as laterais recolhem. */}
-        <div className="hidden md:flex gap-[10px] items-center justify-center w-full pt-[42px] h-[608.21px]">
+        <div
+          key={page}
+          className={cn(
+            "hidden md:flex gap-[10px] items-center justify-center w-full pt-[42px] h-[608.21px]",
+            slideIn,
+          )}
+        >
           {visible.map(({ photo, index }, i) => (
             <TiltCard
               key={`${photo.src}-${i}`}
@@ -293,8 +313,8 @@ export function WeddingGallerySection() {
           ))}
         </div>
 
-        <div className="md:hidden w-full pt-2" {...swipe}>
-          <div className="relative h-[531.21px] w-full">
+        <div className="md:hidden w-full pt-2 overflow-hidden" {...swipe}>
+          <div key={page} className={cn("relative h-[531.21px] w-full", slideIn)}>
             <TiltCard
               src={PHOTOS[page]!.src}
               primary={PHOTOS[page]!.primary}

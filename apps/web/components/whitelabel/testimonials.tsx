@@ -6,6 +6,11 @@ import { Star } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import {
+  GOOGLE_REVIEWS_URL,
+  TRUSTPILOT_REVIEWS_URL,
+  REVIEW_LINK_PROPS,
+} from "@/lib/review-links"
 
 const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
@@ -95,15 +100,22 @@ function LogoPill({
   width,
   height,
   label,
+  href,
 }: {
   src: string
   alt: string
   width: number
   height: number
   label?: string
+  /** Abre a ficha de avaliações da plataforma. */
+  href?: string
 }) {
+  const Tag = href ? "a" : "div"
   return (
-    <div className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] flex items-center gap-1.5 px-2.5 h-7">
+    <Tag
+      {...(href ? { href, ...REVIEW_LINK_PROPS, "aria-label": alt } : {})}
+      className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] flex items-center gap-1.5 px-2.5 h-7 transition-opacity hover:opacity-70"
+    >
       <Image
         src={src}
         alt={alt}
@@ -120,7 +132,7 @@ function LogoPill({
           {label}
         </span>
       ) : null}
-    </div>
+    </Tag>
   )
 }
 
@@ -156,12 +168,14 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
             width={12}
             height={12}
             label="Google"
+            href={GOOGLE_REVIEWS_URL}
           />
           <LogoPill
             src="/svgs/trustpilot-logo.svg"
             alt="Trustpilot"
             width={56}
             height={12}
+            href={TRUSTPILOT_REVIEWS_URL}
           />
         </div>
       </div>

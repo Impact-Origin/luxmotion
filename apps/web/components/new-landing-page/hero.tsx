@@ -7,6 +7,11 @@ import { useTranslations } from "next-intl"
 import { cn } from "@workspace/ui/lib/utils"
 import { BookingWidget } from "./booking-widget"
 import { useEnterAnimation } from "@/hooks/use-enter-animation"
+import {
+  GOOGLE_REVIEWS_URL,
+  TRUSTPILOT_REVIEWS_URL,
+  REVIEW_LINK_PROPS,
+} from "@/lib/review-links"
 
 function FeatureCard({
   icon,
@@ -133,8 +138,20 @@ export function SocialProofBar() {
   /* nameNudge: acerto óptico só no nome da marca (px, negativo = para a
      esquerda). A estrela do Trustpilot é um glifo com folga lateral, por isso
      a palavra parecia mais afastada do que "Google" do seu ícone. */
-  const verified = (mark: React.ReactNode, name: string, s: number, nameNudge = 0) => (
-    <div className="flex items-center shrink-0" style={{ gap: `${10 * s}px` }}>
+  const verified = (
+    mark: React.ReactNode,
+    name: string,
+    s: number,
+    href: string,
+    nameNudge = 0,
+  ) => (
+    <a
+      href={href}
+      {...REVIEW_LINK_PROPS}
+      aria-label={`${name} — ${name === "Google" ? "Google" : "Trustpilot"}`}
+      className="flex items-center shrink-0 transition-opacity hover:opacity-70"
+      style={{ gap: `${10 * s}px` }}
+    >
       {mark}
       <div className="flex flex-col" style={{ gap: `${6 * s}px` }}>
         <span
@@ -154,7 +171,7 @@ export function SocialProofBar() {
           {name}
         </span>
       </div>
-    </div>
+    </a>
   )
 
   const trustpilotMark = (s: number) => (
@@ -185,8 +202,8 @@ export function SocialProofBar() {
       className="flex flex-1 flex-col justify-center min-w-0"
       style={{ gap: `${12 * s}px`, paddingLeft: `${leftPad * s}px` }}
     >
-      {verified(trustpilotMark(s), "Trustpilot", s, -4)}
-      {verified(googleMark(s), "Google", s)}
+      {verified(trustpilotMark(s), "Trustpilot", s, TRUSTPILOT_REVIEWS_URL, -4)}
+      {verified(googleMark(s), "Google", s, GOOGLE_REVIEWS_URL)}
     </div>
   )
 

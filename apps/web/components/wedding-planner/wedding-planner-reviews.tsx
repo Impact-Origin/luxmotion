@@ -6,6 +6,11 @@ import { ArrowLeft, ArrowRight, BadgeCheck } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
+import {
+  GOOGLE_REVIEWS_URL,
+  TRUSTPILOT_REVIEWS_URL,
+  REVIEW_LINK_PROPS,
+} from "@/lib/review-links"
 
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -100,20 +105,26 @@ export function WeddingPlannerReviews() {
               ★★★★★
             </div>
             <div className="flex gap-[18.834px] items-center justify-center">
-              <Image
+              <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google"
+                 className="transition-opacity hover:opacity-70">
+                <Image
                 src="/google-logo.png"
                 alt="Google"
                 width={94}
                 height={32}
                 className="h-[32px] w-auto"
               />
-              <Image
+              </a>
+              <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
+                 className="transition-opacity hover:opacity-70">
+                <Image
                 src="/trustpilot-logo.png"
                 alt="Trustpilot"
                 width={104}
                 height={28}
                 className="h-[28px] w-auto"
               />
+              </a>
             </div>
             <p className="text-[16px] md:text-[18px] font-light text-[#696969] leading-[1.3]" style={SANS}>
               {t("subtitle")}

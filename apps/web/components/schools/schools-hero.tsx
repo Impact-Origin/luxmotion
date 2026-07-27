@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight, BadgeCheck, CircleCheckBig, Star } from "lucide-react"
+import { TRUSTPILOT_REVIEWS_URL, REVIEW_LINK_PROPS } from "@/lib/review-links"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -87,13 +88,16 @@ function TrustStrip({
         <div className="flex items-center gap-2 shrink-0">
           <BadgeCheck className="size-4 text-[#00B67A] shrink-0" strokeWidth={2.2} />
           <span className="text-[12px] text-[#999] whitespace-nowrap shrink-0">{verifiedBy}</span>
-          <Image
+          <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
+             className="shrink-0 transition-opacity hover:opacity-70">
+            <Image
             src="/schools/trustpilot.svg"
             alt="Trustpilot"
             width={68}
             height={19}
             className="h-[18px] w-[68px] shrink-0"
           />
+          </a>
         </div>
       </div>
 

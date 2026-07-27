@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl"
 import { ArrowRight, BadgeCheck, Star } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import { useEnterAnimation } from "@/hooks/use-enter-animation"
+import { TRUSTPILOT_REVIEWS_URL, REVIEW_LINK_PROPS } from "@/lib/review-links"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -75,13 +76,16 @@ function ExcellentBlock({ excellent, verifiedBy }: { excellent: string; verified
         <span className="text-[14px] text-[rgba(255,255,255,0.45)] whitespace-nowrap shrink-0">
           {verifiedBy}
         </span>
-        <Image
+        <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
+           className="shrink-0 transition-opacity hover:opacity-70">
+          <Image
           src="/wedding-planner/trustpilot.svg"
           alt="Trustpilot"
           width={68}
           height={19}
           className="h-[18px] w-[68px] shrink-0"
         />
+        </a>
       </div>
     </div>
   )

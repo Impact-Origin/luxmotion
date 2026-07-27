@@ -7,6 +7,11 @@ import { useTranslations } from "next-intl"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { useSwipe } from "@/hooks/use-swipe"
+import {
+  GOOGLE_REVIEWS_URL,
+  TRUSTPILOT_REVIEWS_URL,
+  REVIEW_LINK_PROPS,
+} from "@/lib/review-links"
 
 // Faixa de fotos de clientes/viagens reais. É uma galeria — não são avatares
 // de quem escreveu as reviews, por isso não atribui autoria a ninguém.
@@ -140,10 +145,6 @@ function MobileArrow({
     </button>
   )
 }
-
-/** Ficha da empresa no Google, para abrir as reviews todas. */
-const GOOGLE_REVIEWS_URL =
-  "https://search.google.com/local/reviews?placeid=ChIJP6WNOw7VHg0RycnlntHqPaQ"
 
 const AVATAR_COLORS = [
   "#5f6368", "#9c27b0", "#1976d2", "#546e7a",
@@ -433,8 +434,12 @@ export function Testimonials({
           <div className="text-[28px] md:text-[32px] text-[var(--lm-accent,#C9A96E)] tracking-[2px]">★★★★★</div>
 
           <div className="flex items-center justify-center gap-6">
-            <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
-            <Image src="/trustpilot-logo-green.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
+            <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google" className="transition-opacity hover:opacity-70">
+              <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
+            </a>
+            <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot" className="transition-opacity hover:opacity-70">
+              <Image src="/trustpilot-logo-green.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
+            </a>
           </div>
 
           <button
