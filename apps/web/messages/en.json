@@ -134,6 +134,7 @@
     "description": "Private chauffeur transfers and curated experiences for guests who expect more than a journey.",
     "excellentRating": "Excellent Rating",
     "verifiedBy": "Verified by",
+    "verifiedGuests": "Verified guests",
     "fromReviews": "From {count} Reviews",
     "poweredBy": "Powered by",
     "reservations": "{count} reservations",

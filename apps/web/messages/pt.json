@@ -134,6 +134,7 @@
     "description": "Transfers privados com motorista e experiências exclusivas para quem espera mais do que uma viagem.",
     "excellentRating": "Avaliação Excelente",
     "verifiedBy": "Verificado por",
+    "verifiedGuests": "Clientes verificados",
     "fromReviews": "De {count} Avaliações",
     "poweredBy": "Powered by",
     "reservations": "{count} reservas",

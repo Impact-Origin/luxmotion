@@ -134,6 +134,7 @@
     "description": "Traslados privados con chófer y experiencias exclusivas para huéspedes que esperan más que un viaje.",
     "excellentRating": "Valoración Excelente",
     "verifiedBy": "Verificado por",
+    "verifiedGuests": "Clientes verificados",
     "fromReviews": "De {count} Reseñas",
     "poweredBy": "Powered by",
     "reservations": "{count} reservas",

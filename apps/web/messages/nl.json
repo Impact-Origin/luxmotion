@@ -134,6 +134,7 @@
     "description": "Privé chauffeur transfers en samengestelde ervaringen voor gasten die meer verwachten dan een reis.",
     "excellentRating": "Uitstekende Beoordeling",
     "verifiedBy": "Geverifieerd door",
+    "verifiedGuests": "Geverifieerde gasten",
     "fromReviews": "Uit {count} Beoordelingen",
     "poweredBy": "Powered by",
     "reservations": "{count} reserveringen",

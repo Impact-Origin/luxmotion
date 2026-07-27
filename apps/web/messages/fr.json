@@ -134,6 +134,7 @@
     "description": "Transferts privés avec chauffeur et expériences sur mesure pour les voyageurs qui attendent plus qu'un simple trajet.",
     "excellentRating": "Évaluation Excellente",
     "verifiedBy": "Vérifié par",
+    "verifiedGuests": "Clients vérifiés",
     "fromReviews": "Sur {count} Avis",
     "poweredBy": "Powered by",
     "reservations": "{count} réservations",
