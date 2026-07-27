@@ -284,7 +284,8 @@ function FourMediaLayout({
 }
 
 function useDragScroll(scrollRef: React.RefObject<HTMLDivElement | null>) {
-  const isDragging = useRef(false)
+  const isPointerDown = useRef(false)
+  const isCapturing = useRef(false)
   const startX = useRef(0)
   const scrollStart = useRef(0)
   const hasDragged = useRef(false)
@@ -292,29 +293,51 @@ function useDragScroll(scrollRef: React.RefObject<HTMLDivElement | null>) {
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     const el = scrollRef.current
     if (!el) return
-    isDragging.current = true
+    isPointerDown.current = true
+    isCapturing.current = false
     hasDragged.current = false
     startX.current = e.clientX
     scrollStart.current = el.scrollLeft
-    el.setPointerCapture(e.pointerId)
     el.style.cursor = "grabbing"
+    // NÃO capturamos o ponteiro já aqui. Com o ponteiro capturado, o browser
+    // redireciona o `click` para este container (que não tem handler) e o
+    // clique nas fotos nunca chega ao GridMedia — a lightbox só abria pelo
+    // botão "Ver todas". Só capturamos quando o gesto vira arrasto real.
   }, [scrollRef])
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!isDragging.current) return
+    if (!isPointerDown.current) return
     const dx = e.clientX - startX.current
-    if (Math.abs(dx) > 5) hasDragged.current = true
+    if (!hasDragged.current && Math.abs(dx) > 5) {
+      hasDragged.current = true
+      const el = scrollRef.current
+      if (el) {
+        try {
+          el.setPointerCapture(e.pointerId)
+          isCapturing.current = true
+        } catch {
+          // alguns browsers recusam a captura se o ponteiro já saiu — ignora
+        }
+      }
+    }
     const el = scrollRef.current
     if (el) el.scrollLeft = scrollStart.current - dx
   }, [scrollRef])
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
-    isDragging.current = false
+    isPointerDown.current = false
     const el = scrollRef.current
     if (el) {
-      el.releasePointerCapture(e.pointerId)
+      if (isCapturing.current) {
+        try {
+          el.releasePointerCapture(e.pointerId)
+        } catch {
+          // ignore
+        }
+      }
       el.style.cursor = "grab"
     }
+    isCapturing.current = false
   }, [scrollRef])
 
   const shouldPreventClick = useCallback(() => hasDragged.current, [])
