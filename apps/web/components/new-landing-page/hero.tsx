@@ -59,25 +59,25 @@ export function SocialProofBar() {
   /* Célula 1 — 4.9 grande em serif, estrelas e EXCELLENT RATING, alinhados à
      esquerda. */
   const rating = (s: number) => (
-    <div className="flex flex-col items-start justify-center shrink-0">
+    <div className="flex flex-1 flex-col items-start justify-center min-w-0">
       <span
-        className="font-normal leading-[0.9] text-[var(--lm-text,#1a1612)]"
+        className="font-normal leading-[0.85] text-[var(--lm-text,#1a1612)]"
         style={{
           fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
-          fontSize: `${42 * s}px`,
+          fontSize: `${45 * s}px`,
         }}
       >
         4.9
       </span>
       <span
         className="leading-none text-[var(--lm-accent,#a08248)]"
-        style={{ fontSize: `${16 * s}px`, letterSpacing: `${3.5 * s}px`, marginTop: `${7 * s}px` }}
+        style={{ fontSize: `${18 * s}px`, letterSpacing: `${2.5 * s}px`, marginTop: `${8 * s}px` }}
       >
         ★★★★★
       </span>
       <span
         className="font-semibold uppercase leading-none text-[var(--lm-accent,#a08248)]"
-        style={{ fontSize: `${11 * s}px`, letterSpacing: `${2.4 * s}px`, marginTop: `${9 * s}px` }}
+        style={{ fontSize: `${12 * s}px`, letterSpacing: `${2.4 * s}px`, marginTop: `${9 * s}px` }}
       >
         {t("excellentRating")}
       </span>
@@ -87,10 +87,10 @@ export function SocialProofBar() {
   /* Célula 2 — avatares POR CIMA, depois "From N Reviews" e "Verified guests",
      tudo centrado. */
   const reviews = (s: number) => {
-    const av = 38 * s
-    const step = 26 * s
+    const av = 42 * s
+    const step = 28 * s
     return (
-      <div className="flex flex-col items-center justify-center shrink-0">
+      <div className="flex flex-1 flex-col items-center justify-center min-w-0">
         <div
           className="relative shrink-0"
           style={{ height: `${av}px`, width: `${(SOCIAL_AVATARS.length - 1) * step + av}px` }}
@@ -98,13 +98,13 @@ export function SocialProofBar() {
           {SOCIAL_AVATARS.map((src, i) => (
             <div
               key={src}
-              className="absolute top-0 overflow-hidden rounded-full bg-[var(--lm-bg,#efe8dc)]"
+              className="absolute top-0 overflow-hidden rounded-full bg-white"
               style={{
                 left: `${i * step}px`,
                 zIndex: i,
                 width: `${av}px`,
                 height: `${av}px`,
-                boxShadow: `0 0 0 ${2.5 * s}px var(--lm-bg,#efe8dc)`,
+                boxShadow: `0 0 0 ${2.5 * s}px #fff`,
               }}
             >
               <Image src={src} alt="" fill className="object-cover" sizes="48px" />
@@ -113,17 +113,17 @@ export function SocialProofBar() {
         </div>
         <span
           className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
-          style={{ fontSize: `${16 * s}px`, marginTop: `${14 * s}px` }}
+          style={{ fontSize: `${18 * s}px`, marginTop: `${13 * s}px` }}
         >
           {t("fromReviews", { count: REVIEW_COUNT })}
         </span>
         <span
           className="flex items-center leading-none text-[var(--lm-muted,#6b6259)] whitespace-nowrap"
-          style={{ fontSize: `${13 * s}px`, gap: `${5 * s}px`, marginTop: `${10 * s}px` }}
+          style={{ fontSize: `${15 * s}px`, gap: `${6 * s}px`, marginTop: `${11 * s}px` }}
         >
           <BadgeCheck
             className="shrink-0 fill-[#22A45D] text-[var(--lm-bg,#efe8dc)]"
-            style={{ width: `${16 * s}px`, height: `${16 * s}px` }}
+            style={{ width: `${18 * s}px`, height: `${18 * s}px` }}
             strokeWidth={2}
           />
           {t("verifiedGuests")}
@@ -134,18 +134,18 @@ export function SocialProofBar() {
 
   /* Célula 3 — Trustpilot e Google EMPILHADOS, sem divisor entre eles. */
   const verified = (mark: React.ReactNode, name: string, s: number) => (
-    <div className="flex items-center shrink-0" style={{ gap: `${9 * s}px` }}>
+    <div className="flex items-center shrink-0" style={{ gap: `${10 * s}px` }}>
       {mark}
-      <div className="flex flex-col" style={{ gap: `${6 * s}px` }}>
+      <div className="flex flex-col" style={{ gap: `${7 * s}px` }}>
         <span
           className="font-medium uppercase leading-none text-[var(--lm-muted,#8a8178)] whitespace-nowrap"
-          style={{ fontSize: `${10 * s}px`, letterSpacing: `${2 * s}px` }}
+          style={{ fontSize: `${11 * s}px`, letterSpacing: `${2.6 * s}px` }}
         >
           {t("verifiedBy")}
         </span>
         <span
           className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
-          style={{ fontSize: `${19 * s}px` }}
+          style={{ fontSize: `${21 * s}px` }}
         >
           {name}
         </span>
@@ -156,7 +156,7 @@ export function SocialProofBar() {
   const trustpilotMark = (s: number) => (
     <span
       className="leading-none text-[#00B67A] shrink-0"
-      style={{ fontSize: `${27 * s}px` }}
+      style={{ fontSize: `${30 * s}px` }}
       aria-hidden="true"
     >
       ★
@@ -166,24 +166,31 @@ export function SocialProofBar() {
     <Image
       src="/svgs/google-icon.svg"
       alt=""
-      width={24}
-      height={24}
+      width={26}
+      height={26}
       className="shrink-0"
-      style={{ width: `${23 * s}px`, height: `${23 * s}px` }}
+      style={{ width: `${26 * s}px`, height: `${26 * s}px` }}
     />
   )
 
+  /* Célula 3 ocupa o seu terço, com o conteúdo encostado à esquerda logo a
+     seguir ao divisor (como no desenho). */
   const verifiedStack = (s: number) => (
-    <div className="flex flex-col justify-center shrink-0" style={{ gap: `${15 * s}px` }}>
+    <div
+      className="flex flex-1 flex-col justify-center min-w-0"
+      style={{ gap: `${16 * s}px`, paddingLeft: `${34 * s}px` }}
+    >
       {verified(trustpilotMark(s), "Trustpilot", s)}
       {verified(googleMark(s), "Google", s)}
     </div>
   )
 
+  /* Três colunas iguais separadas por divisores, a ocupar a largura toda — é
+     assim que o desenho está construído (divisores a ~1/3 e ~2/3). */
   const bar = (s: number, className: string) => (
     <div
-      className={`items-stretch rounded-[10px] w-max ${shell} ${className}`}
-      style={{ gap: `${28 * s}px`, padding: `${20 * s}px ${28 * s}px` }}
+      className={`items-stretch rounded-[8px] w-full ${shell} ${className}`}
+      style={{ gap: `${20 * s}px`, padding: `${16 * s}px ${20 * s}px` }}
     >
       {rating(s)}
       {vDivider}
@@ -193,12 +200,36 @@ export function SocialProofBar() {
     </div>
   )
 
+  /* Mobile: as três colunas não cabem a 375px (só "EXCELLENT RATING" pede mais
+     largura do que um terço), por isso quebra em duas linhas — rating+reviews
+     em cima, os dois selos em baixo. */
+  const mobileBar = (s: number) => (
+    <div
+      className={`flex lg:hidden w-full flex-col rounded-[8px] ${shell}`}
+      style={{ gap: `${14 * s}px`, padding: `${16 * s}px ${16 * s}px` }}
+    >
+      <div className="flex items-stretch" style={{ gap: `${14 * s}px` }}>
+        {rating(s)}
+        {vDivider}
+        {reviews(s)}
+      </div>
+      <div className="h-px w-full bg-[rgba(var(--lm-text-rgb,26,22,18),0.12)]" />
+      <div className="flex items-stretch" style={{ gap: `${14 * s}px` }}>
+        <div className="flex flex-1 justify-center min-w-0">
+          {verified(trustpilotMark(s), "Trustpilot", s)}
+        </div>
+        {vDivider}
+        <div className="flex flex-1 justify-center min-w-0">
+          {verified(googleMark(s), "Google", s)}
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <>
-      {/* Desktop */}
       {bar(1, "hidden lg:flex")}
-      {/* Mobile: mesmo bloco, à escala */}
-      {bar(0.62, "flex lg:hidden max-w-full")}
+      {mobileBar(0.8)}
     </>
   )
 }
