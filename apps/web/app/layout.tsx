@@ -3,7 +3,7 @@ import { Providers } from "@/components/providers";
 import { getLocale, getMessages, getTimeZone } from "next-intl/server";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Poppins, Geist_Mono, Cormorant_Garamond } from "next/font/google";
+import { Poppins, Geist_Mono, Cormorant_Garamond, Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import { absoluteUrl, getSiteUrl } from "@/lib/seo";
 
@@ -16,6 +16,14 @@ const fontSans = Poppins({
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+});
+
+// Vários blocos (hero social-proof, heros do wedding/schools) pedem Montserrat
+// pelo nome; sem estar carregada aqui caíam em silêncio para a --font-sans.
+const fontMontserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
 });
 
 const fontTitle = Cormorant_Garamond({
@@ -91,7 +99,7 @@ export default async function RootLayout({
         <html
           lang={locale}
           suppressHydrationWarning
-          className={`${fontSans.variable} ${fontMono.variable} ${fontTitle.variable}`}
+          className={`${fontSans.variable} ${fontMono.variable} ${fontTitle.variable} ${fontMontserrat.variable}`}
         >
           <body className="antialiased font-sans">
             <Providers

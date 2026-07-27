@@ -107,7 +107,7 @@ export function SocialProofBar() {
           ))}
         </div>
         <span
-          className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
+          className={`font-semibold leading-tight text-center text-[var(--lm-text,#1a1612)] ${s === 1 ? "whitespace-nowrap" : ""}`}
           style={{ fontSize: `${18 * s}px`, marginTop: `${9 * s}px` }}
         >
           {t("fromReviews", { count: REVIEW_COUNT })}
@@ -127,20 +127,22 @@ export function SocialProofBar() {
     )
   }
 
-  /* Célula 3 — Trustpilot e Google EMPILHADOS, sem divisor entre eles. */
+  /* Célula 3 — Trustpilot e Google EMPILHADOS, sem divisor entre eles.
+     As marcas usam Montserrat (a fonte dos próprios logótipos). */
+  const MONTSERRAT = "var(--font-montserrat), Montserrat, var(--font-sans), sans-serif"
   const verified = (mark: React.ReactNode, name: string, s: number) => (
     <div className="flex items-center shrink-0" style={{ gap: `${10 * s}px` }}>
       {mark}
       <div className="flex flex-col" style={{ gap: `${6 * s}px` }}>
         <span
           className="font-medium uppercase leading-none text-[var(--lm-muted,#8a8178)] whitespace-nowrap"
-          style={{ fontSize: `${10 * s}px`, letterSpacing: `${2.6 * s}px` }}
+          style={{ fontSize: `${10 * s}px`, letterSpacing: `${2.6 * s}px`, fontFamily: MONTSERRAT }}
         >
           {t("verifiedBy")}
         </span>
         <span
           className="font-semibold leading-none text-[var(--lm-text,#1a1612)] whitespace-nowrap"
-          style={{ fontSize: `${20 * s}px` }}
+          style={{ fontSize: `${20 * s}px`, fontFamily: MONTSERRAT }}
         >
           {name}
         </span>
@@ -169,11 +171,12 @@ export function SocialProofBar() {
   )
 
   /* Célula 3 ocupa o seu terço, com o conteúdo encostado à esquerda logo a
-     seguir ao divisor (como no desenho). */
-  const verifiedStack = (s: number) => (
+     seguir ao divisor (como no desenho). No mobile o avanço é menor — a essa
+     escala 34px comeria a largura de que a coluna precisa. */
+  const verifiedStack = (s: number, leftPad: number) => (
     <div
       className="flex flex-1 flex-col justify-center min-w-0"
-      style={{ gap: `${12 * s}px`, paddingLeft: `${34 * s}px` }}
+      style={{ gap: `${12 * s}px`, paddingLeft: `${leftPad * s}px` }}
     >
       {verified(trustpilotMark(s), "Trustpilot", s)}
       {verified(googleMark(s), "Google", s)}
@@ -182,7 +185,7 @@ export function SocialProofBar() {
 
   /* Três colunas iguais separadas por divisores, a ocupar a largura toda — é
      assim que o desenho está construído (divisores a ~1/3 e ~2/3). */
-  const bar = (s: number, className: string) => (
+  const bar = (s: number, className: string, leftPad: number) => (
     <div
       className={`items-stretch rounded-none w-full ${shell} ${className}`}
       style={{ gap: `${20 * s}px`, padding: `${10 * s}px ${20 * s}px` }}
@@ -191,40 +194,15 @@ export function SocialProofBar() {
       {vDivider}
       {reviews(s)}
       {vDivider}
-      {verifiedStack(s)}
+      {verifiedStack(s, leftPad)}
     </div>
   )
 
-  /* Mobile: as três colunas não cabem a 375px (só "EXCELLENT RATING" pede mais
-     largura do que um terço), por isso quebra em duas linhas — rating+reviews
-     em cima, os dois selos em baixo. */
-  const mobileBar = (s: number) => (
-    <div
-      className={`flex lg:hidden w-full flex-col rounded-none ${shell}`}
-      style={{ gap: `${14 * s}px`, padding: `${16 * s}px ${16 * s}px` }}
-    >
-      <div className="flex items-stretch" style={{ gap: `${14 * s}px` }}>
-        {rating(s)}
-        {vDivider}
-        {reviews(s)}
-      </div>
-      <div className="h-px w-full bg-[rgba(var(--lm-text-rgb,26,22,18),0.12)]" />
-      <div className="flex items-stretch" style={{ gap: `${14 * s}px` }}>
-        <div className="flex flex-1 justify-center min-w-0">
-          {verified(trustpilotMark(s), "Trustpilot", s)}
-        </div>
-        {vDivider}
-        <div className="flex flex-1 justify-center min-w-0">
-          {verified(googleMark(s), "Google", s)}
-        </div>
-      </div>
-    </div>
-  )
-
+  /* Mesma estrutura nas duas larguras — o mobile é só a mesma barra à escala. */
   return (
     <>
-      {bar(1, "hidden lg:flex")}
-      {mobileBar(0.8)}
+      {bar(1, "hidden lg:flex", 34)}
+      {bar(0.62, "flex lg:hidden", 6)}
     </>
   )
 }
