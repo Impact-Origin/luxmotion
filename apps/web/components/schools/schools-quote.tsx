@@ -33,9 +33,9 @@ const EMPTY_PLACE: GooglePlaceValue = {
 type VehicleKey = "standard" | "business" | "van" | "bus"
 
 const VEHICLES: { key: VehicleKey; src: string }[] = [
-  { key: "standard", src: "/schools/quote/standard.png" },
-  { key: "business", src: "/schools/quote/business.png" },
-  { key: "van", src: "/schools/quote/van.png" },
+  { key: "standard", src: "/schools/quote/standard.webp" },
+  { key: "business", src: "/schools/quote/business.webp" },
+  { key: "van", src: "/schools/quote/van.webp" },
   { key: "bus", src: "/schools/quote/bus.png" },
 ]
 

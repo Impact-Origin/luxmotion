@@ -66,17 +66,17 @@ export function Fleet() {
   ]
 
   const carouselImages = [
-    "/mercedes frota/C.png",
-    "/mercedes frota/Maybach.png",
-    "/mercedes frota/Van.png",
-    "/mercedes frota/c class.png",
-    "/mercedes frota/class E.png",
-    "/mercedes frota/eqe.png",
-    "/mercedes frota/eqs.png",
-    "/mercedes frota/minbus.png",
-    "/mercedes frota/mini bus 8.png",
-    "/mercedes frota/s class.png",
-    "/mercedes frota/van executiva.png",
+    "/mercedes frota/C.webp",
+    "/mercedes frota/Maybach.webp",
+    "/mercedes frota/Van.webp",
+    "/mercedes frota/c class.webp",
+    "/mercedes frota/class E.webp",
+    "/mercedes frota/eqe.webp",
+    "/mercedes frota/eqs.webp",
+    "/mercedes frota/minbus.webp",
+    "/mercedes frota/mini bus 8.webp",
+    "/mercedes frota/s class.webp",
+    "/mercedes frota/van executiva.webp",
   ]
 
   const totalItems = carouselImages.length

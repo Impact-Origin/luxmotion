@@ -114,7 +114,7 @@ const HERO_IMAGES = [
   "/fleet/v/vw-carocha-preto-interior-back.webp",
 ]
 
-const MOBILE_HERO = "/fleet/hero/main-mobile.png"
+const MOBILE_HERO = "/fleet/hero/main-mobile.webp"
 
 const CONTROL_BTN =
   "size-[48px] flex items-center justify-center bg-[#0d0d0d] border-[1.714px] border-[rgba(154,117,53,0.22)] hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.08)] transition-colors"

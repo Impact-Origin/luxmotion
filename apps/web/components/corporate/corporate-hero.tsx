@@ -139,7 +139,7 @@ export function CorporateHero() {
       <section className="flex w-full flex-col items-start gap-6 px-4 md:hidden">
         <div className="relative aspect-[416/344] w-full">
           <Image
-            src="/corporate/hero-mobile.png"
+            src="/corporate/hero-mobile.webp"
             alt=""
             fill
             priority

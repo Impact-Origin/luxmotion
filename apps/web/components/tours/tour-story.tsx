@@ -14,7 +14,7 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
 
       <div className="absolute left-[185px] top-[147px] w-[297px] h-[249px]">
         <Image
-          src="/tours-page/van-premium.png"
+          src="/tours-page/van-premium.webp"
           alt=""
           width={297}
           height={249}

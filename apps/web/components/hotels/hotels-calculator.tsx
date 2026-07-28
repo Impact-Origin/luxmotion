@@ -38,7 +38,7 @@ export function HotelsCalculator() {
           {/* image */}
           <div className="relative w-full">
             <div className="relative aspect-[4/3.3] w-full overflow-hidden">
-              <Image src="/partnership/homem.png" alt="" fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" />
+              <Image src="/partnership/homem.webp" alt="" fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" />
             </div>
             <Image
               src="/partnership/money.png"

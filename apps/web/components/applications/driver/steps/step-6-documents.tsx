@@ -66,7 +66,7 @@ function PhotoModelModal({
 
         <div className="relative w-full aspect-square overflow-hidden bg-white border border-[rgba(28,27,24,0.08)]">
           <Image
-            src="/drivers/miguel.png"
+            src="/drivers/miguel.webp"
             alt={imageAlt}
             fill
             sizes="420px"

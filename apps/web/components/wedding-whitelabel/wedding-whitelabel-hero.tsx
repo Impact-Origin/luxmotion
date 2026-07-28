@@ -269,7 +269,7 @@ export function WeddingWhitelabelHero({
         <div className="relative h-[358px] w-full">
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src={heroImageUrl || "/wedding-whitelabel/couple.png"}
+              src={heroImageUrl || "/wedding-whitelabel/couple.webp"}
               alt={t("photoAlt")}
               fill
               priority
@@ -280,7 +280,7 @@ export function WeddingWhitelabelHero({
           </div>
           <div className="absolute right-4 bottom-[6px] w-[178px] h-[62px]">
             <Image
-              src="/wedding-whitelabel/cars.png"
+              src="/wedding-whitelabel/cars.webp"
               alt={t("carsAlt")}
               fill
               sizes="178px"
@@ -339,7 +339,7 @@ export function WeddingWhitelabelHero({
       <div className="hidden md:block relative h-[800px]">
         <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
-            src={heroImageUrl || "/wedding-whitelabel/couple.png"}
+            src={heroImageUrl || "/wedding-whitelabel/couple.webp"}
             alt={t("photoAlt")}
             fill
             priority
@@ -352,7 +352,7 @@ export function WeddingWhitelabelHero({
 
         <div className="absolute right-0 bottom-[-2px] w-[403px] h-[139px] pointer-events-none">
           <Image
-            src="/wedding-whitelabel/cars.png"
+            src="/wedding-whitelabel/cars.webp"
             alt={t("carsAlt")}
             fill
             sizes="403px"

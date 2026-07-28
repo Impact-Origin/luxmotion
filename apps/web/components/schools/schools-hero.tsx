@@ -231,7 +231,7 @@ export function SchoolsHero() {
             className="absolute top-1/2 left-[24.72px] size-[418.199px] -translate-y-1/2"
           >
             <Image
-              src="/schools/hero.png"
+              src="/schools/hero.webp"
               alt={t("photoAlt")}
               fill
               priority
@@ -286,7 +286,7 @@ export function SchoolsHero() {
           aria-hidden
         >
           <Image
-            src="/schools/hero.png"
+            src="/schools/hero.webp"
             alt={t("photoAlt")}
             fill
             priority

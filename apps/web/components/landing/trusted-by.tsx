@@ -6,17 +6,17 @@ import { useTranslations } from "next-intl"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 
 const logos = [
-  { name: "American Airlines", src: "/trustedby/american-airlines-easy-transfer.png" },
-  { name: "Bentley", src: "/trustedby/bentley-logo-easy-transfer.png" },
-  { name: "BMW", src: "/trustedby/BMW-logo-easy-transfer.png" },
-  { name: "Emirates", src: "/trustedby/Emirates-Logo-easy-transfer.png" },
-  { name: "Four Seasons", src: "/trustedby/Four-Seasons-Logo-easy-transfer.png" },
-  { name: "Hilton", src: "/trustedby/Hilton-Logo-easy-transfer.png" },
-  { name: "Mercedes-Benz", src: "/trustedby/mercedes-benz-logo-easy-transfer.png" },
-  { name: "NetJets", src: "/trustedby/NetJets-logo-easy-transfer.png" },
-  { name: "Pestana", src: "/trustedby/pestana-logo-easy-transfer.png" },
-  { name: "TAP", src: "/trustedby/tap-logo-easy-transfer.png" },
-  { name: "Vila Galé", src: "/trustedby/vila-gale-easy-transfer.png" },
+  { name: "American Airlines", src: "/trustedby/american-airlines.webp" },
+  { name: "Bentley", src: "/trustedby/bentley.webp" },
+  { name: "BMW", src: "/trustedby/bmw.webp" },
+  { name: "Emirates", src: "/trustedby/emirates.webp" },
+  { name: "Four Seasons", src: "/trustedby/four-seasons.webp" },
+  { name: "Hilton", src: "/trustedby/hilton.webp" },
+  { name: "Mercedes-Benz", src: "/trustedby/mercedes-benz.webp" },
+  { name: "NetJets", src: "/trustedby/netjets.webp" },
+  { name: "Pestana", src: "/trustedby/pestana.webp" },
+  { name: "TAP", src: "/trustedby/tap.webp" },
+  { name: "Vila Galé", src: "/trustedby/vila-gale.webp" },
 ]
 
 function LogoStrip() {

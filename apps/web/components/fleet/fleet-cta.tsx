@@ -11,7 +11,7 @@ export function FleetCta() {
     <section className="py-[40px] md:py-[64px] px-4 md:px-8 lg:px-[60px] xl:px-[100px]">
       <div className="max-w-7xl mx-auto">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0e4659] to-[#1a6b85] p-8 md:p-12 lg:p-16 flex flex-col items-center gap-6 text-center">
-          <div className="absolute inset-0 bg-[url('/tesla-bridge.png')] bg-cover bg-center opacity-10" />
+          <div className="absolute inset-0 bg-[url('/tesla-bridge.webp')] bg-cover bg-center opacity-10" />
 
           <div className="relative z-10 flex flex-col items-center gap-6">
             <h2 className="text-[28px] md:text-[40px] font-bold text-white leading-[1.2]">

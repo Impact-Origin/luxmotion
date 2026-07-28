@@ -49,7 +49,7 @@ export function HotelsResults() {
         <div className="grid grid-cols-1 overflow-hidden border border-[rgba(201,169,110,0.18)] lg:min-h-[830px] lg:grid-cols-[0.88fr_1.6fr]">
           {/* LEFT — hotel profile over photo */}
           <div className="relative flex min-h-[540px] flex-col gap-5 p-6 lg:p-7">
-            <Image src="/b2b/hotel-arrival.png" alt="" fill className="object-cover" sizes="(min-width:1024px) 35vw, 100vw" />
+            <Image src="/b2b/hotel-arrival.webp" alt="" fill className="object-cover" sizes="(min-width:1024px) 35vw, 100vw" />
             <div
               aria-hidden
               className="absolute inset-0"

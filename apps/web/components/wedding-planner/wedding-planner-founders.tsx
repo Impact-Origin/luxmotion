@@ -84,7 +84,7 @@ export function WeddingPlannerFounders() {
     <div className={cn("relative w-full max-w-[578px] mx-auto md:mx-0 aspect-[578/562]", revealFromLeft())}>
       <div className="group absolute top-[14%] left-0 right-0 bottom-0 overflow-hidden">
         <Image
-          src="/wedding-planner/founders/team.png"
+          src="/wedding-planner/founders/team.webp"
           alt={t("photoAlt")}
           fill
           sizes="(min-width: 768px) 578px, 400px"

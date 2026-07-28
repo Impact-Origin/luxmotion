@@ -62,7 +62,7 @@ export function HotelsHero() {
       {/* Right — image + revenue badge */}
       <div className="relative h-[340px] min-h-[340px] sm:h-[420px] lg:h-auto">
         <Image
-          src="/partnership/partnership_top.png"
+          src="/partnership/partnership_top.webp"
           alt="LuxMotion partnership"
           fill
           priority

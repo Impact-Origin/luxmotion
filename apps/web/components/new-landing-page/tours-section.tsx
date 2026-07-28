@@ -10,12 +10,12 @@ import { useSwipe } from "@/hooks/use-swipe"
 type TourId = "lisboa" | "porto" | "algarve" | "alentejo" | "acores" | "madeira"
 
 const TOURS: readonly { id: TourId; image: string }[] = [
-  { id: "lisboa", image: "/regions_lisboa.png" },
-  { id: "porto", image: "/regions_porto.png" },
-  { id: "algarve", image: "/regions_algarve.png" },
-  { id: "alentejo", image: "/regions_alentejo.png" },
-  { id: "acores", image: "/regions_acores.png" },
-  { id: "madeira", image: "/regions_madeira.png" },
+  { id: "lisboa", image: "/regions_lisboa.webp" },
+  { id: "porto", image: "/regions_porto.webp" },
+  { id: "algarve", image: "/regions_algarve.webp" },
+  { id: "alentejo", image: "/regions_alentejo.webp" },
+  { id: "acores", image: "/regions_acores.webp" },
+  { id: "madeira", image: "/regions_madeira.webp" },
 ] as const
 
 const VISIBLE_DESKTOP = 3

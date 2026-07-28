@@ -105,7 +105,7 @@ export const MOCK_LATEST_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Fall in Europe is magical, with festivals celebrating harvest, culture, and local traditions." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/latest/1.png",
+    heroImageUrl: "/mockup-blogs/latest/1.webp",
     category: "Lisbon",
     author: "EasyTransfer Team",
     originalLanguage: "en",
@@ -128,7 +128,7 @@ export const MOCK_LATEST_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Planning a European cruise can be overwhelming, but with these tips you'll have the trip of a lifetime." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/latest/2.png",
+    heroImageUrl: "/mockup-blogs/latest/2.webp",
     category: "Porto",
     author: "EasyTransfer Team",
     originalLanguage: "en",
@@ -151,7 +151,7 @@ export const MOCK_LATEST_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Stay ahead of the curve by attending these must-see travel industry trade shows in 2026." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/latest/3.png",
+    heroImageUrl: "/mockup-blogs/latest/3.webp",
     category: "Sintra",
     author: "EasyTransfer Team",
     originalLanguage: "en",

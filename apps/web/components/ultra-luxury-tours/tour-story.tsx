@@ -6,7 +6,7 @@ import Image from "next/image"
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 const SANS_FONT = "var(--font-sans), system-ui, sans-serif"
 
-const COLLAGE_SRC = "/ultra-luxury-tours/story-collage.png"
+const COLLAGE_SRC = "/ultra-luxury-tours/story-collage.webp"
 
 export function UltraLuxuryTourStory() {
   const t = useTranslations("ultraLuxuryTours.story")

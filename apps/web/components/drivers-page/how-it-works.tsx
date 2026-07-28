@@ -201,7 +201,7 @@ export function HowItWorks() {
     },
     {
       num: "02",
-      photo: "/drivers/adv-2-calendar.png",
+      photo: "/drivers/adv-2-calendar.webp",
       photoAlt: t("card2.photoAlt"),
       heading: (
         <>
@@ -225,7 +225,7 @@ export function HowItWorks() {
     },
     {
       num: "03",
-      photo: "/drivers/adv-3-training.png",
+      photo: "/drivers/adv-3-training.webp",
       photoAlt: t("card3.photoAlt"),
       heading: (
         <>
@@ -250,7 +250,7 @@ export function HowItWorks() {
     },
     {
       num: "04",
-      photo: "/drivers/adv-4-payments.png",
+      photo: "/drivers/adv-4-payments.webp",
       photoAlt: t("card4.photoAlt"),
       heading: (
         <>

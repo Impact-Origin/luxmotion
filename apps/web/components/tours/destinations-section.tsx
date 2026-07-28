@@ -10,12 +10,12 @@ import { useSwipe } from "@/hooks/use-swipe"
 
 const DESTINATIONS = [
   // Mesma foto de Lisboa que a home usa (a anterior mostrava Óbidos).
-  { id: "lisboa", image: "/regions_lisboa.png" },
-  { id: "porto", image: "/tours-page/dest-porto.png" },
-  { id: "algarve", image: "/tours-page/dest-algarve.png" },
-  { id: "ericeira", image: "/tours-page/dest-ericeira.png" },
-  { id: "alentejo", image: "/regions_alentejo.png" },
-  { id: "madeira", image: "/regions_madeira.png" },
+  { id: "lisboa", image: "/regions_lisboa.webp" },
+  { id: "porto", image: "/tours-page/dest-porto.webp" },
+  { id: "algarve", image: "/tours-page/dest-algarve.webp" },
+  { id: "ericeira", image: "/tours-page/dest-ericeira.webp" },
+  { id: "alentejo", image: "/regions_alentejo.webp" },
+  { id: "madeira", image: "/regions_madeira.webp" },
 ]
 
 const DESKTOP_VISIBLE = 4

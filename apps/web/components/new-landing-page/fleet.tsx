@@ -18,10 +18,10 @@ import type { FleetVehicle } from "@/components/fleet/fleet-vehicle-card-dark"
 type CategoryId = "standard" | "xl" | "executivo" | "van" | "minibus" | "bus"
 
 const CATEGORIES: readonly { id: CategoryId; image: string; active?: boolean }[] = [
-  { id: "standard", image: "/fleet/cat-standard.png", active: true },
+  { id: "standard", image: "/fleet/cat-standard.webp", active: true },
   { id: "xl", image: "/fleet/cat-xl.png" },
   { id: "executivo", image: "/fleet/cat-executivo.png" },
-  { id: "van", image: "/fleet/cat-van.png" },
+  { id: "van", image: "/fleet/cat-van.webp" },
   { id: "minibus", image: "/fleet/cat-minibus.png" },
   { id: "bus", image: "/fleet/cat-bus.png" },
 ] as const

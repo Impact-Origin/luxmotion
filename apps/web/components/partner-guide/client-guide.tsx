@@ -48,7 +48,7 @@ function ClientHero({ t }: { t: ReturnType<typeof useTranslations> }) {
           </div>
         </div>
         <div className="order-first lg:order-none relative h-[330px] sm:h-[420px] lg:h-[520px]">
-          <Image src="/partnership/motorista.png" alt="" fill priority className="object-contain object-bottom" sizes="(min-width:1024px) 46vw, 100vw" />
+          <Image src="/partnership/motorista.webp" alt="" fill priority className="object-contain object-bottom" sizes="(min-width:1024px) 46vw, 100vw" />
         </div>
       </div>
     </section>

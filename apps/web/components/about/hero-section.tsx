@@ -110,7 +110,7 @@ export function HeroSection() {
           </div>
           <div className="relative w-[720px] h-[720px] mt-[20px]">
             <Image
-              src="/about/founders.png"
+              src="/about/founders.webp"
               alt={t("imageAlt")}
               fill
               className="object-cover object-bottom"
@@ -137,7 +137,7 @@ export function HeroSection() {
             style={{ top: 40 }}
           >
             <Image
-              src="/about/founders.png"
+              src="/about/founders.webp"
               alt={t("imageAlt")}
               fill
               className="object-cover object-bottom"

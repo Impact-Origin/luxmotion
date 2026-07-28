@@ -15,7 +15,7 @@ export const STANDARD_VEHICLES: FleetVehicle[] = [
   {
     id: "dacia-sandero",
     name: "Dacia Sandero ECO-G 100",
-    image: "/fleet/vehicles/dacia-sandero.png",
+    image: "/fleet/vehicles/dacia-sandero.webp",
     badges: ["available"],
     paxMin: 1,
     paxMax: 3,
@@ -37,7 +37,7 @@ export const STANDARD_VEHICLES: FleetVehicle[] = [
   {
     id: "renault-clio",
     name: "Renault Clio",
-    image: "/fleet/vehicles/renault-clio.png",
+    image: "/fleet/vehicles/renault-clio.webp",
     badges: ["available"],
     paxMin: 1,
     paxMax: 3,
@@ -62,7 +62,7 @@ export const XL_VEHICLES: FleetVehicle[] = [
   {
     id: "citroen-c4-grand-picasso",
     name: "Citroën C4 Grand Picasso",
-    image: "/fleet/vehicles/citroen-c4-grand-picasso.png",
+    image: "/fleet/vehicles/citroen-c4-grand-picasso.webp",
     badges: ["available"],
     paxMin: 3,
     paxMax: 4,
@@ -95,7 +95,7 @@ export const XL_VEHICLES: FleetVehicle[] = [
   {
     id: "dacia-jogger",
     name: "Dacia Jogger",
-    image: "/fleet/vehicles/dacia-jogger.png",
+    image: "/fleet/vehicles/dacia-jogger.webp",
     badges: ["available"],
     paxMin: 3,
     paxMax: 4,
@@ -128,7 +128,7 @@ export const EXECUTIVE_VEHICLES: FleetVehicle[] = [
   execBase("mercedes-s400", "Mercedes S400", "/fleet/vehicles/mercedes-s400.png", ["available"]),
   execBase("porsche-panamera", "Porsche Panamera", "/fleet/vehicles/porsche-panamera.png", ["available"]),
   execBase("tesla-model-y", "Tesla Model Y", "/fleet/vehicles/tesla-model-y.png", ["eco", "electric"]),
-  execBase("mercedes-eqe", "Mercedes EQE", "/fleet/vehicles/mercedes-eqe.png", ["eco", "electric"]),
+  execBase("mercedes-eqe", "Mercedes EQE", "/fleet/vehicles/mercedes-eqe.webp", ["eco", "electric"]),
   execBase("bentley-flying-spur", "Bentley Flying Spur", "/fleet/vehicles/bentley-flying-spur.png", ["available"]),
   execBase("mercedes-eqs", "Mercedes EQS", "/fleet/vehicles/mercedes-eqs.png", ["eco", "electric"]),
   execBase("mercedes-s-class", "Mercedes S Class", "/fleet/vehicles/mercedes-s-class.png", ["available"]),
@@ -140,7 +140,7 @@ export const MINIBUS_VEHICLES: FleetVehicle[] = [
   {
     id: "mercedes-sprinter",
     name: "Mercedes Sprinter",
-    image: "/fleet/vehicles/mercedes-sprinter.png",
+    image: "/fleet/vehicles/mercedes-sprinter.webp",
     badges: ["available"],
     paxMin: 9,
     paxMax: 16,
@@ -151,7 +151,7 @@ export const MINIBUS_VEHICLES: FleetVehicle[] = [
   {
     id: "ford-transit",
     name: "Ford Transit",
-    image: "/fleet/vehicles/ford-transit.png",
+    image: "/fleet/vehicles/ford-transit.webp",
     badges: ["available"],
     paxMin: 10,
     paxMax: 22,
@@ -219,8 +219,8 @@ const vanBase = (
 
 export const VAN_VEHICLES: FleetVehicle[] = [
   vanBase("mercedes-vito", "Mercedes Vito", "/fleet/vehicles/mercedes-vito.png", ["available"]),
-  vanBase("peugeot-traveller", "Peugeot Traveller", "/fleet/vehicles/peugeot-traveller.png", ["eco", "electric"]),
-  vanBase("toyota-hiace", "Toyota HiAce", "/fleet/vehicles/toyota-hiace.png", ["available"]),
+  vanBase("peugeot-traveller", "Peugeot Traveller", "/fleet/vehicles/peugeot-traveller.webp", ["eco", "electric"]),
+  vanBase("toyota-hiace", "Toyota HiAce", "/fleet/vehicles/toyota-hiace.webp", ["available"]),
   vanBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/Mercedes V Class.webp", ["available"], { paxMax: 7, bags: 7 }),
   vanBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/van/Van executiva.webp", ["eco", "electric"], { paxMax: 7, bags: 7 }),
   {

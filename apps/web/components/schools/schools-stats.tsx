@@ -96,7 +96,7 @@ export function SchoolsStats() {
         >
           <div className="relative w-[280px] sm:w-[398px] md:w-[648px] aspect-[648/308]">
             <Image
-              src="/schools/fleet-lineup.png"
+              src="/schools/fleet-lineup.webp"
               alt={t("fleetAlt")}
               fill
               priority={false}

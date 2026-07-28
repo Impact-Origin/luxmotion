@@ -24,10 +24,10 @@ const CATEGORIES: { id: Category; labelKey: string }[] = [
 ]
 
 const PHOTOS: Photo[] = [
-  { src: "/about/exp-tennis-cascais.png", alt: "Estoril Open tennis at Cascais", cat: "events", labelKey: "photos.tennisCascais" },
-  { src: "/about/exp-websummit.jpg", alt: "Web Summit Lisbon", cat: "corporate", labelKey: "photos.webSummit" },
+  { src: "/about/exp-tennis-cascais.webp", alt: "Estoril Open tennis at Cascais", cat: "events", labelKey: "photos.tennisCascais" },
+  { src: "/about/exp-websummit.webp", alt: "Web Summit Lisbon", cat: "corporate", labelKey: "photos.webSummit" },
   { src: "/about/exp-golf.jpg", alt: "Golf course at sunset", cat: "tours", labelKey: "photos.golfAlgarve" },
-  { src: "/about/exp-wedding.png", alt: "Wedding ceremony procession", cat: "weddings", labelKey: "photos.weddingPenhaLonga" },
+  { src: "/about/exp-wedding.webp", alt: "Wedding ceremony procession", cat: "weddings", labelKey: "photos.weddingPenhaLonga" },
   { src: "/about/exp-vip-chauffeur-lisbon.webp", alt: "LuxMotion chauffeur with a VIP guest beside a Mercedes E-Class in Lisbon", cat: "events", labelKey: "photos.vipChauffeurLisbon" },
   { src: "/about/exp-private-aviation.webp", alt: "LuxMotion Sprinter van beside a private jet on the apron", cat: "corporate", labelKey: "photos.privateAviation" },
 ]

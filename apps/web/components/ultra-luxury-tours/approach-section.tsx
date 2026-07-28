@@ -16,7 +16,7 @@ export function UltraLuxuryApproachSection() {
         <div className="w-full md:flex-1">
           <div className="relative aspect-[600/450] w-full overflow-hidden rounded-[4px]">
             <Image
-              src="/ultra-luxury-tours/approach-belem.png"
+              src="/ultra-luxury-tours/approach-belem.webp"
               alt={t("photoAlt")}
               fill
               className="object-cover"

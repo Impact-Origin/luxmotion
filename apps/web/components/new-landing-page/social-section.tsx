@@ -9,12 +9,12 @@ import { api } from "@workspace/convex/api"
 import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
 const fallbackPosts = [
-  { id: "1", media_url: "/instagram/post-1.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
-  { id: "2", media_url: "/instagram/post-2.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
-  { id: "3", media_url: "/instagram/post-3.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
-  { id: "4", media_url: "/instagram/post-2.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
-  { id: "5", media_url: "/instagram/post-3.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
-  { id: "6", media_url: "/instagram/post-1.png", permalink: "https://www.instagram.com/luxmotion.tours/" },
+  { id: "1", media_url: "/instagram/post-1.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
+  { id: "2", media_url: "/instagram/post-2.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
+  { id: "3", media_url: "/instagram/post-3.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
+  { id: "4", media_url: "/instagram/post-2.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
+  { id: "5", media_url: "/instagram/post-3.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
+  { id: "6", media_url: "/instagram/post-1.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
 ]
 
 export function SocialSection() {

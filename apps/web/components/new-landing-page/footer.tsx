@@ -9,7 +9,7 @@ import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean; cover?: boolean }> = [
   // Selo circular: object-contain (sem cover) para não cortar o texto do aro.
   { src: "/footer/badges/clean-safe.webp", alt: "Clean & Safe", w: 44, h: 44 },
-  { src: "/footer/badges/scoring-top5.png", alt: "Scoring Top 5%", w: 44, h: 44 },
+  { src: "/footer/badges/scoring-top5.webp", alt: "Scoring Top 5%", w: 44, h: 44 },
   { src: "/footer/badges/pme.png", alt: "PME Líder", w: 38, h: 44 },
   { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 43, h: 44, mask: true },
   { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 40, h: 44 },

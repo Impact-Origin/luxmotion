@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: `${t("titleDiscover")} ${t("titleSoul")} ${t("titlePortugal")}`,
     description: "Discover private and curated tours across Portugal with local expert drivers.",
     path: "/tours",
-    image: "/tours_hero.jpg",
+    image: "/tours_hero.webp",
     keywords: ["Portugal tours", "Sintra tour", "private tour", "day trips Portugal"],
   })
 }
@@ -42,7 +42,7 @@ export default function ToursPage() {
             name: "Luxury Tours in Portugal",
             description: "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
             path: "/tours",
-            image: "/tours_hero.jpg",
+            image: "/tours_hero.webp",
           })
         }
       />

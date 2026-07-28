@@ -11,8 +11,8 @@ import { useSwipe } from "@/hooks/use-swipe"
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
 const DESTINATIONS = [
-  { id: "lisbon", image: "/ultra-luxury-tours/dest-lisbon-sintra.png", href: "/tours/lisboa", count: 8 },
-  { id: "porto", image: "/ultra-luxury-tours/dest-porto-douro.png", href: "/tours/porto", count: 8 },
+  { id: "lisbon", image: "/ultra-luxury-tours/dest-lisbon-sintra.webp", href: "/tours/lisboa", count: 8 },
+  { id: "porto", image: "/ultra-luxury-tours/dest-porto-douro.webp", href: "/tours/porto", count: 8 },
   { id: "alentejo", image: "/ultra-luxury-tours/dest-alentejo.webp", href: "/tours/alentejo", count: 8 },
 ]
 

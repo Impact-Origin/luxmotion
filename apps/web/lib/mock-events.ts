@@ -62,7 +62,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     basePrice: 65,
     originalPrice: 80,
     currency: "EUR",
-    bannerImageUrl: "/mockup-tours-details/Frame 1171275668.png",
+    bannerImageUrl: "/mockup-tours-details/Frame 1171275668.webp",
     galleryImageUrls: [],
     included: [
       "Fado show",

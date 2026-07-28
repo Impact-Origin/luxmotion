@@ -66,7 +66,7 @@ function MobileImageBracketed({ alt }: { alt: string }) {
       />
       <div className="absolute inset-0 overflow-hidden">
         <Image
-          src="/wedding/offer-couple-car.png"
+          src="/wedding/offer-couple-car.webp"
           alt={alt}
           fill
           sizes="369px"
@@ -184,7 +184,7 @@ export function WeddingOfferSection() {
             />
             <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
               <Image
-                src="/wedding/offer-couple-car.png"
+                src="/wedding/offer-couple-car.webp"
                 alt={t("imageAlt")}
                 width={369}
                 height={310}

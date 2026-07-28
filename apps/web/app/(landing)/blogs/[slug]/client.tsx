@@ -98,7 +98,7 @@ function BlogDetailContent({ slug }: { slug: string }) {
   const sidebarRelated: SidebarRelatedItem[] = otherBlogs.slice(0, 3).map((b) => ({
     id: b._id,
     slug: b.slug,
-    image: b.heroImageUrl || "/mockup-blogs/blog_details_mockup_1.png",
+    image: b.heroImageUrl || "/mockup-blogs/blog_details_mockup_1.webp",
     category: b.category,
     title: b.title,
     date: formatShortDate(b.publishedAt, locale),

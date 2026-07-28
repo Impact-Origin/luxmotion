@@ -31,7 +31,7 @@ const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
 const FALLBACK_THUMBNAILS = [
-  "/corporate/experiences/detail-1.png",
+  "/corporate/experiences/detail-1.webp",
   "/corporate/experiences/detail-2.png",
   "/corporate/experiences/detail-3.png",
   "/corporate/experiences/detail-4.png",

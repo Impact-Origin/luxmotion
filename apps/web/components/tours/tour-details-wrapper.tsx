@@ -43,7 +43,7 @@ export function TourDetailsWrapper({ slug }: TourDetailsWrapperProps) {
     rating: tour.rating || 0,
     reviewCount: tour.reviewCount || 0,
     tags: tour.tags || [],
-    bannerImage: tour.bannerImageUrl || "/mockup-tours-details/Frame 1171275668.png",
+    bannerImage: tour.bannerImageUrl || "/mockup-tours-details/Frame 1171275668.webp",
     additionalBanners: (tour as { additionalBanners?: { url: string; type: "image" | "video" }[] }).additionalBanners ?? (tour.additionalBannerUrls?.filter(Boolean) as string[] ?? []).map((url) => ({ url, type: "image" as const })),
     images: tour.galleryImageUrls?.filter(Boolean) as string[] || [],
 

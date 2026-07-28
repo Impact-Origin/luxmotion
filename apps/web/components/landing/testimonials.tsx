@@ -46,12 +46,12 @@ export function Testimonials() {
   const featuredReviews = useQuery(api.tourReviews.listFeatured)
 
   const images = [
-    { src: "/testimonials-carousel-1.png", alt: t("happyCustomers") },
-    { src: "/testimonials-carousel-2.png", alt: t("groupTour") },
-    { src: "/testimonials-carousel-3.png", alt: t("familyTransfer") },
+    { src: "/testimonials-carousel-1.webp", alt: t("happyCustomers") },
+    { src: "/testimonials-carousel-2.webp", alt: t("groupTour") },
+    { src: "/testimonials-carousel-3.webp", alt: t("familyTransfer") },
     { src: "/testimonials-carousel-4.jpg", alt: t("luxuryRide") },
-    { src: "/testimonials-carousel-5.jpg", alt: t("airportPickup") },
-    { src: "/testimonials-carousel-6.jpg", alt: t("scenicTour") },
+    { src: "/testimonials-carousel-5.webp", alt: t("airportPickup") },
+    { src: "/testimonials-carousel-6.webp", alt: t("scenicTour") },
   ]
 
   const mockTestimonials = [

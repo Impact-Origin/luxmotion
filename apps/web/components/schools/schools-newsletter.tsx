@@ -66,7 +66,7 @@ export function SchoolsNewsletter() {
       <div className="md:hidden flex flex-col">
         <div className="relative w-full h-[300px]">
           <Image
-            src="/schools/newsletter.png"
+            src="/schools/newsletter.webp"
             alt={t("photoAlt")}
             fill
             sizes="100vw"
@@ -135,7 +135,7 @@ export function SchoolsNewsletter() {
       <div className="hidden md:grid grid-cols-2 items-stretch min-h-[500px]">
         <div className={cn("relative w-full min-h-[500px]", revealFromLeft())}>
           <Image
-            src="/schools/newsletter.png"
+            src="/schools/newsletter.webp"
             alt={t("photoAlt")}
             fill
             sizes="50vw"

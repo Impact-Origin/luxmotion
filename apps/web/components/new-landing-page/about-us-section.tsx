@@ -43,7 +43,7 @@ export function AboutUsSection() {
 
             <div className="absolute inset-x-0 bottom-0 top-[40px] lg:top-[62px] origin-bottom scale-[1.18] -translate-x-3 lg:-translate-x-5">
               <Image
-                src="/about/founders.png"
+                src="/about/founders.webp"
                 alt={t("imageAlt")}
                 fill
                 sizes="(max-width: 1024px) 100vw, 680px"

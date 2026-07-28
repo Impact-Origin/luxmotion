@@ -21,26 +21,26 @@ const BADGE_STYLES: Record<Badge, string> = {
 const EXECUTIVE: Veh[] = [
   { name: "Mercedes S400", image: "/fleet/vehicles/mercedes-s400.png", paxMin: 1, paxMax: 3, badges: [] },
   { name: "Porsche Panamera", image: "/fleet/vehicles/porsche-panamera.png", paxMin: 1, paxMax: 4, badges: [] },
-  { name: "Mercedes Sprinter", image: "/fleet/vehicles/mercedes-sprinter.png", paxMin: 1, paxMax: 16, badges: ["premium"] },
+  { name: "Mercedes Sprinter", image: "/fleet/vehicles/mercedes-sprinter.webp", paxMin: 1, paxMax: 16, badges: ["premium"] },
   { name: "Mercedes EQV", image: "/fleet/van/Van executiva.webp", paxMin: 1, paxMax: 8, badges: ["premium", "eco", "electric"] },
   { name: "Bus Executive", image: "/fleet/vehicles/executive-coach.png", paxMin: 1, paxMax: 3, badges: [] },
 ]
 
 const STANDARD: Veh[] = [
-  { name: "Dacia S. ECO-G 100", image: "/fleet/vehicles/dacia-sandero.png", paxMin: 1, paxMax: 3, badges: [] },
+  { name: "Dacia S. ECO-G 100", image: "/fleet/vehicles/dacia-sandero.webp", paxMin: 1, paxMax: 3, badges: [] },
   { name: "Peugeot e-208", image: "/fleet/vehicles/peugeot-e208.png", paxMin: 1, paxMax: 4, badges: [] },
-  { name: "Renault Clio", image: "/fleet/vehicles/renault-clio.png", paxMin: 1, paxMax: 4, badges: [] },
-  { name: "Dacia Jogger", image: "/fleet/vehicles/dacia-jogger.png", paxMin: 1, paxMax: 5, badges: ["premium"] },
+  { name: "Renault Clio", image: "/fleet/vehicles/renault-clio.webp", paxMin: 1, paxMax: 4, badges: [] },
+  { name: "Dacia Jogger", image: "/fleet/vehicles/dacia-jogger.webp", paxMin: 1, paxMax: 5, badges: ["premium"] },
   { name: "Tesla Model Y", image: "/fleet/vehicles/tesla-model-y.png", paxMin: 1, paxMax: 4, badges: ["premium", "eco", "electric"] },
 ]
 
 const GALLERY = [
-  { src: "/wedding-planner/fleet-gallery/tesla-model-3.png", name: "Tesla Model 3" },
-  { src: "/wedding-planner/fleet-gallery/bentley-flying-spur.png", name: "Bentley Flying Spur" },
-  { src: "/wedding-planner/fleet-gallery/porsche-panamera.png", name: "Porsche Panamera" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-sprinter-1.png", name: "Mercedes Sprinter" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-v-class.png", name: "Mercedes V-Class" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-sprinter-2.png", name: "Mercedes Sprinter" },
+  { src: "/wedding-planner/fleet-gallery/mercedes-s-class.webp", name: "Mercedes S-Class" },
+  { src: "/wedding-planner/fleet-gallery/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
+  { src: "/wedding-planner/fleet-gallery/mercedes-v-class.webp", name: "Mercedes V-Class" },
+  { src: "/wedding-planner/fleet-gallery/mercedes-sprinter.webp", name: "Mercedes Sprinter" },
+  { src: "/wedding-planner/fleet-gallery/man-coach.webp", name: "MAN Coach" },
+  { src: "/wedding-planner/fleet-gallery/mini-classico.webp", name: "Mini Clássico" },
 ]
 
 function VehicleCard({ v }: { v: Veh }) {

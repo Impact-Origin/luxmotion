@@ -18,7 +18,7 @@ const FALLBACK_EVENTS: Partial<EventData>[] = [
     location: "Lisboa",
     venue: "Meo Arena",
     eventDate: new Date("2026-03-26T21:00:00").getTime(),
-    bannerImageUrl: "/events/rock-in-rio.png",
+    bannerImageUrl: "/events/rock-in-rio.webp",
     basePrice: 100,
     originalPrice: 240,
     currency: "EUR",

@@ -103,10 +103,10 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 12000,
     originalPrice: 15000,
     currency: "EUR",
-    bannerImageUrl: "/mockup-tours-details/Frame 1171275668.png",
+    bannerImageUrl: "/mockup-tours-details/Frame 1171275668.webp",
     galleryImageUrls: [
-      "/mockup-tours-details/Frame 1171275668.png",
-      "/mockup-tours-details/Frame 1171275668.png",
+      "/mockup-tours-details/Frame 1171275668.webp",
+      "/mockup-tours-details/Frame 1171275668.webp",
     ],
     included: [
       "Private luxury vehicle & chauffeur",
@@ -151,7 +151,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "09:00",
         title: "Partida de Lisboa",
         description: "We'll pick you up from your hotel in Lisbon",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.png",
+        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
         showImage: true,
       },
       {
@@ -161,7 +161,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "10:30",
         title: "Parque do Palácio da Pena",
         description: "Explore the stunning Pena Palace with its vibrant colors",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.png",
+        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
         showImage: true,
       },
       {
@@ -171,7 +171,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "12:00",
         title: "Visita Guiada no Interior do Palácio da Pena",
         description: "Guided tour inside the palace",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.png",
+        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
         showImage: true,
       },
       {
@@ -181,7 +181,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "14:00",
         title: "Exterior do Palácio da Pena",
         description: "Explore the exterior and gardens",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.png",
+        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
         showImage: true,
       },
       {
@@ -191,7 +191,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "15:30",
         title: "Centro Histórico de Sintra",
         description: "Walk through the historic town center",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.png",
+        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
         showImage: true,
       },
       {
@@ -201,7 +201,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "17:00",
         title: "Cabo da Roca",
         description: "Visit the westernmost point of continental Europe",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.png",
+        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
         showImage: true,
       },
     ],

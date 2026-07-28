@@ -95,7 +95,7 @@ export function Payment() {
 
         <div className="flex-1 relative w-full aspect-[562/432]">
           <Image
-            src="/whitelabel/payment.png"
+            src="/whitelabel/payment.webp"
             alt={t("imageAlt")}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"

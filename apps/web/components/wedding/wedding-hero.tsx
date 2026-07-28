@@ -228,7 +228,7 @@ export function WeddingHero() {
         <div className="relative h-[358px] w-full">
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src="/wedding/couple.png"
+              src="/wedding/couple.webp"
               alt={t("photoAlt")}
               fill
               priority
@@ -238,7 +238,7 @@ export function WeddingHero() {
           </div>
           <div className="absolute right-4 bottom-[6px] w-[178px] h-[62px]">
             <Image
-              src="/wedding/cars.png"
+              src="/wedding/cars.webp"
               alt={t("carsAlt")}
               fill
               sizes="178px"
@@ -282,7 +282,7 @@ export function WeddingHero() {
       <div className="hidden md:block relative h-[800px]">
         <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
-            src="/wedding/couple.png"
+            src="/wedding/couple.webp"
             alt={t("photoAlt")}
             fill
             priority
@@ -294,7 +294,7 @@ export function WeddingHero() {
 
         <div className="absolute right-0 bottom-[-2px] w-[403px] h-[139px] pointer-events-none">
           <Image
-            src="/wedding/cars.png"
+            src="/wedding/cars.webp"
             alt={t("carsAlt")}
             fill
             sizes="403px"

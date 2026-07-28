@@ -131,7 +131,7 @@ export function SchoolsProcess() {
             style={{ transitionDelay: "300ms" }}
           >
             <Image
-              src="/schools/process-bus.png"
+              src="/schools/process-bus.webp"
               alt={t("photoAlt")}
               fill
               sizes="(max-width: 768px) 430px, 648px"

@@ -75,7 +75,7 @@ export function WeddingPlannerCalculator() {
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-6 md:gap-10 pt-8">
           <div className="group relative w-full md:flex-1 md:self-stretch min-h-[280px] md:min-h-[480px] overflow-hidden">
             <Image
-              src="/wedding-planner/calculator-visual.png"
+              src="/wedding-planner/calculator-visual.webp"
               alt={t("photoAlt")}
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

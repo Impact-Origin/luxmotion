@@ -114,7 +114,7 @@ export function WeddingFaqSection() {
         <div className={cn("w-full md:flex-1 md:min-w-0 md:sticky md:top-24", revealFromLeft())}>
           <div className="relative w-full aspect-[600/750] border border-[rgba(168,131,58,0.15)] overflow-hidden">
             <Image
-              src="/wedding/faq-couple.png"
+              src="/wedding/faq-couple.webp"
               alt={t("photoAlt")}
               fill
               sizes="(min-width: 768px) 600px, 100vw"

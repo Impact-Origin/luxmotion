@@ -18,7 +18,7 @@ function mapTourToCardData(tour: ApiTourData): TourData {
 
   return {
     id: tour.slug,
-    image: tour.bannerImageUrl || "/mockup_tour_picks/1.jpg",
+    image: tour.bannerImageUrl || "/mockup_tour_picks/1.webp",
     rating: tour.rating ?? 4.5,
     reviewCount: tour.reviewCount ?? 0,
     title: tour.title,

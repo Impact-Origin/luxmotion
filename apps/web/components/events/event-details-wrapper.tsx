@@ -36,7 +36,7 @@ export function EventDetailsWrapper({ slug }: EventDetailsWrapperProps) {
     venue: event.venue,
     eventDate: event.eventDate,
     endDate: event.endDate,
-    bannerImage: event.bannerImageUrl || "/mockup-tours-details/Frame 1171275668.png",
+    bannerImage: event.bannerImageUrl || "/mockup-tours-details/Frame 1171275668.webp",
     additionalBannerImages: event.additionalBannerUrls?.filter(Boolean) as string[] || [],
     images: event.galleryImageUrls?.filter(Boolean) as string[] || [],
     basePrice: event.basePrice,

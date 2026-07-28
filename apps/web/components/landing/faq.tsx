@@ -39,7 +39,7 @@ export function FAQ() {
           <div className="flex w-full flex-col gap-2 lg:w-1/2">
             <div className="relative h-[340px] w-full lg:h-[380px] lg:w-[420px] xl:h-[450px] xl:w-[500px]">
               <Image
-                src="/faq_banner.png"
+                src="/faq_banner.webp"
                 alt="FAQ"
                 fill
                 className="object-contain"

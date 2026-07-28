@@ -11,10 +11,10 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const VEHICLES = [
-  { src: "/wedding/fleet-executive.png", nameKey: "v1.name", capacityKey: "v1.capacity" },
-  { src: "/wedding/fleet-supercar.png", nameKey: "v2.name", capacityKey: "v2.capacity" },
-  { src: "/wedding/fleet-classic.png", nameKey: "v3.name", capacityKey: "v3.capacity" },
-  { src: "/wedding/fleet-van.png", nameKey: "v4.name", capacityKey: "v4.capacity" },
+  { src: "/wedding/fleet-executive.webp", nameKey: "v1.name", capacityKey: "v1.capacity" },
+  { src: "/wedding/fleet-supercar.webp", nameKey: "v2.name", capacityKey: "v2.capacity" },
+  { src: "/wedding/fleet-classic.webp", nameKey: "v3.name", capacityKey: "v3.capacity" },
+  { src: "/wedding/fleet-van.webp", nameKey: "v4.name", capacityKey: "v4.capacity" },
   { src: "/wedding/fleet-coach.png", nameKey: "v5.name", capacityKey: "v5.capacity" },
 ] as const
 

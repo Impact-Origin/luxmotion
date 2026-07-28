@@ -11,9 +11,9 @@ const instagramGradient =
   "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)"
 
 const fallbackPosts = [
-  { id: "1", media_url: "/socials_1.png", permalink: "https://www.instagram.com/luxmotion.tours/", timestamp: "2026-01-01T00:00:00.000Z" },
-  { id: "2", media_url: "/socials_2.png", permalink: "https://www.instagram.com/luxmotion.tours/", timestamp: "2026-01-01T00:00:00.000Z" },
-  { id: "3", media_url: "/socials_3.png", permalink: "https://www.instagram.com/luxmotion.tours/", timestamp: "2026-01-01T00:00:00.000Z" },
+  { id: "1", media_url: "/socials_1.webp", permalink: "https://www.instagram.com/luxmotion.tours/", timestamp: "2026-01-01T00:00:00.000Z" },
+  { id: "2", media_url: "/socials_2.webp", permalink: "https://www.instagram.com/luxmotion.tours/", timestamp: "2026-01-01T00:00:00.000Z" },
+  { id: "3", media_url: "/socials_3.webp", permalink: "https://www.instagram.com/luxmotion.tours/", timestamp: "2026-01-01T00:00:00.000Z" },
 ]
 
 export function SocialSection() {

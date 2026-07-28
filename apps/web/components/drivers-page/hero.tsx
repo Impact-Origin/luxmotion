@@ -193,7 +193,7 @@ export function DriversHero() {
         <div className="hidden lg:flex flex-1 min-w-0 self-stretch z-[1] bg-[#E2DAD0] gap-[2px]">
           <div className="relative w-1/2 overflow-hidden bg-[#EDE8DF]">
             <Image
-              src="/drivers/hero-mercedes-interior.png"
+              src="/drivers/hero-mercedes-interior.webp"
               alt=""
               fill
               sizes="(min-width: 1024px) 30vw"
@@ -214,7 +214,7 @@ export function DriversHero() {
             </div>
             <div className="relative flex-[412] overflow-hidden">
               <Image
-                src="/drivers/hero-van.png"
+                src="/drivers/hero-van.webp"
                 alt=""
                 fill
                 sizes="(min-width: 1024px) 30vw"

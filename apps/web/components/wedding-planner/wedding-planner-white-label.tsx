@@ -76,7 +76,7 @@ export function WeddingPlannerWhiteLabel() {
 
         <div className={cn("group flex-1 min-w-0 self-stretch min-h-[260px] md:min-h-[340px] relative overflow-hidden border border-[rgba(28,27,24,0.08)]", revealFromRight("delay-150"))}>
           <Image
-            src="/wedding-planner/white-label/toast.png"
+            src="/wedding-planner/white-label/toast.webp"
             alt={t("photoAlt")}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"

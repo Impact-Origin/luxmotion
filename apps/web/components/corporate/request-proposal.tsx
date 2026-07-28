@@ -15,9 +15,9 @@ const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } a
 
 // Por capacidade, do mais pequeno ao maior.
 const VEHICLES = [
-  { id: "standard" as const, image: "/fleet/cat-standard.png" },
+  { id: "standard" as const, image: "/fleet/cat-standard.webp" },
   { id: "executive" as const, image: "/fleet/cat-executivo.png" },
-  { id: "van" as const, image: "/fleet/cat-van.png" },
+  { id: "van" as const, image: "/fleet/cat-van.webp" },
   { id: "minibus" as const, image: "/fleet/cat-minibus.png" },
   { id: "bus" as const, image: "/fleet/cat-bus.png" },
 ]

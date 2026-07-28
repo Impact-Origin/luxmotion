@@ -14,13 +14,13 @@ interface CategoryDef {
 }
 
 const CATEGORIES: CategoryDef[] = [
-  { value: "classic", image: "/fleet/cat-standard.png" },
+  { value: "classic", image: "/fleet/cat-standard.webp" },
   { value: "supercar", image: "/fleet/cat-executivo.png" },
   { value: "firstClass", image: "/fleet/cat-xl.png" },
   { value: "businessClass", image: "/fleet/cat-executivo.png" },
-  { value: "van", image: "/fleet/cat-van.png" },
-  { value: "firstClassVan", image: "/fleet/cat-van.png" },
-  { value: "vanLuxury", image: "/fleet/cat-van.png" },
+  { value: "van", image: "/fleet/cat-van.webp" },
+  { value: "firstClassVan", image: "/fleet/cat-van.webp" },
+  { value: "vanLuxury", image: "/fleet/cat-van.webp" },
   { value: "minibus", image: "/fleet/cat-minibus.png" },
   { value: "autocarro", image: "/fleet/cat-bus.png" },
 ]

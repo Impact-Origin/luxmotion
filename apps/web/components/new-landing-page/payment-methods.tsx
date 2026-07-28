@@ -22,7 +22,7 @@ export function PaymentMethods() {
           <div className="hidden lg:flex items-start justify-center w-full gap-10 xl:gap-16">
             <div className="relative w-[500px] h-[440px] xl:w-[600px] xl:h-[530px] shrink-0">
               <Image
-                src="/payment_thumbnail.png"
+                src="/payment_thumbnail.webp"
                 alt="Secure payment methods"
                 fill
                 className="object-contain"
@@ -47,7 +47,7 @@ export function PaymentMethods() {
           <div className="flex lg:hidden flex-col gap-6 md:gap-8 items-center w-full">
             <div className="relative w-[360px] h-[320px]">
               <Image
-                src="/payment_thumbnail.png"
+                src="/payment_thumbnail.webp"
                 alt="Secure payment methods"
                 fill
                 className="object-contain"

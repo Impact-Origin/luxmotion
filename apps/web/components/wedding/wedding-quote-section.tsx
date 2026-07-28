@@ -38,14 +38,14 @@ interface ExtraDef {
 
 // Preços por extra. O kit de boas-vindas é o único cobrado por convidado.
 const EXTRAS: ExtraDef[] = [
-  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.png", price: 45, unitKey: "unitMain", priceShape: "flat" },
-  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.png", price: 180, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
-  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.png", price: 95, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.png", price: 25, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.png", price: 120, unitKey: "unitPerArrival", priceShape: "flat" },
+  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.webp", price: 45, unitKey: "unitMain", priceShape: "flat" },
+  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.webp", price: 180, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
+  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.webp", price: 95, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.webp", price: 25, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.webp", price: 120, unitKey: "unitPerArrival", priceShape: "flat" },
   { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 60, unitKey: "unitPerMoment", priceShape: "flat" },
-  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.png", price: 12, unitKey: "unitPerGuest", priceShape: "perGuest" },
-  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.png", price: 350, unitKey: "unitOnLocation", priceShape: "flat", mostRequested: true },
+  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 12, unitKey: "unitPerGuest", priceShape: "perGuest" },
+  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.webp", price: 350, unitKey: "unitOnLocation", priceShape: "flat", mostRequested: true },
 ]
 
 function ExtraCard({
@@ -145,12 +145,12 @@ const EMPTY_PLACE: GooglePlaceValue = {
 // O clássico e o supercarro reaproveitam os recortes da secção "Explore the
 // fleet" desta mesma página, para o estilo não destoar.
 const VEHICLE_OPTIONS = [
-  { id: "standard", src: "/wedding/quote-standard.png", labelKey: "vehicles.standard" },
-  { id: "executive", src: "/wedding/quote-executive.png", labelKey: "vehicles.executive" },
+  { id: "standard", src: "/wedding/quote-standard.webp", labelKey: "vehicles.standard" },
+  { id: "executive", src: "/wedding/quote-executive.webp", labelKey: "vehicles.executive" },
   { id: "limousine", src: "/wedding/quote-firstclass.png", labelKey: "vehicles.limousine" },
-  { id: "classic", src: "/wedding/fleet-classic.png", labelKey: "vehicles.classic" },
-  { id: "supercar", src: "/wedding/fleet-supercar.png", labelKey: "vehicles.supercar" },
-  { id: "van", src: "/wedding/quote-van.png", labelKey: "vehicles.van" },
+  { id: "classic", src: "/wedding/fleet-classic.webp", labelKey: "vehicles.classic" },
+  { id: "supercar", src: "/wedding/fleet-supercar.webp", labelKey: "vehicles.supercar" },
+  { id: "van", src: "/wedding/quote-van.webp", labelKey: "vehicles.van" },
   { id: "minibus", src: "/wedding/quote-minibus.webp", labelKey: "vehicles.minibus" },
   { id: "coach", src: "/wedding/quote-coach.png", labelKey: "vehicles.coach" },
 ] as const

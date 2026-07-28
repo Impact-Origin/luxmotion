@@ -12,12 +12,12 @@ const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } a
 type DestinationId = "lisboa" | "porto" | "algarve" | "ericeira" | "alentejo" | "madeira"
 
 const DESTINATIONS: readonly { id: DestinationId; image: string }[] = [
-  { id: "lisboa", image: "/corporate/destinations/lisboa.png" },
-  { id: "porto", image: "/corporate/destinations/porto.png" },
-  { id: "algarve", image: "/corporate/destinations/algarve.png" },
-  { id: "ericeira", image: "/corporate/destinations/ericeira.png" },
-  { id: "alentejo", image: "/regions_alentejo.png" },
-  { id: "madeira", image: "/regions_madeira.png" },
+  { id: "lisboa", image: "/corporate/destinations/lisboa.webp" },
+  { id: "porto", image: "/corporate/destinations/porto.webp" },
+  { id: "algarve", image: "/corporate/destinations/algarve.webp" },
+  { id: "ericeira", image: "/corporate/destinations/ericeira.webp" },
+  { id: "alentejo", image: "/regions_alentejo.webp" },
+  { id: "madeira", image: "/regions_madeira.webp" },
 ] as const
 
 const VISIBLE_DESKTOP = 4

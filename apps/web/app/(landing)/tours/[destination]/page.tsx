@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: DestinationPageProps): Promis
     title: `${destinationName} Tours`,
     description: `Explore curated tours and experiences in ${destinationName}.`,
     path: `/tours/${destination}`,
-    image: "/tours_destination_hero.jpg",
+    image: "/tours_destination_hero.webp",
     keywords: [destinationName, "Portugal tours", "private experiences"],
   })
 }
@@ -72,7 +72,7 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
             name: `${destinationName} Tours`,
             description: `Tailored tours and local experiences in ${destinationName}.`,
             path: `/tours/${destination}`,
-            image: "/tours_destination_hero.jpg",
+            image: "/tours_destination_hero.webp",
           })
         }
       />

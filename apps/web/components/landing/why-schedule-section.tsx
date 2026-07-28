@@ -63,7 +63,7 @@ export function WhyScheduleSection() {
           </h2>
 
           <div className="relative w-full max-w-[95%] md:max-w-[75%] mx-auto">
-            <Image src="/why_schedule_thumbnail_container.png" alt={t("heroImageAlt")} width={800} height={300} className="w-full h-auto" priority />
+            <Image src="/why_schedule_thumbnail_container.webp" alt={t("heroImageAlt")} width={800} height={300} className="w-full h-auto" priority />
           </div>
         </div>
 

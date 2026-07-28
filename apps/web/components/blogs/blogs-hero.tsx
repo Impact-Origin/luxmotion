@@ -33,7 +33,7 @@ export function BlogsHero() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[#0a0f14]" />
         <Image
-          src="/blogs/hero-bg.png"
+          src="/blogs/hero-bg.webp"
           alt=""
           fill
           className="object-cover object-[center_30%]"

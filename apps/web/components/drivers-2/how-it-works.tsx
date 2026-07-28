@@ -175,7 +175,7 @@ export function HowItWorks2() {
   const cards: CardConfig[] = [
     {
       num: "01",
-      photo: "/drivers-2/adv-1.png",
+      photo: "/drivers-2/adv-1.webp",
       photoAlt: t("card1.photoAlt"),
       heading: (
         <>
@@ -201,7 +201,7 @@ export function HowItWorks2() {
     },
     {
       num: "02",
-      photo: "/drivers-2/adv-2.jpg",
+      photo: "/drivers-2/adv-2.webp",
       photoAlt: t("card2.photoAlt"),
       heading: (
         <>
@@ -225,7 +225,7 @@ export function HowItWorks2() {
     },
     {
       num: "03",
-      photo: "/drivers-2/adv-3.jpg",
+      photo: "/drivers-2/adv-3.webp",
       photoAlt: t("card3.photoAlt"),
       heading: (
         <>
@@ -250,7 +250,7 @@ export function HowItWorks2() {
     },
     {
       num: "04",
-      photo: "/drivers-2/adv-4.jpg",
+      photo: "/drivers-2/adv-4.webp",
       photoAlt: t("card4.photoAlt"),
       heading: (
         <>

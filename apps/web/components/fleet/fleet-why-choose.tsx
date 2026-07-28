@@ -7,12 +7,12 @@ import { cn } from "@workspace/ui/lib/utils"
 
 const CARDS = [
   {
-    image: "/interior.png",
+    image: "/interior.webp",
     titleKey: "reason1Title",
     descKey: "reason1Cta",
   },
   {
-    image: "/hero-transfers.png",
+    image: "/hero-transfers.webp",
     titleKey: "reason2Title",
     descKey: "reason2Cta",
   },

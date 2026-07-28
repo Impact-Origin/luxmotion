@@ -107,7 +107,7 @@ export default function Page() {
     <div className="flex min-h-screen w-full bg-[#14110c] text-[#f3ecdd]">
       {/* Image panel */}
       <div className="relative hidden w-[46%] max-w-[640px] overflow-hidden lg:block">
-        <Image src="/interior.png" alt="" fill priority sizes="46vw" className="object-cover" />
+        <Image src="/interior.webp" alt="" fill priority sizes="46vw" className="object-cover" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#0f0c08] via-[#0f0c08]/55 to-[#0f0c08]/25" />
         <div
           aria-hidden

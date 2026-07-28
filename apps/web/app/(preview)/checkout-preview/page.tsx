@@ -67,7 +67,7 @@ const MOCK_NEARBY_TOURS: NearbyTour[] = [
     title: "Flemboy tour",
     subtitle: "City lights and festive route",
     description: "Private route with curated highlights.",
-    bannerImageUrl: "/mockup_tour_picks/3.jpg",
+    bannerImageUrl: "/mockup_tour_picks/3.webp",
     basePrice: 16,
     duration: "30 min",
     distanceKm: 6,
