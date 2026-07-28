@@ -4506,12 +4506,12 @@
       },
       "questions": {
         "q1": {
-          "question": "Introduce yourself briefly and tell us what you enjoy most about your job as a driver.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "question": "Briefly introduce yourself and tell us why you decided to become a professional driver.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "question": "What are two of your favorite places in your city and why do you recommend them to travelers?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "question": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "section3": {
