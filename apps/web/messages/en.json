@@ -4932,7 +4932,7 @@
         "surfboardRack": "Surfboard rack"
       },
       "amenities": {
-        "label": "License type",
+        "label": "Type of extras",
         "usbCharger": "USB charger",
         "wifi": "Wi-Fi",
         "pos": "POS / Card reader",
@@ -5068,12 +5068,12 @@
         "duration": "Ideal duration per driver: 40 to 50 seconds",
         "eyebrow": "Question {index}",
         "q1": {
-          "prompt": "Introduce yourself briefly and share what you enjoy most about being a driver.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "prompt": "Briefly introduce yourself and tell us why you decided to become a professional driver.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "prompt": "What are two of your favorite places in your city and why do you recommend them to travelers?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "prompt": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "structure": {
