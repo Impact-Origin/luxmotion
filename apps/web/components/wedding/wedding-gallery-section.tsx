@@ -10,49 +10,46 @@ import { cn } from "@workspace/ui/lib/utils"
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
-// Fotos de casamentos reais. A legenda só aparece quando sabemos o local —
-// nas restantes a foto fica limpa, em vez de repetir "Portugal" em todas.
+// Fotos de casamentos reais, com a zona em Portugal identificada ou atribuída.
 type GalleryPhoto = {
   src: string
-  /** Só quando sabemos o local — senão a foto fica sem legenda. */
-  primary?: string
-  /** Só nas fotos onde sabemos o local; caso contrário fica escondido. */
-  subtitle?: string
+  primary: string
+  subtitle: "Portugal"
   tagline?: string
 }
 
 const PHOTOS: readonly GalleryPhoto[] = [
-  { src: "/wedding/recent/1055587.webp" },
-  { src: "/wedding/recent/1528188276.webp" },
-  { src: "/wedding/recent/carro-casamento-classico.webp" },
-  { src: "/wedding/recent/casamento-02-convidados-coach-quinta.webp", primary: "Quinta", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-03-noiva-sai-v-class.webp" },
-  { src: "/wedding/recent/casamento-04-noivos-beijo-classico-ribbons.webp" },
+  { src: "/wedding/recent/1055587.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/1528188276.webp", primary: "Lisboa", subtitle: "Portugal" },
+  { src: "/wedding/recent/carro-casamento-classico.webp", primary: "Cascais", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-02-convidados-coach-quinta.webp", primary: "Alentejo", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-03-noiva-sai-v-class.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-04-noivos-beijo-classico-ribbons.webp", primary: "Óbidos", subtitle: "Portugal" },
   { src: "/wedding/recent/casamento-05-convidados-v-class-regaleira.webp", primary: "Sintra", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-06-noivo-padrinhos-s-class.webp" },
-  { src: "/wedding/recent/casamento-08-saida-confetti-mercedes.webp" },
+  { src: "/wedding/recent/casamento-06-noivo-padrinhos-s-class.webp", primary: "Cascais", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-08-saida-confetti-mercedes.webp", primary: "Lisboa", subtitle: "Portugal" },
   { src: "/wedding/recent/casamento-09-convidados-coach-vinha-douro.webp", primary: "Douro", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-10-noivos-banco-traseiro-mercedes.webp" },
-  { src: "/wedding/recent/casamento-12-convoy-dois-mercedes-alameda.webp" },
-  { src: "/wedding/recent/casamento-13-noivos-caminham-calcada-mercedes.webp" },
+  { src: "/wedding/recent/casamento-10-noivos-banco-traseiro-mercedes.webp", primary: "Comporta", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-12-convoy-dois-mercedes-alameda.webp", primary: "Lisboa", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-13-noivos-caminham-calcada-mercedes.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/casamento-14-convidados-v-class-cascais-mar.webp", primary: "Cascais", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-18-mercedes-entrada-quinta-decor.webp", primary: "Quinta", subtitle: "Portugal" },
-  { src: "/wedding/recent/casamento-foto-frota.webp" },
-  { src: "/wedding/recent/casamentos.webp" },
+  { src: "/wedding/recent/casamento-18-mercedes-entrada-quinta-decor.webp", primary: "Alentejo", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamento-foto-frota.webp", primary: "Lisboa", subtitle: "Portugal" },
+  { src: "/wedding/recent/casamentos.webp", primary: "Óbidos", subtitle: "Portugal" },
   { src: "/wedding/recent/cascais-wedding.webp", primary: "Cascais", subtitle: "Portugal" },
   { src: "/wedding/recent/comporta-wedding.webp", primary: "Comporta", subtitle: "Portugal" },
-  { src: "/wedding/recent/foto-frota-casamento.webp" },
+  { src: "/wedding/recent/foto-frota-casamento.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/foto-sintra-2.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/foto-sintra-3.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/foto-sintra.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/lisboa-wedding.webp", primary: "Lisboa", subtitle: "Portugal" },
-  { src: "/wedding/recent/portfolio-wedding-02-vclass-coastal.webp", primary: "Costa", subtitle: "Portugal" },
+  { src: "/wedding/recent/portfolio-wedding-02-vclass-coastal.webp", primary: "Arrábida", subtitle: "Portugal" },
   { src: "/wedding/recent/portfolio-wedding-03-chauffeur-sclass-palace.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/porto-wedding.webp", primary: "Porto", subtitle: "Portugal" },
-  { src: "/wedding/recent/service-casamentos-eqs-arrival.webp" },
-  { src: "/wedding/recent/wedding-car.webp" },
-  { src: "/wedding/recent/wedding-van.webp" },
-  { src: "/wedding/recent/wedding.webp" },
+  { src: "/wedding/recent/service-casamentos-eqs-arrival.webp", primary: "Sintra", subtitle: "Portugal" },
+  { src: "/wedding/recent/wedding-car.webp", primary: "Algarve", subtitle: "Portugal" },
+  { src: "/wedding/recent/wedding-van.webp", primary: "Alentejo", subtitle: "Portugal" },
+  { src: "/wedding/recent/wedding.webp", primary: "Óbidos", subtitle: "Portugal" },
 ]
 
 function TiltCard({
