@@ -1430,8 +1430,8 @@
     "titleEnd": "?",
     "goToSlide": "Go to slide {number}",
     "redesign": {
-      "heading": "Which destination",
-      "headingAccent": "shall we?",
+      "heading": "Where do you want to",
+      "headingAccent": "start?",
       "subtitle": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
       "cards": {
         "lisboa": {
@@ -1579,8 +1579,8 @@
     "showMore": "Show more",
     "goToSlide": "Go to slide {number}",
     "redesign": {
-      "heading": "Which destination",
-      "headingAccent": "shall we?",
+      "heading": "Where do you want to",
+      "headingAccent": "start?",
       "subtitle": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
       "cards": {
         "luxury": {
