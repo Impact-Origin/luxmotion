@@ -66,7 +66,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   const [title, setTitle] = React.useState("")
   const [subtitle, setSubtitle] = React.useState("")
   const [description, setDescription] = React.useState<any>(null)
-  const [originalLanguage, setOriginalLanguage] = React.useState("pt")
+  const [originalLanguage, setOriginalLanguage] = React.useState(initialData?.originalLanguage || "pt")
   const [location, setLocation] = React.useState("Lisbon")
   const [venue, setVenue] = React.useState("")
   const [eventDate, setEventDate] = React.useState("")
@@ -85,12 +85,14 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
 
   const [basePrice, setBasePrice] = React.useState("")
   const [originalPrice, setOriginalPrice] = React.useState("")
-  const [currency, setCurrency] = React.useState("EUR")
+  const [currency, setCurrency] = React.useState(initialData?.currency || "EUR")
   const [maxCapacity, setMaxCapacity] = React.useState("")
   const [minPassengers, setMinPassengers] = React.useState("")
   const [maxPassengers, setMaxPassengers] = React.useState("")
 
-  const [status, setStatus] = React.useState<"draft" | "published" | "cancelled" | "completed">("draft")
+  const [status, setStatus] = React.useState<"draft" | "published" | "cancelled" | "completed">(
+    initialData?.status || "draft",
+  )
   const [isFeatured, setIsFeatured] = React.useState(false)
   const [isActive, setIsActive] = React.useState(true)
   const [tags, setTags] = React.useState("")

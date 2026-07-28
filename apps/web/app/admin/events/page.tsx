@@ -6,18 +6,7 @@ import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
 import { EventTranslationForm } from "@/components/admin/event-translation-form"
-import {
-  Plus,
-  Star,
-  Globe,
-  Pencil,
-  Trash2,
-  Eye,
-  MoreHorizontal,
-  Calendar,
-  MapPin,
-  XCircle,
-} from "lucide-react"
+import { Plus, Star, Globe, Pencil, Trash2, Eye, MoreHorizontal, Calendar, MapPin, XCircle, Send, EyeOff } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -53,6 +42,8 @@ export default function AdminEventsPage() {
   const removeEvent = useMutation(api.events.remove)
   const toggleFeatured = useMutation(api.events.toggleFeatured)
   const cancelEvent = useMutation(api.events.cancel)
+  const publishEvent = useMutation(api.events.publish)
+  const unpublishEvent = useMutation(api.events.unpublish)
 
   type EventRow = NonNullable<typeof res>["rows"][number]
 
@@ -92,6 +83,22 @@ export default function AdminEventsPage() {
       toast.success("Event cancelled")
     } catch (error) {
       toast.error("Failed to cancel event")
+    }
+  }
+
+  // Publicar/despublicar a partir da lista. Antes só se conseguia pelo campo
+  // "estado" dentro do formulário — e nenhum evento chegou a ficar publicado.
+  const handleTogglePublish = async (eventId: string, isPublished: boolean) => {
+    try {
+      if (isPublished) {
+        await unpublishEvent({ id: eventId as any })
+        toast.success("Event moved to draft")
+      } else {
+        await publishEvent({ id: eventId as any })
+        toast.success("Event published")
+      }
+    } catch (error) {
+      toast.error("Failed to update event")
     }
   }
 
@@ -136,6 +143,19 @@ export default function AdminEventsPage() {
           {t("preview")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => handleTogglePublish(event._id, event.status === "published")}>
+          {event.status === "published" ? (
+            <>
+              <EyeOff className="mr-2 size-4" />
+              Despublicar
+            </>
+          ) : (
+            <>
+              <Send className="mr-2 size-4" />
+              Publicar
+            </>
+          )}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleToggleFeatured(event._id)}>
           <Star className="mr-2 size-4" />
           {event.isFeatured ? t("removeFeatured") : t("markFeatured")}

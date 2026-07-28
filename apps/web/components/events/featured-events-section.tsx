@@ -9,53 +9,6 @@ import { useFeaturedEvents, type EventData } from "@/hooks/use-event-data"
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
-const FALLBACK_EVENTS: Partial<EventData>[] = [
-  {
-    _id: "f1",
-    slug: "rock-in-rio-lisboa-2026",
-    title: "Rock in Rio Lisboa 2026",
-    subtitle: "Portugal's biggest music festival returns. Private return transfer — depart when you wish, arrive exactly where you need to be. No taxis, no crowds, no waiting.",
-    location: "Lisboa",
-    venue: "Meo Arena",
-    eventDate: new Date("2026-03-26T21:00:00").getTime(),
-    bannerImageUrl: "/events/rock-in-rio.webp",
-    basePrice: 100,
-    originalPrice: 240,
-    currency: "EUR",
-    tags: ["Music Festival"],
-    isFeatured: true,
-  },
-  {
-    _id: "f2",
-    slug: "nos-alive-2026",
-    title: "NOS Alive 2026",
-    subtitle: "Exclusive hotel-to-festival shuttle from Lisbon — three nights, your schedule.",
-    location: "Oeiras",
-    venue: "Passeio Marítimo",
-    eventDate: new Date("2026-07-10").getTime(),
-    endDate: new Date("2026-07-12").getTime(),
-    bannerImageUrl: "/events/nos-alive.png",
-    basePrice: 80,
-    currency: "EUR",
-    tags: ["Music Festival"],
-    isFeatured: false,
-  },
-  {
-    _id: "f3",
-    slug: "estoril-classics-2026",
-    title: "Estoril Classics 2026",
-    subtitle: "Executive transfer direct to the paddock — bypass the public circuit queues entirely.",
-    location: "Estoril",
-    venue: "Autódromo",
-    eventDate: new Date("2026-04-05").getTime(),
-    bannerImageUrl: "/events/estoril-classics.png",
-    basePrice: 65,
-    currency: "EUR",
-    tags: ["Motorsport"],
-    isFeatured: false,
-  },
-]
-
 function formatDate(timestamp: number, endDate?: number): string {
   const d = new Date(timestamp)
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -219,12 +172,13 @@ export function FeaturedEventsSection() {
   const t = useTranslations("eventsPage")
   const { events: dbEvents, isLoading } = useFeaturedEvents(3)
 
-  const events = dbEvents.length > 0
-    ? dbEvents.map((e) => ({
-        ...e,
-        subtitle: e.subtitle ?? "",
-      }))
-    : FALLBACK_EVENTS
+  // Só os eventos reais. Havia aqui um conjunto fixo (Rock in Rio, NOS Alive,
+  // Estoril Classics) que entrava sempre que a base de dados devolvia vazio —
+  // a secção parecia povoada e escondia o facto de nada estar publicado.
+  const events = dbEvents.map((e) => ({
+    ...e,
+    subtitle: e.subtitle ?? "",
+  }))
 
   if (isLoading) {
     return (

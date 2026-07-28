@@ -4,14 +4,6 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { useUpcomingEvents, usePublishedEvents } from "@/hooks/use-event-data"
 
-const FALLBACK_TICKER = [
-  { title: "Rock in Rio", date: "26 Mar", isFeatured: true },
-  { title: "NOS Alive", date: "10 Jul", isFeatured: false },
-  { title: "Super Bock", date: "7 Aug", isFeatured: false },
-  { title: "Estoril Classics", date: "5 Apr", isFeatured: true },
-  { title: "Sintra Festival", date: "18 Mai", isFeatured: false },
-]
-
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
@@ -26,19 +18,17 @@ export function EventsHero() {
   const { events: dbEvents } = useUpcomingEvents(5)
   const { events: allEvents } = usePublishedEvents()
 
-  const eventCount = allEvents.length || 12
-  const citiesCount = allEvents.length > 0
-    ? new Set(allEvents.map((e) => e.location)).size
-    : 5
+  // Números e ticker vêm do que está mesmo publicado. Antes caíam para valores
+  // fixos (12 eventos, 5 cidades, festivais inventados) quando a base de dados
+  // devolvia vazio — a página parecia cheia e os eventos reais não apareciam.
+  const eventCount = allEvents.length
+  const citiesCount = new Set(allEvents.map((e) => e.location)).size
 
-  const tickerEvents =
-    dbEvents.length > 0
-      ? dbEvents.map((e) => ({
-          title: e.title,
-          date: formatEventDate(e.eventDate),
-          isFeatured: e.isFeatured,
-        }))
-      : FALLBACK_TICKER
+  const tickerEvents = dbEvents.map((e) => ({
+    title: e.title,
+    date: formatEventDate(e.eventDate),
+    isFeatured: e.isFeatured,
+  }))
 
   return (
     <section className="relative w-full h-[480px] md:h-[533px] overflow-hidden">
@@ -97,6 +87,8 @@ export function EventsHero() {
         </div>
       </div>
 
+      {/* Sem eventos publicados não há ticker — senão ficava uma caixa vazia. */}
+      {tickerEvents.length > 0 && (
       <div
         className="hidden lg:flex flex-col gap-[6px] absolute right-[48px] bottom-[86px] backdrop-blur-[5px] bg-[rgba(13,13,13,0.75)] border-l-[0.8px] border-[rgba(201,169,110,0.12)] px-[19px] py-[14px]"
         style={sans}
@@ -111,6 +103,7 @@ export function EventsHero() {
           </div>
         ))}
       </div>
+      )}
     </section>
   )
 }
