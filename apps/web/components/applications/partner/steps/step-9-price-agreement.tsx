@@ -22,11 +22,15 @@ interface RouteRow {
 
 const ROUTES: RouteRow[] = [
   { route: "Aeroporto LIS → Lisboa Centro", period: "day", price: "€25,00" },
-  { route: "Aeroporto LIS → Cascais", period: "day", price: "€40,00" },
-  { route: "Aeroporto LIS → Sintra", period: "day", price: "€38,00" },
+  { route: "Aeroporto LIS → Caparica", period: "day", price: "€25,00" },
+  { route: "Aeroporto LIS → Cascais", period: "day", price: "€30,00" },
+  { route: "Aeroporto LIS → Sintra", period: "day", price: "€30,00" },
+  { route: "Aeroporto LIS → Ericeira", period: "day", price: "€35,00" },
   { route: "Aeroporto LIS → Lisboa Centro", period: "night", price: "€28,00" },
-  { route: "Aeroporto LIS → Cascais", period: "night", price: "€44,00" },
-  { route: "Aeroporto LIS → Sintra", period: "night", price: "€42,00" },
+  { route: "Aeroporto LIS → Caparica", period: "night", price: "€28,00" },
+  { route: "Aeroporto LIS → Cascais", period: "night", price: "€35,00" },
+  { route: "Aeroporto LIS → Sintra", period: "night", price: "€35,00" },
+  { route: "Aeroporto LIS → Ericeira", period: "night", price: "€40,00" },
 ]
 
 export function PartnerStepPriceAgreement() {
