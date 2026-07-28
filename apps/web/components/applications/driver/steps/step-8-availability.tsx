@@ -20,11 +20,15 @@ interface RouteRow {
 
 const LISBOA_ROUTES: RouteRow[] = [
   { route: "Aeroporto LIS → Lisboa Centro", period: "day", amount: "€25,00" },
-  { route: "Aeroporto LIS → Cascais", period: "day", amount: "€40,00" },
-  { route: "Aeroporto LIS → Sintra", period: "day", amount: "€38,00" },
+  { route: "Aeroporto LIS → Caparica", period: "day", amount: "€25,00" },
+  { route: "Aeroporto LIS → Cascais", period: "day", amount: "€30,00" },
+  { route: "Aeroporto LIS → Sintra", period: "day", amount: "€30,00" },
+  { route: "Aeroporto LIS → Ericeira", period: "day", amount: "€35,00" },
   { route: "Aeroporto LIS → Lisboa Centro", period: "night", amount: "€28,00" },
-  { route: "Aeroporto LIS → Cascais", period: "night", amount: "€44,00" },
-  { route: "Aeroporto LIS → Sintra", period: "night", amount: "€42,00" },
+  { route: "Aeroporto LIS → Caparica", period: "night", amount: "€28,00" },
+  { route: "Aeroporto LIS → Cascais", period: "night", amount: "€35,00" },
+  { route: "Aeroporto LIS → Sintra", period: "night", amount: "€35,00" },
+  { route: "Aeroporto LIS → Ericeira", period: "night", amount: "€40,00" },
 ]
 
 function CheckChip({
