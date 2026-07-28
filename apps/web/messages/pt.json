@@ -6956,18 +6956,18 @@
       "options": [
         {
           "label": "Pagamento mensal",
-          "body": "Receba a comissão acumulada no primeiro dia útil do mês seguinte. Recomendado para parceiros com volume mensal estável.",
-          "feature": "Transferência Bancária / PayPal / Gift Card"
+          "body": "Receba o valor acumulado dos serviços realizados no mês anterior. Ideal para parceiros que preferem um fluxo de caixa regular e previsível.",
+          "feature": "Transferência Bancária, PayPal ou Gift Card"
         },
         {
           "label": "Pagamento trimestral",
-          "body": "Comissão acumulada cada 3 meses com bónus de 4% sobre o valor total. A opção mais escolhida por hotéis e DMCs.",
-          "feature": "Bónus 4% + Transferência Bancária / PayPal"
+          "body": "Receba o valor acumulado a cada três meses, com todas as reservas organizadas num único pagamento. Uma opção prática para empresas que preferem gestão financeira por trimestre.",
+          "feature": "Transferência Bancária, PayPal ou Gift Card"
         },
         {
           "label": "Pagamento anual",
-          "body": "Pagamento único no final do ano, com bónus de 8% sobre o valor total acumulado. Recomendado para corporate.",
-          "feature": "Bónus 8% + Transferência Bancária"
+          "body": "Receba o valor total acumulado no final do ano, com um único pagamento consolidado. Recomendado para parceiros que preferem centralizar a faturação e simplificar a gestão administrativa.",
+          "feature": "Transferência Bancária, PayPal ou Gift Card"
         }
       ]
     },
