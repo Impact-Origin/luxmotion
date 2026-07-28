@@ -472,6 +472,10 @@ export function Testimonials({
                     fill
                     className="object-cover"
                     sizes="25vw"
+                    /* Já são WebP à medida (<300KB). Servidas directamente: o
+                       optimizador do Vercel devolve 402 com a quota esgotada e
+                       uma faixa destas gasta uma transformação por foto. */
+                    unoptimized
                   />
                 </div>
               ))}
@@ -519,6 +523,7 @@ export function Testimonials({
                     fill
                     className="object-cover"
                     sizes="50vw"
+                    unoptimized
                   />
                 </div>
               ))}

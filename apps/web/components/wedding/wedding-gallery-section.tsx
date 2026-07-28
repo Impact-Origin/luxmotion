@@ -126,6 +126,8 @@ function TiltCard({
             sizes="(min-width: 768px) 80vw, 160vw"
             className="object-cover select-none"
             draggable={false}
+            /* WebP já à medida — servidas directamente (ver testimonials). */
+            unoptimized
           />
         </div>
 
