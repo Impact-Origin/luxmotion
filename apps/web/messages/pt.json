@@ -1578,24 +1578,24 @@
     "showMore": "Mostrar mais",
     "goToSlide": "Ir para o slide {number}",
     "redesign": {
-      "heading": "Qual destino",
-      "headingAccent": "vamos?",
-      "subtitle": "Experiências privadas de dia inteiro selecionadas para viajantes exigentes. Pensadas para quem prefere experiência a itinerário.",
+      "heading": "Por onde quer",
+      "headingAccent": "começar?",
+      "subtitle": "Da chegada ao aeroporto à viagem mais exclusiva, criamos experiências privadas desenhadas para o seu ritmo, o seu destino e o seu nível de exigência.",
       "cards": {
         "luxury": {
-          "label": "Tour de Luxo",
-          "title": "Luxo Viagem",
-          "description": "Bentley, Mercedes Classe S, Tesla — cada veículo é uma declaração. Cada transferência é uma experiência em si."
+          "label": "EXPERIÊNCIAS DE ULTRALUXO",
+          "title": "Portugal no seu nível mais exclusivo",
+          "description": "Viagens privadas de vários dias, com motorista dedicado, hotéis de luxo, experiências únicas e itinerários criados para quem procura algo verdadeiramente memorável."
         },
         "itineraries": {
-          "label": "Tour de Luxo",
-          "title": "Feito sob medida Itinerários",
-          "description": "Região vinícola, vilas escondidas, litorais dramáticos. O seu ritmo, as suas paragens, o seu Portugal."
+          "label": "TOURS PRIVADOS",
+          "title": "Tours à medida, ao seu ritmo",
+          "description": "Descubra Sintra, Cascais, Lisboa, Fátima, Évora, Douro ou outros destinos com um motorista privado, paragens flexíveis e uma experiência pensada à sua medida."
         },
         "transfers": {
-          "label": "Tour Privado",
-          "title": "Privado Transferências",
-          "description": "Do aeroporto ao hotel. Do hotel ao local. Ponto a ponto — sempre na hora certa, sempre com estilo."
+          "label": "TRANSFERS PREMIUM",
+          "title": "Chegue sempre da melhor forma",
+          "description": "Transfers privados de aeroporto, hotéis, eventos e longas distâncias, com veículos premium, motorista profissional, pontualidade e acompanhamento em todos os detalhes."
         }
       }
     },
