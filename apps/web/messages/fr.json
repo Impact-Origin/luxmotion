@@ -1428,8 +1428,8 @@
     "titleEnd": "?",
     "goToSlide": "Aller à la diapositive {number}",
     "redesign": {
-      "heading": "Quelle destination",
-      "headingAccent": "choisissons-nous ?",
+      "heading": "Par où souhaitez-vous",
+      "headingAccent": "commencer ?",
       "subtitle": "Expériences privées d'une journée pour voyageurs exigeants. Conçues pour ceux qui préfèrent l'expérience à l'itinéraire.",
       "cards": {
         "lisboa": {
@@ -1577,8 +1577,8 @@
     "showMore": "Afficher plus",
     "goToSlide": "Aller à la diapositive {number}",
     "redesign": {
-      "heading": "Quelle destination",
-      "headingAccent": "choisissons-nous ?",
+      "heading": "Par où souhaitez-vous",
+      "headingAccent": "commencer ?",
       "subtitle": "Expériences privées d'une journée pour voyageurs exigeants. Conçues pour ceux qui préfèrent l'expérience à l'itinéraire.",
       "cards": {
         "luxury": {
