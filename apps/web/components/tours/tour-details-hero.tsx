@@ -5,13 +5,27 @@ import { MediaBentoGrid } from "@/components/shared/media-bento-grid"
 import { MediaGalleryModal } from "@/components/shared/media-gallery-modal"
 
 export type MediaItem = { url: string; type: "image" | "video" }
+type MediaInput = MediaItem | string | null | undefined
 
 interface TourDetailsHeroProps {
   /** Banner principal - sempre imagem */
   image: string
   /** Extras - podem ser imagens ou vídeos */
-  additionalBanners?: MediaItem[]
+  additionalBanners?: MediaInput[]
   alt?: string
+}
+
+function normalizeMediaItem(item: MediaInput): MediaItem | null {
+  if (typeof item === "string") {
+    return item ? { url: item, type: "image" } : null
+  }
+
+  if (!item?.url) return null
+
+  return {
+    url: item.url,
+    type: item.type === "video" ? "video" : "image",
+  }
 }
 
 export function TourDetailsHero({
@@ -21,11 +35,8 @@ export function TourDetailsHero({
 }: TourDetailsHeroProps) {
   const media: MediaItem[] = [
     { url: image, type: "image" },
-    ...additionalBanners.map((b): MediaItem => ({
-      url: b.url,
-      type: b.type === "video" ? "video" : "image",
-    })),
-  ].filter((m): m is MediaItem => Boolean(m.url))
+    ...additionalBanners.map(normalizeMediaItem),
+  ].filter((m): m is MediaItem => Boolean(m?.url))
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
 

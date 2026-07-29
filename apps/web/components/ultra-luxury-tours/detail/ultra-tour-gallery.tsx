@@ -5,18 +5,32 @@ import { MediaBentoGrid } from "@/components/shared/media-bento-grid"
 import { MediaGalleryModal } from "@/components/shared/media-gallery-modal"
 
 type MediaItem = { url: string; type: "image" | "video" }
+type MediaInput = MediaItem | string | null | undefined
 
 interface UltraTourGalleryProps {
   image: string
-  additionalBanners?: { url: string; type: "image" | "video" }[]
+  additionalBanners?: MediaInput[]
   alt?: string
+}
+
+function normalizeMediaItem(item: MediaInput): MediaItem | null {
+  if (typeof item === "string") {
+    return item ? { url: item, type: "image" } : null
+  }
+
+  if (!item?.url) return null
+
+  return {
+    url: item.url,
+    type: item.type === "video" ? "video" : "image",
+  }
 }
 
 export function UltraTourGallery({ image, additionalBanners = [], alt = "Tour" }: UltraTourGalleryProps) {
   const media: MediaItem[] = [
     { url: image, type: "image" as const },
-    ...additionalBanners.map((b): MediaItem => ({ url: b.url, type: b.type === "video" ? "video" : "image" })),
-  ].filter((m) => Boolean(m.url))
+    ...additionalBanners.map(normalizeMediaItem),
+  ].filter((m): m is MediaItem => Boolean(m?.url))
 
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
