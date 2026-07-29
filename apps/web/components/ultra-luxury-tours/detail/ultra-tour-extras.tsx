@@ -9,6 +9,7 @@ import { useMoney } from "@/components/currency-provider"
 import type { BookingAddon } from "@/components/shared/booking-addons-selector"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
+const SANS_FONT = "var(--font-sans), system-ui, sans-serif"
 
 interface UltraTourExtrasProps {
   addons: BookingAddon[]
@@ -20,17 +21,26 @@ function ExtraCard({ addon, selected, onToggle }: { addon: BookingAddon; selecte
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
   return (
-    <div className="flex h-full flex-col border border-[rgba(154,117,53,0.22)] bg-[#f5f1eb]">
+    <div className="flex h-full flex-col border border-[rgba(154,117,53,0.22)] bg-[#f7f4ef] transition-colors hover:border-[#a08248]">
       <div className="relative aspect-[240/171] w-full overflow-hidden bg-[#1a1a1a]">
         {addon.imageUrl && <Image src={addon.imageUrl} alt={addon.title} fill className="object-cover" sizes="240px" />}
       </div>
-      <div className="flex flex-1 flex-col gap-1 p-3">
-        <span className="text-[15px] font-bold leading-[1.3] text-[#0d0d0d]">{addon.title}</span>
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <span className="text-[20px] font-medium leading-[1.1] text-[#1a1612]" style={{ fontFamily: SERIF_FONT }}>
+          {addon.title}
+        </span>
+        {addon.description && (
+          <span className="line-clamp-2 text-[12px] leading-[1.45] text-[#696969]" style={{ fontFamily: SANS_FONT }}>
+            {addon.description}
+          </span>
+        )}
         <div className="mt-auto flex items-end justify-between">
           <div className="flex flex-col">
-            <span className="text-[14px] font-bold text-[#0d0d0d]">{format(addon.price)}</span>
+            <span className="text-[22px] font-light leading-none text-[#a08248]" style={{ fontFamily: SERIF_FONT }}>
+              {format(addon.price)}
+            </span>
             {addon.pricingType === "per_person" && (
-              <span className="text-[12px] text-[#9a7535]">{t("perPerson")}</span>
+              <span className="text-[12px] font-medium text-[#9a7535]" style={{ fontFamily: SANS_FONT }}>{t("perPerson")}</span>
             )}
           </div>
           <button
@@ -38,8 +48,10 @@ function ExtraCard({ addon, selected, onToggle }: { addon: BookingAddon; selecte
             onClick={onToggle}
             aria-pressed={selected}
             className={cn(
-              "flex size-[32px] shrink-0 items-center justify-center transition-colors",
-              selected ? "bg-[#8a6f3c] text-[#f7f4ef]" : "bg-[#a08248] text-[#f7f4ef] hover:bg-[#8a6f3c]",
+              "flex size-[34px] shrink-0 items-center justify-center border transition-colors",
+              selected
+                ? "border-[#a08248] bg-[#a08248] text-[#f7f4ef]"
+                : "border-[rgba(154,117,53,0.28)] bg-transparent text-[#a08248] hover:border-[#a08248] hover:bg-[rgba(160,130,72,0.08)]",
             )}
           >
             {selected ? <Check className="size-[18px]" strokeWidth={2.5} /> : <Plus className="size-[18px]" strokeWidth={2.5} />}
@@ -76,7 +88,7 @@ export function UltraTourExtras({ addons, selectedAddonIds, onToggleAddon }: Ult
   const showNav = maxOffset > 0
 
   return (
-    <div>
+    <div style={{ fontFamily: SANS_FONT }}>
       <div className="flex flex-col gap-[7px]">
         <span className="text-[11px] font-semibold uppercase tracking-[2.25px] text-[#a08248]">{t("extras")}</span>
         <h2 className="text-[24px] leading-none md:text-[28px]" style={{ fontFamily: SERIF_FONT }}>
@@ -122,7 +134,7 @@ export function UltraTourExtras({ addons, selectedAddonIds, onToggleAddon }: Ult
                 type="button"
                 onClick={() => setOffset(i)}
                 aria-label={`${i + 1}`}
-                className={cn("size-[6px] rounded-full transition-colors", i === offset ? "bg-[#a08248]" : "bg-[rgba(154,117,53,0.3)]")}
+                className={cn("h-[2px] transition-all", i === offset ? "w-8 bg-[#a08248]" : "w-4 bg-[rgba(154,117,53,0.3)]")}
               />
             ))}
           </div>
