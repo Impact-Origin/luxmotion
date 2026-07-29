@@ -186,6 +186,19 @@ export function AllEventsSection() {
             <p className="text-[14px] text-[#999]" style={sans}>
               {search || activeCategory !== "all" ? t("tryFilters") : t("checkBackSoon")}
             </p>
+            {(search || activeCategory !== "all") && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch("")
+                  setActiveCategory("all")
+                }}
+                className="mt-5 h-11 border border-[#C9A96E] bg-[#C9A96E] px-5 text-[11px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] transition-colors hover:bg-[#b8954f]"
+                style={sans}
+              >
+                {t("allEventsLabel")}
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-[10px]">

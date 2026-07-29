@@ -41,6 +41,7 @@ export function TourDetailsHero({
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
   const handleMediaClick = (index: number) => {
+    if (!media[index]) return
     setLightboxIndex(index)
     setLightboxOpen(true)
   }

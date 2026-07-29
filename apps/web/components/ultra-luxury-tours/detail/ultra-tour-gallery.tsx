@@ -36,6 +36,7 @@ export function UltraTourGallery({ image, additionalBanners = [], alt = "Tour" }
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
   const handleMediaClick = (index: number) => {
+    if (!media[index]) return
     setLightboxIndex(index)
     setLightboxOpen(true)
   }

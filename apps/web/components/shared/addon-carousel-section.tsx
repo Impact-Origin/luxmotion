@@ -63,7 +63,8 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
   if (addons.length === 0) return null
 
   const slideOffset = currentSlide * visibleCards
-  const visibleAddons = addons.slice(slideOffset, slideOffset + visibleCards)
+  const cardWidth = `calc(${100 / visibleCards}% - ${(24 * (visibleCards - 1)) / visibleCards}px)`
+  const slideTranslate = `calc(-${(slideOffset * 100) / visibleCards}% - ${(slideOffset * 24) / visibleCards}px)`
 
   return (
     <div
@@ -110,58 +111,60 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
         )}
       </div>
 
-      <div className={cn(
-        "grid gap-6",
-        visibleCards === 1 && "grid-cols-1",
-        visibleCards === 2 && "grid-cols-2",
-        visibleCards === 3 && "grid-cols-3",
-      )}>
-        {visibleAddons.map((addon) => (
-          <div key={addon._id}>
-            <div className="h-full overflow-hidden border border-[rgba(201,169,110,0.18)] bg-[#1A1A1A] transition-colors hover:border-[rgba(201,169,110,0.42)]">
-              {addon.imageUrl ? (
-                <div className="relative aspect-[183/120] w-full overflow-hidden bg-[#111]">
-                  <Image
-                    src={addon.imageUrl}
-                    alt={addon.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
-              ) : (
-                <div className="aspect-[183/120] w-full bg-[#111]" />
-              )}
+      <div className="overflow-hidden">
+        <div
+          className="flex gap-6 transition-transform duration-500 ease-out will-change-transform"
+          style={{
+            transform: `translateX(${slideTranslate})`,
+          }}
+        >
+          {addons.map((addon) => (
+            <div key={addon._id} className="shrink-0" style={{ width: cardWidth }}>
+              <div className="h-full overflow-hidden border border-[rgba(201,169,110,0.18)] bg-[#1A1A1A] transition-colors hover:border-[rgba(201,169,110,0.42)]">
+                {addon.imageUrl ? (
+                  <div className="relative aspect-[183/120] w-full overflow-hidden bg-[#111]">
+                    <Image
+                      src={addon.imageUrl}
+                      alt={addon.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-[183/120] w-full bg-[#111]" />
+                )}
 
-              <div className="flex min-h-[148px] flex-col gap-[8px] bg-[#1A1A1A] px-4 py-4">
-                <h3
-                  className="text-[20px] font-medium leading-[1.1] text-white"
-                  style={{ fontFamily: SERIF_FONT }}
-                >
-                  {addon.title}
-                </h3>
-                <div className="flex items-center">
-                  <span
-                    className="text-[20px] font-semibold leading-none text-[#C9A96E]"
+                <div className="flex min-h-[148px] flex-col gap-[8px] bg-[#1A1A1A] px-4 py-4">
+                  <h3
+                    className="text-[20px] font-medium leading-[1.1] text-white"
                     style={{ fontFamily: SERIF_FONT }}
                   >
-                    {format(addon.price)}/
-                  </span>
-                  {addon.pricingType === "per_person" && (
-                    <span className="ml-1 text-[12px] font-medium text-[#8c8680]">
-                      {t("perPerson")}
+                    {addon.title}
+                  </h3>
+                  <div className="flex items-center">
+                    <span
+                      className="text-[20px] font-semibold leading-none text-[#C9A96E]"
+                      style={{ fontFamily: SERIF_FONT }}
+                    >
+                      {format(addon.price)}/
                     </span>
+                    {addon.pricingType === "per_person" && (
+                      <span className="ml-1 text-[12px] font-medium text-[#8c8680]">
+                        {t("perPerson")}
+                      </span>
+                    )}
+                  </div>
+                  {addon.description && (
+                    <p className="line-clamp-2 text-[13px] leading-[1.45] text-[#999]">
+                      {addon.description}
+                    </p>
                   )}
                 </div>
-                {addon.description && (
-                  <p className="line-clamp-2 text-[13px] leading-[1.45] text-[#999]">
-                    {addon.description}
-                  </p>
-                )}
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {showNavigation && (

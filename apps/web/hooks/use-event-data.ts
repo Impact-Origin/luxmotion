@@ -9,6 +9,7 @@ import {
   MOCK_EVENT_LOCATIONS,
   type MockEvent,
 } from "@/lib/mock-events"
+import { textMatchesSearch } from "@/lib/search"
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_EVENTS === "true"
 
@@ -313,13 +314,15 @@ export function useFilteredEvents(filters: {
   let filtered = [...events]
 
   if (filters.search) {
-    const searchLower = filters.search.toLowerCase()
     filtered = filtered.filter(
       e =>
-        e.title.toLowerCase().includes(searchLower) ||
-        e.subtitle?.toLowerCase().includes(searchLower) ||
-        e.location.toLowerCase().includes(searchLower) ||
-        e.venue?.toLowerCase().includes(searchLower)
+        textMatchesSearch(filters.search!, [
+          e.title,
+          e.subtitle,
+          e.location,
+          e.venue,
+          ...(e.tags ?? []),
+        ])
     )
   }
 
