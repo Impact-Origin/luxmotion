@@ -6,6 +6,7 @@ import { WeddingHero } from "@/components/wedding/wedding-hero"
 import { WeddingOfferSection } from "@/components/wedding/wedding-offer-section"
 import { WeddingStatsSection } from "@/components/wedding/wedding-stats-section"
 import { WeddingTestimonials } from "@/components/wedding/wedding-testimonials"
+import { WeddingCasamentosReviews } from "@/components/wedding/wedding-casamentos-reviews"
 import { WeddingBenefitsSection } from "@/components/wedding/wedding-benefits-section"
 import { WeddingGallerySection } from "@/components/wedding/wedding-gallery-section"
 import { WeddingTrustedBy } from "@/components/wedding/wedding-trusted-by"
@@ -38,6 +39,7 @@ export default function WeddingPage() {
         <WeddingStatsSection />
         <WeddingOfferSection />
         <WeddingTestimonials />
+        <WeddingCasamentosReviews />
         <WeddingBenefitsSection />
         <WeddingGallerySection />
         <WeddingTrustedBy />
