@@ -331,6 +331,9 @@ export default defineSchema({
     ),
     // Extra % added to the base transfer fare when the pickup is an airport.
     airportSurchargePercent: v.optional(v.number()),
+    // Radius, in km, used to decide which tours count as "near" the place the
+    // visitor searched for on /tours/results.
+    toursSearchRadiusKm: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
   }).index("by_key", ["key"]),
 

@@ -20,15 +20,25 @@ export function paginate<T>(all: T[], page: number, pageSize?: number): PagedRes
   return { rows: all.slice(start, start + size), total: all.length, page, pageSize: size };
 }
 
-/** Case-insensitive substring match across the given accessors. */
+/* Lower-cases and strips diacritics so admin searches ignore both case and
+   accents: "sao vicente" finds "São Vicente", and "SÃO" finds "sao". NFD splits
+   an accented letter into base + combining mark, which the range then removes. */
+function foldForSearch(value: string | null | undefined): string {
+  return (value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+/** Case- and accent-insensitive substring match across the given accessors. */
 export function applySearch<T>(
   rows: T[],
   search: string | undefined,
   fields: ((row: T) => string | null | undefined)[],
 ): T[] {
-  const q = search?.trim().toLowerCase();
+  const q = foldForSearch(search).trim();
   if (!q) return rows;
-  return rows.filter((row) => fields.some((f) => (f(row) ?? "").toLowerCase().includes(q)));
+  return rows.filter((row) => fields.some((f) => foldForSearch(f(row)).includes(q)));
 }
 
 /** Sort by a named accessor from `sorters`; no-op if sortBy is unknown. */

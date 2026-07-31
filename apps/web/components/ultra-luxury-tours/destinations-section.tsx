@@ -76,7 +76,12 @@ export function UltraLuxuryDestinationsSection() {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  const visible = isMobile ? MOBILE_VISIBLE : DESKTOP_VISIBLE
+  // Nunca reservar mais colunas do que há destinos: com 4 fixas e apenas 3
+  // destinos, os cartões encostavam à esquerda e sobrava um quarto vazio à
+  // direita. Assim ocupam a largura toda, centrados no contentor.
+  const visible = isMobile
+    ? MOBILE_VISIBLE
+    : Math.min(DESKTOP_VISIBLE, DESTINATIONS.length)
   const maxOffset = Math.max(DESTINATIONS.length - visible, 0)
 
   useEffect(() => {

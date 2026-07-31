@@ -14,6 +14,10 @@ export const siteSettingsDefaults = {
   exchangeRates: { BRL: 6.2, USD: 1.08, GBP: 0.85 },
   // Extra % added to the base transfer fare when the pickup is an airport.
   airportSurchargePercent: 12,
+  // How far from the searched place a tour may be and still show up in the
+  // /tours/results list. Tight on purpose: searching "Mafra" should not return
+  // Lisbon just because it is half an hour down the road.
+  toursSearchRadiusKm: 10,
 } as const;
 
 export const get = query({
@@ -39,6 +43,9 @@ export const get = query({
       airportSurchargePercent:
         existing.airportSurchargePercent ??
         siteSettingsDefaults.airportSurchargePercent,
+      toursSearchRadiusKm:
+        existing.toursSearchRadiusKm ??
+        siteSettingsDefaults.toursSearchRadiusKm,
     };
   },
 });
@@ -54,6 +61,7 @@ export const upsert = mutation({
       v.object({ BRL: v.number(), USD: v.number(), GBP: v.number() }),
     ),
     airportSurchargePercent: v.optional(v.number()),
+    toursSearchRadiusKm: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     if (
@@ -73,6 +81,15 @@ export const upsert = mutation({
     ) {
       throw new Error("airportSurchargePercent must be between 0 and 100");
     }
+    if (
+      args.toursSearchRadiusKm !== undefined &&
+      (!Number.isFinite(args.toursSearchRadiusKm) ||
+        args.toursSearchRadiusKm < 1 ||
+        args.toursSearchRadiusKm > 500)
+    ) {
+      // 1 km = same town only; 500 km covers mainland Portugal end to end.
+      throw new Error("toursSearchRadiusKm must be between 1 and 500");
+    }
 
     const existing = await ctx.db
       .query("siteSettings")
@@ -85,6 +102,7 @@ export const upsert = mutation({
       announcements?: string[];
       exchangeRates?: { BRL: number; USD: number; GBP: number };
       airportSurchargePercent?: number;
+      toursSearchRadiusKm?: number;
       updatedAt: number;
     } = { updatedAt: Date.now() };
     if (args.minAdvanceBookingHours !== undefined)
@@ -97,6 +115,8 @@ export const upsert = mutation({
       patch.exchangeRates = args.exchangeRates;
     if (args.airportSurchargePercent !== undefined)
       patch.airportSurchargePercent = args.airportSurchargePercent;
+    if (args.toursSearchRadiusKm !== undefined)
+      patch.toursSearchRadiusKm = args.toursSearchRadiusKm;
 
     if (existing) {
       await ctx.db.patch(existing._id, patch);

@@ -8,6 +8,7 @@ import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { TourCard, TourData } from "@/components/tours/shared/tour-card"
 import { usePublishedTours, type TourData as ApiTourData } from "@/hooks/use-tour-data"
+import { useToursSearchRadiusKm } from "@/hooks/use-site-settings"
 import { textMatchesSearch } from "@/lib/search"
 
 function mapTourToCardData(tour: ApiTourData): TourData {
@@ -43,18 +44,30 @@ export function SearchResultsContent({ searchQuery }: SearchResultsContentProps)
   const searchLng = searchParams.get("lng") ? parseFloat(searchParams.get("lng")!) : null
   const hasGeoSearch = searchLat !== null && searchLng !== null
 
+  // Configurável em /admin/numbers → "Tours search radius". Fica undefined
+  // enquanto as definições não chegam, para não disparar a pesquisa com o raio
+  // errado e ter de a repetir.
+  const radiusKm = useToursSearchRadiusKm()
+
   const nearbyToursRaw = useQuery(
     api.tours.listNearCoordinates,
-    hasGeoSearch ? { lat: searchLat!, lng: searchLng!, radiusKm: 80 } : "skip"
+    hasGeoSearch && radiusKm !== undefined
+      ? { lat: searchLat!, lng: searchLng!, radiusKm }
+      : "skip"
   )
-  const isLoadingNearby = hasGeoSearch && nearbyToursRaw === undefined
+  const isLoadingNearby =
+    hasGeoSearch && (radiusKm === undefined || nearbyToursRaw === undefined)
 
   const filteredTours = useMemo(() => {
     const all = apiTours.map(mapTourToCardData)
     if (!searchQuery.trim()) return all
 
-    if (nearbyToursRaw && nearbyToursRaw.length > 0) {
-      return nearbyToursRaw.map((tour: any) => mapTourToCardData(tour))
+    // Quando a pesquisa traz coordenadas, a distância manda: zero tours dentro
+    // do raio significa mesmo zero. Cair para a pesquisa por texto trazia de
+    // volta tours longe dali — o endereço do Google inclui rua e código postal,
+    // e qualquer um desses pedaços dava match no catálogo inteiro.
+    if (hasGeoSearch) {
+      return (nearbyToursRaw ?? []).map((tour: any) => mapTourToCardData(tour))
     }
 
     return all.filter((tour) =>
@@ -65,7 +78,7 @@ export function SearchResultsContent({ searchQuery }: SearchResultsContentProps)
         tour.category,
       ])
     )
-  }, [apiTours, nearbyToursRaw, searchQuery])
+  }, [apiTours, hasGeoSearch, nearbyToursRaw, searchQuery])
 
   if (isLoading || isLoadingNearby) {
     return (

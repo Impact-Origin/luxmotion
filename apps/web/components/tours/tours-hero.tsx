@@ -149,17 +149,32 @@ export function ToursHero() {
                 className="flex-1 h-full"
               />
             </div>
-            <button
-              onClick={() => handleSearch()}
-              className="w-full h-[56px] bg-[#C9A96E] border border-[#C9A96E] flex items-center justify-center hover:bg-[#b8954f] transition-colors"
-            >
-              <span
-                className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"
-                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            {/* Duas ações lado a lado: pesquisar o que está escrito, ou saltar
+                directamente para a lista completa sem escrever nada. */}
+            <div className="flex w-full items-stretch">
+              <button
+                onClick={() => handleSearch()}
+                className="flex flex-[2] h-[56px] items-center justify-center border border-[#C9A96E] bg-[#C9A96E] transition-colors hover:bg-[#b8954f]"
               >
-                {t("redesign.searchButton")}
-              </span>
-            </button>
+                <span
+                  className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                >
+                  {t("redesign.searchButton")}
+                </span>
+              </button>
+              <button
+                onClick={() => router.push("/tours/results")}
+                className="flex flex-1 h-[56px] items-center justify-center border border-l-0 border-[#C9A96E] bg-transparent transition-colors hover:bg-[rgba(201,169,110,0.12)]"
+              >
+                <span
+                  className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                >
+                  {t("redesign.viewAllButton")}
+                </span>
+              </button>
+            </div>
           </div>
 
           <div
