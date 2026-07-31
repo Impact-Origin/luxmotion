@@ -7120,5 +7120,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Voordelen",
+    "items": [
+      {
+        "pre": "Gratis annuleren tot 24 uur van tevoren"
+      },
+      {
+        "pre": "Meer dan ",
+        "accent": "300",
+        "post": " vijfsterrenbeoordelingen"
+      },
+      {
+        "pre": "Executive vloot met professionele chauffeurs"
+      },
+      {
+        "pre": "Boek vandaag, betaal in ",
+        "accent": "3 termijnen",
+        "post": " renteloos"
+      },
+      {
+        "pre": "Privétours in ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Dagelijkse vertrekken vanuit Lissabon, Porto en de Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Winkelwagen",
+    "label": "Winkelwagen",
+    "sublabel": "Actieve boeking",
+    "tourLabel": "Privétour",
+    "eventLabel": "Evenement",
+    "guests": "{count, plural, one {# passagier} other {# passagiers}}",
+    "heldLine1": "Boeking",
+    "heldLine2": "Gegarandeerd",
+    "total": "Totaal",
+    "cta": "Bekijk winkelwagen",
+    "dismiss": "Sluiten"
   }
 }

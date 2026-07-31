@@ -7305,5 +7305,46 @@
     "sending": "A enviar…",
     "sent": "Código enviado.",
     "verifying": "A verificar…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Vantagens",
+    "items": [
+      {
+        "pre": "Cancelamento gratuito até 24 horas antes"
+      },
+      {
+        "pre": "Mais de ",
+        "accent": "300",
+        "post": " avaliações cinco estrelas"
+      },
+      {
+        "pre": "Frota executiva com motoristas profissionais"
+      },
+      {
+        "pre": "Reserve hoje, pague em ",
+        "accent": "3 prestações",
+        "post": " sem juros"
+      },
+      {
+        "pre": "Tours privados em ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Partidas diárias de Lisboa, Porto e Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Carrinho",
+    "label": "Carrinho",
+    "sublabel": "Reserva ativa",
+    "tourLabel": "Tour privado",
+    "eventLabel": "Evento",
+    "guests": "{count, plural, one {# passageiro} other {# passageiros}}",
+    "heldLine1": "Reserva",
+    "heldLine2": "Garantida",
+    "total": "Total",
+    "cta": "Ver carrinho",
+    "dismiss": "Fechar"
   }
 }

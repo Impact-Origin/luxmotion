@@ -7306,5 +7306,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Benefits",
+    "items": [
+      {
+        "pre": "Free cancellation up to 24 hours before"
+      },
+      {
+        "pre": "Over ",
+        "accent": "300",
+        "post": " five-star reviews"
+      },
+      {
+        "pre": "Executive fleet with professional drivers"
+      },
+      {
+        "pre": "Book today, pay in ",
+        "accent": "3 instalments",
+        "post": " interest-free"
+      },
+      {
+        "pre": "Private tours in ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Daily departures from Lisbon, Porto and the Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Cart",
+    "label": "Cart",
+    "sublabel": "Active booking",
+    "tourLabel": "Private tour",
+    "eventLabel": "Event",
+    "guests": "{count, plural, one {# passenger} other {# passengers}}",
+    "heldLine1": "Booking",
+    "heldLine2": "Guaranteed",
+    "total": "Total",
+    "cta": "View cart",
+    "dismiss": "Close"
   }
 }

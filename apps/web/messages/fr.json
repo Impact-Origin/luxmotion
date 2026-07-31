@@ -7120,5 +7120,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Avantages",
+    "items": [
+      {
+        "pre": "Annulation gratuite jusqu'à 24 heures avant"
+      },
+      {
+        "pre": "Plus de ",
+        "accent": "300",
+        "post": " avis cinq étoiles"
+      },
+      {
+        "pre": "Flotte exécutive avec chauffeurs professionnels"
+      },
+      {
+        "pre": "Réservez aujourd'hui, payez en ",
+        "accent": "3 fois",
+        "post": " sans frais"
+      },
+      {
+        "pre": "Tours privés en ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Départs quotidiens de Lisbonne, Porto et l'Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Panier",
+    "label": "Panier",
+    "sublabel": "Réservation active",
+    "tourLabel": "Tour privé",
+    "eventLabel": "Événement",
+    "guests": "{count, plural, one {# passager} other {# passagers}}",
+    "heldLine1": "Réservation",
+    "heldLine2": "Garantie",
+    "total": "Total",
+    "cta": "Voir le panier",
+    "dismiss": "Fermer"
   }
 }

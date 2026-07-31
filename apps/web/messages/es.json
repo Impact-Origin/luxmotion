@@ -7136,5 +7136,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Ventajas",
+    "items": [
+      {
+        "pre": "Cancelación gratuita hasta 24 horas antes"
+      },
+      {
+        "pre": "Más de ",
+        "accent": "300",
+        "post": " valoraciones de cinco estrellas"
+      },
+      {
+        "pre": "Flota ejecutiva con conductores profesionales"
+      },
+      {
+        "pre": "Reserve hoy y pague en ",
+        "accent": "3 plazos",
+        "post": " sin intereses"
+      },
+      {
+        "pre": "Tours privados en ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Salidas diarias desde Lisboa, Oporto y el Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Carrito",
+    "label": "Carrito",
+    "sublabel": "Reserva activa",
+    "tourLabel": "Tour privado",
+    "eventLabel": "Evento",
+    "guests": "{count, plural, one {# pasajero} other {# pasajeros}}",
+    "heldLine1": "Reserva",
+    "heldLine2": "Garantizada",
+    "total": "Total",
+    "cta": "Ver carrito",
+    "dismiss": "Cerrar"
   }
 }

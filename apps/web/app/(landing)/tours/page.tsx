@@ -7,6 +7,8 @@ import { ContactSection } from "@/components/new-landing-page/contact-section"
 import { ToursTestimonials } from "@/components/tours/tours-testimonials"
 import { SocialSection } from "@/components/new-landing-page/social-section"
 import { Footer } from "@/components/new-landing-page/footer"
+import { ToursTopBar } from "@/components/tours/tours-top-bar"
+import { ToursCartBar } from "@/components/tours/tours-cart-bar"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
@@ -27,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function ToursPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900 pb-[var(--cart-bar-h,0px)] [--tours-bar-h:30px] md:[--tours-bar-h:36px]">
       <JsonLd
         data={
           buildBreadcrumbSchema([
@@ -46,8 +48,10 @@ export default function ToursPage() {
           })
         }
       />
+      <ToursTopBar />
       <Header />
-      <div className="pt-[46px] md:pt-[46px]">
+      {/* 46px do header + a altura da faixa de topo (30 em telemóvel, 36 acima). */}
+      <div className="pt-[76px] md:pt-[82px]">
         <ToursHero />
         <TourStory />
         <DestinationsSection />
@@ -57,6 +61,7 @@ export default function ToursPage() {
         <SocialSection />
       </div>
       <Footer />
+      <ToursCartBar />
     </div>
   )
 }

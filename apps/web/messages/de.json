@@ -7217,5 +7217,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Vorteile",
+    "items": [
+      {
+        "pre": "Kostenlose Stornierung bis 24 Stunden vorher"
+      },
+      {
+        "pre": "Über ",
+        "accent": "300",
+        "post": " Fünf-Sterne-Bewertungen"
+      },
+      {
+        "pre": "Executive-Flotte mit professionellen Fahrern"
+      },
+      {
+        "pre": "Heute buchen, in ",
+        "accent": "3 Raten",
+        "post": " zinsfrei zahlen"
+      },
+      {
+        "pre": "Private Touren auf ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Tägliche Abfahrten ab Lissabon, Porto und der Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Warenkorb",
+    "label": "Warenkorb",
+    "sublabel": "Aktive Buchung",
+    "tourLabel": "Private Tour",
+    "eventLabel": "Veranstaltung",
+    "guests": "{count, plural, one {# Passagier} other {# Passagiere}}",
+    "heldLine1": "Buchung",
+    "heldLine2": "Garantiert",
+    "total": "Gesamt",
+    "cta": "Warenkorb ansehen",
+    "dismiss": "Schließen"
   }
 }

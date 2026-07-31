@@ -284,7 +284,7 @@ export function Header({
     <>
       <header
         className={cn(
-          "fixed top-[var(--promo-h,0px)] left-0 right-0 z-50 transition-all duration-300",
+          "fixed top-[calc(var(--promo-h,0px)_+_var(--tours-bar-h,0px))] left-0 right-0 z-50 transition-all duration-300",
           isTransparent
             ? "bg-transparent"
             : isLight
