@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { Mail, Phone, Shield, ArrowRight, CheckCircle2 } from "lucide-react"
 import { useMutation } from "convex/react"
@@ -57,11 +58,14 @@ function QuoteForm() {
   const t = useTranslations("corporatePage.contact.reachOut.form")
   const submit = useMutation(api.contactQuotes.submit)
 
+  const searchParams = useSearchParams()
   const [fullName, setFullName] = useState("")
   const [company, setCompany] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [subject, setSubject] = useState("")
+  // Assunto pré-preenchido quando se chega de "Tenho interesse" numa
+  // experiência: /corporate/contact?subject=Nome%20da%20experiência
+  const [subject, setSubject] = useState(() => searchParams.get("subject") ?? "")
   const [message, setMessage] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -223,7 +227,10 @@ export function ContactReachOut() {
   const t = useTranslations("corporatePage.contact.reachOut")
 
   return (
-    <section className="w-full bg-[#f7f4ef] px-4 py-10 md:px-[82px] md:py-[40px] 2xl:px-[300px]">
+    <section
+      id="contact-form"
+      className="w-full scroll-mt-[80px] bg-[#f7f4ef] px-4 py-10 md:px-[82px] md:py-[40px] 2xl:px-[300px]"
+    >
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start justify-between gap-12 lg:flex-row lg:gap-[60px]">
         <div className="flex w-full max-w-[500px] flex-col gap-6">
           <div className="flex flex-col gap-2">
@@ -311,7 +318,10 @@ export function ContactReachOut() {
           </div>
         </div>
 
-        <QuoteForm />
+        {/* useSearchParams precisa de Suspense — sem isto o build estático falha. */}
+        <Suspense fallback={null}>
+          <QuoteForm />
+        </Suspense>
       </div>
     </section>
   )
