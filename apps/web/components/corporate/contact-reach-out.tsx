@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
-import { Mail, Phone, Shield, ArrowRight, CheckCircle2 } from "lucide-react"
+import { Mail, Phone, Shield, ArrowRight, Check, Clock, CalendarDays, ArrowLeft } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { PhoneInput } from "@/components/ui/phone-input"
@@ -54,6 +54,162 @@ function Divider() {
   return <div className="h-px w-full bg-[rgba(28,27,24,0.08)]" />
 }
 
+const WHATSAPP_URL = "https://wa.me/351963650278"
+const CALENDLY_URL = "https://calendly.com/easytransfer/30min"
+
+/** Referência legível para o cliente citar, derivada do id da submissão. */
+function buildReference(id?: string): string {
+  const year = new Date().getFullYear()
+  const seed = id ?? String(Date.now())
+  let n = 0
+  for (const ch of seed) n = (n * 31 + ch.charCodeAt(0)) % 100000
+  return `LM-${year}-${String(n).padStart(5, "0")}`
+}
+
+/** Confirmação depois de enviar o pedido — ocupa o lugar do formulário. */
+function QuoteSubmitted({
+  name,
+  email,
+  reference,
+}: {
+  name: string
+  email: string
+  reference: string
+}) {
+  const t = useTranslations("corporatePage.contact.reachOut.form.success")
+
+  const steps = [
+    { title: t("step1Title"), body: t("step1Body"), time: t("step1Time"), icon: Clock },
+    { title: t("step2Title"), body: t("step2Body"), time: t("step2Time"), icon: Clock },
+    { title: t("step3Title"), body: t("step3Body"), time: t("step3Time"), icon: Check },
+  ]
+
+  return (
+    <div className="flex w-full max-w-[600px] flex-col overflow-hidden border border-[rgba(168,131,58,0.25)] bg-[#0d0d0d] shadow-[0px_4px_40px_0px_rgba(0,0,0,0.18)]">
+      <div className="flex flex-col items-center gap-3 px-6 py-10 text-center md:px-[49px]">
+        <div className="flex size-16 items-center justify-center rounded-full border border-[rgba(201,169,110,0.45)] bg-[rgba(201,169,110,0.08)]">
+          <Check className="size-7 text-[#c9a96e]" strokeWidth={2} />
+        </div>
+
+        <p
+          className="text-[10px] font-semibold uppercase tracking-[2px] text-[#c9a96e]"
+          style={sans}
+        >
+          {t("eyebrow")}
+        </p>
+
+        <h3 className="text-[32px] leading-tight text-white" style={serif}>
+          {t("thankYou")}{" "}
+          <span className="italic text-[#c9a96e]">{name}</span>.
+        </h3>
+
+        <p className="max-w-[420px] text-[14px] leading-[1.5] text-[#999]" style={sans}>
+          {t("body", { email })}
+        </p>
+
+        <div className="mt-2 inline-flex items-center gap-3 border border-[rgba(255,255,255,0.12)] px-4 py-2">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[1.6px] text-[#999]"
+            style={sans}
+          >
+            {t("reference")}
+          </span>
+          <span className="text-[13px] tracking-[1px] text-[#c9a96e]" style={sans}>
+            {reference}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-5 border-t border-[rgba(255,255,255,0.08)] bg-[#111] px-6 py-8 md:px-[49px]">
+        <div className="flex items-center gap-2">
+          <div className="h-px w-8 bg-[#c9a96e]" />
+          <p
+            className="text-[10px] font-semibold uppercase tracking-[2px] text-[#c9a96e]"
+            style={sans}
+          >
+            {t("whatNext")}
+          </p>
+        </div>
+
+        {steps.map((step, i) => {
+          const Icon = step.icon
+          return (
+            <div key={step.title} className="flex gap-4">
+              <span
+                className="shrink-0 pt-[2px] text-[13px] italic text-[#c9a96e]"
+                style={serif}
+              >
+                — {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="flex flex-col gap-1">
+                <p className="text-[14px] font-semibold text-white" style={sans}>
+                  {step.title}
+                </p>
+                <p className="text-[13px] leading-[1.45] text-[#999]" style={sans}>
+                  {step.body}
+                </p>
+                <span
+                  className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[1.4px] text-[#c9a96e]"
+                  style={sans}
+                >
+                  <Icon className="size-3" strokeWidth={2} />
+                  {step.time}
+                </span>
+              </div>
+            </div>
+          )
+        })}
+
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 inline-flex h-12 w-full items-center justify-center gap-2 bg-[#a08248] px-6 text-[13px] font-semibold uppercase tracking-[1.1px] text-white transition-colors hover:bg-[#b89558]"
+          style={sans}
+        >
+          {t("whatsapp")}
+          <ArrowRight className="size-4" strokeWidth={2} />
+        </a>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 items-center justify-center gap-2 border border-[rgba(255,255,255,0.18)] px-4 text-[12px] font-medium uppercase tracking-[1px] text-white transition-colors hover:border-[#c9a96e] hover:text-[#c9a96e]"
+            style={sans}
+          >
+            <CalendarDays className="size-4" strokeWidth={1.8} />
+            {t("scheduleCall")}
+          </a>
+          {/* "Ver serviços" volta atrás, para a página de onde veio o pedido. */}
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="inline-flex h-11 items-center justify-center gap-2 border border-[rgba(255,255,255,0.18)] px-4 text-[12px] font-medium uppercase tracking-[1px] text-white transition-colors hover:border-[#c9a96e] hover:text-[#c9a96e]"
+            style={sans}
+          >
+            <ArrowLeft className="size-4" strokeWidth={1.8} />
+            {t("exploreServices")}
+          </button>
+        </div>
+
+        <p className="text-[12px] leading-[1.5] text-[#777]" style={sans}>
+          {t("footerPre")}{" "}
+          <a href={`mailto:${EMAIL_GROUPS}`} className="text-[#c9a96e] underline">
+            {t("footerLink")}
+          </a>{" "}
+          {t("footerPost")}{" "}
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-[#c9a96e]">
+            {PHONE}
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function QuoteForm() {
   const t = useTranslations("corporatePage.contact.reachOut.form")
   const submit = useMutation(api.contactQuotes.submit)
@@ -69,13 +225,14 @@ function QuoteForm() {
   const [message, setMessage] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [reference, setReference] = useState("")
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (submitting) return
     setSubmitting(true)
     try {
-      await submit({
+      const res = await submit({
         fullName: fullName.trim(),
         company: company.trim(),
         email: email.trim(),
@@ -84,10 +241,21 @@ function QuoteForm() {
         message: message.trim(),
         referralSlug: readReferralCookie() ?? undefined,
       })
+      setReference(buildReference(res?.id))
       setSubmitted(true)
     } catch {
       setSubmitting(false)
     }
+  }
+
+  if (submitted) {
+    return (
+      <QuoteSubmitted
+        name={fullName.trim()}
+        email={email.trim()}
+        reference={reference}
+      />
+    )
   }
 
   return (
@@ -110,18 +278,7 @@ function QuoteForm() {
         {t("intro")}
       </p>
 
-      {submitted ? (
-        <div className="flex flex-col items-center gap-3 py-10 text-center">
-          <CheckCircle2 className="h-12 w-12 text-[#a08248]" strokeWidth={1.5} />
-          <h4 className="text-[24px] leading-none text-[#0d0d0d]" style={serif}>
-            {t("successTitle")}
-          </h4>
-          <p className="max-w-[420px] text-[14px] leading-[1.5] text-[#696969]" style={sans}>
-            {t("successBody")}
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div className="flex flex-col gap-2">
               <FieldLabel>{t("name")}</FieldLabel>
@@ -218,7 +375,6 @@ function QuoteForm() {
             </p>
           </div>
         </form>
-      )}
     </div>
   )
 }

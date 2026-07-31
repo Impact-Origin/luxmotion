@@ -5475,7 +5475,29 @@
           "submitting": "Wird gesendet...",
           "note": "Persönliche Antwort innerhalb von 24 Stunden · Unverbindlich · DSGVO-konform",
           "successTitle": "Anfrage Gesendet",
-          "successBody": "Vielen Dank. Unser Team antwortet innerhalb von 24 Stunden mit einem maßgeschneiderten Angebot."
+          "successBody": "Vielen Dank. Unser Team antwortet innerhalb von 24 Stunden mit einem maßgeschneiderten Angebot.",
+          "success": {
+            "eyebrow": "Anfrage erhalten",
+            "thankYou": "Vielen Dank,",
+            "body": "Ihre Anfrage ist eingegangen und unser Team bereitet bereits Ihr massgeschneidertes Angebot vor. Eine Bestätigung wurde an {email} gesendet.",
+            "reference": "Referenz",
+            "whatNext": "Wie es weitergeht",
+            "step1Title": "Prüfung und Zuweisung",
+            "step1Body": "Ein persönlicher Ansprechpartner prüft Ihre Anfrage und übernimmt Ihr Projekt.",
+            "step1Time": "Innerhalb von 2 Stunden",
+            "step2Title": "Individuelles Angebot",
+            "step2Body": "Sie erhalten ein detailliertes Angebot mit Routenplanung, Fahrzeugzuteilung und transparenten Preisen.",
+            "step2Time": "Innerhalb von 24 Stunden",
+            "step3Title": "Abstimmen und bestätigen",
+            "step3Body": "Wir stimmen jedes Detail mit Ihnen ab, bis alles Ihrer Vorstellung entspricht. Dann starten wir.",
+            "step3Time": "In Ihrem Tempo",
+            "whatsapp": "Auf WhatsApp fortfahren",
+            "scheduleCall": "Anruf vereinbaren",
+            "exploreServices": "Leistungen ansehen",
+            "footerPre": "Möchten Sie Ihrer Anfrage etwas hinzufügen?",
+            "footerLink": "Antworten Sie auf unsere Bestätigungsmail",
+            "footerPost": "oder schreiben Sie uns per WhatsApp an"
+          }
         }
       },
       "preferToTalk": {

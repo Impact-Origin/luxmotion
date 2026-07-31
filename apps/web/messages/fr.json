@@ -5378,7 +5378,29 @@
           "submitting": "Envoi...",
           "note": "Réponse personnalisée sous 24 heures · Sans engagement · Conforme au RGPD",
           "successTitle": "Demande Envoyée",
-          "successBody": "Merci. Notre équipe vous répondra sous 24 heures avec une proposition sur mesure."
+          "successBody": "Merci. Notre équipe vous répondra sous 24 heures avec une proposition sur mesure.",
+          "success": {
+            "eyebrow": "Demande reçue",
+            "thankYou": "Merci,",
+            "body": "Votre demande a bien été reçue et notre équipe prépare déjà votre proposition sur mesure. Une confirmation a été envoyée à {email}.",
+            "reference": "Référence",
+            "whatNext": "Les prochaines étapes",
+            "step1Title": "Examen et attribution",
+            "step1Body": "Un gestionnaire dédié examine votre demande et prend en charge votre projet.",
+            "step1Time": "Sous 2 heures",
+            "step2Title": "Proposition personnalisée",
+            "step2Body": "Vous recevrez une proposition détaillée avec planification des trajets, véhicules attribués et tarifs transparents.",
+            "step2Time": "Sous 24 heures",
+            "step3Title": "Ajuster et confirmer",
+            "step3Body": "Nous ajustons chaque détail avec vous jusqu'à ce que tout corresponde à votre vision. Puis nous activons.",
+            "step3Time": "À votre rythme",
+            "whatsapp": "Continuer sur WhatsApp",
+            "scheduleCall": "Planifier un appel",
+            "exploreServices": "Voir les services",
+            "footerPre": "Besoin d'ajouter des détails à votre demande ?",
+            "footerLink": "Répondez à notre email de confirmation",
+            "footerPost": "ou écrivez-nous sur WhatsApp au"
+          }
         }
       },
       "preferToTalk": {

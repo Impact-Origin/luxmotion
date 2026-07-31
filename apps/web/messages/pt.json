@@ -5563,7 +5563,29 @@
           "submitting": "A enviar...",
           "note": "Resposta personalizada em 24 horas · Sem compromisso · Em conformidade com o RGPD",
           "successTitle": "Pedido Enviado",
-          "successBody": "Obrigado. A nossa equipa responderá com uma proposta à medida em 24 horas."
+          "successBody": "Obrigado. A nossa equipa responderá com uma proposta à medida em 24 horas.",
+          "success": {
+            "eyebrow": "Pedido recebido",
+            "thankYou": "Obrigado,",
+            "body": "O seu pedido foi recebido e a nossa equipa já está a preparar a proposta à sua medida. Enviámos uma confirmação para {email}.",
+            "reference": "Referência",
+            "whatNext": "O que acontece a seguir",
+            "step1Title": "Análise e atribuição",
+            "step1Body": "Um gestor dedicado analisa o seu pedido e fica responsável pelo seu projeto.",
+            "step1Time": "Em 2 horas",
+            "step2Title": "Proposta personalizada",
+            "step2Body": "Recebe uma proposta detalhada com planeamento de rotas, viaturas atribuídas e preços transparentes.",
+            "step2Time": "Em 24 horas",
+            "step3Title": "Afinar e confirmar",
+            "step3Body": "Ajustamos cada detalhe consigo até ficar exatamente como imaginou. Depois avançamos.",
+            "step3Time": "Ao seu ritmo",
+            "whatsapp": "Continuar no WhatsApp",
+            "scheduleCall": "Agendar chamada",
+            "exploreServices": "Ver serviços",
+            "footerPre": "Precisa de acrescentar algo ao pedido?",
+            "footerLink": "Responda ao email de confirmação",
+            "footerPost": "ou fale connosco por WhatsApp para"
+          }
         }
       },
       "preferToTalk": {

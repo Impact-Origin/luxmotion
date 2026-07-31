@@ -5378,7 +5378,29 @@
           "submitting": "Versturen...",
           "note": "Persoonlijke reactie binnen 24 uur · Vrijblijvend · AVG-conform",
           "successTitle": "Aanvraag Verzonden",
-          "successBody": "Bedankt. Ons team reageert binnen 24 uur met een voorstel op maat."
+          "successBody": "Bedankt. Ons team reageert binnen 24 uur met een voorstel op maat.",
+          "success": {
+            "eyebrow": "Aanvraag ontvangen",
+            "thankYou": "Dank u,",
+            "body": "Uw aanvraag is ontvangen en ons team stelt al uw voorstel op maat samen. Een bevestiging is verzonden naar {email}.",
+            "reference": "Referentie",
+            "whatNext": "Wat er nu gebeurt",
+            "step1Title": "Beoordeling en toewijzing",
+            "step1Body": "Een vaste accountmanager beoordeelt uw aanvraag en neemt uw project op zich.",
+            "step1Time": "Binnen 2 uur",
+            "step2Title": "Persoonlijk voorstel",
+            "step2Body": "U ontvangt een gedetailleerd voorstel met routeplanning, voertuigindeling en transparante prijzen.",
+            "step2Time": "Binnen 24 uur",
+            "step3Title": "Afstemmen en bevestigen",
+            "step3Body": "We stemmen elk detail met u af tot het precies is zoals u het voor ogen had. Daarna gaan we van start.",
+            "step3Time": "In uw tempo",
+            "whatsapp": "Doorgaan op WhatsApp",
+            "scheduleCall": "Gesprek inplannen",
+            "exploreServices": "Diensten bekijken",
+            "footerPre": "Wilt u iets toevoegen aan uw aanvraag?",
+            "footerLink": "Beantwoord onze bevestigingsmail",
+            "footerPost": "of stuur ons een WhatsApp op"
+          }
         }
       },
       "preferToTalk": {

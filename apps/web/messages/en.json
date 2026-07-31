@@ -5564,7 +5564,29 @@
           "submitting": "Sending...",
           "note": "Personalised response within 24 hours · No commitment · GDPR compliant",
           "successTitle": "Request Sent",
-          "successBody": "Thank you. Our team will reply with a tailored proposal within 24 hours."
+          "successBody": "Thank you. Our team will reply with a tailored proposal within 24 hours.",
+          "success": {
+            "eyebrow": "Request received",
+            "thankYou": "Thank you,",
+            "body": "Your request has been received and our team is already preparing your tailored proposal. A confirmation has been sent to {email}.",
+            "reference": "Reference",
+            "whatNext": "What happens next",
+            "step1Title": "Brief review & assignment",
+            "step1Body": "A dedicated account manager reviews your request and is assigned to your project.",
+            "step1Time": "Within 2 hours",
+            "step2Title": "Personalised proposal",
+            "step2Body": "You'll receive a detailed proposal with route planning, vehicle allocation, and transparent pricing.",
+            "step2Time": "Within 24 hours",
+            "step3Title": "Refine & confirm",
+            "step3Body": "We adjust every detail with you until it's exactly what you envisioned. Then we activate.",
+            "step3Time": "At your pace",
+            "whatsapp": "Continue on WhatsApp",
+            "scheduleCall": "Schedule a call",
+            "exploreServices": "Explore services",
+            "footerPre": "Need to add details to your request?",
+            "footerLink": "Reply to our confirmation email",
+            "footerPost": "or message us on WhatsApp at"
+          }
         }
       },
       "preferToTalk": {
