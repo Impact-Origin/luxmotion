@@ -4210,16 +4210,23 @@
     "calculator": {
       "eyebrow": "INKOMSTENCALCULATOR",
       "titleStart": "Bereken de",
-      "titleAccent": "potentiële inkomsten",
+      "titleAccent": "commissie",
       "body1": "Elke bruiloft is een inkomstenkans.",
       "body2": "Geen operationeel beheer aan uw kant.",
       "weddingsLabel": "Bruiloften per maand",
-      "guestsLabel": "Gemiddeld aantal gasten per bruiloft",
-      "commissionLabel": "Commissie (%)",
+      "commissionLabel": "Commissie",
       "placeholderSelect": "Selecteren",
       "monthlyLabel": "Geschatte maandelijkse inkomsten",
       "yearlyLabel": "Geschatte jaarlijkse inkomsten",
-      "photoAlt": "Wedding planner die de evenementdetails doorneemt"
+      "photoAlt": "Wedding planner die de evenementdetails doorneemt",
+      "ticketLabel": "Gemiddeld bruiloftsbudget",
+      "ticketOrMore": "{value} of meer",
+      "commissionRecommended": "{value}% (aanbevolen)",
+      "rowRange": "Geschatte mobiliteitsuitgaven",
+      "rowReference": "Referentiewaarde gebruikt in de berekening",
+      "rowPerWedding": "Geschatte commissie per bruiloft",
+      "note": "Omvat transfers voor het bruidspaar en de gasten, klassieke wagens en overige LuxMotion-mobiliteitsdiensten.",
+      "disclaimer": "Indicatieve simulatie. De werkelijke commissie hangt af van de geboekte en geleverde LuxMotion-diensten."
     },
     "ctaBand": {
       "titleStart": "Klaar voor een",

@@ -4394,17 +4394,24 @@
     },
     "calculator": {
       "eyebrow": "CALCULADORA DE RECEITA",
-      "titleStart": "Calcule a receita",
+      "titleStart": "Calcule a comissão",
       "titleAccent": "potencial",
       "body1": "Cada casamento é uma oportunidade de receita.",
       "body2": "Sem gestão operacional da sua parte.",
       "weddingsLabel": "Casamentos por mês",
-      "guestsLabel": "Convidados médios por casamento",
-      "commissionLabel": "Comissão (%)",
+      "commissionLabel": "Comissão",
       "placeholderSelect": "Selecionar",
       "monthlyLabel": "Receita mensal estimada",
       "yearlyLabel": "Receita anual estimada",
-      "photoAlt": "Wedding planner a rever detalhes do evento"
+      "photoAlt": "Wedding planner a rever detalhes do evento",
+      "ticketLabel": "Ticket médio por casamento",
+      "ticketOrMore": "{value} ou mais",
+      "commissionRecommended": "{value}% (recomendado)",
+      "rowRange": "Despesa estimada em mobilidade",
+      "rowReference": "Valor de referência usado no cálculo",
+      "rowPerWedding": "Comissão estimada por casamento",
+      "note": "Inclui transfers dos noivos e convidados, veículos clássicos e outros serviços de mobilidade LuxMotion.",
+      "disclaimer": "Simulação indicativa. A comissão real depende do valor dos serviços LuxMotion efetivamente reservados e realizados."
     },
     "ctaBand": {
       "titleStart": "Pronto para uma",

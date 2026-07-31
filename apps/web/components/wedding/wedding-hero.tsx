@@ -2,8 +2,11 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { ArrowRight, BadgeCheck, Check, MessageSquare, Star } from "lucide-react"
-import { TRUSTPILOT_REVIEWS_URL, REVIEW_LINK_PROPS } from "@/lib/review-links"
+import {
+  WeddingTrustStrip,
+  WeddingTrustStripMobile,
+} from "@/components/shared/wedding-trust-strip"
+import { ArrowRight, Check, MessageSquare } from "lucide-react"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -55,98 +58,6 @@ function StatCard({ value, label }: { value: string; label: string }) {
         style={SANS_FONT}
       >
         {label}
-      </div>
-    </div>
-  )
-}
-
-function TrustStrip({
-  excellent,
-  verifiedBy,
-  fromReviews,
-  poweredBy,
-}: {
-  excellent: string
-  verifiedBy: string
-  fromReviews: string
-  poweredBy: string
-}) {
-  return (
-    <div
-      className="hidden md:flex h-[70px] items-center gap-3 px-4 py-3 bg-[rgba(255,255,255,0.06)] border border-[rgba(28,27,24,0.08)] w-max shrink-0"
-      style={SANS_FONT}
-    >
-      <div className="flex flex-col gap-2 shrink-0">
-        <span
-          className="text-[14px] font-bold text-[#999] whitespace-nowrap leading-none"
-          style={{ fontFamily: "Montserrat, var(--font-sans), sans-serif" }}
-        >
-          {excellent}
-        </span>
-        <div className="flex items-center gap-2 shrink-0">
-          <BadgeCheck className="size-4 text-[#00B67A] shrink-0" strokeWidth={2.2} />
-          <span className="text-[12px] text-[#999] whitespace-nowrap shrink-0">{verifiedBy}</span>
-          <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
-             className="shrink-0 transition-opacity hover:opacity-70">
-            <Image
-            src="/wedding/trustpilot.svg"
-            alt="Trustpilot"
-            width={68}
-            height={19}
-            className="h-[18px] w-[68px] shrink-0"
-          />
-          </a>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-[17px] pl-2 pr-4 py-2 rounded-full bg-[rgba(9,9,9,0.05)] backdrop-blur-[6.15px] shrink-0">
-        <div className="relative h-10 w-[104px] shrink-0">
-          {REVIEW_AVATARS.map((a, i) => (
-            <span
-              key={a.src}
-              className="absolute top-0 size-10 rounded-full border border-white overflow-hidden"
-              style={{ left: `${3 + i * 30.5}px` }}
-            >
-              <Image src={a.src} alt={a.alt} fill className="object-cover" sizes="40px" />
-            </span>
-          ))}
-        </div>
-        <div className="flex flex-col gap-[2px] justify-center shrink-0">
-          <span className="text-[14px] leading-[19.5px] text-[#696969] whitespace-nowrap">
-            {fromReviews}
-          </span>
-          <div className="flex items-center gap-[2px] shrink-0">
-            <span className="text-[14px] leading-[19.5px] text-[#696969]">4.9</span>
-            <span className="text-[12px] leading-[16.5px] tracking-[0.33px] text-[#00B67A] whitespace-nowrap">
-              ★★★★★
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="h-full w-px bg-[rgba(28,27,24,0.08)] shrink-0" />
-
-      <div className="flex flex-col gap-2 h-full justify-center shrink-0">
-        <span className="text-[14px] leading-[19.5px] text-[#696969] whitespace-nowrap">
-          {poweredBy}
-        </span>
-        <div className="flex items-center shrink-0">
-          <Image
-            src="/wedding/google-g.svg"
-            alt="Google"
-            width={15}
-            height={15}
-            className="size-[14.5px] object-contain shrink-0 mr-[1px]"
-          />
-          {[0, 1, 2, 3, 4].map((i) => (
-            <Star
-              key={i}
-              className="size-[17.5px] text-[#FBBC05] shrink-0"
-              fill="#FBBC05"
-              strokeWidth={0}
-            />
-          ))}
-        </div>
       </div>
     </div>
   )
@@ -222,6 +133,14 @@ function CtaButtons({
 export function WeddingHero() {
   const t = useTranslations("wedding.hero")
 
+  const trustLabels = {
+    excellent: t("excellentRating"),
+    verifiedBy: t("verifiedBy"),
+    fromReviews: t("fromReviews"),
+    poweredBy: t("poweredBy"),
+  }
+
+
   return (
     <section className="bg-[#EFE8DC] relative overflow-hidden">
       <div className="md:hidden px-4 pt-6 pb-10 flex flex-col gap-6">
@@ -274,6 +193,8 @@ export function WeddingHero() {
             <CheckRow>{t("check2")}</CheckRow>
             <CheckRow>{t("check3")}</CheckRow>
           </div>
+
+          <WeddingTrustStripMobile labels={trustLabels} />
 
           <CtaButtons primary={t("ctaPrimary")} secondary={t("ctaSecondary")} layout="mobile" />
         </div>
@@ -331,6 +252,8 @@ export function WeddingHero() {
               <CheckRow>{t("check2")}</CheckRow>
               <CheckRow>{t("check3")}</CheckRow>
             </div>
+
+            <WeddingTrustStrip labels={trustLabels} />
 
             <CtaButtons primary={t("ctaPrimary")} secondary={t("ctaSecondary")} layout="desktop" />
           </div>

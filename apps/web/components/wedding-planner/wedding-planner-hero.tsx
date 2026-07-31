@@ -2,10 +2,13 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { ArrowRight, BadgeCheck, Star } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import { useEnterAnimation } from "@/hooks/use-enter-animation"
-import { TRUSTPILOT_REVIEWS_URL, REVIEW_LINK_PROPS } from "@/lib/review-links"
+import {
+  WeddingTrustStrip,
+  WeddingTrustStripMobile,
+} from "@/components/shared/wedding-trust-strip"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -41,129 +44,6 @@ function AvatarStack() {
           <Image src={a.src} alt={a.alt} fill className="object-cover" sizes="40px" />
         </span>
       ))}
-    </div>
-  )
-}
-
-function ReviewBadge({ fromReviews }: { fromReviews: string }) {
-  return (
-    <div className="flex items-center gap-[17px] pl-2 pr-4 py-2 rounded-full bg-[rgba(255,255,255,0.05)] backdrop-blur-[6.15px] shrink-0">
-      <AvatarStack />
-      <div className="flex flex-col gap-[2px] justify-center shrink-0 text-[rgba(255,255,255,0.45)]">
-        <span className="text-[14px] leading-[19.5px] whitespace-nowrap">{fromReviews}</span>
-        <div className="flex items-center gap-[2px] shrink-0">
-          <span className="text-[14px] leading-[19.5px]">4.9</span>
-          <span className="text-[12px] leading-[16.5px] tracking-[0.33px] whitespace-nowrap">
-            ★★★★★
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ExcellentBlock({ excellent, verifiedBy }: { excellent: string; verifiedBy: string }) {
-  return (
-    <div className="flex flex-col gap-2 shrink-0">
-      <span
-        className="text-[14px] font-bold text-white whitespace-nowrap leading-none"
-        style={{ fontFamily: "Montserrat, var(--font-sans), sans-serif" }}
-      >
-        {excellent}
-      </span>
-      <div className="flex items-center gap-2 shrink-0">
-        <BadgeCheck className="size-4 text-[#00B67A] shrink-0" strokeWidth={2.2} />
-        <span className="text-[14px] text-[rgba(255,255,255,0.45)] whitespace-nowrap shrink-0">
-          {verifiedBy}
-        </span>
-        <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
-           className="shrink-0 transition-opacity hover:opacity-70">
-          <Image
-          src="/wedding-planner/trustpilot.svg"
-          alt="Trustpilot"
-          width={68}
-          height={19}
-          className="h-[18px] w-[68px] shrink-0"
-        />
-        </a>
-      </div>
-    </div>
-  )
-}
-
-function PoweredBlock({ poweredBy }: { poweredBy: string }) {
-  return (
-    <div className="flex flex-col gap-2 h-full justify-center shrink-0">
-      <span className="text-[14px] leading-[19.5px] text-[rgba(255,255,255,0.45)] whitespace-nowrap">
-        {poweredBy}
-      </span>
-      <div className="flex items-center shrink-0">
-        <Image
-          src="/wedding-planner/google-g.svg"
-          alt="Google"
-          width={15}
-          height={15}
-          className="size-[14.5px] object-contain shrink-0 mr-[1px]"
-        />
-        {[0, 1, 2, 3, 4].map((i) => (
-          <Star
-            key={i}
-            className="size-[17.5px] text-[#FBBC05] shrink-0"
-            fill="#FBBC05"
-            strokeWidth={0}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function TrustStripDesktop({
-  excellent,
-  verifiedBy,
-  fromReviews,
-  poweredBy,
-}: {
-  excellent: string
-  verifiedBy: string
-  fromReviews: string
-  poweredBy: string
-}) {
-  return (
-    <div
-      className="hidden md:flex h-[70px] items-center gap-3 px-4 py-3 bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.12)] w-max shrink-0"
-      style={SANS_FONT}
-    >
-      <ExcellentBlock excellent={excellent} verifiedBy={verifiedBy} />
-      <ReviewBadge fromReviews={fromReviews} />
-      <div className="h-full w-px bg-[rgba(255,255,255,0.12)] shrink-0" />
-      <PoweredBlock poweredBy={poweredBy} />
-    </div>
-  )
-}
-
-function TrustStripMobile({
-  excellent,
-  verifiedBy,
-  fromReviews,
-  poweredBy,
-}: {
-  excellent: string
-  verifiedBy: string
-  fromReviews: string
-  poweredBy: string
-}) {
-  return (
-    <div
-      className="flex md:hidden flex-col gap-4 w-full bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.12)] px-4 py-3"
-      style={SANS_FONT}
-    >
-      <div className="flex items-start gap-6 w-full">
-        <ExcellentBlock excellent={excellent} verifiedBy={verifiedBy} />
-        <div className="self-stretch w-px bg-[rgba(255,255,255,0.12)] shrink-0" />
-        <PoweredBlock poweredBy={poweredBy} />
-      </div>
-      <ReviewBadge fromReviews={fromReviews} />
     </div>
   )
 }
@@ -251,7 +131,7 @@ export function WeddingPlannerHero() {
           </p>
 
           <div className={cn("w-full", enter("delay-[300ms]"))}>
-            <TrustStripMobile {...trustProps} />
+            <WeddingTrustStripMobile labels={trustProps} />
           </div>
 
           <div className={cn("flex flex-col gap-2 w-full", enter("delay-[400ms]"))}>
@@ -300,7 +180,7 @@ export function WeddingPlannerHero() {
             </p>
 
             <div className={enter("delay-[300ms]")}>
-              <TrustStripDesktop {...trustProps} />
+              <WeddingTrustStrip labels={trustProps} />
             </div>
 
             <div className={cn("flex items-center gap-3", enter("delay-[400ms]"))}>

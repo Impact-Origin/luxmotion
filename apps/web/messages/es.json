@@ -4225,17 +4225,24 @@
     },
     "calculator": {
       "eyebrow": "CALCULADORA DE INGRESOS",
-      "titleStart": "Calcula los ingresos",
+      "titleStart": "Calcule la comisión",
       "titleAccent": "potenciales",
       "body1": "Cada boda es una oportunidad de ingresos.",
       "body2": "Sin gestión operativa por tu parte.",
       "weddingsLabel": "Bodas por mes",
-      "guestsLabel": "Invitados medios por boda",
-      "commissionLabel": "Comisión (%)",
+      "commissionLabel": "Comisión",
       "placeholderSelect": "Seleccionar",
       "monthlyLabel": "Ingresos mensuales estimados",
       "yearlyLabel": "Ingresos anuales estimados",
-      "photoAlt": "Wedding planner revisando los detalles del evento"
+      "photoAlt": "Wedding planner revisando los detalles del evento",
+      "ticketLabel": "Presupuesto medio por boda",
+      "ticketOrMore": "{value} o más",
+      "commissionRecommended": "{value}% (recomendado)",
+      "rowRange": "Gasto estimado en movilidad",
+      "rowReference": "Valor de referencia usado en el cálculo",
+      "rowPerWedding": "Comisión estimada por boda",
+      "note": "Incluye traslados de los novios e invitados, vehículos clásicos y otros servicios de movilidad LuxMotion.",
+      "disclaimer": "Simulación indicativa. La comisión real depende de los servicios LuxMotion reservados y realizados."
     },
     "ctaBand": {
       "titleStart": "¿Listo para una",

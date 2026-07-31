@@ -10,24 +10,80 @@ import { cn } from "@workspace/ui/lib/utils"
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
-const WEDDINGS_OPTIONS = ["2", "4", "6", "8", "10", "15", "20"]
-const GUESTS_OPTIONS = ["60", "80", "100", "120", "150", "200"]
-const COMMISSION_OPTIONS = ["10", "12", "15", "18", "20"]
+const GOLD = "#9A7535"
+const INK = "#1C1B18"
+const MUTED = "#6B6862"
+const LINE = "rgba(28,27,24,0.12)"
 
-const AVG_GUEST_SPEND = 80
+const WEDDINGS_OPTIONS = ["1", "2", "3", "4", "5", "6", "8", "10"]
+const TICKET_OPTIONS = [30000, 35000, 40000, 45000, 50000, 60000]
+const COMMISSION_OPTIONS = [5, 8, 10, 12, 15]
 
-function formatEuro(n: number) {
-  return "€ " + n.toLocaleString("pt-PT").replace(/,/g, " ")
+/*
+ * O ticket médio do casamento serve para estimar quanto os noivos gastarão em
+ * mobilidade LuxMotion — transfers dos noivos e convidados, clássicos,
+ * chauffeur privado. A comissão incide sobre essa despesa, não sobre o ticket.
+ *
+ *   ticket <= 35.000     -> mobilidade 1.000 a 2.500, referência 2.500
+ *   ticket 40.000-45.000 -> mobilidade 2.500 a 4.000, referência 4.000
+ *   ticket >= 50.000     -> mobilidade 4.000 a 6.000, referência 10% do ticket
+ *                           com piso de 4.000 e tecto de 6.000
+ */
+const BANDS = {
+  low: { min: 1000, max: 2500 },
+  mid: { min: 2500, max: 4000 },
+  high: { min: 4000, max: 6000 },
+} as const
+
+function mobilityForTicket(ticket: number) {
+  if (ticket <= 35000) return { ...BANDS.low, reference: 2500 }
+  if (ticket <= 45000) return { ...BANDS.mid, reference: 4000 }
+  return {
+    ...BANDS.high,
+    reference: Math.min(BANDS.high.max, Math.max(BANDS.high.min, ticket * 0.1)),
+  }
+}
+
+/** Formato PT-PT: milhares com ponto, sem casas decimais. */
+function euro(value: number) {
+  return "€" + Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="text-[12px] font-semibold text-[#0d0d0d] leading-none"
-      style={SANS}
+      className="text-[11px] font-semibold uppercase leading-none tracking-[1.3px]"
+      style={{ ...SANS, color: INK }}
     >
       {children}
     </span>
+  )
+}
+
+function ResultRow({
+  label,
+  value,
+  strong,
+}: {
+  label: string
+  value: string
+  strong?: boolean
+}) {
+  return (
+    <div
+      className="flex flex-col items-start justify-between gap-1 border-b py-[14px] sm:flex-row sm:items-baseline sm:gap-5"
+      style={{ borderColor: LINE }}
+    >
+      <span className="text-[14px] leading-tight" style={{ ...SANS, color: MUTED }}>
+        {label}
+      </span>
+      <span
+        className="whitespace-nowrap text-left text-[16px] font-semibold tabular-nums sm:text-right"
+        style={{ ...SANS, color: strong ? GOLD : INK }}
+      >
+        {value}
+      </span>
+    </div>
   )
 }
 
@@ -35,45 +91,50 @@ export function WeddingPlannerCalculator() {
   const t = useTranslations("weddingPlanner.calculator")
 
   const [weddings, setWeddings] = useState("4")
-  const [guests, setGuests] = useState("100")
-  const [commission, setCommission] = useState("15")
+  const [ticket, setTicket] = useState("45000")
+  const [commission, setCommission] = useState("10")
 
-  const monthly = useMemo(() => {
+  const result = useMemo(() => {
     const w = Number(weddings)
-    const g = Number(guests)
-    const c = Number(commission)
-    if (!w || !g || !c) return 0
-    return Math.round(w * g * AVG_GUEST_SPEND * (c / 100))
-  }, [weddings, guests, commission])
+    const ticketValue = Number(ticket)
+    const percent = Number(commission)
+    const mobility = mobilityForTicket(ticketValue)
+    const perWedding = mobility.reference * (percent / 100)
+    const monthly = perWedding * w
+    return { mobility, perWedding, monthly, yearly: monthly * 12 }
+  }, [weddings, ticket, commission])
 
-  const yearly = monthly * 12
   const { ref, reveal } = useScrollReveal<HTMLElement>()
 
   return (
-    <section id="wedding-revenue-calculator" ref={ref} className="scroll-mt-[80px] bg-[#f7f4ef] px-4 md:px-[82px] pt-[71px] pb-[72px]">
-      <div className={cn("max-w-[1280px] mx-auto flex flex-col gap-2 items-stretch", reveal())}>
-        <div className="flex gap-2 items-center justify-center">
-          <div className="w-8 h-px bg-[#a08248]" />
+    <section
+      id="wedding-revenue-calculator"
+      ref={ref}
+      className="scroll-mt-[80px] bg-[#f7f4ef] px-4 pb-[72px] pt-[71px] md:px-[82px]"
+    >
+      <div className={cn("mx-auto flex max-w-[1280px] flex-col gap-2", reveal())}>
+        <div className="flex items-center justify-center gap-2">
+          <div className="h-px w-8" style={{ background: GOLD }} />
           <span
-            className="text-[12px] font-semibold uppercase tracking-[2px] text-[#a08248] whitespace-nowrap"
-            style={SANS}
+            className="whitespace-nowrap text-[12px] font-semibold uppercase tracking-[2px]"
+            style={{ ...SANS, color: GOLD }}
           >
             {t("eyebrow")}
           </span>
-          <div className="w-8 h-px bg-[#a08248]" />
+          <div className="h-px w-8" style={{ background: GOLD }} />
         </div>
         <h2
-          className="text-[36px] md:text-[48px] text-[#1c1b18] text-center leading-none"
-          style={SERIF}
+          className="text-center text-[36px] leading-none md:text-[48px]"
+          style={{ ...SERIF, color: INK }}
         >
           {t("titleStart")}{" "}
-          <em className="not-italic italic text-[#a08248]" style={SERIF}>
+          <em className="italic" style={{ ...SERIF, color: GOLD }}>
             {t("titleAccent")}
           </em>
         </h2>
 
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-6 md:gap-10 pt-8">
-          <div className="group relative w-full md:flex-1 md:self-stretch min-h-[280px] md:min-h-[480px] overflow-hidden">
+        <div className="flex flex-col items-stretch justify-center gap-6 pt-8 md:flex-row md:gap-10">
+          <div className="group relative min-h-[280px] w-full overflow-hidden md:min-h-[480px] md:flex-1 md:self-stretch">
             <Image
               src="/wedding-planner/calculator-visual.webp"
               alt={t("photoAlt")}
@@ -81,12 +142,17 @@ export function WeddingPlannerCalculator() {
               sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
+            {/* Filete dourado, assinatura da marca. */}
+            <span
+              className="absolute bottom-0 left-0 h-[3px] w-24"
+              style={{ background: GOLD }}
+            />
           </div>
 
-          <div className="w-full md:w-[618px] flex flex-col gap-6">
+          <div className="flex w-full flex-col gap-6 md:w-[618px]">
             <p
-              className="text-[16px] md:text-[18px] text-[#696969] leading-[1.3]"
-              style={SANS}
+              className="text-[16px] leading-[1.45] md:text-[18px]"
+              style={{ ...SANS, color: MUTED }}
             >
               {t("body1")}
               <br className="hidden md:inline" />
@@ -94,8 +160,11 @@ export function WeddingPlannerCalculator() {
               {t("body2")}
             </p>
 
-            <div className="bg-white border border-[rgba(28,27,24,0.08)] flex flex-col gap-[13px] px-[29px] py-[28px] w-full">
-              <div className="flex flex-col gap-2 w-full">
+            <div
+              className="flex w-full flex-col gap-[22px] border bg-white px-[29px] py-[28px]"
+              style={{ borderColor: LINE }}
+            >
+              <div className="flex w-full flex-col gap-[9px]">
                 <FieldLabel>{t("weddingsLabel")}</FieldLabel>
                 <LightSelect
                   value={weddings}
@@ -104,54 +173,104 @@ export function WeddingPlannerCalculator() {
                   options={WEDDINGS_OPTIONS.map((v) => ({ value: v, label: v }))}
                 />
               </div>
-              <div className="flex flex-col gap-2 w-full">
-                <FieldLabel>{t("guestsLabel")}</FieldLabel>
+              <div className="flex w-full flex-col gap-[9px]">
+                <FieldLabel>{t("ticketLabel")}</FieldLabel>
                 <LightSelect
-                  value={guests}
-                  onChange={setGuests}
+                  value={ticket}
+                  onChange={setTicket}
                   placeholder={t("placeholderSelect")}
-                  options={GUESTS_OPTIONS.map((v) => ({ value: v, label: v }))}
+                  options={TICKET_OPTIONS.map((v) => ({
+                    value: String(v),
+                    label:
+                      v === TICKET_OPTIONS[TICKET_OPTIONS.length - 1]
+                        ? t("ticketOrMore", { value: euro(v) })
+                        : euro(v),
+                  }))}
                 />
               </div>
-              <div className="flex flex-col gap-2 w-full">
+              <div className="flex w-full flex-col gap-[9px]">
                 <FieldLabel>{t("commissionLabel")}</FieldLabel>
                 <LightSelect
                   value={commission}
                   onChange={setCommission}
                   placeholder={t("placeholderSelect")}
-                  options={COMMISSION_OPTIONS.map((v) => ({ value: v, label: `${v}%` }))}
+                  options={COMMISSION_OPTIONS.map((v) => ({
+                    value: String(v),
+                    label:
+                      v === 10 ? t("commissionRecommended", { value: v }) : `${v}%`,
+                  }))}
+                />
+              </div>
+            </div>
+
+            <div
+              className="flex flex-col"
+              role="region"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <div className="border-t" style={{ borderColor: LINE }}>
+                <ResultRow
+                  label={t("rowRange")}
+                  value={`${euro(result.mobility.min)} — ${euro(result.mobility.max)}`}
+                />
+                <ResultRow
+                  label={t("rowReference")}
+                  value={euro(result.mobility.reference)}
+                />
+                <ResultRow
+                  label={t("rowPerWedding")}
+                  value={euro(result.perWedding)}
+                  strong
                 />
               </div>
 
-              <div className="bg-[#111110] flex flex-col gap-1 items-center px-4 pt-[15px] pb-4 w-full">
-                <span
-                  className="text-[12px] font-semibold uppercase tracking-[1.04px] text-[#999] text-center leading-[17.16px]"
-                  style={SANS}
+              <div className="mt-5 grid gap-3">
+                <div className="bg-[#111110] px-6 py-[22px] text-center">
+                  <span
+                    className="text-[11px] font-semibold uppercase tracking-[1.6px] text-[rgba(247,244,239,0.82)]"
+                    style={SANS}
+                  >
+                    {t("monthlyLabel")}
+                  </span>
+                  <p
+                    className="mt-1.5 text-[34px] font-medium leading-[1.1] tabular-nums text-[#c9a96e] md:text-[42px]"
+                    style={SERIF}
+                  >
+                    {euro(result.monthly)}
+                  </p>
+                </div>
+                <div
+                  className="px-6 py-[22px] text-center"
+                  style={{ background: GOLD }}
                 >
-                  {t("monthlyLabel")}
-                </span>
-                <span
-                  className="text-[32px] font-semibold text-[#c9a96e] leading-none"
-                  style={SERIF}
-                >
-                  {formatEuro(monthly)}
-                </span>
+                  <span
+                    className="text-[11px] font-semibold uppercase tracking-[1.6px] text-[rgba(255,255,255,0.82)]"
+                    style={SANS}
+                  >
+                    {t("yearlyLabel")}
+                  </span>
+                  <p
+                    className="mt-1.5 text-[34px] font-medium leading-[1.1] tabular-nums text-white md:text-[42px]"
+                    style={SERIF}
+                  >
+                    {euro(result.yearly)}
+                  </p>
+                </div>
               </div>
 
-              <div className="bg-[#9a7535] flex flex-col gap-1 items-center px-4 pt-[15px] pb-4 w-full">
-                <span
-                  className="text-[12px] font-semibold uppercase tracking-[1.04px] text-white text-center leading-[17.16px]"
-                  style={SANS}
-                >
-                  {t("yearlyLabel")}
-                </span>
-                <span
-                  className="text-[32px] font-semibold text-white leading-none"
-                  style={SERIF}
-                >
-                  {formatEuro(yearly)}
-                </span>
-              </div>
+              <p
+                className="mt-5 border-l-[3px] pl-[14px] text-[13.5px] leading-[1.6]"
+                style={{ ...SANS, color: MUTED, borderColor: GOLD }}
+              >
+                {t("note")}
+              </p>
+              <p
+                className="mt-3.5 text-[12px] leading-[1.6] opacity-85"
+                style={{ ...SANS, color: MUTED }}
+              >
+                {t("disclaimer")}
+              </p>
             </div>
           </div>
         </div>

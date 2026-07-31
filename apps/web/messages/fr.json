@@ -4209,17 +4209,24 @@
     },
     "calculator": {
       "eyebrow": "CALCULATEUR DE REVENUS",
-      "titleStart": "Calculez les revenus",
+      "titleStart": "Calculez la commission",
       "titleAccent": "potentiels",
       "body1": "Chaque mariage est une opportunité de revenus.",
       "body2": "Aucune gestion opérationnelle de votre côté.",
       "weddingsLabel": "Mariages par mois",
-      "guestsLabel": "Invités moyens par mariage",
-      "commissionLabel": "Commission (%)",
+      "commissionLabel": "Commission",
       "placeholderSelect": "Sélectionner",
       "monthlyLabel": "Revenu mensuel estimé",
       "yearlyLabel": "Revenu annuel estimé",
-      "photoAlt": "Wedding planner vérifiant les détails de l'événement"
+      "photoAlt": "Wedding planner vérifiant les détails de l'événement",
+      "ticketLabel": "Budget moyen par mariage",
+      "ticketOrMore": "{value} ou plus",
+      "commissionRecommended": "{value} % (recommandé)",
+      "rowRange": "Dépense estimée en mobilité",
+      "rowReference": "Valeur de référence utilisée dans le calcul",
+      "rowPerWedding": "Commission estimée par mariage",
+      "note": "Comprend les transferts des mariés et des invités, les voitures classiques et les autres services de mobilité LuxMotion.",
+      "disclaimer": "Simulation indicative. La commission réelle dépend des services LuxMotion réservés et réalisés."
     },
     "ctaBand": {
       "titleStart": "Prêt pour un",
