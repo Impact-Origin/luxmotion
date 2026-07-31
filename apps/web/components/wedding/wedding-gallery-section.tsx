@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, ArrowRight } from "lucide-react"
@@ -249,18 +249,54 @@ function SectionHeading({
   )
 }
 
+const N = PHOTOS.length
+/** A lista aparece três vezes; andamos sempre pela cópia do meio, e ao sair
+ *  dela saltamos de volta sem animação. Assim nunca há um lugar vazio nas
+ *  pontas e o carrossel nunca para. */
+const TRACK = [...PHOTOS, ...PHOTOS, ...PHOTOS]
+
 export function WeddingGallerySection() {
   const t = useTranslations("wedding.gallery")
-  const [page, setPage] = useState(0)
+  const [index, setIndex] = useState(N)
+  const [animate, setAnimate] = useState(true)
 
-  // Sem dar a volta: numa faixa deslizante, saltar do 31 para o 1 varria a lista
-  // toda de uma vez. Nos extremos as setas ficam desligadas.
-  const next = useCallback(
-    () => setPage((p) => Math.min(p + 1, PHOTOS.length - 1)),
-    [],
-  )
-  const prev = useCallback(() => setPage((p) => Math.max(p - 1, 0)), [])
+  const next = useCallback(() => {
+    setAnimate(true)
+    setIndex((i) => i + 1)
+  }, [])
+  const prev = useCallback(() => {
+    setAnimate(true)
+    setIndex((i) => i - 1)
+  }, [])
   const swipe = useSwipe(next, prev)
+
+  // Ao terminar a transição, se saímos da cópia do meio voltamos à posição
+  // equivalente com a animação desligada — o salto é invisível.
+  const handleTransitionEnd = useCallback(() => {
+    setIndex((i) => {
+      if (i >= 2 * N) {
+        setAnimate(false)
+        return i - N
+      }
+      if (i < N) {
+        setAnimate(false)
+        return i + N
+      }
+      return i
+    })
+  }, [])
+
+  // Repõe a animação no frame seguinte ao salto.
+  useEffect(() => {
+    if (animate) return
+    const id = requestAnimationFrame(() => setAnimate(true))
+    return () => cancelAnimationFrame(id)
+  }, [animate])
+
+  const current = ((index % N) + N) % N
+  const slide = animate
+    ? "transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+    : ""
 
   return (
     <section className="bg-[#f7f4ef] px-4 md:px-20 py-14 md:py-24">
@@ -278,12 +314,13 @@ export function WeddingGallerySection() {
             domina: à altura toda; as laterais recolhem e viram para dentro. */}
         <div className="hidden md:block w-full pt-[42px] overflow-hidden">
           <div
-            className="flex items-center h-[608.21px] transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ transform: `translateX(${(1 - page) * (100 / 3)}%)` }}
+            className={cn("flex items-center h-[608.21px]", slide)}
+            style={{ transform: `translateX(${(1 - index) * (100 / 3)}%)` }}
+            onTransitionEnd={handleTransitionEnd}
           >
-            {PHOTOS.map((photo, i) => (
+            {TRACK.map((photo, i) => (
               <div
-                key={photo.src}
+                key={`${photo.src}-${i}`}
                 className="shrink-0 basis-1/3 h-full flex items-center px-[5px]"
               >
                 <TiltCard
@@ -291,13 +328,13 @@ export function WeddingGallerySection() {
                   primary={photo.primary}
                   subtitle={photo.subtitle}
                   tagline={photo.tagline}
-                  alt={t("photoAlt", { index: i + 1 })}
+                  alt={t("photoAlt", { index: (i % N) + 1 })}
                   className={cn(
                     "w-full transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-                    i === page ? "h-full" : "h-[86%]",
+                    i === index ? "h-full" : "h-[86%]",
                   )}
                   // 6.1° dá o rácio 0.970 entre arestas medido na referência.
-                  restRotateY={i === page ? 0 : i < page ? -6.1 : 6.1}
+                  restRotateY={i === index ? 0 : i < index ? -6.1 : 6.1}
                 />
               </div>
             ))}
@@ -306,17 +343,18 @@ export function WeddingGallerySection() {
 
         <div className="md:hidden w-full pt-2 overflow-hidden" {...swipe}>
           <div
-            className="flex h-[531.21px] transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ transform: `translateX(-${page * 100}%)` }}
+            className={cn("flex h-[531.21px]", slide)}
+            style={{ transform: `translateX(-${index * 100}%)` }}
+            onTransitionEnd={handleTransitionEnd}
           >
-            {PHOTOS.map((photo, i) => (
-              <div key={photo.src} className="relative shrink-0 basis-full h-full">
+            {TRACK.map((photo, i) => (
+              <div key={`${photo.src}-${i}`} className="relative shrink-0 basis-full h-full">
                 <TiltCard
                   src={photo.src}
                   primary={photo.primary}
                   subtitle={photo.subtitle}
                   tagline={photo.tagline}
-                  alt={t("photoAlt", { index: i + 1 })}
+                  alt={t("photoAlt", { index: (i % N) + 1 })}
                 />
               </div>
             ))}
@@ -324,24 +362,20 @@ export function WeddingGallerySection() {
         </div>
 
         <div className="flex items-center justify-center gap-4 pt-2">
-          <NavArrow direction="left" onClick={prev} disabled={page === 0} />
+          <NavArrow direction="left" onClick={prev} />
           {/* Com esta quantidade de fotos, uma fila de pontos era só ruído. */}
-          {PHOTOS.length > 8 ? (
+          {N > 8 ? (
             <span
               className="text-[13px] tabular-nums tracking-[2px] text-[#a08248] select-none"
               style={SANS_FONT}
               aria-live="polite"
             >
-              {String(page + 1).padStart(2, "0")} / {String(PHOTOS.length).padStart(2, "0")}
+              {String(current + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
             </span>
           ) : (
-            <Dots pages={PHOTOS.length} current={page} />
+            <Dots pages={N} current={current} />
           )}
-          <NavArrow
-            direction="right"
-            onClick={next}
-            disabled={page === PHOTOS.length - 1}
-          />
+          <NavArrow direction="right" onClick={next} />
         </div>
       </div>
     </section>
