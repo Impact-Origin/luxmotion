@@ -383,6 +383,7 @@ function formatBudget(value: number, locale: string) {
 export function WeddingQuoteSection() {
   const t = useTranslations("wedding.quote")
   const [selectedVehicle, setSelectedVehicle] = useState<string>("standard")
+  const [venue, setVenue] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [pickup, setPickup] = useState<GooglePlaceValue>(EMPTY_PLACE)
   const [phone, setPhone] = useState("")
   const [numVehicles, setNumVehicles] = useState<string>("")
@@ -424,7 +425,7 @@ export function WeddingQuoteSection() {
         phone,
         weddingDate: (fd.get("weddingDate") || "").toString() || undefined,
         guests,
-        venue: (fd.get("venue") || "").toString() || undefined,
+        venue: venue.location.trim() || undefined,
         pickup: pickup.location.trim() || undefined,
         numVehicles: numVehiclesNum,
         budget,
@@ -447,6 +448,7 @@ export function WeddingQuoteSection() {
       formEl.reset()
       setPhone("")
       // O reset() do form não chega a campos controlados.
+      setVenue(EMPTY_PLACE)
       setPickup(EMPTY_PLACE)
       setNumVehicles("")
       setBudget(BUDGET_MIN)
@@ -514,7 +516,14 @@ export function WeddingQuoteSection() {
               <TextInput name="guests" required placeholder={t("placeholders.guests")} type="number" />
             </Field>
             <Field label={t("fields.venue")}>
-              <TextInput name="venue" placeholder={t("placeholders.venue")} />
+              <GooglePlacesInput
+                value={venue}
+                onChange={setVenue}
+                placeholder={t("placeholders.venue")}
+                ariaLabel={t("fields.venue")}
+                variant="quote"
+                hideLeftIcon
+              />
             </Field>
           </div>
 
