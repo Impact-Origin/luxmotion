@@ -189,11 +189,15 @@ export function ToursHero() {
             {TRUST_BADGES.map((badge) => (
               <div
                 key={badge.key}
-                className="flex-1 flex items-center justify-center gap-2 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] px-3 py-2"
+                /* Fundo próprio em vez de branco a 4%: estes selos assentam no
+                   vídeo, e o cinzento perdia-se assim que passava um fotograma
+                   claro — mais ainda em tema claro, onde o fade do fundo da
+                   hero termina em creme. */
+                className="flex-1 flex items-center justify-center gap-2 bg-[rgba(13,13,13,0.55)] backdrop-blur-[2px] border border-[rgba(255,255,255,0.18)] px-3 py-2"
               >
-                <badge.icon className="w-5 h-5 text-[#999] shrink-0" />
+                <badge.icon className="w-5 h-5 text-[#E4DED4] shrink-0" />
                 <span
-                  className="text-[12px] font-medium text-[#999] leading-[1.3] md:whitespace-nowrap"
+                  className="text-[12px] font-medium text-[#E4DED4] leading-[1.3] md:whitespace-nowrap"
                   style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                 >
                   {t(`redesign.badges.${badge.key}`)}

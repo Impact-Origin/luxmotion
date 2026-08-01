@@ -160,24 +160,24 @@ export function PhoneInput({
               : wedding
               ? "h-[44px] pl-3 pr-2 border border-r-0 border-[rgba(154,117,53,0.22)] bg-[#faf7f2] text-[#1a1612] text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#f3eee5] transition-colors focus:outline-none shrink-0"
               : corporate
-              ? "h-[44px] pl-2 pr-3 border border-r-0 border-[rgba(154,117,53,0.22)] bg-[#0D0D0D] text-white text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#161616] transition-colors focus:outline-none shrink-0"
+              ? "h-[44px] pl-2 pr-3 border border-r-0 border-[rgba(154,117,53,0.22)] bg-[var(--lm-bg,#0D0D0D)] text-[var(--lm-text,#fff)] text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] transition-colors focus:outline-none shrink-0"
               : dark
-              ? "h-[44px] pl-2 pr-3 border border-r-0 border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] text-white text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[#23221F] transition-colors focus:outline-none shrink-0"
+              ? "h-[44px] pl-2 pr-3 border border-r-0 border-[rgba(255,255,255,0.12)] bg-[var(--lm-surface,#1E1D1B)] text-[var(--lm-text,#fff)] text-[14px] flex items-center gap-2 cursor-pointer hover:bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] transition-colors focus:outline-none shrink-0"
               : "h-12 pl-3 pr-2 border border-r-0 border-[#e0e0e0] rounded-l-md bg-white text-[#222222] text-[15px] flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] shrink-0"
           }
         >
           <FlagImage iso2={selectedCountry.iso2} size={20} />
           <span className="font-normal">+{selectedCountry.dialCode}</span>
-          <ChevronDown className={`w-4 h-4 ${partner ? "text-[#0d0d0d]" : wedding ? "text-[#7a746e]" : corporate ? "text-[#C9A96E]" : dark ? "text-[#F7F4EF]" : "text-[#666]"} transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 h-4 ${partner ? "text-[#0d0d0d]" : wedding ? "text-[#7a746e]" : corporate ? "text-[#C9A96E]" : dark ? "text-[var(--lm-text,#F7F4EF)]" : "text-[#666]"} transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
         </button>
 
         {isOpen && mounted && popoverPos && createPortal(
           <div
             ref={popoverRef}
             style={{ position: "fixed", top: popoverPos.top, left: popoverPos.left }}
-            className={`w-[280px] max-h-[320px] ${partner ? "bg-white border-[rgba(28,27,24,0.08)]" : wedding ? "bg-white border-[rgba(154,117,53,0.22)]" : dark ? "bg-[#0D0D0D] border-[rgba(255,255,255,0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
+            className={`w-[280px] max-h-[320px] ${partner ? "bg-white border-[rgba(28,27,24,0.08)]" : wedding ? "bg-white border-[rgba(154,117,53,0.22)]" : dark ? "bg-[var(--lm-bg,#0D0D0D)] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
           >
-            <div className={`p-2 border-b ${partner ? "border-[rgba(28,27,24,0.08)]" : wedding ? "border-[rgba(154,117,53,0.15)]" : dark ? "border-[rgba(255,255,255,0.12)]" : "border-[#e0e0e0]"}`}>
+            <div className={`p-2 border-b ${partner ? "border-[rgba(28,27,24,0.08)]" : wedding ? "border-[rgba(154,117,53,0.15)]" : dark ? "border-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" : "border-[#e0e0e0]"}`}>
               <input
                 ref={searchInputRef}
                 type="text"
@@ -190,7 +190,7 @@ export function PhoneInput({
                     : wedding
                     ? "w-full h-9 px-3 bg-[#faf7f2] border border-[rgba(154,117,53,0.22)] text-[14px] text-[#1a1612] placeholder:text-[#999] focus:outline-none focus:border-[#a08248] transition-colors"
                     : dark
-                    ? "w-full h-9 px-3 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+                    ? "w-full h-9 px-3 bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] text-[14px] text-[var(--lm-text,#fff)] placeholder:text-[var(--lm-muted,#696969)] focus:outline-none focus:border-[#C9A96E] transition-colors"
                     : "w-full h-9 px-3 border border-[#e0e0e0] rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] text-black"
                 }
               />
@@ -214,12 +214,12 @@ export function PhoneInput({
                   }`}
                 >
                   <FlagImage iso2={country.iso2} size={24} />
-                  <span className={`flex-1 text-[14px] truncate ${partner ? "text-[#1c1b18]" : wedding ? "text-[#1a1612]" : dark ? "text-[#F7F4EF]" : "text-[#222222]"}`}>{country.name}</span>
-                  <span className={`text-[14px] font-medium ${partner ? "text-[#696969]" : wedding ? "text-[#7a746e]" : dark ? "text-[#999]" : "text-[#808080]"}`}>+{country.dialCode}</span>
+                  <span className={`flex-1 text-[14px] truncate ${partner ? "text-[#1c1b18]" : wedding ? "text-[#1a1612]" : dark ? "text-[var(--lm-text,#F7F4EF)]" : "text-[#222222]"}`}>{country.name}</span>
+                  <span className={`text-[14px] font-medium ${partner ? "text-[#696969]" : wedding ? "text-[#7a746e]" : dark ? "text-[var(--lm-muted,#999)]" : "text-[#808080]"}`}>+{country.dialCode}</span>
                 </button>
               ))}
               {filteredCountries.length === 0 && (
-                <div className={`px-3 py-4 text-center text-[14px] ${partner ? "text-[#696969]" : wedding ? "text-[#7a746e]" : dark ? "text-[#999]" : "text-[#808080]"}`}>
+                <div className={`px-3 py-4 text-center text-[14px] ${partner ? "text-[#696969]" : wedding ? "text-[#7a746e]" : dark ? "text-[var(--lm-muted,#999)]" : "text-[#808080]"}`}>
                   No countries found
                 </div>
               )}
@@ -249,7 +249,7 @@ export function PhoneInput({
               : corporate
               ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-[#0D0D0D] border border-[rgba(154,117,53,0.22)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
               : dark
-              ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-[#1E1D1B] border border-[rgba(255,255,255,0.12)] text-[14px] text-white placeholder:text-[#696969] focus:outline-none focus:border-[#C9A96E] transition-colors"
+              ? "flex-1 min-w-0 w-0 h-[44px] px-3 bg-[var(--lm-surface,#1E1D1B)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] text-[14px] text-[var(--lm-text,#fff)] placeholder:text-[var(--lm-muted,#696969)] focus:outline-none focus:border-[#C9A96E] transition-colors"
               : "flex-1 min-w-0 w-0 h-12 px-3 border border-[#e0e0e0] rounded-r-md text-[15px] text-[#222222] placeholder:text-[#a2a2a2] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff]"
           }
         />
