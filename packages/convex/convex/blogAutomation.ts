@@ -298,7 +298,7 @@ export const generateArticle = internalAction({
           system:
             "You plan the editorial calendar for a Portuguese luxury chauffeur company. You answer with JSON only.",
           user: topicUserPrompt(recentTitles),
-          maxOutputTokens: 500,
+          maxOutputTokens: 4000,
         });
         const parsed = JSON.parse(
           pick.text.replace(/^```(?:json)?\s*|\s*```$/g, "").trim(),
@@ -482,11 +482,28 @@ export const generateHeroImage = internalAction({
           primaryKeyword: args.keyword,
           keyPoints: args.keyPoints,
         }),
-        maxOutputTokens: 1200,
+        maxOutputTokens: 6000,
       });
+      if (brief.finishReason === "length") {
+        throw new Error(
+          "briefing de imagem truncado pelo limite de tokens (aumentar maxOutputTokens)",
+        );
+      }
       const blocks = parseLuxBlocks(brief.text);
-      const prompt = blocks.IMAGE_PROMPT;
-      if (!prompt) throw new Error("briefing de imagem sem ::LUX_IMAGE_PROMPT::");
+      // Se as tags não vierem mas houver texto, o próprio texto costuma ser um
+      // prompt utilizável. Falhar por causa do formato seria deitar fora uma
+      // resposta boa.
+      const prompt = blocks.IMAGE_PROMPT ?? brief.text.trim();
+      if (!prompt) {
+        throw new Error(
+          `briefing de imagem vazio (finishReason=${brief.finishReason})`,
+        );
+      }
+      if (!blocks.IMAGE_PROMPT) {
+        console.warn(
+          `${LOG} briefing sem ::LUX_IMAGE_PROMPT::, a usar a resposta inteira: ${brief.text.slice(0, 200)}`,
+        );
+      }
 
       const blob = await generateImage(prompt);
       const storageId = await ctx.storage.store(blob);
@@ -624,6 +641,44 @@ export const generateNow = action({
       keepDraft: args.keepDraft,
       trigger: "manual",
       runId,
+    });
+    return { ok: true };
+  },
+});
+
+/**
+ * Repete só a imagem de um artigo. Serve para os que ficaram em rascunho por a
+ * geração da capa ter falhado: reescrever o artigo inteiro seria pagar as sete
+ * chamadas outra vez por causa de uma.
+ */
+export const retryHeroImage = action({
+  args: { blogId: v.id("blogs") },
+  handler: async (ctx, args): Promise<{ ok: boolean; error?: string }> => {
+    const blog = await ctx.runQuery(api.blogs.getById, { id: args.blogId });
+    if (!blog) return { ok: false, error: "Artigo não encontrado." };
+
+    const runId = await ctx.runMutation(internal.blogAutomation._startRun, {
+      trigger: "manual",
+      topic: blog.title,
+      keepDraft: blog.status !== "published",
+    });
+    await ctx.runMutation(internal.blogAutomation._patchRun, {
+      runId,
+      patch: {
+        blogId: args.blogId,
+        title: blog.title,
+        // Os locales já existem: não voltar a traduzir.
+        localesDone: (blog.translations ?? []).map((t: { locale: string }) => t.locale),
+      },
+    });
+    await ctx.scheduler.runAfter(0, internal.blogAutomation.generateHeroImage, {
+      runId,
+      blogId: args.blogId,
+      title: blog.title,
+      topic: blog.title,
+      icp: "",
+      keyPoints: blog.excerpt ?? "",
+      keyword: (blog.tags ?? [])[0] ?? "luxury transfers portugal",
     });
     return { ok: true };
   },

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@workspace/convex/api";
 import type { Id } from "@workspace/convex/dataModel";
 import Image from "next/image";
@@ -15,7 +15,9 @@ import {
   EyeOff,
   Loader2,
   Pencil,
+  RefreshCw,
   Star,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -72,6 +74,8 @@ export default function BlogDetailPage() {
   const publish = useMutation(api.blogs.publish);
   const unpublish = useMutation(api.blogs.unpublish);
   const toggleFeatured = useMutation(api.blogs.toggleFeatured);
+  const removeBlog = useMutation(api.blogs.remove);
+  const retryImage = useAction(api.blogAutomation.retryHeroImage);
 
   useEffect(() => {
     if (blog === null) router.replace("/admin/blogs");
@@ -88,6 +92,27 @@ export default function BlogDetailPage() {
   const counts = nodeCounts(blog.content);
   const body = plainText(blog.content);
   const words = body.split(/\s+/).filter(Boolean).length;
+
+  const handleDelete = async () => {
+    if (!confirm(`Apagar "${blog.title}"? Não há como recuperar.`)) return;
+    try {
+      await removeBlog({ id: blog._id });
+      toast.success("Artigo apagado.");
+      router.push("/admin/blogs");
+    } catch {
+      toast.error("Não foi possível apagar.");
+    }
+  };
+
+  const handleRetryImage = async () => {
+    try {
+      const res = await retryImage({ blogId: blog._id });
+      if (res.ok) toast.success("A gerar a imagem de capa.");
+      else toast.error(res.error ?? "Não foi possível.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Falhou.");
+    }
+  };
 
   const togglePublished = async () => {
     try {
@@ -134,9 +159,23 @@ export default function BlogDetailPage() {
             )}
             {blog.status === "published" ? "Despublicar" : "Publicar"}
           </Button>
+          {!blog.heroImageUrl && (
+            <Button variant="outline" onClick={handleRetryImage}>
+              <RefreshCw className="mr-2 size-4" />
+              Gerar capa
+            </Button>
+          )}
           <Button onClick={() => router.push(`/admin/blogs/${blog._id}/edit`)}>
             <Pencil className="mr-2 size-4" />
             Editar
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleDelete}
+            className="text-destructive hover:text-destructive"
+          >
+            <Trash2 className="mr-2 size-4" />
+            Apagar
           </Button>
         </div>
       </div>

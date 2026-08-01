@@ -10,7 +10,7 @@ crons.daily(
   internal.googleReviews.fetchGoogleReviews,
 );
 
-// Um artigo de blog às terças e outro às quartas. Os crons do Convex são em
+// Um artigo de blog às terças e outro às quintas. Os crons do Convex são em
 // UTC: 10:00 UTC é 10:00 em Lisboa no inverno e 11:00 no verão. Não há forma de
 // fixar a hora local num cron UTC, e para um blog a diferença é irrelevante.
 // A geração só corre com BLOG_AUTOMATION_ENABLED="true".
@@ -21,8 +21,8 @@ crons.weekly(
   { trigger: "cron" as const },
 );
 crons.weekly(
-  "generate blog wednesday",
-  { dayOfWeek: "wednesday", hourUTC: 10, minuteUTC: 0 },
+  "generate blog thursday",
+  { dayOfWeek: "thursday", hourUTC: 10, minuteUTC: 0 },
   internal.blogAutomation.generateArticle,
   { trigger: "cron" as const },
 );
