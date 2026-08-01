@@ -2343,7 +2343,8 @@
     "categorySports": "Sport",
     "categoryCulture": "Cultuur",
     "categoryCorporate": "Zakelijk",
-    "priceOnRequest": "Op aanvraag"
+    "priceOnRequest": "Op aanvraag",
+    "from": "Vanaf"
   },
   "eventDetails": {
     "date": "Datum",

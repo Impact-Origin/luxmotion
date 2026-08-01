@@ -2529,7 +2529,8 @@
     "categorySports": "Sports",
     "categoryCulture": "Culture",
     "categoryCorporate": "Corporate",
-    "priceOnRequest": "On request"
+    "priceOnRequest": "On request",
+    "from": "From"
   },
   "eventDetails": {
     "date": "Date",

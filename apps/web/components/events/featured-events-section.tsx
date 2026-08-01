@@ -60,6 +60,9 @@ function CategoryBadge({ category }: { category: string }) {
 }
 
 function CardFooter({ event, isHero }: { event: Partial<EventData>; isHero?: boolean }) {
+  const t = useTranslations("eventsPage")
+  // "€0" lia-se como grátis; a maioria dos eventos ainda não tem preço.
+  const price = event.basePrice ? `€${event.basePrice}` : t("priceOnRequest")
   return (
     <div className="border-t-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex items-center justify-between pt-[13px]">
       <div className="flex items-center gap-2">
@@ -69,12 +72,12 @@ function CardFooter({ event, isHero }: { event: Partial<EventData>; isHero?: boo
               €{event.originalPrice}
             </span>
             <span className="text-[24px] font-bold text-[var(--lm-accent,#C9A96E)] leading-none" style={serif}>
-              €{event.basePrice}
+              {price}
             </span>
           </>
         ) : (
           <span className="text-[18px] font-bold text-[var(--lm-accent,#C9A96E)] leading-none" style={serif}>
-            From €{event.basePrice}
+            {event.basePrice ? `${t("from")} ${price}` : price}
           </span>
         )}
       </div>

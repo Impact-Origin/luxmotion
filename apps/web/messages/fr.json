@@ -2343,7 +2343,8 @@
     "categorySports": "Sports",
     "categoryCulture": "Culture",
     "categoryCorporate": "Entreprise",
-    "priceOnRequest": "Sur demande"
+    "priceOnRequest": "Sur demande",
+    "from": "À partir de"
   },
   "eventDetails": {
     "date": "Date",

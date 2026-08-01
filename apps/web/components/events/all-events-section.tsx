@@ -27,10 +27,11 @@ function formatDate(timestamp: number, endDate?: number): string {
 }
 
 function EventGridCard({ event, featuredLabel }: { event: EventData; featuredLabel: string }) {
+  const t = useTranslations("eventsPage")
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="bg-[var(--lm-surface,#161616)] flex flex-col md:h-[355px] overflow-clip group"
+      className="bg-[var(--lm-surface,#161616)] flex flex-col md:h-[390px] overflow-clip group"
     >
       {/* O selo e a faixa da data assentam sobre a fotografia: o contraste vem
           da foto, não do tema, por isso ficam fixos nos dois modos. */}
@@ -69,7 +70,7 @@ function EventGridCard({ event, featuredLabel }: { event: EventData; featuredLab
             </>
           )}
         </div>
-        <h3 className="text-[15px] md:text-[18px] font-bold text-[var(--lm-text,#fff)] leading-[20px] md:leading-[24px] pb-[5px]" style={serif}>
+        <h3 className="text-[15px] md:text-[18px] font-bold text-[var(--lm-text,#fff)] leading-[20px] md:leading-[24px] pb-[5px] line-clamp-2" style={serif}>
           {event.title}
         </h3>
         <p className="text-[11px] md:text-[12px] text-[var(--lm-muted,#999)] leading-[1.3] line-clamp-2 flex-1" style={sans}>
@@ -83,7 +84,7 @@ function EventGridCard({ event, featuredLabel }: { event: EventData; featuredLab
               </span>
             )}
             <span className="text-[18px] md:text-[20px] text-[var(--lm-accent,#C9A96E)]" style={serif}>
-              €{event.basePrice}
+              {event.basePrice > 0 ? `€${event.basePrice}` : t("priceOnRequest")}
             </span>
           </span>
           {event.tags?.[0] && (

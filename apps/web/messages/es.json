@@ -2359,7 +2359,8 @@
     "categorySports": "Deportes",
     "categoryCulture": "Cultura",
     "categoryCorporate": "Corporativo",
-    "priceOnRequest": "Bajo consulta"
+    "priceOnRequest": "Bajo consulta",
+    "from": "Desde"
   },
   "eventDetails": {
     "date": "Fecha",
