@@ -289,6 +289,9 @@ export const create = mutation({
     seoTitle: v.optional(v.string()),
     seoDescription: v.optional(v.string()),
     tags: v.optional(v.array(v.string())),
+    faq: v.optional(
+      v.array(v.object({ question: v.string(), answer: v.string() })),
+    ),
   },
   handler: async (ctx, args) => {
     if (args.isFeatured) {
@@ -359,6 +362,9 @@ export const update = mutation({
     seoTitle: v.optional(v.string()),
     seoDescription: v.optional(v.string()),
     tags: v.optional(v.array(v.string())),
+    faq: v.optional(
+      v.array(v.object({ question: v.string(), answer: v.string() })),
+    ),
   },
   handler: async (ctx, args) => {
     const { id, isService: isServiceArg, ...data } = args;
