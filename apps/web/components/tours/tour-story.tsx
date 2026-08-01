@@ -25,9 +25,10 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
       <div className="absolute left-[65px] top-[-16px] flex items-center justify-center w-[184px] h-[440px]">
         <div className="-rotate-[3.05deg]">
           <div
-            className="w-[161px] flex flex-col gap-[10px] items-center px-[7px] py-[10px] border border-[rgba(154,117,53,0.22)]"
+            className="w-[161px] flex flex-col gap-[10px] items-center px-[7px] py-[10px] border border-[rgba(var(--lm-accent-rgb,154,117,53),0.22)]"
             style={{
-              background: "linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.04) 100%), #0D0D0D",
+              background:
+                "linear-gradient(90deg, rgba(var(--lm-text-rgb,255,255,255),0.04) 0%, rgba(var(--lm-text-rgb,255,255,255),0.04) 100%), var(--lm-surface,#0D0D0D)",
               boxShadow: "6px 12px 30px rgba(0,0,0,0.1), 27px 47px 55px rgba(0,0,0,0.09), 62px 106px 74px rgba(0,0,0,0.05)",
             }}
           >
@@ -39,7 +40,7 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
               )
             )}
             <p
-              className="italic font-semibold text-[22px] text-[#C9A96E] tracking-[-0.35px] -rotate-[0.58deg] leading-[1.2]"
+              className="italic font-semibold text-[22px] text-[var(--lm-accent,#C9A96E)] tracking-[-0.35px] -rotate-[0.58deg] leading-[1.2]"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {t("redesign.photoCardText")}
@@ -49,21 +50,22 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
       </div>
 
       <div
-        className="absolute left-[-50px] top-[30px] flex items-center gap-2 border border-[rgba(154,117,53,0.22)] px-[14px] py-[12px] overflow-hidden shadow-[0px_9px_30px_-6px_rgba(19,35,57,0.15)]"
+        className="absolute left-[-50px] top-[30px] flex items-center gap-2 border border-[rgba(var(--lm-accent-rgb,154,117,53),0.22)] px-[14px] py-[12px] overflow-hidden shadow-[0px_9px_30px_-6px_rgba(19,35,57,0.15)]"
         style={{
-          background: "linear-gradient(90deg, rgba(154,117,53,0.22) 0%, rgba(154,117,53,0.22) 100%), #0D0D0D",
+          background:
+            "linear-gradient(90deg, rgba(var(--lm-accent-rgb,154,117,53),0.22) 0%, rgba(var(--lm-accent-rgb,154,117,53),0.22) 100%), var(--lm-surface,#0D0D0D)",
         }}
       >
         <img src="/tours-page/stars-rating.svg" alt="5 stars" className="w-[102px] h-[16px]" />
         <div className="flex flex-col gap-2">
           <span
-            className="text-[14px] font-semibold text-white leading-none whitespace-nowrap"
+            className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-none whitespace-nowrap"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("redesign.reviewStars")}
           </span>
           <span
-            className="text-[12px] text-[#999] leading-none whitespace-nowrap"
+            className="text-[12px] text-[var(--lm-muted,#999)] leading-none whitespace-nowrap"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("redesign.reviewCount")}
@@ -78,13 +80,13 @@ export function TourStory() {
   const t = useTranslations("tourStory")
 
   return (
-    <section className="bg-[#0D0D0D] pt-12 pb-16 px-4 md:px-[82px]">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] pt-12 pb-16 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto relative">
         <div className="flex flex-col gap-[29px] md:max-w-[640px] md:min-h-[457px] md:justify-center">
           <div className="flex items-center gap-2">
-            <div className="w-[82px] h-px bg-[#C9A96E]" />
+            <div className="w-[82px] h-px bg-[var(--lm-accent,#C9A96E)]" />
             <span
-              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap"
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)] whitespace-nowrap"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {t("redesign.label")}
@@ -92,15 +94,15 @@ export function TourStory() {
           </div>
 
           <h2
-            className="text-[32px] md:text-[48px] leading-[1.2] text-[#F5F5F5]"
+            className="text-[32px] md:text-[48px] leading-[1.2] text-[var(--lm-text,#F5F5F5)]"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
             {t("redesign.headingPart1")}{" "}
-            <span className="italic text-[#C9A96E]">{t("redesign.headingPart2")}</span>.
+            <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("redesign.headingPart2")}</span>.
           </h2>
 
           <div
-            className="flex flex-col gap-4 text-[14px] text-[#999] leading-[1.3]"
+            className="flex flex-col gap-4 text-[14px] text-[var(--lm-muted,#999)] leading-[1.3]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             <p>{t("redesign.paragraph1")}</p>

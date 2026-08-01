@@ -33,7 +33,7 @@ export function ToursTopBar() {
 
   return (
     <div
-      className="fixed left-0 right-0 z-[44] border-y border-[rgba(201,169,110,0.22)] bg-[#0D0D0D] h-[30px] md:h-[36px]"
+      className="fixed left-0 right-0 z-[44] border-y border-[rgba(var(--lm-accent-rgb,201,169,110),0.22)] bg-[var(--lm-bg,#0D0D0D)] h-[30px] md:h-[36px]"
       style={{ top: "var(--promo-h, 0px)" }}
       role="region"
       aria-label={t("ariaLabel")}
@@ -46,18 +46,18 @@ export function ToursTopBar() {
           {loop.map((item, i) => (
             <span key={i} className="flex shrink-0 items-center">
               <span
-                className="whitespace-nowrap text-[9px] font-medium uppercase tracking-[1.4px] text-[#D9D2C7] md:text-[11px] md:tracking-[2px]"
+                className="whitespace-nowrap text-[9px] font-medium uppercase tracking-[1.4px] text-[var(--lm-text,#D9D2C7)] md:text-[11px] md:tracking-[2px]"
                 style={SANS_FONT}
               >
                 {item.pre}
                 {item.accent && (
-                  <span className="text-[#C9A96E]">{item.accent}</span>
+                  <span className="text-[var(--lm-accent,#C9A96E)]">{item.accent}</span>
                 )}
                 {item.post}
               </span>
               <span
                 aria-hidden
-                className="mx-5 text-[7px] text-[rgba(201,169,110,0.55)] md:mx-9 md:text-[8px]"
+                className="mx-5 text-[7px] text-[rgba(var(--lm-accent-rgb,201,169,110),0.55)] md:mx-9 md:text-[8px]"
               >
                 ◆
               </span>

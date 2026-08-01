@@ -39,10 +39,10 @@ export function TrustedByCorporate() {
   useAutoScrollMarquee(marqueeRef, { activeBelow: 99999, speedPxPerSec: 32 })
 
   return (
-    <section className="flex w-full items-center justify-center border-y border-[rgba(255,255,255,0.12)] bg-[#F7F4EF] px-4 pb-[50px] pt-6 md:px-[82px]">
+    <section className="flex w-full items-center justify-center border-y border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#F7F4EF)] px-4 pb-[50px] pt-6 md:px-[82px]">
       <div className="flex w-full max-w-[1280px] flex-col items-center justify-center gap-6">
         <p
-          className="text-[12px] font-semibold uppercase tracking-[2px] text-[#696969]"
+          className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-muted,#696969)]"
           style={sans}
         >
           {t("heading")}
@@ -54,7 +54,9 @@ export function TrustedByCorporate() {
         >
           {/* Logos de marca a cinzento, ganhando cor ao passar o rato — o
               mix-blend-difference anterior servia os placeholders, mas inverte
-              as cores de logótipos reais sobre este fundo claro. */}
+              as cores de logótipos reais sobre este fundo claro. No tema escuro
+              a faixa passa a escura e os logótipos (quase todos pretos) ficam
+              a branco; a cor volta ao passar o rato. */}
           <div className="flex w-max items-center gap-12">
             {[...LOGOS, ...LOGOS].map((logo, i) => (
               <div
@@ -68,7 +70,7 @@ export function TrustedByCorporate() {
                   alt={i < LOGOS.length ? logo.alt : ""}
                   fill
                   sizes="172px"
-                  className="object-contain grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+                  className="object-contain grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105 dark:brightness-0 dark:invert dark:group-hover:brightness-100 dark:group-hover:invert-0"
                 />
               </div>
             ))}

@@ -1,4 +1,4 @@
-import { Header } from "@/components/new-landing-page/header"
+import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { ToursHero } from "@/components/tours/tours-hero"
 import { TourStory } from "@/components/tours/tour-story"
 import { DestinationsSection } from "@/components/tours/destinations-section"
@@ -29,39 +29,43 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function ToursPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 pb-[var(--cart-bar-h,0px)] [--tours-bar-h:30px] md:[--tours-bar-h:36px]">
-      <JsonLd
-        data={
-          buildBreadcrumbSchema([
-            { name: "Home", url: "/" },
-            { name: "Tours", url: "/tours" },
-          ])
-        }
-      />
-      <JsonLd
-        data={
-          buildServiceSchema({
-            name: "Luxury Tours in Portugal",
-            description: "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
-            path: "/tours",
-            image: "/tours_hero.webp",
-          })
-        }
-      />
-      <ToursTopBar />
-      <Header />
-      {/* 46px do header + a altura da faixa de topo (30 em telemóvel, 36 acima). */}
-      <div className="pt-[76px] md:pt-[82px]">
-        <ToursHero />
-        <TourStory />
-        <DestinationsSection />
-        <ToursTestimonials />
-        <TopPicksSection />
-        <ContactSection />
-        <SocialSection />
+    // O fundo e a cor do texto vêm do HomeThemeProvider; aqui só fica o espaço
+    // para a barra do carrinho e a altura da faixa de topo (lida pelo Header).
+    <HomeThemeProvider>
+      <div className="pb-[var(--cart-bar-h,0px)] [--tours-bar-h:30px] md:[--tours-bar-h:36px]">
+        <JsonLd
+          data={
+            buildBreadcrumbSchema([
+              { name: "Home", url: "/" },
+              { name: "Tours", url: "/tours" },
+            ])
+          }
+        />
+        <JsonLd
+          data={
+            buildServiceSchema({
+              name: "Luxury Tours in Portugal",
+              description: "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
+              path: "/tours",
+              image: "/tours_hero.webp",
+            })
+          }
+        />
+        <ToursTopBar />
+        <HomeHeader />
+        {/* 46px do header + a altura da faixa de topo (30 em telemóvel, 36 acima). */}
+        <div className="pt-[76px] md:pt-[82px]">
+          <ToursHero />
+          <TourStory />
+          <DestinationsSection />
+          <ToursTestimonials />
+          <TopPicksSection />
+          <ContactSection />
+          <SocialSection />
+        </div>
+        <Footer />
+        <ToursCartBar />
       </div>
-      <Footer />
-      <ToursCartBar />
-    </div>
+    </HomeThemeProvider>
   )
 }

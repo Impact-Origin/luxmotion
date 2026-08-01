@@ -81,7 +81,7 @@ export function LatestGuidesSkeleton() {
 export function BlogDetailSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="h-[520px] bg-zinc-200" />
+      <div className="h-[520px] bg-[var(--lm-surface,#e4e4e7)]" />
 
       <section className="pt-[24px] px-[16px] md:px-[60px] xl:px-[100px]">
         <div className="max-w-[1000px] mx-auto space-y-6">

@@ -39,34 +39,34 @@ function ServiceCardItem({
   return (
     <Link href={href} className="relative overflow-hidden block h-full group cursor-pointer">
       <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-black to-[82%]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-[var(--lm-bg,#000)] to-[82%]" />
       <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-4">
-        <div className="size-[48px] bg-[rgba(201,169,110,0.08)] border-2 border-[rgba(201,169,110,0.25)] flex items-center justify-center">
-          <Icon className="size-6 text-[#C9A96E]" />
+        <div className="size-[48px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border-2 border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] flex items-center justify-center">
+          <Icon className="size-6 text-[var(--lm-accent,#C9A96E)]" />
         </div>
         <div className="flex items-end gap-2">
           <div className="flex-1 flex flex-col gap-2">
             <span
-              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] leading-none"
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)] leading-none"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {label}
             </span>
             <span
-              className="text-[24px] text-white leading-normal"
+              className="text-[24px] text-[var(--lm-text,#fff)] leading-normal"
               style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
             >
               {title}
             </span>
             <p
-              className="text-[14px] text-[#999] leading-[1.2] tracking-[0.14px]"
+              className="text-[14px] text-[var(--lm-muted,#999)] leading-[1.2] tracking-[0.14px]"
               style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
             >
               {description}
             </p>
           </div>
-          <div className="size-[32px] border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:border-[#C9A96E] group-hover:bg-[#C9A96E]">
-            <ChevronRight className="size-[18px] text-[#C9A96E] transition-colors duration-300 group-hover:text-[#0d0d0d]" />
+          <div className="size-[32px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.3)] flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:border-[var(--lm-accent,#C9A96E)] group-hover:bg-[var(--lm-accent,#C9A96E)]">
+            <ChevronRight className="size-[18px] text-[var(--lm-accent,#C9A96E)] transition-colors duration-300 group-hover:text-[#0d0d0d]" />
           </div>
         </div>
       </div>
@@ -99,18 +99,18 @@ export function TopPicksSection() {
   const swipeHandlers = useSwipe(next, prev)
 
   return (
-    <section className="bg-[#0D0D0D] pt-10 pb-16 px-4 md:px-[82px]">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] pt-10 pb-16 px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <h2
-            className="text-[32px] md:text-[48px] leading-[1.3] text-white"
+            className="text-[32px] md:text-[48px] leading-[1.3] text-[var(--lm-text,#fff)]"
             style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
           >
             {t("redesign.heading")}{" "}
-            <span className="italic text-[#C9A96E]">{t("redesign.headingAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("redesign.headingAccent")}</span>
           </h2>
           <p
-            className="text-[18px] text-[#999] leading-[1.3] max-w-[536px]"
+            className="text-[18px] text-[var(--lm-muted,#999)] leading-[1.3] max-w-[536px]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {t("redesign.subtitle")}
@@ -157,12 +157,12 @@ export function TopPicksSection() {
             <button
               onClick={prev}
               className={cn(
-                "size-[36px] flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+                "size-[36px] flex items-center justify-center bg-[var(--lm-bg,#0D0D0D)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-opacity",
                 offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
               )}
               aria-label="Previous"
             >
-              <ChevronLeft className="size-[14px] text-[#C9A96E]" />
+              <ChevronLeft className="size-[14px] text-[var(--lm-accent,#C9A96E)]" />
             </button>
 
             <div className="flex gap-[6px] items-center">
@@ -172,7 +172,7 @@ export function TopPicksSection() {
                   onClick={() => setOffset(i)}
                   className={cn(
                     "rounded-full transition-all",
-                    i === offset ? "size-[10px] bg-[#C9A96E]" : "size-[6px] bg-[rgba(201,169,110,0.3)]"
+                    i === offset ? "size-[10px] bg-[var(--lm-accent,#C9A96E)]" : "size-[6px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.3)]"
                   )}
                 />
               ))}
@@ -181,12 +181,12 @@ export function TopPicksSection() {
             <button
               onClick={next}
               className={cn(
-                "size-[36px] flex items-center justify-center bg-[#0D0D0D] border border-[rgba(201,169,110,0.5)] transition-opacity",
+                "size-[36px] flex items-center justify-center bg-[var(--lm-bg,#0D0D0D)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-opacity",
                 offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
               )}
               aria-label="Next"
             >
-              <ChevronRight className="size-[14px] text-[#C9A96E]" />
+              <ChevronRight className="size-[14px] text-[var(--lm-accent,#C9A96E)]" />
             </button>
           </div>
         </div>

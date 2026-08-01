@@ -82,19 +82,19 @@ function InfoBox({
 }) {
   const iconSize = size === "mobile" ? "size-[40px] border-[1.667px]" : "size-[32px] border-[1.333px]"
   return (
-    <div className="flex-1 min-w-0 flex items-center gap-[10px] bg-[#141414] border-[0.8px] border-[rgba(154,117,53,0.22)] pl-[16.8px] pr-[16.8px] py-[8.8px]">
-      <div className={`shrink-0 ${iconSize} bg-[rgba(201,169,110,0.08)] border-[rgba(201,169,110,0.25)] flex items-center justify-center`}>
+    <div className="flex-1 min-w-0 flex items-center gap-[10px] bg-[var(--lm-surface,#141414)] border-[0.8px] border-[rgba(var(--lm-accent-rgb,154,117,53),0.22)] pl-[16.8px] pr-[16.8px] py-[8.8px]">
+      <div className={`shrink-0 ${iconSize} bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] flex items-center justify-center`}>
         {icon}
       </div>
       <div className="flex flex-col gap-[8px] min-w-0">
         <span
-          className="text-[10px] font-semibold text-[#999] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
+          className="text-[10px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.2px] uppercase leading-none whitespace-nowrap"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {label}
         </span>
         <span
-          className="text-[14px] font-medium text-white leading-none whitespace-nowrap overflow-hidden text-ellipsis"
+          className="text-[14px] font-medium text-[var(--lm-text,#fff)] leading-none whitespace-nowrap overflow-hidden text-ellipsis"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {value}
@@ -248,7 +248,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                   {infoItems.map(({ key, icon: Icon, label, value }) => (
                     <InfoBox
                       key={key}
-                      icon={<Icon className="size-[16px] text-[#C9A96E]" strokeWidth={1.5} />}
+                      icon={<Icon className="size-[16px] text-[var(--lm-accent,#C9A96E)]" strokeWidth={1.5} />}
                       label={label}
                       value={value}
                     />
@@ -259,7 +259,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                     <InfoBox
                       key={key}
                       size="mobile"
-                      icon={<Icon className="size-[20px] text-[#C9A96E]" strokeWidth={1.5} />}
+                      icon={<Icon className="size-[20px] text-[var(--lm-accent,#C9A96E)]" strokeWidth={1.5} />}
                       label={label}
                       value={value}
                     />
@@ -268,9 +268,9 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
 
                 {event.tags && event.tags.length > 0 && (
                   <div className="flex items-center gap-[10px] pt-[16px] w-full">
-                    <div className="w-[20px] h-px bg-[#C9A96E]" />
+                    <div className="w-[20px] h-px bg-[var(--lm-accent,#C9A96E)]" />
                     <span
-                      className="text-[12px] font-semibold text-[#C9A96E] tracking-[2.25px] uppercase"
+                      className="text-[12px] font-semibold text-[var(--lm-accent,#C9A96E)] tracking-[2.25px] uppercase"
                       style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                     >
                       {event.tags.join(" · ")}
@@ -280,25 +280,25 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
 
                 <div className="flex flex-col items-start w-full">
                   <h1
-                    className="text-[36px] md:text-[48px] text-white leading-[1.17] font-light break-words"
+                    className="text-[36px] md:text-[48px] text-[var(--lm-text,#fff)] leading-[1.17] font-light break-words"
                     style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                   >
                     {restTitle}
                     {restTitle ? " " : ""}
-                    <span className="italic text-[#C9A96E] font-light">{lastTitleWord}</span>
+                    <span className="italic text-[var(--lm-accent,#C9A96E)] font-light">{lastTitleWord}</span>
                   </h1>
 
                   {event.rating !== undefined && event.rating > 0 && (
                     <div className="flex items-center gap-[10px] pt-[2.8px] w-full">
-                      <span className="text-[14px] text-[#C9A96E] tracking-[1px] leading-none">★★★★★</span>
+                      <span className="text-[14px] text-[var(--lm-accent,#C9A96E)] tracking-[1px] leading-none">★★★★★</span>
                       <span
-                        className="text-[16px] text-white leading-none font-normal"
+                        className="text-[16px] text-[var(--lm-text,#fff)] leading-none font-normal"
                         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                       >
                         {event.rating.toFixed(1)}
                       </span>
                       <span
-                        className="text-[12px] text-[#999] leading-none"
+                        className="text-[12px] text-[var(--lm-muted,#999)] leading-none"
                         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                       >
                         · {event.reviewCount ?? 0} {t("reviewsCount")}
@@ -310,15 +310,15 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
 
               <div className="mt-6">
                 <h2
-                  className="text-[24px] md:text-[32px] text-white leading-[1.3] mb-6"
+                  className="text-[24px] md:text-[32px] text-[var(--lm-text,#fff)] leading-[1.3] mb-6"
                   style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                 >
                   {t("aboutPrefix")}{" "}
-                  <span className="italic text-[#C9A96E]">{t("aboutAccent")}</span>
+                  <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("aboutAccent")}</span>
                 </h2>
                 <TipTapRenderer
                   content={event.description}
-                  className="text-[14px] lg:text-[16px] text-[#999] leading-[1.6]"
+                  className="text-[14px] lg:text-[16px] text-[var(--lm-muted,#999)] leading-[1.6]"
                 />
               </div>
 
@@ -338,15 +338,15 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
               {event.meetingPoint?.lat && event.meetingPoint?.lng && (
                 <div
                   id="event-location"
-                  className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 scroll-mt-24"
+                  className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10 scroll-mt-24"
                 >
                   <h2
-                    className="text-[24px] italic text-[#c9a96e] mb-5 font-medium"
+                    className="text-[24px] italic text-[var(--lm-accent,#c9a96e)] mb-5 font-medium"
                     style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                   >
                     {t("location")}
                   </h2>
-                  <div className="overflow-hidden border border-[rgba(201,169,110,0.22)]">
+                  <div className="overflow-hidden border border-[rgba(var(--lm-accent-rgb,201,169,110),0.22)]">
                     <EventLocationMap
                       title={event.meetingPoint.title}
                       address={event.meetingPoint.address}
@@ -359,9 +359,9 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
               )}
 
               {event.meetingPoint && (
-                <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10">
+                <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10">
                   <h2
-                    className="text-[24px] italic text-[#c9a96e] mb-5 font-medium"
+                    className="text-[24px] italic text-[var(--lm-accent,#c9a96e)] mb-5 font-medium"
                     style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                   >
                     {t("meetingPoint")}
@@ -387,26 +387,26 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                         )
                       }
                     }}
-                    className="w-full text-left bg-[#1a1a1a] border-l-[1.6px] border-transparent p-[24px] flex flex-col gap-[8px] transition-colors hover:bg-[#1f1f1f] hover:border-[#c9a96e] cursor-pointer"
+                    className="w-full text-left bg-[var(--lm-surface,#1a1a1a)] border-l-[1.6px] border-transparent p-[24px] flex flex-col gap-[8px] transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)] hover:border-[var(--lm-accent,#c9a96e)] cursor-pointer"
                   >
-                    <div className="size-[24px] rounded-[12px] bg-[rgba(201,169,110,0.15)] border-[0.857px] border-[rgba(201,169,110,0.3)] flex items-center justify-center">
-                      <MapPin className="size-[10px] text-[#c9a96e]" strokeWidth={2} />
+                    <div className="size-[24px] rounded-[12px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.15)] border-[0.857px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] flex items-center justify-center">
+                      <MapPin className="size-[10px] text-[var(--lm-accent,#c9a96e)]" strokeWidth={2} />
                     </div>
                     <span
-                      className="text-[8px] font-bold text-[#c9a96e] tracking-[1.2px] uppercase"
+                      className="text-[8px] font-bold text-[var(--lm-accent,#c9a96e)] tracking-[1.2px] uppercase"
                       style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                     >
                       {t("meetingLocationLabel")}
                     </span>
                     <div className="flex flex-col gap-[2px]">
                       <span
-                        className="text-[20px] text-white leading-[1.2]"
+                        className="text-[20px] text-[var(--lm-text,#fff)] leading-[1.2]"
                         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                       >
                         {event.meetingPoint.title}
                       </span>
                       <span
-                        className="text-[12px] text-[#8c8680]"
+                        className="text-[12px] text-[var(--lm-muted,#8c8680)]"
                         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                       >
                         {event.meetingPoint.address}
@@ -414,7 +414,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                     </div>
                     {event.meetingPoint.description && (
                       <p
-                        className="text-[11px] text-[rgba(255,255,255,0.3)] leading-[17.6px]"
+                        className="text-[11px] text-[var(--lm-muted,rgba(255,255,255,0.3))] leading-[17.6px]"
                         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                       >
                         {event.meetingPoint.description}
@@ -425,7 +425,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
               )}
 
               {event._id && (
-                <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 pb-10">
+                <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10 pb-10">
                   <EventReviews
                     eventId={event._id as Id<"events">}
                     rating={event.rating ?? 0}

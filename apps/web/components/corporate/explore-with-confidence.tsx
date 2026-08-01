@@ -59,14 +59,20 @@ export function ExploreWithConfidence() {
   }
 
   return (
-    <section className="bg-[#0D0D0D] px-4 py-12 md:px-[82px] md:py-[60px]">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] px-4 py-12 md:px-[82px] md:py-[60px]">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-6 md:gap-9">
         <div className="flex w-full flex-col items-center gap-2 text-center">
-          <h2 className="text-[32px] leading-tight text-white md:text-[48px]" style={serif}>
+          <h2
+            className="text-[32px] leading-tight text-[var(--lm-text,#fff)] md:text-[48px]"
+            style={serif}
+          >
             {t("titleRest")}{" "}
-            <span className="italic text-[#C9A96E]">{t("titleGold")}</span>
+            <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("titleGold")}</span>
           </h2>
-          <p className="text-[16px] leading-[1.3] text-[#999] md:text-[18px]" style={sans}>
+          <p
+            className="text-[16px] leading-[1.3] text-[var(--lm-muted,#999)] md:text-[18px]"
+            style={sans}
+          >
             {t("subtitle")}
           </p>
         </div>
@@ -114,10 +120,10 @@ export function ExploreWithConfidence() {
             onClick={goPrev}
             disabled={offset === 0}
             aria-label={t("previous")}
-            className={`absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center border border-[rgba(201,169,110,0.5)] bg-[#0D0D0D] text-[#C9A96E] transition md:-left-[42px] ${
+            className={`absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] bg-[var(--lm-bg,#0D0D0D)] text-[var(--lm-accent,#C9A96E)] transition md:-left-[42px] ${
               offset === 0
                 ? "cursor-not-allowed opacity-30"
-                : "hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+                : "hover:border-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
             }`}
           >
             <ArrowRight className="size-[14px] rotate-180" strokeWidth={2} />
@@ -128,10 +134,10 @@ export function ExploreWithConfidence() {
             onClick={goNext}
             disabled={offset >= maxOffset}
             aria-label={t("next")}
-            className={`absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center border border-[rgba(201,169,110,0.5)] bg-[#0D0D0D] text-[#C9A96E] transition md:-right-[42px] ${
+            className={`absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] bg-[var(--lm-bg,#0D0D0D)] text-[var(--lm-accent,#C9A96E)] transition md:-right-[42px] ${
               offset >= maxOffset
                 ? "cursor-not-allowed opacity-30"
-                : "hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+                : "hover:border-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
             }`}
           >
             <ArrowRight className="size-[14px]" strokeWidth={2} />
@@ -146,7 +152,9 @@ export function ExploreWithConfidence() {
               onClick={() => goToPage(i)}
               aria-label={t("goToSlide", { number: i + 1 })}
               className={`rounded-full transition-all ${
-                i === currentPage ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.35)]"
+                i === currentPage
+                  ? "size-[6px] bg-[var(--lm-accent,#C9A96E)]"
+                  : "size-[5px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.35)]"
               }`}
             />
           ))}

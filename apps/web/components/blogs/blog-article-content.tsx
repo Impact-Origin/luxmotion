@@ -78,7 +78,7 @@ function HeadingText({ text }: { text: string }) {
   return (
     <>
       <span>{head}</span>{" "}
-      <span className="italic text-[#C9A96E]" style={SERIF_FONT}>
+      <span className="italic text-[var(--lm-accent,#C9A96E)]" style={SERIF_FONT}>
         {accent}
       </span>
     </>
@@ -106,7 +106,7 @@ function renderInlineContent(nodes: TipTapNode[] | undefined): React.ReactNode {
         for (const mark of node.marks) {
           switch (mark.type) {
             case "bold":
-              element = <strong key={`b-${index}`} className="font-semibold text-white">{element}</strong>
+              element = <strong key={`b-${index}`} className="font-semibold text-[var(--lm-text,#fff)]">{element}</strong>
               break
             case "italic":
               element = <em key={`i-${index}`} className="italic">{element}</em>
@@ -121,7 +121,7 @@ function renderInlineContent(nodes: TipTapNode[] | undefined): React.ReactNode {
               element = (
                 <code
                   key={`c-${index}`}
-                  className="bg-[#1c1c1c] border border-[rgba(255,255,255,0.07)] px-1.5 py-0.5 text-[13px] font-mono text-[#C9A96E]"
+                  className="bg-[var(--lm-surface,#1c1c1c)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] px-1.5 py-0.5 text-[13px] font-mono text-[var(--lm-accent,#C9A96E)]"
                 >
                   {element}
                 </code>
@@ -135,7 +135,7 @@ function renderInlineContent(nodes: TipTapNode[] | undefined): React.ReactNode {
                     href={mark.attrs.href}
                     target={mark.attrs.target || "_blank"}
                     rel="noopener noreferrer"
-                    className="text-[#C9A96E] underline underline-offset-2 hover:text-white transition-colors"
+                    className="text-[var(--lm-accent,#C9A96E)] underline underline-offset-2 hover:text-[var(--lm-text,#fff)] transition-colors"
                   >
                     {element}
                   </Link>
@@ -161,7 +161,7 @@ function ParagraphNode({ node }: { node: TipTapNode }) {
   const content = renderInlineContent(node.content)
   if (!content) return null
   return (
-    <p className="text-[14px] md:text-[15px] text-[#999] leading-[28.5px] w-full">
+    <p className="text-[14px] md:text-[15px] text-[var(--lm-muted,#999)] leading-[28.5px] w-full">
       {content}
     </p>
   )
@@ -189,7 +189,7 @@ function HeadingNode({ node, headingId }: { node: TipTapNode; headingId?: string
         <h2
           id={headingId}
           style={{ ...SERIF_FONT, ...(headingId ? { scrollMarginTop: 96 } : {}) }}
-          className="text-[24px] xl:text-[30px] text-white font-medium leading-[34.5px] w-full pt-[21.3px]"
+          className="text-[24px] xl:text-[30px] text-[var(--lm-text,#fff)] font-medium leading-[34.5px] w-full pt-[21.3px]"
         >
           <HeadingText text={text} />
         </h2>
@@ -203,7 +203,7 @@ function HeadingNode({ node, headingId }: { node: TipTapNode; headingId?: string
       <h3
         id={headingId}
         style={headingId ? { scrollMarginTop: 96 } : undefined}
-        className="text-[15px] font-semibold tracking-[0.15px] text-white leading-[28.5px] w-full pt-[14px]"
+        className="text-[15px] font-semibold tracking-[0.15px] text-[var(--lm-text,#fff)] leading-[28.5px] w-full pt-[14px]"
       >
         {text}
       </h3>
@@ -213,8 +213,8 @@ function HeadingNode({ node, headingId }: { node: TipTapNode; headingId?: string
 
 function GoldBulletItem({ children }: { children: React.ReactNode }) {
   return (
-    <li className="flex items-start gap-[10px] text-[14px] md:text-[15px] text-[#999] leading-[28.5px]">
-      <span className="mt-[11px] block h-[6px] w-[6px] shrink-0 rounded-full bg-[#C9A96E]" />
+    <li className="flex items-start gap-[10px] text-[14px] md:text-[15px] text-[var(--lm-muted,#999)] leading-[28.5px]">
+      <span className="mt-[11px] block h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--lm-accent,#C9A96E)]" />
       <span className="flex-1 min-w-0">{children}</span>
     </li>
   )
@@ -239,9 +239,9 @@ function BulletListNode({ node }: { node: TipTapNode }) {
 
 function OrderedListNode({ node }: { node: TipTapNode }) {
   return (
-    <ol className="flex flex-col gap-[7px] w-full pt-[6px] list-decimal pl-[20px] marker:text-[#C9A96E]">
+    <ol className="flex flex-col gap-[7px] w-full pt-[6px] list-decimal pl-[20px] marker:text-[var(--lm-accent,#C9A96E)]">
       {node.content?.map((listItem, index) => (
-        <li key={index} className="text-[14px] md:text-[15px] text-[#999] leading-[28.5px] pl-1">
+        <li key={index} className="text-[14px] md:text-[15px] text-[var(--lm-muted,#999)] leading-[28.5px] pl-1">
           {listItem.content?.map((child, childIndex) => {
             if (child.type === "paragraph") {
               return <span key={childIndex}>{renderInlineContent(child.content)}</span>
@@ -256,13 +256,13 @@ function OrderedListNode({ node }: { node: TipTapNode }) {
 
 function BlockquoteNode({ node }: { node: TipTapNode }) {
   return (
-    <blockquote className="bg-[rgba(201,169,110,0.08)] border-l-[2.4px] border-[#C9A96E] pl-[24.4px] pr-[22px] py-[18px] w-full">
+    <blockquote className="bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border-l-[2.4px] border-[var(--lm-accent,#C9A96E)] pl-[24.4px] pr-[22px] py-[18px] w-full">
       {node.content?.map((child, index) => {
         if (child.type === "paragraph") {
           return (
             <p
               key={index}
-              className="text-[18px] md:text-[20px] text-white italic leading-[1.2] md:leading-[31px]"
+              className="text-[18px] md:text-[20px] text-[var(--lm-text,#fff)] italic leading-[1.2] md:leading-[31px]"
               style={SERIF_FONT}
             >
               {renderInlineContent(child.content)}
@@ -278,7 +278,7 @@ function BlockquoteNode({ node }: { node: TipTapNode }) {
 function CodeBlockNode({ node }: { node: TipTapNode }) {
   const code = node.content?.map((c) => c.text || "").join("") || ""
   return (
-    <pre className="bg-[#141414] border border-[rgba(255,255,255,0.07)] text-[#C9A96E] p-4 overflow-x-auto w-full">
+    <pre className="bg-[var(--lm-surface,#141414)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] text-[var(--lm-accent,#C9A96E)] p-4 overflow-x-auto w-full">
       <code className="text-[13px] font-mono leading-relaxed">{code}</code>
     </pre>
   )
@@ -293,7 +293,7 @@ function ImageNode({ node }: { node: TipTapNode }) {
 
   return (
     <figure className="w-full">
-      <div className="relative w-full h-[240px] md:h-[334px] bg-[#1c1c1c] overflow-hidden">
+      <div className="relative w-full h-[240px] md:h-[334px] bg-[var(--lm-surface,#1c1c1c)] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
@@ -303,7 +303,7 @@ function ImageNode({ node }: { node: TipTapNode }) {
         />
       </div>
       {title && (
-        <figcaption className="text-center text-[12px] text-[#696969] mt-2 italic">
+        <figcaption className="text-center text-[12px] text-[var(--lm-muted,#696969)] mt-2 italic">
           {title}
         </figcaption>
       )}
@@ -312,7 +312,7 @@ function ImageNode({ node }: { node: TipTapNode }) {
 }
 
 function HorizontalRuleNode() {
-  return <hr className="border-t border-[rgba(255,255,255,0.07)] w-full" />
+  return <hr className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] w-full" />
 }
 
 function TableCellContent({ nodes }: { nodes: TipTapNode[] | undefined }) {
@@ -354,8 +354,8 @@ function TableNode({ node }: { node: TipTapNode }) {
                       style={width ? { width } : undefined}
                       className={
                         isHeader
-                          ? "flex flex-col items-start bg-[#1c1c1c] border border-[rgba(255,255,255,0.07)] px-[14.8px] pt-[9.4px] pb-[10.5px] text-[#C9A96E] text-[9px] md:text-[10px] tracking-[1.26px] uppercase font-bold leading-[17.1px] flex-1 min-w-[110px]"
-                          : "flex flex-col items-start border border-[rgba(255,255,255,0.07)] px-[14.8px] pt-[9.8px] pb-[11px] text-[12px] text-[#999] leading-[18px] flex-1 min-w-[110px]"
+                          ? "flex flex-col items-start bg-[var(--lm-surface,#1c1c1c)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] px-[14.8px] pt-[9.4px] pb-[10.5px] text-[var(--lm-accent,#C9A96E)] text-[9px] md:text-[10px] tracking-[1.26px] uppercase font-bold leading-[17.1px] flex-1 min-w-[110px]"
+                          : "flex flex-col items-start border border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] px-[14.8px] pt-[9.8px] pb-[11px] text-[12px] text-[var(--lm-muted,#999)] leading-[18px] flex-1 min-w-[110px]"
                       }
                     >
                       <TableCellContent nodes={cell.content} />
@@ -433,7 +433,7 @@ function renderBlock(
       return (
         <p
           key={index}
-          className="text-[14px] md:text-[15px] text-[#999] leading-[28.5px] w-full"
+          className="text-[14px] md:text-[15px] text-[var(--lm-muted,#999)] leading-[28.5px] w-full"
         >
           {block.content}
         </p>
@@ -446,7 +446,7 @@ function renderBlock(
           <h2
             id={id}
             style={{ ...SERIF_FONT, ...(id ? { scrollMarginTop: 96 } : {}) }}
-            className="text-[24px] xl:text-[30px] text-white font-medium leading-[34.5px] w-full pt-[21.3px]"
+            className="text-[24px] xl:text-[30px] text-[var(--lm-text,#fff)] font-medium leading-[34.5px] w-full pt-[21.3px]"
           >
             <HeadingText text={block.content} />
           </h2>
@@ -461,7 +461,7 @@ function renderBlock(
           <h3
             id={id}
             style={id ? { scrollMarginTop: 96 } : undefined}
-            className="text-[15px] font-semibold tracking-[0.15px] text-white leading-[28.5px] w-full pt-[14px]"
+            className="text-[15px] font-semibold tracking-[0.15px] text-[var(--lm-text,#fff)] leading-[28.5px] w-full pt-[14px]"
           >
             {block.numbered && block.number ? `${block.number}. ` : ""}
             {block.content}
@@ -480,7 +480,7 @@ function renderBlock(
     case "image":
       return (
         <figure key={index} className="w-full">
-          <div className="relative w-full h-[240px] md:h-[334px] bg-[#1c1c1c] overflow-hidden">
+          <div className="relative w-full h-[240px] md:h-[334px] bg-[var(--lm-surface,#1c1c1c)] overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={block.src}
@@ -495,7 +495,7 @@ function renderBlock(
       return (
         <div key={index} className="flex flex-col gap-4 w-full">
           <h3
-            className="text-[24px] xl:text-[30px] text-white font-medium leading-[34.5px] w-full pt-[21.3px]"
+            className="text-[24px] xl:text-[30px] text-[var(--lm-text,#fff)] font-medium leading-[34.5px] w-full pt-[21.3px]"
             style={SERIF_FONT}
           >
             FAQs
@@ -504,10 +504,10 @@ function renderBlock(
             {block.items.map((item, i) => (
               <div
                 key={i}
-                className="border-t border-[rgba(255,255,255,0.07)] pt-4"
+                className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] pt-4"
               >
-                <dt className="font-semibold text-[15px] text-white">{item.question}</dt>
-                <dd className="text-[14px] md:text-[15px] text-[#999] leading-[28.5px] mt-1">
+                <dt className="font-semibold text-[15px] text-[var(--lm-text,#fff)]">{item.question}</dt>
+                <dd className="text-[14px] md:text-[15px] text-[var(--lm-muted,#999)] leading-[28.5px] mt-1">
                   {item.answer}
                 </dd>
               </div>

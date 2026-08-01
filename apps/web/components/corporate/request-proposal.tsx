@@ -120,29 +120,29 @@ export function RequestProposal() {
   return (
     <section
       id="request-proposal"
-      className="flex w-full flex-col items-center justify-center gap-9 bg-[#F7F4EF] px-4 py-10 md:px-[82px] md:py-[40px]"
+      className="flex w-full flex-col items-center justify-center gap-9 bg-[var(--lm-bg,#F7F4EF)] px-4 py-10 md:px-[82px] md:py-[40px]"
     >
       <div className="flex w-full max-w-[1280px] flex-col items-center gap-2 text-center">
         <div className="flex items-center gap-2">
-          <div className="h-px w-8 bg-[#A08248]" />
+          <div className="h-px w-8 bg-[var(--lm-accent,#A08248)]" />
           <span
-            className="text-[12px] font-semibold uppercase tracking-[2px] text-[#A08248]"
+            className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#A08248)]"
             style={sans}
           >
             {t("eyebrow")}
           </span>
-          <div className="h-px w-8 bg-[#A08248]" />
+          <div className="h-px w-8 bg-[var(--lm-accent,#A08248)]" />
         </div>
         <h2
-          className="text-[32px] leading-none text-[#0D0D0D] md:text-[48px]"
+          className="text-[32px] leading-none text-[var(--lm-text,#0D0D0D)] md:text-[48px]"
           style={serif}
         >
           {t("titlePart1")}{" "}
-          <span className="italic text-[#A08248]">{t("titleItalic1")}</span>{" "}
-          <span className="italic text-[#A08248]">{t("titleItalic2")}</span>.
+          <span className="italic text-[var(--lm-accent,#A08248)]">{t("titleItalic1")}</span>{" "}
+          <span className="italic text-[var(--lm-accent,#A08248)]">{t("titleItalic2")}</span>.
         </h2>
         <p
-          className="text-[16px] leading-[1.3] text-[#696969] md:text-[18px]"
+          className="text-[16px] leading-[1.3] text-[var(--lm-muted,#696969)] md:text-[18px]"
           style={sans}
         >
           {t("subtitleLine1")}
@@ -151,6 +151,9 @@ export function RequestProposal() {
         </p>
       </div>
 
+      {/* O cartão do formulário é deliberadamente escuro nos dois temas: no
+          claro destaca-se do creme, no escuro fica um degrau acima do fundo
+          (#1e1d1b sobre #0d0d0d). Por isso o interior mantém as cores fixas. */}
       {submitted ? (
         <div
           className="relative flex w-full max-w-[900px] flex-col items-center gap-4 border border-[rgba(168,131,58,0.15)] bg-[#1e1d1b] px-6 py-16 text-center shadow-[0_4px_40px_0_rgba(0,0,0,0.07)] md:px-[48px]"

@@ -18,7 +18,7 @@ const DESTINATIONS: { slug: string; label: string }[] = [
 
 export function DestinationNav({ currentSlug }: DestinationNavProps) {
   return (
-    <nav className="sticky top-[46px] z-30 w-full bg-[#0d0d0d]/95 backdrop-blur-md border-b-[0.8px] border-[rgba(201,169,110,0.1)]">
+    <nav className="sticky top-[46px] z-30 w-full bg-[rgba(var(--lm-bg-rgb,13,13,13),0.95)] backdrop-blur-md border-b-[0.8px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.1)]">
       <div
         className="max-w-[1440px] mx-auto px-4 md:px-[60px] overflow-x-auto scrollbar-none no-scrollbar"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
@@ -32,7 +32,7 @@ export function DestinationNav({ currentSlug }: DestinationNavProps) {
                   href={`/tours/${d.slug}`}
                   className={cn(
                     "group relative block px-[20px] md:px-[28px] pt-[16px] pb-[17.6px] text-[12px] font-semibold uppercase tracking-[1.2px] whitespace-nowrap transition-colors duration-300 ease-out",
-                    isActive ? "text-[#c9a96e]" : "text-[#8c8680] hover:text-[#c9a96e]"
+                    isActive ? "text-[var(--lm-accent,#c9a96e)]" : "text-[var(--lm-muted,#8c8680)] hover:text-[var(--lm-accent,#c9a96e)]"
                   )}
                   style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                 >
@@ -40,10 +40,10 @@ export function DestinationNav({ currentSlug }: DestinationNavProps) {
                   <span
                     aria-hidden
                     className={cn(
-                      "pointer-events-none absolute left-[20px] right-[20px] md:left-[28px] md:right-[28px] bottom-0 h-[1.6px] bg-[#c9a96e] origin-center transition-transform duration-300 ease-out",
+                      "pointer-events-none absolute left-[20px] right-[20px] md:left-[28px] md:right-[28px] bottom-0 h-[1.6px] bg-[var(--lm-accent,#c9a96e)] origin-center transition-transform duration-300 ease-out",
                       isActive
                         ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100 bg-[rgba(201,169,110,0.6)]"
+                        : "scale-x-0 group-hover:scale-x-100 bg-[rgba(var(--lm-accent-rgb,201,169,110),0.6)]"
                     )}
                   />
                 </Link>

@@ -40,8 +40,8 @@ function StarRating({
             <Star
               className={`size-[20px] transition-colors ${
                 isFilled
-                  ? "text-[#c9a96e] fill-[#c9a96e]"
-                  : "text-[rgba(255,255,255,0.15)] fill-[rgba(255,255,255,0.15)] hover:text-[rgba(201,169,110,0.5)] hover:fill-[rgba(201,169,110,0.5)]"
+                  ? "text-[var(--lm-accent,#c9a96e)] fill-[var(--lm-accent,#c9a96e)]"
+                  : "text-[rgba(var(--lm-text-rgb,255,255,255),0.15)] fill-[rgba(var(--lm-text-rgb,255,255,255),0.15)] hover:text-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] hover:fill-[rgba(var(--lm-accent-rgb,201,169,110),0.5)]"
               }`}
             />
           </button>
@@ -105,15 +105,15 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
   }
 
   return (
-    <div className="bg-[#1a1a1a] border border-[rgba(201,169,110,0.08)] p-[24px] md:p-[33px] flex flex-col gap-[19px]">
-      <div className="h-[2px] w-[40px] bg-[#c9a96e]" />
+    <div className="bg-[var(--lm-surface,#1a1a1a)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] p-[24px] md:p-[33px] flex flex-col gap-[19px]">
+      <div className="h-[2px] w-[40px] bg-[var(--lm-accent,#c9a96e)]" />
       <h3
-        className="text-[22px] font-light text-white leading-none"
+        className="text-[22px] font-light text-[var(--lm-text,#fff)] leading-none"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
       >
         {titleLead}
         {titleLead ? " " : ""}
-        <span className="italic text-[#c9a96e]">{titleAccent}</span>
+        <span className="italic text-[var(--lm-accent,#c9a96e)]">{titleAccent}</span>
       </h3>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-[14px]">
@@ -126,7 +126,7 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           required
-          className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] px-[14.8px] py-[13.8px] text-[13px] font-light text-white placeholder:text-[rgba(255,255,255,0.2)] focus:outline-none focus:border-[rgba(201,169,110,0.4)] transition-colors"
+          className="w-full bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] px-[14.8px] py-[13.8px] text-[13px] font-light text-[var(--lm-text,#fff)] placeholder:text-[var(--lm-muted,rgba(255,255,255,0.2))] focus:outline-none focus:border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] transition-colors"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         />
 
@@ -144,14 +144,14 @@ export function TourReviewForm({ tourId }: TourReviewFormProps) {
           onChange={(e) => setText(e.target.value)}
           required
           rows={4}
-          className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] px-[14.8px] py-[13.8px] text-[13px] font-light text-white placeholder:text-[rgba(255,255,255,0.2)] resize-none focus:outline-none focus:border-[rgba(201,169,110,0.4)] transition-colors min-h-[100px]"
+          className="w-full bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] px-[14.8px] py-[13.8px] text-[13px] font-light text-[var(--lm-text,#fff)] placeholder:text-[var(--lm-muted,rgba(255,255,255,0.2))] resize-none focus:outline-none focus:border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] transition-colors min-h-[100px]"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         />
 
         <button
           type="submit"
           disabled={isSubmitting || rating === 0}
-          className="w-full bg-[#c9a96e] p-[14px] flex items-center justify-center transition-colors hover:bg-[#b8954f] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-[var(--lm-accent,#c9a96e)] p-[14px] flex items-center justify-center transition-colors hover:bg-[#b8954f] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span
             className="text-[11px] font-bold text-[#0d0d0d] tracking-[1.32px] uppercase"

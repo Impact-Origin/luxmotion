@@ -92,8 +92,10 @@ export function ToursHero() {
         }}
       />
       {/* Fade em baixo: o vídeo dissolve-se na secção seguinte (#0D0D0D) em
-          vez de cortar a direito, como nos ultra luxury. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#0D0D0D] md:h-44" />
+          vez de cortar a direito, como nos ultra luxury. O vídeo e o texto
+          por cima dele ficam escuros nos dois temas — só o fim do fade segue o
+          fundo da página. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[var(--lm-bg,#0D0D0D)] md:h-44" />
 
       <div className="relative z-10 flex flex-col items-center gap-6 md:gap-7 px-4 md:px-8 py-[89px] w-full max-w-[710px]">
         <div className="flex items-center gap-2">
@@ -154,7 +156,7 @@ export function ToursHero() {
             <div className="flex w-full items-stretch">
               <button
                 onClick={() => handleSearch()}
-                className="flex flex-[2] h-[56px] items-center justify-center border border-[#C9A96E] bg-[#C9A96E] transition-colors hover:bg-[#b8954f]"
+                className="flex flex-1 h-[56px] items-center justify-center border border-[#C9A96E] bg-[#C9A96E] transition-colors hover:bg-[#b8954f]"
               >
                 <span
                   className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"

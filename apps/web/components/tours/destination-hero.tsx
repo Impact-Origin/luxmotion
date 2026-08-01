@@ -48,7 +48,7 @@ export function DestinationHero({ destination, searchQuery, onSearchChange }: De
   }
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#0D0D0D]">
+    <section className="relative w-full overflow-hidden bg-[var(--lm-bg,#0D0D0D)]">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
         style={{ backgroundImage: "url('/lisbonbanner_desktop.webp')" }}
@@ -70,7 +70,7 @@ export function DestinationHero({ destination, searchQuery, onSearchChange }: De
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 50% 40% at 50% 50%, rgba(201,169,110,0.10) 0%, rgba(201,169,110,0) 65%)",
+            "radial-gradient(ellipse 50% 40% at 50% 50%, rgba(var(--lm-accent-rgb,201,169,110),0.10) 0%, rgba(var(--lm-accent-rgb,201,169,110),0) 65%)",
         }}
       />
 

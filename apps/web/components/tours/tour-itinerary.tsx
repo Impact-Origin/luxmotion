@@ -46,11 +46,11 @@ function ItineraryCard({
   return (
     <div
       onClick={onToggle}
-      className="w-full border-[0.8px] border-[rgba(255,255,255,0.04)] flex items-stretch cursor-pointer hover:border-[rgba(201,169,110,0.2)] transition-colors"
+      className="w-full border-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.04)] flex items-stretch cursor-pointer hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.2)] transition-colors"
     >
-      <div className="w-[56px] md:w-[70px] shrink-0 border-r-[0.8px] border-[rgba(201,169,110,0.08)] py-[16px] flex justify-center items-start">
+      <div className="w-[56px] md:w-[70px] shrink-0 border-r-[0.8px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] py-[16px] flex justify-center items-start">
         <span
-          className="text-[10px] font-semibold text-[#c9a96e] tracking-[0.6px]"
+          className="text-[10px] font-semibold text-[var(--lm-accent,#c9a96e)] tracking-[0.6px]"
           style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
         >
           {item.time}
@@ -63,7 +63,7 @@ function ItineraryCard({
             className={cn(
               "relative overflow-hidden transition-all duration-300 ease-out",
               isOpen
-                ? "border-[2.38px] border-[rgba(201,169,110,0.1)] w-[100px] md:w-[152px] h-[96px] md:h-[114px]"
+                ? "border-[2.38px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.1)] w-[100px] md:w-[152px] h-[96px] md:h-[114px]"
                 : "border-0 w-[72px] h-[54px]"
             )}
           >
@@ -75,7 +75,7 @@ function ItineraryCard({
       <div className="flex-1 min-w-0 flex flex-col py-[14px]">
         <div className="flex items-center justify-between gap-3 pr-[16px] pl-[14px]">
           <span
-            className="text-[14px] font-medium text-white leading-[1.3]"
+            className="text-[14px] font-medium text-[var(--lm-text,#fff)] leading-[1.3]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {item.title}
@@ -90,14 +90,14 @@ function ItineraryCard({
             className={cn(
               "size-[32px] shrink-0 flex items-center justify-center border transition-colors duration-300",
               isOpen
-                ? "bg-[#c9a96e] border-[rgba(154,117,53,0.22)]"
-                : "bg-transparent border-[rgba(201,169,110,0.25)] hover:bg-[rgba(201,169,110,0.08)]"
+                ? "bg-[var(--lm-accent,#c9a96e)] border-[rgba(var(--lm-accent-rgb,154,117,53),0.22)]"
+                : "bg-transparent border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
             )}
           >
             <ChevronDown
               className={cn(
                 "size-[16px] transition-all duration-300",
-                isOpen ? "text-[#0D0D0D] rotate-180" : "text-[#c9a96e]"
+                isOpen ? "text-[#0D0D0D] rotate-180" : "text-[var(--lm-accent,#c9a96e)]"
               )}
             />
           </button>
@@ -109,7 +109,7 @@ function ItineraryCard({
           )}
         >
           <p
-            className="text-[13px] font-light text-[#999] leading-[1.3]"
+            className="text-[13px] font-light text-[var(--lm-muted,#999)] leading-[1.3]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {item.description}
@@ -127,7 +127,7 @@ export function TourItinerary({ items, mapCenter, pickup, dropoff }: TourItinera
   return (
     <div className="w-full">
       <h2
-        className="text-[24px] font-light italic text-[#c9a96e] leading-none mb-5"
+        className="text-[24px] font-light italic text-[var(--lm-accent,#c9a96e)] leading-none mb-5"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
       >
         {t("itinerary")}

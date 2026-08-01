@@ -49,14 +49,14 @@ export function BookingAddonsSelector({
               "w-full border flex items-center gap-3 px-[15px] py-[13px] text-left transition-colors",
               isSelected
                 ? "border-[rgba(201,169,110,0.5)] bg-[rgba(201,169,110,0.08)]"
-                : "border-[rgba(201,169,110,0.14)] bg-[rgba(255,255,255,0.025)] hover:border-[rgba(201,169,110,0.34)] hover:bg-[rgba(201,169,110,0.05)]"
+                : "border-[rgba(var(--lm-accent-rgb,201,169,110),0.14)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.025)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.34)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.05)]"
             )}
           >
             <div
               className={cn(
                 "size-[18px] border flex items-center justify-center shrink-0 transition-colors",
                 isSelected
-                  ? "bg-[#C9A96E] border-[#C9A96E]"
+                  ? "bg-[var(--lm-accent,#C9A96E)] border-[var(--lm-accent,#C9A96E)]"
                   : "border-[rgba(201,169,110,0.28)] bg-transparent"
               )}
             >
@@ -64,16 +64,16 @@ export function BookingAddonsSelector({
             </div>
 
             <div className="flex-1 min-w-0 text-left">
-              <p className="text-[13px] font-medium leading-normal text-white">{addon.title}</p>
+              <p className="text-[13px] font-medium leading-normal text-[var(--lm-text,#fff)]">{addon.title}</p>
               {addon.description && (
-                <p className="mt-0.5 line-clamp-2 text-[10px] leading-[14px] text-[#999]">{addon.description}</p>
+                <p className="mt-0.5 line-clamp-2 text-[10px] leading-[14px] text-[var(--lm-muted,#999)]">{addon.description}</p>
               )}
             </div>
 
             <span
               className={cn(
                 "text-[17px] font-semibold shrink-0 leading-none",
-                isFree ? "text-[#81c784]" : "text-[#C9A96E]"
+                isFree ? "text-[#81c784]" : "text-[var(--lm-accent,#C9A96E)]"
               )}
               style={{ fontFamily: SERIF_FONT }}
             >

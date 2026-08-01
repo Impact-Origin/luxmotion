@@ -1,6 +1,6 @@
 "use client"
 
-import { Header } from "@/components/new-landing-page/header"
+import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { Footer } from "@/components/new-landing-page/footer"
 import { CorporateHero } from "@/components/corporate/corporate-hero"
 import { TrustedByCorporate } from "@/components/corporate/trusted-by-corporate"
@@ -15,8 +15,8 @@ import { RequestProposal } from "@/components/corporate/request-proposal"
 
 export default function CorporatePage() {
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-white">
-      <Header />
+    <HomeThemeProvider>
+      <HomeHeader />
       <div className="pt-[60px] lg:pt-[72px]">
         <CorporateHero />
         <TrustedByCorporate />
@@ -30,6 +30,6 @@ export default function CorporatePage() {
         <RequestProposal />
       </div>
       <Footer />
-    </div>
+    </HomeThemeProvider>
   )
 }

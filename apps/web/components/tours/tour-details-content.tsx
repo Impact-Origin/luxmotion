@@ -132,7 +132,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 <AddonCarouselSection addons={tour.addons} />
               )}
 
-              <div id="tour-map" className="border-t border-[rgba(255,255,255,0.06)] mt-6 pt-6 scroll-mt-24">
+              <div id="tour-map" className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-6 pt-6 scroll-mt-24">
                 <TourItinerary
                   items={tour.itinerary}
                   mapCenter={tour.mapCenter}
@@ -141,7 +141,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 />
               </div>
 
-              <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10">
+              <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10">
                 <TourMeetingPoints
                   pickup={tour.pickup}
                   dropoff={tour.dropoff}
@@ -149,7 +149,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 />
               </div>
 
-              <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 pb-10">
+              <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10 pb-10">
                 {tour._id && (
                   <TourReviews
                     tourId={tour._id as Id<"tours">}

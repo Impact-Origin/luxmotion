@@ -49,7 +49,7 @@ export function PartnerSelect({
   return (
     <div ref={rootRef} className="relative">
       {icon && (
-        <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-[rgba(201,169,110,0.7)]">
+        <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-[rgba(var(--lm-accent-rgb,201,169,110),0.7)]">
           {icon}
         </span>
       )}
@@ -61,15 +61,15 @@ export function PartnerSelect({
         aria-label={ariaLabel}
         onClick={() => setOpen((v) => !v)}
         className={`flex w-full cursor-pointer items-center justify-between gap-2 text-left outline-none transition-colors ${
-          open ? "border-[#C9A96E]" : ""
+          open ? "border-[var(--lm-accent,#C9A96E)]" : ""
         } ${triggerClassName}`}
         style={sans}
       >
-        <span className={`truncate ${selected ? "text-white" : "text-[rgba(255,255,255,0.3)]"}`}>
+        <span className={`truncate ${selected ? "text-[var(--lm-text,#fff)]" : "text-[rgba(var(--lm-text-rgb,255,255,255),0.3)]"}`}>
           {selected ? selected.label : placeholder}
         </span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-[rgba(255,255,255,0.4)] transition-transform duration-200 ${
+          className={`h-4 w-4 shrink-0 text-[rgba(var(--lm-text-rgb,255,255,255),0.4)] transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -78,7 +78,7 @@ export function PartnerSelect({
       {open && (
         <div
           role="listbox"
-          className="absolute left-0 right-0 top-[calc(100%+6px)] z-50 max-h-[260px] overflow-y-auto border border-[rgba(201,169,110,0.25)] bg-[#1a1611] p-1.5 shadow-[0_24px_60px_-16px_rgba(0,0,0,0.85)]"
+          className="absolute left-0 right-0 top-[calc(100%+6px)] z-50 max-h-[260px] overflow-y-auto border border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] bg-[var(--lm-surface,#1a1611)] p-1.5 shadow-[0_24px_60px_-16px_rgba(0,0,0,0.85)]"
           style={sans}
         >
           {options.map((o) => {
@@ -95,12 +95,12 @@ export function PartnerSelect({
                 }}
                 className={`flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-[14px] transition-colors ${
                   active
-                    ? "bg-[rgba(201,169,110,0.14)] text-[#C9A96E]"
-                    : "text-[#d8d3c8] hover:bg-[rgba(201,169,110,0.08)] hover:text-white"
+                    ? "bg-[rgba(var(--lm-accent-rgb,201,169,110),0.14)] text-[var(--lm-accent,#C9A96E)]"
+                    : "text-[var(--lm-muted,#d8d3c8)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] hover:text-[var(--lm-text,#fff)]"
                 }`}
               >
                 <Check
-                  className={`h-4 w-4 shrink-0 text-[#C9A96E] ${active ? "opacity-100" : "opacity-0"}`}
+                  className={`h-4 w-4 shrink-0 text-[var(--lm-accent,#C9A96E)] ${active ? "opacity-100" : "opacity-0"}`}
                   strokeWidth={2.2}
                 />
                 <span className="truncate">{o.label}</span>

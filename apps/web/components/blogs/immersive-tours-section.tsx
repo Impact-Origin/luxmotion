@@ -38,10 +38,10 @@ const PER_PAGE_DESKTOP = 3
 
 function FeaturePill({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
-    <div className="flex items-center gap-[10px] bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] px-[16.8px] py-[14.8px] flex-1 min-w-0">
-      <Icon className="size-[14px] text-[#C9A96E] shrink-0" strokeWidth={2} />
+    <div className="flex items-center gap-[10px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.2)] px-[16.8px] py-[14.8px] flex-1 min-w-0">
+      <Icon className="size-[14px] text-[var(--lm-accent,#C9A96E)] shrink-0" strokeWidth={2} />
       <span
-        className="text-[11px] font-semibold text-[#C9A96E] whitespace-nowrap overflow-hidden text-ellipsis"
+        className="text-[11px] font-semibold text-[var(--lm-accent,#C9A96E)] whitespace-nowrap overflow-hidden text-ellipsis"
         style={sans}
       >
         {label}
@@ -82,6 +82,7 @@ function DestinationCard({ d, name, meta }: { d: Destination; name: string; meta
             {meta}
           </p>
         </div>
+        {/* Cartão inteiro sobre fotografia + gradiente preto: cores fixas nos dois temas. */}
         <span className="size-8 border border-[rgba(255,255,255,0.3)] flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:border-[#C9A96E] group-hover:bg-[#C9A96E]">
           <ArrowRight className="size-[18px] text-white group-hover:text-[#0D0D0D] transition-colors duration-200" strokeWidth={1.5} />
         </span>
@@ -120,24 +121,24 @@ export function ImmersiveToursSection() {
   const renderName = (id: string) => t(`destinations.${id}.name`)
 
   return (
-    <section className="bg-[#141414] border-y-[0.8px] border-[rgba(255,255,255,0.07)] px-4 md:px-[80px] py-14 md:py-[72.8px]">
+    <section className="bg-[var(--lm-surface,#141414)] border-y-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] px-4 md:px-[80px] py-14 md:py-[72.8px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
         <div className="flex flex-col gap-2 items-start">
           <div className="flex items-center gap-2">
-            <div className="h-px w-[82px] min-w-8 bg-[#C9A96E]" />
+            <div className="h-px w-[82px] min-w-8 bg-[var(--lm-accent,#C9A96E)]" />
             <span
-              className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E] whitespace-nowrap leading-none"
+              className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)] whitespace-nowrap leading-none"
               style={sans}
             >
               {t("eyebrow")}
             </span>
           </div>
           <h2
-            className="text-white font-normal leading-tight text-[36px] md:text-[48px]"
+            className="text-[var(--lm-text,#fff)] font-normal leading-tight text-[36px] md:text-[48px]"
             style={serif}
           >
             {t("headingLead")}{" "}
-            <span className="italic text-[#C9A96E]">{t("headingAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("headingAccent")}</span>
           </h2>
         </div>
 
@@ -189,7 +190,7 @@ export function ImmersiveToursSection() {
             type="button"
             onClick={() => setPage((p) => Math.max(p - 1, 0))}
             aria-label={t("prev")}
-            className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] items-center justify-center text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#0D0D0D] hover:border-[#C9A96E] transition-colors duration-200 disabled:opacity-30"
+            className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 size-9 bg-[var(--lm-bg,#0d0d0d)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] items-center justify-center text-[var(--lm-accent,#C9A96E)] hover:bg-[var(--lm-accent,#C9A96E)] hover:text-[#0D0D0D] hover:border-[var(--lm-accent,#C9A96E)] transition-colors duration-200 disabled:opacity-30"
             disabled={page === 0}
           >
             <ArrowLeft className="size-[14px]" strokeWidth={2} />
@@ -198,7 +199,7 @@ export function ImmersiveToursSection() {
             type="button"
             onClick={() => setPage((p) => Math.min(p + 1, totalPagesDesktop - 1))}
             aria-label={t("next")}
-            className="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] items-center justify-center text-[#C9A96E] hover:bg-[#C9A96E] hover:text-[#0D0D0D] hover:border-[#C9A96E] transition-colors duration-200 disabled:opacity-30"
+            className="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 size-9 bg-[var(--lm-bg,#0d0d0d)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] items-center justify-center text-[var(--lm-accent,#C9A96E)] hover:bg-[var(--lm-accent,#C9A96E)] hover:text-[#0D0D0D] hover:border-[var(--lm-accent,#C9A96E)] transition-colors duration-200 disabled:opacity-30"
             disabled={page >= totalPagesDesktop - 1}
           >
             <ArrowRight className="size-[14px]" strokeWidth={2} />
@@ -213,7 +214,7 @@ export function ImmersiveToursSection() {
                   onClick={() => setPage(i)}
                   aria-label={`${t("goTo")} ${i + 1}`}
                   className={`rounded-full transition-all ${
-                    i === page ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]"
+                    i === page ? "size-[6px] bg-[var(--lm-accent,#C9A96E)]" : "size-[5px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.4)]"
                   }`}
                 />
               ))}
@@ -226,7 +227,7 @@ export function ImmersiveToursSection() {
               onClick={() => setPage((p) => Math.max(p - 1, 0))}
               aria-label={t("prev")}
               disabled={page === 0}
-              className="size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] disabled:opacity-30"
+              className="size-9 bg-[var(--lm-bg,#0d0d0d)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] flex items-center justify-center text-[var(--lm-accent,#C9A96E)] disabled:opacity-30"
             >
               <ArrowLeft className="size-[14px]" strokeWidth={2} />
             </button>
@@ -238,7 +239,7 @@ export function ImmersiveToursSection() {
                   onClick={() => setPage(i)}
                   aria-label={`${t("goTo")} ${i + 1}`}
                   className={`rounded-full transition-all ${
-                    i === page ? "size-[6px] bg-[#C9A96E]" : "size-[5px] bg-[rgba(201,169,110,0.4)]"
+                    i === page ? "size-[6px] bg-[var(--lm-accent,#C9A96E)]" : "size-[5px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.4)]"
                   }`}
                 />
               ))}
@@ -248,7 +249,7 @@ export function ImmersiveToursSection() {
               onClick={() => setPage((p) => Math.min(p + 1, totalPagesMobile - 1))}
               aria-label={t("next")}
               disabled={page >= totalPagesMobile - 1}
-              className="size-9 bg-[#0d0d0d] border border-[rgba(201,169,110,0.5)] flex items-center justify-center text-[#C9A96E] disabled:opacity-30"
+              className="size-9 bg-[var(--lm-bg,#0d0d0d)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] flex items-center justify-center text-[var(--lm-accent,#C9A96E)] disabled:opacity-30"
             >
               <ArrowRight className="size-[14px]" strokeWidth={2} />
             </button>

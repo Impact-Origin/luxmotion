@@ -12,6 +12,8 @@ const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } a
 type Badge = "premium" | "eco" | "electric"
 type Veh = { name: string; image: string; paxMin: number; paxMax: number; badges: Badge[] }
 
+/* Assentam sempre sobre o palco escuro da fotografia do veículo (ver abaixo),
+   por isso mantêm as cores fixas — o verde/azul também são semânticos. */
 const BADGE_STYLES: Record<Badge, string> = {
   premium: "bg-[rgba(201,169,110,0.15)] border-[rgba(201,169,110,0.45)] text-[#C9A96E]",
   eco: "bg-[rgba(76,175,80,0.2)] border-[rgba(76,175,80,0.35)] text-[#81c784]",
@@ -46,11 +48,11 @@ const GALLERY = [
 function VehicleCard({ v }: { v: Veh }) {
   const t = useTranslations("hotels.fleet")
   return (
-    <div className="group relative flex flex-col overflow-clip bg-[#1a1a1a] transition-colors duration-500 ease-out hover:bg-[#1e1c1a]">
+    <div className="group relative flex flex-col overflow-clip bg-[var(--lm-surface,#1a1a1a)] transition-colors duration-500 ease-out hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)]">
       <span
         aria-hidden
         className="pointer-events-none absolute bottom-0 left-1/2 z-[4] h-[1.5px] w-full -translate-x-1/2 origin-center scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100"
-        style={{ background: "linear-gradient(to right, transparent 0%, rgba(201,169,110,0) 8%, #C9A96E 50%, rgba(201,169,110,0) 92%, transparent 100%)" }}
+        style={{ background: "linear-gradient(to right, transparent 0%, rgba(var(--lm-accent-rgb,201,169,110),0) 8%, var(--lm-accent,#C9A96E) 50%, rgba(var(--lm-accent-rgb,201,169,110),0) 92%, transparent 100%)" }}
       />
       {v.badges.length > 0 && (
         <div className="absolute left-2.5 top-2.5 z-[3] flex flex-wrap gap-[3px]">
@@ -65,6 +67,8 @@ function VehicleCard({ v }: { v: Veh }) {
           ))}
         </div>
       )}
+      {/* Palco escuro fixo: os recortes dos veículos e os badges por cima foram
+          desenhados para fundo preto — mantém-se igual nos dois temas. */}
       <div className="relative h-[160px] w-full bg-[#0d0d0d]">
         <Image
           src={v.image}
@@ -79,10 +83,10 @@ function VehicleCard({ v }: { v: Veh }) {
         />
       </div>
       <div className="flex flex-col gap-2.5 px-5 pb-6 pt-4">
-        <h3 className="text-[20px] leading-tight text-white transition-colors duration-500 group-hover:text-[#C9A96E] md:text-[22px]" style={serif}>
+        <h3 className="text-[20px] leading-tight text-[var(--lm-text,#fff)] transition-colors duration-500 group-hover:text-[var(--lm-accent,#C9A96E)] md:text-[22px]" style={serif}>
           {v.name}
         </h3>
-        <div className="flex items-center gap-[7px] text-[13px] text-[#9a9a9a]" style={sans}>
+        <div className="flex items-center gap-[7px] text-[13px] text-[var(--lm-muted,#9a9a9a)]" style={sans}>
           <User className="size-[15px]" strokeWidth={1.5} />
           <span>{v.paxMin}–{v.paxMax} {t("pax")}</span>
         </div>
@@ -98,19 +102,19 @@ function TierRow({ label, vehicles }: { label: string; vehicles: Veh[] }) {
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent 0%, rgba(201,169,110,0.05) 24%, rgba(201,169,110,0.85) 50%, rgba(201,169,110,0.05) 76%, transparent 100%)" }}
+          style={{ background: "linear-gradient(90deg, transparent 0%, rgba(var(--lm-accent-rgb,201,169,110),0.05) 24%, rgba(var(--lm-accent-rgb,201,169,110),0.85) 50%, rgba(var(--lm-accent-rgb,201,169,110),0.05) 76%, transparent 100%)" }}
         />
         <div
           aria-hidden
           className="pointer-events-none absolute bottom-0 left-1/2 h-[88px] w-[500px] -translate-x-1/2"
-          style={{ background: "radial-gradient(50% 72% at 50% 100%, rgba(201,169,110,0.13), transparent 72%)" }}
+          style={{ background: "radial-gradient(50% 72% at 50% 100%, rgba(var(--lm-accent-rgb,201,169,110),0.13), transparent 72%)" }}
         />
-        <span className="relative z-[1] border border-[rgba(201,169,110,0.45)] bg-[#0D0D0D] px-7 py-2.5 text-[11px] font-semibold uppercase tracking-[2.5px] text-[#C9A96E]" style={sans}>
+        <span className="relative z-[1] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.45)] bg-[var(--lm-bg,#0D0D0D)] px-7 py-2.5 text-[11px] font-semibold uppercase tracking-[2.5px] text-[var(--lm-accent,#C9A96E)]" style={sans}>
           {label}
         </span>
       </div>
-      <div className="w-full border border-[rgba(201,169,110,0.08)]">
-        <div className="grid grid-cols-2 gap-px bg-[rgba(255,255,255,0.08)] sm:grid-cols-3 lg:grid-cols-5">
+      <div className="w-full border border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]">
+        <div className="grid grid-cols-2 gap-px bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)] sm:grid-cols-3 lg:grid-cols-5">
           {vehicles.map((v) => (
             <VehicleCard key={v.name} v={v} />
           ))}
@@ -123,16 +127,16 @@ function TierRow({ label, vehicles }: { label: string; vehicles: Veh[] }) {
 export function HotelsFleet() {
   const t = useTranslations("hotels.fleet")
   return (
-    <section className="bg-[#0D0D0D] px-4 py-16 lg:px-12 lg:py-24">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] px-4 py-16 lg:px-12 lg:py-24">
       <div className="mx-auto flex max-w-[1280px] flex-col gap-12">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-[#C9A96E]" />
-            <span className="font-sans text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]">{t("eyebrow")}</span>
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#C9A96E)]" />
+            <span className="font-sans text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]">{t("eyebrow")}</span>
+            <div className="h-px w-8 bg-[var(--lm-accent,#C9A96E)]" />
           </div>
-          <h2 className="text-[40px] leading-none text-[#f5f5f5] md:text-[52px]" style={serif}>
-            {t("titlePrefix")} <span className="italic text-[#C9A96E]">{t("titleAccent")}</span> {t("titleSuffix")}
+          <h2 className="text-[40px] leading-none text-[var(--lm-text,#f5f5f5)] md:text-[52px]" style={serif}>
+            {t("titlePrefix")} <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("titleAccent")}</span> {t("titleSuffix")}
           </h2>
         </div>
 
@@ -153,22 +157,22 @@ export function HotelsFleet() {
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: "linear-gradient(to top, rgba(201,169,110,0.18), transparent 55%)" }}
+                  style={{ background: "linear-gradient(to top, rgba(var(--lm-accent-rgb,201,169,110),0.18), transparent 55%)" }}
                 />
               </div>
               <div className="flex items-stretch gap-4">
-                <div className="flex shrink-0 items-center gap-[6px] border-r border-[rgba(201,169,110,0.25)] pr-4">
+                <div className="flex shrink-0 items-center gap-[6px] border-r border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] pr-4">
                   {Array.from({ length: 5 }).map((_, s) => (
                     <span
                       key={s}
-                      className="flex h-8 w-8 items-center justify-center border border-[rgba(201,169,110,0.28)] bg-[rgba(255,255,255,0.02)] transition-colors duration-300 group-hover:border-[rgba(201,169,110,0.5)] group-hover:bg-[rgba(201,169,110,0.06)]"
+                      className="flex h-8 w-8 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.28)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.02)] transition-colors duration-300 group-hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)]"
                     >
-                      <Star className="h-[15px] w-[15px] text-[#C9A96E]" fill="#C9A96E" strokeWidth={0} />
+                      <Star className="h-[15px] w-[15px] text-[var(--lm-accent,#C9A96E)]" fill="currentColor" strokeWidth={0} />
                     </span>
                   ))}
                 </div>
-                <div className="flex min-w-0 flex-1 items-center justify-center border border-[rgba(201,169,110,0.4)] px-4 py-3 transition-colors duration-300 group-hover:border-[#C9A96E] group-hover:bg-[rgba(201,169,110,0.05)]">
-                  <span className="text-center text-[16px] text-white transition-colors duration-300 group-hover:text-[#C9A96E] md:text-[18px]" style={sans}>{g.name}</span>
+                <div className="flex min-w-0 flex-1 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] px-4 py-3 transition-colors duration-300 group-hover:border-[var(--lm-accent,#C9A96E)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.05)]">
+                  <span className="text-center text-[16px] text-[var(--lm-text,#fff)] transition-colors duration-300 group-hover:text-[var(--lm-accent,#C9A96E)] md:text-[18px]" style={sans}>{g.name}</span>
                 </div>
               </div>
             </Reveal>
@@ -178,7 +182,7 @@ export function HotelsFleet() {
         <div className="flex justify-center">
           <Link
             href="/fleet"
-            className="group inline-flex h-[52px] items-center gap-2 border border-[rgba(201,169,110,0.5)] px-7 text-[#C9A96E] transition-colors hover:bg-[rgba(201,169,110,0.08)]"
+            className="group inline-flex h-[52px] items-center gap-2 border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] px-7 text-[var(--lm-accent,#C9A96E)] transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
             style={sans}
           >
             <span className="text-[13px] font-semibold uppercase tracking-[1.5px]">{t("cta")}</span>

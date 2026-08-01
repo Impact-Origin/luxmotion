@@ -41,13 +41,13 @@ export function BlogResultCard({ blog }: BlogResultCardProps) {
   }
 
   return (
-    <div className="group relative bg-[#0D0D0D] hover:bg-[#161412] transition-colors duration-500 ease-out border border-[rgba(154,117,53,0.22)] overflow-hidden w-full">
+    <div className="group relative bg-[var(--lm-bg,#0D0D0D)] hover:bg-[var(--lm-surface,#161412)] transition-colors duration-500 ease-out border border-[rgba(var(--lm-accent-rgb,154,117,53),0.22)] overflow-hidden w-full">
       <span
         aria-hidden
         className="pointer-events-none absolute top-0 left-0 right-0 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"
         style={{
           background:
-            "linear-gradient(to right, #C9A96E 0%, rgba(201,169,110,0.4) 50%, transparent 85%)",
+            "linear-gradient(to right, var(--lm-accent,#C9A96E) 0%, rgba(var(--lm-accent-rgb,201,169,110),0.4) 50%, transparent 85%)",
         }}
       />
       <div className="flex flex-col md:flex-row">
@@ -61,6 +61,8 @@ export function BlogResultCard({ blog }: BlogResultCardProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,13,13,0.5)] to-transparent" />
           <div className="absolute top-4 left-4">
+            {/* Chip assente na fotografia, com fundo escuro fixo nos dois temas:
+                o contraste vem da imagem, por isso o dourado fica fixo também. */}
             <span
               className="inline-flex items-center h-[28px] px-[14px] bg-[rgba(13,13,13,0.7)] border border-[rgba(201,169,110,0.4)] text-[11px] font-medium uppercase tracking-[1.5px] text-[#C9A96E] backdrop-blur-sm"
               style={sans}
@@ -74,7 +76,7 @@ export function BlogResultCard({ blog }: BlogResultCardProps) {
           <div className="flex items-start justify-between gap-3">
             <Link href={`/blogs/${blog.slug}`} className="flex-1">
               <h3
-                className="text-white text-[22px] md:text-[26px] font-normal leading-[1.15] group-hover:text-[#f5f5f5]"
+                className="text-[var(--lm-text,#fff)] text-[22px] md:text-[26px] font-normal leading-[1.15] group-hover:text-[var(--lm-text,#f5f5f5)]"
                 style={serif}
               >
                 {blog.title}
@@ -82,7 +84,7 @@ export function BlogResultCard({ blog }: BlogResultCardProps) {
             </Link>
             <button
               onClick={handleShare}
-              className="shrink-0 text-[#666] hover:text-[#C9A96E] transition-colors mt-1"
+              className="shrink-0 text-[var(--lm-muted,#666)] hover:text-[var(--lm-accent,#C9A96E)] transition-colors mt-1"
               aria-label={t("share")}
             >
               <Share2 className="size-[18px]" strokeWidth={1.5} />
@@ -90,18 +92,18 @@ export function BlogResultCard({ blog }: BlogResultCardProps) {
           </div>
 
           {blog.date && (
-            <p className="text-[11px] font-medium uppercase tracking-[1.5px] text-[#C9A96E] mt-3" style={sans}>
+            <p className="text-[11px] font-medium uppercase tracking-[1.5px] text-[var(--lm-accent,#C9A96E)] mt-3" style={sans}>
               {blog.date}
             </p>
           )}
 
-          <p className="text-[13px] text-[#999] leading-[1.5] mt-3 line-clamp-3" style={sans}>
+          <p className="text-[13px] text-[var(--lm-muted,#999)] leading-[1.5] mt-3 line-clamp-3" style={sans}>
             {blog.description}
           </p>
 
           <Link
             href={`/blogs/${blog.slug}`}
-            className="group/link inline-flex items-center gap-2 mt-auto pt-5 text-[12px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] hover:text-white transition-colors w-fit"
+            className="group/link inline-flex items-center gap-2 mt-auto pt-5 text-[12px] font-medium uppercase tracking-[1.1px] text-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-text,#fff)] transition-colors w-fit"
             style={sans}
           >
             {t("readMore")}
