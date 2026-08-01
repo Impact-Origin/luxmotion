@@ -33,7 +33,7 @@ function SectionLabel({ children }: { children: ReactNode }) {
 
 function FieldLabel({ children }: { children: ReactNode }) {
   return (
-    <label className="block text-[14px] font-medium text-[var(--ck-text,#f7f4ef)] mb-2">{children}</label>
+    <label className="block text-[16px] font-bold text-[var(--ck-text,#f7f4ef)] mb-2">{children}</label>
   )
 }
 

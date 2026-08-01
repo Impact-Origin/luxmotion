@@ -113,10 +113,18 @@ export function HomeThemeToggle({ className }: { className?: string }) {
 
 /** Homepage Header: drives the shared Header's `variant` from the theme and
  *  injects the switcher button. */
-export function HomeHeader() {
+export function HomeHeader(
+  // NonNullable porque o Header declara os props como opcionais no todo
+  // (`HeaderProps = {}`), e sem isto o Omit perdia todas as chaves.
+  props: Omit<
+    NonNullable<React.ComponentProps<typeof Header>>,
+    "variant" | "themeToggle"
+  >,
+) {
   const { theme } = useHomeTheme()
   return (
     <Header
+      {...props}
       variant={theme === "dark" ? "dark" : "light"}
       themeToggle={<HomeThemeToggle />}
     />

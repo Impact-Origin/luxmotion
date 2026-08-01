@@ -1144,6 +1144,7 @@
       "subtitle": "Privéchauffeur. Geselecteerde routes. Elke weg in Portugal — beleefd zoals het verdient.",
       "searchPlaceholder": "Zoek naar tours, bestemmingen, ervaringen...",
       "searchButton": "Zoeken",
+      "viewAllButton": "Bekijk alles",
       "badges": {
         "safe": "Veilig",
         "authenticExperiences": "Authentieke ervaringen",
@@ -1428,8 +1429,8 @@
     "titleEnd": "?",
     "goToSlide": "Ga naar dia {number}",
     "redesign": {
-      "heading": "Welke bestemming",
-      "headingAccent": "kiezen we?",
+      "heading": "Waar wilt u",
+      "headingAccent": "beginnen?",
       "subtitle": "Privé dagexcursies samengesteld voor veeleisende reizigers. Ontworpen voor wie ervaring boven reisschema verkiest.",
       "cards": {
         "lisboa": {
@@ -1577,8 +1578,8 @@
     "showMore": "Meer tonen",
     "goToSlide": "Ga naar dia {number}",
     "redesign": {
-      "heading": "Welke bestemming",
-      "headingAccent": "kiezen we?",
+      "heading": "Waar wilt u",
+      "headingAccent": "beginnen?",
       "subtitle": "Privé dagexcursies samengesteld voor veeleisende reizigers. Ontworpen voor wie ervaring boven reisschema verkiest.",
       "cards": {
         "luxury": {
@@ -4209,16 +4210,23 @@
     "calculator": {
       "eyebrow": "INKOMSTENCALCULATOR",
       "titleStart": "Bereken de",
-      "titleAccent": "potentiële inkomsten",
+      "titleAccent": "commissie",
       "body1": "Elke bruiloft is een inkomstenkans.",
       "body2": "Geen operationeel beheer aan uw kant.",
       "weddingsLabel": "Bruiloften per maand",
-      "guestsLabel": "Gemiddeld aantal gasten per bruiloft",
-      "commissionLabel": "Commissie (%)",
+      "commissionLabel": "Commissie",
       "placeholderSelect": "Selecteren",
       "monthlyLabel": "Geschatte maandelijkse inkomsten",
       "yearlyLabel": "Geschatte jaarlijkse inkomsten",
-      "photoAlt": "Wedding planner die de evenementdetails doorneemt"
+      "photoAlt": "Wedding planner die de evenementdetails doorneemt",
+      "ticketLabel": "Gemiddeld bruiloftsbudget",
+      "ticketOrMore": "{value} of meer",
+      "commissionRecommended": "{value}% (aanbevolen)",
+      "rowRange": "Geschatte mobiliteitsuitgaven",
+      "rowReference": "Referentiewaarde gebruikt in de berekening",
+      "rowPerWedding": "Geschatte commissie per bruiloft",
+      "note": "Omvat transfers voor het bruidspaar en de gasten, klassieke wagens en overige LuxMotion-mobiliteitsdiensten.",
+      "disclaimer": "Indicatieve simulatie. De werkelijke commissie hangt af van de geboekte en geleverde LuxMotion-diensten."
     },
     "ctaBand": {
       "titleStart": "Klaar voor een",
@@ -5378,7 +5386,29 @@
           "submitting": "Versturen...",
           "note": "Persoonlijke reactie binnen 24 uur · Vrijblijvend · AVG-conform",
           "successTitle": "Aanvraag Verzonden",
-          "successBody": "Bedankt. Ons team reageert binnen 24 uur met een voorstel op maat."
+          "successBody": "Bedankt. Ons team reageert binnen 24 uur met een voorstel op maat.",
+          "success": {
+            "eyebrow": "Aanvraag ontvangen",
+            "thankYou": "Dank u,",
+            "body": "Uw aanvraag is ontvangen en ons team stelt al uw voorstel op maat samen. Een bevestiging is verzonden naar {email}.",
+            "reference": "Referentie",
+            "whatNext": "Wat er nu gebeurt",
+            "step1Title": "Beoordeling en toewijzing",
+            "step1Body": "Een vaste accountmanager beoordeelt uw aanvraag en neemt uw project op zich.",
+            "step1Time": "Binnen 2 uur",
+            "step2Title": "Persoonlijk voorstel",
+            "step2Body": "U ontvangt een gedetailleerd voorstel met routeplanning, voertuigindeling en transparante prijzen.",
+            "step2Time": "Binnen 24 uur",
+            "step3Title": "Afstemmen en bevestigen",
+            "step3Body": "We stemmen elk detail met u af tot het precies is zoals u het voor ogen had. Daarna gaan we van start.",
+            "step3Time": "In uw tempo",
+            "whatsapp": "Doorgaan op WhatsApp",
+            "scheduleCall": "Gesprek inplannen",
+            "exploreServices": "Diensten bekijken",
+            "footerPre": "Wilt u iets toevoegen aan uw aanvraag?",
+            "footerLink": "Beantwoord onze bevestigingsmail",
+            "footerPost": "of stuur ons een WhatsApp op"
+          }
         }
       },
       "preferToTalk": {
@@ -7097,5 +7127,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Voordelen",
+    "items": [
+      {
+        "pre": "Gratis annuleren tot 24 uur van tevoren"
+      },
+      {
+        "pre": "Meer dan ",
+        "accent": "300",
+        "post": " vijfsterrenbeoordelingen"
+      },
+      {
+        "pre": "Executive vloot met professionele chauffeurs"
+      },
+      {
+        "pre": "Boek vandaag, betaal in ",
+        "accent": "3 termijnen",
+        "post": " renteloos"
+      },
+      {
+        "pre": "Privétours in ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Dagelijkse vertrekken vanuit Lissabon, Porto en de Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Winkelwagen",
+    "label": "Winkelwagen",
+    "sublabel": "Actieve boeking",
+    "tourLabel": "Privétour",
+    "eventLabel": "Evenement",
+    "guests": "{count, plural, one {# passagier} other {# passagiers}}",
+    "heldLine1": "Boeking",
+    "heldLine2": "Gegarandeerd",
+    "total": "Totaal",
+    "cta": "Bekijk winkelwagen",
+    "dismiss": "Sluiten"
   }
 }

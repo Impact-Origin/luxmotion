@@ -25,6 +25,8 @@ function formatDate(timestamp: number, endDate?: number): string {
   return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}${time}`
 }
 
+/* Os três badges assentam sobre a fotografia do evento: o contraste vem da
+   foto, não do tema, por isso ficam escuros nos dois modos. */
 function DateBadge({ date, endDate }: { date: number; endDate?: number }) {
   return (
     <div className="absolute top-3 left-3 backdrop-blur-[4px] bg-[rgba(13,13,13,0.82)] border border-[rgba(201,169,110,0.2)] flex items-center gap-[7px] px-3 py-[6px]">
@@ -59,25 +61,25 @@ function CategoryBadge({ category }: { category: string }) {
 
 function CardFooter({ event, isHero }: { event: Partial<EventData>; isHero?: boolean }) {
   return (
-    <div className="border-t-[0.8px] border-[rgba(255,255,255,0.12)] flex items-center justify-between pt-[13px]">
+    <div className="border-t-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex items-center justify-between pt-[13px]">
       <div className="flex items-center gap-2">
         {isHero && event.originalPrice ? (
           <>
-            <span className="text-[10px] text-[#999] line-through" style={sans}>
+            <span className="text-[10px] text-[var(--lm-muted,#999)] line-through" style={sans}>
               €{event.originalPrice}
             </span>
-            <span className="text-[24px] font-bold text-[#C9A96E] leading-none" style={serif}>
+            <span className="text-[24px] font-bold text-[var(--lm-accent,#C9A96E)] leading-none" style={serif}>
               €{event.basePrice}
             </span>
           </>
         ) : (
-          <span className="text-[18px] font-bold text-[#C9A96E] leading-none" style={serif}>
+          <span className="text-[18px] font-bold text-[var(--lm-accent,#C9A96E)] leading-none" style={serif}>
             From €{event.basePrice}
           </span>
         )}
       </div>
-      <div className="size-8 border-[1.143px] border-[rgba(154,117,53,0.22)] flex items-center justify-center">
-        <ArrowRight className="size-[18px] text-[#C9A96E]" strokeWidth={1.5} />
+      <div className="size-8 border-[1.143px] border-[rgba(var(--lm-accent-rgb,154,117,53),0.22)] flex items-center justify-center">
+        <ArrowRight className="size-[18px] text-[var(--lm-accent,#C9A96E)]" strokeWidth={1.5} />
       </div>
     </div>
   )
@@ -87,7 +89,7 @@ function HeroCard({ event, featuredLabel }: { event: Partial<EventData>; feature
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="bg-[#1e1e1e] flex flex-col overflow-clip group flex-1 min-w-0 h-[550px] md:h-full"
+      className="bg-[var(--lm-surface,#1e1e1e)] flex flex-col overflow-clip group flex-1 min-w-0 h-[550px] md:h-full"
     >
       <div className="relative h-[250px] md:h-[411px] shrink-0 overflow-clip">
         {event.bannerImageUrl && (
@@ -105,19 +107,19 @@ function HeroCard({ event, featuredLabel }: { event: Partial<EventData>; feature
       </div>
       <div className="flex flex-col flex-1 px-6 py-[18px]">
         <div className="flex items-center gap-1 pb-[7px]">
-          <MapPin className="size-4 text-[#999]" strokeWidth={1.5} />
-          <span className="text-[12px] text-[#999]" style={sans}>{event.location}</span>
+          <MapPin className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.5} />
+          <span className="text-[12px] text-[var(--lm-muted,#999)]" style={sans}>{event.location}</span>
           {event.venue && (
             <>
-              <span className="text-[10px] text-[rgba(255,255,255,0.18)] px-[2px]">·</span>
-              <span className="text-[12px] text-[#999]" style={sans}>{event.venue}</span>
+              <span className="text-[10px] text-[var(--lm-muted,rgba(255,255,255,0.18))] px-[2px]">·</span>
+              <span className="text-[12px] text-[var(--lm-muted,#999)]" style={sans}>{event.venue}</span>
             </>
           )}
         </div>
-        <h3 className="text-[18px] md:text-[18px] font-bold text-white leading-[24px] pb-[6px]" style={serif}>
+        <h3 className="text-[18px] md:text-[18px] font-bold text-[var(--lm-text,#fff)] leading-[24px] pb-[6px]" style={serif}>
           {event.title}
         </h3>
-        <p className="text-[14px] text-[#999] leading-[1.26] flex-1 pb-[14px]" style={sans}>
+        <p className="text-[14px] text-[var(--lm-muted,#999)] leading-[1.26] flex-1 pb-[14px]" style={sans}>
           {event.subtitle}
         </p>
         <CardFooter event={event} isHero />
@@ -130,7 +132,7 @@ function SideCard({ event }: { event: Partial<EventData> }) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="bg-[#1e1e1e] flex flex-col overflow-clip group flex-1 min-h-0 h-[340px] md:h-auto"
+      className="bg-[var(--lm-surface,#1e1e1e)] flex flex-col overflow-clip group flex-1 min-h-0 h-[340px] md:h-auto"
     >
       <div className="relative h-[155px] shrink-0 overflow-clip">
         {event.bannerImageUrl && (
@@ -147,19 +149,19 @@ function SideCard({ event }: { event: Partial<EventData> }) {
       </div>
       <div className="flex flex-col flex-1 px-6 py-[18px]">
         <div className="flex items-center gap-1 pb-[7px]">
-          <MapPin className="size-4 text-[#999]" strokeWidth={1.5} />
-          <span className="text-[12px] text-[#999]" style={sans}>{event.location}</span>
+          <MapPin className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.5} />
+          <span className="text-[12px] text-[var(--lm-muted,#999)]" style={sans}>{event.location}</span>
           {event.venue && (
             <>
-              <span className="text-[10px] text-[rgba(255,255,255,0.18)] px-[2px]">·</span>
-              <span className="text-[12px] text-[#999]" style={sans}>{event.venue}</span>
+              <span className="text-[10px] text-[var(--lm-muted,rgba(255,255,255,0.18))] px-[2px]">·</span>
+              <span className="text-[12px] text-[var(--lm-muted,#999)]" style={sans}>{event.venue}</span>
             </>
           )}
         </div>
-        <h3 className="text-[18px] md:text-[18px] font-bold text-white leading-[19px] pb-[6px]" style={serif}>
+        <h3 className="text-[18px] md:text-[18px] font-bold text-[var(--lm-text,#fff)] leading-[19px] pb-[6px]" style={serif}>
           {event.title}
         </h3>
-        <p className="text-[14px] text-[#999] leading-[1.3] pb-[14px]" style={sans}>
+        <p className="text-[14px] text-[var(--lm-muted,#999)] leading-[1.3] pb-[14px]" style={sans}>
           {event.subtitle}
         </p>
         <CardFooter event={event} />
@@ -182,9 +184,9 @@ export function FeaturedEventsSection() {
 
   if (isLoading) {
     return (
-      <section className="bg-[#161616] border-b-[0.8px] border-[rgba(255,255,255,0.07)] py-[72px] px-4 md:px-[82px]">
+      <section className="bg-[var(--lm-bg,#161616)] border-b-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] py-[72px] px-4 md:px-[82px]">
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="size-8 animate-spin text-[#999]" />
+          <Loader2 className="size-8 animate-spin text-[var(--lm-muted,#999)]" />
         </div>
       </section>
     )
@@ -196,19 +198,19 @@ export function FeaturedEventsSection() {
   const side = events.slice(1, 3)
 
   return (
-    <section className="bg-[#161616] border-b-[0.8px] border-[rgba(255,255,255,0.07)] py-6 md:py-[72px] px-4 md:px-[82px]">
+    <section className="bg-[var(--lm-bg,#161616)] border-b-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] py-6 md:py-[72px] px-4 md:px-[82px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-9">
         <div className="flex flex-col items-center gap-[10px]">
           <div className="flex items-center gap-[10px]">
-            <div className="w-5 h-px bg-[#C9A96E]" />
-            <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]" style={sans}>
+            <div className="w-5 h-px bg-[var(--lm-accent,#C9A96E)]" />
+            <span className="text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]" style={sans}>
               {t("featured")}
             </span>
-            <div className="w-5 h-px bg-[#C9A96E]" />
+            <div className="w-5 h-px bg-[var(--lm-accent,#C9A96E)]" />
           </div>
-          <h2 className="text-[32px] md:text-[48px] font-light text-white text-center" style={serif}>
+          <h2 className="text-[32px] md:text-[48px] font-light text-[var(--lm-text,#fff)] text-center" style={serif}>
             {t("featuredHeading")}{" "}
-            <span className="italic text-[#C9A96E]">{t("featuredHeadingAccent")}</span>
+            <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("featuredHeadingAccent")}</span>
           </h2>
         </div>
 

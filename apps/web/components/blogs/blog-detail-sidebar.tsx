@@ -53,8 +53,8 @@ function AuthorCard({ author }: { author: SidebarAuthor }) {
   const bio = author.bio ?? t("authorBioFallback")
 
   return (
-    <div className="bg-[#141414] border border-[rgba(255,255,255,0.12)] flex flex-col items-center px-[20.8px] py-[24.8px] w-full">
-      <div className="bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.2)] relative rounded-full size-16 overflow-hidden mb-3">
+    <div className="bg-[var(--lm-surface,#141414)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex flex-col items-center px-[20.8px] py-[24.8px] w-full">
+      <div className="bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.2)] relative rounded-full size-16 overflow-hidden mb-3">
         {author.avatarUrl ? (
           <Image
             src={author.avatarUrl}
@@ -65,22 +65,22 @@ function AuthorCard({ author }: { author: SidebarAuthor }) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-[#C9A96E] text-[18px] font-semibold leading-none">
+            <span className="text-[var(--lm-accent,#C9A96E)] text-[18px] font-semibold leading-none">
               {getInitials(author.name) || "•"}
             </span>
           </div>
         )}
       </div>
       <p
-        className="text-white text-[18px] leading-none mb-[3px] text-center"
+        className="text-[var(--lm-text,#fff)] text-[18px] leading-none mb-[3px] text-center"
         style={SERIF_FONT}
       >
         {author.name}
       </p>
-      <p className="text-[#C9A96E] text-[12px] font-semibold tracking-[0.8px] text-center mb-[10px]">
+      <p className="text-[var(--lm-accent,#C9A96E)] text-[12px] font-semibold tracking-[0.8px] text-center mb-[10px]">
         {role}
       </p>
-      <p className="text-[#999] text-[12px] leading-[1.2] text-center px-1">
+      <p className="text-[var(--lm-muted,#999)] text-[12px] leading-[1.2] text-center px-1">
         {bio}
       </p>
     </div>
@@ -88,6 +88,8 @@ function AuthorCard({ author }: { author: SidebarAuthor }) {
 }
 
 // Mesmo motivo do RESERVE no header: o checkout sem viagem escolhida fica vazio.
+// Painel deliberadamente escuro nos dois temas (CTA_BG_STYLE), por isso as cores
+// aqui dentro ficam fixas — não seguem os tokens --lm-*.
 function BookCtaCard({ bookHref = "/#booking" }: { bookHref?: string }) {
   const t = useTranslations("blogArticle.bookCta")
 
@@ -128,9 +130,9 @@ function RelatedCard({ items }: { items: SidebarRelatedItem[] }) {
   if (items.length === 0) return null
 
   return (
-    <div className="bg-[#141414] border border-[rgba(255,255,255,0.12)] flex flex-col gap-[14px] items-stretch p-[20.8px] w-full">
-      <div className="border-b-[0.8px] border-[rgba(255,255,255,0.12)] pb-[10.8px]">
-        <span className="text-[12px] font-semibold uppercase tracking-[1.62px] text-[#999]">
+    <div className="bg-[var(--lm-surface,#141414)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex flex-col gap-[14px] items-stretch p-[20.8px] w-full">
+      <div className="border-b-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] pb-[10.8px]">
+        <span className="text-[12px] font-semibold uppercase tracking-[1.62px] text-[var(--lm-muted,#999)]">
           {t("relatedArticles")}
         </span>
       </div>
@@ -142,10 +144,10 @@ function RelatedCard({ items }: { items: SidebarRelatedItem[] }) {
               <Link
                 href={`/blogs/${item.slug}`}
                 className={`group flex gap-[10px] items-start w-full ${
-                  last ? "" : "border-b-[0.8px] border-[rgba(255,255,255,0.07)] pb-[12.8px]"
+                  last ? "" : "border-b-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] pb-[12.8px]"
                 }`}
               >
-                <div className="relative shrink-0 size-[62px] bg-[#1c1c1c] overflow-hidden">
+                <div className="relative shrink-0 size-[62px] bg-[var(--lm-surface,#1c1c1c)] overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -155,13 +157,13 @@ function RelatedCard({ items }: { items: SidebarRelatedItem[] }) {
                   />
                 </div>
                 <div className="flex flex-1 min-w-0 flex-col gap-[2.2px]">
-                  <span className="text-[#C9A96E] text-[10px] font-bold uppercase tracking-[0.96px] leading-none">
+                  <span className="text-[var(--lm-accent,#C9A96E)] text-[10px] font-bold uppercase tracking-[0.96px] leading-none">
                     {item.category}
                   </span>
-                  <p className="text-white text-[14px] font-medium leading-[1.2] m-0 group-hover:text-[#C9A96E] transition-colors">
+                  <p className="text-[var(--lm-text,#fff)] text-[14px] font-medium leading-[1.2] m-0 group-hover:text-[var(--lm-accent,#C9A96E)] transition-colors">
                     {item.title}
                   </p>
-                  <span className="text-[#696969] text-[12px] leading-none pt-[0.8px]">
+                  <span className="text-[var(--lm-muted,#696969)] text-[12px] leading-none pt-[0.8px]">
                     {item.date}
                     {item.readTimeMinutes ? ` · ${item.readTimeMinutes} ${tShort("minShort")}` : ""}
                   </span>

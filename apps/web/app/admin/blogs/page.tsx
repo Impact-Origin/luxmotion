@@ -28,8 +28,11 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 import { BlogTranslationForm } from "@/components/admin/blog-translation-form";
+import { BlogGenerateDialog } from "@/components/admin/blog-generate-dialog";
+import { BlogGeneratingRows } from "@/components/admin/blog-generating-rows";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
+import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
@@ -88,6 +91,8 @@ export default function BlogsPage() {
       toast.error("Failed to update blog");
     }
   };
+
+  const [isGenerateOpen, setIsGenerateOpen] = React.useState(false);
 
   const handleCreateNew = () => {
     router.push("/admin/blogs/new");
@@ -296,6 +301,8 @@ export default function BlogsPage() {
 
   return (
     <>
+      <BlogGeneratingRows />
+
       <DataTable<Blog>
         mode="server"
         data={res?.rows}
@@ -308,15 +315,27 @@ export default function BlogsPage() {
         filters={filters}
         renderCard={renderCard}
         rowActions={rowActions}
+        onRowClick={(blog) => router.push(`/admin/blogs/${blog._id}`)}
         initialSort={{ columnId: "date", dir: "desc" }}
         toolbarActions={
-          <Button onClick={handleCreateNew}>
-            <Plus className="mr-2 size-4" />
-            {t("addBlog")}
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setIsGenerateOpen(true)}>
+              <Sparkles className="mr-2 size-4" />
+              Gerar artigo
+            </Button>
+            <Button onClick={handleCreateNew}>
+              <Plus className="mr-2 size-4" />
+              {t("addBlog")}
+            </Button>
+          </div>
         }
         emptyTitle={t("noBlogsFound")}
         emptyIcon={FileText}
+      />
+
+      <BlogGenerateDialog
+        isOpen={isGenerateOpen}
+        onClose={() => setIsGenerateOpen(false)}
       />
 
       {translatingBlog && (

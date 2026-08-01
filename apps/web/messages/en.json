@@ -1147,6 +1147,7 @@
       "subtitle": "Private driver. Curated itineraries. Every road in Portugal — experienced as it deserves to be.",
       "searchPlaceholder": "Search for tours, destinations, experiences...",
       "searchButton": "Search",
+      "viewAllButton": "View all",
       "badges": {
         "safe": "Safe",
         "authenticExperiences": "Authentic experiences",
@@ -1430,8 +1431,8 @@
     "titleEnd": "?",
     "goToSlide": "Go to slide {number}",
     "redesign": {
-      "heading": "Which destination",
-      "headingAccent": "shall we?",
+      "heading": "Where do you want to",
+      "headingAccent": "start?",
       "subtitle": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
       "cards": {
         "lisboa": {
@@ -1579,8 +1580,8 @@
     "showMore": "Show more",
     "goToSlide": "Go to slide {number}",
     "redesign": {
-      "heading": "Which destination",
-      "headingAccent": "shall we?",
+      "heading": "Where do you want to",
+      "headingAccent": "start?",
       "subtitle": "Private full-day experiences curated for discerning travellers. Designed for those who prefer experience over itinerary.",
       "cards": {
         "luxury": {
@@ -4394,17 +4395,24 @@
     },
     "calculator": {
       "eyebrow": "REVENUE CALCULATOR",
-      "titleStart": "Calculate the",
-      "titleAccent": "potential revenue",
+      "titleStart": "Calculate your potential",
+      "titleAccent": "commission",
       "body1": "Every wedding is a revenue opportunity.",
       "body2": "No operational management on your side.",
       "weddingsLabel": "Weddings per month",
-      "guestsLabel": "Average guests per wedding",
-      "commissionLabel": "Commission (%)",
+      "commissionLabel": "Commission",
       "placeholderSelect": "Select",
       "monthlyLabel": "Estimated monthly revenue",
       "yearlyLabel": "Estimated annual revenue",
-      "photoAlt": "Wedding planner reviewing event details"
+      "photoAlt": "Wedding planner reviewing event details",
+      "ticketLabel": "Average wedding budget",
+      "ticketOrMore": "{value} or more",
+      "commissionRecommended": "{value}% (recommended)",
+      "rowRange": "Estimated mobility spend",
+      "rowReference": "Reference value used in the calculation",
+      "rowPerWedding": "Estimated commission per wedding",
+      "note": "Covers transfers for the couple and guests, classic cars and other LuxMotion mobility services.",
+      "disclaimer": "Indicative simulation. Actual commission depends on the LuxMotion services booked and delivered."
     },
     "ctaBand": {
       "titleStart": "Ready for a",
@@ -4506,12 +4514,12 @@
       },
       "questions": {
         "q1": {
-          "question": "Introduce yourself briefly and tell us what you enjoy most about your job as a driver.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "question": "Briefly introduce yourself and tell us why you decided to become a professional driver.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "question": "What are two of your favorite places in your city and why do you recommend them to travelers?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "question": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "section3": {
@@ -4932,7 +4940,7 @@
         "surfboardRack": "Surfboard rack"
       },
       "amenities": {
-        "label": "License type",
+        "label": "Type of extras",
         "usbCharger": "USB charger",
         "wifi": "Wi-Fi",
         "pos": "POS / Card reader",
@@ -5068,12 +5076,12 @@
         "duration": "Ideal duration per driver: 40 to 50 seconds",
         "eyebrow": "Question {index}",
         "q1": {
-          "prompt": "Introduce yourself briefly and share what you enjoy most about being a driver.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "prompt": "Briefly introduce yourself and tell us why you decided to become a professional driver.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "prompt": "What are two of your favorite places in your city and why do you recommend them to travelers?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "prompt": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "structure": {
@@ -5564,7 +5572,29 @@
           "submitting": "Sending...",
           "note": "Personalised response within 24 hours · No commitment · GDPR compliant",
           "successTitle": "Request Sent",
-          "successBody": "Thank you. Our team will reply with a tailored proposal within 24 hours."
+          "successBody": "Thank you. Our team will reply with a tailored proposal within 24 hours.",
+          "success": {
+            "eyebrow": "Request received",
+            "thankYou": "Thank you,",
+            "body": "Your request has been received and our team is already preparing your tailored proposal. A confirmation has been sent to {email}.",
+            "reference": "Reference",
+            "whatNext": "What happens next",
+            "step1Title": "Brief review & assignment",
+            "step1Body": "A dedicated account manager reviews your request and is assigned to your project.",
+            "step1Time": "Within 2 hours",
+            "step2Title": "Personalised proposal",
+            "step2Body": "You'll receive a detailed proposal with route planning, vehicle allocation, and transparent pricing.",
+            "step2Time": "Within 24 hours",
+            "step3Title": "Refine & confirm",
+            "step3Body": "We adjust every detail with you until it's exactly what you envisioned. Then we activate.",
+            "step3Time": "At your pace",
+            "whatsapp": "Continue on WhatsApp",
+            "scheduleCall": "Schedule a call",
+            "exploreServices": "Explore services",
+            "footerPre": "Need to add details to your request?",
+            "footerLink": "Reply to our confirmation email",
+            "footerPost": "or message us on WhatsApp at"
+          }
         }
       },
       "preferToTalk": {
@@ -7283,5 +7313,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Benefits",
+    "items": [
+      {
+        "pre": "Free cancellation up to 24 hours before"
+      },
+      {
+        "pre": "Over ",
+        "accent": "300",
+        "post": " five-star reviews"
+      },
+      {
+        "pre": "Executive fleet with professional drivers"
+      },
+      {
+        "pre": "Book today, pay in ",
+        "accent": "3 instalments",
+        "post": " interest-free"
+      },
+      {
+        "pre": "Private tours in ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Daily departures from Lisbon, Porto and the Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Cart",
+    "label": "Cart",
+    "sublabel": "Active booking",
+    "tourLabel": "Private tour",
+    "eventLabel": "Event",
+    "guests": "{count, plural, one {# passenger} other {# passengers}}",
+    "heldLine1": "Booking",
+    "heldLine2": "Guaranteed",
+    "total": "Total",
+    "cta": "View cart",
+    "dismiss": "Close"
   }
 }

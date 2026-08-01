@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { clearTourCart, saveTourCart } from "@/lib/tour-cart"
 
 export interface TourCheckoutPickup {
   title: string
@@ -153,6 +154,9 @@ export function TourCheckoutProvider({ children }: { children: ReactNode }) {
         currentStep: 1,
       })
       setIsOpen(true)
+      // Guardado para a barra de carrinho o poder mostrar (e reabrir) se a
+      // pessoa fechar o checkout sem concluir.
+      saveTourCart(productType, product, bookingData)
     },
     []
   )
@@ -175,6 +179,8 @@ export function TourCheckoutProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const setBookingId = useCallback((bookingId: string | null, bookingNumber: string | null) => {
+    // Feita a reserva, já não há nada pendente para a barra de carrinho mostrar.
+    if (bookingNumber) clearTourCart()
     setState((prev) => ({ ...prev, bookingId, bookingNumber }))
   }, [])
 

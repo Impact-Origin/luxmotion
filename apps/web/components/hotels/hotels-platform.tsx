@@ -3,23 +3,28 @@
 import { useTranslations } from "next-intl"
 
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
-const G = "#C9A96E"
+/* Os wireframes herdam a cor do texto do <svg>, que é o dourado do tema. */
+const G = "currentColor"
+/* Cinzento dos rótulos dentro dos wireframes. Vai em `style` e não no atributo
+   `fill=` porque var() num atributo de apresentação de SVG não é fiável em todos
+   os browsers — em `style` inline é sempre substituído. */
+const LABEL = { fill: "var(--lm-muted,#cfc9bf)" } as const
 
 type Row = { eyebrow: string; title: string; accent: string; body: string[] }
 
 function TextCell({ row }: { row: Row }) {
   return (
-    <div className="flex flex-col justify-center gap-5 bg-[#0D0D0D] px-7 py-10 md:px-12 md:py-14">
-      <span className="flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[2px] text-[#C9A96E]">
-        <span className="h-px w-6 bg-[#C9A96E]" />
+    <div className="flex flex-col justify-center gap-5 bg-[var(--lm-bg,#0D0D0D)] px-7 py-10 md:px-12 md:py-14">
+      <span className="flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]">
+        <span className="h-px w-6 bg-[var(--lm-accent,#C9A96E)]" />
         {row.eyebrow}
       </span>
-      <h3 className="text-[30px] leading-[1.12] text-white md:text-[36px]" style={serif}>
-        {row.title} <span className="italic text-[#C9A96E]">{row.accent}</span>
+      <h3 className="text-[30px] leading-[1.12] text-[var(--lm-text,#fff)] md:text-[36px]" style={serif}>
+        {row.title} <span className="italic text-[var(--lm-accent,#C9A96E)]">{row.accent}</span>
       </h3>
       <div className="flex flex-col gap-3.5">
         {row.body.map((p, i) => (
-          <p key={i} className="font-sans text-[13.5px] leading-[1.55] text-[#9a9a9a]">
+          <p key={i} className="font-sans text-[13.5px] leading-[1.55] text-[var(--lm-muted,#9a9a9a)]">
             {p}
           </p>
         ))}
@@ -28,9 +33,12 @@ function TextCell({ row }: { row: Row }) {
   )
 }
 
+/* Painel dos wireframes: véu dourado sobre o fundo da secção, para continuar a
+   destacar-se da célula de texto nos dois temas (areia no claro, castanho
+   escuro no escuro). */
 function MockupCell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center justify-center bg-[#27221a] p-8 md:p-12">
+    <div className="flex items-center justify-center bg-[rgba(var(--lm-accent-rgb,201,169,110),0.1)] p-8 md:p-12">
       <div className="w-full max-w-[420px]">{children}</div>
     </div>
   )
@@ -38,7 +46,7 @@ function MockupCell({ children }: { children: React.ReactNode }) {
 
 function LandingMockup() {
   return (
-    <svg viewBox="0 0 380 300" fill="none" className="w-full" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 380 300" fill="none" className="w-full text-[var(--lm-accent,#C9A96E)]" xmlns="http://www.w3.org/2000/svg">
       <rect x="16" y="16" width="348" height="268" stroke={G} strokeOpacity="0.5" />
       <line x1="16" y1="52" x2="364" y2="52" stroke={G} strokeOpacity="0.3" />
       <circle cx="34" cy="34" r="4" fill={G} fillOpacity="0.6" />
@@ -70,7 +78,7 @@ function DashboardMockup() {
   const pts = "150,240 182,202 214,216 246,176 278,190 310,150 338,164"
   const dots = [[150, 240], [182, 202], [214, 216], [246, 176], [278, 190], [310, 150], [338, 164]]
   return (
-    <svg viewBox="0 0 380 300" fill="none" className="w-full" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 380 300" fill="none" className="w-full text-[var(--lm-accent,#C9A96E)]" xmlns="http://www.w3.org/2000/svg">
       <rect x="16" y="16" width="348" height="268" stroke={G} strokeOpacity="0.5" />
       {/* sidebar */}
       <rect x="34" y="40" width="44" height="12" fill={G} fillOpacity="0.55" />
@@ -109,18 +117,18 @@ function IntegrationMockup() {
     ["+", 346, 18],
   ]
   return (
-    <svg viewBox="0 0 380 300" fill="none" className="w-full" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 380 300" fill="none" className="w-full text-[var(--lm-accent,#C9A96E)]" xmlns="http://www.w3.org/2000/svg">
       {/* top row */}
       <rect x="20" y="78" width="96" height="56" stroke={G} strokeOpacity="0.45" />
-      <text x="68" y="111" fontSize="12" fill="#cfc9bf" textAnchor="middle">PMS / CRM</text>
+      <text x="68" y="111" fontSize="12" style={LABEL} textAnchor="middle">PMS / CRM</text>
 
       <rect x="142" y="70" width="96" height="72" stroke={G} fill={G} fillOpacity="0.08" />
       <text x="190" y="101" fontSize="13" fill={G} textAnchor="middle" style={serif}>LuxMotion</text>
       <text x="190" y="118" fontSize="8.5" fill={G} fillOpacity="0.75" textAnchor="middle" letterSpacing="1.5">API LAYER</text>
 
       <rect x="264" y="78" width="96" height="56" stroke={G} strokeOpacity="0.45" />
-      <text x="312" y="103" fontSize="11" fill="#cfc9bf" textAnchor="middle">Email white</text>
-      <text x="312" y="118" fontSize="11" fill="#cfc9bf" textAnchor="middle">label</text>
+      <text x="312" y="103" fontSize="11" style={LABEL} textAnchor="middle">Email white</text>
+      <text x="312" y="118" fontSize="11" style={LABEL} textAnchor="middle">label</text>
 
       {/* arrows */}
       <path d="M118 106 H140 M134 101 l6 5 -6 5" stroke={G} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -137,7 +145,7 @@ function IntegrationMockup() {
       {bottom.map(([label, x, w]) => (
         <g key={label}>
           <rect x={x} y="196" width={w} height="44" stroke={G} strokeOpacity="0.42" />
-          <text x={x + w / 2} y={label === "+" ? 222 : 222} fontSize={label === "+" ? 16 : 10.5} fill="#cfc9bf" textAnchor="middle">
+          <text x={x + w / 2} y={label === "+" ? 222 : 222} fontSize={label === "+" ? 16 : 10.5} style={LABEL} textAnchor="middle">
             {label}
           </text>
         </g>
@@ -151,9 +159,9 @@ export function HotelsPlatform() {
   const rows = t.raw("rows") as Row[]
 
   return (
-    <section className="bg-[#0D0D0D] px-4 py-16 lg:py-20">
-      <div className="mx-auto max-w-[1280px] border border-[rgba(201,169,110,0.08)]">
-        <div className="grid grid-cols-1 gap-px bg-[rgba(255,255,255,0.08)] lg:grid-cols-2">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] px-4 py-16 lg:py-20">
+      <div className="mx-auto max-w-[1280px] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]">
+        <div className="grid grid-cols-1 gap-px bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)] lg:grid-cols-2">
           {rows[0] && <TextCell row={rows[0]} />}
           <MockupCell><LandingMockup /></MockupCell>
           <MockupCell><DashboardMockup /></MockupCell>

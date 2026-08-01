@@ -31,6 +31,10 @@ export function EventsHero() {
   }))
 
   return (
+    // A hero é uma fotografia nocturna do MEO Arena e todo o texto assenta em
+    // cima dela. O contraste vem da foto e do degradê escuro, não do tema — em
+    // modo claro, texto escuro sobre esta imagem seria ilegível. Por isso o
+    // bloco inteiro (degradê, títulos, ticker) fica fixo nos dois modos.
     <section className="relative w-full h-[480px] md:h-[533px] overflow-hidden">
       <Image
         src="/events/hero-meo-arena.webp"
@@ -40,6 +44,11 @@ export function EventsHero() {
         priority
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] from-[25.862%] via-[rgba(13,13,13,0.5)] via-[59.224%] to-[rgba(13,13,13,0)]" />
+      {/* Só o rebordo de baixo segue o fundo da página, para a hero escura não
+          cortar a direito contra o creme do tema claro. Fica por baixo do texto
+          (que acaba 40px acima em telemóvel, 88px em desktop) e em tema escuro
+          é #0d0d0d sobre #0d0d0d, ou seja, invisível. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 md:h-[72px] bg-gradient-to-b from-transparent to-[var(--lm-bg,#0d0d0d)]" />
 
       <div className="absolute inset-0 flex flex-col justify-end gap-[13px] px-4 pb-10 md:px-[48px] md:pb-[88px] max-w-[1920px] mx-auto">
         <div className="flex items-center gap-[10px]">

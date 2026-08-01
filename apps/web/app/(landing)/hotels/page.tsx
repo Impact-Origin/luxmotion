@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
-import { Header } from "@/components/new-landing-page/header"
+import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { Footer } from "@/components/new-landing-page/footer"
 import { HotelsHero } from "@/components/hotels/hotels-hero"
 import { HotelsSectionNav } from "@/components/hotels/hotels-section-nav"
@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function HotelsPage() {
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-white">
+    <HomeThemeProvider>
       <JsonLd data={buildOrganizationSchema()} />
       <JsonLd
         data={buildBreadcrumbSchema([
@@ -49,7 +49,7 @@ export default function HotelsPage() {
           { name: "Hotels", url: "/hotels" },
         ])}
       />
-      <Header />
+      <HomeHeader />
       <main className="pt-[60px] lg:pt-[72px]">
         <HotelsHero />
         <TrustedBy />
@@ -70,6 +70,6 @@ export default function HotelsPage() {
         <div id="casos" className="scroll-mt-[120px]"><Reveal><HotelsResults /></Reveal></div>
       </main>
       <Footer />
-    </div>
+    </HomeThemeProvider>
   )
 }

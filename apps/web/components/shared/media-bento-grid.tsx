@@ -358,25 +358,27 @@ function buildColumns(
     const pattern = colIdx % 3
     const item = media[i]!
     if (pattern === 0) {
+      const mediaIndex = i
       cols.push(
         <div key={`${keyPrefix}col-${colIdx}`} className="shrink-0 w-[28%] h-full snap-start" style={{ scrollSnapStop: "always" }}>
           <GridMedia
             item={item}
-            alt={i === 0 ? alt : `${alt} - ${i + 1}`}
-            onClick={() => onMediaClick(i)}
+            alt={mediaIndex === 0 ? alt : `${alt} - ${mediaIndex + 1}`}
+            onClick={() => onMediaClick(mediaIndex)}
             className="h-full "
-            priority={i === 0}
+            priority={mediaIndex === 0}
           />
         </div>
       )
       i++
     } else if (pattern === 1) {
+      const mediaIndex = i
       cols.push(
         <div key={`${keyPrefix}col-${colIdx}`} className="shrink-0 w-[50%] h-full snap-start" style={{ scrollSnapStop: "always" }}>
           <GridMedia
             item={item}
-            alt={`${alt} - ${i + 1}`}
-            onClick={() => onMediaClick(i)}
+            alt={`${alt} - ${mediaIndex + 1}`}
+            onClick={() => onMediaClick(mediaIndex)}
             className="h-full "
           />
         </div>
@@ -384,32 +386,35 @@ function buildColumns(
       i++
     } else {
       if (i + 1 < media.length) {
+        const topIndex = i
+        const bottomIndex = i + 1
         const topItem = media[i]!
         const bottomItem = media[i + 1]!
         cols.push(
           <div key={`${keyPrefix}col-${colIdx}`} className="shrink-0 w-[28%] h-full flex flex-col gap-[2px] snap-start" style={{ scrollSnapStop: "always" }}>
             <GridMedia
               item={topItem}
-              alt={`${alt} - ${i + 1}`}
-              onClick={() => onMediaClick(i)}
+              alt={`${alt} - ${topIndex + 1}`}
+              onClick={() => onMediaClick(topIndex)}
               className="flex-1 min-h-0 "
             />
             <GridMedia
               item={bottomItem}
-              alt={`${alt} - ${i + 2}`}
-              onClick={() => onMediaClick(i + 1)}
+              alt={`${alt} - ${bottomIndex + 1}`}
+              onClick={() => onMediaClick(bottomIndex)}
               className="flex-1 min-h-0 "
             />
           </div>
         )
         i += 2
       } else {
+        const mediaIndex = i
         cols.push(
           <div key={`${keyPrefix}col-${colIdx}`} className="shrink-0 w-[28%] h-full snap-start" style={{ scrollSnapStop: "always" }}>
             <GridMedia
               item={item}
-              alt={`${alt} - ${i + 1}`}
-              onClick={() => onMediaClick(i)}
+              alt={`${alt} - ${mediaIndex + 1}`}
+              onClick={() => onMediaClick(mediaIndex)}
               className="h-full "
             />
           </div>

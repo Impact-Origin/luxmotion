@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { type TourData } from "@/app/(landing)/tours/tour/[slug]/page"
 import type { Id } from "@workspace/convex/dataModel"
@@ -14,6 +14,7 @@ import { TourMeetingPoints } from "./tour-meeting-points"
 import { TourReviews } from "./tour-reviews"
 import { useTourCheckout } from "./tour-checkout-context"
 import { AddonCarouselSection } from "@/components/shared/addon-carousel-section"
+import { saveTourCart } from "@/lib/tour-cart"
 
 interface TourDetailsContentProps {
   tour: TourData
@@ -62,6 +63,30 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
       }, 100)
     }
   }, [searchParams, tour, openCheckout])
+
+  // O produto vive aqui, não no cartão de reserva: quando a selecção fica
+  // completa, guardamos o carrinho para a barra de baixo o poder mostrar
+  // e reabrir mais tarde.
+  const handleSelectionReady = useCallback(
+    (data: { date: Date | null; time: string | null; adults: number; children: number; infants: number; total: number }) => {
+      if (!tour._id) return
+      const productType = tour.category === "experiences" ? "experience" : "tour"
+      saveTourCart(
+        productType,
+        {
+          _id: tour._id,
+          title: tour.title,
+          slug: tour.slug,
+          price: tour.price,
+          currency: tour.currency ?? "€",
+          image: tour.bannerImage,
+          pickup: tour.pickup,
+        },
+        { ...data, selectedAddons: undefined, addonsTotal: undefined },
+      )
+    },
+    [tour],
+  )
 
   const handleBook = (data: {
     date: Date | null; time: string | null; adults: number; children: number; infants: number; total: number;
@@ -132,7 +157,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 <AddonCarouselSection addons={tour.addons} />
               )}
 
-              <div id="tour-map" className="border-t border-[rgba(255,255,255,0.06)] mt-6 pt-6 scroll-mt-24">
+              <div id="tour-map" className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-6 pt-6 scroll-mt-24">
                 <TourItinerary
                   items={tour.itinerary}
                   mapCenter={tour.mapCenter}
@@ -141,7 +166,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 />
               </div>
 
-              <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10">
+              <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10">
                 <TourMeetingPoints
                   pickup={tour.pickup}
                   dropoff={tour.dropoff}
@@ -149,7 +174,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                 />
               </div>
 
-              <div className="border-t border-[rgba(255,255,255,0.06)] mt-10 pt-10 pb-10">
+              <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] mt-10 pt-10 pb-10">
                 {tour._id && (
                   <TourReviews
                     tourId={tour._id as Id<"tours">}
@@ -172,6 +197,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
                   maxPassengers={tour.maxPassengers}
                   addons={tour.addons}
                   onBook={handleBook}
+                onSelectionReady={handleSelectionReady}
                 />
               </div>
             </div>
@@ -189,6 +215,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
           maxPassengers={tour.maxPassengers}
           addons={tour.addons}
           onBook={handleBook}
+                onSelectionReady={handleSelectionReady}
         />
       </div>
 

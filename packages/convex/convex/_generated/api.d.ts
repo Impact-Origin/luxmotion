@@ -9,6 +9,7 @@
  */
 
 import type * as admin from "../admin.js";
+import type * as blogAutomation from "../blogAutomation.js";
 import type * as blogs from "../blogs.js";
 import type * as contactQuotes from "../contactQuotes.js";
 import type * as contactSubmissions from "../contactSubmissions.js";
@@ -23,6 +24,9 @@ import type * as flights from "../flights.js";
 import type * as googleReviews from "../googleReviews.js";
 import type * as http from "../http.js";
 import type * as instagram from "../instagram.js";
+import type * as lib_blogPrompts from "../lib/blogPrompts.js";
+import type * as lib_markdownToTiptap from "../lib/markdownToTiptap.js";
+import type * as lib_openai from "../lib/openai.js";
 import type * as lib_pagination from "../lib/pagination.js";
 import type * as lib_referral from "../lib/referral.js";
 import type * as lib_storage from "../lib/storage.js";
@@ -60,6 +64,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
+  blogAutomation: typeof blogAutomation;
   blogs: typeof blogs;
   contactQuotes: typeof contactQuotes;
   contactSubmissions: typeof contactSubmissions;
@@ -74,6 +79,9 @@ declare const fullApi: ApiFromModules<{
   googleReviews: typeof googleReviews;
   http: typeof http;
   instagram: typeof instagram;
+  "lib/blogPrompts": typeof lib_blogPrompts;
+  "lib/markdownToTiptap": typeof lib_markdownToTiptap;
+  "lib/openai": typeof lib_openai;
   "lib/pagination": typeof lib_pagination;
   "lib/referral": typeof lib_referral;
   "lib/storage": typeof lib_storage;

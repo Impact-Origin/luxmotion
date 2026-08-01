@@ -1,10 +1,13 @@
 "use client"
 
 import { useMemo, useState, useEffect } from "react"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { X } from "lucide-react"
 import { useUltraLuxuryTours } from "@/hooks/use-tour-data"
 import { cn } from "@workspace/ui/lib/utils"
+import { textMatchesSearch } from "@/lib/search"
 import { BrowseTourCard, type BrowseTourCardData } from "./browse-tour-card"
 import { FiltersSidebar } from "./filters-sidebar"
 import { BrowseToolbar, type AppliedChip } from "./browse-toolbar"
@@ -37,6 +40,8 @@ function inBucket(value: number | undefined, buckets: readonly { value: string; 
 
 export function AllToursBrowser() {
   const t = useTranslations("ultraLuxuryTours.browse")
+  const searchParams = useSearchParams()
+  const searchQuery = searchParams.get("q") || ""
   const { tours, isLoading } = useUltraLuxuryTours()
 
   const [boundMin, boundMax] = useMemo<[number, number]>(() => {
@@ -62,7 +67,7 @@ export function AllToursBrowser() {
 
   useEffect(() => {
     setPage(1)
-  }, [filters, sort])
+  }, [filters, sort, searchQuery])
 
   const tourTypeLabel = (key: string) => t(`tourTypes.${TOUR_TYPE_LABEL_KEY[key] ?? key}`)
   const durationLabel = (value: string) => t(`durations.${DUR_LABEL_KEY[value] ?? value}`)
@@ -100,6 +105,20 @@ export function AllToursBrowser() {
 
   const filteredTours = useMemo(() => {
     let result = tours.filter((tr) => {
+      if (
+        searchQuery &&
+        !textMatchesSearch(searchQuery, [
+          tr.title,
+          tr.subtitle,
+          tr.destination,
+          tr.duration,
+          tr.tourType,
+          tr.tourTypeTag,
+          ...(tr.tags ?? []),
+        ])
+      ) {
+        return false
+      }
       if (filters.regions.length && !filters.regions.includes(tr.destination)) return false
       if (filters.tourTypes.length && !(tr.tourTypeTag && filters.tourTypes.includes(tr.tourTypeTag))) return false
       if (!inBucket(tr.durationDays, DURATION_BUCKETS, filters.durations)) return false
@@ -112,7 +131,7 @@ export function AllToursBrowser() {
     else if (sort === "price_high") result = [...result].sort((a, b) => b.basePrice - a.basePrice)
     else if (sort === "rating") result = [...result].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
     return result
-  }, [tours, filters, sort])
+  }, [tours, filters, sort, searchQuery])
 
   const cards = useMemo<BrowseTourCardData[]>(() => {
     return filteredTours.map((tour) => {
@@ -225,6 +244,23 @@ export function AllToursBrowser() {
               onOpenFilters={() => setDrawerOpen(true)}
             />
 
+            {searchQuery && (
+              <div className="flex flex-wrap items-center gap-2 border border-[rgba(154,117,53,0.18)] bg-[#f7f4ef] px-3 py-2">
+                <span className="text-[11px] font-medium uppercase tracking-[1.2px] text-[#696969]">
+                  {t("title")}
+                </span>
+                <span className="max-w-[280px] truncate text-[14px] text-[#1c1b18]">
+                  &ldquo;{searchQuery}&rdquo;
+                </span>
+                <Link
+                  href="/ultra-luxury-tours/tours"
+                  className="ml-auto text-[11px] font-semibold uppercase tracking-[1.2px] text-[#a08248] hover:text-[#8a6f3c]"
+                >
+                  {t("clearAll")}
+                </Link>
+              </div>
+            )}
+
             {isLoading ? (
               <div className="grid grid-cols-2 gap-[2px]">
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -232,7 +268,15 @@ export function AllToursBrowser() {
                 ))}
               </div>
             ) : pageCards.length === 0 ? (
-              <p className="py-16 text-center text-[18px] text-[#696969]">{t("noResults")}</p>
+              <div className="flex flex-col items-center gap-5 py-16 text-center">
+                <p className="text-[18px] text-[#696969]">{t("noResults")}</p>
+                <Link
+                  href="/ultra-luxury-tours/tours"
+                  className="inline-flex h-11 items-center justify-center border border-[#a08248] bg-[#a08248] px-5 text-[11px] font-semibold uppercase tracking-[1.2px] text-white transition-colors hover:bg-[#8a6f3c]"
+                >
+                  {t("breadcrumbCurrent")}
+                </Link>
+              </div>
             ) : (
               <div className={cn("grid gap-[2px]", view === "grid" ? "grid-cols-2" : "grid-cols-1")}>
                 {pageCards.map((card) => (

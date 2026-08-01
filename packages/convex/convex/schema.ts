@@ -331,6 +331,9 @@ export default defineSchema({
     ),
     // Extra % added to the base transfer fare when the pickup is an airport.
     airportSurchargePercent: v.optional(v.number()),
+    // Radius, in km, used to decide which tours count as "near" the place the
+    // visitor searched for on /tours/results.
+    toursSearchRadiusKm: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
   }).index("by_key", ["key"]),
 
@@ -368,6 +371,10 @@ export default defineSchema({
     seoTitle: v.optional(v.string()),
     seoDescription: v.optional(v.string()),
     tags: v.optional(v.array(v.string())),
+    // Pares Q/A do artigo, para emitir schema de FAQPage.
+    faq: v.optional(
+      v.array(v.object({ question: v.string(), answer: v.string() })),
+    ),
   })
     .index("by_slug", ["slug"])
     .index("by_status", ["status"])
@@ -375,6 +382,42 @@ export default defineSchema({
     .index("by_featured", ["isFeatured"])
     .index("by_service", ["isService"])
     .index("by_published_at", ["publishedAt"]),
+
+  /**
+   * Uma linha por artigo gerado pela automação. Guarda o Markdown de origem
+   * (é dele que as traduções partem, nunca do JSON) e o suficiente para
+   * perceber uma geração má sem voltar a gastar dinheiro na OpenAI.
+   */
+  blogGenerationRuns: defineTable({
+    trigger: v.union(v.literal("cron"), v.literal("manual")),
+    status: v.union(
+      v.literal("running"),
+      v.literal("completed"),
+      v.literal("needsReview"),
+      v.literal("failed"),
+    ),
+    topic: v.optional(v.string()),
+    icp: v.optional(v.string()),
+    blogId: v.optional(v.id("blogs")),
+    /** Markdown do artigo em inglês, base das traduções. */
+    sourceMarkdown: v.optional(v.string()),
+    title: v.optional(v.string()),
+    description: v.optional(v.string()),
+    /** Resposta crua truncada, só para depuração. */
+    rawResponse: v.optional(v.string()),
+    /** Corrida de teste: fica em rascunho mesmo correndo tudo bem. */
+    keepDraft: v.optional(v.boolean()),
+    imageDone: v.optional(v.boolean()),
+    localesDone: v.optional(v.array(v.string())),
+    localesFailed: v.optional(v.array(v.string())),
+    warnings: v.optional(v.array(v.string())),
+    error: v.optional(v.string()),
+    model: v.optional(v.string()),
+    startedAt: v.number(),
+    finishedAt: v.optional(v.number()),
+  })
+    .index("by_status", ["status"])
+    .index("by_started", ["startedAt"]),
 
   blogTranslations: defineTable({
     blogId: v.id("blogs"),

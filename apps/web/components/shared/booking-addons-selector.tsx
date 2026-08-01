@@ -1,9 +1,11 @@
 "use client"
 
 import { Check } from "lucide-react"
-import Image from "next/image"
 import { cn } from "@workspace/ui/lib/utils"
 import { useMoney } from "@/components/currency-provider"
+
+const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
+const SANS_FONT = "var(--font-sans), system-ui, sans-serif"
 
 export interface BookingAddon {
   _id: string
@@ -27,14 +29,13 @@ export function BookingAddonsSelector({
   addons,
   selectedAddonIds,
   onToggleAddon,
-  totalGuests,
 }: BookingAddonsSelectorProps) {
   const { format } = useMoney()
 
   if (addons.length === 0) return null
 
   return (
-    <div className="flex flex-col gap-[3px]">
+    <div className="flex flex-col gap-[6px]" style={{ fontFamily: SANS_FONT }}>
       {addons.map((addon) => {
         const isSelected = selectedAddonIds.includes(addon._id)
         const isFree = addon.price === 0
@@ -44,30 +45,37 @@ export function BookingAddonsSelector({
             key={addon._id}
             type="button"
             onClick={() => onToggleAddon(addon._id)}
-            className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] flex items-center gap-3 px-[15px] py-[13px] transition-colors hover:border-[rgba(201,169,110,0.25)]"
+            className={cn(
+              "w-full border flex items-center gap-3 px-[15px] py-[13px] text-left transition-colors",
+              isSelected
+                ? "border-[rgba(201,169,110,0.5)] bg-[rgba(201,169,110,0.08)]"
+                : "border-[rgba(var(--lm-accent-rgb,201,169,110),0.14)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.025)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.34)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.05)]"
+            )}
           >
             <div
               className={cn(
-                "size-[18px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center shrink-0 transition-colors",
-                isSelected && "bg-[rgba(154,117,53,0.22)] border-[rgba(201,169,110,0.5)]"
+                "size-[18px] border flex items-center justify-center shrink-0 transition-colors",
+                isSelected
+                  ? "bg-[var(--lm-accent,#C9A96E)] border-[var(--lm-accent,#C9A96E)]"
+                  : "border-[rgba(201,169,110,0.28)] bg-transparent"
               )}
             >
-              {isSelected && <Check className="size-[10px] text-[#C9A96E]" />}
+              {isSelected && <Check className="size-[10px] text-[#0D0D0D]" strokeWidth={2.8} />}
             </div>
 
             <div className="flex-1 min-w-0 text-left">
-              <p className="text-[12px] font-medium text-white leading-normal">{addon.title}</p>
+              <p className="text-[13px] font-medium leading-normal text-[var(--lm-text,#fff)]">{addon.title}</p>
               {addon.description && (
-                <p className="text-[10px] text-[#999] leading-[14px]">{addon.description}</p>
+                <p className="mt-0.5 line-clamp-2 text-[10px] leading-[14px] text-[var(--lm-muted,#999)]">{addon.description}</p>
               )}
             </div>
 
             <span
               className={cn(
-                "text-[16px] font-bold shrink-0",
-                isFree ? "text-[#81c784] tracking-[0.66px]" : "text-[rgba(201,169,110,0.7)]"
+                "text-[17px] font-semibold shrink-0 leading-none",
+                isFree ? "text-[#81c784]" : "text-[var(--lm-accent,#C9A96E)]"
               )}
-              style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
+              style={{ fontFamily: SERIF_FONT }}
             >
               {isFree ? "Livre" : `+${format(addon.price)}`}
             </span>

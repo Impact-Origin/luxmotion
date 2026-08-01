@@ -41,7 +41,7 @@ export function HotelsSectionNav() {
   }
 
   return (
-    <nav className="sticky top-[60px] z-30 border-b border-[rgba(201,169,110,0.12)] bg-[#0D0D0D]/95 backdrop-blur lg:top-[72px]">
+    <nav className="sticky top-[60px] z-30 border-b border-[rgba(var(--lm-accent-rgb,201,169,110),0.12)] bg-[rgba(var(--lm-bg-rgb,13,13,13),0.95)] backdrop-blur lg:top-[72px]">
       <div className="mx-auto flex max-w-[1280px] items-stretch justify-start overflow-x-auto px-2 lg:justify-center [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {TABS.map((tab) => {
           const on = active === tab.id
@@ -51,12 +51,14 @@ export function HotelsSectionNav() {
               type="button"
               onClick={() => go(tab.id)}
               className={`relative shrink-0 whitespace-nowrap px-4 py-4 text-[11.5px] font-semibold uppercase tracking-[1.4px] transition-colors lg:px-5 ${
-                on ? "text-[#C9A96E]" : "text-[#8c8680] hover:text-white"
+                on
+                  ? "text-[var(--lm-accent,#C9A96E)]"
+                  : "text-[var(--lm-muted,#8c8680)] hover:text-[var(--lm-text,#fff)]"
               }`}
               style={sans}
             >
               {t(tab.key)}
-              {on && <span aria-hidden className="absolute inset-x-3 bottom-0 h-[2px] bg-[#C9A96E]" />}
+              {on && <span aria-hidden className="absolute inset-x-3 bottom-0 h-[2px] bg-[var(--lm-accent,#C9A96E)]" />}
             </button>
           )
         })}

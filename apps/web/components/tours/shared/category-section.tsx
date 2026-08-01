@@ -38,11 +38,11 @@ export function CategorySection({
   return (
     <section className="w-full">
       <h2
-        className="text-[32px] md:text-[48px] leading-[1.1] text-[#f5f5f5] mb-6"
+        className="text-[32px] md:text-[48px] leading-[1.1] text-[var(--lm-text,#f5f5f5)] mb-6"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
       >
         <span>{title} {titleHighlight} </span>
-        <span className="italic text-[#c9a96e]">{destination}</span>
+        <span className="italic text-[var(--lm-accent,#c9a96e)]">{destination}</span>
       </h2>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">

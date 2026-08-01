@@ -1,7 +1,7 @@
 "use client"
 
 import { useLocale, useTranslations } from "next-intl"
-import { Header } from "@/components/new-landing-page/header"
+import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { BlogDetailHero, BlogHeroBreadcrumb } from "@/components/blogs/blog-detail-hero"
 import { BlogArticleContent, ContentBlock } from "@/components/blogs/blog-article-content"
 import { BlogToc } from "@/components/blogs/blog-toc"
@@ -58,8 +58,8 @@ function BlogDetailContent({ slug }: { slug: string }) {
   if (!blog) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] py-20">
-        <h1 className="text-2xl font-medium text-white mb-4">Blog not found</h1>
-        <p className="text-[#999]">The blog post you&apos;re looking for doesn&apos;t exist.</p>
+        <h1 className="text-2xl font-medium text-[var(--lm-text,#fff)] mb-4">Blog not found</h1>
+        <p className="text-[var(--lm-muted,#999)]">The blog post you&apos;re looking for doesn&apos;t exist.</p>
       </div>
     )
   }
@@ -143,10 +143,10 @@ function BlogDetailContent({ slug }: { slug: string }) {
 
 export function BlogDetailClient({ slug }: { slug: string }) {
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-white">
-      <Header />
+    <HomeThemeProvider>
+      <HomeHeader />
       <BlogDetailContent slug={slug} />
       <Footer />
-    </div>
+    </HomeThemeProvider>
   )
 }

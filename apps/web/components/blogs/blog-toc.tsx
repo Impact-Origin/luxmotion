@@ -39,11 +39,11 @@ export function BlogToc({ blocks }: BlogTocProps) {
   return (
     <nav
       aria-label={t("inThisArticle")}
-      className="bg-[#141414] border border-[rgba(247,244,239,0.1)] flex flex-col gap-3 items-stretch px-[25px] py-[17px] w-full"
+      className="bg-[var(--lm-surface,#141414)] border border-[rgba(var(--lm-text-rgb,247,244,239),0.1)] flex flex-col gap-3 items-stretch px-[25px] py-[17px] w-full"
     >
-      <div className="h-[2px] w-full bg-gradient-to-r from-[#c9a96e] to-[rgba(201,169,110,0.2)]" />
+      <div className="h-[2px] w-full bg-gradient-to-r from-[var(--lm-accent,#c9a96e)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.2)]" />
       <div className="pt-1">
-        <span className="text-[12px] font-semibold uppercase tracking-[1.8px] text-[#999]">
+        <span className="text-[12px] font-semibold uppercase tracking-[1.8px] text-[var(--lm-muted,#999)]">
           {t("inThisArticle")}
         </span>
       </div>
@@ -55,8 +55,8 @@ export function BlogToc({ blocks }: BlogTocProps) {
               onClick={() => scrollToHeading(item.id)}
               className="group flex items-center gap-2 w-full text-left transition-colors"
             >
-              <span className="h-px shrink-0 transition-all bg-[rgba(255,255,255,0.07)] w-[14px] group-hover:bg-[rgba(201,169,110,0.6)] group-hover:w-[20px]" />
-              <span className="text-[12px] md:text-[14px] leading-[1.45] transition-colors text-[#999] group-hover:text-[#C9A96E]">
+              <span className="h-px shrink-0 transition-all bg-[rgba(var(--lm-text-rgb,255,255,255),0.07)] w-[14px] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.6)] group-hover:w-[20px]" />
+              <span className="text-[12px] md:text-[14px] leading-[1.45] transition-colors text-[var(--lm-muted,#999)] group-hover:text-[var(--lm-accent,#C9A96E)]">
                 {item.title}
               </span>
             </button>

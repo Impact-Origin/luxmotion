@@ -9,6 +9,7 @@ import {
   MOCK_DESTINATIONS,
   type MockTour,
 } from "@/lib/mock-tours"
+import { textMatchesSearch } from "@/lib/search"
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_TOURS === "true"
 
@@ -447,12 +448,16 @@ export function useFilteredTours(filters: {
   let filtered = [...tours]
 
   if (filters.search) {
-    const searchLower = filters.search.toLowerCase()
     filtered = filtered.filter(
       t =>
-        t.title.toLowerCase().includes(searchLower) ||
-        t.subtitle?.toLowerCase().includes(searchLower) ||
-        t.destination.toLowerCase().includes(searchLower)
+        textMatchesSearch(filters.search!, [
+          t.title,
+          t.subtitle,
+          t.destination,
+          t.duration,
+          t.tourType,
+          ...(t.tags ?? []),
+        ])
     )
   }
 

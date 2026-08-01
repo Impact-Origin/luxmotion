@@ -44,13 +44,18 @@ export function MediaGalleryModal({
         navIcon: "text-white",
         thumbActive: "ring-2 ring-white opacity-100",
       }
+  const safeCurrentIndex =
+    media.length > 0 ? Math.min(Math.max(currentIndex, 0), media.length - 1) : 0
+
   const goToPrev = useCallback(() => {
-    onIndexChange((currentIndex - 1 + media.length) % media.length)
-  }, [currentIndex, media.length, onIndexChange])
+    if (media.length === 0) return
+    onIndexChange((safeCurrentIndex - 1 + media.length) % media.length)
+  }, [safeCurrentIndex, media.length, onIndexChange])
 
   const goToNext = useCallback(() => {
-    onIndexChange((currentIndex + 1) % media.length)
-  }, [currentIndex, media.length, onIndexChange])
+    if (media.length === 0) return
+    onIndexChange((safeCurrentIndex + 1) % media.length)
+  }, [safeCurrentIndex, media.length, onIndexChange])
 
   useEffect(() => {
     if (!open) return
@@ -71,14 +76,14 @@ export function MediaGalleryModal({
     if (!open) return
     const strip = stripRef.current
     if (!strip) return
-    const active = strip.querySelector<HTMLElement>(`[data-thumb-index="${currentIndex}"]`)
+    const active = strip.querySelector<HTMLElement>(`[data-thumb-index="${safeCurrentIndex}"]`)
     if (active) {
       const stripRect = strip.getBoundingClientRect()
       const activeRect = active.getBoundingClientRect()
       const offset = activeRect.left - stripRect.left - stripRect.width / 2 + activeRect.width / 2
       strip.scrollBy({ left: offset, behavior: "smooth" })
     }
-  }, [currentIndex, open])
+  }, [safeCurrentIndex, open])
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     const strip = stripRef.current
@@ -109,7 +114,7 @@ export function MediaGalleryModal({
 
   if (media.length === 0) return null
 
-  const current = media[currentIndex]!
+  const current = media[safeCurrentIndex]!
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -117,7 +122,7 @@ export function MediaGalleryModal({
         <DialogTitle className="sr-only">{alt}</DialogTitle>
         <div className="flex items-center justify-between px-4 py-3 shrink-0">
           <span className={cn("text-sm font-medium", ui.topText)}>
-            {currentIndex + 1} / {media.length}
+            {safeCurrentIndex + 1} / {media.length}
           </span>
           <button
             onClick={() => onOpenChange(false)}
@@ -143,7 +148,7 @@ export function MediaGalleryModal({
             ) : (
               <Image
                 src={current.url}
-                alt={currentIndex === 0 ? alt : `${alt} - ${currentIndex + 1}`}
+                alt={safeCurrentIndex === 0 ? alt : `${alt} - ${safeCurrentIndex + 1}`}
                 fill
                 className="object-contain"
                 priority
@@ -195,7 +200,7 @@ export function MediaGalleryModal({
                   draggable={false}
                   className={cn(
                     "relative w-16 h-12 rounded-lg overflow-hidden shrink-0 transition-all duration-200",
-                    index === currentIndex ? ui.thumbActive : "opacity-50 hover:opacity-75"
+                    index === safeCurrentIndex ? ui.thumbActive : "opacity-50 hover:opacity-75"
                   )}
                 >
                   {item.type === "video" ? (

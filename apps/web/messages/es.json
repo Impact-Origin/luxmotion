@@ -1144,6 +1144,7 @@
       "subtitle": "Conductor privado. Itinerarios seleccionados. Cada carretera en Portugal — vivida como merece ser.",
       "searchPlaceholder": "Busca tours, destinos, experiencias...",
       "searchButton": "Buscar",
+      "viewAllButton": "Ver todo",
       "badges": {
         "safe": "Seguro",
         "authenticExperiences": "Experiencias auténticas",
@@ -1428,8 +1429,8 @@
     "titleEnd": "?",
     "goToSlide": "Ir a la diapositiva {number}",
     "redesign": {
-      "heading": "¿Qué destino",
-      "headingAccent": "elegimos?",
+      "heading": "¿Por dónde quieres",
+      "headingAccent": "empezar?",
       "subtitle": "Experiencias privadas de día completo para viajeros exigentes. Diseñadas para quienes prefieren la experiencia al itinerario.",
       "cards": {
         "lisboa": {
@@ -1577,8 +1578,8 @@
     "showMore": "Mostrar más",
     "goToSlide": "Ir a la diapositiva {number}",
     "redesign": {
-      "heading": "¿Qué destino",
-      "headingAccent": "elegimos?",
+      "heading": "¿Por dónde quieres",
+      "headingAccent": "empezar?",
       "subtitle": "Experiencias privadas de día completo para viajeros exigentes. Diseñadas para quienes prefieren la experiencia al itinerario.",
       "cards": {
         "luxury": {
@@ -4224,17 +4225,24 @@
     },
     "calculator": {
       "eyebrow": "CALCULADORA DE INGRESOS",
-      "titleStart": "Calcula los ingresos",
+      "titleStart": "Calcule la comisión",
       "titleAccent": "potenciales",
       "body1": "Cada boda es una oportunidad de ingresos.",
       "body2": "Sin gestión operativa por tu parte.",
       "weddingsLabel": "Bodas por mes",
-      "guestsLabel": "Invitados medios por boda",
-      "commissionLabel": "Comisión (%)",
+      "commissionLabel": "Comisión",
       "placeholderSelect": "Seleccionar",
       "monthlyLabel": "Ingresos mensuales estimados",
       "yearlyLabel": "Ingresos anuales estimados",
-      "photoAlt": "Wedding planner revisando los detalles del evento"
+      "photoAlt": "Wedding planner revisando los detalles del evento",
+      "ticketLabel": "Presupuesto medio por boda",
+      "ticketOrMore": "{value} o más",
+      "commissionRecommended": "{value}% (recomendado)",
+      "rowRange": "Gasto estimado en movilidad",
+      "rowReference": "Valor de referencia usado en el cálculo",
+      "rowPerWedding": "Comisión estimada por boda",
+      "note": "Incluye traslados de los novios e invitados, vehículos clásicos y otros servicios de movilidad LuxMotion.",
+      "disclaimer": "Simulación indicativa. La comisión real depende de los servicios LuxMotion reservados y realizados."
     },
     "ctaBand": {
       "titleStart": "¿Listo para una",
@@ -5394,7 +5402,29 @@
           "submitting": "Enviando...",
           "note": "Respuesta personalizada en 24 horas · Sin compromiso · Conforme al RGPD",
           "successTitle": "Solicitud Enviada",
-          "successBody": "Gracias. Nuestro equipo responderá con una propuesta a medida en 24 horas."
+          "successBody": "Gracias. Nuestro equipo responderá con una propuesta a medida en 24 horas.",
+          "success": {
+            "eyebrow": "Solicitud recibida",
+            "thankYou": "Gracias,",
+            "body": "Hemos recibido su solicitud y nuestro equipo ya está preparando su propuesta a medida. Enviamos una confirmación a {email}.",
+            "reference": "Referencia",
+            "whatNext": "Qué sucede a continuación",
+            "step1Title": "Revisión y asignación",
+            "step1Body": "Un gestor dedicado revisa su solicitud y se responsabiliza de su proyecto.",
+            "step1Time": "En 2 horas",
+            "step2Title": "Propuesta personalizada",
+            "step2Body": "Recibirá una propuesta detallada con planificación de rutas, vehículos asignados y precios transparentes.",
+            "step2Time": "En 24 horas",
+            "step3Title": "Ajustar y confirmar",
+            "step3Body": "Ajustamos cada detalle con usted hasta que sea exactamente lo que imaginó. Después activamos.",
+            "step3Time": "A su ritmo",
+            "whatsapp": "Continuar en WhatsApp",
+            "scheduleCall": "Agendar llamada",
+            "exploreServices": "Ver servicios",
+            "footerPre": "¿Necesita añadir algo a su solicitud?",
+            "footerLink": "Responda a nuestro email de confirmación",
+            "footerPost": "o escríbanos por WhatsApp al"
+          }
         }
       },
       "preferToTalk": {
@@ -7113,5 +7143,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Ventajas",
+    "items": [
+      {
+        "pre": "Cancelación gratuita hasta 24 horas antes"
+      },
+      {
+        "pre": "Más de ",
+        "accent": "300",
+        "post": " valoraciones de cinco estrellas"
+      },
+      {
+        "pre": "Flota ejecutiva con conductores profesionales"
+      },
+      {
+        "pre": "Reserve hoy y pague en ",
+        "accent": "3 plazos",
+        "post": " sin intereses"
+      },
+      {
+        "pre": "Tours privados en ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Salidas diarias desde Lisboa, Oporto y el Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Carrito",
+    "label": "Carrito",
+    "sublabel": "Reserva activa",
+    "tourLabel": "Tour privado",
+    "eventLabel": "Evento",
+    "guests": "{count, plural, one {# pasajero} other {# pasajeros}}",
+    "heldLine1": "Reserva",
+    "heldLine2": "Garantizada",
+    "total": "Total",
+    "cta": "Ver carrito",
+    "dismiss": "Cerrar"
   }
 }

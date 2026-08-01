@@ -1144,6 +1144,7 @@
       "subtitle": "Chauffeur privé. Itinéraires sélectionnés. Chaque route au Portugal — vécue comme elle le mérite.",
       "searchPlaceholder": "Rechercher des tours, destinations, expériences...",
       "searchButton": "Rechercher",
+      "viewAllButton": "Tout voir",
       "badges": {
         "safe": "Sécurisé",
         "authenticExperiences": "Expériences authentiques",
@@ -1428,8 +1429,8 @@
     "titleEnd": "?",
     "goToSlide": "Aller à la diapositive {number}",
     "redesign": {
-      "heading": "Quelle destination",
-      "headingAccent": "choisissons-nous ?",
+      "heading": "Par où souhaitez-vous",
+      "headingAccent": "commencer ?",
       "subtitle": "Expériences privées d'une journée pour voyageurs exigeants. Conçues pour ceux qui préfèrent l'expérience à l'itinéraire.",
       "cards": {
         "lisboa": {
@@ -1577,8 +1578,8 @@
     "showMore": "Afficher plus",
     "goToSlide": "Aller à la diapositive {number}",
     "redesign": {
-      "heading": "Quelle destination",
-      "headingAccent": "choisissons-nous ?",
+      "heading": "Par où souhaitez-vous",
+      "headingAccent": "commencer ?",
       "subtitle": "Expériences privées d'une journée pour voyageurs exigeants. Conçues pour ceux qui préfèrent l'expérience à l'itinéraire.",
       "cards": {
         "luxury": {
@@ -4208,17 +4209,24 @@
     },
     "calculator": {
       "eyebrow": "CALCULATEUR DE REVENUS",
-      "titleStart": "Calculez les revenus",
+      "titleStart": "Calculez la commission",
       "titleAccent": "potentiels",
       "body1": "Chaque mariage est une opportunité de revenus.",
       "body2": "Aucune gestion opérationnelle de votre côté.",
       "weddingsLabel": "Mariages par mois",
-      "guestsLabel": "Invités moyens par mariage",
-      "commissionLabel": "Commission (%)",
+      "commissionLabel": "Commission",
       "placeholderSelect": "Sélectionner",
       "monthlyLabel": "Revenu mensuel estimé",
       "yearlyLabel": "Revenu annuel estimé",
-      "photoAlt": "Wedding planner vérifiant les détails de l'événement"
+      "photoAlt": "Wedding planner vérifiant les détails de l'événement",
+      "ticketLabel": "Budget moyen par mariage",
+      "ticketOrMore": "{value} ou plus",
+      "commissionRecommended": "{value} % (recommandé)",
+      "rowRange": "Dépense estimée en mobilité",
+      "rowReference": "Valeur de référence utilisée dans le calcul",
+      "rowPerWedding": "Commission estimée par mariage",
+      "note": "Comprend les transferts des mariés et des invités, les voitures classiques et les autres services de mobilité LuxMotion.",
+      "disclaimer": "Simulation indicative. La commission réelle dépend des services LuxMotion réservés et réalisés."
     },
     "ctaBand": {
       "titleStart": "Prêt pour un",
@@ -5378,7 +5386,29 @@
           "submitting": "Envoi...",
           "note": "Réponse personnalisée sous 24 heures · Sans engagement · Conforme au RGPD",
           "successTitle": "Demande Envoyée",
-          "successBody": "Merci. Notre équipe vous répondra sous 24 heures avec une proposition sur mesure."
+          "successBody": "Merci. Notre équipe vous répondra sous 24 heures avec une proposition sur mesure.",
+          "success": {
+            "eyebrow": "Demande reçue",
+            "thankYou": "Merci,",
+            "body": "Votre demande a bien été reçue et notre équipe prépare déjà votre proposition sur mesure. Une confirmation a été envoyée à {email}.",
+            "reference": "Référence",
+            "whatNext": "Les prochaines étapes",
+            "step1Title": "Examen et attribution",
+            "step1Body": "Un gestionnaire dédié examine votre demande et prend en charge votre projet.",
+            "step1Time": "Sous 2 heures",
+            "step2Title": "Proposition personnalisée",
+            "step2Body": "Vous recevrez une proposition détaillée avec planification des trajets, véhicules attribués et tarifs transparents.",
+            "step2Time": "Sous 24 heures",
+            "step3Title": "Ajuster et confirmer",
+            "step3Body": "Nous ajustons chaque détail avec vous jusqu'à ce que tout corresponde à votre vision. Puis nous activons.",
+            "step3Time": "À votre rythme",
+            "whatsapp": "Continuer sur WhatsApp",
+            "scheduleCall": "Planifier un appel",
+            "exploreServices": "Voir les services",
+            "footerPre": "Besoin d'ajouter des détails à votre demande ?",
+            "footerLink": "Répondez à notre email de confirmation",
+            "footerPost": "ou écrivez-nous sur WhatsApp au"
+          }
         }
       },
       "preferToTalk": {
@@ -7097,5 +7127,46 @@
     "sending": "Sending…",
     "sent": "Code sent.",
     "verifying": "Verifying…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Avantages",
+    "items": [
+      {
+        "pre": "Annulation gratuite jusqu'à 24 heures avant"
+      },
+      {
+        "pre": "Plus de ",
+        "accent": "300",
+        "post": " avis cinq étoiles"
+      },
+      {
+        "pre": "Flotte exécutive avec chauffeurs professionnels"
+      },
+      {
+        "pre": "Réservez aujourd'hui, payez en ",
+        "accent": "3 fois",
+        "post": " sans frais"
+      },
+      {
+        "pre": "Tours privés en ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Départs quotidiens de Lisbonne, Porto et l'Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Panier",
+    "label": "Panier",
+    "sublabel": "Réservation active",
+    "tourLabel": "Tour privé",
+    "eventLabel": "Événement",
+    "guests": "{count, plural, one {# passager} other {# passagers}}",
+    "heldLine1": "Réservation",
+    "heldLine2": "Garantie",
+    "total": "Total",
+    "cta": "Voir le panier",
+    "dismiss": "Fermer"
   }
 }

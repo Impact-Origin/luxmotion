@@ -3,11 +3,18 @@
 import { useTranslations } from "next-intl"
 
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
-const G = "#C9A96E"
+/* O traço segue a cor do texto do <svg>, que é o dourado do tema (ver a classe
+   text-[var(--lm-accent,...)] abaixo). */
+const G = "currentColor"
 
 function StepIllustration({ index }: { index: number }) {
   return (
-    <svg viewBox="0 0 220 140" fill="none" className="w-full" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 220 140"
+      fill="none"
+      className="w-full text-[var(--lm-accent,#C9A96E)]"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <rect x="20" y="18" width="180" height="104" stroke={G} strokeOpacity="0.5" />
       {index === 0 && (
         <>
@@ -46,42 +53,42 @@ export function HotelsHow() {
   const steps = t.raw("steps") as { title: string; body: string }[]
 
   return (
-    <section className="bg-[#0D0D0D] px-4 py-16 lg:py-24">
+    <section className="bg-[var(--lm-bg,#0D0D0D)] px-4 py-16 lg:py-24">
       <div className="mx-auto max-w-[1280px]">
         <div className="mb-12 flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-[#C9A96E]" />
-            <span className="font-sans text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]">
+            <div className="h-px w-8 bg-[var(--lm-accent,#C9A96E)]" />
+            <span className="font-sans text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]">
               {t("eyebrow")}
             </span>
-            <div className="h-px w-8 bg-[#C9A96E]" />
+            <div className="h-px w-8 bg-[var(--lm-accent,#C9A96E)]" />
           </div>
-          <h2 className="text-[40px] leading-none text-[#f5f5f5] md:text-[52px]" style={serif}>
-            {t("titlePrefix")} <span className="italic text-[#C9A96E]">{t("titleAccent")}</span>
+          <h2 className="text-[40px] leading-none text-[var(--lm-text,#f5f5f5)] md:text-[52px]" style={serif}>
+            {t("titlePrefix")} <span className="italic text-[var(--lm-accent,#C9A96E)]">{t("titleAccent")}</span>
           </h2>
-          <p className="max-w-[720px] text-[16px] leading-[1.4] text-white/55 md:text-[18px]">
+          <p className="max-w-[720px] text-[16px] leading-[1.4] text-[var(--lm-text,#fff)]/55 md:text-[18px]">
             {t("subtitle")}
           </p>
         </div>
 
-        <div className="border border-[rgba(201,169,110,0.08)]">
-          <div className="grid grid-cols-1 gap-px bg-[rgba(255,255,255,0.08)] md:grid-cols-3">
+        <div className="border border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]">
+          <div className="grid grid-cols-1 gap-px bg-[rgba(var(--lm-text-rgb,255,255,255),0.08)] md:grid-cols-3">
             {steps.map((s, i) => (
               <div
                 key={s.title}
-                className="group flex cursor-default flex-col bg-[#1a1a1a] transition-all duration-300 ease-out hover:bg-[#222222] hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.7)] hover:ring-1 hover:ring-inset hover:ring-[rgba(201,169,110,0.22)]"
+                className="group flex cursor-default flex-col bg-[var(--lm-surface,#1a1a1a)] transition-all duration-300 ease-out hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)] hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.7)] hover:ring-1 hover:ring-inset hover:ring-[rgba(var(--lm-accent-rgb,201,169,110),0.22)]"
               >
                 <div className="flex flex-col gap-6 px-7 pb-9 pt-7 md:px-8">
-                  <span className="flex h-10 w-10 items-center justify-center border border-[rgba(201,169,110,0.5)] text-[17px] text-[#C9A96E]" style={serif}>
+                  <span className="flex h-10 w-10 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] text-[17px] text-[var(--lm-accent,#C9A96E)]" style={serif}>
                     0{i + 1}
                   </span>
                   <div className="transition-transform duration-300 ease-out group-hover:scale-[1.03]">
                     <StepIllustration index={i} />
                   </div>
                 </div>
-                <div className="border-t border-[rgba(255,255,255,0.08)] px-7 py-6 md:px-8">
-                  <h3 className="font-sans text-[15px] font-semibold text-white">{s.title}</h3>
-                  <p className="mt-2 font-sans text-[13px] leading-[1.45] text-[#999]">{s.body}</p>
+                <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] px-7 py-6 md:px-8">
+                  <h3 className="font-sans text-[15px] font-semibold text-[var(--lm-text,#fff)]">{s.title}</h3>
+                  <p className="mt-2 font-sans text-[13px] leading-[1.45] text-[var(--lm-muted,#999)]">{s.body}</p>
                 </div>
               </div>
             ))}
@@ -90,25 +97,25 @@ export function HotelsHow() {
 
         {/* Testimonial */}
         <div
-          className="relative mx-auto mt-16 max-w-[920px] overflow-hidden border border-[rgba(201,169,110,0.14)] px-8 py-12 lg:px-16 lg:py-14"
+          className="relative mx-auto mt-16 max-w-[920px] overflow-hidden border border-[rgba(var(--lm-accent-rgb,201,169,110),0.14)] px-8 py-12 lg:px-16 lg:py-14"
           style={{
             background:
-              "radial-gradient(120% 100% at 50% -10%, rgba(201,169,110,0.10), transparent 55%), radial-gradient(90% 120% at 100% 100%, rgba(201,169,110,0.05), transparent 50%), #131210",
+              "radial-gradient(120% 100% at 50% -10%, rgba(var(--lm-accent-rgb,201,169,110),0.10), transparent 55%), radial-gradient(90% 120% at 100% 100%, rgba(var(--lm-accent-rgb,201,169,110),0.05), transparent 50%), var(--lm-surface,#131210)",
           }}
         >
-          <span aria-hidden className="absolute left-1/2 top-0 h-[3px] w-20 -translate-x-1/2 bg-[#C9A96E]" />
-          <span aria-hidden className="absolute left-8 top-7 text-[60px] leading-none text-[#C9A96E] lg:left-12" style={serif}>
+          <span aria-hidden className="absolute left-1/2 top-0 h-[3px] w-20 -translate-x-1/2 bg-[var(--lm-accent,#C9A96E)]" />
+          <span aria-hidden className="absolute left-8 top-7 text-[60px] leading-none text-[var(--lm-accent,#C9A96E)] lg:left-12" style={serif}>
             &ldquo;
           </span>
-          <p className="mx-auto max-w-[760px] text-center text-[22px] italic leading-[1.5] text-white/90 md:text-[26px]" style={serif}>
+          <p className="mx-auto max-w-[760px] text-center text-[22px] italic leading-[1.5] text-[var(--lm-text,#fff)]/90 md:text-[26px]" style={serif}>
             {t("quote")}
           </p>
-          <span aria-hidden className="absolute bottom-12 right-8 text-[60px] leading-none text-[#C9A96E] lg:right-12" style={serif}>
+          <span aria-hidden className="absolute bottom-12 right-8 text-[60px] leading-none text-[var(--lm-accent,#C9A96E)] lg:right-12" style={serif}>
             &rdquo;
           </span>
           <div className="mt-8 text-center">
-            <p className="font-sans text-[12px] font-semibold uppercase tracking-[2px] text-white">{t("quoteRole")}</p>
-            <p className="mt-1 font-sans text-[11px] uppercase tracking-[2px] text-[#C9A96E]">{t("quoteCompany")}</p>
+            <p className="font-sans text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-text,#fff)]">{t("quoteRole")}</p>
+            <p className="mt-1 font-sans text-[11px] uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]">{t("quoteCompany")}</p>
           </div>
         </div>
       </div>

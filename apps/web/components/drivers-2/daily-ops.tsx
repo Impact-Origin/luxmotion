@@ -235,37 +235,37 @@ function PhoneStep3({ tNav }: { tNav: (k: string) => string }) {
 function MobileSkeleton({ variant }: { variant: 1 | 2 | 3 }) {
   if (variant === 1) {
     return (
-      <div className="flex flex-col gap-2 p-4">
+      <div className="flex flex-col gap-2.5 p-5">
         <div className="flex justify-end">
-          <div className="bg-[rgba(28,27,24,0.08)] h-2 w-1/2 rounded-[1px]" />
+          <div className="bg-[rgba(28,27,24,0.08)] h-2.5 w-1/2 rounded-[1px]" />
         </div>
-        <div className="bg-[rgba(154,117,53,0.18)] border border-[rgba(154,117,53,0.3)] h-3 rounded-[1px]" />
-        <div className="bg-[rgba(28,27,24,0.06)] h-3 rounded-[1px]" />
-        <div className="bg-[rgba(28,27,24,0.06)] h-3 rounded-[1px] w-2/3" />
+        <div className="bg-[rgba(154,117,53,0.18)] border border-[rgba(154,117,53,0.3)] h-4 rounded-[1px]" />
+        <div className="bg-[rgba(28,27,24,0.06)] h-4 rounded-[1px]" />
+        <div className="bg-[rgba(28,27,24,0.06)] h-4 rounded-[1px] w-2/3" />
       </div>
     )
   }
   if (variant === 2) {
     return (
-      <div className="flex flex-col gap-2 p-4">
+      <div className="flex flex-col gap-2.5 p-5">
         <div className="flex gap-2">
-          <div className="bg-[rgba(154,117,53,0.18)] border border-[rgba(154,117,53,0.3)] h-3 flex-1 rounded-[1px]" />
-          <div className="bg-[rgba(28,27,24,0.06)] h-3 flex-1 rounded-[1px]" />
+          <div className="bg-[rgba(154,117,53,0.18)] border border-[rgba(154,117,53,0.3)] h-4 flex-1 rounded-[1px]" />
+          <div className="bg-[rgba(28,27,24,0.06)] h-4 flex-1 rounded-[1px]" />
         </div>
-        <div className="bg-[rgba(28,27,24,0.06)] h-3 rounded-[1px] w-1/2" />
-        <div className="bg-[rgba(28,27,24,0.06)] h-3 rounded-[1px]" />
+        <div className="bg-[rgba(28,27,24,0.06)] h-4 rounded-[1px] w-1/2" />
+        <div className="bg-[rgba(28,27,24,0.06)] h-4 rounded-[1px]" />
       </div>
     )
   }
   return (
-    <div className="flex flex-col gap-2 p-4">
+    <div className="flex flex-col gap-2.5 p-5">
       <div className="flex gap-2">
-        <div className="bg-[rgba(154,117,53,0.18)] h-3 flex-1 rounded-[1px]" />
-        <div className="bg-[rgba(28,27,24,0.06)] h-3 flex-1 rounded-[1px]" />
-        <div className="bg-[rgba(154,117,53,0.18)] h-3 flex-1 rounded-[1px]" />
+        <div className="bg-[rgba(154,117,53,0.18)] h-4 flex-1 rounded-[1px]" />
+        <div className="bg-[rgba(28,27,24,0.06)] h-4 flex-1 rounded-[1px]" />
+        <div className="bg-[rgba(154,117,53,0.18)] h-4 flex-1 rounded-[1px]" />
       </div>
-      <div className="bg-[rgba(28,27,24,0.06)] h-3 rounded-[1px]" />
-      <div className="bg-[rgba(28,27,24,0.06)] h-3 rounded-[1px] w-3/4" />
+      <div className="bg-[rgba(28,27,24,0.06)] h-4 rounded-[1px]" />
+      <div className="bg-[rgba(28,27,24,0.06)] h-4 rounded-[1px] w-3/4" />
     </div>
   )
 }
@@ -289,25 +289,28 @@ function StepCard({
 }) {
   return (
     <div className="group bg-white border border-[rgba(28,27,24,0.08)] flex flex-col flex-1 min-w-0 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[rgba(154,117,53,0.35)] hover:shadow-[0_18px_40px_-16px_rgba(28,27,24,0.28)]">
-      <div className="relative bg-[#F4EFE6] border-b border-[rgba(28,27,24,0.08)] h-[180px] lg:h-[240px]">
-        <div className="hidden lg:flex h-full items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105">
+      <div className="relative bg-[#F4EFE6] border-b border-[rgba(28,27,24,0.08)] h-[230px] lg:h-[320px]">
+        {/* O telemóvel é desenhado em px fixos e minúsculos, por isso cresce por
+            escala — assim o ecrã inteiro aumenta em proporção, sem mexer em
+            nenhuma das medidas internas. */}
+        <div className="hidden lg:flex h-full items-center justify-center transition-transform duration-300 ease-out scale-[1.32] group-hover:scale-[1.39]">
           {phone}
         </div>
         <div className="flex lg:hidden h-full">
           <MobileSkeleton variant={variant} />
         </div>
-        <div className="absolute bg-[#111110] left-3.5 top-3.5 rounded-full size-7 flex items-center justify-center">
+        <div className="absolute bg-[#111110] left-3.5 top-3.5 rounded-full size-9 flex items-center justify-center">
           <span
-            className="text-[#c4973e] text-[13px] font-semibold leading-none"
+            className="text-[#c4973e] text-[16px] font-semibold leading-none"
             style={SERIF_FONT}
           >
             {num}
           </span>
         </div>
       </div>
-      <div className="flex flex-col gap-[7.32px] pt-6 pb-7 px-6">
+      <div className="flex flex-col gap-[9px] pt-7 pb-8 px-7">
         <h3
-          className="text-[18px] text-[#1C1B18] leading-normal"
+          className="text-[22px] text-[#1C1B18] leading-normal"
           style={SERIF_FONT}
         >
           {headingPre}{" "}
@@ -315,7 +318,7 @@ function StepCard({
           {headingPost && <> {headingPost}</>}
         </h3>
         <p
-          className="text-[14px] leading-[20.4px] text-[rgba(28,27,24,0.62)]"
+          className="text-[16px] leading-[24px] text-[rgba(28,27,24,0.62)]"
           style={SANS_FONT}
         >
           {body}

@@ -92,8 +92,10 @@ export function ToursHero() {
         }}
       />
       {/* Fade em baixo: o vídeo dissolve-se na secção seguinte (#0D0D0D) em
-          vez de cortar a direito, como nos ultra luxury. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#0D0D0D] md:h-44" />
+          vez de cortar a direito, como nos ultra luxury. O vídeo e o texto
+          por cima dele ficam escuros nos dois temas — só o fim do fade segue o
+          fundo da página. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[var(--lm-bg,#0D0D0D)] md:h-44" />
 
       <div className="relative z-10 flex flex-col items-center gap-6 md:gap-7 px-4 md:px-8 py-[89px] w-full max-w-[710px]">
         <div className="flex items-center gap-2">
@@ -149,17 +151,32 @@ export function ToursHero() {
                 className="flex-1 h-full"
               />
             </div>
-            <button
-              onClick={() => handleSearch()}
-              className="w-full h-[56px] bg-[#C9A96E] border border-[#C9A96E] flex items-center justify-center hover:bg-[#b8954f] transition-colors"
-            >
-              <span
-                className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"
-                style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+            {/* Duas ações lado a lado: pesquisar o que está escrito, ou saltar
+                directamente para a lista completa sem escrever nada. */}
+            <div className="flex w-full items-stretch">
+              <button
+                onClick={() => handleSearch()}
+                className="flex flex-1 h-[56px] items-center justify-center border border-[#C9A96E] bg-[#C9A96E] transition-colors hover:bg-[#b8954f]"
               >
-                {t("redesign.searchButton")}
-              </span>
-            </button>
+                <span
+                  className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#0D0D0D] whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                >
+                  {t("redesign.searchButton")}
+                </span>
+              </button>
+              <button
+                onClick={() => router.push("/tours/results")}
+                className="flex flex-1 h-[56px] items-center justify-center border border-l-0 border-[#C9A96E] bg-transparent transition-colors hover:bg-[rgba(201,169,110,0.12)]"
+              >
+                <span
+                  className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+                >
+                  {t("redesign.viewAllButton")}
+                </span>
+              </button>
+            </div>
           </div>
 
           <div
@@ -172,11 +189,15 @@ export function ToursHero() {
             {TRUST_BADGES.map((badge) => (
               <div
                 key={badge.key}
-                className="flex-1 flex items-center justify-center gap-2 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] px-3 py-2"
+                /* Fundo próprio em vez de branco a 4%: estes selos assentam no
+                   vídeo, e o cinzento perdia-se assim que passava um fotograma
+                   claro — mais ainda em tema claro, onde o fade do fundo da
+                   hero termina em creme. */
+                className="flex-1 flex items-center justify-center gap-2 bg-[rgba(13,13,13,0.55)] backdrop-blur-[2px] border border-[rgba(255,255,255,0.18)] px-3 py-2"
               >
-                <badge.icon className="w-5 h-5 text-[#999] shrink-0" />
+                <badge.icon className="w-5 h-5 text-[#E4DED4] shrink-0" />
                 <span
-                  className="text-[12px] font-medium text-[#999] leading-[1.3] md:whitespace-nowrap"
+                  className="text-[12px] font-medium text-[#E4DED4] leading-[1.3] md:whitespace-nowrap"
                   style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                 >
                   {t(`redesign.badges.${badge.key}`)}

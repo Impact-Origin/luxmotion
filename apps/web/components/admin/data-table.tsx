@@ -12,6 +12,7 @@ import {
   Search,
 } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
+import { normalizeForSearch } from "@/lib/search"
 import {
   Table,
   TableBody,
@@ -152,13 +153,15 @@ export function DataTable<T extends { _id: string }>({
   // Client mode: search + filter + sort the full array in-memory.
   const processed = React.useMemo(() => {
     if (server || !data) return undefined
-    const q = query.trim().toLowerCase()
+    // Acentos e maiúsculas são ignorados dos dois lados: "sao vicente" encontra
+    // "São Vicente" e vice-versa.
+    const q = normalizeForSearch(query)
     let rows = data
     if (q && searchKeys.length) {
       rows = rows.filter((row) =>
         searchKeys.some((key) => {
           const val = typeof key === "function" ? key(row) : row[key]
-          return String(val ?? "").toLowerCase().includes(q)
+          return normalizeForSearch(String(val ?? "")).includes(q)
         }),
       )
     }

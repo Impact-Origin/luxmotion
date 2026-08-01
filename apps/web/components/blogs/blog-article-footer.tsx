@@ -10,7 +10,7 @@ interface BlogArticleFooterProps {
 }
 
 const ICON_BTN =
-  "size-10 flex items-center justify-center bg-[rgba(201,169,110,0.08)] border border-[rgba(201,169,110,0.22)] hover:bg-[rgba(201,169,110,0.16)] hover:border-[#C9A96E] text-[#C9A96E] transition-colors"
+  "size-10 flex items-center justify-center bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.22)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.16)] hover:border-[var(--lm-accent,#C9A96E)] text-[var(--lm-accent,#C9A96E)] transition-colors"
 
 export function BlogArticleFooter({ tags, shareTitle }: BlogArticleFooterProps) {
   const t = useTranslations("blogArticle")
@@ -53,7 +53,7 @@ export function BlogArticleFooter({ tags, shareTitle }: BlogArticleFooterProps) 
 
   if ((!tags || tags.length === 0)) {
     return (
-      <div className="border-t-[0.8px] border-[rgba(255,255,255,0.07)] pt-[28.8px] flex items-center gap-2">
+      <div className="border-t-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] pt-[28.8px] flex items-center gap-2">
         <ShareRow
           label={t("shareLabel")}
           copied={copied}
@@ -66,11 +66,11 @@ export function BlogArticleFooter({ tags, shareTitle }: BlogArticleFooterProps) 
   }
 
   return (
-    <div className="border-t-[0.8px] border-[rgba(255,255,255,0.07)] pt-[28.8px] flex flex-col gap-5 w-full">
+    <div className="border-t-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] pt-[28.8px] flex flex-col gap-5 w-full">
       <ul className="flex flex-wrap gap-2 md:gap-x-[6px] md:gap-y-2 list-none m-0 p-0">
         {tags.map((tag) => (
           <li key={tag}>
-            <span className="group/tag inline-flex items-center bg-[rgba(201,169,110,0.08)] hover:bg-[#C9A96E] border border-[rgba(201,169,110,0.18)] hover:border-[#C9A96E] px-[13.8px] py-[5.8px] text-[10px] font-semibold uppercase tracking-[0.8px] text-[#C9A96E] hover:!text-[#0D0D0D] transition-colors duration-200 cursor-pointer">
+            <span className="group/tag inline-flex items-center bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] hover:bg-[var(--lm-accent,#C9A96E)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.18)] hover:border-[var(--lm-accent,#C9A96E)] px-[13.8px] py-[5.8px] text-[10px] font-semibold uppercase tracking-[0.8px] text-[var(--lm-accent,#C9A96E)] hover:!text-[#0D0D0D] transition-colors duration-200 cursor-pointer">
               {tag}
             </span>
           </li>
@@ -102,7 +102,7 @@ function ShareRow({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-[12px] font-semibold uppercase tracking-[1px] text-[#999]">
+      <span className="text-[12px] font-semibold uppercase tracking-[1px] text-[var(--lm-muted,#999)]">
         {label}
       </span>
       <button

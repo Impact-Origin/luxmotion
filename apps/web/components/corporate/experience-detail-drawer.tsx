@@ -208,7 +208,12 @@ export function ExperienceDetailDrawer({
 
             <SheetClose asChild>
               <Link
-                href="/corporate#request-proposal"
+                /* Leva para o contacto empresarial com o assunto já preenchido
+                   com o nome da experiência. Antes ia para /corporate, onde a
+                   pessoa tinha de reencontrar o formulário e escrever tudo. */
+                href={`/corporate/contact?subject=${encodeURIComponent(
+                  `${titlePrefix} ${titleAccent}`.trim(),
+                )}#contact-form`}
                 className="inline-flex h-12 w-fit items-center bg-[#A08248] px-6 py-[9px] text-white transition-colors hover:bg-[#b89558]"
                 style={sans}
               >

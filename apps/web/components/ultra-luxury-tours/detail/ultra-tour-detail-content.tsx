@@ -88,7 +88,7 @@ export function UltraTourDetailContent({
               )}
 
               {tour.addons && tour.addons.length > 0 && (
-                <div className="mt-10 border-t border-[rgba(28,27,24,0.08)] pt-10">
+                <div className="mt-10 border-t border-[rgba(154,117,53,0.22)] pt-10">
                   <UltraTourExtras
                     addons={tour.addons}
                     selectedAddonIds={selectedAddonIds}

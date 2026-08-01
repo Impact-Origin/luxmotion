@@ -10,12 +10,18 @@ const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } a
 
 type Metric = { value: string; label: string }
 
-function Eyebrow({ label }: { label: string }) {
+/** `overMedia` marca o bloco que assenta sobre o vídeo da hero: aí o contraste
+ *  vem do vídeo, por isso as cores ficam fixas em vez de seguirem o tema. */
+function Eyebrow({ label, overMedia = false }: { label: string; overMedia?: boolean }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="h-px w-8 bg-[#C9A96E]" />
+      <div className={overMedia ? "h-px w-8 bg-[#C9A96E]" : "h-px w-8 bg-[var(--lm-accent,#C9A96E)]"} />
       <span
-        className="text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]"
+        className={
+          overMedia
+            ? "text-[12px] font-semibold uppercase tracking-[2px] text-[#C9A96E]"
+            : "text-[12px] font-semibold uppercase tracking-[2px] text-[var(--lm-accent,#C9A96E)]"
+        }
         style={sans}
       >
         {label}
@@ -24,22 +30,39 @@ function Eyebrow({ label }: { label: string }) {
   )
 }
 
-function MetricsGrid({ metrics }: { metrics: Metric[] }) {
+function MetricsGrid({ metrics, overMedia = false }: { metrics: Metric[]; overMedia?: boolean }) {
   return (
-    <div className="grid w-full grid-cols-3 gap-[2px] border border-[rgba(28,27,24,0.4)] bg-[rgba(28,27,24,0.4)] p-px md:w-auto md:inline-grid md:grid-cols-3">
+    <div
+      /* A moldura e os 2px entre células são a cor do fundo: sobre o vídeo é o
+         quase-preto original; fora dele acompanha o tema, senão no claro ficava
+         uma grelha cinzenta a atravessar o creme. */
+      className={`grid w-full grid-cols-3 gap-[2px] p-px md:w-auto md:inline-grid md:grid-cols-3 ${
+        overMedia
+          ? "border border-[rgba(28,27,24,0.4)] bg-[rgba(28,27,24,0.4)]"
+          : "border border-[rgba(var(--lm-bg-rgb,28,27,24),0.4)] bg-[rgba(var(--lm-bg-rgb,28,27,24),0.4)]"
+      }`}
+    >
       {metrics.map((m) => (
         <div
           key={m.label}
           className="flex flex-col items-start justify-center gap-2 border border-[rgba(154,117,53,0.22)] bg-[rgba(154,117,53,0.07)] px-4 py-[14px] md:gap-4"
         >
           <p
-            className="text-[32px] italic leading-[30px] text-[#C9A96E]"
+            className={
+              overMedia
+                ? "text-[32px] italic leading-[30px] text-[#C9A96E]"
+                : "text-[32px] italic leading-[30px] text-[var(--lm-accent,#C9A96E)]"
+            }
             style={serif}
           >
             {m.value}
           </p>
           <p
-            className="text-[12px] font-normal uppercase leading-[1.3] tracking-[2px] text-[#999]"
+            className={
+              overMedia
+                ? "text-[12px] font-normal uppercase leading-[1.3] tracking-[2px] text-[#999]"
+                : "text-[12px] font-normal uppercase leading-[1.3] tracking-[2px] text-[var(--lm-muted,#999)]"
+            }
             style={sans}
           >
             {m.label}
@@ -89,7 +112,7 @@ export function CorporateHero() {
 
         <div className="relative mx-auto flex h-full max-w-[1440px] flex-col items-start justify-center gap-6 px-[48px] py-[40px]">
           <div className="flex w-[680px] max-w-full flex-col items-start gap-6">
-            <Eyebrow label={t("eyebrow")} />
+            <Eyebrow label={t("eyebrow")} overMedia />
 
             <h1 className="text-[0px]" style={serif}>
               <span className="text-[64px] font-normal leading-none text-white">
@@ -107,7 +130,7 @@ export function CorporateHero() {
               {t("subtitle")}
             </p>
 
-            <MetricsGrid metrics={metrics} />
+            <MetricsGrid metrics={metrics} overMedia />
 
             <div className="flex flex-wrap items-center gap-3">
               <Link
@@ -151,16 +174,16 @@ export function CorporateHero() {
           <Eyebrow label={t("eyebrow")} />
 
           <h1 className="text-[0px]" style={serif}>
-            <span className="text-[48px] font-normal leading-none text-white">
+            <span className="text-[48px] font-normal leading-none text-[var(--lm-text,#fff)]">
               {t("headingLine1")}{" "}
             </span>
-            <span className="text-[48px] font-normal italic leading-none text-[#C9A96E]">
+            <span className="text-[48px] font-normal italic leading-none text-[var(--lm-accent,#C9A96E)]">
               {t("headingLine2")}
             </span>
           </h1>
 
           <p
-            className="w-full text-[18px] font-light leading-[1.3] text-[#999]"
+            className="w-full text-[18px] font-light leading-[1.3] text-[var(--lm-muted,#999)]"
             style={sans}
           >
             {t("subtitle")}

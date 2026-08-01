@@ -7,12 +7,16 @@ import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Switch } from "@workspace/ui/components/switch";
-import { useSiteSettings } from "@/hooks/use-site-settings";
+import {
+  DEFAULT_TOURS_SEARCH_RADIUS_KM,
+  useSiteSettings,
+} from "@/hooks/use-site-settings";
 import { Loader2, X, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { marketingStatsDefaults } from "@/hooks/use-marketing-stats";
 import { useMinAdvanceBookingHours } from "@/hooks/use-min-advance-hours";
+import { normalizeForSearch } from "@/lib/search";
 
 type FormState = typeof marketingStatsDefaults;
 
@@ -332,6 +336,84 @@ function AirportSurchargeCard() {
   );
 }
 
+function ToursSearchRadiusCard() {
+  const t = useTranslations("adminNumbers");
+  const settings = useSiteSettings();
+  const upsert = useMutation(api.siteSettings.upsert);
+  const [km, setKm] = React.useState(String(DEFAULT_TOURS_SEARCH_RADIUS_KM));
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  // Depende do número, não do objecto: os outros cartões desta página gravam no
+  // mesmo documento, e com `[settings]` qualquer gravação vizinha reescrevia o
+  // que o admin tivesse acabado de escrever aqui.
+  const storedKm = settings.toursSearchRadiusKm;
+  React.useEffect(() => {
+    setKm(String(storedKm));
+  }, [storedKm]);
+
+  const save = async () => {
+    const parsed = Number.parseFloat(km);
+    if (!Number.isFinite(parsed) || parsed < 1 || parsed > 500) {
+      toast.error("Enter a radius between 1 and 500 km");
+      return;
+    }
+    try {
+      setIsSaving(true);
+      await upsert({ toursSearchRadiusKm: parsed });
+      toast.success(t("saveSuccess"));
+    } catch (error) {
+      // O backend só aceita este campo depois de `npx convex deploy`. Sem esta
+      // mensagem o admin via só "erro ao guardar" e não sabia porquê.
+      const message = error instanceof Error ? error.message : "";
+      toast.error(
+        /toursSearchRadiusKm|ArgumentValidation/i.test(message)
+          ? "Backend is out of date — run `npx convex deploy` to enable this setting."
+          : t("saveError"),
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold text-foreground">
+          Tours search radius
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          How far from the place a visitor searched for a tour may be and still
+          show up in the results. Lower it to keep results local — at 80 km a
+          search for Mafra also returns Lisbon.
+        </p>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="toursSearchRadiusKm">Radius (km)</Label>
+        <div className="flex items-center gap-3">
+          <Input
+            id="toursSearchRadiusKm"
+            type="number"
+            min={1}
+            max={500}
+            step={1}
+            className="max-w-[160px]"
+            value={km}
+            onChange={(event) => setKm(event.target.value)}
+          />
+          <Button
+            onClick={save}
+            disabled={isSaving}
+            className="h-11 px-8 font-bold"
+          >
+            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isSaving ? t("saving") : t("save")}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminNumbersPage() {
   const t = useTranslations("adminNumbers");
   const settings = useQuery(api.marketingStats.get);
@@ -511,23 +593,23 @@ export default function AdminNumbersPage() {
 
   const filteredTours = React.useMemo(() => {
     if (!tours) return [];
-    const search = tourSearch.trim().toLowerCase();
+    const search = normalizeForSearch(tourSearch);
     if (!search) return tours;
     return tours.filter(
       (tour) =>
-        tour.title.toLowerCase().includes(search) ||
-        tour.destination.toLowerCase().includes(search),
+        normalizeForSearch(tour.title).includes(search) ||
+        normalizeForSearch(tour.destination).includes(search),
     );
   }, [tourSearch, tours]);
 
   const filteredEvents = React.useMemo(() => {
     if (!events) return [];
-    const search = eventSearch.trim().toLowerCase();
+    const search = normalizeForSearch(eventSearch);
     if (!search) return events;
     return events.filter(
       (event) =>
-        event.title.toLowerCase().includes(search) ||
-        event.location.toLowerCase().includes(search),
+        normalizeForSearch(event.title).includes(search) ||
+        normalizeForSearch(event.location).includes(search),
     );
   }, [eventSearch, events]);
 
@@ -545,6 +627,7 @@ export default function AdminNumbersPage() {
       <AnnouncementBarCard />
       <CurrencyRatesCard />
       <AirportSurchargeCard />
+      <ToursSearchRadiusCard />
       <div className="bg-card border border-border rounded-xl p-6 space-y-4">
         <h2 className="text-lg font-semibold text-foreground">
           {t("sections.reviews")}

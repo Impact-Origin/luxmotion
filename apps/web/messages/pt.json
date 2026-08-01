@@ -1146,6 +1146,7 @@
       "subtitle": "Motorista particular. Itinerários selecionados. Cada estrada em Portugal — vivenciada como merece ser.",
       "searchPlaceholder": "Pesquise por tours, destino, experiência...",
       "searchButton": "Pesquisar",
+      "viewAllButton": "Ver tudo",
       "badges": {
         "safe": "Seguro",
         "authenticExperiences": "Experiências autênticas",
@@ -1429,8 +1430,8 @@
     "titleEnd": "?",
     "goToSlide": "Ir para o slide {number}",
     "redesign": {
-      "heading": "Qual destino",
-      "headingAccent": "vamos?",
+      "heading": "Por onde quer",
+      "headingAccent": "começar?",
       "subtitle": "Experiências privadas de dia inteiro selecionadas para viajantes exigentes. Pensadas para quem prefere experiência a itinerário.",
       "cards": {
         "lisboa": {
@@ -3446,7 +3447,7 @@
         "mostRequested": "Mais Pedido",
         "selectedLabel": "Extras Selecionados",
         "itemsLabel": "{count, plural, one {# item} other {# itens}}",
-        "fromPrice": "A partir de",
+        "fromPrice": "Desde",
         "unitMain": "Viatura principal",
         "unitPerCar": "Por viatura",
         "unitPerArrival": "Por chegada",
@@ -3485,7 +3486,7 @@
           },
           "classicCar": {
             "title": "Veículo clássico para fotografia",
-            "desc": "Rolls-Royce Phantom dos anos 60, Mercedes 280SE Cabriolet ou Bentley S2. Estacionado no local da cerimónia para sessão fotográfica."
+            "desc": "Inclui o transporte até ao venue num Rolls-Royce Phantom dos anos 60, Mercedes 280SE Cabriolet ou Bentley S2, com possibilidade de o veículo aguardar para a sessão fotográfica."
           }
         }
       }
@@ -4393,17 +4394,24 @@
     },
     "calculator": {
       "eyebrow": "CALCULADORA DE RECEITA",
-      "titleStart": "Calcule a receita",
+      "titleStart": "Calcule a comissão",
       "titleAccent": "potencial",
       "body1": "Cada casamento é uma oportunidade de receita.",
       "body2": "Sem gestão operacional da sua parte.",
       "weddingsLabel": "Casamentos por mês",
-      "guestsLabel": "Convidados médios por casamento",
-      "commissionLabel": "Comissão (%)",
+      "commissionLabel": "Comissão",
       "placeholderSelect": "Selecionar",
       "monthlyLabel": "Receita mensal estimada",
       "yearlyLabel": "Receita anual estimada",
-      "photoAlt": "Wedding planner a rever detalhes do evento"
+      "photoAlt": "Wedding planner a rever detalhes do evento",
+      "ticketLabel": "Ticket médio por casamento",
+      "ticketOrMore": "{value} ou mais",
+      "commissionRecommended": "{value}% (recomendado)",
+      "rowRange": "Despesa estimada em mobilidade",
+      "rowReference": "Valor de referência usado no cálculo",
+      "rowPerWedding": "Comissão estimada por casamento",
+      "note": "Inclui transfers dos noivos e convidados, veículos clássicos e outros serviços de mobilidade LuxMotion.",
+      "disclaimer": "Simulação indicativa. A comissão real depende do valor dos serviços LuxMotion efetivamente reservados e realizados."
     },
     "ctaBand": {
       "titleStart": "Pronto para uma",
@@ -4505,12 +4513,12 @@
       },
       "questions": {
         "q1": {
-          "question": "Apresente-se brevemente e diga o que mais gosta no seu trabalho como motorista.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "question": "Apresente-se brevemente e diga porque decidiu tornar-se motorista profissional.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "question": "Quais são dois dos seus lugares favoritos na sua cidade e por que os recomenda aos viajantes?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "question": "Imagine que um hóspede chega a Portugal pela primeira vez. O que recomendaria ver durante um dia?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "section3": {
@@ -4931,7 +4939,7 @@
         "surfboardRack": "Suporte para prancha de surf"
       },
       "amenities": {
-        "label": "Tipo de licença",
+        "label": "Tipo de extras",
         "usbCharger": "Carregador USB",
         "wifi": "Wi-fi",
         "pos": "POS/ Multibanco",
@@ -5067,12 +5075,12 @@
         "duration": "Duração ideal por motorista: 40 a 50 segundos",
         "eyebrow": "Pergunta {index}",
         "q1": {
-          "prompt": "Apresente-se brevemente e diga o que mais gosta no seu trabalho como motorista.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "prompt": "Apresente-se brevemente e diga porque decidiu tornar-se motorista profissional.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "prompt": "Quais são dois dos seus lugares favoritos na sua cidade e por que os recomenda aos viajantes?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "prompt": "Imagine que um hóspede chega a Portugal pela primeira vez. O que recomendaria ver durante um dia?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "structure": {
@@ -5301,7 +5309,7 @@
       "seeMore": "Ver mais",
       "tabs": {
         "standard": "Standard",
-        "experiences": "Experiências & Teambuilding",
+        "experiences": "Experiências & Team Building",
         "logistics": "Logística & Concierge"
       },
       "bodies": {
@@ -5309,7 +5317,7 @@
           "featuredCaption": "Onde a estratégia encontra o cerimonial.",
           "titlePart1": "Eventos &",
           "titlePart2": "MICE",
-          "description": "Reuniões, viagens de incentivo, convenções e jantares de gala — pensados para corporações internacionais que tratam pessoas, parceiros e clientes como o seu activo mais valioso. Cada detalhe ao serviço da sua marca.",
+          "description": "Reuniões, conferências, congressos, viagens de incentivo e jantares corporativos, planeados com precisão para empresas que valorizam pontualidade, discrição e uma experiência sem falhas. Garantimos transporte premium, motoristas profissionais e acompanhamento operacional em cada momento do evento.",
           "items": {
             "incentive": "Viagens de Incentivo",
             "gala": "Jantares Corporativos & Gala",
@@ -5322,8 +5330,8 @@
         "experiences": {
           "featuredCaption": "Memórias que constroem fidelidade.",
           "titlePart1": "Experiências &",
-          "titlePart2": "Teambuilding",
-          "description": "Experiências cuidadosamente curadas que transformam viagens corporativas em momentos memoráveis — provas de vinho em quintas do Douro, regatas em Cascais, masterclasses culinárias privadas com chefes Michelin. Pensadas para unir equipas, premiar parceiros e impressionar visitantes C-level.",
+          "titlePart2": "Team Building",
+          "description": "Criamos experiências corporativas à medida, pensadas para unir equipas, premiar parceiros e impressionar convidados. De provas de vinho no Douro a regatas em Cascais, experiências gastronómicas privadas ou programas de natureza, cada momento é desenhado com curadoria, conforto e atenção ao detalhe.",
           "items": {
             "teambuilding": "Jogos de Teambuilding",
             "activities": "Atividades & Tours",
@@ -5337,7 +5345,7 @@
           "featuredCaption": "A arquitetura invisível de um evento.",
           "titlePart1": "Logística &",
           "titlePart2": "Concierge",
-          "description": "A arquitetura por trás de cada grande evento. Acolhimento no aeroporto, transferes multi-veículo, alojamento, guias locais especializados. Mantemos o palco em movimento para que a sua equipa se foque apenas no desempenho.",
+          "description": "Gerimos toda a operação por trás de eventos exigentes, desde acolhimento no aeroporto, transfers com vários veículos e apoio a convidados, até coordenação com hotéis, locais de evento e equipas no terreno. Mantemos tudo em movimento para que a sua equipa se concentre apenas no essencial.",
           "items": {
             "airport": "Acolhimento no Aeroporto",
             "premium": "Transferes Premium",
@@ -5563,7 +5571,29 @@
           "submitting": "A enviar...",
           "note": "Resposta personalizada em 24 horas · Sem compromisso · Em conformidade com o RGPD",
           "successTitle": "Pedido Enviado",
-          "successBody": "Obrigado. A nossa equipa responderá com uma proposta à medida em 24 horas."
+          "successBody": "Obrigado. A nossa equipa responderá com uma proposta à medida em 24 horas.",
+          "success": {
+            "eyebrow": "Pedido recebido",
+            "thankYou": "Obrigado,",
+            "body": "O seu pedido foi recebido e a nossa equipa já está a preparar a proposta à sua medida. Enviámos uma confirmação para {email}.",
+            "reference": "Referência",
+            "whatNext": "O que acontece a seguir",
+            "step1Title": "Análise e atribuição",
+            "step1Body": "Um gestor dedicado analisa o seu pedido e fica responsável pelo seu projeto.",
+            "step1Time": "Em 2 horas",
+            "step2Title": "Proposta personalizada",
+            "step2Body": "Recebe uma proposta detalhada com planeamento de rotas, viaturas atribuídas e preços transparentes.",
+            "step2Time": "Em 24 horas",
+            "step3Title": "Afinar e confirmar",
+            "step3Body": "Ajustamos cada detalhe consigo até ficar exatamente como imaginou. Depois avançamos.",
+            "step3Time": "Ao seu ritmo",
+            "whatsapp": "Continuar no WhatsApp",
+            "scheduleCall": "Agendar chamada",
+            "exploreServices": "Ver serviços",
+            "footerPre": "Precisa de acrescentar algo ao pedido?",
+            "footerLink": "Responda ao email de confirmação",
+            "footerPost": "ou fale connosco por WhatsApp para"
+          }
         }
       },
       "preferToTalk": {
@@ -5847,8 +5877,8 @@
     },
     "tours": {
       "heading": "Tours",
-      "description1": "A diversidade natural e cultural de Portugal torna-o numa fonte inesgotável de experiências de luxo personalizadas. Cada viagem apresenta-lhe o melhor do país — de palácios antigos e montanhas escarpadas a rios cintilantes e costas intocadas que poucos viajantes descobrem.",
-      "description2": "Cada roteiro é concebido por especialistas locais que conhecem Portugal intimamente, garantindo que o tempo que aqui passa seja autêntico e inteiramente seu.",
+      "description1": "Portugal revela-se de outra forma quando cada detalhe é pensado antes da chegada. Criamos itinerários privados para viajantes que procuram conforto, discrição e acesso a experiências que não se encontram num roteiro comum.",
+      "description2": "Cada viagem é desenhada à medida, com motorista dedicado, seleção cuidada de destinos, horários flexíveis e acompanhamento próximo em todos os momentos. Do primeiro transfer à última reserva, tudo é organizado para que a experiência seja fluida, exclusiva e verdadeiramente sua.",
       "sortByLocation": "Ordenar por localização",
       "sortLatest": "Mais recentes",
       "sortPriceLow": "Preço: crescente",
@@ -5867,8 +5897,8 @@
       "label": "Um Tipo Diferente de Viagem",
       "headingLine1": "Para além do postal.",
       "headingLine2": "Até à alma",
-      "body1": "Não vendemos destinos. Curamos dias que se tornam memórias — a vindima privada numa quinta onde a família ainda pisa as uvas a pé, o fado ao amanhecer numa tasca de Alfama, o jantar sob as estrelas no Alentejo com o seu próprio astrónomo.",
-      "body2": "Cada viagem é construída à mão em torno dos seus interesses, do seu ritmo, da sua história. Sem tours genéricos. Sem multidões. Apenas Portugal — exatamente como sempre o imaginou.",
+      "body1": "Criamos viagens privadas para quem procura descobrir Portugal, a Ibéria e a Europa com conforto, discrição e tempo para apreciar cada detalhe.",
+      "body2": "Cada roteiro é desenhado à medida, de acordo com o ritmo, os interesses e o estilo de cada cliente. Sem programas genéricos, sem grupos, sem pressa. Apenas uma experiência cuidada, exclusiva e organizada do início ao fim.",
       "cta": "Conheça a nossa abordagem",
       "photoAlt": "Torre de Belém, Lisboa"
     },
@@ -6956,18 +6986,18 @@
       "options": [
         {
           "label": "Pagamento mensal",
-          "body": "Receba a comissão acumulada no primeiro dia útil do mês seguinte. Recomendado para parceiros com volume mensal estável.",
-          "feature": "Transferência Bancária / PayPal / Gift Card"
+          "body": "Receba o valor acumulado dos serviços realizados no mês anterior. Ideal para parceiros que preferem um fluxo de caixa regular e previsível.",
+          "feature": "Transferência Bancária, PayPal ou Gift Card"
         },
         {
           "label": "Pagamento trimestral",
-          "body": "Comissão acumulada cada 3 meses com bónus de 4% sobre o valor total. A opção mais escolhida por hotéis e DMCs.",
-          "feature": "Bónus 4% + Transferência Bancária / PayPal"
+          "body": "Receba o valor acumulado a cada três meses, com todas as reservas organizadas num único pagamento. Uma opção prática para empresas que preferem gestão financeira por trimestre.",
+          "feature": "Transferência Bancária, PayPal ou Gift Card"
         },
         {
           "label": "Pagamento anual",
-          "body": "Pagamento único no final do ano, com bónus de 8% sobre o valor total acumulado. Recomendado para corporate.",
-          "feature": "Bónus 8% + Transferência Bancária"
+          "body": "Receba o valor total acumulado no final do ano, com um único pagamento consolidado. Recomendado para parceiros que preferem centralizar a faturação e simplificar a gestão administrativa.",
+          "feature": "Transferência Bancária, PayPal ou Gift Card"
         }
       ]
     },
@@ -7282,5 +7312,46 @@
     "sending": "A enviar…",
     "sent": "Código enviado.",
     "verifying": "A verificar…"
+  },
+  "toursTopBar": {
+    "ariaLabel": "Vantagens",
+    "items": [
+      {
+        "pre": "Cancelamento gratuito até 24 horas antes"
+      },
+      {
+        "pre": "Mais de ",
+        "accent": "300",
+        "post": " avaliações cinco estrelas"
+      },
+      {
+        "pre": "Frota executiva com motoristas profissionais"
+      },
+      {
+        "pre": "Reserve hoje, pague em ",
+        "accent": "3 prestações",
+        "post": " sem juros"
+      },
+      {
+        "pre": "Tours privados em ",
+        "accent": "EN · PT · ES · FR"
+      },
+      {
+        "pre": "Partidas diárias de Lisboa, Porto e Algarve"
+      }
+    ]
+  },
+  "toursCartBar": {
+    "ariaLabel": "Carrinho",
+    "label": "Carrinho",
+    "sublabel": "Reserva ativa",
+    "tourLabel": "Tour privado",
+    "eventLabel": "Evento",
+    "guests": "{count, plural, one {# passageiro} other {# passageiros}}",
+    "heldLine1": "Reserva",
+    "heldLine2": "Garantida",
+    "total": "Total",
+    "cta": "Ver carrinho",
+    "dismiss": "Fechar"
   }
 }

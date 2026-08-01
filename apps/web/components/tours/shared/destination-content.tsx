@@ -57,13 +57,13 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
   if (isLoading) {
     return (
-      <div className="bg-[#1a1a1a] px-4 md:px-[82px] py-[60px] md:py-[72px]">
+      <div className="bg-[var(--lm-surface,#1a1a1a)] px-4 md:px-[82px] py-[60px] md:py-[72px]">
         <div className="max-w-[1280px] mx-auto flex flex-col gap-[60px]">
           <div className="flex flex-col gap-6">
-            <div className="h-[48px] w-[360px] bg-[rgba(255,255,255,0.06)] animate-pulse" />
+            <div className="h-[48px] w-[360px] bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] animate-pulse" />
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-[424px] bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] animate-pulse" />
+                <div key={i} className="h-[424px] bg-[rgba(var(--lm-text-rgb,255,255,255),0.04)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] animate-pulse" />
               ))}
             </div>
           </div>
@@ -74,12 +74,12 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
   if (!hasAnyResults && !searchQuery) {
     return (
-      <div className="bg-[#1a1a1a] px-4 md:px-[82px] py-[60px] md:py-[72px]">
+      <div className="bg-[var(--lm-surface,#1a1a1a)] px-4 md:px-[82px] py-[60px] md:py-[72px]">
         <div className="max-w-[1280px] mx-auto py-[60px] text-center">
-          <p className="text-[18px] text-[#999]">
-            No tours available in <span className="font-medium text-white">{destination}</span> yet
+          <p className="text-[18px] text-[var(--lm-muted,#999)]">
+            No tours available in <span className="font-medium text-[var(--lm-text,#fff)]">{destination}</span> yet
           </p>
-          <p className="text-[14px] text-[#666] mt-2">
+          <p className="text-[14px] text-[var(--lm-muted,#666)] mt-2">
             Check back later for new tours and experiences
           </p>
         </div>
@@ -88,7 +88,7 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
   }
 
   return (
-    <div className="bg-[#1a1a1a] px-4 md:px-[82px] py-[60px] md:py-[72px]">
+    <div className="bg-[var(--lm-surface,#1a1a1a)] px-4 md:px-[82px] py-[60px] md:py-[72px]">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-[60px] md:gap-[80px]">
         {hasAnyResults ? (
           <>
@@ -124,10 +124,10 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
           </>
         ) : (
           <div className="py-[60px] text-center">
-            <p className="text-[18px] text-[#999]">
-              No results found for &ldquo;<span className="font-medium text-white">{searchQuery}</span>&rdquo;
+            <p className="text-[18px] text-[var(--lm-muted,#999)]">
+              No results found for &ldquo;<span className="font-medium text-[var(--lm-text,#fff)]">{searchQuery}</span>&rdquo;
             </p>
-            <p className="text-[14px] text-[#666] mt-2">
+            <p className="text-[14px] text-[var(--lm-muted,#666)] mt-2">
               Try searching for a different tour or experience
             </p>
           </div>

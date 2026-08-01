@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useCallback, useEffect, useMemo } from "react"
+import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
+import { useHomeTheme } from "@/components/new-landing-page/home-theme"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { BookingAddonsSelector, type BookingAddon } from "@/components/shared/booking-addons-selector"
 import { useMoney } from "@/components/currency-provider"
@@ -21,6 +22,16 @@ interface TourBookingCardProps {
   maxPassengers?: number
   addons?: BookingAddon[]
   onBook?: (data: BookingData) => void
+  /** Chamada quando já há data e hora: o pai usa-a para guardar o
+   *  carrinho pendente e acender a barra de baixo. */
+  onSelectionReady?: (data: {
+    date: Date | null
+    time: string | null
+    adults: number
+    children: number
+    infants: number
+    total: number
+  }) => void
 }
 
 interface BookingData {
@@ -46,7 +57,7 @@ function CounterButton({ onClick, disabled, children }: { onClick: () => void; d
     <button
       onClick={onClick}
       disabled={disabled}
-      className="size-[32px] border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#999] hover:border-[rgba(201,169,110,0.5)] hover:text-[#C9A96E] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      className="size-[32px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex items-center justify-center text-[var(--lm-muted,#999)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] hover:text-[var(--lm-accent,#C9A96E)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
     >
       {children}
     </button>
@@ -55,16 +66,16 @@ function CounterButton({ onClick, disabled, children }: { onClick: () => void; d
 
 function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: string; desc: string; count: number; onDec: () => void; onInc: () => void; disableInc?: boolean }) {
   return (
-    <div className="flex items-center justify-between px-[14px] py-[12px] border-b border-[rgba(255,255,255,0.04)] last:border-b-0">
+    <div className="flex items-center justify-between px-[14px] py-[12px] border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.04)] last:border-b-0">
       <div className="flex flex-col">
-        <span className="text-[12px] font-medium text-white">{label}</span>
-        <span className="text-[10px] text-[#8c8680]">{desc}</span>
+        <span className="text-[12px] font-medium text-[var(--lm-text,#fff)]">{label}</span>
+        <span className="text-[10px] text-[var(--lm-muted,#8c8680)]">{desc}</span>
       </div>
       <div className="flex items-center">
         <CounterButton onClick={onDec} disabled={count <= 0}>
           <Minus className="size-[14px]" />
         </CounterButton>
-        <div className="w-[40px] text-center text-[14px] font-medium text-white">{count}</div>
+        <div className="w-[40px] text-center text-[14px] font-medium text-[var(--lm-text,#fff)]">{count}</div>
         <CounterButton onClick={onInc} disabled={disableInc}>
           <Plus className="size-[14px]" />
         </CounterButton>
@@ -73,9 +84,12 @@ function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: strin
   )
 }
 
-export function TourBookingCard({ price, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook }: TourBookingCardProps) {
+export function TourBookingCard({ price, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook, onSelectionReady }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
+  // O picker escolhe a paleta por prop (não por var CSS). Só clareia dentro do
+  // tema da homepage em modo claro; fora dele continua escuro como hoje.
+  const { theme, isHome } = useHomeTheme()
   const [dateTime, setDateTime] = useState<{ date: Date | null; time: string | null }>({ date: null, time: null })
   const [adults, setAdults] = useState(1)
   const [children, setChildren] = useState(0)
@@ -139,6 +153,36 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   const isBelowMin = minPassengers ? payingGuests < minPassengers : false
 
+  // Basta escolher data e hora para a reserva passar a existir: o pai guarda-a
+  // e a barra de baixo acende, mesmo que a pessoa nunca abra o checkout.
+  const lastSelection = useRef<string | null>(null)
+  useEffect(() => {
+    // Basta a data. Há tours sem escolha de hora nenhuma — exigir as duas
+    // fazia com que nesses o carrinho nunca chegasse a ser guardado.
+    if (!dateTime.date) return
+    // Só avisa quando a escolha muda mesmo. Sem esta guarda o efeito voltava a
+    // gravar a cada render e a contagem decrescente reiniciava-se sempre,
+    // porque a gravação renova o prazo.
+    const signature = [
+      dateTime.date.toISOString(),
+      dateTime.time ?? "",
+      adults,
+      children,
+      infants,
+      total,
+    ].join("|")
+    if (lastSelection.current === signature) return
+    lastSelection.current = signature
+    onSelectionReady?.({
+      date: dateTime.date,
+      time: dateTime.time,
+      adults,
+      children,
+      infants,
+      total,
+    })
+  }, [dateTime.date, dateTime.time, adults, children, infants, total, onSelectionReady])
+
   const handleBook = () => {
     const selectedAddonsData = addons
       ?.filter((a) => selectedAddonIds.includes(a._id))
@@ -164,22 +208,22 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   }
 
   return (
-    <div className="bg-[#1A1A1A] border border-[rgba(201,169,110,0.12)] overflow-hidden" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>
-      <div className="h-[2px] bg-gradient-to-r from-[#C9A96E] to-[rgba(201,169,110,0.2)]" />
+    <div className="bg-[var(--lm-surface,#1A1A1A)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.12)] overflow-hidden" style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}>
+      <div className="h-[2px] bg-gradient-to-r from-[var(--lm-accent,#C9A96E)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.2)]" />
 
-      <div className="border-b border-[rgba(255,255,255,0.05)] px-6 pt-6 pb-5">
-        <span className="text-[12px] font-semibold text-[#8c8680] tracking-[1.35px] uppercase">{t("from")}</span>
+      <div className="border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] px-6 pt-6 pb-5">
+        <span className="text-[12px] font-semibold text-[var(--lm-muted,#8c8680)] tracking-[1.35px] uppercase">{t("from")}</span>
         <div className="flex items-baseline gap-[10px] mt-1">
-          <span className="text-[48px] font-semibold text-[#C9A96E] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
+          <span className="text-[48px] font-semibold text-[var(--lm-accent,#C9A96E)] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
             {format(price)}
           </span>
-          <span className="text-[14px] text-[rgba(255,255,255,0.3)]">{t("perPerson")}</span>
+          <span className="text-[14px] text-[var(--lm-muted,rgba(255,255,255,0.3))]">{t("perPerson")}</span>
         </div>
         {!hideReviews && (
           <div className="flex items-center gap-[6px] mt-1">
-            <span className="text-[12px] text-[#C9A96E] tracking-[0.5px]">★★★★★</span>
-            <span className="text-[12px] font-semibold text-white">{rating.toFixed(1)}</span>
-            <span className="text-[12px] text-[#999]">· {reviewCount} {t("reviews")}</span>
+            <span className="text-[12px] text-[var(--lm-accent,#C9A96E)] tracking-[0.5px]">★★★★★</span>
+            <span className="text-[12px] font-semibold text-[var(--lm-text,#fff)]">{rating.toFixed(1)}</span>
+            <span className="text-[12px] text-[var(--lm-muted,#999)]">· {reviewCount} {t("reviews")}</span>
           </div>
         )}
       </div>
@@ -187,16 +231,17 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
       <div className="px-6 py-6 flex flex-col gap-[10px]">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <CalendarClock className="size-4 text-[#999]" strokeWidth={1.2} />
-            <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("dateAndTime")}</span>
+            <CalendarClock className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
+            <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("dateAndTime")}</span>
           </div>
           {fixedDateTime ? (
-            <div className="w-full h-[44px] px-[13px] border border-[rgba(255,255,255,0.12)] bg-[#1E1D1B] flex items-center gap-3">
-              <span className="flex-1 text-[14px] text-[#999]">{formatFixedDateTime()}</span>
-              <CalendarClock className="size-6 text-[#999]" strokeWidth={1.2} />
+            <div className="w-full h-[44px] px-[13px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#1E1D1B)] flex items-center gap-3">
+              <span className="flex-1 text-[14px] text-[var(--lm-muted,#999)]">{formatFixedDateTime()}</span>
+              <CalendarClock className="size-6 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
             </div>
           ) : (
             <TourDateTimePicker
+              light={isHome && theme === "light"}
               value={dateTime}
               onChange={setDateTime}
               availability={availability}
@@ -208,11 +253,11 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         </div>
 
         <div className="flex items-center gap-2 pt-3">
-          <Users className="size-4 text-[#999]" strokeWidth={1.2} />
-          <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("passengers")}</span>
+          <Users className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
+          <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("passengers")}</span>
         </div>
 
-        <div className="border border-[rgba(255,255,255,0.06)]">
+        <div className="border border-[rgba(var(--lm-text-rgb,255,255,255),0.06)]">
           <PaxRow label={t("adult")} desc={t("adultAge")} count={adults} onDec={() => setAdults(Math.max(1, adults - 1))} onInc={() => setAdults(adults + 1)} disableInc={isAtMax} />
           <PaxRow label={t("children")} desc={t("childrenAge")} count={children} onDec={() => setChildren(Math.max(0, children - 1))} onInc={() => setChildren(children + 1)} disableInc={isAtMax} />
           <PaxRow label={t("infant")} desc={t("infantAge")} count={infants} onDec={() => setInfants(Math.max(0, infants - 1))} onInc={() => setInfants(infants + 1)} disableInc={isAtMax} />
@@ -221,8 +266,8 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         {addons && addons.length > 0 && (
           <>
             <div className="flex items-center gap-2 pt-3">
-              <Layers className="size-4 text-[#999]" strokeWidth={1.2} />
-              <span className="text-[12px] font-semibold text-[#999] tracking-[1.35px] uppercase">{t("addOns")}</span>
+              <Layers className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
+              <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("addOns")}</span>
             </div>
             <BookingAddonsSelector
               addons={addons}
@@ -234,9 +279,9 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
           </>
         )}
 
-        <div className="border-t border-[rgba(255,255,255,0.06)] pt-4 pb-4 flex items-center justify-between">
-          <span className="text-[12px] font-bold text-[#999] tracking-[1px] uppercase">{t("total")}</span>
-          <span className="text-[32px] font-bold text-white" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
+        <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.06)] pt-4 pb-4 flex items-center justify-between">
+          <span className="text-[12px] font-bold text-[var(--lm-muted,#999)] tracking-[1px] uppercase">{t("total")}</span>
+          <span className="text-[32px] font-bold text-[var(--lm-text,#fff)]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
             {format(total)}
           </span>
         </div>
@@ -244,7 +289,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         <button
           onClick={handleBook}
           disabled={(!fixedDateTime && !dateTime.time) || isBelowMin}
-          className="w-full h-[48px] bg-[#C9A96E] border border-[#C9A96E] flex items-center justify-center gap-2 hover:bg-[#b8954f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-[48px] bg-[var(--lm-accent,#C9A96E)] border border-[var(--lm-accent,#C9A96E)] flex items-center justify-center gap-2 hover:bg-[#b8954f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span className="text-[14px] font-medium text-[#0D0D0D] uppercase tracking-[1.1px]">{t("bookNow")}</span>
           <ArrowRight className="size-[18px] text-[#0D0D0D]" />
@@ -257,19 +302,19 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
           }`}
         >
           <div className="overflow-hidden">
-            <p className="text-[12px] text-[#999] text-center pt-1">
+            <p className="text-[12px] text-[var(--lm-muted,#999)] text-center pt-1">
               {t("minPassengersRequired", { count: minPassengers ?? 1 })}
             </p>
           </div>
         </div>
 
-        <div className="border-t border-[rgba(255,255,255,0.04)] pt-4 flex items-center justify-center gap-2">
+        <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.04)] pt-4 flex items-center justify-center gap-2">
           <span className="relative inline-flex size-2">
             <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
             <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80]" />
           </span>
-          <span className="text-[10px] font-semibold text-[#C9A96E]">141 {t("travelers")}</span>
-          <span className="text-[10px] text-[#999]">{t("bookedToday")}</span>
+          <span className="text-[10px] font-semibold text-[var(--lm-accent,#C9A96E)]">141 {t("travelers")}</span>
+          <span className="text-[10px] text-[var(--lm-muted,#999)]">{t("bookedToday")}</span>
         </div>
       </div>
     </div>

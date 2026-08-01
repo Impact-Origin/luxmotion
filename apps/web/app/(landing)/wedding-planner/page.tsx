@@ -11,7 +11,6 @@ import { WeddingPlannerTestimonial } from "@/components/wedding-planner/wedding-
 import { WeddingPlannerCaseStudy } from "@/components/wedding-planner/wedding-planner-case-study"
 import { WeddingPlannerReviews } from "@/components/wedding-planner/wedding-planner-reviews"
 import { WeddingPlannerWhiteLabel } from "@/components/wedding-planner/wedding-planner-white-label"
-import { WeddingPlannerCommission } from "@/components/wedding-planner/wedding-planner-commission"
 import { WeddingPlannerPaymentPlans } from "@/components/wedding-planner/wedding-planner-payment-plans"
 import { WeddingPlannerCalculator } from "@/components/wedding-planner/wedding-planner-calculator"
 import { WeddingPlannerCtaBand } from "@/components/wedding-planner/wedding-planner-cta-band"
@@ -48,7 +47,6 @@ export default function WeddingPlannerPage() {
         <WeddingPlannerTestimonial />
         <WeddingPlannerWhiteLabel />
         <WeddingPlannerCalculator />
-        <WeddingPlannerCommission />
         <WeddingPlannerPaymentPlans />
         <WeddingPlannerCtaBand />
         <Fleet showControls={false} />

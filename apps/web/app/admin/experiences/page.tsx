@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
-import { Plus, Pencil, Trash2, MoreHorizontal, Briefcase, MapPin } from "lucide-react"
+import { Plus, Pencil, Trash2, MoreHorizontal, Briefcase, MapPin, Eye, EyeOff } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -37,6 +37,20 @@ export default function AdminExperiencesPage() {
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
   const res = useQuery(api.pastExperiences.listPaged, tableQuery)
   const removeExperience = useMutation(api.pastExperiences.remove)
+  const updateExperience = useMutation(api.pastExperiences.update)
+
+  // Só a galeria pública mostra o que estiver publicado. Alternar o estado
+  // obrigava a abrir o formulário de edição, item a item.
+  const togglePublished = async (exp: ExperienceRow) => {
+    const next = exp.status === "published" ? "draft" : "published"
+    try {
+      await updateExperience({ id: exp._id, status: next })
+      toast.success(next === "published" ? t("published") : t("draft"))
+    } catch {
+      toast.error(t("deleteError"))
+    }
+  }
+
 
   type ExperienceRow = NonNullable<typeof res>["rows"][number]
 
@@ -76,6 +90,14 @@ export default function AdminExperiencesPage() {
         <DropdownMenuItem onClick={() => handleEdit(exp)}>
           <Pencil className="mr-2 size-4" />
           {t("edit")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => togglePublished(exp)}>
+          {exp.status === "published" ? (
+            <EyeOff className="mr-2 size-4" />
+          ) : (
+            <Eye className="mr-2 size-4" />
+          )}
+          {exp.status === "published" ? t("draft") : t("published")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
