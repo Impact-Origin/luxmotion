@@ -110,9 +110,12 @@ export function EventCard({ event, className }: EventCardProps) {
           {event.title}
         </h3>
 
-        {event.subtitle && (
-          <p className="text-sm text-zinc-500 line-clamp-2 mb-3">{event.subtitle}</p>
-        )}
+        {/* Sempre desenhada, e também com duas linhas reservadas: só assim os
+            cartões alinham quando um tem título e descrição de duas linhas e o
+            vizinho tem uma de cada. */}
+        <p className="mb-3 line-clamp-2 min-h-[2.5rem] text-sm leading-5 text-zinc-500">
+          {event.subtitle}
+        </p>
 
         <div className="mt-auto flex items-center justify-between pt-1">
           <div className="flex items-center gap-2">
