@@ -122,7 +122,14 @@ Also choose the best-fit category for this article from exactly this list: ${BLO
 OUTPUT FORMAT (follow EXACTLY, nothing before or after):
 
 ::LUX_TITLE::
-<Post title, max 70 characters, no quotes, includes the primary keyword, phrased as a clear statement or how-to. No dashes as punctuation.>
+<Post title, max 70 characters, no quotes, includes the primary keyword.
+HOUSE PATTERN, follow it: a short subject, then a COLON, then the angle.
+Real examples from this blog:
+  Lisbon Airport Transfer: Chauffeur, Private Transfer or Taxi
+  Luxury Portugal Honeymoon: The Perfect Romantic Itinerary
+  Best Private Wine Tours in the Douro Valley: A Complete Guide
+  How to Travel Around Portugal in Luxury: Full Guide
+The colon is required. The ban on dashes does NOT apply to colons: use one.>
 
 ::LUX_DESCRIPTION::
 <SEO meta description, 140-160 characters, includes the primary keyword, no quotes, no dashes.>

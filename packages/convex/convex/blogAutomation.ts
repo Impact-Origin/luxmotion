@@ -356,6 +356,10 @@ export const generateArticle = internalAction({
         problems.push(`${converted.warnings.length} avisos do conversor`);
       if (banned.length > MAX_BANNED)
         problems.push(`expressões proibidas: ${banned.join(", ")}`);
+      // Todos os títulos do blog seguem "Assunto: ângulo". Sem os dois pontos
+      // o artigo destoa da lista inteira.
+      if (!title.includes(":"))
+        problems.push(`título sem dois pontos: "${title}"`);
       if (problems.length > 0) {
         throw new Error(`artigo reprovado: ${problems.join("; ")}`);
       }
