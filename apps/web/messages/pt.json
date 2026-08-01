@@ -4513,12 +4513,12 @@
       },
       "questions": {
         "q1": {
-          "question": "Apresente-se brevemente e diga o que mais gosta no seu trabalho como motorista.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "question": "Apresente-se brevemente e diga porque decidiu tornar-se motorista profissional.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "question": "Quais são dois dos seus lugares favoritos na sua cidade e por que os recomenda aos viajantes?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "question": "Imagine que um hóspede chega a Portugal pela primeira vez. O que recomendaria ver durante um dia?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "section3": {
@@ -4939,7 +4939,7 @@
         "surfboardRack": "Suporte para prancha de surf"
       },
       "amenities": {
-        "label": "Tipo de licença",
+        "label": "Tipo de extras",
         "usbCharger": "Carregador USB",
         "wifi": "Wi-fi",
         "pos": "POS/ Multibanco",
@@ -5075,12 +5075,12 @@
         "duration": "Duração ideal por motorista: 40 a 50 segundos",
         "eyebrow": "Pergunta {index}",
         "q1": {
-          "prompt": "Apresente-se brevemente e diga o que mais gosta no seu trabalho como motorista.",
-          "translation": "Tell us about yourself — What do you enjoy most about your job as a driver?"
+          "prompt": "Apresente-se brevemente e diga porque decidiu tornar-se motorista profissional.",
+          "translation": "Briefly introduce yourself and tell us why you decided to become a professional driver."
         },
         "q2": {
-          "prompt": "Quais são dois dos seus lugares favoritos na sua cidade e por que os recomenda aos viajantes?",
-          "translation": "What are your two favorite places in your city? Why do you recommend them to travelers?"
+          "prompt": "Imagine que um hóspede chega a Portugal pela primeira vez. O que recomendaria ver durante um dia?",
+          "translation": "Imagine a guest arriving in Portugal for the first time. What would you recommend they see in one day?"
         }
       },
       "structure": {
