@@ -131,7 +131,7 @@ export function WeddingPlannerHero() {
           </p>
 
           <div className={cn("w-full", enter("delay-[300ms]"))}>
-            <WeddingTrustStripMobile labels={trustProps} />
+            <WeddingTrustStripMobile labels={trustProps} tone="dark" />
           </div>
 
           <div className={cn("flex flex-col gap-2 w-full", enter("delay-[400ms]"))}>
@@ -180,7 +180,7 @@ export function WeddingPlannerHero() {
             </p>
 
             <div className={enter("delay-[300ms]")}>
-              <WeddingTrustStrip labels={trustProps} />
+              <WeddingTrustStrip labels={trustProps} tone="dark" />
             </div>
 
             <div className={cn("flex items-center gap-3", enter("delay-[400ms]"))}>
