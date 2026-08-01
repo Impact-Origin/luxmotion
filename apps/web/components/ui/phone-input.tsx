@@ -5,6 +5,7 @@ import { createPortal } from "react-dom"
 import { defaultCountries, parseCountry, FlagImage, CountryIso2 } from "react-international-phone"
 import { ChevronDown } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useHomeTheme } from "@/components/new-landing-page/home-theme"
 
 interface PhoneInputProps {
   value?: string
@@ -51,6 +52,16 @@ export function PhoneInput({
   corporate = false,
   required = false,
 }: PhoneInputProps) {
+  // O dropdown vai para um portal no <body>, fora da div .home-theme, por isso
+  // as var(--lm-*) caíam sempre no fallback escuro. Levar a classe do tema
+  // connosco repõe os tokens dentro do portal.
+  const { theme, isHome } = useHomeTheme()
+  const portalTheme = isHome
+    ? theme === "dark"
+      ? "home-theme dark"
+      : "home-theme"
+    : ""
+
   const t = useTranslations("phoneInput")
   const defaultSelectedCountry =
     allCountries.find((c) => c.iso2 === defaultCountry) || allCountries.find((c) => c.iso2 === "pt")!
@@ -175,7 +186,7 @@ export function PhoneInput({
           <div
             ref={popoverRef}
             style={{ position: "fixed", top: popoverPos.top, left: popoverPos.left }}
-            className={`w-[280px] max-h-[320px] ${partner ? "bg-white border-[rgba(28,27,24,0.08)]" : wedding ? "bg-white border-[rgba(154,117,53,0.22)]" : dark ? "bg-[var(--lm-bg,#0D0D0D)] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
+            className={`${portalTheme} w-[280px] max-h-[320px] ${partner ? "bg-white border-[rgba(28,27,24,0.08)]" : wedding ? "bg-white border-[rgba(154,117,53,0.22)]" : dark ? "bg-[var(--lm-bg,#0D0D0D)] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" : "bg-white border-[#e0e0e0] rounded-lg"} border shadow-lg z-[100] overflow-hidden`}
           >
             <div className={`p-2 border-b ${partner ? "border-[rgba(28,27,24,0.08)]" : wedding ? "border-[rgba(154,117,53,0.15)]" : dark ? "border-[rgba(var(--lm-text-rgb,255,255,255),0.12)]" : "border-[#e0e0e0]"}`}>
               <input
@@ -197,7 +208,7 @@ export function PhoneInput({
             </div>
             {/* Sem isto a lista herda o scrollbar escuro do <html> e fica com
                 uma barra preta sobre o dropdown claro. */}
-            <div className={`max-h-[260px] overflow-y-auto ${dark ? "" : "lm-scroll-light"}`}>
+            <div className={`max-h-[260px] overflow-y-auto ${dark && !(isHome && theme === "light") ? "" : "lm-scroll-light"}`}>
               {filteredCountries.map((country) => (
                 <button
                   key={country.iso2}
@@ -209,7 +220,7 @@ export function PhoneInput({
                       : wedding
                       ? `hover:bg-[rgba(168,131,58,0.06)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(168,131,58,0.1)]" : ""}`
                       : dark
-                      ? `hover:bg-[rgba(255,255,255,0.04)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(201,169,110,0.08)]" : ""}`
+                      ? `hover:bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)] ${selectedCountry.iso2 === country.iso2 ? "bg-[rgba(var(--lm-accent-rgb,201,169,110),0.12)]" : ""}`
                       : `hover:bg-[#f5f5f5] ${selectedCountry.iso2 === country.iso2 ? "bg-[#e9f9ff]" : ""}`
                   }`}
                 >
