@@ -5309,7 +5309,7 @@
       "seeMore": "Ver mais",
       "tabs": {
         "standard": "Standard",
-        "experiences": "Experiências & Teambuilding",
+        "experiences": "Experiências & Team Building",
         "logistics": "Logística & Concierge"
       },
       "bodies": {
@@ -5317,7 +5317,7 @@
           "featuredCaption": "Onde a estratégia encontra o cerimonial.",
           "titlePart1": "Eventos &",
           "titlePart2": "MICE",
-          "description": "Reuniões, viagens de incentivo, convenções e jantares de gala — pensados para corporações internacionais que tratam pessoas, parceiros e clientes como o seu activo mais valioso. Cada detalhe ao serviço da sua marca.",
+          "description": "Reuniões, conferências, congressos, viagens de incentivo e jantares corporativos, planeados com precisão para empresas que valorizam pontualidade, discrição e uma experiência sem falhas. Garantimos transporte premium, motoristas profissionais e acompanhamento operacional em cada momento do evento.",
           "items": {
             "incentive": "Viagens de Incentivo",
             "gala": "Jantares Corporativos & Gala",
@@ -5330,8 +5330,8 @@
         "experiences": {
           "featuredCaption": "Memórias que constroem fidelidade.",
           "titlePart1": "Experiências &",
-          "titlePart2": "Teambuilding",
-          "description": "Experiências cuidadosamente curadas que transformam viagens corporativas em momentos memoráveis — provas de vinho em quintas do Douro, regatas em Cascais, masterclasses culinárias privadas com chefes Michelin. Pensadas para unir equipas, premiar parceiros e impressionar visitantes C-level.",
+          "titlePart2": "Team Building",
+          "description": "Criamos experiências corporativas à medida, pensadas para unir equipas, premiar parceiros e impressionar convidados. De provas de vinho no Douro a regatas em Cascais, experiências gastronómicas privadas ou programas de natureza, cada momento é desenhado com curadoria, conforto e atenção ao detalhe.",
           "items": {
             "teambuilding": "Jogos de Teambuilding",
             "activities": "Atividades & Tours",
@@ -5345,7 +5345,7 @@
           "featuredCaption": "A arquitetura invisível de um evento.",
           "titlePart1": "Logística &",
           "titlePart2": "Concierge",
-          "description": "A arquitetura por trás de cada grande evento. Acolhimento no aeroporto, transferes multi-veículo, alojamento, guias locais especializados. Mantemos o palco em movimento para que a sua equipa se foque apenas no desempenho.",
+          "description": "Gerimos toda a operação por trás de eventos exigentes, desde acolhimento no aeroporto, transfers com vários veículos e apoio a convidados, até coordenação com hotéis, locais de evento e equipas no terreno. Mantemos tudo em movimento para que a sua equipa se concentre apenas no essencial.",
           "items": {
             "airport": "Acolhimento no Aeroporto",
             "premium": "Transferes Premium",
