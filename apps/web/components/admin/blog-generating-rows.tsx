@@ -3,8 +3,7 @@
 import * as React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@workspace/convex/api";
-import { Loader2, Sparkles, TriangleAlert } from "lucide-react";
-import { cn } from "@workspace/ui/lib/utils";
+import { Loader2, Sparkles } from "lucide-react";
 
 /**
  * Linhas das gerações a decorrer, por cima da tabela de artigos.
@@ -35,13 +34,7 @@ export function BlogGeneratingRows() {
   const active = (runs ?? []).filter(
     (r) => r.status === "running" && Date.now() - r.startedAt < 30 * 60_000,
   );
-  const recentProblem = (runs ?? []).find(
-    (r) =>
-      (r.status === "failed" || r.status === "needsReview") &&
-      Date.now() - r.startedAt < 60 * 60_000,
-  );
-
-  if (active.length === 0 && !recentProblem) return null;
+  if (active.length === 0) return null;
 
   return (
     <div className="mb-3 space-y-2">
@@ -76,30 +69,6 @@ export function BlogGeneratingRows() {
           </div>
         );
       })}
-
-      {recentProblem && active.length === 0 && (
-        <div
-          className={cn(
-            "flex items-start gap-3 rounded-lg border px-4 py-3",
-            recentProblem.status === "failed"
-              ? "border-destructive/40 bg-destructive/5"
-              : "border-amber-500/40 bg-amber-500/5",
-          )}
-        >
-          <TriangleAlert className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-          <div className="min-w-0 text-sm">
-            <p className="font-medium text-foreground">
-              {recentProblem.status === "failed"
-                ? "A última geração falhou"
-                : "A última geração precisa de revisão"}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {recentProblem.error ??
-                `Traduções em falta: ${recentProblem.localesFailed.join(", ")}`}
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
