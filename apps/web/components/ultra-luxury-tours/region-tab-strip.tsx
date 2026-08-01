@@ -8,6 +8,13 @@ export type RegionTab = (typeof REGION_TABS)[number]
 
 export const CUSTOM_INQUIRY_ID = "custom-tours-inquiry"
 
+/** Salta para o formulário de pedido à medida, no fim da página. */
+export function scrollToCustomInquiry() {
+  document
+    .getElementById(CUSTOM_INQUIRY_ID)
+    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+}
+
 export function RegionTabStrip({
   active = "tours",
   onChange,
@@ -16,10 +23,6 @@ export function RegionTabStrip({
   onChange?: (tab: RegionTab) => void
 }) {
   const t = useTranslations("ultraLuxuryTours.regionTabs")
-
-  const scrollToInquiry = () => {
-    document.getElementById(CUSTOM_INQUIRY_ID)?.scrollIntoView({ behavior: "smooth", block: "start" })
-  }
 
   return (
     <div className="flex items-stretch justify-center gap-0 border-y-[0.8px] border-[rgba(201,169,110,0.1)] bg-[#0d0d0d] px-4 md:px-[60px]">
@@ -43,7 +46,7 @@ export function RegionTabStrip({
       <div className="flex items-center pl-2">
         <button
           type="button"
-          onClick={scrollToInquiry}
+          onClick={scrollToCustomInquiry}
           className="flex h-[40px] items-center justify-center whitespace-nowrap border border-[#C9A96E] px-[22px] text-[14px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] transition-colors hover:bg-[rgba(201,169,110,0.08)]"
         >
           {t("customTours")}

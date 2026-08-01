@@ -1,10 +1,10 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Link from "next/link"
 import { ShieldCheck, ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import { useTourScarcity, type MonthStatus } from "@/hooks/use-tour-scarcity"
+import { scrollToCustomInquiry } from "@/components/ultra-luxury-tours/region-tab-strip"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
@@ -221,13 +221,16 @@ export function UltraLuxuryScarcitySection() {
               })}
             </p>
           </div>
-          <Link
-            href="/checkout"
+          {/* Ia para /checkout, que abre vazio: um itinerário de vários dias
+              não se reserva por lá, pede-se pelo formulário à medida. */}
+          <button
+            type="button"
+            onClick={scrollToCustomInquiry}
             className="flex h-12 w-full items-center justify-center gap-2 bg-[#C9A96E] px-[22px] text-[14px] font-medium uppercase tracking-[1.1px] text-[#0d0d0d] transition-colors hover:bg-[#b89558] md:w-auto"
           >
             <span className="px-2">{t("ctaReserve")}</span>
             <ArrowRight className="size-[18px]" strokeWidth={2} />
-          </Link>
+          </button>
         </div>
       </div>
     </section>
