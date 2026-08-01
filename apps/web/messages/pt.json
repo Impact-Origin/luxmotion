@@ -3447,7 +3447,7 @@
         "mostRequested": "Mais Pedido",
         "selectedLabel": "Extras Selecionados",
         "itemsLabel": "{count, plural, one {# item} other {# itens}}",
-        "fromPrice": "A partir de",
+        "fromPrice": "Desde",
         "unitMain": "Viatura principal",
         "unitPerCar": "Por viatura",
         "unitPerArrival": "Por chegada",
@@ -3486,7 +3486,7 @@
           },
           "classicCar": {
             "title": "Veículo clássico para fotografia",
-            "desc": "Rolls-Royce Phantom dos anos 60, Mercedes 280SE Cabriolet ou Bentley S2. Estacionado no local da cerimónia para sessão fotográfica."
+            "desc": "Inclui o transporte até ao venue num Rolls-Royce Phantom dos anos 60, Mercedes 280SE Cabriolet ou Bentley S2, com possibilidade de o veículo aguardar para a sessão fotográfica."
           }
         }
       }

@@ -33,19 +33,20 @@ interface ExtraDef {
   price: number
   unitKey: string
   priceShape: ExtraPriceShape
+  priceFrom?: boolean
   mostRequested?: boolean
 }
 
 // Preços por extra. O kit de boas-vindas é o único cobrado por convidado.
 const EXTRAS: ExtraDef[] = [
-  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.webp", price: 45, unitKey: "unitMain", priceShape: "flat" },
-  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.webp", price: 180, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
-  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.webp", price: 95, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.webp", price: 25, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.webp", price: 120, unitKey: "unitPerArrival", priceShape: "flat" },
-  { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 60, unitKey: "unitPerMoment", priceShape: "flat" },
-  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 12, unitKey: "unitPerGuest", priceShape: "perGuest" },
-  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.webp", price: 350, unitKey: "unitOnLocation", priceShape: "flat", mostRequested: true },
+  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.webp", price: 59, unitKey: "unitMain", priceShape: "flat" },
+  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.webp", price: 119, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
+  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.webp", price: 119, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.webp", price: 39, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.webp", price: 129, unitKey: "unitPerArrival", priceShape: "flat" },
+  { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 89, unitKey: "unitPerMoment", priceShape: "flat" },
+  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 15, unitKey: "unitPerGuest", priceShape: "perGuest" },
+  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.webp", price: 495, unitKey: "unitOnLocation", priceShape: "flat", priceFrom: true, mostRequested: true },
 ]
 
 function ExtraCard({
@@ -55,6 +56,7 @@ function ExtraCard({
   unitLabel,
   mostRequestedLabel,
   pricePerGuestSuffix,
+  fromPriceLabel,
   selected,
   onToggle,
 }: {
@@ -64,6 +66,7 @@ function ExtraCard({
   unitLabel: string
   mostRequestedLabel: string
   pricePerGuestSuffix: string
+  fromPriceLabel: string
   selected: boolean
   onToggle: () => void
 }) {
@@ -117,7 +120,7 @@ function ExtraCard({
       </div>
       <div className="mt-auto bg-[#faf7f2] border-t border-[rgba(168,131,58,0.12)] px-3 py-2 flex items-baseline justify-between gap-2">
         <span className="text-[18px] font-light text-[#a08248] leading-none" style={SERIF_FONT}>
-          €{def.price}
+          {def.priceFrom && `${fromPriceLabel} `}€{def.price}
           {def.priceShape === "perGuest" && (
             <span className="text-[11px] font-normal" style={SANS_FONT}>
               {pricePerGuestSuffix}
@@ -632,6 +635,7 @@ export function WeddingQuoteSection() {
                   unitLabel={t(`extras.${def.unitKey}`)}
                   mostRequestedLabel={t("extras.mostRequested")}
                   pricePerGuestSuffix={t("extras.pricePerGuest")}
+                  fromPriceLabel={t("extras.fromPrice")}
                   selected={selectedExtras.has(def.id)}
                   onToggle={() => toggleExtra(def.id)}
                 />
