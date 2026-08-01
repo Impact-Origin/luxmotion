@@ -7,6 +7,8 @@ import { UltraLuxuryApproachSection } from "@/components/ultra-luxury-tours/appr
 import { UltraLuxuryDestinationsSection } from "@/components/ultra-luxury-tours/destinations-section"
 import { Testimonials } from "@/components/new-landing-page/testimonials"
 import { UltraLuxuryScarcitySection } from "@/components/ultra-luxury-tours/scarcity-section"
+import { ContactSection } from "@/components/new-landing-page/contact-section"
+import { CUSTOM_INQUIRY_ID } from "@/components/ultra-luxury-tours/region-tab-strip"
 
 export default function UltraLuxuryToursPage() {
   return (
@@ -20,6 +22,12 @@ export default function UltraLuxuryToursPage() {
         <UltraLuxuryDestinationsSection />
         <Testimonials />
         <UltraLuxuryScarcitySection />
+        {/* O botão "Tours à Medida" da barra de filtros salta para aqui. O id
+            existia no código mas não havia nada na página com ele, portanto o
+            botão não fazia nada. */}
+        <div id={CUSTOM_INQUIRY_ID} className="scroll-mt-[80px]">
+          <ContactSection />
+        </div>
       </div>
       <Footer />
     </div>
