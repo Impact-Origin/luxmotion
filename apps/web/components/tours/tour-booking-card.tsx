@@ -157,13 +157,15 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   // e a barra de baixo acende, mesmo que a pessoa nunca abra o checkout.
   const lastSelection = useRef<string | null>(null)
   useEffect(() => {
-    if (!dateTime.date || !dateTime.time) return
+    // Basta a data. Há tours sem escolha de hora nenhuma — exigir as duas
+    // fazia com que nesses o carrinho nunca chegasse a ser guardado.
+    if (!dateTime.date) return
     // Só avisa quando a escolha muda mesmo. Sem esta guarda o efeito voltava a
     // gravar a cada render e a contagem decrescente reiniciava-se sempre,
     // porque a gravação renova o prazo.
     const signature = [
       dateTime.date.toISOString(),
-      dateTime.time,
+      dateTime.time ?? "",
       adults,
       children,
       infants,
