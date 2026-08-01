@@ -1,60 +1,64 @@
-import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
-import { ToursHero } from "@/components/tours/tours-hero"
-import { TourStory } from "@/components/tours/tour-story"
-import { DestinationsSection } from "@/components/tours/destinations-section"
-import { TopPicksSection } from "@/components/tours/top-picks-section"
-import { ContactSection } from "@/components/new-landing-page/contact-section"
-import { ToursTestimonials } from "@/components/tours/tours-testimonials"
-import { SocialSection } from "@/components/new-landing-page/social-section"
-import { Footer } from "@/components/new-landing-page/footer"
-import { ToursTopBar } from "@/components/tours/tours-top-bar"
-import { ToursCartBar } from "@/components/tours/tours-cart-bar"
-import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
-import { JsonLd } from "@/components/seo/json-ld"
-import { createPageMetadata } from "@/lib/seo"
-import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/structured-data"
+import {
+  HomeThemeProvider,
+  HomeHeader,
+} from "@/components/new-landing-page/home-theme";
+import { ToursHero } from "@/components/tours/tours-hero";
+import { TourStory } from "@/components/tours/tour-story";
+import { DestinationsSection } from "@/components/tours/destinations-section";
+import { TopPicksSection } from "@/components/tours/top-picks-section";
+import { ContactSection } from "@/components/new-landing-page/contact-section";
+import { ToursTestimonials } from "@/components/tours/tours-testimonials";
+import { SocialSection } from "@/components/new-landing-page/social-section";
+import { Footer } from "@/components/new-landing-page/footer";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { JsonLd } from "@/components/seo/json-ld";
+import { createPageMetadata } from "@/lib/seo";
+import {
+  buildBreadcrumbSchema,
+  buildServiceSchema,
+} from "@/lib/structured-data";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("toursHero")
+  const t = await getTranslations("toursHero");
 
   return createPageMetadata({
     title: `${t("titleDiscover")} ${t("titleSoul")} ${t("titlePortugal")}`,
-    description: "Discover private and curated tours across Portugal with local expert drivers.",
+    description:
+      "Discover private and curated tours across Portugal with local expert drivers.",
     path: "/tours",
     image: "/tours_hero.webp",
-    keywords: ["Portugal tours", "Sintra tour", "private tour", "day trips Portugal"],
-  })
+    keywords: [
+      "Portugal tours",
+      "Sintra tour",
+      "private tour",
+      "day trips Portugal",
+    ],
+  });
 }
 
 export default function ToursPage() {
   return (
-    // O fundo e a cor do texto vêm do HomeThemeProvider; aqui só fica o espaço
-    // para a barra do carrinho e a altura da faixa de topo (lida pelo Header).
+    // O fundo e a cor do texto vêm do HomeThemeProvider.
     <HomeThemeProvider>
-      <div className="pb-[var(--cart-bar-h,0px)] [--tours-bar-h:30px] md:[--tours-bar-h:36px]">
+      <>
         <JsonLd
-          data={
-            buildBreadcrumbSchema([
-              { name: "Home", url: "/" },
-              { name: "Tours", url: "/tours" },
-            ])
-          }
+          data={buildBreadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Tours", url: "/tours" },
+          ])}
         />
         <JsonLd
-          data={
-            buildServiceSchema({
-              name: "Luxury Tours in Portugal",
-              description: "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
-              path: "/tours",
-              image: "/tours_hero.webp",
-            })
-          }
+          data={buildServiceSchema({
+            name: "Luxury Tours in Portugal",
+            description:
+              "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
+            path: "/tours",
+            image: "/tours_hero.webp",
+          })}
         />
-        <ToursTopBar />
         <HomeHeader />
-        {/* 46px do header + a altura da faixa de topo (30 em telemóvel, 36 acima). */}
-        <div className="pt-[76px] md:pt-[82px]">
+        <div className="pt-[46px] md:pt-[46px]">
           <ToursHero />
           <TourStory />
           <DestinationsSection />
@@ -64,8 +68,7 @@ export default function ToursPage() {
           <SocialSection />
         </div>
         <Footer />
-        <ToursCartBar />
-      </div>
+      </>
     </HomeThemeProvider>
-  )
+  );
 }

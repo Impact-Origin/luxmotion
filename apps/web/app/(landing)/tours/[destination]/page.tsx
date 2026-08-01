@@ -3,8 +3,6 @@ import {
   HomeThemeProvider,
   HomeHeader,
 } from "@/components/new-landing-page/home-theme";
-import { ToursTopBar } from "@/components/tours/tours-top-bar";
-import { ToursCartBar } from "@/components/tours/tours-cart-bar";
 import { DestinationPageContent } from "@/components/tours/destination-page-content";
 import { Footer } from "@/components/new-landing-page/footer";
 import type { Metadata } from "next";
@@ -69,8 +67,7 @@ export default async function DestinationPage({
 
   return (
     <HomeThemeProvider>
-      <div className="pb-[var(--cart-bar-h,0px)] [--tours-bar-h:30px] md:[--tours-bar-h:36px]">
-        <ToursTopBar />
+      <>
         <JsonLd
           data={buildBreadcrumbSchema([
             { name: "Home", url: "/" },
@@ -87,15 +84,14 @@ export default async function DestinationPage({
           })}
         />
         <HomeHeader />
-        <div className="pt-[76px] md:pt-[82px]">
+        <div className="pt-[46px] md:pt-[46px]">
           <DestinationPageContent
             destination={destinationName}
             slug={destination}
           />
         </div>
         <Footer />
-        <ToursCartBar />
-      </div>
+      </>
     </HomeThemeProvider>
   );
 }
