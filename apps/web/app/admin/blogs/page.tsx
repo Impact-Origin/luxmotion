@@ -29,6 +29,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu";
 import { BlogTranslationForm } from "@/components/admin/blog-translation-form";
 import { BlogGenerateDialog } from "@/components/admin/blog-generate-dialog";
+import { BlogGeneratingRows } from "@/components/admin/blog-generating-rows";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 import { Sparkles } from "lucide-react";
@@ -300,6 +301,8 @@ export default function BlogsPage() {
 
   return (
     <>
+      <BlogGeneratingRows />
+
       <DataTable<Blog>
         mode="server"
         data={res?.rows}
@@ -312,6 +315,7 @@ export default function BlogsPage() {
         filters={filters}
         renderCard={renderCard}
         rowActions={rowActions}
+        onRowClick={(blog) => router.push(`/admin/blogs/${blog._id}`)}
         initialSort={{ columnId: "date", dir: "desc" }}
         toolbarActions={
           <div className="flex gap-2">

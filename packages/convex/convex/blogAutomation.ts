@@ -263,6 +263,7 @@ export const generateArticle = internalAction({
     icp: v.optional(v.string()),
     trigger: v.optional(v.union(v.literal("cron"), v.literal("manual"))),
     keepDraft: v.optional(v.boolean()),
+    runId: v.optional(v.id("blogGenerationRuns")),
     attempt: v.optional(v.number()),
   },
   handler: async (ctx, args): Promise<{ ok: boolean; error?: string }> => {
@@ -273,12 +274,14 @@ export const generateArticle = internalAction({
     }
 
     const attempt = args.attempt ?? 1;
-    const runId = await ctx.runMutation(internal.blogAutomation._startRun, {
-      trigger,
-      topic: args.topic,
-      icp: args.icp,
-      keepDraft: args.keepDraft,
-    });
+    const runId =
+      args.runId ??
+      (await ctx.runMutation(internal.blogAutomation._startRun, {
+        trigger,
+        topic: args.topic,
+        icp: args.icp,
+        keepDraft: args.keepDraft,
+      }));
 
     try {
       const recent: string[] = await ctx.runQuery(
@@ -609,12 +612,20 @@ export const generateNow = action({
     if (running) {
       return { ok: false, error: "Já há uma geração a decorrer." };
     }
-    return await ctx.runAction(internal.blogAutomation.generateArticle, {
+    const runId = await ctx.runMutation(internal.blogAutomation._startRun, {
+      trigger: "manual",
+      topic: args.topic,
+      icp: args.icp,
+      keepDraft: args.keepDraft,
+    });
+    await ctx.scheduler.runAfter(0, internal.blogAutomation.generateArticle, {
       topic: args.topic,
       icp: args.icp,
       keepDraft: args.keepDraft,
       trigger: "manual",
+      runId,
     });
+    return { ok: true };
   },
 });
 
