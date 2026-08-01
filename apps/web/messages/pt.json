@@ -2527,7 +2527,8 @@
     "categoryMusic": "Música",
     "categorySports": "Desporto",
     "categoryCulture": "Cultura",
-    "categoryCorporate": "Corporativo"
+    "categoryCorporate": "Corporativo",
+    "priceOnRequest": "Sob consulta"
   },
   "eventDetails": {
     "date": "Data",

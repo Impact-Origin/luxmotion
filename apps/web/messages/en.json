@@ -2528,7 +2528,8 @@
     "categoryMusic": "Music",
     "categorySports": "Sports",
     "categoryCulture": "Culture",
-    "categoryCorporate": "Corporate"
+    "categoryCorporate": "Corporate",
+    "priceOnRequest": "On request"
   },
   "eventDetails": {
     "date": "Date",

@@ -2439,7 +2439,8 @@
     "categoryMusic": "Musik",
     "categorySports": "Sport",
     "categoryCulture": "Kultur",
-    "categoryCorporate": "Geschäftlich"
+    "categoryCorporate": "Geschäftlich",
+    "priceOnRequest": "Auf Anfrage"
   },
   "eventDetails": {
     "date": "Datum",

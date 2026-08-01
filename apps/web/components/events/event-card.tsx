@@ -54,7 +54,7 @@ export function EventCard({ event, className }: EventCardProps) {
     <Link
       href={`/events/${event.slug}`}
       className={cn(
-        "group block bg-white rounded-xl overflow-hidden border border-zinc-200 hover:shadow-lg transition-all duration-300",
+        "group flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-300 hover:shadow-lg",
         className
       )}
     >
@@ -92,7 +92,7 @@ export function EventCard({ event, className }: EventCardProps) {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="flex flex-1 flex-col p-4">
         <div className="flex items-center gap-2 text-xs text-zinc-500 mb-2">
           <MapPin className="h-3 w-3 shrink-0" />
           <span className="truncate">{event.location}</span>
@@ -104,7 +104,9 @@ export function EventCard({ event, className }: EventCardProps) {
           )}
         </div>
 
-        <h3 className="font-semibold text-zinc-900 line-clamp-2 mb-2 group-hover:text-zinc-700 transition-colors">
+        {/* Reserva sempre a altura de duas linhas: sem isto um título que
+            passasse a duas descia o preço e desalinhava a fila inteira. */}
+        <h3 className="mb-2 line-clamp-2 min-h-[3rem] font-semibold leading-6 text-zinc-900 transition-colors group-hover:text-zinc-700">
           {event.title}
         </h3>
 
@@ -112,7 +114,7 @@ export function EventCard({ event, className }: EventCardProps) {
           <p className="text-sm text-zinc-500 line-clamp-2 mb-3">{event.subtitle}</p>
         )}
 
-        <div className="flex items-center justify-between">
+        <div className="mt-auto flex items-center justify-between pt-1">
           <div className="flex items-center gap-2">
             {event.rating !== undefined && event.rating > 0 && (
               <div className="flex items-center gap-1 text-sm">
@@ -132,7 +134,9 @@ export function EventCard({ event, className }: EventCardProps) {
               </span>
             )}
             <span className="font-bold text-zinc-900">
-              {format(event.basePrice)}
+              {/* A maioria dos eventos ainda não tem preço no admin, e "€0"
+                  lia-se como grátis em vez de por preencher. */}
+              {event.basePrice > 0 ? format(event.basePrice) : t("priceOnRequest")}
             </span>
           </div>
         </div>

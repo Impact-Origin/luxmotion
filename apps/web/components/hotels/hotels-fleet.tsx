@@ -1,9 +1,10 @@
 "use client"
 
+import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
-import { User, ArrowRight, Star } from "lucide-react"
+import { User, ArrowLeft, ArrowRight } from "lucide-react"
 import { Reveal } from "@/components/common/reveal"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -44,6 +45,104 @@ const GALLERY = [
   { src: "/wedding-planner/fleet-gallery/man-coach.webp", name: "MAN Coach" },
   { src: "/wedding-planner/fleet-gallery/mini-classico.webp", name: "Mini Clássico" },
 ]
+
+/**
+ * Galeria da frota em carrossel, um cartão de cada vez.
+ *
+ * Era uma grelha de seis com cinco estrelas por baixo de cada foto. As
+ * estrelas não diziam nada (eram sempre cinco) e a grelha empurrava o resto da
+ * página para baixo. O carrossel é o mesmo padrão já usado na página do wedding
+ * planner.
+ */
+function FleetGallerySlider() {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [atStart, setAtStart] = useState(true)
+  const [atEnd, setAtEnd] = useState(false)
+
+  const sync = useCallback(() => {
+    const el = trackRef.current
+    if (!el) return
+    setAtStart(el.scrollLeft <= 8)
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 8)
+  }, [])
+
+  useEffect(() => {
+    sync()
+    const el = trackRef.current
+    if (!el) return
+    const observer = new ResizeObserver(sync)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [sync])
+
+  // Anda um cartão de cada vez, seja qual for a largura do ecrã.
+  const scrollByCard = (dir: 1 | -1) => {
+    const el = trackRef.current
+    if (!el) return
+    const card = el.querySelector<HTMLElement>("[data-card]")
+    const step = card ? card.offsetWidth + 8 : el.clientWidth * 0.8
+    el.scrollBy({ left: dir * step, behavior: "smooth" })
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div
+        ref={trackRef}
+        onScroll={sync}
+        className="flex snap-x snap-mandatory gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {GALLERY.map((g) => (
+          <div
+            key={g.src}
+            data-card
+            className="group flex w-[calc(100%-8px)] shrink-0 snap-start flex-col gap-2 sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-8px)]"
+          >
+            <div className="relative aspect-[324/323] w-full overflow-hidden">
+              <Image
+                src={g.src}
+                alt={g.name}
+                fill
+                sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{ background: "linear-gradient(to top, rgba(var(--lm-accent-rgb,201,169,110),0.18), transparent 55%)" }}
+              />
+            </div>
+            <div className="flex items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] px-4 py-3 transition-colors duration-300 group-hover:border-[var(--lm-accent,#C9A96E)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.05)]">
+              <span
+                className="text-center text-[16px] text-[var(--lm-text,#fff)] transition-colors duration-300 group-hover:text-[var(--lm-accent,#C9A96E)] md:text-[18px]"
+                style={sans}
+              >
+                {g.name}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-center gap-3">
+        {([-1, 1] as const).map((dir) => {
+          const Icon = dir === -1 ? ArrowLeft : ArrowRight
+          return (
+            <button
+              key={dir}
+              type="button"
+              onClick={() => scrollByCard(dir)}
+              disabled={dir === -1 ? atStart : atEnd}
+              aria-label={dir === -1 ? "Anterior" : "Seguinte"}
+              className="flex size-11 shrink-0 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.35)] text-[var(--lm-accent,#c9a96e)] transition-colors hover:border-[var(--lm-accent,#c9a96e)] disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <Icon className="size-[18px]" strokeWidth={1.5} />
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 function VehicleCard({ v }: { v: Veh }) {
   const t = useTranslations("hotels.fleet")
@@ -143,41 +242,7 @@ export function HotelsFleet() {
         <TierRow label={t("tierExecutive")} vehicles={EXECUTIVE} />
         <TierRow label={t("tierStandard")} vehicles={STANDARD} />
 
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
-          {GALLERY.map((g, i) => (
-            <Reveal key={i} delay={(i % 3) * 110} className="group flex flex-col gap-2">
-              <div className="relative aspect-[324/323] w-full overflow-hidden">
-                <Image
-                  src={g.src}
-                  alt={g.name}
-                  fill
-                  sizes="(min-width:768px) 33vw, 100vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06]"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: "linear-gradient(to top, rgba(var(--lm-accent-rgb,201,169,110),0.18), transparent 55%)" }}
-                />
-              </div>
-              <div className="flex items-stretch gap-4">
-                <div className="flex shrink-0 items-center gap-[6px] border-r border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] pr-4">
-                  {Array.from({ length: 5 }).map((_, s) => (
-                    <span
-                      key={s}
-                      className="flex h-8 w-8 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.28)] bg-[rgba(var(--lm-text-rgb,255,255,255),0.02)] transition-colors duration-300 group-hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)]"
-                    >
-                      <Star className="h-[15px] w-[15px] text-[var(--lm-accent,#C9A96E)]" fill="currentColor" strokeWidth={0} />
-                    </span>
-                  ))}
-                </div>
-                <div className="flex min-w-0 flex-1 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] px-4 py-3 transition-colors duration-300 group-hover:border-[var(--lm-accent,#C9A96E)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.05)]">
-                  <span className="text-center text-[16px] text-[var(--lm-text,#fff)] transition-colors duration-300 group-hover:text-[var(--lm-accent,#C9A96E)] md:text-[18px]" style={sans}>{g.name}</span>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <FleetGallerySlider />
 
         <div className="flex justify-center">
           <Link

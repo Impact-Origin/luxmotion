@@ -2342,7 +2342,8 @@
     "categoryMusic": "Musique",
     "categorySports": "Sports",
     "categoryCulture": "Culture",
-    "categoryCorporate": "Entreprise"
+    "categoryCorporate": "Entreprise",
+    "priceOnRequest": "Sur demande"
   },
   "eventDetails": {
     "date": "Date",

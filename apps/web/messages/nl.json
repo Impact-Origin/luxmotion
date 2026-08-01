@@ -2342,7 +2342,8 @@
     "categoryMusic": "Muziek",
     "categorySports": "Sport",
     "categoryCulture": "Cultuur",
-    "categoryCorporate": "Zakelijk"
+    "categoryCorporate": "Zakelijk",
+    "priceOnRequest": "Op aanvraag"
   },
   "eventDetails": {
     "date": "Datum",
