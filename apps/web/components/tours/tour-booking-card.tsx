@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect, useMemo } from "react"
+import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
@@ -22,6 +22,16 @@ interface TourBookingCardProps {
   maxPassengers?: number
   addons?: BookingAddon[]
   onBook?: (data: BookingData) => void
+  /** Chamada quando já há data e hora: o pai usa-a para guardar o
+   *  carrinho pendente e acender a barra de baixo. */
+  onSelectionReady?: (data: {
+    date: Date | null
+    time: string | null
+    adults: number
+    children: number
+    infants: number
+    total: number
+  }) => void
 }
 
 interface BookingData {
@@ -74,7 +84,7 @@ function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: strin
   )
 }
 
-export function TourBookingCard({ price, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook }: TourBookingCardProps) {
+export function TourBookingCard({ price, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook, onSelectionReady }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
   // O picker escolhe a paleta por prop (não por var CSS). Só clareia dentro do
@@ -142,6 +152,34 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   const total = price * (totalGuests || 1) + addonsTotal
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   const isBelowMin = minPassengers ? payingGuests < minPassengers : false
+
+  // Basta escolher data e hora para a reserva passar a existir: o pai guarda-a
+  // e a barra de baixo acende, mesmo que a pessoa nunca abra o checkout.
+  const lastSelection = useRef<string | null>(null)
+  useEffect(() => {
+    if (!dateTime.date || !dateTime.time) return
+    // Só avisa quando a escolha muda mesmo. Sem esta guarda o efeito voltava a
+    // gravar a cada render e a contagem decrescente reiniciava-se sempre,
+    // porque a gravação renova o prazo.
+    const signature = [
+      dateTime.date.toISOString(),
+      dateTime.time,
+      adults,
+      children,
+      infants,
+      total,
+    ].join("|")
+    if (lastSelection.current === signature) return
+    lastSelection.current = signature
+    onSelectionReady?.({
+      date: dateTime.date,
+      time: dateTime.time,
+      adults,
+      children,
+      infants,
+      total,
+    })
+  }, [dateTime.date, dateTime.time, adults, children, infants, total, onSelectionReady])
 
   const handleBook = () => {
     const selectedAddonsData = addons
