@@ -66,6 +66,7 @@ export const _startRun = internalMutation({
     trigger: v.union(v.literal("cron"), v.literal("manual")),
     topic: v.optional(v.string()),
     icp: v.optional(v.string()),
+    keepDraft: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("blogGenerationRuns", {
@@ -73,6 +74,7 @@ export const _startRun = internalMutation({
       status: "running",
       topic: args.topic,
       icp: args.icp,
+      keepDraft: args.keepDraft,
       imageDone: false,
       localesDone: [],
       localesFailed: [],
@@ -140,9 +142,9 @@ export const _markStep = internalMutation({
     // Sem hero acima da dobra, um artigo de viagens de luxo não deve ir para o
     // ar. Fica em rascunho à espera de alguém.
     const hasHero = Boolean((await ctx.db.get(run.blogId))?.heroImageId);
-    const partial = failed.size > 0 || !hasHero;
+    const partial = failed.size > 0 || !hasHero || Boolean(run.keepDraft);
 
-    if (hasHero) {
+    if (hasHero && !run.keepDraft) {
       await ctx.db.patch(run.blogId, {
         status: "published",
         publishedAt: Date.now(),
@@ -153,9 +155,11 @@ export const _markStep = internalMutation({
     await ctx.db.patch(args.runId, {
       status: partial ? "needsReview" : "completed",
       finishedAt: Date.now(),
-      error: hasHero
-        ? undefined
-        : "Sem imagem de capa: artigo deixado em rascunho.",
+      error: run.keepDraft
+        ? "Corrida de teste: artigo deixado em rascunho de propósito."
+        : hasHero
+          ? undefined
+          : "Sem imagem de capa: artigo deixado em rascunho.",
     });
   },
 });
@@ -258,6 +262,7 @@ export const generateArticle = internalAction({
     topic: v.optional(v.string()),
     icp: v.optional(v.string()),
     trigger: v.optional(v.union(v.literal("cron"), v.literal("manual"))),
+    keepDraft: v.optional(v.boolean()),
     attempt: v.optional(v.number()),
   },
   handler: async (ctx, args): Promise<{ ok: boolean; error?: string }> => {
@@ -272,6 +277,7 @@ export const generateArticle = internalAction({
       trigger,
       topic: args.topic,
       icp: args.icp,
+      keepDraft: args.keepDraft,
     });
 
     try {
@@ -434,7 +440,13 @@ export const generateArticle = internalAction({
         await ctx.scheduler.runAfter(
           Math.min(10 * 60_000, 30_000 * 2 ** (attempt - 1)),
           internal.blogAutomation.generateArticle,
-          { topic: args.topic, icp: args.icp, trigger, attempt: attempt + 1 },
+          {
+            topic: args.topic,
+            icp: args.icp,
+            trigger,
+            keepDraft: args.keepDraft,
+            attempt: attempt + 1,
+          },
         );
       } else {
         await ctx.runMutation(internal.blogAutomation._failRun, { runId, error: message });
@@ -582,7 +594,11 @@ export const translateBlog = internalAction({
 
 /** Botão do admin. Aceita um tópico, ou deixa o modelo escolher. */
 export const generateNow = action({
-  args: { topic: v.optional(v.string()), icp: v.optional(v.string()) },
+  args: {
+    topic: v.optional(v.string()),
+    icp: v.optional(v.string()),
+    keepDraft: v.optional(v.boolean()),
+  },
   handler: async (ctx, args): Promise<{ ok: boolean; error?: string }> => {
     // Esta action gasta dinheiro e o Convex não tem autenticação: recusa se já
     // houver uma geração a decorrer.
@@ -596,6 +612,7 @@ export const generateNow = action({
     return await ctx.runAction(internal.blogAutomation.generateArticle, {
       topic: args.topic,
       icp: args.icp,
+      keepDraft: args.keepDraft,
       trigger: "manual",
     });
   },

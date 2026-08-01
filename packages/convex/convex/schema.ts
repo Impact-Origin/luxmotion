@@ -405,6 +405,8 @@ export default defineSchema({
     description: v.optional(v.string()),
     /** Resposta crua truncada, só para depuração. */
     rawResponse: v.optional(v.string()),
+    /** Corrida de teste: fica em rascunho mesmo correndo tudo bem. */
+    keepDraft: v.optional(v.boolean()),
     imageDone: v.optional(v.boolean()),
     localesDone: v.optional(v.array(v.string())),
     localesFailed: v.optional(v.array(v.string())),

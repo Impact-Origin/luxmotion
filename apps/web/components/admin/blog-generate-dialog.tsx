@@ -6,6 +6,7 @@ import { api } from "@workspace/convex/api";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
+import { Checkbox } from "@workspace/ui/components/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -43,6 +44,7 @@ export function BlogGenerateDialog({
   const generate = useAction(api.blogAutomation.generateNow);
   const [topic, setTopic] = React.useState("");
   const [icp, setIcp] = React.useState<string>("");
+  const [keepDraft, setKeepDraft] = React.useState(true);
   const [isRunning, setIsRunning] = React.useState(false);
 
   const run = async () => {
@@ -51,10 +53,13 @@ export function BlogGenerateDialog({
       const res = await generate({
         topic: topic.trim() || undefined,
         icp: icp || undefined,
+        keepDraft,
       });
       if (res.ok) {
         toast.success(
-          "Geração iniciada. O artigo aparece na lista quando a imagem e as traduções estiverem prontas.",
+          keepDraft
+            ? "Geração iniciada. O artigo fica em rascunho para leres antes de publicar."
+            : "Geração iniciada. O artigo é publicado assim que a imagem e as traduções estiverem prontas.",
         );
         setTopic("");
         setIcp("");
@@ -110,6 +115,22 @@ export function BlogGenerateDialog({
               </SelectContent>
             </Select>
           </div>
+
+          <label className="flex cursor-pointer items-start gap-2.5 rounded-md border border-border p-3">
+            <Checkbox
+              checked={keepDraft}
+              onCheckedChange={(v) => setKeepDraft(v === true)}
+              disabled={isRunning}
+              className="mt-0.5"
+            />
+            <span className="text-sm">
+              <span className="font-medium">Deixar em rascunho</span>
+              <span className="block text-muted-foreground">
+                Sem isto o artigo vai para o ar sozinho no fim. Para o primeiro
+                teste, convém ficar ligado.
+              </span>
+            </span>
+          </label>
         </div>
 
         <div className="flex justify-end gap-2 pt-2">

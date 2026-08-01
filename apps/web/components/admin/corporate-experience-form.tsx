@@ -308,7 +308,7 @@ export function CorporateExperienceForm({
         </button>
       </div>
 
-      <div className="sticky top-0 z-10 -mx-4 border-b border-border bg-background px-4 py-3 lg:-mx-8 lg:px-8">
+      <div className="sticky top-0 z-10 -mx-4 -mt-5 border-b border-border bg-background px-4 pb-3 pt-8 lg:-mx-8 lg:-mt-6 lg:px-8 lg:pt-9">
         <div className="mb-2 flex items-center justify-between text-xs font-medium uppercase tracking-[1px] text-muted-foreground">
           <span className="truncate">{STEPS[currentStepIndex]?.label}</span>
           <span className="shrink-0 pl-3 tabular-nums">
