@@ -154,22 +154,22 @@ export function DestinationsSection() {
           <button
             onClick={prev}
             className={cn(
-              "hidden md:flex absolute left-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] items-center justify-center bg-[var(--lm-bg,#0D0D0D)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-opacity",
+              "hidden md:flex absolute left-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] items-center justify-center bg-[#111110] border border-[rgba(201,169,110,0.5)] shadow-[0_2px_10px_rgba(0,0,0,0.35)] transition-opacity",
               offset === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             aria-label="Previous"
           >
-            <ChevronLeft className="size-[14px] text-[var(--lm-accent,#C9A96E)]" />
+            <ChevronLeft className="size-[14px] text-[#C9A96E]" />
           </button>
           <button
             onClick={next}
             className={cn(
-              "hidden md:flex absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] items-center justify-center bg-[var(--lm-bg,#0D0D0D)] border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] transition-opacity",
+              "hidden md:flex absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 size-[36px] items-center justify-center bg-[#111110] border border-[rgba(201,169,110,0.5)] shadow-[0_2px_10px_rgba(0,0,0,0.35)] transition-opacity",
               offset >= maxOffset ? "opacity-0 pointer-events-none" : "opacity-100"
             )}
             aria-label="Next"
           >
-            <ChevronRight className="size-[14px] text-[var(--lm-accent,#C9A96E)]" />
+            <ChevronRight className="size-[14px] text-[#C9A96E]" />
           </button>
         </div>
 

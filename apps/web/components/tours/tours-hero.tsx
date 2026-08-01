@@ -167,10 +167,10 @@ export function ToursHero() {
               </button>
               <button
                 onClick={() => router.push("/tours/results")}
-                className="flex flex-1 h-[56px] items-center justify-center border border-l-0 border-[#C9A96E] bg-transparent transition-colors hover:bg-[rgba(201,169,110,0.12)]"
+                className="flex flex-1 h-[56px] items-center justify-center border border-l-0 border-[#C9A96E] bg-[#EFE8DC] transition-colors hover:bg-[#e3d9c8]"
               >
                 <span
-                  className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] whitespace-nowrap"
+                  className="text-[14px] font-medium uppercase tracking-[1.1px] text-[#1a1612] whitespace-nowrap"
                   style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
                 >
                   {t("redesign.viewAllButton")}

@@ -65,9 +65,9 @@ export function ToursSearchBar({ value, onChange, onSearch, placeholder, classNa
         </button>
         <button
           onClick={() => router.push("/tours/results")}
-          className="flex flex-1 h-[56px] items-center justify-center border border-l-0 border-[#c9a96e] bg-transparent transition-colors hover:bg-[rgba(201,169,110,0.12)]"
+          className="flex flex-1 h-[56px] items-center justify-center border border-l-0 border-[#c9a96e] bg-[#EFE8DC] transition-colors hover:bg-[#e3d9c8]"
         >
-          <span className="text-[14px] font-medium text-[#c9a96e] tracking-[1.1px] uppercase whitespace-nowrap">
+          <span className="text-[14px] font-medium text-[#1a1612] tracking-[1.1px] uppercase whitespace-nowrap">
             {t("redesign.viewAllButton")}
           </span>
         </button>
