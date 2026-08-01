@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from "react"
 import { useTranslations } from "next-intl"
+import { useQuery } from "convex/react"
+import { api } from "@workspace/convex/api"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
@@ -12,7 +14,9 @@ type Photo = {
   src: string
   alt: string
   cat: Exclude<Category, "all">
-  labelKey: string
+  /** Legenda já resolvida: vem do título no backend, ou de uma chave de tradução
+   *  nas fotos de recurso. */
+  label: string
 }
 
 const CATEGORIES: { id: Category; labelKey: string }[] = [
@@ -23,7 +27,7 @@ const CATEGORIES: { id: Category; labelKey: string }[] = [
   { id: "tours", labelKey: "filters.tours" },
 ]
 
-const PHOTOS: Photo[] = [
+const FALLBACK: { src: string; alt: string; cat: Exclude<Category, "all">; labelKey: string }[] = [
   { src: "/about/exp-tennis-cascais.webp", alt: "Estoril Open tennis at Cascais", cat: "events", labelKey: "photos.tennisCascais" },
   { src: "/about/exp-websummit.webp", alt: "Web Summit Lisbon", cat: "corporate", labelKey: "photos.webSummit" },
   { src: "/about/exp-golf.jpg", alt: "Golf course at sunset", cat: "tours", labelKey: "photos.golfAlgarve" },
@@ -32,7 +36,8 @@ const PHOTOS: Photo[] = [
   { src: "/about/exp-private-aviation.webp", alt: "LuxMotion Sprinter van beside a private jet on the apron", cat: "corporate", labelKey: "photos.privateAviation" },
 ]
 
-function PhotoTile({ photo, label, className }: { photo: Photo; label: string; className?: string }) {
+function PhotoTile({ photo, className }: { photo: Photo; className?: string }) {
+  const label = photo.label
   return (
     <div className={cn("group relative overflow-hidden", className)}>
       <Image
@@ -86,9 +91,39 @@ export function PastExperiencesSection() {
   const [active, setActive] = useState<Category>("all")
   const [mobileIdx, setMobileIdx] = useState(0)
 
+  // A secção era uma lista fixa no código: o que o admin publicasse em
+  // /admin/experiences nunca aparecia aqui.
+  const published = useQuery(api.pastExperiences.listPublished)
+
+  const photos: Photo[] = useMemo(() => {
+    const fromBackend = (published ?? [])
+      .filter((e) => Boolean(e.imageUrl))
+      .map((e) => ({
+        src: e.imageUrl as string,
+        alt: e.title,
+        // No schema a categoria dos tours chama-se privateTours.
+        cat: (e.category === "privateTours" ? "tours" : e.category) as Exclude<
+          Category,
+          "all"
+        >,
+        label: e.location ? `${e.title} · ${e.location}` : e.title,
+      }))
+
+    if (fromBackend.length > 0) return fromBackend
+
+    // Nada publicado (ou ainda a carregar): mantém-se o conteúdo que já estava
+    // no ar, em vez de deixar a secção vazia.
+    return FALLBACK.map((f) => ({
+      src: f.src,
+      alt: f.alt,
+      cat: f.cat,
+      label: t(f.labelKey),
+    }))
+  }, [published, t])
+
   const filtered = useMemo(
-    () => (active === "all" ? PHOTOS : PHOTOS.filter((p) => p.cat === active)),
-    [active],
+    () => (active === "all" ? photos : photos.filter((p) => p.cat === active)),
+    [active, photos],
   )
 
   // The hero layout needs exactly 4 tiles; anything beyond that falls into the
@@ -164,17 +199,17 @@ export function PastExperiencesSection() {
           {showAsymmetric ? (
             <div className="flex flex-col gap-[2px] w-full">
               <div className="flex gap-[2px] w-full h-[394px]">
-                <PhotoTile photo={filtered[0]!} label={t(filtered[0]!.labelKey)} className="w-[950px] h-full shrink-0" />
-                <PhotoTile photo={filtered[1]!} label={t(filtered[1]!.labelKey)} className="flex-1 h-full" />
+                <PhotoTile photo={filtered[0]!} className="w-[950px] h-full shrink-0" />
+                <PhotoTile photo={filtered[1]!} className="flex-1 h-full" />
               </div>
               <div className="flex gap-[2px] w-full h-[394px]">
-                <PhotoTile photo={filtered[2]!} label={t(filtered[2]!.labelKey)} className="w-[509px] h-full shrink-0" />
-                <PhotoTile photo={filtered[3]!} label={t(filtered[3]!.labelKey)} className="flex-1 h-full" />
+                <PhotoTile photo={filtered[2]!} className="w-[509px] h-full shrink-0" />
+                <PhotoTile photo={filtered[3]!} className="flex-1 h-full" />
               </div>
               {overflow.length > 0 && (
                 <div className="grid grid-cols-2 gap-[2px] w-full">
                   {overflow.map((p) => (
-                    <PhotoTile key={p.src} photo={p} label={t(p.labelKey)} className="h-[394px]" />
+                    <PhotoTile key={p.src} photo={p} className="h-[394px]" />
                   ))}
                 </div>
               )}
@@ -184,7 +219,7 @@ export function PastExperiencesSection() {
           ) : (
             <div className="grid grid-cols-2 gap-[2px] w-full">
               {filtered.map((p) => (
-                <PhotoTile key={p.src} photo={p} label={t(p.labelKey)} className="h-[394px]" />
+                <PhotoTile key={p.src} photo={p} className="h-[394px]" />
               ))}
             </div>
           )}
@@ -202,7 +237,7 @@ export function PastExperiencesSection() {
                 >
                   {filtered.map((p) => (
                     <div key={p.src} className="shrink-0 w-full">
-                      <PhotoTile photo={p} label={t(p.labelKey)} className="w-full h-[340px]" />
+                      <PhotoTile photo={p} className="w-full h-[340px]" />
                     </div>
                   ))}
                 </div>
