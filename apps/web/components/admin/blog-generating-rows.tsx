@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@workspace/convex/api";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 /**
  * Linhas das gerações a decorrer, por cima da tabela de artigos.
@@ -47,7 +47,6 @@ export function BlogGeneratingRows() {
             className="rounded-lg border border-border bg-card px-4 py-3"
           >
             <div className="flex items-center gap-3">
-              <Sparkles className="size-4 shrink-0 text-muted-foreground" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-foreground">
                   {run.title || run.topic || "A escolher o tópico…"}
