@@ -95,7 +95,7 @@ function FleetGallerySlider() {
           <div
             key={g.src}
             data-card
-            className="group flex w-[calc(100%-8px)] shrink-0 snap-start flex-col gap-2 sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-8px)]"
+            className="group w-[calc(100%-8px)] shrink-0 snap-start sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-8px)]"
           >
             <div className="relative aspect-[324/323] w-full overflow-hidden">
               <Image
@@ -110,14 +110,6 @@ function FleetGallerySlider() {
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 style={{ background: "linear-gradient(to top, rgba(var(--lm-accent-rgb,201,169,110),0.18), transparent 55%)" }}
               />
-            </div>
-            <div className="flex items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)] px-4 py-3 transition-colors duration-300 group-hover:border-[var(--lm-accent,#C9A96E)] group-hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.05)]">
-              <span
-                className="text-center text-[16px] text-[var(--lm-text,#fff)] transition-colors duration-300 group-hover:text-[var(--lm-accent,#C9A96E)] md:text-[18px]"
-                style={sans}
-              >
-                {g.name}
-              </span>
             </div>
           </div>
         ))}
