@@ -24,6 +24,7 @@ import type * as googleReviews from "../googleReviews.js";
 import type * as http from "../http.js";
 import type * as instagram from "../instagram.js";
 import type * as lib_blogPrompts from "../lib/blogPrompts.js";
+import type * as lib_geo from "../lib/geo.js";
 import type * as lib_markdownToTiptap from "../lib/markdownToTiptap.js";
 import type * as lib_openai from "../lib/openai.js";
 import type * as lib_pagination from "../lib/pagination.js";
@@ -79,6 +80,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   instagram: typeof instagram;
   "lib/blogPrompts": typeof lib_blogPrompts;
+  "lib/geo": typeof lib_geo;
   "lib/markdownToTiptap": typeof lib_markdownToTiptap;
   "lib/openai": typeof lib_openai;
   "lib/pagination": typeof lib_pagination;
