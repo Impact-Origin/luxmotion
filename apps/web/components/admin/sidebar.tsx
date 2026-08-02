@@ -18,18 +18,11 @@ import {
   UserCheck,
   Star,
   Mail,
-  Send,
-  Gem,
-  Heart,
-  GraduationCap,
   Briefcase,
   Handshake,
-  IdCard,
   BarChart3,
   CalendarClock,
-  Newspaper,
   ShoppingBag,
-  ChevronDown,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -64,7 +57,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         items: [
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
-          { title: "Upsells (checkout)", url: "/admin/upsells", icon: ShoppingBag, badge: "NOVO" },
+          { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag },
           { title: "Corporate", url: "/admin/corporate-experiences", icon: Briefcase },
           { title: "Galeria “Sobre nós”", url: "/admin/experiences", icon: Sparkles },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },
@@ -104,26 +97,6 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
     [pathname],
   );
 
-  const activeSection = React.useMemo(
-    () => sections.find((s) => s.items.some((i) => isItemActive(i.url)))?.label,
-    [sections, isItemActive],
-  );
-
-  // Collapsible sections: the section of the current page is open; others closed.
-  const [openSections, setOpenSections] = React.useState<string[]>(
-    activeSection ? [activeSection] : [],
-  );
-  React.useEffect(() => {
-    if (activeSection) {
-      setOpenSections((prev) => (prev.includes(activeSection) ? prev : [...prev, activeSection]));
-    }
-  }, [activeSection]);
-
-  const toggleSection = (label: string) =>
-    setOpenSections((prev) =>
-      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label],
-    );
-
   return (
     <div
       className={cn(
@@ -151,62 +124,50 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
 
       <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
         <nav className="flex flex-col gap-1">
+          {/* Tudo à vista. As secções eram dobráveis e só abria a da página
+              actual, o que obrigava a caçar entradas atrás de um chevron —
+              agora que são 17 e não 23, cabem todas sem scroll. */}
           {sections.map((section, si) => {
-            const open = collapsed || openSections.includes(section.label);
             return (
               <div key={section.label} className="flex flex-col">
                 {!collapsed ? (
-                  <button
-                    type="button"
-                    onClick={() => toggleSection(section.label)}
-                    className="flex items-center justify-between rounded-md px-3 py-1.5 text-[10px] font-medium uppercase tracking-[1.5px] text-sidebar-foreground/45 transition-colors hover:text-sidebar-foreground/80"
-                  >
-                    <span>{section.label}</span>
-                    <ChevronDown className={cn("size-3.5 transition-transform", open ? "" : "-rotate-90")} />
-                  </button>
+                  <div className="px-3 py-1.5 text-[10px] font-medium uppercase tracking-[1.5px] text-sidebar-foreground/45">
+                    {section.label}
+                  </div>
                 ) : si > 0 ? (
                   <div className="mx-2 my-1 border-t border-sidebar-border" />
                 ) : null}
 
-                {open && (
-                  <div className="flex flex-col gap-0.5 pb-1">
-                    {section.items.map((item) => {
-                      const isActive = isItemActive(item.url);
-                      return (
-                        <Link
-                          key={item.url}
-                          href={item.url}
-                          title={collapsed ? item.title : undefined}
+                <div className="flex flex-col gap-0.5 pb-1">
+                  {section.items.map((item) => {
+                    const isActive = isItemActive(item.url);
+                    return (
+                      <Link
+                        key={item.url}
+                        href={item.url}
+                        title={collapsed ? item.title : undefined}
+                        className={cn(
+                          "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                          collapsed && "justify-center",
+                          isActive
+                            ? "bg-sidebar-accent font-medium text-sidebar-primary"
+                            : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-primary",
+                        )}
+                      >
+                        <item.icon
                           className={cn(
-                            "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                            collapsed && "justify-center",
+                            "size-[18px] shrink-0 transition-colors",
                             isActive
-                              ? "bg-sidebar-accent font-medium text-sidebar-primary"
-                              : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-primary",
+                              ? "text-sidebar-primary"
+                              : "text-sidebar-foreground/60 group-hover:text-sidebar-primary",
                           )}
-                        >
-                          <item.icon
-                            className={cn(
-                              "size-[18px] shrink-0 transition-colors",
-                              isActive
-                                ? "text-sidebar-primary"
-                                : "text-sidebar-foreground/60 group-hover:text-sidebar-primary",
-                            )}
-                            strokeWidth={1.8}
-                          />
-                          {!collapsed && <span className="truncate">{item.title}</span>}
-                          {/* Selo opcional ("NOVO"). Só com a sidebar aberta:
-                              recolhida não há largura para ele. */}
-                          {!collapsed && "badge" in item && item.badge && (
-                            <span className="ml-auto shrink-0 rounded bg-sidebar-primary/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-sidebar-primary">
-                              {item.badge}
-                            </span>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
+                          strokeWidth={1.8}
+                        />
+                        {!collapsed && <span className="truncate">{item.title}</span>}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}
