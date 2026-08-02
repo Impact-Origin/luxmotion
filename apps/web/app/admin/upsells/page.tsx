@@ -48,12 +48,7 @@ import {
 } from "@workspace/ui/components/alert-dialog"
 import { cn } from "@workspace/ui/lib/utils"
 import { StatusBadge } from "@/components/admin/status-badge"
-import {
-  DataTable,
-  type DataTableColumn,
-  type DataTableFilter,
-  type DataTableQuery,
-} from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import {
   PRICING_LABELS,
   TAG_LABELS,
@@ -283,7 +278,7 @@ export default function AdminUpsellsPage() {
       cell: (r) => (
         <div className="flex items-center gap-3">
           <Thumb url={r.imageUrl} title={r.title} />
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <span className="line-clamp-1 font-medium text-foreground">{r.title}</span>
               <TagBadge tag={r.tag} />
@@ -335,7 +330,7 @@ export default function AdminUpsellsPage() {
       cell: (r) => (
         <div className="flex items-center gap-3">
           <Thumb url={r.imageUrl} title={r.title} />
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <span className="line-clamp-1 font-medium text-foreground">{r.title}</span>
               <TagBadge tag={r.tag} />

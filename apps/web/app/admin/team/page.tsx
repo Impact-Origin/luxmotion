@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import { Plus, Pencil, Trash2, MoreHorizontal, Users, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -160,7 +160,7 @@ export default function AdminTeamPage() {
         </div>
       </div>
       <div className="flex items-start justify-between gap-2 p-4">
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <h3 className="truncate font-medium text-foreground">{member.name}</h3>
           {member.role && <p className="text-sm text-muted-foreground">{member.role}</p>}
           <p className="mt-2 text-xs text-muted-foreground">#{member.order}</p>

@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 const STATUS_CONFIG = {
   new: { label: "New" },
@@ -63,7 +63,7 @@ export default function PartnerLeadsPage() {
       header: "Contact",
       sortAccessor: (r) => r.fullName.toLowerCase(),
       cell: (r) => (
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <div className="font-medium text-foreground">{r.fullName}</div>
           <div className="mt-0.5 flex flex-col gap-0.5 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
@@ -151,7 +151,7 @@ export default function PartnerLeadsPage() {
   const renderCard = (lead: Lead) => (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4">
       <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <div className="font-medium text-foreground">{lead.fullName}</div>
           <span className="mt-0.5 flex items-center gap-1.5 text-sm text-muted-foreground">
             <Building2 className="size-3.5" />

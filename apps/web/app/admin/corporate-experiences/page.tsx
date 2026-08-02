@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 type Status = "draft" | "published"
 type Pillar = "standard" | "experiences" | "logistics"
@@ -121,7 +121,7 @@ export default function AdminCorporateExperiencesPage() {
               <img src={e.coverImageUrl} alt="" className="h-full w-full object-cover" />
             ) : null}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="font-medium text-foreground">
               {e.titlePrefix} <span className="italic text-muted-foreground">{e.titleAccent}</span>
             </div>

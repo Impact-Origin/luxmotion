@@ -22,12 +22,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu";
 import { toast } from "sonner";
 import { StatusBadge } from "@/components/admin/status-badge";
-import {
-  DataTable,
-  type DataTableColumn,
-  type DataTableFilter,
-  type DataTableQuery,
-} from "@/components/admin/data-table";
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 import {
   Sheet,
   SheetContent,
@@ -345,7 +340,7 @@ export default function OrdersPage() {
       header: "Order",
       sortAccessor: (o) => o.orderNumber ?? "",
       cell: (o) => (
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <span className="font-mono text-xs font-medium text-foreground">
             {o.orderNumber ?? "—"}
           </span>
@@ -363,7 +358,7 @@ export default function OrdersPage() {
       header: "Customer",
       sortAccessor: (o) => (o.customerName ?? "").toLowerCase(),
       cell: (o) => (
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <span className="font-medium text-foreground">{o.customerName || "—"}</span>
           {o.customerEmail && (
             <p className="truncate text-xs text-muted-foreground">{o.customerEmail}</p>
@@ -386,7 +381,7 @@ export default function OrdersPage() {
       header: "Travel",
       sortAccessor: (o) => o.departureDate ?? "",
       cell: (o) => (
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <span className="text-sm text-foreground">{formatTravel(o.departureDate)}</span>
           <p className="flex items-center gap-1 text-xs text-muted-foreground">
             <Users className="size-3" />
@@ -459,7 +454,7 @@ export default function OrdersPage() {
   const renderCard = (o: Order) => (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4">
       <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
+        <div className={TABLE_TEXT_CELL}>
           <span className="font-mono text-xs font-medium text-foreground">
             {o.orderNumber ?? "—"}
           </span>
@@ -467,7 +462,7 @@ export default function OrdersPage() {
         </div>
         {rowActions(o)}
       </div>
-      <div className="min-w-0">
+      <div className={TABLE_TEXT_CELL}>
         <p className="truncate font-medium text-foreground">{o.customerName || "—"}</p>
         <p className="truncate text-xs text-muted-foreground">{o.routeLabel}</p>
       </div>

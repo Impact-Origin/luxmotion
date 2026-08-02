@@ -31,7 +31,7 @@ import {
 import { toast } from "sonner"
 import Image from "next/image"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 export default function AdminExperiencesPage() {
   const t = useTranslations("adminExperiences")
@@ -126,7 +126,7 @@ export default function AdminExperiencesPage() {
               <Briefcase className="size-4 text-muted-foreground" />
             )}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <span className="font-medium text-foreground line-clamp-1">{e.title}</span>
             <p className="text-xs text-muted-foreground line-clamp-1">{e.description}</p>
           </div>

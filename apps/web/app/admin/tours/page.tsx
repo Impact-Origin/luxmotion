@@ -7,7 +7,7 @@ import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
 import { TourTranslationForm } from "@/components/admin/tour-translation-form"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import {
   Plus,
   Star,
@@ -156,7 +156,7 @@ export default function AdminToursPage() {
               <Map className="size-4 text-muted-foreground" />
             )}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <span className="truncate font-medium text-foreground">{tour.title}</span>
               {tour.isFeatured && <Star className="size-3.5 shrink-0 text-amber-500" />}
@@ -271,7 +271,7 @@ export default function AdminToursPage() {
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <p className="text-xs capitalize text-muted-foreground">
               {tour.category} · {tour.destination}
             </p>

@@ -22,12 +22,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { StatusBadge } from "@/components/admin/status-badge";
-import {
-  DataTable,
-  type DataTableColumn,
-  type DataTableFilter,
-  type DataTableQuery,
-} from "@/components/admin/data-table";
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 import { PARTNERSHIP_LANDING_TEMPLATES } from "@/lib/partnership-landing-templates";
 
 export default function PartnershipsPage() {
@@ -123,7 +118,7 @@ export default function PartnershipsPage() {
       cell: (p) => (
         <div className="flex items-center gap-3">
           {logo(p, "size-8")}
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <Link
               href={`/admin/partnerships/${p._id}`}
               className="block truncate font-medium text-foreground transition-colors hover:text-muted-foreground"
@@ -182,7 +177,7 @@ export default function PartnershipsPage() {
       <div className="flex items-start justify-between gap-2 p-5">
         <Link href={`/admin/partnerships/${p._id}`} className="flex min-w-0 items-center gap-3">
           {logo(p, "size-10")}
-          <span className="min-w-0">
+          <span className={TABLE_TEXT_CELL}>
             <span className="block truncate font-medium text-foreground">{p.name}</span>
             <span className="block truncate font-mono text-xs text-muted-foreground">/{p.slug}</span>
           </span>

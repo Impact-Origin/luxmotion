@@ -20,7 +20,7 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 import { StatusBadge } from "@/components/admin/status-badge";
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 
 export default function VehiclesPage() {
   const { isNew, editId, isOpen, openNew, openEdit, close } = useEntityFormParams();
@@ -85,7 +85,7 @@ export default function VehiclesPage() {
               <Car className="size-4 text-muted-foreground" />
             )}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <span className="font-medium text-foreground">{v.name}</span>
               {v.isElectric && <Zap className="size-3.5 text-emerald-600" />}
@@ -179,7 +179,7 @@ export default function VehiclesPage() {
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <h3 className="truncate font-medium text-foreground">{v.name}</h3>
               {v.isElectric && <Zap className="size-3.5 shrink-0 text-emerald-600" />}

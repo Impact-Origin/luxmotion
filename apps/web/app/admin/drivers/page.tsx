@@ -10,7 +10,7 @@ import {
 } from "@/components/admin/entity-form-dialog"
 import { Button } from "@workspace/ui/components/button"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 import { Plus, Pencil, Trash2, MoreHorizontal, UserCheck, MapPin, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
@@ -100,7 +100,7 @@ export default function AdminDriversPage() {
               <UserCheck className="size-4 text-muted-foreground" />
             )}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <span className="font-medium text-foreground">{d.name}</span>
             {d.location && (
               <p className="flex items-center gap-1 text-xs text-muted-foreground">

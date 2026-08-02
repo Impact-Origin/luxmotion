@@ -28,7 +28,7 @@ import {
 import { toast } from "sonner"
 import Image from "next/image"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 export default function AdminEventsPage() {
   const t = useTranslations("adminEvents")
@@ -192,7 +192,7 @@ export default function AdminEventsPage() {
               <Calendar className="size-4 text-muted-foreground" />
             )}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <span className="font-medium text-foreground line-clamp-1">{e.title}</span>
               {e.isFeatured && <Star className="size-3.5 shrink-0 text-primary" />}

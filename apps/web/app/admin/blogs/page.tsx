@@ -31,7 +31,7 @@ import { BlogTranslationForm } from "@/components/admin/blog-translation-form";
 import { BlogGenerateDialog } from "@/components/admin/blog-generate-dialog";
 import { BlogGeneratingRows } from "@/components/admin/blog-generating-rows";
 import { StatusBadge } from "@/components/admin/status-badge";
-import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
+import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -169,7 +169,7 @@ export default function BlogsPage() {
               <FileText className="size-4 text-muted-foreground" />
             )}
           </div>
-          <div className="min-w-0">
+          <div className={TABLE_TEXT_CELL}>
             <div className="flex items-center gap-1.5">
               <span className="truncate font-medium text-foreground">{b.title}</span>
               {b.isFeatured && <Star className="size-3.5 shrink-0 fill-current text-primary" />}

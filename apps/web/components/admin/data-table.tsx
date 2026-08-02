@@ -34,6 +34,20 @@ import { Skeleton } from "@workspace/ui/components/skeleton"
 import { Button } from "@workspace/ui/components/button"
 import { AdminEmptyState } from "@/components/admin/empty-state"
 
+/**
+ * Wrapper para blocos de texto (título + descrição) dentro de uma célula.
+ *
+ * A célula da tabela tem `whitespace-nowrap`, portanto uma descrição sem limite
+ * de largura vira UMA linha indivisível — e a largura mínima da coluna passa a
+ * ser a frase inteira. Medido: uma descrição normal levava a tabela a 1581px
+ * dentro de uma caixa de 900px, com 681px de scroll horizontal.
+ *
+ * `min-w-0` sozinho não chega: só permite encolher, não impõe tecto. O
+ * `line-clamp-1` também não, porque limita linhas e não largura. É o `max-w`
+ * que fixa a largura preferida da coluna e faz a tabela caber.
+ */
+export const TABLE_TEXT_CELL = "min-w-0 max-w-[420px]"
+
 export type SortDir = "asc" | "desc"
 
 export interface DataTableColumn<T> {
