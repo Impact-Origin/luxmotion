@@ -11,11 +11,11 @@ import {
   Clock,
   Eye,
   FileText,
-  Inbox,
   Loader2,
   Search,
   Trash2,
   XCircle,
+  Inbox,
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -27,9 +27,9 @@ import {
 } from "@workspace/ui/components/sheet"
 import { cn } from "@workspace/ui/lib/utils"
 
-type RequestStatus = "submitted" | "reviewing" | "approved" | "rejected"
+type ApplicationStatus = "submitted" | "reviewing" | "approved" | "rejected"
 
-const STATUS_FILTERS: Array<{ value: "all" | RequestStatus; label: string }> = [
+const STATUS_FILTERS: Array<{ value: "all" | ApplicationStatus; label: string }> = [
   { value: "all", label: "All" },
   { value: "submitted", label: "Submitted" },
   { value: "reviewing", label: "Reviewing" },
@@ -37,22 +37,22 @@ const STATUS_FILTERS: Array<{ value: "all" | RequestStatus; label: string }> = [
   { value: "rejected", label: "Rejected" },
 ]
 
-const STATUS_BADGE: Record<RequestStatus, string> = {
+const STATUS_BADGE: Record<ApplicationStatus, string> = {
   submitted: "bg-[#fef3c7] text-[#92400e] border-[#fde68a]",
   reviewing: "bg-muted text-muted-foreground border-border",
   approved: "bg-[#dcfce7] text-[#166534] border-[#bbf7d0]",
   rejected: "bg-[#fee2e2] text-[#991b1b] border-[#fecaca]",
 }
 
-const STATUS_LABEL: Record<RequestStatus, string> = {
+const STATUS_LABEL: Record<ApplicationStatus, string> = {
   submitted: "Submitted",
   reviewing: "Reviewing",
   approved: "Approved",
   rejected: "Rejected",
 }
 
-function formatDateTime(ts: number) {
-  return new Date(ts).toLocaleString(undefined, {
+function formatDate(ts: number) {
+  return new Date(ts).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -61,27 +61,14 @@ function formatDateTime(ts: number) {
   })
 }
 
-function formatDate(ts: number) {
-  return new Date(ts).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
-}
+export function DriverApplicationsPanel() {
+  const applications = useQuery(api.driverApplications.list)
+  const setStatus = useMutation(api.driverApplications.setStatus)
+  const remove = useMutation(api.driverApplications.remove)
 
-function formatBudget(b?: number) {
-  if (b === undefined) return "—"
-  return `€${b.toLocaleString("en-US")}`
-}
-
-export default function AdminCorporateRequestsPage() {
-  const requests = useQuery(api.corporateRequests.list)
-  const setStatus = useMutation(api.corporateRequests.setStatus)
-  const remove = useMutation(api.corporateRequests.remove)
-
-  const [filter, setFilter] = useState<"all" | RequestStatus>("all")
+  const [filter, setFilter] = useState<"all" | ApplicationStatus>("all")
   const [search, setSearch] = useState("")
-  const [activeId, setActiveId] = useState<Id<"corporateRequests"> | null>(null)
+  const [activeId, setActiveId] = useState<Id<"driverApplications"> | null>(null)
   const [page, setPage] = useState(0)
 
   useEffect(() => {
@@ -89,31 +76,31 @@ export default function AdminCorporateRequestsPage() {
   }, [filter, search])
 
   const filtered = useMemo(() => {
-    if (!requests) return undefined
+    if (!applications) return undefined
     const q = search.trim().toLowerCase()
-    return requests.filter((r) => {
-      if (filter !== "all" && r.status !== filter) return false
+    return applications.filter((a) => {
+      if (filter !== "all" && a.status !== filter) return false
       if (!q) return true
-      return [r.fullName, r.email, r.phone, r.companyName]
+      return [a.fullName, a.email, a.phone, a.vehiclePlate, a.operatingZone]
         .filter(Boolean)
         .some((v) => v!.toLowerCase().includes(q))
     })
-  }, [requests, filter, search])
+  }, [applications, filter, search])
 
   const counts = useMemo(() => {
-    const acc: Record<RequestStatus | "all", number> = {
+    const acc: Record<ApplicationStatus | "all", number> = {
       all: 0,
       submitted: 0,
       reviewing: 0,
       approved: 0,
       rejected: 0,
     }
-    for (const r of requests ?? []) {
+    for (const a of applications ?? []) {
       acc.all++
-      acc[r.status as RequestStatus]++
+      acc[a.status as ApplicationStatus]++
     }
     return acc
-  }, [requests])
+  }, [applications])
 
   const pageSize = 10
   const total = filtered?.length ?? 0
@@ -157,34 +144,31 @@ export default function AdminCorporateRequestsPage() {
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search name, email, phone, company…"
+            placeholder="Search name, email, plate, zone…"
             className="h-9 w-[280px] pl-9 pr-3 text-sm border border-border rounded-md focus:outline-none focus:border-ring"
           />
         </div>
       </div>
 
-      {requests === undefined ? (
+      {applications === undefined ? (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <Loader2 className="size-6 animate-spin" />
         </div>
       ) : filtered && filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center text-muted-foreground gap-2">
           <Inbox className="size-8" />
-          <p className="text-sm">No requests match these filters yet.</p>
+          <p className="text-sm">No applications match these filters yet.</p>
         </div>
       ) : (
         <div className="bg-card border border-border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-muted text-muted-foreground">
               <tr>
-                <th className="text-left font-medium px-4 py-3">Contact</th>
-                <th className="text-left font-medium px-4 py-3">Company</th>
+                <th className="text-left font-medium px-4 py-3">Driver</th>
                 <th className="text-left font-medium px-4 py-3">Email</th>
                 <th className="text-left font-medium px-4 py-3">Phone</th>
-                <th className="text-left font-medium px-4 py-3">Event date</th>
-                <th className="text-left font-medium px-4 py-3">Guests</th>
-                <th className="text-left font-medium px-4 py-3">Budget</th>
-                <th className="text-left font-medium px-4 py-3">Parceiro</th>
+                <th className="text-left font-medium px-4 py-3">Zone</th>
+                <th className="text-left font-medium px-4 py-3">Vehicle</th>
                 <th className="text-left font-medium px-4 py-3">Submitted</th>
                 <th className="text-left font-medium px-4 py-3">#</th>
                 <th className="text-left font-medium px-4 py-3">Status</th>
@@ -192,27 +176,27 @@ export default function AdminCorporateRequestsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {pageRows?.map((r) => {
-                const status = r.status as RequestStatus
+              {pageRows?.map((a) => {
+                const status = a.status as ApplicationStatus
                 return (
-                  <tr key={r._id} className="hover:bg-accent">
+                  <tr key={a._id} className="hover:bg-accent">
                     <td className="px-4 py-3 font-medium text-foreground">
-                      {r.fullName || <span className="text-muted-foreground">—</span>}
+                      {a.fullName || <span className="text-muted-foreground">—</span>}
                     </td>
-                    <td className="px-4 py-3 text-foreground">{r.companyName}</td>
-                    <td className="px-4 py-3 text-foreground">{r.email}</td>
-                    <td className="px-4 py-3 text-foreground">{r.phone}</td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {r.eventDate ? formatDate(r.eventDate) : "—"}
+                    <td className="px-4 py-3 text-foreground">{a.email}</td>
+                    <td className="px-4 py-3 text-foreground">{a.phone}</td>
+                    <td className="px-4 py-3 text-foreground capitalize">
+                      {a.operatingZone}
                     </td>
-                    <td className="px-4 py-3 text-foreground">{r.guests ?? "—"}</td>
-                    <td className="px-4 py-3 text-foreground">{formatBudget(r.budget)}</td>
-                    <td className="px-4 py-3 text-foreground">{r.partnershipName ?? "Easy Transfer"}</td>
+                    <td className="px-4 py-3 text-foreground">
+                      {[a.vehicleBrand, a.vehicleModel].filter(Boolean).join(" ") ||
+                        "—"}
+                    </td>
                     <td className="px-4 py-3 text-muted-foreground">
-                      {formatDateTime(r.createdAt)}
+                      {formatDate(a.createdAt)}
                     </td>
                     <td className="px-4 py-3 text-foreground font-medium">
-                      #{r.queuePosition}
+                      #{a.queuePosition}
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -229,7 +213,7 @@ export default function AdminCorporateRequestsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => setActiveId(r._id)}
+                          onClick={() => setActiveId(a._id)}
                           className="h-8 px-2"
                         >
                           <Eye className="size-4" />
@@ -238,8 +222,12 @@ export default function AdminCorporateRequestsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => {
-                            if (confirm("Delete this request? This cannot be undone."))
-                              void remove({ id: r._id })
+                            if (
+                              confirm(
+                                "Delete this application? This cannot be undone.",
+                              )
+                            )
+                              void remove({ id: a._id })
                           }}
                           className="h-8 px-2 text-destructive hover:text-destructive"
                         >
@@ -255,7 +243,7 @@ export default function AdminCorporateRequestsPage() {
         </div>
       )}
 
-      {requests !== undefined && total > 0 && (
+      {applications !== undefined && total > 0 && (
         <div className="flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
           <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
           <div className="flex items-center gap-2">
@@ -266,7 +254,7 @@ export default function AdminCorporateRequestsPage() {
         </div>
       )}
 
-      <RequestDetailSheet
+      <ApplicationDetailSheet
         id={activeId}
         onOpenChange={(open) => {
           if (!open) setActiveId(null)
@@ -277,28 +265,31 @@ export default function AdminCorporateRequestsPage() {
   )
 }
 
-function RequestDetailSheet({
+function ApplicationDetailSheet({
   id,
   onOpenChange,
   onSetStatus,
 }: {
-  id: Id<"corporateRequests"> | null
+  id: Id<"driverApplications"> | null
   onOpenChange: (open: boolean) => void
   onSetStatus: (
-    id: Id<"corporateRequests">,
-    status: RequestStatus,
+    id: Id<"driverApplications">,
+    status: ApplicationStatus,
   ) => Promise<unknown>
 }) {
-  const request = useQuery(api.corporateRequests.get, id ? { id } : "skip")
+  const application = useQuery(
+    api.driverApplications.get,
+    id ? { id } : "skip",
+  )
 
   return (
     <Sheet open={id !== null} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>{request?.fullName || "Corporate request"}</SheetTitle>
+          <SheetTitle>{application?.fullName || "Driver application"}</SheetTitle>
         </SheetHeader>
 
-        {!request ? (
+        {!application ? (
           <div className="flex items-center justify-center py-16 text-muted-foreground">
             <Loader2 className="size-6 animate-spin" />
           </div>
@@ -306,42 +297,151 @@ function RequestDetailSheet({
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>#{request.queuePosition}</span>
+                <span>#{application.queuePosition}</span>
                 <span>·</span>
-                <span>{formatDateTime(request.createdAt)}</span>
+                <span>{formatDate(application.createdAt)}</span>
               </div>
               <StatusActions
-                current={request.status as RequestStatus}
-                onSetStatus={(status) => onSetStatus(request._id, status)}
+                current={application.status as ApplicationStatus}
+                onSetStatus={(status) => onSetStatus(application._id, status)}
               />
             </div>
 
-            <Section title="Contact">
-              <Field label="Full name">{request.fullName}</Field>
-              <Field label="Company">{request.companyName}</Field>
+            <Section title="Operating zone">
+              <Field label="Zone">
+                <span className="capitalize">{application.operatingZone}</span>
+              </Field>
+            </Section>
+
+            <Section title="Personal & contact">
+              <Field label="Full name">{application.fullName}</Field>
               <Field label="Email" copyable>
-                {request.email}
+                {application.email}
               </Field>
-              <Field label="Phone / WhatsApp" copyable>
-                {request.phone}
+              <Field label="Representative email" copyable>
+                {application.representativeEmail}
+              </Field>
+              <Field label="Phone" copyable>
+                {application.phone}
+              </Field>
+              <Field label="WhatsApp" copyable>
+                {application.whatsapp}
+              </Field>
+              <Field label="Referral">{application.referral}</Field>
+              <Field label="Languages">
+                {application.languages.length === 0
+                  ? "—"
+                  : application.languages
+                      .map((l) => `${l.code} (${l.level})`)
+                      .join(", ")}
               </Field>
             </Section>
 
-            <Section title="Event">
-              <Field label="Event date">
-                {request.eventDate ? formatDate(request.eventDate) : "—"}
+            <Section title="Vehicle">
+              <Field label="Category">{application.vehicleCategory}</Field>
+              <Field label="Brand & model">
+                {[application.vehicleBrand, application.vehicleModel]
+                  .filter(Boolean)
+                  .join(" ") || "—"}
               </Field>
-              <Field label="Guests">
-                {request.guests !== undefined ? String(request.guests) : "—"}
+              <Field label="License plate" copyable>
+                {application.vehiclePlate}
               </Field>
-              <Field label="Estimated budget">{formatBudget(request.budget)}</Field>
-              <Field label="Preferred vehicle">{request.vehicleType ?? "—"}</Field>
+              <Field label="Color">{application.vehicleColor}</Field>
+              <Field label="Year">{application.vehicleYear}</Field>
+              <Field label="Ownership">{application.vehicleOwnership}</Field>
+              <Field label="Passenger capacity">
+                {application.vehiclePassengerCapacity}
+              </Field>
+              <Field label="Luggage capacity">
+                {application.vehicleLuggageCapacity}
+              </Field>
+              <Field label="TVDE licensed">{application.vehicleTvdeLicensed}</Field>
+              <Field label="Surfboard rack">
+                {application.surfboardRack ? "Yes" : "No"}
+              </Field>
+              <Field label="Child seats">
+                {`Baby: ${application.childSeatBaby} · Child: ${application.childSeatChild} · Booster: ${application.childSeatBooster}`}
+              </Field>
+              <Field label="Amenities">
+                {application.amenities.length === 0
+                  ? "—"
+                  : application.amenities.join(", ")}
+              </Field>
             </Section>
 
-            <Section title="Notes">
-              <div className="text-sm text-foreground whitespace-pre-wrap">
-                {request.notes || <span className="text-muted-foreground">No additional notes.</span>}
-              </div>
+            <Section title="Vehicle photos">
+              <PhotoGallery
+                label="Interior"
+                urls={application.interiorPhotoUrls ?? []}
+              />
+              <PhotoGallery
+                label="Exterior"
+                urls={application.exteriorPhotoUrls ?? []}
+              />
+            </Section>
+
+            <Section title="Driver documents">
+              <FileLink
+                label="Professional photo"
+                url={application.fileUrls.professionalPhotoId}
+              />
+              <FileLink
+                label="Professional license (TVDE)"
+                url={application.fileUrls.professionalLicenseId}
+              />
+              <FileLink
+                label="Vehicle insurance"
+                url={application.fileUrls.vehicleInsuranceId}
+              />
+              <FileLink
+                label="Proof of address"
+                url={application.fileUrls.proofOfAddressId}
+              />
+            </Section>
+
+            <Section title="Billing">
+              <Field label="Account holder">
+                {application.billingAccountHolder}
+              </Field>
+              <Field label="Invoice name">{application.billingInvoiceName}</Field>
+              <Field label="SWIFT/BIC">{application.billingSwiftBic}</Field>
+              <Field label="IBAN" copyable>
+                {application.billingIban}
+              </Field>
+              <Field label="NIF">{application.billingNif}</Field>
+              <Field label="Tax office">{application.billingTaxOffice}</Field>
+              <Field label="Billing address">{application.billingAddress}</Field>
+              <FileLink
+                label="Bank proof"
+                url={application.fileUrls.billingBankProofId}
+              />
+            </Section>
+
+            <Section title="Availability">
+              <Field label="Days">
+                {application.availabilityDays.length === 0
+                  ? "—"
+                  : application.availabilityDays.join(", ")}
+              </Field>
+              <Field label="Shifts">
+                {application.availabilityShifts.length === 0
+                  ? "—"
+                  : application.availabilityShifts.join(", ")}
+              </Field>
+            </Section>
+
+            <Section title="Intro video">
+              <FileLink
+                label="Self-introduction video"
+                url={application.fileUrls.introVideoId}
+              />
+            </Section>
+
+            <Section title="Consents">
+              <Field label="Terms accepted">
+                {application.termsAccepted ? "Yes" : "No"}
+              </Field>
             </Section>
           </div>
         )}
@@ -360,8 +460,8 @@ function StatusActions({
   current,
   onSetStatus,
 }: {
-  current: RequestStatus
-  onSetStatus: (status: RequestStatus) => Promise<unknown>
+  current: ApplicationStatus
+  onSetStatus: (status: ApplicationStatus) => Promise<unknown>
 }) {
   return (
     <div className="flex items-center gap-2 flex-wrap">
@@ -476,6 +576,69 @@ function Field({
           </button>
         ) : null}
       </div>
+    </div>
+  )
+}
+
+function FileLink({
+  label,
+  url,
+}: {
+  label: string
+  url: string | null | undefined
+}) {
+  return (
+    <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      {url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-foreground hover:text-foreground/80 underline truncate"
+        >
+          Open file
+        </a>
+      ) : (
+        <span className="text-muted-foreground">Not uploaded</span>
+      )}
+    </div>
+  )
+}
+
+function PhotoGallery({
+  label,
+  urls,
+}: {
+  label: string
+  urls: Array<string | null>
+}) {
+  const visible = urls.filter((u): u is string => Boolean(u))
+  return (
+    <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      {visible.length === 0 ? (
+        <span className="text-muted-foreground">None uploaded</span>
+      ) : (
+        <div className="flex flex-wrap gap-2">
+          {visible.map((u, i) => (
+            <a
+              key={i}
+              href={u}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block size-20 border border-border rounded overflow-hidden hover:border-ring transition-colors"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={u}
+                alt={`${label} ${i + 1}`}
+                className="size-full object-cover"
+              />
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -11,11 +11,11 @@ import {
   Clock,
   Eye,
   FileText,
+  Inbox,
   Loader2,
   Search,
   Trash2,
   XCircle,
-  Inbox,
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -27,9 +27,9 @@ import {
 } from "@workspace/ui/components/sheet"
 import { cn } from "@workspace/ui/lib/utils"
 
-type ApplicationStatus = "submitted" | "reviewing" | "approved" | "rejected"
+type RequestStatus = "submitted" | "reviewing" | "approved" | "rejected"
 
-const STATUS_FILTERS: Array<{ value: "all" | ApplicationStatus; label: string }> = [
+const STATUS_FILTERS: Array<{ value: "all" | RequestStatus; label: string }> = [
   { value: "all", label: "All" },
   { value: "submitted", label: "Submitted" },
   { value: "reviewing", label: "Reviewing" },
@@ -37,22 +37,22 @@ const STATUS_FILTERS: Array<{ value: "all" | ApplicationStatus; label: string }>
   { value: "rejected", label: "Rejected" },
 ]
 
-const STATUS_BADGE: Record<ApplicationStatus, string> = {
+const STATUS_BADGE: Record<RequestStatus, string> = {
   submitted: "bg-[#fef3c7] text-[#92400e] border-[#fde68a]",
   reviewing: "bg-muted text-muted-foreground border-border",
   approved: "bg-[#dcfce7] text-[#166534] border-[#bbf7d0]",
   rejected: "bg-[#fee2e2] text-[#991b1b] border-[#fecaca]",
 }
 
-const STATUS_LABEL: Record<ApplicationStatus, string> = {
+const STATUS_LABEL: Record<RequestStatus, string> = {
   submitted: "Submitted",
   reviewing: "Reviewing",
   approved: "Approved",
   rejected: "Rejected",
 }
 
-function formatDate(ts: number) {
-  return new Date(ts).toLocaleDateString(undefined, {
+function formatDateTime(ts: number) {
+  return new Date(ts).toLocaleString(undefined, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -61,14 +61,27 @@ function formatDate(ts: number) {
   })
 }
 
-export default function AdminPartnerApplicationsPage() {
-  const applications = useQuery(api.partnerApplications.list)
-  const setStatus = useMutation(api.partnerApplications.setStatus)
-  const remove = useMutation(api.partnerApplications.remove)
+function formatDate(ts: number) {
+  return new Date(ts).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
+}
 
-  const [filter, setFilter] = useState<"all" | ApplicationStatus>("all")
+function formatBudget(b?: number) {
+  if (b === undefined) return "—"
+  return `€${b.toLocaleString("en-US")}`
+}
+
+export function CorporateRequestsInbox() {
+  const requests = useQuery(api.corporateRequests.list)
+  const setStatus = useMutation(api.corporateRequests.setStatus)
+  const remove = useMutation(api.corporateRequests.remove)
+
+  const [filter, setFilter] = useState<"all" | RequestStatus>("all")
   const [search, setSearch] = useState("")
-  const [activeId, setActiveId] = useState<Id<"partnerApplications"> | null>(null)
+  const [activeId, setActiveId] = useState<Id<"corporateRequests"> | null>(null)
   const [page, setPage] = useState(0)
 
   useEffect(() => {
@@ -76,36 +89,31 @@ export default function AdminPartnerApplicationsPage() {
   }, [filter, search])
 
   const filtered = useMemo(() => {
-    if (!applications) return undefined
+    if (!requests) return undefined
     const q = search.trim().toLowerCase()
-    return applications.filter((a) => {
-      if (filter !== "all" && a.status !== filter) return false
+    return requests.filter((r) => {
+      if (filter !== "all" && r.status !== filter) return false
       if (!q) return true
-      return [
-        a.companyName,
-        a.representativeFullName,
-        a.representativeEmail,
-        a.representativePhone,
-      ]
+      return [r.fullName, r.email, r.phone, r.companyName]
         .filter(Boolean)
         .some((v) => v!.toLowerCase().includes(q))
     })
-  }, [applications, filter, search])
+  }, [requests, filter, search])
 
   const counts = useMemo(() => {
-    const acc: Record<ApplicationStatus | "all", number> = {
+    const acc: Record<RequestStatus | "all", number> = {
       all: 0,
       submitted: 0,
       reviewing: 0,
       approved: 0,
       rejected: 0,
     }
-    for (const a of applications ?? []) {
+    for (const r of requests ?? []) {
       acc.all++
-      acc[a.status as ApplicationStatus]++
+      acc[r.status as RequestStatus]++
     }
     return acc
-  }, [applications])
+  }, [requests])
 
   const pageSize = 10
   const total = filtered?.length ?? 0
@@ -132,10 +140,12 @@ export default function AdminPartnerApplicationsPage() {
               )}
             >
               {f.label}
-              <span className={cn(
-                "ml-2 text-xs",
-                filter === f.value ? "text-primary-foreground/70" : "text-muted-foreground",
-              )}>
+              <span
+                className={cn(
+                  "ml-2 text-xs",
+                  filter === f.value ? "text-primary-foreground/70" : "text-muted-foreground",
+                )}
+              >
                 {counts[f.value]}
               </span>
             </button>
@@ -147,29 +157,34 @@ export default function AdminPartnerApplicationsPage() {
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search company, name, email…"
+            placeholder="Search name, email, phone, company…"
             className="h-9 w-[280px] pl-9 pr-3 text-sm border border-border rounded-md focus:outline-none focus:border-ring"
           />
         </div>
       </div>
 
-      {applications === undefined ? (
+      {requests === undefined ? (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <Loader2 className="size-6 animate-spin" />
         </div>
       ) : filtered && filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center text-muted-foreground gap-2">
           <Inbox className="size-8" />
-          <p className="text-sm">No applications match these filters yet.</p>
+          <p className="text-sm">No requests match these filters yet.</p>
         </div>
       ) : (
         <div className="bg-card border border-border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-muted text-muted-foreground">
               <tr>
+                <th className="text-left font-medium px-4 py-3">Contact</th>
                 <th className="text-left font-medium px-4 py-3">Company</th>
-                <th className="text-left font-medium px-4 py-3">Representative</th>
                 <th className="text-left font-medium px-4 py-3">Email</th>
+                <th className="text-left font-medium px-4 py-3">Phone</th>
+                <th className="text-left font-medium px-4 py-3">Event date</th>
+                <th className="text-left font-medium px-4 py-3">Guests</th>
+                <th className="text-left font-medium px-4 py-3">Budget</th>
+                <th className="text-left font-medium px-4 py-3">Parceiro</th>
                 <th className="text-left font-medium px-4 py-3">Submitted</th>
                 <th className="text-left font-medium px-4 py-3">#</th>
                 <th className="text-left font-medium px-4 py-3">Status</th>
@@ -177,20 +192,27 @@ export default function AdminPartnerApplicationsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {pageRows?.map((a) => {
-                const status = a.status as ApplicationStatus
+              {pageRows?.map((r) => {
+                const status = r.status as RequestStatus
                 return (
-                  <tr key={a._id} className="hover:bg-accent">
+                  <tr key={r._id} className="hover:bg-accent">
                     <td className="px-4 py-3 font-medium text-foreground">
-                      {a.companyName || <span className="text-muted-foreground">—</span>}
+                      {r.fullName || <span className="text-muted-foreground">—</span>}
                     </td>
-                    <td className="px-4 py-3 text-foreground">
-                      {a.representativeFullName}
+                    <td className="px-4 py-3 text-foreground">{r.companyName}</td>
+                    <td className="px-4 py-3 text-foreground">{r.email}</td>
+                    <td className="px-4 py-3 text-foreground">{r.phone}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {r.eventDate ? formatDate(r.eventDate) : "—"}
                     </td>
-                    <td className="px-4 py-3 text-foreground">{a.representativeEmail}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{formatDate(a.createdAt)}</td>
+                    <td className="px-4 py-3 text-foreground">{r.guests ?? "—"}</td>
+                    <td className="px-4 py-3 text-foreground">{formatBudget(r.budget)}</td>
+                    <td className="px-4 py-3 text-foreground">{r.partnershipName ?? "Easy Transfer"}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {formatDateTime(r.createdAt)}
+                    </td>
                     <td className="px-4 py-3 text-foreground font-medium">
-                      #{a.queuePosition}
+                      #{r.queuePosition}
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -207,7 +229,7 @@ export default function AdminPartnerApplicationsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => setActiveId(a._id)}
+                          onClick={() => setActiveId(r._id)}
                           className="h-8 px-2"
                         >
                           <Eye className="size-4" />
@@ -216,8 +238,8 @@ export default function AdminPartnerApplicationsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => {
-                            if (confirm("Delete this application? This cannot be undone."))
-                              void remove({ id: a._id })
+                            if (confirm("Delete this request? This cannot be undone."))
+                              void remove({ id: r._id })
                           }}
                           className="h-8 px-2 text-destructive hover:text-destructive"
                         >
@@ -233,7 +255,7 @@ export default function AdminPartnerApplicationsPage() {
         </div>
       )}
 
-      {applications !== undefined && total > 0 && (
+      {requests !== undefined && total > 0 && (
         <div className="flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
           <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>
           <div className="flex items-center gap-2">
@@ -244,7 +266,7 @@ export default function AdminPartnerApplicationsPage() {
         </div>
       )}
 
-      <ApplicationDetailSheet
+      <RequestDetailSheet
         id={activeId}
         onOpenChange={(open) => {
           if (!open) setActiveId(null)
@@ -255,30 +277,28 @@ export default function AdminPartnerApplicationsPage() {
   )
 }
 
-function ApplicationDetailSheet({
+function RequestDetailSheet({
   id,
   onOpenChange,
   onSetStatus,
 }: {
-  id: Id<"partnerApplications"> | null
+  id: Id<"corporateRequests"> | null
   onOpenChange: (open: boolean) => void
-  onSetStatus: (id: Id<"partnerApplications">, status: ApplicationStatus) => Promise<unknown>
+  onSetStatus: (
+    id: Id<"corporateRequests">,
+    status: RequestStatus,
+  ) => Promise<unknown>
 }) {
-  const application = useQuery(
-    api.partnerApplications.get,
-    id ? { id } : "skip",
-  )
+  const request = useQuery(api.corporateRequests.get, id ? { id } : "skip")
 
   return (
     <Sheet open={id !== null} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>
-            {application?.companyName || "Partner application"}
-          </SheetTitle>
+          <SheetTitle>{request?.fullName || "Corporate request"}</SheetTitle>
         </SheetHeader>
 
-        {!application ? (
+        {!request ? (
           <div className="flex items-center justify-center py-16 text-muted-foreground">
             <Loader2 className="size-6 animate-spin" />
           </div>
@@ -286,128 +306,42 @@ function ApplicationDetailSheet({
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>#{application.queuePosition}</span>
+                <span>#{request.queuePosition}</span>
                 <span>·</span>
-                <span>{formatDate(application.createdAt)}</span>
+                <span>{formatDateTime(request.createdAt)}</span>
               </div>
               <StatusActions
-                current={application.status as ApplicationStatus}
-                onSetStatus={(status) => onSetStatus(application._id, status)}
+                current={request.status as RequestStatus}
+                onSetStatus={(status) => onSetStatus(request._id, status)}
               />
             </div>
 
-            <Section title="Company">
-              <Field label="Operating zones">
-                {application.operatingZones.length === 0
-                  ? "—"
-                  : application.operatingZones.join(", ")}
-              </Field>
-              <Field label="Driver count range">{application.driverCount}</Field>
-              <Field label="Drivers comfortable with mobile app">
-                {application.driversComfortableWithMobile}
-              </Field>
-            </Section>
-
-            <Section title="Representative">
-              <Field label="Full name">{application.representativeFullName}</Field>
+            <Section title="Contact">
+              <Field label="Full name">{request.fullName}</Field>
+              <Field label="Company">{request.companyName}</Field>
               <Field label="Email" copyable>
-                {application.representativeEmail}
+                {request.email}
               </Field>
-              <Field label="Phone" copyable>
-                {application.representativePhone}
-              </Field>
-              <Field label="WhatsApp" copyable>
-                {application.representativeWhatsapp}
+              <Field label="Phone / WhatsApp" copyable>
+                {request.phone}
               </Field>
             </Section>
 
-            <Section title={`Drivers (${application.drivers.length})`}>
-              {application.drivers.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No drivers added.</p>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  {application.drivers.map((d, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 border border-border rounded px-3 py-2 text-sm"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-foreground truncate">
-                          {d.fullName}
-                        </p>
-                        <p className="text-muted-foreground truncate">
-                          {d.email} · {d.phone}
-                        </p>
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        {d.hasVideo ? "video uploaded" : "no video"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </Section>
-
-            <Section title={`Vehicles (${application.vehicles.length})`}>
-              {application.vehicles.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No vehicles added.</p>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  {application.vehicles.map((v, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 border border-border rounded px-3 py-2 text-sm"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-foreground truncate">
-                          {[v.make, v.model].filter(Boolean).join(" ") || "—"}
-                        </p>
-                        <p className="text-muted-foreground truncate">
-                          {[v.category, v.licensePlate].filter(Boolean).join(" · ")}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </Section>
-
-            <Section title="Documents">
-              <FileLink label="Operating license / TVDE" url={application.fileUrls.documentLicenseId} />
-              <FileLink
-                label="Address proof (primary)"
-                url={application.fileUrls.documentAddressProofPrimaryId}
-              />
-              <FileLink
-                label="Address proof (secondary)"
-                url={application.fileUrls.documentAddressProofSecondaryId}
-              />
-              <FileLink
-                label="Liability insurance"
-                url={application.fileUrls.documentLiabilityInsuranceId}
-              />
-            </Section>
-
-            <Section title="Billing">
-              <Field label="Account holder">{application.billingAccountHolder}</Field>
-              <Field label="Invoice name">{application.billingInvoiceName}</Field>
-              <Field label="SWIFT/BIC">{application.billingSwiftBic}</Field>
-              <Field label="IBAN" copyable>
-                {application.billingIban}
+            <Section title="Event">
+              <Field label="Event date">
+                {request.eventDate ? formatDate(request.eventDate) : "—"}
               </Field>
-              <Field label="Tax ID (NIF/NIPC)">{application.billingTaxId}</Field>
-              <Field label="Tax office">{application.billingTaxOffice}</Field>
-              <Field label="Billing address">{application.billingAddress}</Field>
-              <FileLink label="Bank proof" url={application.fileUrls.billingBankProofId} />
+              <Field label="Guests">
+                {request.guests !== undefined ? String(request.guests) : "—"}
+              </Field>
+              <Field label="Estimated budget">{formatBudget(request.budget)}</Field>
+              <Field label="Preferred vehicle">{request.vehicleType ?? "—"}</Field>
             </Section>
 
-            <Section title="Consents">
-              <Field label="Price agreement acknowledged">
-                {application.priceAgreementAcknowledged ? "Yes" : "No"}
-              </Field>
-              <Field label="Terms accepted">
-                {application.termsAccepted ? "Yes" : "No"}
-              </Field>
+            <Section title="Notes">
+              <div className="text-sm text-foreground whitespace-pre-wrap">
+                {request.notes || <span className="text-muted-foreground">No additional notes.</span>}
+              </div>
             </Section>
           </div>
         )}
@@ -426,8 +360,8 @@ function StatusActions({
   current,
   onSetStatus,
 }: {
-  current: ApplicationStatus
-  onSetStatus: (status: ApplicationStatus) => Promise<unknown>
+  current: RequestStatus
+  onSetStatus: (status: RequestStatus) => Promise<unknown>
 }) {
   return (
     <div className="flex items-center gap-2 flex-wrap">
@@ -542,26 +476,6 @@ function Field({
           </button>
         ) : null}
       </div>
-    </div>
-  )
-}
-
-function FileLink({ label, url }: { label: string; url: string | null | undefined }) {
-  return (
-    <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      {url ? (
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground hover:text-foreground/80 underline truncate"
-        >
-          Open file
-        </a>
-      ) : (
-        <span className="text-muted-foreground">Not uploaded</span>
-      )}
     </div>
   )
 }

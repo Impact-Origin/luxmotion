@@ -17,7 +17,7 @@ import {
 
 type SortOption = "newest" | "oldest"
 
-export default function AdminNewsletterPage() {
+export function NewsletterInbox() {
   const t = useTranslations("adminNewsletter")
   const [sortBy, setSortBy] = React.useState<SortOption>("newest")
   const [page, setPage] = React.useState(0)

@@ -61,14 +61,14 @@ function formatDate(ts: number) {
   })
 }
 
-export default function AdminDriverApplicationsPage() {
-  const applications = useQuery(api.driverApplications.list)
-  const setStatus = useMutation(api.driverApplications.setStatus)
-  const remove = useMutation(api.driverApplications.remove)
+export function PartnerApplicationsPanel() {
+  const applications = useQuery(api.partnerApplications.list)
+  const setStatus = useMutation(api.partnerApplications.setStatus)
+  const remove = useMutation(api.partnerApplications.remove)
 
   const [filter, setFilter] = useState<"all" | ApplicationStatus>("all")
   const [search, setSearch] = useState("")
-  const [activeId, setActiveId] = useState<Id<"driverApplications"> | null>(null)
+  const [activeId, setActiveId] = useState<Id<"partnerApplications"> | null>(null)
   const [page, setPage] = useState(0)
 
   useEffect(() => {
@@ -81,7 +81,12 @@ export default function AdminDriverApplicationsPage() {
     return applications.filter((a) => {
       if (filter !== "all" && a.status !== filter) return false
       if (!q) return true
-      return [a.fullName, a.email, a.phone, a.vehiclePlate, a.operatingZone]
+      return [
+        a.companyName,
+        a.representativeFullName,
+        a.representativeEmail,
+        a.representativePhone,
+      ]
         .filter(Boolean)
         .some((v) => v!.toLowerCase().includes(q))
     })
@@ -127,12 +132,10 @@ export default function AdminDriverApplicationsPage() {
               )}
             >
               {f.label}
-              <span
-                className={cn(
-                  "ml-2 text-xs",
-                  filter === f.value ? "text-primary-foreground/70" : "text-muted-foreground",
-                )}
-              >
+              <span className={cn(
+                "ml-2 text-xs",
+                filter === f.value ? "text-primary-foreground/70" : "text-muted-foreground",
+              )}>
                 {counts[f.value]}
               </span>
             </button>
@@ -144,7 +147,7 @@ export default function AdminDriverApplicationsPage() {
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search name, email, plate, zone…"
+            placeholder="Search company, name, email…"
             className="h-9 w-[280px] pl-9 pr-3 text-sm border border-border rounded-md focus:outline-none focus:border-ring"
           />
         </div>
@@ -164,11 +167,9 @@ export default function AdminDriverApplicationsPage() {
           <table className="w-full text-sm">
             <thead className="bg-muted text-muted-foreground">
               <tr>
-                <th className="text-left font-medium px-4 py-3">Driver</th>
+                <th className="text-left font-medium px-4 py-3">Company</th>
+                <th className="text-left font-medium px-4 py-3">Representative</th>
                 <th className="text-left font-medium px-4 py-3">Email</th>
-                <th className="text-left font-medium px-4 py-3">Phone</th>
-                <th className="text-left font-medium px-4 py-3">Zone</th>
-                <th className="text-left font-medium px-4 py-3">Vehicle</th>
                 <th className="text-left font-medium px-4 py-3">Submitted</th>
                 <th className="text-left font-medium px-4 py-3">#</th>
                 <th className="text-left font-medium px-4 py-3">Status</th>
@@ -181,20 +182,13 @@ export default function AdminDriverApplicationsPage() {
                 return (
                   <tr key={a._id} className="hover:bg-accent">
                     <td className="px-4 py-3 font-medium text-foreground">
-                      {a.fullName || <span className="text-muted-foreground">—</span>}
-                    </td>
-                    <td className="px-4 py-3 text-foreground">{a.email}</td>
-                    <td className="px-4 py-3 text-foreground">{a.phone}</td>
-                    <td className="px-4 py-3 text-foreground capitalize">
-                      {a.operatingZone}
+                      {a.companyName || <span className="text-muted-foreground">—</span>}
                     </td>
                     <td className="px-4 py-3 text-foreground">
-                      {[a.vehicleBrand, a.vehicleModel].filter(Boolean).join(" ") ||
-                        "—"}
+                      {a.representativeFullName}
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {formatDate(a.createdAt)}
-                    </td>
+                    <td className="px-4 py-3 text-foreground">{a.representativeEmail}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{formatDate(a.createdAt)}</td>
                     <td className="px-4 py-3 text-foreground font-medium">
                       #{a.queuePosition}
                     </td>
@@ -222,11 +216,7 @@ export default function AdminDriverApplicationsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => {
-                            if (
-                              confirm(
-                                "Delete this application? This cannot be undone.",
-                              )
-                            )
+                            if (confirm("Delete this application? This cannot be undone."))
                               void remove({ id: a._id })
                           }}
                           className="h-8 px-2 text-destructive hover:text-destructive"
@@ -270,15 +260,12 @@ function ApplicationDetailSheet({
   onOpenChange,
   onSetStatus,
 }: {
-  id: Id<"driverApplications"> | null
+  id: Id<"partnerApplications"> | null
   onOpenChange: (open: boolean) => void
-  onSetStatus: (
-    id: Id<"driverApplications">,
-    status: ApplicationStatus,
-  ) => Promise<unknown>
+  onSetStatus: (id: Id<"partnerApplications">, status: ApplicationStatus) => Promise<unknown>
 }) {
   const application = useQuery(
-    api.driverApplications.get,
+    api.partnerApplications.get,
     id ? { id } : "skip",
   )
 
@@ -286,7 +273,9 @@ function ApplicationDetailSheet({
     <Sheet open={id !== null} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>{application?.fullName || "Driver application"}</SheetTitle>
+          <SheetTitle>
+            {application?.companyName || "Partner application"}
+          </SheetTitle>
         </SheetHeader>
 
         {!application ? (
@@ -307,138 +296,115 @@ function ApplicationDetailSheet({
               />
             </div>
 
-            <Section title="Operating zone">
-              <Field label="Zone">
-                <span className="capitalize">{application.operatingZone}</span>
+            <Section title="Company">
+              <Field label="Operating zones">
+                {application.operatingZones.length === 0
+                  ? "—"
+                  : application.operatingZones.join(", ")}
+              </Field>
+              <Field label="Driver count range">{application.driverCount}</Field>
+              <Field label="Drivers comfortable with mobile app">
+                {application.driversComfortableWithMobile}
               </Field>
             </Section>
 
-            <Section title="Personal & contact">
-              <Field label="Full name">{application.fullName}</Field>
+            <Section title="Representative">
+              <Field label="Full name">{application.representativeFullName}</Field>
               <Field label="Email" copyable>
-                {application.email}
-              </Field>
-              <Field label="Representative email" copyable>
                 {application.representativeEmail}
               </Field>
               <Field label="Phone" copyable>
-                {application.phone}
+                {application.representativePhone}
               </Field>
               <Field label="WhatsApp" copyable>
-                {application.whatsapp}
-              </Field>
-              <Field label="Referral">{application.referral}</Field>
-              <Field label="Languages">
-                {application.languages.length === 0
-                  ? "—"
-                  : application.languages
-                      .map((l) => `${l.code} (${l.level})`)
-                      .join(", ")}
+                {application.representativeWhatsapp}
               </Field>
             </Section>
 
-            <Section title="Vehicle">
-              <Field label="Category">{application.vehicleCategory}</Field>
-              <Field label="Brand & model">
-                {[application.vehicleBrand, application.vehicleModel]
-                  .filter(Boolean)
-                  .join(" ") || "—"}
-              </Field>
-              <Field label="License plate" copyable>
-                {application.vehiclePlate}
-              </Field>
-              <Field label="Color">{application.vehicleColor}</Field>
-              <Field label="Year">{application.vehicleYear}</Field>
-              <Field label="Ownership">{application.vehicleOwnership}</Field>
-              <Field label="Passenger capacity">
-                {application.vehiclePassengerCapacity}
-              </Field>
-              <Field label="Luggage capacity">
-                {application.vehicleLuggageCapacity}
-              </Field>
-              <Field label="TVDE licensed">{application.vehicleTvdeLicensed}</Field>
-              <Field label="Surfboard rack">
-                {application.surfboardRack ? "Yes" : "No"}
-              </Field>
-              <Field label="Child seats">
-                {`Baby: ${application.childSeatBaby} · Child: ${application.childSeatChild} · Booster: ${application.childSeatBooster}`}
-              </Field>
-              <Field label="Amenities">
-                {application.amenities.length === 0
-                  ? "—"
-                  : application.amenities.join(", ")}
-              </Field>
+            <Section title={`Drivers (${application.drivers.length})`}>
+              {application.drivers.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No drivers added.</p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {application.drivers.map((d, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 border border-border rounded px-3 py-2 text-sm"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground truncate">
+                          {d.fullName}
+                        </p>
+                        <p className="text-muted-foreground truncate">
+                          {d.email} · {d.phone}
+                        </p>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {d.hasVideo ? "video uploaded" : "no video"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </Section>
 
-            <Section title="Vehicle photos">
-              <PhotoGallery
-                label="Interior"
-                urls={application.interiorPhotoUrls ?? []}
-              />
-              <PhotoGallery
-                label="Exterior"
-                urls={application.exteriorPhotoUrls ?? []}
-              />
+            <Section title={`Vehicles (${application.vehicles.length})`}>
+              {application.vehicles.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No vehicles added.</p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {application.vehicles.map((v, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 border border-border rounded px-3 py-2 text-sm"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground truncate">
+                          {[v.make, v.model].filter(Boolean).join(" ") || "—"}
+                        </p>
+                        <p className="text-muted-foreground truncate">
+                          {[v.category, v.licensePlate].filter(Boolean).join(" · ")}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </Section>
 
-            <Section title="Driver documents">
+            <Section title="Documents">
+              <FileLink label="Operating license / TVDE" url={application.fileUrls.documentLicenseId} />
               <FileLink
-                label="Professional photo"
-                url={application.fileUrls.professionalPhotoId}
+                label="Address proof (primary)"
+                url={application.fileUrls.documentAddressProofPrimaryId}
               />
               <FileLink
-                label="Professional license (TVDE)"
-                url={application.fileUrls.professionalLicenseId}
+                label="Address proof (secondary)"
+                url={application.fileUrls.documentAddressProofSecondaryId}
               />
               <FileLink
-                label="Vehicle insurance"
-                url={application.fileUrls.vehicleInsuranceId}
-              />
-              <FileLink
-                label="Proof of address"
-                url={application.fileUrls.proofOfAddressId}
+                label="Liability insurance"
+                url={application.fileUrls.documentLiabilityInsuranceId}
               />
             </Section>
 
             <Section title="Billing">
-              <Field label="Account holder">
-                {application.billingAccountHolder}
-              </Field>
+              <Field label="Account holder">{application.billingAccountHolder}</Field>
               <Field label="Invoice name">{application.billingInvoiceName}</Field>
               <Field label="SWIFT/BIC">{application.billingSwiftBic}</Field>
               <Field label="IBAN" copyable>
                 {application.billingIban}
               </Field>
-              <Field label="NIF">{application.billingNif}</Field>
+              <Field label="Tax ID (NIF/NIPC)">{application.billingTaxId}</Field>
               <Field label="Tax office">{application.billingTaxOffice}</Field>
               <Field label="Billing address">{application.billingAddress}</Field>
-              <FileLink
-                label="Bank proof"
-                url={application.fileUrls.billingBankProofId}
-              />
-            </Section>
-
-            <Section title="Availability">
-              <Field label="Days">
-                {application.availabilityDays.length === 0
-                  ? "—"
-                  : application.availabilityDays.join(", ")}
-              </Field>
-              <Field label="Shifts">
-                {application.availabilityShifts.length === 0
-                  ? "—"
-                  : application.availabilityShifts.join(", ")}
-              </Field>
-            </Section>
-
-            <Section title="Intro video">
-              <FileLink
-                label="Self-introduction video"
-                url={application.fileUrls.introVideoId}
-              />
+              <FileLink label="Bank proof" url={application.fileUrls.billingBankProofId} />
             </Section>
 
             <Section title="Consents">
+              <Field label="Price agreement acknowledged">
+                {application.priceAgreementAcknowledged ? "Yes" : "No"}
+              </Field>
               <Field label="Terms accepted">
                 {application.termsAccepted ? "Yes" : "No"}
               </Field>
@@ -580,13 +546,7 @@ function Field({
   )
 }
 
-function FileLink({
-  label,
-  url,
-}: {
-  label: string
-  url: string | null | undefined
-}) {
+function FileLink({ label, url }: { label: string; url: string | null | undefined }) {
   return (
     <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
       <span className="text-muted-foreground">{label}</span>
@@ -601,43 +561,6 @@ function FileLink({
         </a>
       ) : (
         <span className="text-muted-foreground">Not uploaded</span>
-      )}
-    </div>
-  )
-}
-
-function PhotoGallery({
-  label,
-  urls,
-}: {
-  label: string
-  urls: Array<string | null>
-}) {
-  const visible = urls.filter((u): u is string => Boolean(u))
-  return (
-    <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      {visible.length === 0 ? (
-        <span className="text-muted-foreground">None uploaded</span>
-      ) : (
-        <div className="flex flex-wrap gap-2">
-          {visible.map((u, i) => (
-            <a
-              key={i}
-              href={u}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block size-20 border border-border rounded overflow-hidden hover:border-ring transition-colors"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={u}
-                alt={`${label} ${i + 1}`}
-                className="size-full object-cover"
-              />
-            </a>
-          ))}
-        </div>
       )}
     </div>
   )

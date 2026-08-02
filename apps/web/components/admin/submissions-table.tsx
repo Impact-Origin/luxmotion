@@ -22,7 +22,27 @@ import { cn } from "@workspace/ui/lib/utils"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { AdminEmptyState } from "@/components/admin/empty-state"
 
-export type SubmissionStatus = "new" | "read" | "archived"
+/**
+ * Antes isto era o literal `"new" | "read" | "archived"`, e era exactamente o
+ * que impedia as outras caixas de entrada de usarem esta tabela: os pedidos de
+ * orçamento têm `inProgress|resolved`, os pedidos corporate têm
+ * `submitted|reviewing|approved|rejected`. Cada tipo passa a declarar o seu
+ * conjunto em `statuses`.
+ */
+export type SubmissionStatus = string
+
+export type StatusDef = {
+  value: string
+  label: string
+  /** Texto do item no menu de acção ("Arquivar", "Aprovar"…). */
+  action?: string
+}
+
+export const DEFAULT_STATUSES: StatusDef[] = [
+  { value: "new", label: "Novo", action: "Marcar como novo" },
+  { value: "read", label: "Lido", action: "Marcar como lido" },
+  { value: "archived", label: "Arquivado", action: "Arquivar" },
+]
 
 export type FieldDef<T> = {
   key: string
@@ -55,12 +75,14 @@ interface Props<T extends BaseSubmission> {
   onDelete: (id: string) => Promise<unknown>
   searchKeys?: (keyof T | string)[]
   nameKey?: keyof T
-}
-
-const STATUS_LABEL: Record<SubmissionStatus, string> = {
-  new: "New",
-  read: "Read",
-  archived: "Archived",
+  /** Conjunto de estados deste tipo. Omitido = novo/lido/arquivado. */
+  statuses?: StatusDef[]
+  /**
+   * Coluna de atribuição a parceiro. Só metade das tabelas tem
+   * `partnershipName`; era desenhada sempre, com um "Easy Transfer" inventado
+   * nas que não têm.
+   */
+  showPartner?: boolean
 }
 
 function formatDate(ts: number) {
@@ -83,7 +105,16 @@ export function SubmissionsTable<T extends BaseSubmission>({
   onDelete,
   searchKeys = [],
   nameKey,
+  statuses = DEFAULT_STATUSES,
+  showPartner = false,
 }: Props<T>) {
+  const firstStatus = statuses[0]?.value ?? "new"
+  const archiveStatus = statuses.find((s) => s.value === "archived")?.value
+  const readStatus = statuses.find((s) => s.value === "read")?.value
+  const statusLabel = React.useCallback(
+    (value: string) => statuses.find((s) => s.value === value)?.label ?? value,
+    [statuses],
+  )
   const [statusFilter, setStatusFilter] = React.useState<"all" | SubmissionStatus>("all")
   const [search, setSearch] = React.useState("")
   const [selected, setSelected] = React.useState<T | null>(null)
@@ -99,7 +130,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
     if (!data) return []
     let rows = data
     if (statusFilter !== "all") {
-      rows = rows.filter((r) => (r.status ?? "new") === statusFilter)
+      rows = rows.filter((r) => (r.status ?? firstStatus) === statusFilter)
     }
     if (search.trim()) {
       const q = search.toLowerCase()
@@ -111,17 +142,16 @@ export function SubmissionsTable<T extends BaseSubmission>({
       )
     }
     return rows
-  }, [data, statusFilter, search, searchKeys])
+  }, [data, statusFilter, search, searchKeys, firstStatus])
 
   const counts = React.useMemo(() => {
-    if (!data) return { all: 0, new: 0, read: 0, archived: 0 }
-    return {
-      all: data.length,
-      new: data.filter((r) => (r.status ?? "new") === "new").length,
-      read: data.filter((r) => r.status === "read").length,
-      archived: data.filter((r) => r.status === "archived").length,
+    const out: Record<string, number> = { all: data?.length ?? 0 }
+    for (const s of statuses) {
+      out[s.value] =
+        data?.filter((r) => (r.status ?? firstStatus) === s.value).length ?? 0
     }
-  }, [data])
+    return out
+  }, [data, statuses, firstStatus])
 
   const pageSize = 10
   const total = filtered.length
@@ -132,26 +162,26 @@ export function SubmissionsTable<T extends BaseSubmission>({
 
   function copy(text: string) {
     navigator.clipboard.writeText(text)
-    toast.success("Copied to clipboard")
+    toast.success("Copiado")
   }
 
   async function handleSetStatus(id: string, status: SubmissionStatus) {
     try {
       await onSetStatus(id, status)
-      toast.success(`Marked as ${STATUS_LABEL[status].toLowerCase()}`)
+      toast.success(`Marcado como ${statusLabel(status).toLowerCase()}`)
     } catch {
-      toast.error("Could not update status")
+      toast.error("Não foi possível actualizar o estado")
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Delete this submission permanently?")) return
+    if (!confirm("Apagar esta submissão definitivamente?")) return
     try {
       await onDelete(id)
-      toast.success("Deleted")
+      toast.success("Apagado")
       if (selected?._id === id) setSelected(null)
     } catch {
-      toast.error("Could not delete")
+      toast.error("Não foi possível apagar")
     }
   }
 
@@ -167,17 +197,17 @@ export function SubmissionsTable<T extends BaseSubmission>({
     <div>
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="flex items-center gap-1 bg-muted border border-border rounded-lg p-1">
-          {(["all", "new", "read", "archived"] as const).map((s) => (
+          {[{ value: "all", label: "Todos" }, ...statuses].map((s) => (
             <button
-              key={s}
+              key={s.value}
               type="button"
-              onClick={() => setStatusFilter(s)}
+              onClick={() => setStatusFilter(s.value)}
               className={cn(
-                "px-3 py-1.5 text-sm font-medium rounded-md transition-colors capitalize",
-                statusFilter === s ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                "px-3 py-1.5 text-sm font-medium rounded-md transition-colors",
+                statusFilter === s.value ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
               )}
             >
-              {s} ({counts[s]})
+              {s.label} ({counts[s.value] ?? 0})
             </button>
           ))}
         </div>
@@ -185,7 +215,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <input
             type="search"
-            placeholder="Search name, email, phone…"
+            placeholder="Procurar nome, e-mail, telefone…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full h-9 pl-9 pr-3 border border-border rounded-lg text-sm bg-card placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
@@ -207,18 +237,20 @@ export function SubmissionsTable<T extends BaseSubmission>({
                     {c.label}
                   </th>
                 ))}
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[130px]">Parceiro</th>
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[160px]">Date</th>
+                {showPartner && (
+                  <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[130px]">Parceiro</th>
+                )}
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[160px]">Data</th>
                 <th className="px-4 py-3 w-[120px]" />
               </tr>
             </thead>
             <tbody>
               {pageRows.map((row) => {
-                const status = row.status ?? "new"
+                const status = row.status ?? firstStatus
                 return (
                   <tr key={row._id} className="border-b border-border last:border-b-0 hover:bg-accent transition-colors">
                     <td className="px-4 py-3">
-                      <StatusBadge status={status} label={STATUS_LABEL[status]} />
+                      <StatusBadge status={status} label={statusLabel(status)} />
                     </td>
                     {columns.map((c) => (
                       <td key={c.key} className={cn("px-4 py-3", c.className)}>
@@ -242,7 +274,11 @@ export function SubmissionsTable<T extends BaseSubmission>({
                         )}
                       </td>
                     ))}
-                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{((row as Record<string, unknown>).partnershipName as string) ?? "Easy Transfer"}</td>
+                    {showPartner && (
+                      <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
+                        {((row as Record<string, unknown>).partnershipName as string) ?? "Easy Transfer"}
+                      </td>
+                    )}
                     <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{formatDate(row.createdAt)}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
@@ -250,7 +286,10 @@ export function SubmissionsTable<T extends BaseSubmission>({
                           type="button"
                           onClick={() => {
                             setSelected(row)
-                            if (status === "new") void handleSetStatus(row._id, "read")
+                            // Abrir marca como lido — só onde "lido" existe.
+                            if (readStatus && status === firstStatus) {
+                              void handleSetStatus(row._id, readStatus)
+                            }
                           }}
                           className="size-8 rounded-md hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground"
                           aria-label="View"
@@ -270,9 +309,11 @@ export function SubmissionsTable<T extends BaseSubmission>({
                             </span>
                           </SelectTrigger>
                           <SelectContent align="end">
-                            <SelectItem value="new">Mark New</SelectItem>
-                            <SelectItem value="read">Mark Read</SelectItem>
-                            <SelectItem value="archived">Archive</SelectItem>
+                            {statuses.map((s) => (
+                              <SelectItem key={s.value} value={s.value}>
+                                {s.action ?? s.label}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <button
@@ -308,7 +349,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
             <DialogTitle className="flex items-center gap-3 text-xl">
               {selected ? (nameKey ? (selected[nameKey] as string) : selected.name ?? selected.fullName ?? "Submission") : "Submission"}
               {selected?.status && (
-                <StatusBadge status={selected.status} label={STATUS_LABEL[selected.status]} />
+                <StatusBadge status={selected.status} label={statusLabel(selected.status)} />
               )}
             </DialogTitle>
           </DialogHeader>
@@ -327,7 +368,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                 )
               })}
               <div className="flex flex-col gap-1 md:col-span-2">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Received</span>
+                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Recebido</span>
                 <span className="text-sm text-foreground">{formatDate(selected.createdAt)}</span>
               </div>
             </div>
@@ -344,17 +385,17 @@ export function SubmissionsTable<T extends BaseSubmission>({
             {selected?.phone && (
               <Button asChild variant="outline" size="sm">
                 <a href={`tel:${selected.phone}`}>
-                  Call <ArrowUpRight className="size-3 ml-0.5" />
+                  Telefonar <ArrowUpRight className="size-3 ml-0.5" />
                 </a>
               </Button>
             )}
-            {selected && (selected.status ?? "new") !== "archived" && (
+            {selected && archiveStatus && (selected.status ?? firstStatus) !== archiveStatus && (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handleSetStatus(selected._id, "archived")}
+                onClick={() => handleSetStatus(selected._id, archiveStatus)}
               >
-                <Archive className="size-4 mr-1" /> Archive
+                <Archive className="size-4 mr-1" /> Arquivar
               </Button>
             )}
             {selected && (
@@ -364,12 +405,12 @@ export function SubmissionsTable<T extends BaseSubmission>({
                 className="text-destructive hover:text-destructive"
                 onClick={() => handleDelete(selected._id)}
               >
-                <Trash2 className="size-4 mr-1" /> Delete
+                <Trash2 className="size-4 mr-1" /> Apagar
               </Button>
             )}
             <DialogClose asChild>
               <Button size="sm" className="ml-auto">
-                Close
+                Fechar
               </Button>
             </DialogClose>
           </div>

@@ -26,7 +26,7 @@ const STATUS_CONFIG = {
 
 type Status = keyof typeof STATUS_CONFIG
 
-export default function ContactQuotesPage() {
+export function QuoteRequestsInbox() {
   const requests = useQuery(api.contactQuotes.list)
   const setStatus = useMutation(api.contactQuotes.setStatus)
   const remove = useMutation(api.contactQuotes.remove)

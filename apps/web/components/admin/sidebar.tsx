@@ -56,12 +56,17 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         ],
       },
       {
+        /* Os títulos aqui são deliberadamente explícitos. Havia TRÊS entradas a
+           que se podia chamar "experiences" — a galeria do Sobre nós, o catálogo
+           corporate e os extras do checkout — e ninguém sabia qual era qual.
+           O URL fica, muda só o que se lê. */
         label: "Catalog",
         items: [
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
-          { title: "Experiences", url: "/admin/experiences", icon: Sparkles },
-          { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag, badge: "NOVO" },
+          { title: "Upsells (checkout)", url: "/admin/upsells", icon: ShoppingBag, badge: "NOVO" },
+          { title: "Corporate", url: "/admin/corporate-experiences", icon: Briefcase },
+          { title: "Galeria “Sobre nós”", url: "/admin/experiences", icon: Sparkles },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },
         ],
       },
@@ -74,21 +79,13 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         ],
       },
       {
+        /* Sete entradas de caixa de entrada e duas de candidaturas passaram a
+           duas rotas com separadores. O que se perdeu foi só ruído: quatro das
+           sete eram a mesma tabela com outras colunas. */
         label: "Inbox",
         items: [
-          { title: "Contacts", url: "/admin/contacts", icon: Mail },
-          { title: "Quote requests", url: "/admin/contact-quotes", icon: Send },
-          { title: "Ultra-luxury inquiries", url: "/admin/tour-inquiries", icon: Gem },
-          { title: "Wedding quotes", url: "/admin/wedding-quotes", icon: Heart },
-          { title: "School quotes", url: "/admin/school-quotes", icon: GraduationCap },
-          { title: "Corporate requests", url: "/admin/corporate-requests", icon: Briefcase },
-        ],
-      },
-      {
-        label: "Applications",
-        items: [
-          { title: "Partner applications", url: "/admin/partner-applications", icon: Handshake },
-          { title: "Driver applications", url: "/admin/driver-applications", icon: IdCard },
+          { title: "Caixa de entrada", url: "/admin/inbox", icon: Mail },
+          { title: "Candidaturas", url: "/admin/applications", icon: Handshake },
         ],
       },
       {
@@ -96,7 +93,6 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         items: [
           { title: tNumbers("nav"), url: "/admin/numbers", icon: BarChart3 },
           { title: tAvailability("title"), url: "/admin/availability", icon: CalendarClock },
-          { title: "Newsletter", url: "/admin/newsletter", icon: Newspaper },
         ],
       },
     ],
