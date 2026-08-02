@@ -172,7 +172,9 @@ export default defineSchema({
     selectedAddons: v.optional(
       v.array(
         v.object({
-          addonId: v.id("tourAddons"),
+          // Opcional: os add-ons dos upsells do checkout são embutidos na
+          // própria experiência e não têm linha em `tourAddons`.
+          addonId: v.optional(v.id("tourAddons")),
           title: v.string(),
           price: v.number(),
           pricingType: v.union(v.literal("per_person"), v.literal("flat")),
@@ -200,12 +202,44 @@ export default defineSchema({
           ),
           tourId: v.optional(v.id("tours")),
           eventId: v.optional(v.id("events")),
+          upsellStopId: v.optional(v.id("upsellStops")),
+          upsellExperienceId: v.optional(v.id("upsellExperiences")),
           tourTitle: v.string(),
           tourSlug: v.string(),
           passengers: v.number(),
           selectedDate: v.string(),
           selectedTime: v.string(),
           basePrice: v.number(),
+          /* Upsells não têm linha em `tours`, logo não há paragens de onde
+             tirar partida/chegada — o local vem daqui. */
+          pickup: v.optional(
+            v.object({
+              title: v.string(),
+              address: v.string(),
+              lat: v.optional(v.number()),
+              lng: v.optional(v.number()),
+              placeId: v.optional(v.string()),
+            }),
+          ),
+          /* Os extras escolhidos no passo 2 entravam no total e desapareciam
+             aqui: a operação recebia o valor mas nunca ficava a saber o que
+             tinha sido vendido. */
+          selectedAddons: v.optional(
+            v.array(
+              v.object({
+                addonId: v.optional(v.id("tourAddons")),
+                title: v.string(),
+                price: v.number(),
+                pricingType: v.union(
+                  v.literal("per_person"),
+                  v.literal("flat"),
+                ),
+                quantity: v.number(),
+                subtotal: v.number(),
+              }),
+            ),
+          ),
+          addonsTotal: v.optional(v.number()),
         }),
       ),
     ),
@@ -334,6 +368,15 @@ export default defineSchema({
     // Radius, in km, used to decide which tours count as "near" the place the
     // visitor searched for on /tours/results.
     toursSearchRadiusKm: v.optional(v.number()),
+    // Radius, in km, for the tours and events offered during checkout around
+    // the transfer's DROP-OFF. Was hardcoded at 30 in the backend until it
+    // became configurable here.
+    checkoutToursRadiusKm: v.optional(v.number()),
+    // Radius, in km, for the checkout upsells (extra stops and experiences).
+    // Deliberately separate from the two above: someone browsing wants tight
+    // local results, someone already driving somewhere will happily add a stop
+    // half an hour away.
+    checkoutUpsellRadiusKm: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
   }).index("by_key", ["key"]),
 
@@ -1177,6 +1220,102 @@ export default defineSchema({
     .index("by_tour", ["tourId"])
     .index("by_event", ["eventId"]),
 
+  /* ------------------------------------------------------------------------
+     Checkout upsells.
+
+     Tabelas próprias, e não mais categorias em `tours`, porque são coisas
+     diferentes: um tour vende-se por si e tem página, calendário, traduções e
+     reservas; um upsell só existe a meio do checkout de um transfer. Enquanto
+     partilharam a mesma tabela, "experiences" passou a significar quatro
+     coisas sem relação nenhuma e ninguém conseguia dizer onde os editar.
+
+     `universal: true` ignora a geografia e aparece em qualquer checkout.
+     Caso contrário só aparecem se estiverem a menos de
+     `siteSettings.checkoutUpsellRadiusKm` do destino do transfer.
+  --------------------------------------------------------------------------*/
+
+  /** Paragem curta no próprio trajecto — preço fixo por 15 ou 30 minutos. */
+  upsellStops: defineTable({
+    title: v.string(),
+    description: v.optional(v.string()),
+    imageId: v.optional(v.id("_storage")),
+    location: v.optional(
+      v.object({
+        title: v.string(),
+        address: v.string(),
+        lat: v.optional(v.number()),
+        lng: v.optional(v.number()),
+        placeId: v.optional(v.string()),
+      }),
+    ),
+    price15: v.optional(v.number()),
+    price30: v.number(),
+    currency: v.string(),
+    tag: v.union(
+      v.literal("none"),
+      v.literal("recommended"),
+      v.literal("mostPopular"),
+    ),
+    universal: v.boolean(),
+    status: v.union(v.literal("draft"), v.literal("published")),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_order", ["order"]),
+
+  /** Experiência vendida como extra do transfer, com add-ons próprios. */
+  upsellExperiences: defineTable({
+    title: v.string(),
+    description: v.optional(v.string()),
+    imageId: v.optional(v.id("_storage")),
+    location: v.optional(
+      v.object({
+        title: v.string(),
+        address: v.string(),
+        lat: v.optional(v.number()),
+        lng: v.optional(v.number()),
+        placeId: v.optional(v.string()),
+      }),
+    ),
+    basePrice: v.number(),
+    pricingModel: v.union(v.literal("perPerson"), v.literal("flat")),
+    currency: v.string(),
+    /** Texto livre ("2h", "Meio-dia"), como no resto do catálogo. */
+    duration: v.optional(v.string()),
+    /* Embutidos de propósito: são dois campos, lêem-se sempre com o pai, e uma
+       tabela à parte repetiria o destino do `tourAddons`, que ficou sem ecrã
+       nenhum porque nunca houve sítio óbvio onde o pôr. */
+    addons: v.optional(
+      v.array(
+        v.object({
+          name: v.string(),
+          price: v.number(),
+          pricingType: v.optional(
+            v.union(v.literal("per_person"), v.literal("flat")),
+          ),
+        }),
+      ),
+    ),
+    /** Pede data ao cliente no modal (visitas com marcação). */
+    hasDateField: v.boolean(),
+    /** Mostra a caixa de pedido especial no modal. */
+    hasSpecialRequest: v.boolean(),
+    tag: v.union(
+      v.literal("none"),
+      v.literal("recommended"),
+      v.literal("mostPopular"),
+    ),
+    universal: v.boolean(),
+    status: v.union(v.literal("draft"), v.literal("published")),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_order", ["order"]),
+
   tourAddonTranslations: defineTable({
     addonId: v.id("tourAddons"),
     locale: v.string(),
@@ -1219,7 +1358,9 @@ export default defineSchema({
     selectedAddons: v.optional(
       v.array(
         v.object({
-          addonId: v.id("tourAddons"),
+          // Opcional: os add-ons dos upsells do checkout são embutidos na
+          // própria experiência e não têm linha em `tourAddons`.
+          addonId: v.optional(v.id("tourAddons")),
           title: v.string(),
           price: v.number(),
           pricingType: v.union(v.literal("per_person"), v.literal("flat")),
@@ -1258,6 +1399,9 @@ export default defineSchema({
       v.literal("completed"),
       v.literal("cancelled"),
     ),
+    // Free text the customer typed when adding this to the checkout (dietary
+    // needs, occasions…). Was collected in the UI and thrown away before this.
+    specialRequest: v.optional(v.string()),
     // Affiliate/partnership attribution (referral link).
     partnershipId: v.optional(v.id("partnerships")),
     partnershipName: v.optional(v.string()),

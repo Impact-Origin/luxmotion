@@ -3,6 +3,7 @@ import { query, mutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
 import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
+import { haversineKm, roundKm } from "./lib/geo";
 
 function withDisplayedReviewCount<
   T extends { reviewCount?: number; manualReviewCount?: number },
@@ -397,34 +398,17 @@ export const listNearCoordinates = query({
 
     const upcomingEvents = events.filter((e) => e.eventDate >= now);
 
-    const toRad = (deg: number) => (deg * Math.PI) / 180;
-
-    function haversine(
-      lat1: number,
-      lng1: number,
-      lat2: number,
-      lng2: number,
-    ): number {
-      const R = 6371;
-      const dLat = toRad(lat2 - lat1);
-      const dLng = toRad(lng2 - lng1);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat1)) *
-          Math.cos(toRad(lat2)) *
-          Math.sin(dLng / 2) *
-          Math.sin(dLng / 2);
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-
     const eventsWithDistance = upcomingEvents
       .map((event) => {
         const eventLat = event.meetingPoint?.lat;
         const eventLng = event.meetingPoint?.lng;
         if (eventLat == null || eventLng == null) return null;
-        const distance = haversine(args.lat, args.lng, eventLat, eventLng);
+        const distance = haversineKm(
+          { lat: args.lat, lng: args.lng },
+          { lat: eventLat, lng: eventLng },
+        );
         if (distance > radius) return null;
-        return { event, distance: Math.round(distance * 10) / 10 };
+        return { event, distance: roundKm(distance) };
       })
       .filter((item): item is NonNullable<typeof item> => item !== null)
       .sort((a, b) => a.distance - b.distance);

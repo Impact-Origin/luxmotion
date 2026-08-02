@@ -25,7 +25,7 @@ export const init = mutation({
     selectedTime: v.string(),
     basePrice: v.number(),
     selectedAddons: v.optional(v.array(v.object({
-      addonId: v.id("tourAddons"),
+      addonId: v.optional(v.id("tourAddons")),
       title: v.string(),
       price: v.number(),
       pricingType: v.union(v.literal("per_person"), v.literal("flat")),
@@ -285,7 +285,9 @@ export function buildOrderFromTourBooking(
     customerNif?: string | null;
     paymentMethod?: string | null;
     selectedAddons?: Array<{
-      addonId: Id<"tourAddons">;
+      // Opcional: os add-ons dos upsells do checkout são embutidos na própria
+      // experiência e não têm linha em `tourAddons`.
+      addonId?: Id<"tourAddons">;
       title: string;
       price: number;
       pricingType: "per_person" | "flat";

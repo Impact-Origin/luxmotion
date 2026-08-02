@@ -13,6 +13,19 @@ import { AIRPORT_SURCHARGE_PERCENT } from "@/lib/airport"
  */
 export const DEFAULT_TOURS_SEARCH_RADIUS_KM = 10
 
+/**
+ * Fallback for the tours and events offered during checkout. 30 is the value
+ * that used to be hardcoded in the backend. Must match
+ * `siteSettingsDefaults.checkoutToursRadiusKm`.
+ */
+export const DEFAULT_CHECKOUT_TOURS_RADIUS_KM = 30
+
+/**
+ * Fallback for the checkout upsells (extra stops and experiences offered around
+ * the drop-off). Must match `siteSettingsDefaults.checkoutUpsellRadiusKm`.
+ */
+export const DEFAULT_CHECKOUT_UPSELL_RADIUS_KM = 50
+
 export type SiteSettings = {
   minAdvanceBookingHours: number
   announcementsEnabled: boolean
@@ -20,6 +33,8 @@ export type SiteSettings = {
   exchangeRates: ExchangeRates
   airportSurchargePercent: number
   toursSearchRadiusKm: number
+  checkoutToursRadiusKm: number
+  checkoutUpsellRadiusKm: number
 }
 
 const DEFAULTS: SiteSettings = {
@@ -29,6 +44,8 @@ const DEFAULTS: SiteSettings = {
   exchangeRates: DEFAULT_RATES,
   airportSurchargePercent: AIRPORT_SURCHARGE_PERCENT,
   toursSearchRadiusKm: DEFAULT_TOURS_SEARCH_RADIUS_KM,
+  checkoutToursRadiusKm: DEFAULT_CHECKOUT_TOURS_RADIUS_KM,
+  checkoutUpsellRadiusKm: DEFAULT_CHECKOUT_UPSELL_RADIUS_KM,
 }
 
 /**
@@ -63,37 +80,88 @@ export function useSiteSettings(): SiteSettings {
       exchangeRates: r.exchangeRates ?? DEFAULT_RATES,
       airportSurchargePercent:
         r.airportSurchargePercent ?? DEFAULTS.airportSurchargePercent,
-      toursSearchRadiusKm: readRadius(r) ?? DEFAULTS.toursSearchRadiusKm,
+      toursSearchRadiusKm:
+        readRadius(r, "toursSearchRadiusKm") ?? DEFAULTS.toursSearchRadiusKm,
+      checkoutToursRadiusKm:
+        readRadius(r, "checkoutToursRadiusKm") ??
+        DEFAULTS.checkoutToursRadiusKm,
+      checkoutUpsellRadiusKm:
+        readRadius(r, "checkoutUpsellRadiusKm") ??
+        DEFAULTS.checkoutUpsellRadiusKm,
     }
   }, [raw])
 }
 
-function readRadius(r: Partial<SiteSettings> | Error): number | undefined {
+type RadiusKey =
+  | "toursSearchRadiusKm"
+  | "checkoutToursRadiusKm"
+  | "checkoutUpsellRadiusKm"
+
+function readRadius(
+  r: Partial<SiteSettings> | Error | undefined,
+  key: RadiusKey,
+): number | undefined {
+  if (!r) return undefined
   if (r instanceof Error) return undefined
-  return typeof r.toursSearchRadiusKm === "number" && r.toursSearchRadiusKm > 0
-    ? r.toursSearchRadiusKm
-    : undefined
+  const value = r[key]
+  return typeof value === "number" && value > 0 ? value : undefined
+}
+
+/**
+ * A subscrição crua a `siteSettings.get`.
+ *
+ * IMPORTANTE: um componente só pode ter UMA destas. Duas subscrições à mesma
+ * query no mesmo componente entram em ciclo infinito de renders ("Too many
+ * re-renders") — cada `QueriesObserver` reage à transição do outro. Foi por isso
+ * que os dois raios do checkout se lêem juntos, num único hook, em vez de um
+ * hook por raio.
+ */
+function useSiteSettingsRaw() {
+  const queries = useMemo(
+    () => ({ siteSettings: { query: api.siteSettings.get, args: {} } }),
+    [],
+  )
+  return useQueries(queries).siteSettings as
+    | Partial<SiteSettings>
+    | Error
+    | undefined
 }
 
 /**
  * Raio da pesquisa por proximidade em /tours/results.
  *
- * Devolve `undefined` enquanto `siteSettings.get` não responde, para quem
- * pesquisa poder adiar a query em vez de a lançar com o valor por omissão e ter
- * de a repetir (e piscar o skeleton) assim que o valor real chega.
+ * `undefined` enquanto `siteSettings.get` não responde, para quem pesquisa poder
+ * adiar a query em vez de a lançar com o valor por omissão e ter de a repetir (e
+ * piscar o skeleton) assim que o valor real chega.
  */
 export function useToursSearchRadiusKm(): number | undefined {
-  const queries = useMemo(
-    () => ({ siteSettings: { query: api.siteSettings.get, args: {} } }),
-    [],
-  )
-  const results = useQueries(queries)
-  const raw = results.siteSettings
+  const raw = useSiteSettingsRaw()
   return useMemo(() => {
     if (raw === undefined) return undefined
     return (
-      readRadius(raw as Partial<SiteSettings> | Error) ??
-      DEFAULT_TOURS_SEARCH_RADIUS_KM
+      readRadius(raw, "toursSearchRadiusKm") ?? DEFAULT_TOURS_SEARCH_RADIUS_KM
     )
+  }, [raw])
+}
+
+/**
+ * Os dois raios do checkout, de uma só subscrição — ver o aviso em
+ * `useSiteSettingsRaw`. `undefined` enquanto não há resposta.
+ */
+export function useCheckoutRadiiKm(): {
+  toursKm: number | undefined
+  upsellKm: number | undefined
+} {
+  const raw = useSiteSettingsRaw()
+  return useMemo(() => {
+    if (raw === undefined) return { toursKm: undefined, upsellKm: undefined }
+    return {
+      toursKm:
+        readRadius(raw, "checkoutToursRadiusKm") ??
+        DEFAULT_CHECKOUT_TOURS_RADIUS_KM,
+      upsellKm:
+        readRadius(raw, "checkoutUpsellRadiusKm") ??
+        DEFAULT_CHECKOUT_UPSELL_RADIUS_KM,
+    }
   }, [raw])
 }

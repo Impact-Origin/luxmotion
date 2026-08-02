@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react"
 import type { AmadeusFlightInfo } from "@/lib/orders"
+import type { NearbyCategory } from "@/components/checkout/experiences-step"
+import type { SelectedAddonLine } from "@/components/checkout/add-experience-modal"
 
 export const DEV_ALLOW_STEP_SKIP = true
 
@@ -66,12 +68,23 @@ export interface TransferState {
 export interface ExperienceSelection {
   experienceId: string
   slug: string
-  category: "tours" | "experiences" | "private" | "stops" | "events"
+  category: NearbyCategory
   title: string
   passengers: number
   date: Date | undefined
   time: string | null
+  /** Ids dos extras marcados — mantido para a UI. */
   extras: string[]
+  /** Os mesmos extras, já valorizados: é isto que chega à order. */
+  selectedAddons?: SelectedAddonLine[]
+  /** Local do upsell, para a order saber onde é a paragem. */
+  location?: {
+    title: string
+    address: string
+    lat?: number
+    lng?: number
+    placeId?: string
+  } | null
   specialRequest: string
   totalPrice: number
 }

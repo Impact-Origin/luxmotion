@@ -27,6 +27,7 @@ import {
 } from "@/lib/orders"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
+import { toPendingExperience } from "@/lib/pending-checkout-experiences"
 import { useConvex } from "convex/react"
 import { cn } from "@workspace/ui/lib/utils"
 import { AnimatedCollapse } from "@/components/checkout/shared"
@@ -408,27 +409,7 @@ export function PaymentStep({ onContinue, onBack }: PaymentStepProps) {
         if (convexOrderIdForExp) {
           await convex.mutation(api.orders.setPendingCheckoutExperiences, {
             orderId: convexOrderIdForExp as Id<"orders">,
-            experiences: experiences.map((exp) => ({
-              productType: (exp.category === "events"
-                ? "event"
-                : exp.category === "private"
-                ? "tour"
-                : exp.category === "tours"
-                ? "tour"
-                : "experience") as "tour" | "experience" | "event",
-              tourId: (exp.category !== "events" ? exp.experienceId : undefined) as
-                | Id<"tours">
-                | undefined,
-              eventId: (exp.category === "events" ? exp.experienceId : undefined) as
-                | Id<"events">
-                | undefined,
-              tourTitle: exp.title,
-              tourSlug: exp.slug,
-              passengers: exp.passengers,
-              selectedDate: exp.date ? exp.date.toISOString().slice(0, 10) : "",
-              selectedTime: exp.time ?? "",
-              basePrice: exp.totalPrice,
-            })),
+            experiences: experiences.map(toPendingExperience),
           })
         }
       }

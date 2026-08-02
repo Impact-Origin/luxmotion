@@ -18,6 +18,13 @@ export const siteSettingsDefaults = {
   // /tours/results list. Tight on purpose: searching "Mafra" should not return
   // Lisbon just because it is half an hour down the road.
   toursSearchRadiusKm: 10,
+  // How far from the transfer's drop-off a tour or event may be and still be
+  // offered in the checkout. 30 is the value that used to be hardcoded in
+  // `tours.listNearCoordinates` / `events.listNearCoordinates`.
+  checkoutToursRadiusKm: 30,
+  // Same, for the upsells (extra stops and experiences). Wider on purpose: the
+  // visitor is already travelling there, not browsing.
+  checkoutUpsellRadiusKm: 50,
 } as const;
 
 export const get = query({
@@ -46,6 +53,12 @@ export const get = query({
       toursSearchRadiusKm:
         existing.toursSearchRadiusKm ??
         siteSettingsDefaults.toursSearchRadiusKm,
+      checkoutToursRadiusKm:
+        existing.checkoutToursRadiusKm ??
+        siteSettingsDefaults.checkoutToursRadiusKm,
+      checkoutUpsellRadiusKm:
+        existing.checkoutUpsellRadiusKm ??
+        siteSettingsDefaults.checkoutUpsellRadiusKm,
     };
   },
 });
@@ -62,6 +75,8 @@ export const upsert = mutation({
     ),
     airportSurchargePercent: v.optional(v.number()),
     toursSearchRadiusKm: v.optional(v.number()),
+    checkoutToursRadiusKm: v.optional(v.number()),
+    checkoutUpsellRadiusKm: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     if (
@@ -90,6 +105,22 @@ export const upsert = mutation({
       // 1 km = same town only; 500 km covers mainland Portugal end to end.
       throw new Error("toursSearchRadiusKm must be between 1 and 500");
     }
+    if (
+      args.checkoutToursRadiusKm !== undefined &&
+      (!Number.isFinite(args.checkoutToursRadiusKm) ||
+        args.checkoutToursRadiusKm < 1 ||
+        args.checkoutToursRadiusKm > 500)
+    ) {
+      throw new Error("checkoutToursRadiusKm must be between 1 and 500");
+    }
+    if (
+      args.checkoutUpsellRadiusKm !== undefined &&
+      (!Number.isFinite(args.checkoutUpsellRadiusKm) ||
+        args.checkoutUpsellRadiusKm < 1 ||
+        args.checkoutUpsellRadiusKm > 500)
+    ) {
+      throw new Error("checkoutUpsellRadiusKm must be between 1 and 500");
+    }
 
     const existing = await ctx.db
       .query("siteSettings")
@@ -103,6 +134,8 @@ export const upsert = mutation({
       exchangeRates?: { BRL: number; USD: number; GBP: number };
       airportSurchargePercent?: number;
       toursSearchRadiusKm?: number;
+      checkoutToursRadiusKm?: number;
+      checkoutUpsellRadiusKm?: number;
       updatedAt: number;
     } = { updatedAt: Date.now() };
     if (args.minAdvanceBookingHours !== undefined)
@@ -117,6 +150,10 @@ export const upsert = mutation({
       patch.airportSurchargePercent = args.airportSurchargePercent;
     if (args.toursSearchRadiusKm !== undefined)
       patch.toursSearchRadiusKm = args.toursSearchRadiusKm;
+    if (args.checkoutToursRadiusKm !== undefined)
+      patch.checkoutToursRadiusKm = args.checkoutToursRadiusKm;
+    if (args.checkoutUpsellRadiusKm !== undefined)
+      patch.checkoutUpsellRadiusKm = args.checkoutUpsellRadiusKm;
 
     if (existing) {
       await ctx.db.patch(existing._id, patch);

@@ -11,10 +11,22 @@ interface ExperienceCardProps {
   duration: string
   image: string
   distanceKm?: number
+  /** Selo do upsell, definido em /admin/upsells. */
+  tag?: "none" | "recommended" | "mostPopular"
+  tagLabel?: string
   onAdd?: () => void
 }
 
-export function ExperienceCard({ title, price, duration, image, distanceKm, onAdd }: ExperienceCardProps) {
+export function ExperienceCard({
+  title,
+  price,
+  duration,
+  image,
+  distanceKm,
+  tag = "none",
+  tagLabel,
+  onAdd,
+}: ExperienceCardProps) {
   const t = useTranslations("experiences")
   const { format } = useMoney()
 
@@ -47,6 +59,18 @@ export function ExperienceCard({ title, price, duration, image, distanceKm, onAd
               {t("distanceAway", { distance: distanceKm })}
             </span>
           </div>
+        )}
+        {tag !== "none" && tagLabel && (
+          <span
+            data-theme-color="checkoutPrimaryButtonBg"
+            className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide"
+            style={{
+              backgroundColor: "var(--theme-checkout-primary-button-bg, #27C7FF)",
+              color: "var(--theme-checkout-primary-button-icon, #FFFFFF)",
+            }}
+          >
+            {tagLabel}
+          </span>
         )}
       </div>
       <div className="p-4 flex items-center gap-3">

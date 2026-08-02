@@ -154,6 +154,23 @@ export const updatePaymentStatus = internalMutation({
         selectedDate: string;
         selectedTime: string;
         basePrice: number;
+        pickup?: {
+          title: string;
+          address: string;
+          lat?: number;
+          lng?: number;
+          placeId?: string;
+        };
+        selectedAddons?: Array<{
+          addonId?: Id<"tourAddons">;
+          title: string;
+          price: number;
+          pricingType: "per_person" | "flat";
+          quantity: number;
+          subtotal: number;
+        }>;
+        addonsTotal?: number;
+        specialRequest?: string;
       }> }).pendingCheckoutExperiences;
       const customerName = (order as { customerName?: string }).customerName ?? "";
       const customerEmail = (order as { customerEmail?: string }).customerEmail ?? "";
@@ -177,7 +194,15 @@ export const updatePaymentStatus = internalMutation({
             passengers: exp.passengers,
             selectedDate: exp.selectedDate,
             selectedTime: exp.selectedTime,
+            // Os upsells não têm paragens em `tourStops`; sem isto a order
+            // ficava sem partida e sem chegada.
+            pickup: exp.pickup,
             basePrice: exp.basePrice,
+            // O valor dos extras já vinha somado em `basePrice`; o que faltava
+            // era ficar registado O QUÊ.
+            selectedAddons: exp.selectedAddons,
+            addonsTotal: exp.addonsTotal,
+            specialRequest: exp.specialRequest,
             tipPercent: 0,
             tipAmount: 0,
             totalAmount: exp.basePrice,

@@ -666,7 +666,11 @@
     "distanceAway": "{distance} km afstand",
     "skipStep": "Doorgaan zonder rondleidingen",
     "viewDetails": "Details bekijken",
-    "extraStops": "Extra stops"
+    "extraStops": "Extra stops",
+    "tags": {
+      "recommended": "Aanbevolen",
+      "mostPopular": "Populairst"
+    }
   },
   "passengerForm": {
     "iAmMainPassenger": "Ik ben de hoofdpassagier",

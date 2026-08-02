@@ -666,7 +666,11 @@
     "distanceAway": "{distance} km de distance",
     "skipStep": "Continuer sans circuits",
     "viewDetails": "Voir les détails",
-    "extraStops": "Arrêts supplémentaires"
+    "extraStops": "Arrêts supplémentaires",
+    "tags": {
+      "recommended": "Recommandé",
+      "mostPopular": "Le plus populaire"
+    }
   },
   "passengerForm": {
     "iAmMainPassenger": "Je suis le passager principal",

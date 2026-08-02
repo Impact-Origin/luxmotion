@@ -3,11 +3,28 @@
 import * as React from "react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
-import { AddExperienceModal } from "./add-experience-modal"
+import { AddExperienceModal, type SelectedAddonLine } from "./add-experience-modal"
 import { CheckoutStepLayout } from "./shared/checkout-step-layout"
 import type { Experience } from "./shared/types"
 import { useTranslations } from "next-intl"
 import { useCheckout } from "@/components/checkout/checkout-context"
+
+/**
+ * Categorias mostradas no passo 2.
+ *
+ * `upsellStop` e `upsellExperience` vêm das tabelas de upsells, geridas em
+ * /admin/upsells. `stops` e `experiences` são as categorias antigas de `tours`
+ * — já não são desenhadas aqui, mas o tipo mantém-nas porque as reservas
+ * antigas ainda as usam.
+ */
+export type NearbyCategory =
+  | "tours"
+  | "experiences"
+  | "private"
+  | "stops"
+  | "events"
+  | "upsellStop"
+  | "upsellExperience"
 
 export interface NearbyTour {
   _id: string
@@ -18,8 +35,26 @@ export interface NearbyTour {
   bannerImageUrl: string | null
   basePrice: number
   duration: string
-  distanceKm: number
-  category: "tours" | "experiences" | "private" | "stops" | "events"
+  /** Ausente nos upsells universais, que não dependem de onde o cliente vai. */
+  distanceKm?: number
+  category: NearbyCategory
+  /** Selo no canto do card ("Recomendado", "Mais popular"). */
+  tag?: "none" | "recommended" | "mostPopular"
+  /** Preço fixo em vez de por passageiro. */
+  flatPrice?: boolean
+  /** Nos upsells: o modal pede data? Mostra a caixa de pedido especial? */
+  hasDateField?: boolean
+  hasSpecialRequest?: boolean
+  /** Nota ao lado do preço no cartão ("· €10 / 15 min", "/ pessoa"). */
+  priceNote?: string
+  /** Local do upsell, para a order saber onde é a paragem. */
+  location?: {
+    title: string
+    address: string
+    lat?: number
+    lng?: number
+    placeId?: string
+  } | null
   addons?: {
     _id: string
     title: string
@@ -75,10 +110,10 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   const [selectedExperience, setSelectedExperience] = React.useState<Experience | null>(null)
 
   const tours = nearbyTours.filter((item) => item.category === "tours")
-  const experiences = nearbyTours.filter((item) => item.category === "experiences")
   const privateTours = nearbyTours.filter((item) => item.category === "private")
-  const stops = nearbyTours.filter((item) => item.category === "stops")
   const events = nearbyTours.filter((item) => item.category === "events")
+  const stops = nearbyTours.filter((item) => item.category === "upsellStop")
+  const experiences = nearbyTours.filter((item) => item.category === "upsellExperience")
 
   const handleOpenModal = (experience: Experience) => {
     setSelectedExperience(experience)
@@ -95,6 +130,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
     date: Date | undefined
     time: string | null
     selectedExtras: string[]
+    selectedAddons: SelectedAddonLine[]
     specialRequest: string
     totalPrice: number
   }) => {
@@ -109,6 +145,10 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
       date: data.date,
       time: data.time,
       extras: data.selectedExtras,
+      // Os extras seguem agora valorizados até à order: antes o valor entrava no
+      // total e a operação nunca ficava a saber o que tinha sido vendido.
+      selectedAddons: data.selectedAddons,
+      location: tour?.location ?? null,
       specialRequest: data.specialRequest,
       totalPrice: data.totalPrice,
     })
@@ -131,6 +171,9 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
               duration={item.duration}
               image={item.bannerImageUrl ?? "/images/placeholder-experience.webp"}
               distanceKm={item.distanceKm}
+              tag={item.tag}
+              tagLabel={item.tag && item.tag !== "none" ? t(`tags.${item.tag}`) : undefined}
+              priceNote={item.priceNote}
               onAdd={() => handleOpenModal(toExperience(item))}
             />
           ))}
@@ -142,7 +185,13 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   const selectedItem = selectedExperience
     ? nearbyTours.find((item) => item._id === selectedExperience.id)
     : null
-  const selectedTourId = selectedItem?.category === "events" ? null : selectedItem?._id ?? null
+  /* Só os tours têm calendário de disponibilidade. Passar aqui o id de um
+     evento ou de um upsell fazia a query de disponibilidade rebentar — não é
+     um `Id<"tours">`. */
+  const selectedTourId =
+    selectedItem && ["tours", "private", "stops", "experiences"].includes(selectedItem.category)
+      ? selectedItem._id
+      : null
 
   return (
     <CheckoutStepLayout>
@@ -193,7 +242,9 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
             onClose={handleCloseModal}
             experience={selectedExperience}
             tourId={selectedTourId}
-            flatPrice={selectedItem?.category === "stops"}
+            flatPrice={selectedItem?.flatPrice ?? false}
+            requireDateTime={selectedItem?.hasDateField ?? true}
+            showSpecialRequest={selectedItem?.hasSpecialRequest ?? false}
             onAdd={handleAddExperience}
           />
         )}

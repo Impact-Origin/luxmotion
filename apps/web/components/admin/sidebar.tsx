@@ -28,6 +28,7 @@ import {
   BarChart3,
   CalendarClock,
   Newspaper,
+  ShoppingBag,
   ChevronDown,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
@@ -60,6 +61,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
           { title: "Experiences", url: "/admin/experiences", icon: Sparkles },
+          { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag, badge: "NOVO" },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },
         ],
       },
@@ -197,6 +199,13 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
                             strokeWidth={1.8}
                           />
                           {!collapsed && <span className="truncate">{item.title}</span>}
+                          {/* Selo opcional ("NOVO"). Só com a sidebar aberta:
+                              recolhida não há largura para ele. */}
+                          {!collapsed && "badge" in item && item.badge && (
+                            <span className="ml-auto shrink-0 rounded bg-sidebar-primary/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-sidebar-primary">
+                              {item.badge}
+                            </span>
+                          )}
                         </Link>
                       );
                     })}

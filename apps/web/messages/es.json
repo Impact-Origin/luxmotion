@@ -666,7 +666,11 @@
     "distanceAway": "{distance} km de distancia",
     "skipStep": "Continuar sin tours",
     "viewDetails": "Ver detalles",
-    "extraStops": "Paradas extra"
+    "extraStops": "Paradas extra",
+    "tags": {
+      "recommended": "Recomendado",
+      "mostPopular": "Más popular"
+    }
   },
   "passengerForm": {
     "iAmMainPassenger": "Soy el pasajero principal",

@@ -669,12 +669,37 @@ const pendingExperienceValidator = v.object({
   productType: v.union(v.literal("tour"), v.literal("experience"), v.literal("event")),
   tourId: v.optional(v.id("tours")),
   eventId: v.optional(v.id("events")),
+  upsellStopId: v.optional(v.id("upsellStops")),
+  upsellExperienceId: v.optional(v.id("upsellExperiences")),
   tourTitle: v.string(),
   tourSlug: v.string(),
   passengers: v.number(),
   selectedDate: v.string(),
   selectedTime: v.string(),
   basePrice: v.number(),
+  pickup: v.optional(
+    v.object({
+      title: v.string(),
+      address: v.string(),
+      lat: v.optional(v.number()),
+      lng: v.optional(v.number()),
+      placeId: v.optional(v.string()),
+    }),
+  ),
+  selectedAddons: v.optional(
+    v.array(
+      v.object({
+        addonId: v.optional(v.id("tourAddons")),
+        title: v.string(),
+        price: v.number(),
+        pricingType: v.union(v.literal("per_person"), v.literal("flat")),
+        quantity: v.number(),
+        subtotal: v.number(),
+      }),
+    ),
+  ),
+  addonsTotal: v.optional(v.number()),
+  specialRequest: v.optional(v.string()),
 });
 
 export const setPendingCheckoutExperiences = mutation({

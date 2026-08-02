@@ -8,6 +8,8 @@ import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Switch } from "@workspace/ui/components/switch";
 import {
+  DEFAULT_CHECKOUT_TOURS_RADIUS_KM,
+  DEFAULT_CHECKOUT_UPSELL_RADIUS_KM,
   DEFAULT_TOURS_SEARCH_RADIUS_KM,
   useSiteSettings,
 } from "@/hooks/use-site-settings";
@@ -336,17 +338,63 @@ function AirportSurchargeCard() {
   );
 }
 
-function ToursSearchRadiusCard() {
+/* Três raios com o mesmo formulário. Um só componente parametrizado pela chave
+   da definição, em vez de três cópias que divergem à primeira alteração. */
+type RadiusField =
+  | "toursSearchRadiusKm"
+  | "checkoutToursRadiusKm"
+  | "checkoutUpsellRadiusKm";
+
+const RADIUS_CARDS: {
+  field: RadiusField;
+  fallback: number;
+  title: string;
+  description: React.ReactNode;
+}[] = [
+  {
+    field: "toursSearchRadiusKm",
+    fallback: DEFAULT_TOURS_SEARCH_RADIUS_KM,
+    title: "Tours search radius",
+    description:
+      "How far from the place a visitor searched for a tour may be and still show up in /tours/results. Lower it to keep results local — at 80 km a search for Mafra also returns Lisbon.",
+  },
+  {
+    field: "checkoutToursRadiusKm",
+    fallback: DEFAULT_CHECKOUT_TOURS_RADIUS_KM,
+    title: "Checkout tours & events radius",
+    description:
+      "How far from the transfer's drop-off a tour or event may be and still be offered during checkout. This is the one that used to be fixed at 30 km in the code.",
+  },
+  {
+    field: "checkoutUpsellRadiusKm",
+    fallback: DEFAULT_CHECKOUT_UPSELL_RADIUS_KM,
+    title: "Checkout upsell radius",
+    description: (
+      <>
+        How far from the transfer&apos;s drop-off an extra stop or experience may
+        be and still be offered during checkout. Upsells marked{" "}
+        <em>universal</em> ignore this and show everywhere.
+      </>
+    ),
+  },
+];
+
+function RadiusCard({
+  field,
+  fallback,
+  title,
+  description,
+}: (typeof RADIUS_CARDS)[number]) {
   const t = useTranslations("adminNumbers");
   const settings = useSiteSettings();
   const upsert = useMutation(api.siteSettings.upsert);
-  const [km, setKm] = React.useState(String(DEFAULT_TOURS_SEARCH_RADIUS_KM));
+  const [km, setKm] = React.useState(String(fallback));
   const [isSaving, setIsSaving] = React.useState(false);
 
   // Depende do número, não do objecto: os outros cartões desta página gravam no
   // mesmo documento, e com `[settings]` qualquer gravação vizinha reescrevia o
   // que o admin tivesse acabado de escrever aqui.
-  const storedKm = settings.toursSearchRadiusKm;
+  const storedKm = settings[field];
   React.useEffect(() => {
     setKm(String(storedKm));
   }, [storedKm]);
@@ -359,14 +407,14 @@ function ToursSearchRadiusCard() {
     }
     try {
       setIsSaving(true);
-      await upsert({ toursSearchRadiusKm: parsed });
+      await upsert({ [field]: parsed });
       toast.success(t("saveSuccess"));
     } catch (error) {
       // O backend só aceita este campo depois de `npx convex deploy`. Sem esta
       // mensagem o admin via só "erro ao guardar" e não sabia porquê.
       const message = error instanceof Error ? error.message : "";
       toast.error(
-        /toursSearchRadiusKm|ArgumentValidation/i.test(message)
+        new RegExp(`${field}|ArgumentValidation`, "i").test(message)
           ? "Backend is out of date — run `npx convex deploy` to enable this setting."
           : t("saveError"),
       );
@@ -378,20 +426,14 @@ function ToursSearchRadiusCard() {
   return (
     <div className="bg-card border border-border rounded-xl p-6 space-y-4">
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-foreground">
-          Tours search radius
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          How far from the place a visitor searched for a tour may be and still
-          show up in the results. Lower it to keep results local — at 80 km a
-          search for Mafra also returns Lisbon.
-        </p>
+        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="toursSearchRadiusKm">Radius (km)</Label>
+        <Label htmlFor={field}>Radius (km)</Label>
         <div className="flex items-center gap-3">
           <Input
-            id="toursSearchRadiusKm"
+            id={field}
             type="number"
             min={1}
             max={500}
@@ -627,7 +669,9 @@ export default function AdminNumbersPage() {
       <AnnouncementBarCard />
       <CurrencyRatesCard />
       <AirportSurchargeCard />
-      <ToursSearchRadiusCard />
+      {RADIUS_CARDS.map((card) => (
+        <RadiusCard key={card.field} {...card} />
+      ))}
       <div className="bg-card border border-border rounded-xl p-6 space-y-4">
         <h2 className="text-lg font-semibold text-foreground">
           {t("sections.reviews")}

@@ -666,7 +666,11 @@
     "distanceAway": "{distance} km away",
     "skipStep": "Continue without tours",
     "viewDetails": "View details",
-    "extraStops": "Extra stops"
+    "extraStops": "Extra stops",
+    "tags": {
+      "recommended": "Recommended",
+      "mostPopular": "Most popular"
+    }
   },
   "passengerForm": {
     "title": "Passenger information",

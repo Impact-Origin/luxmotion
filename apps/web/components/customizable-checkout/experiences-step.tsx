@@ -4,6 +4,7 @@ import * as React from "react"
 import { ChevronRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
 import { AddExperienceModal } from "./add-experience-modal"
+import type { SelectedAddonLine } from "@/components/checkout/add-experience-modal"
 import type { Experience } from "./shared/types"
 import { useTranslations } from "next-intl"
 import { Button } from "@workspace/ui/components/button"
@@ -40,10 +41,11 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
   const [selectedExperience, setSelectedExperience] = React.useState<Experience | null>(null)
 
   const tours = nearbyTours.filter((t) => t.category === "tours")
-  const experiences = nearbyTours.filter((t) => t.category === "experiences")
   const privateTours = nearbyTours.filter((t) => t.category === "private")
-  const stops = nearbyTours.filter((t) => t.category === "stops")
   const events = nearbyTours.filter((t) => t.category === "events")
+  // Paragens e experiências vêm agora das tabelas de upsells (/admin/upsells).
+  const stops = nearbyTours.filter((t) => t.category === "upsellStop")
+  const experiences = nearbyTours.filter((t) => t.category === "upsellExperience")
 
   const handleOpenModal = (experience: Experience) => {
     setSelectedExperience(experience)
@@ -60,6 +62,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
     date: Date | undefined
     time: string | null
     selectedExtras: string[]
+    selectedAddons: SelectedAddonLine[]
     specialRequest: string
     totalPrice: number
   }) => {
@@ -74,6 +77,8 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
         date: data.date,
         time: data.time,
         extras: data.selectedExtras,
+        selectedAddons: data.selectedAddons,
+        location: tour?.location ?? null,
         specialRequest: data.specialRequest,
         totalPrice: data.totalPrice,
       })
@@ -90,6 +95,8 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
       duration={item.duration}
       image={item.bannerImageUrl ?? "/images/placeholder-experience.webp"}
       distanceKm={item.distanceKm}
+      tag={item.tag}
+      tagLabel={item.tag && item.tag !== "none" ? t(`tags.${item.tag}`) : undefined}
       onAdd={() => handleOpenModal(toExperience(item))}
     />
   )
@@ -116,7 +123,12 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
   const selectedItem = selectedExperience
     ? nearbyTours.find((t) => t._id === selectedExperience.id)
     : null
-  const selectedTourId = selectedItem?.category === "events" ? null : selectedItem?._id ?? null
+  /* Só os tours têm calendário de disponibilidade — passar aqui o id de um
+     evento ou de um upsell fazia a query rebentar. */
+  const selectedTourId =
+    selectedItem && ["tours", "private", "stops", "experiences"].includes(selectedItem.category)
+      ? selectedItem._id
+      : null
 
   const modal = selectedExperience && (
     <AddExperienceModal
@@ -124,7 +136,9 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
       onClose={handleCloseModal}
       experience={selectedExperience}
       tourId={selectedTourId}
-      flatPrice={selectedItem?.category === "stops"}
+      flatPrice={selectedItem?.flatPrice ?? false}
+      requireDateTime={selectedItem?.hasDateField ?? true}
+      showSpecialRequest={selectedItem?.hasSpecialRequest ?? false}
       onAdd={handleAddExperience}
     />
   )

@@ -9,6 +9,7 @@ import { useMarketingStats } from "@/hooks/use-marketing-stats";
 
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker";
+import { DateTimePicker } from "@/components/checkout/date-time-picker";
 import { useTourAvailability } from "@/hooks/use-tour-data";
 import { cn } from "@workspace/ui/lib/utils";
 import { useIsMobile } from "@/hooks/use-is-mobile";
@@ -83,6 +84,30 @@ function GuestRow({
   );
 }
 
+/**
+ * O `DateTimePicker` livre devolve um único `Date` com a hora lá dentro; o modal
+ * guarda `{ date, time }` separados, com `time` no mesmo formato "HH:MM" que os
+ * horários dos tours usam.
+ */
+export function toDateAndTime(value: Date | undefined): {
+  date: Date | null;
+  time: string | null;
+} {
+  if (!value) return { date: null, time: null };
+  const hh = String(value.getHours()).padStart(2, "0");
+  const mm = String(value.getMinutes()).padStart(2, "0");
+  return { date: value, time: `${hh}:${mm}` };
+}
+
+/** O que foi escolhido, já valorizado — segue para a order tal e qual. */
+export interface SelectedAddonLine {
+  title: string;
+  price: number;
+  pricingType: "per_person" | "flat";
+  quantity: number;
+  subtotal: number;
+}
+
 interface AddExperienceModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -93,11 +118,19 @@ interface AddExperienceModalProps {
    * passageiro como os tours (4 pax numa paragem de €15 são €15, não €60).
    */
   flatPrice?: boolean;
+  /**
+   * Nem todos os upsells pedem data. Quando `false`, o calendário desaparece e
+   * o botão deixa de exigir uma hora para se poder adicionar.
+   */
+  requireDateTime?: boolean;
+  /** Caixa de texto livre, ligada por upsell no admin. */
+  showSpecialRequest?: boolean;
   onAdd: (data: {
     passengers: number;
     date: Date | undefined;
     time: string | null;
     selectedExtras: string[];
+    selectedAddons: SelectedAddonLine[];
     specialRequest: string;
     totalPrice: number;
   }) => void;
@@ -109,6 +142,8 @@ export function AddExperienceModal({
   experience,
   tourId,
   flatPrice = false,
+  requireDateTime = true,
+  showSpecialRequest = false,
   onAdd,
 }: AddExperienceModalProps) {
   const t = useTranslations("addExperience");
@@ -122,6 +157,7 @@ export function AddExperienceModal({
     time: string | null;
   }>({ date: null, time: null });
   const [selectedExtras, setSelectedExtras] = React.useState<string[]>([]);
+  const [specialRequest, setSpecialRequest] = React.useState("");
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const now = new Date();
@@ -150,6 +186,7 @@ export function AddExperienceModal({
       setInfants(0);
       setDateTime({ date: null, time: null });
       setSelectedExtras([]);
+      setSpecialRequest("");
       if (isMobile) {
         requestAnimationFrame(() => setDrawerOpen(true));
       }
@@ -174,10 +211,25 @@ export function AddExperienceModal({
 
   const totalGuests = adults + children + infants;
 
+  /* Extras marcados, já valorizados. A UI sempre disse "/por pessoa" nos
+     add-ons `per_person`, mas o total somava o preço uma única vez — o cartão
+     de reserva do tour multiplica correctamente, e é por ele que se alinha. */
+  const addonLines: SelectedAddonLine[] = experience.extras
+    .filter((extra) => selectedExtras.includes(extra.id))
+    .map((extra) => {
+      const pricingType = extra.pricingType ?? "flat";
+      const quantity = pricingType === "per_person" ? totalGuests || 1 : 1;
+      return {
+        title: extra.label,
+        price: extra.price,
+        pricingType,
+        quantity,
+        subtotal: extra.price * quantity,
+      };
+    });
+
   const calculateTotal = () => {
-    const extrasTotal = experience.extras
-      .filter((extra) => selectedExtras.includes(extra.id))
-      .reduce((sum, extra) => sum + extra.price, 0);
+    const extrasTotal = addonLines.reduce((sum, line) => sum + line.subtotal, 0);
     const base = flatPrice
       ? experience.basePrice
       : experience.basePrice * (totalGuests || 1);
@@ -190,7 +242,8 @@ export function AddExperienceModal({
       date: dateTime.date ?? undefined,
       time: dateTime.time,
       selectedExtras,
-      specialRequest: "",
+      selectedAddons: addonLines,
+      specialRequest: specialRequest.trim(),
       totalPrice: calculateTotal(),
     });
   };
@@ -226,6 +279,11 @@ export function AddExperienceModal({
     bookingDeadlineHours,
     availabilityLoading,
     onMonthChange: handleMonthChange,
+    tourId,
+    requireDateTime,
+    showSpecialRequest,
+    specialRequest,
+    setSpecialRequest,
   };
 
   if (isMobile) {
@@ -293,6 +351,12 @@ interface ModalContentProps {
   bookingDeadlineHours?: number;
   availabilityLoading: boolean;
   onMonthChange: (startDate: number, endDate: number) => void;
+  /** Null nos upsells: não há horários, logo o calendário é livre. */
+  tourId: string | null;
+  requireDateTime: boolean;
+  showSpecialRequest: boolean;
+  specialRequest: string;
+  setSpecialRequest: (value: string) => void;
 }
 
 function ModalContent({
@@ -318,6 +382,11 @@ function ModalContent({
   bookingDeadlineHours,
   availabilityLoading,
   onMonthChange,
+  tourId,
+  requireDateTime,
+  showSpecialRequest,
+  specialRequest,
+  setSpecialRequest,
 }: ModalContentProps) {
   const { checkoutBookedTodayMin, checkoutBookedTodayMax } =
     useMarketingStats();
@@ -369,22 +438,39 @@ function ModalContent({
           </div>
         </div>
 
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <CalendarDays className="size-5 text-[var(--ck-accent,#c9a96e)]" strokeWidth={1.75} />
-            <span className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)]">
-              {t("date")}
-            </span>
+        {requireDateTime && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <CalendarDays className="size-5 text-[var(--ck-accent,#c9a96e)]" strokeWidth={1.75} />
+              <span className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)]">
+                {t("date")}
+              </span>
+            </div>
+            {/* Só os tours têm horários em `tourSchedules`. Um upsell não tem, e
+                o `TourDateTimePicker` só deixa escolher dias que existam na
+                disponibilidade — com a lista vazia, nenhum dia era selecionável
+                e o botão "adicionar" ficava morto para sempre. Aí usa-se o
+                mesmo picker livre do passo do transfer. */}
+            {tourId ? (
+              <TourDateTimePicker
+                value={dateTime}
+                onChange={setDateTime}
+                availability={availability}
+                bookingDeadlineHours={bookingDeadlineHours}
+                isLoading={availabilityLoading}
+                onMonthChange={onMonthChange}
+              />
+            ) : (
+              <DateTimePicker
+                value={dateTime.date}
+                onChange={(next) => setDateTime(toDateAndTime(next))}
+                label={t("date")}
+                placeholder={t("date")}
+                dark
+              />
+            )}
           </div>
-          <TourDateTimePicker
-            value={dateTime}
-            onChange={setDateTime}
-            availability={availability}
-            bookingDeadlineHours={bookingDeadlineHours}
-            isLoading={availabilityLoading}
-            onMonthChange={onMonthChange}
-          />
-        </div>
+        )}
 
         <div className="bg-[var(--ck-surface,#1e1d1b)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.08)] p-5 flex flex-col gap-4 mb-6">
           <GuestRow
@@ -449,6 +535,25 @@ function ModalContent({
             </div>
           </div>
         )}
+
+        {showSpecialRequest && (
+          <div className="mt-6">
+            <label
+              htmlFor="upsell-special-request"
+              className="block text-[12px] font-bold text-[var(--ck-text-muted,#999)] uppercase tracking-[1.152px] mb-3"
+            >
+              {t("specialRequest")}
+            </label>
+            <textarea
+              id="upsell-special-request"
+              rows={3}
+              value={specialRequest}
+              onChange={(event) => setSpecialRequest(event.target.value)}
+              placeholder={t("specialRequestPlaceholder")}
+              className="w-full bg-[var(--ck-surface,#1e1d1b)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] px-3 py-2 text-[14px] text-[var(--ck-text,#f7f4ef)] placeholder:text-[var(--ck-text-subtle,#696969)] focus:border-[var(--ck-accent,#c9a96e)] focus:outline-none"
+            />
+          </div>
+        )}
       </div>
 
       <div className="px-6 pt-4 pb-5 bg-[var(--ck-bg,#0d0d0d)] shrink-0 border-t border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
@@ -475,7 +580,7 @@ function ModalContent({
         <button
           type="button"
           onClick={handleAdd}
-          disabled={!dateTime.time}
+          disabled={requireDateTime && !dateTime.time}
           className="w-full h-12 bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] text-[#0D0D0D] text-[14px] font-medium uppercase tracking-[1.1px] inline-flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />

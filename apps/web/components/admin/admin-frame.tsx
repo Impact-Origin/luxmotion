@@ -18,6 +18,7 @@ const ROUTE_META: Record<string, { section: string; title: string }> = {
   events: { section: "Catalog", title: "Events" },
   experiences: { section: "Catalog", title: "Experiences" },
   "corporate-experiences": { section: "Catalog", title: "Corporate experiences" },
+  upsells: { section: "Catalog", title: "Upsells" },
   blogs: { section: "Catalog", title: "Blogs" },
   team: { section: "People", title: "Team" },
   drivers: { section: "People", title: "Drivers" },

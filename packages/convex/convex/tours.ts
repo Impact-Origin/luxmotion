@@ -3,6 +3,7 @@ import { query, mutation, internalMutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
 import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
+import { haversineKm, roundKm } from "./lib/geo";
 
 function withDisplayedReviewCount<
   T extends { reviewCount?: number; manualReviewCount?: number },
@@ -607,35 +608,18 @@ export const listNearCoordinates = query({
       .withIndex("by_status", (q) => q.eq("status", "published"))
       .collect();
 
-    const toRad = (deg: number) => (deg * Math.PI) / 180;
-
-    function haversine(
-      lat1: number,
-      lng1: number,
-      lat2: number,
-      lng2: number,
-    ): number {
-      const R = 6371;
-      const dLat = toRad(lat2 - lat1);
-      const dLng = toRad(lng2 - lng1);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat1)) *
-          Math.cos(toRad(lat2)) *
-          Math.sin(dLng / 2) *
-          Math.sin(dLng / 2);
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-
     const toursWithDistance = tours
       .filter((t) => t.isUltraLuxury !== true)
       .map((tour) => {
         const tourLat = tour.pickup?.lat ?? tour.mapCenter?.lat;
         const tourLng = tour.pickup?.lng ?? tour.mapCenter?.lng;
         if (tourLat == null || tourLng == null) return null;
-        const distance = haversine(args.lat, args.lng, tourLat, tourLng);
+        const distance = haversineKm(
+          { lat: args.lat, lng: args.lng },
+          { lat: tourLat, lng: tourLng },
+        );
         if (distance > radius) return null;
-        return { tour, distance: Math.round(distance * 10) / 10 };
+        return { tour, distance: roundKm(distance) };
       })
       .filter((item): item is NonNullable<typeof item> => item !== null)
       .sort((a, b) => a.distance - b.distance);
