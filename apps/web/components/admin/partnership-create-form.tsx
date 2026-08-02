@@ -9,8 +9,7 @@ import { Label } from "@workspace/ui/components/label";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { defaultTheme } from "@/components/dynamic-theme-provider";
-import { Loader2, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/admin/image-upload";
 import {
@@ -26,7 +25,7 @@ import {
   type PartnershipLandingTemplate,
 } from "@/lib/partnership-landing-templates";
 
-export default function NewPartnershipPage() {
+export function PartnershipCreateForm({ onClose }: { onClose: () => void }) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const createPartnership = useMutation(api.partnerships.create);
   const router = useRouter();
@@ -62,15 +61,7 @@ export default function NewPartnershipPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8">
-      <Link
-        href="/admin/partnerships"
-        className="group inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ArrowLeft className="mr-2 size-4 transition-transform group-hover:-translate-x-1" />
-        Back to partnerships
-      </Link>
-
+    <div className="space-y-8">
       <div className="space-y-1">
         <h2 className="text-2xl font-medium tracking-tight text-foreground">{t("newPartnership")}</h2>
         <p className="text-sm text-muted-foreground">
@@ -78,7 +69,7 @@ export default function NewPartnershipPage() {
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6 rounded-xl border border-border bg-card p-8">
+      <form onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-6">
           <div className="space-y-2">
             <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">

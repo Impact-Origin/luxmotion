@@ -2,9 +2,13 @@
 
 import * as React from "react";
 import { useQuery, useMutation } from "convex/react";
-import { api } from "@workspace/convex/api";
-import { useRouter } from "next/navigation";
-import { Plus, MoreVertical, Edit2, Trash2, Wifi, Zap, Building2, Car } from "lucide-react";
+import { api } from "@workspace/convex/api"
+import { VehicleForm } from "@/components/admin/vehicle-form"
+import {
+  EntityFormDialog,
+  useEntityFormParams,
+} from "@/components/admin/entity-form-dialog";
+import { Plus, MoreVertical, Edit2, Trash2, Wifi, Zap, Building2, Car, Loader2 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
@@ -19,7 +23,7 @@ import { StatusBadge } from "@/components/admin/status-badge";
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table";
 
 export default function VehiclesPage() {
-  const router = useRouter();
+  const { isNew, editId, isOpen, openNew, openEdit, close } = useEntityFormParams();
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
   const res = useQuery(api.vehicles.listPaged, tableQuery);
   const partnerships = useQuery(api.partnerships.list);
@@ -27,13 +31,10 @@ export default function VehiclesPage() {
 
   type Vehicle = NonNullable<typeof res>["rows"][number];
 
-  const handleEdit = (vehicle: Vehicle) => {
-    router.push(`/admin/vehicles/${vehicle._id}/edit`);
-  };
+  const editing = editId ? res?.rows.find((r) => r._id === editId) : undefined;
 
-  const handleCreate = () => {
-    router.push("/admin/vehicles/new");
-  };
+  const handleEdit = (vehicle: Vehicle) => openEdit(vehicle._id);
+  const handleCreate = () => openNew();
 
   const handleDelete = async (id: Vehicle["_id"]) => {
     if (confirm("Are you sure you want to delete this vehicle?")) {
@@ -209,6 +210,7 @@ export default function VehiclesPage() {
   );
 
   return (
+    <>
     <DataTable<Vehicle>
         mode="server"
         data={res?.rows}
@@ -231,5 +233,20 @@ export default function VehiclesPage() {
         emptyDescription="Add a vehicle or adjust your search and filters."
         emptyIcon={Car}
       />
+
+      {/* Guarda contra fecho acidental: o formulário de viaturas é dos maiores
+          e não há nada no admin a avisar de trabalho por gravar. */}
+      <EntityFormDialog open={isOpen} onClose={close} guardAgainstDismiss>
+        {isNew ? (
+          <VehicleForm onClose={close} />
+        ) : editing ? (
+          <VehicleForm initialData={editing} onClose={close} />
+        ) : (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="size-8 animate-spin text-muted-foreground" />
+          </div>
+        )}
+      </EntityFormDialog>
+    </>
   );
 }

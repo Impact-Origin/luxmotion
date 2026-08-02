@@ -7,6 +7,12 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { useSafeQuery } from "@/hooks/use-safe-query"
+import { UpsellStopForm } from "@/components/admin/upsell-stop-form"
+import { UpsellExperienceForm } from "@/components/admin/upsell-experience-form"
+import {
+  EntityFormDialog,
+  useEntityFormParams,
+} from "@/components/admin/entity-form-dialog"
 import type { Id } from "@workspace/convex/dataModel"
 import { toast } from "sonner"
 import {
@@ -20,6 +26,7 @@ import {
   Send,
   EyeOff,
   ImageIcon,
+  Loader2,
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -135,6 +142,14 @@ function Thumb({ url, title }: { url: string | null; title: string }) {
   )
 }
 
+function FormLoading() {
+  return (
+    <div className="flex items-center justify-center py-16">
+      <Loader2 className="size-8 animate-spin text-muted-foreground" />
+    </div>
+  )
+}
+
 export default function AdminUpsellsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -154,6 +169,9 @@ export default function AdminUpsellsPage() {
     filters: {},
   })
   const [deleting, setDeleting] = React.useState<{ type: Tab; id: string } | null>(null)
+  /* O separador aberto já decide o tipo, por isso o formulário não precisa de o
+     repetir no URL: `?tab=experiences&new=1` é uma experiência nova. */
+  const { isNew, editId, isOpen, openNew, openEdit, close } = useEntityFormParams()
 
   /* As duas queries ficam sempre montadas: assim trocar de tab é instantâneo em
      vez de mostrar um skeleton de cada vez que se salta entre elas.
@@ -179,6 +197,11 @@ export default function AdminUpsellsPage() {
 
   type StopRow = NonNullable<typeof stopsRes>["rows"][number]
   type ExperienceRow = NonNullable<typeof experiencesRes>["rows"][number]
+
+  const editingStop = editId ? stopsRes?.rows.find((r) => r._id === editId) : undefined
+  const editingExperience = editId
+    ? experiencesRes?.rows.find((r) => r._id === editId)
+    : undefined
 
   const changeTab = (next: Tab) => {
     setTab(next)
@@ -223,7 +246,7 @@ export default function AdminUpsellsPage() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => router.push(`/admin/upsells/${type}/${id}/edit`)}>
+        <DropdownMenuItem onClick={() => openEdit(id)}>
           <Pencil className="mr-2 size-4" />
           Editar
         </DropdownMenuItem>
@@ -446,9 +469,9 @@ export default function AdminUpsellsPage() {
           searchPlaceholder="Procurar paragens…"
           filters={stopFilters}
           rowActions={(r) => rowMenu("stops", r._id, r.status === "published")}
-          onRowClick={(r) => router.push(`/admin/upsells/stops/${r._id}/edit`)}
+          onRowClick={(r) => openEdit(r._id)}
           toolbarActions={
-            <Button onClick={() => router.push("/admin/upsells/stops/new")}>
+            <Button onClick={openNew}>
               <Plus className="mr-2 size-4" />
               Paragem
             </Button>
@@ -469,9 +492,9 @@ export default function AdminUpsellsPage() {
           searchPlaceholder="Procurar experiências…"
           filters={experienceFilters}
           rowActions={(r) => rowMenu("experiences", r._id, r.status === "published")}
-          onRowClick={(r) => router.push(`/admin/upsells/experiences/${r._id}/edit`)}
+          onRowClick={(r) => openEdit(r._id)}
           toolbarActions={
-            <Button onClick={() => router.push("/admin/upsells/experiences/new")}>
+            <Button onClick={openNew}>
               <Plus className="mr-2 size-4" />
               Experiência
             </Button>
@@ -481,6 +504,24 @@ export default function AdminUpsellsPage() {
           emptyIcon={Sparkles}
         />
       )}
+
+      <EntityFormDialog open={isOpen} onClose={close} guardAgainstDismiss>
+        {tab === "stops" ? (
+          isNew ? (
+            <UpsellStopForm onClose={close} />
+          ) : editingStop ? (
+            <UpsellStopForm initialData={editingStop} onClose={close} />
+          ) : (
+            <FormLoading />
+          )
+        ) : isNew ? (
+          <UpsellExperienceForm onClose={close} />
+        ) : editingExperience ? (
+          <UpsellExperienceForm initialData={editingExperience} onClose={close} />
+        ) : (
+          <FormLoading />
+        )}
+      </EntityFormDialog>
 
       <AlertDialog open={Boolean(deleting)} onOpenChange={(open) => !open && setDeleting(null)}>
         <AlertDialogContent>

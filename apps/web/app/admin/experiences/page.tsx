@@ -1,11 +1,15 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ExperienceForm } from "@/components/admin/experience-form"
+import {
+  EntityFormDialog,
+  useEntityFormParams,
+} from "@/components/admin/entity-form-dialog"
 import { Button } from "@workspace/ui/components/button"
-import { Plus, Pencil, Trash2, MoreHorizontal, Briefcase, MapPin, Eye, EyeOff } from "lucide-react"
+import { Plus, Pencil, Trash2, MoreHorizontal, Briefcase, MapPin, Eye, EyeOff, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -31,9 +35,9 @@ import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQu
 
 export default function AdminExperiencesPage() {
   const t = useTranslations("adminExperiences")
-  const router = useRouter()
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
+  const { isNew, editId, isOpen, openNew, openEdit, close } = useEntityFormParams()
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
   const res = useQuery(api.pastExperiences.listPaged, tableQuery)
   const removeExperience = useMutation(api.pastExperiences.remove)
@@ -54,13 +58,10 @@ export default function AdminExperiencesPage() {
 
   type ExperienceRow = NonNullable<typeof res>["rows"][number]
 
-  const handleEdit = (experience: any) => {
-    router.push(`/admin/experiences/${experience._id}/edit`)
-  }
+  const editing = editId ? res?.rows.find((r) => r._id === editId) : undefined
 
-  const handleCreate = () => {
-    router.push("/admin/experiences/new")
-  }
+  const handleEdit = (experience: { _id: string }) => openEdit(experience._id)
+  const handleCreate = () => openNew()
 
   const handleDelete = async () => {
     if (!deletingId) return
@@ -263,6 +264,18 @@ export default function AdminExperiencesPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <EntityFormDialog open={isOpen} onClose={close}>
+        {isNew ? (
+          <ExperienceForm onClose={close} />
+        ) : editing ? (
+          <ExperienceForm initialData={editing} onClose={close} />
+        ) : (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="size-8 animate-spin text-muted-foreground" />
+          </div>
+        )}
+      </EntityFormDialog>
     </>
   )
 }

@@ -1,13 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { Button } from "@workspace/ui/components/button"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
-import { Plus, Pencil, Trash2, MoreHorizontal, Users } from "lucide-react"
+import { Plus, Pencil, Trash2, MoreHorizontal, Users, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -28,10 +27,15 @@ import {
 } from "@workspace/ui/components/alert-dialog"
 import { toast } from "sonner"
 import Image from "next/image"
+import { TeamMemberForm } from "@/components/admin/team-member-form"
+import {
+  EntityFormDialog,
+  useEntityFormParams,
+} from "@/components/admin/entity-form-dialog"
 
 export default function AdminTeamPage() {
   const t = useTranslations("adminTeam")
-  const router = useRouter()
+  const { isNew, editId, isOpen, openNew, openEdit, close } = useEntityFormParams()
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
@@ -40,13 +44,13 @@ export default function AdminTeamPage() {
 
   type Member = NonNullable<typeof res>["rows"][number]
 
-  const handleEdit = (member: Member) => {
-    router.push(`/admin/team/${member._id}/edit`)
-  }
+  /* A linha a editar sai da página que já está carregada — `teamMembers` nunca
+     teve `getById`, e a rota de edição resolvia isto com um `list().find()`
+     igual a este. */
+  const editing = editId ? res?.rows.find((m) => m._id === editId) : undefined
 
-  const handleCreate = () => {
-    router.push("/admin/team/new")
-  }
+  const handleEdit = (member: Member) => openEdit(member._id)
+  const handleCreate = () => openNew()
 
   const handleDelete = async () => {
     if (!deletingId) return
@@ -191,6 +195,18 @@ export default function AdminTeamPage() {
         emptyDescription={t("tryFilters")}
         emptyIcon={Users}
       />
+
+      <EntityFormDialog open={isOpen} onClose={close}>
+        {isNew ? (
+          <TeamMemberForm onClose={close} />
+        ) : editing ? (
+          <TeamMemberForm initialData={editing} onClose={close} />
+        ) : (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="size-8 animate-spin text-muted-foreground" />
+          </div>
+        )}
+      </EntityFormDialog>
 
       <AlertDialog open={!!deletingId} onOpenChange={() => setDeletingId(null)}>
         <AlertDialogContent>

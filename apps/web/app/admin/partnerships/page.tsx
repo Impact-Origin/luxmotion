@@ -2,7 +2,12 @@
 
 import * as React from "react";
 import { useQuery, useMutation } from "convex/react";
-import { api } from "@workspace/convex/api";
+import { api } from "@workspace/convex/api"
+import { PartnershipCreateForm } from "@/components/admin/partnership-create-form"
+import {
+  EntityFormDialog,
+  useEntityFormParams,
+} from "@/components/admin/entity-form-dialog";
 import { Plus, MoreVertical, Trash2, ExternalLink, Settings, Building2, BarChart3 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@workspace/ui/components/button";
@@ -26,6 +31,7 @@ import {
 import { PARTNERSHIP_LANDING_TEMPLATES } from "@/lib/partnership-landing-templates";
 
 export default function PartnershipsPage() {
+  const { isNew, openNew, close } = useEntityFormParams();
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
   const res = useQuery(api.partnerships.listPaged, tableQuery);
   const removePartnership = useMutation(api.partnerships.remove);
@@ -210,17 +216,19 @@ export default function PartnershipsPage() {
         renderCard={renderCard}
         rowActions={rowActions}
         toolbarActions={
-          <Link href="/admin/partnerships/new">
-            <Button>
-              <Plus className="mr-2 size-4" />
-              {t("newPartnership")}
-            </Button>
-          </Link>
+          <Button onClick={openNew}>
+            <Plus className="mr-2 size-4" />
+            {t("newPartnership")}
+          </Button>
         }
         emptyTitle="No partnerships found"
         emptyDescription="Create a partnership or adjust your search."
         emptyIcon={Building2}
       />
+
+      <EntityFormDialog open={isNew} onClose={close} guardAgainstDismiss>
+        <PartnershipCreateForm onClose={close} />
+      </EntityFormDialog>
     </div>
   );
 }

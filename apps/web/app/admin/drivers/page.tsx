@@ -3,18 +3,15 @@
 import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
-import { useRouter } from "next/navigation"
+import { DriverForm } from "@/components/admin/driver-form"
+import {
+  EntityFormDialog,
+  useEntityFormParams,
+} from "@/components/admin/entity-form-dialog"
 import { Button } from "@workspace/ui/components/button"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
-import {
-  Plus,
-  Pencil,
-  Trash2,
-  MoreHorizontal,
-  UserCheck,
-  MapPin,
-} from "lucide-react"
+import { Plus, Pencil, Trash2, MoreHorizontal, UserCheck, MapPin, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -38,22 +35,19 @@ import Image from "next/image"
 
 export default function AdminDriversPage() {
   const t = useTranslations("adminDrivers")
-  const router = useRouter()
   const [deletingId, setDeletingId] = React.useState<string | null>(null)
 
+  const { isNew, editId, isOpen, openNew, openEdit, close } = useEntityFormParams()
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
   const res = useQuery(api.drivers.listPaged, tableQuery)
   const removeDriver = useMutation(api.drivers.remove)
 
   type Driver = NonNullable<typeof res>["rows"][number]
 
-  const handleEdit = (driver: Driver) => {
-    router.push(`/admin/drivers/${driver._id}/edit`)
-  }
+  const editing = editId ? res?.rows.find((r) => r._id === editId) : undefined
 
-  const handleCreate = () => {
-    router.push("/admin/drivers/new")
-  }
+  const handleEdit = (driver: { _id: string }) => openEdit(driver._id)
+  const handleCreate = () => openNew()
 
   const handleDelete = async () => {
     if (!deletingId) return
@@ -229,6 +223,18 @@ export default function AdminDriversPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <EntityFormDialog open={isOpen} onClose={close}>
+        {isNew ? (
+          <DriverForm onClose={close} />
+        ) : editing ? (
+          <DriverForm initialData={editing} onClose={close} />
+        ) : (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="size-8 animate-spin text-muted-foreground" />
+          </div>
+        )}
+      </EntityFormDialog>
     </>
   )
 }
