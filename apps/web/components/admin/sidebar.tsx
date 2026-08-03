@@ -50,20 +50,19 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
       },
       {
         /* Havia TRÊS entradas a que se podia chamar "experiences". Os nomes
-           abaixo são os que o cliente usa, e não os das tabelas — que estão
-           trocados em relação a eles:
-             /admin/upsells               (upsellStops/upsellExperiences)
-             /admin/corporate-experiences (corporateExperiences) → "Experiências passadas"
-             /admin/experiences           (pastExperiences)      → "Sobre nós"
-           Sim, `pastExperiences` é o "Sobre nós" e `corporateExperiences` é o
-           "Experiências passadas". Não trocar por parecer enganado. */
+           abaixo são os que o cliente usa:
+             /admin/upsells               → "Upsells"
+             /admin/corporate-experiences → "Corporate"
+             /admin/experiences           → "Experiências passadas - sobre nós"
+           A última tem esse nome comprido de propósito: diz o que é e onde
+           aparece, que é a única forma de não se confundir com as outras duas. */
         label: "Catalog",
         items: [
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
           { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag },
-          { title: "Experiências passadas", url: "/admin/corporate-experiences", icon: Briefcase },
-          { title: "Sobre nós", url: "/admin/experiences", icon: Sparkles },
+          { title: "Corporate", url: "/admin/corporate-experiences", icon: Briefcase },
+          { title: "Experiências passadas - sobre nós", url: "/admin/experiences", icon: Sparkles },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },
         ],
       },
@@ -149,7 +148,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
                       <Link
                         key={item.url}
                         href={item.url}
-                        title={collapsed ? item.title : undefined}
+                        title={item.title}
                         className={cn(
                           "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                           collapsed && "justify-center",
@@ -167,7 +166,11 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
                           )}
                           strokeWidth={1.8}
                         />
-                        {!collapsed && <span className="truncate">{item.title}</span>}
+                        {/* Sem `truncate`: "Experiências passadas - sobre nós"
+                            precisa de 244px e a sidebar só dá 186, e cortado
+                            perde-se justamente a parte que o desambigua.
+                            Quebra para duas linhas em vez de ficar a meio. */}
+                        {!collapsed && <span className="leading-tight">{item.title}</span>}
                       </Link>
                     );
                   })}
