@@ -49,21 +49,25 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         ],
       },
       {
-        /* Os títulos aqui são deliberadamente explícitos. Havia TRÊS entradas a
-           que se podia chamar "experiences" e ninguém sabia qual era qual:
+        /* Havia TRÊS entradas a que se podia chamar "experiences" e ninguém
+           sabia qual era qual:
              /admin/upsells                → extras vendidos no checkout
-             /admin/corporate-experiences  → catálogo público de /corporate
-             /admin/experiences            → portefólio de trabalhos já feitos,
-                                             na secção "Experiências Passadas"
-                                             de /about-us
-           Cada uma passa a ler-se pelo nome que tem no site. O URL fica. */
+             /admin/corporate-experiences  → catálogo de /corporate/experiences
+             /admin/experiences            → tabela `pastExperiences`
+
+           ATENÇÃO na última: o nome da tabela e o sítio onde ela é desenhada
+           dizem "experiências passadas" (secção do /about-us), mas o conteúdo
+           real são 60 actividades corporate, todas em rascunho. Se forem
+           publicadas aparecem no "Sobre nós", debaixo de "Eventos & Serviços
+           Que Tivemos o Privilégio" — provavelmente não é o que se quer. A
+           etiqueta segue o conteúdo, que é o que quem edita reconhece. */
         label: "Catalog",
         items: [
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
           { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag },
           { title: "Corporate", url: "/admin/corporate-experiences", icon: Briefcase },
-          { title: "Experiências passadas", url: "/admin/experiences", icon: Sparkles },
+          { title: "Experiências corporate", url: "/admin/experiences", icon: Sparkles },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },
         ],
       },
