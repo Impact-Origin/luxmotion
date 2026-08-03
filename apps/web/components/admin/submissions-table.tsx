@@ -11,12 +11,13 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select"
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "@workspace/ui/components/dialog"
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from "@workspace/ui/components/sheet"
 import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import { StatusBadge } from "@/components/admin/status-badge"
@@ -174,6 +175,15 @@ export function SubmissionsTable<T extends BaseSubmission>({
     }
   }
 
+  /* Abrir marca como lido, onde "lido" existir. Usado pela linha inteira e pelo
+     botão do olho, para os dois se comportarem igual. */
+  function openDetail(row: T) {
+    setSelected(row)
+    if (readStatus && (row.status ?? firstStatus) === firstStatus) {
+      void handleSetStatus(row._id, readStatus)
+    }
+  }
+
   async function handleDelete(id: string) {
     if (!confirm("Apagar esta submissão definitivamente?")) return
     try {
@@ -248,7 +258,11 @@ export function SubmissionsTable<T extends BaseSubmission>({
               {pageRows.map((row) => {
                 const status = row.status ?? firstStatus
                 return (
-                  <tr key={row._id} className="border-b border-border last:border-b-0 hover:bg-accent transition-colors">
+                  <tr
+                    key={row._id}
+                    onClick={() => openDetail(row)}
+                    className="cursor-pointer border-b border-border last:border-b-0 hover:bg-accent transition-colors"
+                  >
                     <td className="px-4 py-3">
                       <StatusBadge status={status} label={statusLabel(status)} />
                     </td>
@@ -256,7 +270,10 @@ export function SubmissionsTable<T extends BaseSubmission>({
                       <td key={c.key} className={cn("px-4 py-3", c.className)}>
                         {c.copyable ? (
                           <button
-                            onClick={() => {
+                            onClick={(e) => {
+                              // Copiar não é abrir: sem isto o clique subia à
+                              // linha e o painel abria por cima.
+                              e.stopPropagation()
                               const v = (row as Record<string, unknown>)[c.key]
                               if (v) copy(v.toString())
                             }}
@@ -280,17 +297,11 @@ export function SubmissionsTable<T extends BaseSubmission>({
                       </td>
                     )}
                     <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{formatDate(row.createdAt)}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-end gap-1">
                         <button
                           type="button"
-                          onClick={() => {
-                            setSelected(row)
-                            // Abrir marca como lido — só onde "lido" existe.
-                            if (readStatus && status === firstStatus) {
-                              void handleSetStatus(row._id, readStatus)
-                            }
-                          }}
+                          onClick={() => openDetail(row)}
                           className="size-8 rounded-md hover:bg-accent flex items-center justify-center text-muted-foreground hover:text-foreground"
                           aria-label="View"
                         >
@@ -343,50 +354,56 @@ export function SubmissionsTable<T extends BaseSubmission>({
         </div>
       )}
 
-      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent showCloseButton={false} className="max-w-2xl max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-3 text-xl">
-              {selected ? (nameKey ? (selected[nameKey] as string) : selected.name ?? selected.fullName ?? "Submission") : "Submission"}
+      {/* Painel lateral, e não um diálogo centrado: a lista fica à vista por
+          trás, e ler um pedido deixa de tapar aquilo que se estava a triar. */}
+      <Sheet open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+        <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-xl">
+          <SheetHeader className="gap-2 border-b border-border p-6">
+            <SheetTitle className="flex items-center gap-3 text-xl">
+              {selected
+                ? nameKey
+                  ? (selected[nameKey] as string)
+                  : selected.name ?? selected.fullName ?? "Submissão"
+                : "Submissão"}
               {selected?.status && (
                 <StatusBadge status={selected.status} label={statusLabel(selected.status)} />
               )}
-            </DialogTitle>
-          </DialogHeader>
+            </SheetTitle>
+            <SheetDescription>Recebido a {selected ? formatDate(selected.createdAt) : ""}</SheetDescription>
+          </SheetHeader>
+
           {selected && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-              {(detailFields ?? columns).map((f) => {
-                const value = (selected as Record<string, unknown>)[f.key]
-                /* Um campo com `render` não tem de existir como chave na linha:
-                   o orçamento dos pedidos de ultra-luxo é calculado a partir de
-                   `budgetMin`/`budgetMax`, e não há nenhum campo chamado
-                   `budget`. A verificação antiga olhava só para a chave crua, e
-                   por isso descartava esses campos em silêncio — quem submetia
-                   o formulário preenchia dados que nunca ninguém via. */
-                const rendered = f.render ? f.render(selected) : null
-                if (f.render ? rendered == null || rendered === "" : !value && value !== 0) {
-                  return null
-                }
-                return (
-                  <div key={f.key} className="flex flex-col gap-1">
-                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{f.label}</span>
-                    <div className="text-sm text-foreground break-words whitespace-pre-wrap">
-                      {f.render ? rendered : (value as React.ReactNode)}
+            <div className="flex-1 overflow-y-auto p-6">
+              <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {(detailFields ?? columns).map((f) => {
+                  const value = (selected as Record<string, unknown>)[f.key]
+                  const content = f.render ? f.render(selected) : (value as React.ReactNode)
+                  /* Nada é omitido. Um campo vazio mostra um travessão, para se
+                     ver que a pergunta foi feita e ficou por responder — antes
+                     desaparecia, e não havia como distinguir isso de o campo
+                     nem existir no formulário. */
+                  const empty =
+                    content == null || content === "" || (!f.render && !value && value !== 0)
+                  return (
+                    <div key={f.key} className="flex flex-col gap-1">
+                      <dt className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                        {f.label}
+                      </dt>
+                      <dd className="text-sm break-words whitespace-pre-wrap text-foreground">
+                        {empty ? <span className="text-muted-foreground">—</span> : content}
+                      </dd>
                     </div>
-                  </div>
-                )
-              })}
-              <div className="flex flex-col gap-1 md:col-span-2">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Recebido</span>
-                <span className="text-sm text-foreground">{formatDate(selected.createdAt)}</span>
-              </div>
+                  )
+                })}
+              </dl>
             </div>
           )}
-          <div className="flex flex-wrap gap-2 mt-6">
+
+          <SheetFooter className="flex-row flex-wrap gap-2 border-t border-border p-6">
             {selected?.email && (
               <Button asChild variant="outline" size="sm">
                 <a href={`mailto:${selected.email}`}>
-                  <Mail className="size-4 mr-1" /> Email
+                  <Mail className="size-4 mr-1" /> E-mail
                   <ArrowUpRight className="size-3 ml-0.5" />
                 </a>
               </Button>
@@ -417,14 +434,9 @@ export function SubmissionsTable<T extends BaseSubmission>({
                 <Trash2 className="size-4 mr-1" /> Apagar
               </Button>
             )}
-            <DialogClose asChild>
-              <Button size="sm" className="ml-auto">
-                Fechar
-              </Button>
-            </DialogClose>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
