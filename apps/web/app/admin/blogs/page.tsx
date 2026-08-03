@@ -3,20 +3,9 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
-import { api } from "@workspace/convex/api";
-import {
-  Plus,
-  MoreVertical,
-  Edit2,
-  Trash2,
-  Eye,
-  Star,
-  StarOff,
-  Calendar,
-  Globe,
-  FileText,
-  Languages,
-} from "lucide-react";
+import { api } from "@workspace/convex/api"
+import { ViewOnSite, blogPublicUrl } from "@/components/admin/view-on-site";
+import { Plus, MoreVertical, Edit2, Trash2, Star, StarOff, Calendar, Globe, FileText, Languages } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -35,7 +24,6 @@ import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter,
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
-import Link from "next/link";
 
 const languageLabels: Record<string, string> = {
   en: "EN",
@@ -104,6 +92,8 @@ export default function BlogsPage() {
   };
 
   const rowActions = (blog: Blog) => (
+    <div className="flex items-center justify-end gap-1">
+    <ViewOnSite href={blogPublicUrl(blog.slug)} />
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
@@ -114,12 +104,6 @@ export default function BlogsPage() {
         <DropdownMenuItem onClick={() => handleEdit(blog)}>
           <Edit2 className="mr-2 size-4" />
           {t("edit")}
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href={`/blogs/${blog.slug}`} target="_blank">
-            <Eye className="mr-2 size-4" />
-            {t("preview")}
-          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleToggleFeatured(blog._id)}>
           {blog.isFeatured ? (
@@ -153,6 +137,7 @@ export default function BlogsPage() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   );
 
   const columns: DataTableColumn<Blog>[] = [

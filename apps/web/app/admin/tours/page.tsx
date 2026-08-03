@@ -4,21 +4,12 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ViewOnSite, tourPublicUrl } from "@/components/admin/view-on-site"
 import { Button } from "@workspace/ui/components/button"
 import { TourTranslationForm } from "@/components/admin/tour-translation-form"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
-import {
-  Plus,
-  Star,
-  Award,
-  Globe,
-  Pencil,
-  Trash2,
-  Eye,
-  MoreHorizontal,
-  Map,
-} from "lucide-react"
+import { Plus, Star, Award, Globe, Pencil, Trash2, MoreHorizontal, Map } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -100,6 +91,8 @@ export default function AdminToursPage() {
     currency === "EUR" ? "€" : currency === "USD" ? "$" : "£"
 
   const rowActions = (tour: Tour) => (
+    <div className="flex items-center justify-end gap-1">
+    <ViewOnSite href={tourPublicUrl(tour)} />
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
@@ -114,12 +107,6 @@ export default function AdminToursPage() {
         <DropdownMenuItem onClick={() => setTranslatingTour(tour)}>
           <Globe className="mr-2 size-4" />
           {t("translations")}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => window.open(`/tours/tour/${tour.slug}`, "_blank")}
-        >
-          <Eye className="mr-2 size-4" />
-          {t("preview")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleToggleFeatured(tour._id)}>
@@ -140,6 +127,7 @@ export default function AdminToursPage() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   )
 
   const columns: DataTableColumn<Tour>[] = [

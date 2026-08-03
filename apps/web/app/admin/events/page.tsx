@@ -4,9 +4,10 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ViewOnSite, eventPublicUrl } from "@/components/admin/view-on-site"
 import { Button } from "@workspace/ui/components/button"
 import { EventTranslationForm } from "@/components/admin/event-translation-form"
-import { Plus, Star, Globe, Pencil, Trash2, Eye, MoreHorizontal, Calendar, MapPin, XCircle, Send, EyeOff } from "lucide-react"
+import { Plus, Star, Globe, Pencil, Trash2, MoreHorizontal, Calendar, MapPin, XCircle, Send, EyeOff } from "lucide-react"
 import { useTranslations } from "next-intl"
 import {
   DropdownMenu,
@@ -123,6 +124,8 @@ export default function AdminEventsPage() {
   }
 
   const rowActions = (event: EventRow) => (
+    <div className="flex items-center justify-end gap-1">
+    <ViewOnSite href={eventPublicUrl(event.slug)} />
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
@@ -137,10 +140,6 @@ export default function AdminEventsPage() {
         <DropdownMenuItem onClick={() => setTranslatingEvent(event)}>
           <Globe className="mr-2 size-4" />
           {t("translations")}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => window.open(`/events/${event.slug}`, "_blank")}>
-          <Eye className="mr-2 size-4" />
-          {t("preview")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleTogglePublish(event._id, event.status === "published")}>
@@ -176,6 +175,7 @@ export default function AdminEventsPage() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   )
 
   const columns: DataTableColumn<EventRow>[] = [
