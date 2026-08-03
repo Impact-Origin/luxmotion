@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@workspace/convex/api"
+import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import { VehicleForm } from "@/components/admin/vehicle-form"
 import {
   EntityFormDialog,
@@ -224,10 +225,13 @@ export default function VehiclesPage() {
         renderCard={renderCard}
         rowActions={rowActions}
         toolbarActions={
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 size-4" />
-            Add vehicle
-          </Button>
+          <>
+            <Button onClick={handleCreate}>
+              <Plus className="mr-2 size-4" />
+              Add vehicle
+            </Button>
+            <ViewSectionOnSite href={SECTION_URLS.checkout} label="Ver no checkout" />
+          </>
         }
         emptyTitle="No vehicles found"
         emptyDescription="Add a vehicle or adjust your search and filters."

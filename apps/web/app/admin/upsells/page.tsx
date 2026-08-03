@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { useSafeQuery } from "@/hooks/use-safe-query"
+import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import { UpsellStopForm } from "@/components/admin/upsell-stop-form"
 import { UpsellExperienceForm } from "@/components/admin/upsell-experience-form"
 import {
@@ -466,10 +467,13 @@ export default function AdminUpsellsPage() {
           rowActions={(r) => rowMenu("stops", r._id, r.status === "published")}
           onRowClick={(r) => openEdit(r._id)}
           toolbarActions={
-            <Button onClick={openNew}>
-              <Plus className="mr-2 size-4" />
-              Paragem
-            </Button>
+            <>
+              <Button onClick={openNew}>
+                <Plus className="mr-2 size-4" />
+                Paragem
+              </Button>
+              <ViewSectionOnSite href={SECTION_URLS.checkout} label="Ver no checkout" />
+            </>
           }
           emptyTitle="Ainda não há paragens extra"
           emptyDescription="Uma paragem é um desvio curto no trajecto, cobrado a preço fixo."
@@ -489,10 +493,13 @@ export default function AdminUpsellsPage() {
           rowActions={(r) => rowMenu("experiences", r._id, r.status === "published")}
           onRowClick={(r) => openEdit(r._id)}
           toolbarActions={
-            <Button onClick={openNew}>
-              <Plus className="mr-2 size-4" />
-              Experiência
-            </Button>
+            <>
+              <Button onClick={openNew}>
+                <Plus className="mr-2 size-4" />
+                Experiência
+              </Button>
+              <ViewSectionOnSite href={SECTION_URLS.checkout} label="Ver no checkout" />
+            </>
           }
           emptyTitle="Ainda não há experiências"
           emptyDescription="Experiências no destino, com extras próprios, oferecidas no checkout."

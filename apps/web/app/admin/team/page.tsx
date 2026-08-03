@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import { Button } from "@workspace/ui/components/button"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
@@ -186,10 +187,13 @@ export default function AdminTeamPage() {
         rowActions={rowActions}
         initialSort={{ columnId: "order", dir: "asc" }}
         toolbarActions={
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 size-4" />
-            {t("addMember")}
-          </Button>
+          <>
+            <Button onClick={handleCreate}>
+              <Plus className="mr-2 size-4" />
+              {t("addMember")}
+            </Button>
+            <ViewSectionOnSite href={SECTION_URLS.aboutUs} label="Ver no Sobre nós" />
+          </>
         }
         emptyTitle={t("noMembersFound")}
         emptyDescription={t("tryFilters")}

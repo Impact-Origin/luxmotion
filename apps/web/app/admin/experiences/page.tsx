@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import { ExperienceForm } from "@/components/admin/experience-form"
 import {
   EntityFormDialog,
@@ -237,10 +238,13 @@ export default function AdminExperiencesPage() {
         renderCard={renderCard}
         rowActions={rowActions}
         toolbarActions={
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 size-4" />
-            {t("addExperience")}
-          </Button>
+          <>
+            <Button onClick={handleCreate}>
+              <Plus className="mr-2 size-4" />
+              {t("addExperience")}
+            </Button>
+            <ViewSectionOnSite href={SECTION_URLS.aboutUs} label="Ver no Sobre nós" />
+          </>
         }
         emptyTitle={t("noExperiencesFound")}
         emptyDescription={t("tryFilters")}

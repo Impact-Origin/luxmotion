@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import { DriverForm } from "@/components/admin/driver-form"
 import {
   EntityFormDialog,
@@ -194,10 +195,13 @@ export default function AdminDriversPage() {
         rowActions={rowActions}
         initialSort={{ columnId: "order", dir: "asc" }}
         toolbarActions={
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 size-4" />
-            {t("addDriver")}
-          </Button>
+          <>
+            <Button onClick={handleCreate}>
+              <Plus className="mr-2 size-4" />
+              {t("addDriver")}
+            </Button>
+            <ViewSectionOnSite href={SECTION_URLS.aboutUs} label="Ver no Sobre nós" />
+          </>
         }
         emptyTitle={t("noDriversFound")}
         emptyDescription={t("tryFilters")}

@@ -4,6 +4,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import {
   CheckCircle2,
   EyeOff,
@@ -242,9 +243,12 @@ export default function AdminCorporateExperiencesPage() {
       rowActions={rowActions}
       initialSort={{ columnId: "sortOrder", dir: "asc" }}
       toolbarActions={
-        <Button onClick={openCreate}>
-          <Plus className="mr-2 size-4" /> New experience
-        </Button>
+        <>
+          <Button onClick={openCreate}>
+            <Plus className="mr-2 size-4" /> New experience
+          </Button>
+          <ViewSectionOnSite href={SECTION_URLS.corporateExperiences} label="Ver no site" />
+        </>
       }
       emptyTitle="No experiences found"
       emptyDescription="No experiences match these filters."
