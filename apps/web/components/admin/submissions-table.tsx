@@ -357,12 +357,21 @@ export function SubmissionsTable<T extends BaseSubmission>({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
               {(detailFields ?? columns).map((f) => {
                 const value = (selected as Record<string, unknown>)[f.key]
-                if (!value && value !== 0) return null
+                /* Um campo com `render` não tem de existir como chave na linha:
+                   o orçamento dos pedidos de ultra-luxo é calculado a partir de
+                   `budgetMin`/`budgetMax`, e não há nenhum campo chamado
+                   `budget`. A verificação antiga olhava só para a chave crua, e
+                   por isso descartava esses campos em silêncio — quem submetia
+                   o formulário preenchia dados que nunca ninguém via. */
+                const rendered = f.render ? f.render(selected) : null
+                if (f.render ? rendered == null || rendered === "" : !value && value !== 0) {
+                  return null
+                }
                 return (
                   <div key={f.key} className="flex flex-col gap-1">
                     <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{f.label}</span>
                     <div className="text-sm text-foreground break-words whitespace-pre-wrap">
-                      {f.render ? f.render(selected) : (value as React.ReactNode)}
+                      {f.render ? rendered : (value as React.ReactNode)}
                     </div>
                   </div>
                 )

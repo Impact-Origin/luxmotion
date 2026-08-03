@@ -24,6 +24,10 @@ type Status = "new" | "read" | "archived"
 
 const dash = <span className="text-muted-foreground">—</span>
 
+/** Devolve `null` quando não há valor, para o detalhe poder omitir a linha. */
+const fmtEuro = (n: number | undefined) =>
+  typeof n === "number" ? `€${n.toLocaleString("de-DE")}` : null
+
 export function ContactsInbox() {
   const submissions = useQuery(api.contactSubmissions.list)
   const setStatus = useMutation(api.contactSubmissions.setStatus)
@@ -153,6 +157,9 @@ export function WeddingQuotesInbox() {
         { key: "phone", label: "Telefone", copyable: true },
         { key: "weddingDate", label: "Data", render: (r) => r.weddingDate || dash },
         { key: "guests", label: "Convidados", render: (r) => r.guests ?? dash },
+        // O orçamento é dos primeiros dados que se quer ver ao triar um pedido,
+        // e não estava na tabela nem no detalhe.
+        { key: "budget", label: "Orçamento", render: (r) => fmtEuro(r.budget) ?? dash },
         {
           key: "vehicle",
           label: "Viatura",
@@ -173,13 +180,7 @@ export function WeddingQuotesInbox() {
           label: "Viatura preferida",
           render: (r) => (r.vehicle ? <span className="capitalize">{r.vehicle}</span> : null),
         },
-        // O `budget` estava gravado e nunca era mostrado em lado nenhum.
-        {
-          key: "budget",
-          label: "Orçamento",
-          render: (r) =>
-            typeof r.budget === "number" ? `€${r.budget.toLocaleString("de-DE")}` : null,
-        },
+        { key: "budget", label: "Orçamento", render: (r) => fmtEuro(r.budget) },
         { key: "message", label: "Notas" },
       ]}
     />
