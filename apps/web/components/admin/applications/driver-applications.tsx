@@ -432,7 +432,7 @@ function ApplicationDetailSheet({
             </Section>
 
             <Section title="Intro video">
-              <FileLink
+              <VideoPreview
                 label="Self-introduction video"
                 url={application.fileUrls.introVideoId}
               />
@@ -599,6 +599,50 @@ function FileLink({
         >
           Open file
         </a>
+      ) : (
+        <span className="text-muted-foreground">Not uploaded</span>
+      )}
+    </div>
+  )
+}
+
+/**
+ * O vídeo de apresentação era um link "Open file" como os documentos, o que
+ * obrigava a sair do painel para o ver — e, conforme o browser, a descarregar
+ * 30 MB só para o abrir. O Convex serve estes ficheiros com o content-type
+ * original (`video/mp4`), portanto tocam aqui mesmo.
+ *
+ * `preload="metadata"` de propósito: carrega só o suficiente para mostrar a
+ * duração e o primeiro fotograma, e o resto só se alguém carregar em play.
+ */
+function VideoPreview({
+  label,
+  url,
+}: {
+  label: string
+  url: string | null | undefined
+}) {
+  return (
+    <div className="grid grid-cols-[200px_1fr] gap-3 text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      {url ? (
+        <div className="flex flex-col items-start gap-2">
+          <video
+            src={url}
+            controls
+            preload="metadata"
+            playsInline
+            className="w-full max-w-md rounded-lg border border-border bg-black"
+          />
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-muted-foreground underline hover:text-foreground"
+          >
+            Open in new tab
+          </a>
+        </div>
       ) : (
         <span className="text-muted-foreground">Not uploaded</span>
       )}
