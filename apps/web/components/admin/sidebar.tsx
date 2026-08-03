@@ -50,16 +50,20 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
       },
       {
         /* Os títulos aqui são deliberadamente explícitos. Havia TRÊS entradas a
-           que se podia chamar "experiences" — a galeria do Sobre nós, o catálogo
-           corporate e os extras do checkout — e ninguém sabia qual era qual.
-           O URL fica, muda só o que se lê. */
+           que se podia chamar "experiences" e ninguém sabia qual era qual:
+             /admin/upsells                → extras vendidos no checkout
+             /admin/corporate-experiences  → catálogo público de /corporate
+             /admin/experiences            → portefólio de trabalhos já feitos,
+                                             na secção "Experiências Passadas"
+                                             de /about-us
+           Cada uma passa a ler-se pelo nome que tem no site. O URL fica. */
         label: "Catalog",
         items: [
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
           { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag },
           { title: "Corporate", url: "/admin/corporate-experiences", icon: Briefcase },
-          { title: "Galeria “Sobre nós”", url: "/admin/experiences", icon: Sparkles },
+          { title: "Experiências passadas", url: "/admin/experiences", icon: Sparkles },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },
         ],
       },
