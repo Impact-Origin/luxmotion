@@ -84,6 +84,7 @@ export const create = mutation({
     ),
     tags: v.optional(v.array(v.string())),
     imageId: v.optional(v.id("_storage")),
+    linkUrl: v.optional(v.string()),
     status: v.union(v.literal("draft"), v.literal("published")),
   },
   handler: async (ctx, args) => {
@@ -112,6 +113,7 @@ export const update = mutation({
     ),
     tags: v.optional(v.array(v.string())),
     imageId: v.optional(v.id("_storage")),
+    linkUrl: v.optional(v.string()),
     status: v.optional(v.union(v.literal("draft"), v.literal("published"))),
   },
   handler: async (ctx, args) => {

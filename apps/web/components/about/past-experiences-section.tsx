@@ -7,6 +7,7 @@ import { api } from "@workspace/convex/api"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
+import Link from "next/link"
 
 type Category = "all" | "weddings" | "corporate" | "events" | "tours"
 
@@ -17,6 +18,9 @@ type Photo = {
   /** Legenda já resolvida: vem do título no backend, ou de uma chave de tradução
    *  nas fotos de recurso. */
   label: string
+  /** Destino do clique, definido por foto no admin. Sem ele a foto não é
+   *  clicável — que é como as fotos de recurso se comportam. */
+  href?: string
 }
 
 const CATEGORIES: { id: Category; labelKey: string }[] = [
@@ -38,8 +42,23 @@ const FALLBACK: { src: string; alt: string; cat: Exclude<Category, "all">; label
 
 function PhotoTile({ photo, className }: { photo: Photo; className?: string }) {
   const label = photo.label
+  // Só vira link quando há destino: um <Link> sem href não é opção, e um <a>
+  // vazio ficaria focável e anunciado pelo leitor de ecrã sem levar a lado nenhum.
+  const Tile = photo.href ? Link : "div"
+  const tileProps = photo.href
+    ? {
+        href: photo.href,
+        // Links para fora abrem noutro separador; os internos ficam na mesma janela.
+        ...(/^https?:\/\//.test(photo.href)
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {}),
+      }
+    : {}
   return (
-    <div className={cn("group relative overflow-hidden", className)}>
+    <Tile
+      {...(tileProps as { href: string })}
+      className={cn("group relative block overflow-hidden", className)}
+    >
       <Image
         src={photo.src}
         alt={photo.alt}
@@ -56,7 +75,7 @@ function PhotoTile({ photo, className }: { photo: Photo; className?: string }) {
           {label}
         </span>
       </div>
-    </div>
+    </Tile>
   )
 }
 
@@ -107,6 +126,7 @@ export function PastExperiencesSection() {
           "all"
         >,
         label: e.location ? `${e.title} · ${e.location}` : e.title,
+        href: e.linkUrl || undefined,
       }))
 
     if (fromBackend.length > 0) return fromBackend

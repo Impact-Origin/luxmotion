@@ -34,6 +34,7 @@ export function ExperienceForm({ onClose, initialData }: ExperienceFormProps) {
   const [category, setCategory] = React.useState<string>("corporate")
   const [tags, setTags] = React.useState("")
   const [imageId, setImageId] = React.useState<string | undefined>()
+  const [linkUrl, setLinkUrl] = React.useState("")
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
   const [status, setStatus] = React.useState<"draft" | "published">("draft")
 
@@ -48,6 +49,7 @@ export function ExperienceForm({ onClose, initialData }: ExperienceFormProps) {
       setCategory(initialData.category || "corporate")
       setTags(initialData.tags?.join(", ") || "")
       setImageId(initialData.imageId)
+      setLinkUrl(initialData.linkUrl || "")
       setPreviewUrl(initialData.imageUrl || null)
       setStatus(initialData.status || "draft")
     } else {
@@ -62,6 +64,7 @@ export function ExperienceForm({ onClose, initialData }: ExperienceFormProps) {
     setCategory("corporate")
     setTags("")
     setImageId(undefined)
+    setLinkUrl("")
     setPreviewUrl(null)
     setStatus("draft")
   }
@@ -94,6 +97,8 @@ export function ExperienceForm({ onClose, initialData }: ExperienceFormProps) {
         category: category as "corporate" | "weddings" | "events" | "privateTours",
         tags: tagsArray.length > 0 ? tagsArray : undefined,
         imageId: imageId as any,
+        // String vazia significa "sem link", não um link vazio.
+        linkUrl: linkUrl.trim() || undefined,
         status,
       }
 
@@ -230,6 +235,21 @@ export function ExperienceForm({ onClose, initialData }: ExperienceFormProps) {
                 }}
                 disabled={isSubmitting}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="linkUrl">Link ao clicar na foto</Label>
+              <Input
+                id="linkUrl"
+                type="url"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                placeholder="https://… ou /tours/tour/exemplo"
+                disabled={isSubmitting}
+              />
+              <p className="text-xs text-muted-foreground">
+                Opcional. Em branco, a foto continua sem ser clicável.
+              </p>
             </div>
         </div>
       </div>

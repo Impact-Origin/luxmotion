@@ -1175,6 +1175,9 @@ export default defineSchema({
     ),
     tags: v.optional(v.array(v.string())),
     imageId: v.optional(v.id("_storage")),
+    // Destino do clique na foto, no mosaico do /about-us. Sem isto a foto não
+    // é clicável, que é como se comportou até agora.
+    linkUrl: v.optional(v.string()),
     status: v.union(v.literal("draft"), v.literal("published")),
     createdAt: v.number(),
     updatedAt: v.number(),
