@@ -3308,11 +3308,13 @@
             "title": "Welkomstkit voor gasten",
             "desc": "Evian-water, geparfumeerde koele handdoek met lavendel en elegante waaier met monogram van het paar. Geserveerd in de stoetvoertuigen."
           },
-          "classicCar": {
-            "title": "Klassiek voertuig voor foto's",
-            "desc": "Rolls-Royce Phantom uit de jaren 60, Mercedes 280SE Cabriolet of Bentley S2. Geparkeerd op de ceremonielocatie voor de fotosessie."
+          "tattoo": {
+            "title": "Tattoo Experience",
+            "desc": "Een tatoeëerder op het feest, met kleine ontwerpen om uit te kiezen voor het bruidspaar en de gasten. Steriel wegwerpmateriaal, gecertificeerde inkt, gegarandeerde hygiëne en nazorgadvies."
           }
-        }
+        },
+        "unitHourTiers": "3u · 5u · 8u",
+        "hours": "{count} uur"
       }
     },
     "faq": {

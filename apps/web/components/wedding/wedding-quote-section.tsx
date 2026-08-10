@@ -35,6 +35,12 @@ interface ExtraDef {
   priceShape: ExtraPriceShape
   priceFrom?: boolean
   mostRequested?: boolean
+  /**
+   * Escalões, para os serviços cobrados por duração. O `price` é o mais barato
+   * e é o que soma ao orçamento; a tabela mostra as opções todas para não ser
+   * preciso perguntar.
+   */
+  tiers?: { hours: number; price: number }[]
 }
 
 // Preços por extra. O kit de boas-vindas é o único cobrado por convidado.
@@ -46,7 +52,20 @@ const EXTRAS: ExtraDef[] = [
   { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.webp", price: 129, unitKey: "unitPerArrival", priceShape: "flat" },
   { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 89, unitKey: "unitPerMoment", priceShape: "flat" },
   { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 15, unitKey: "unitPerGuest", priceShape: "perGuest" },
-  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.webp", price: 495, unitKey: "unitOnLocation", priceShape: "flat", priceFrom: true, mostRequested: true },
+  {
+    id: "tattoo",
+    image: "/wedding-whitelabel/extras/tattoo.webp",
+    price: 450,
+    unitKey: "unitHourTiers",
+    priceShape: "flat",
+    priceFrom: true,
+    mostRequested: true,
+    tiers: [
+      { hours: 3, price: 450 },
+      { hours: 5, price: 750 },
+      { hours: 8, price: 950 },
+    ],
+  },
 ]
 
 function ExtraCard({
@@ -57,6 +76,7 @@ function ExtraCard({
   mostRequestedLabel,
   pricePerGuestSuffix,
   fromPriceLabel,
+  hoursLabel,
   selected,
   onToggle,
 }: {
@@ -67,29 +87,41 @@ function ExtraCard({
   mostRequestedLabel: string
   pricePerGuestSuffix: string
   fromPriceLabel: string
+  hoursLabel: (hours: number) => string
   selected: boolean
   onToggle: () => void
 }) {
+  // Um extra sem fotografia ainda por carregar não deve mostrar ícone partido.
+  const [imageFailed, setImageFailed] = useState(false)
   return (
     <button
       type="button"
       onClick={onToggle}
       aria-pressed={selected}
       className={cn(
-        "group text-left flex flex-col bg-white border transition-colors w-full overflow-hidden focus:outline-none",
+        "group text-left flex flex-col bg-white border w-full overflow-hidden focus:outline-none",
+        "transition-[transform,box-shadow,border-color] duration-300 ease-out",
+        "hover:-translate-y-1 hover:shadow-[0_12px_28px_-14px_rgba(26,22,18,0.35)]",
+        "focus-visible:ring-2 focus-visible:ring-[#a08248] focus-visible:ring-offset-2",
+        "motion-reduce:transition-none motion-reduce:hover:translate-y-0",
         selected
           ? "border-[#a8833a]"
           : "border-[rgba(168,131,58,0.18)] hover:border-[rgba(168,131,58,0.55)]",
       )}
     >
       <div className="relative w-full aspect-[164/126] bg-[#faf7f2] overflow-hidden">
-        <Image
-          src={def.image}
-          alt={title}
-          fill
-          sizes="(min-width: 768px) 25vw, 50vw"
-          className="object-cover"
-        />
+        {!imageFailed && (
+          <Image
+            src={def.image}
+            alt={title}
+            fill
+            sizes="(min-width: 768px) 25vw, 50vw"
+            onError={() => setImageFailed(true)}
+            /* Aproxima devagar ao passar o rato. `will-change` evita o
+               tremer do texto por cima durante a transformação. */
+            className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.06]"
+          />
+        )}
         {def.mostRequested && (
           <span
             className="absolute top-2 left-2 inline-flex items-center bg-[#a08248] text-white text-[9px] font-semibold uppercase tracking-[1px] px-2 py-1"
@@ -118,6 +150,20 @@ function ExtraCard({
           {desc}
         </p>
       </div>
+      {def.tiers && (
+        <dl className="mt-auto px-3 pb-2 flex flex-col gap-0.5">
+          {def.tiers.map((tier) => (
+            <div key={tier.hours} className="flex items-baseline justify-between gap-2">
+              <dt className="text-[11px] text-[#7a746e]" style={SANS_FONT}>
+                {hoursLabel(tier.hours)}
+              </dt>
+              <dd className="text-[12px] text-[#a08248]" style={SERIF_FONT}>
+                €{tier.price}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
       <div className="mt-auto bg-[#faf7f2] border-t border-[rgba(168,131,58,0.12)] px-3 py-2 flex items-baseline justify-between gap-2">
         <span className="text-[18px] font-light text-[#a08248] leading-none" style={SERIF_FONT}>
           {def.priceFrom && `${fromPriceLabel} `}€{def.price}
@@ -636,6 +682,7 @@ export function WeddingQuoteSection() {
                   mostRequestedLabel={t("extras.mostRequested")}
                   pricePerGuestSuffix={t("extras.pricePerGuest")}
                   fromPriceLabel={t("extras.fromPrice")}
+                  hoursLabel={(hours) => t("extras.hours", { count: hours })}
                   selected={selectedExtras.has(def.id)}
                   onToggle={() => toggleExtra(def.id)}
                 />

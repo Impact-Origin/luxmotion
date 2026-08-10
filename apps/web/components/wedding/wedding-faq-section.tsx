@@ -32,7 +32,7 @@ function AccordionItem({
   onToggle: () => void
 }) {
   return (
-    <div className="border-b border-b-[rgba(26,22,18,0.08)] overflow-hidden">
+    <div className="group border-b border-b-[rgba(26,22,18,0.08)] overflow-hidden">
       <button
         type="button"
         onClick={onToggle}
@@ -40,14 +40,14 @@ function AccordionItem({
         className="w-full flex items-center justify-between gap-4 text-left py-4"
       >
         <span
-          className="text-[14px] font-semibold leading-[1.4] text-[rgba(26,22,18,0.75)]"
+          className="text-[14px] font-semibold leading-[1.4] text-[rgba(26,22,18,0.75)] transition-colors duration-200 group-hover:text-[#1a1612]"
           style={SANS_FONT}
         >
           {question}
         </span>
         <span
           className={`size-8 shrink-0 flex items-center justify-center border-[1.143px] transition-colors duration-200 ${
-            open ? "border-[#a08248]" : "border-[rgba(28,27,24,0.08)]"
+            open ? "border-[#a08248]" : "border-[rgba(28,27,24,0.08)] group-hover:border-[rgba(160,130,72,0.55)]"
           }`}
         >
           <Plus
@@ -112,13 +112,13 @@ export function WeddingFaqSection() {
     <section className="bg-[#faf7f2] px-4 md:px-12 py-14 md:py-24">
       <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-start">
         <div className={cn("w-full md:flex-1 md:min-w-0 md:sticky md:top-24", revealFromLeft())}>
-          <div className="relative w-full aspect-[600/750] border border-[rgba(168,131,58,0.15)] overflow-hidden">
+          <div className="group/photo relative w-full aspect-[600/750] border border-[rgba(168,131,58,0.15)] overflow-hidden">
             <Image
               src="/wedding/faq-couple.webp"
               alt={t("photoAlt")}
               fill
               sizes="(min-width: 768px) 600px, 100vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-[1200ms] ease-out will-change-transform group-hover/photo:scale-105"
             />
           </div>
         </div>

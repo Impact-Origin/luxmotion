@@ -3324,11 +3324,13 @@
             "title": "Kit de bienvenida para invitados",
             "desc": "Agua Evian, toalla fría perfumada con lavanda y abanico elegante con monograma de la pareja. Servido en los vehículos del cortejo."
           },
-          "classicCar": {
-            "title": "Vehículo clásico para fotos",
-            "desc": "Rolls-Royce Phantom de los años 60, Mercedes 280SE Cabriolet o Bentley S2. Estacionado en el lugar de la ceremonia para la sesión fotográfica."
+          "tattoo": {
+            "title": "Tattoo Experience",
+            "desc": "Tatuador en el evento, con pequeños diseños a elegir para los novios y los invitados. Material desechable y esterilizado, tintas certificadas, higiene garantizada y consejos de cuidado posterior."
           }
-        }
+        },
+        "unitHourTiers": "3h · 5h · 8h",
+        "hours": "{count} horas"
       }
     },
     "faq": {

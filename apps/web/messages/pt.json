@@ -3493,11 +3493,13 @@
             "title": "Kit boas-vindas para convidados",
             "desc": "Água Évian, toalha fria perfumada com lavanda e leque elegante com monograma do casal. Servido nas viaturas de cortejo."
           },
-          "classicCar": {
-            "title": "Veículo clássico para fotografia",
-            "desc": "Inclui o transporte até ao venue num Rolls-Royce Phantom dos anos 60, Mercedes 280SE Cabriolet ou Bentley S2, com possibilidade de o veículo aguardar para a sessão fotográfica."
+          "tattoo": {
+            "title": "Tattoo Experience",
+            "desc": "Tatuador no evento, com pequenos designs à escolha para os noivos e convidados. Material descartável e esterilizado, tintas certificadas, higiene assegurada e aconselhamento pós-tatuagem."
           }
-        }
+        },
+        "unitHourTiers": "3h · 5h · 8h",
+        "hours": "{count} horas"
       }
     },
     "faq": {

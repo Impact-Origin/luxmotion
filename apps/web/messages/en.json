@@ -3494,11 +3494,13 @@
             "title": "Guest welcome kit",
             "desc": "Evian water, scented cool towel with lavender and an elegant fan with the couple's monogram. Served in the procession vehicles."
           },
-          "classicCar": {
-            "title": "Classic car for photography",
-            "desc": "1960s Rolls-Royce Phantom, Mercedes 280SE Cabriolet or Bentley S2. Parked at the ceremony venue for the photo session."
+          "tattoo": {
+            "title": "Tattoo Experience",
+            "desc": "A tattoo artist at the event, with small designs for the couple and guests to choose from. Single-use sterilised equipment, certified inks, full hygiene and aftercare advice."
           }
-        }
+        },
+        "unitHourTiers": "3h · 5h · 8h",
+        "hours": "{count} hours"
       }
     },
     "faq": {

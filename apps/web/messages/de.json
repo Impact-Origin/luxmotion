@@ -3405,11 +3405,13 @@
             "title": "Willkommens-Kit für Gäste",
             "desc": "Evian-Wasser, parfümiertes Kühltuch mit Lavendel und eleganter Fächer mit Monogramm des Paares. Serviert in den Konvoi-Fahrzeugen."
           },
-          "classicCar": {
-            "title": "Klassisches Fahrzeug für Foto",
-            "desc": "Rolls-Royce Phantom aus den 60ern, Mercedes 280SE Cabriolet oder Bentley S2. Geparkt am Zeremonienort für die Foto-Session."
+          "tattoo": {
+            "title": "Tattoo Experience",
+            "desc": "Ein Tätowierer vor Ort, mit kleinen Motiven zur Auswahl für das Brautpaar und die Gäste. Steriles Einwegmaterial, zertifizierte Farben, geprüfte Hygiene und Pflegeberatung."
           }
-        }
+        },
+        "unitHourTiers": "3h · 5h · 8h",
+        "hours": "{count} Stunden"
       }
     },
     "faq": {

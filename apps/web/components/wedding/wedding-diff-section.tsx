@@ -61,13 +61,13 @@ function PhotoBlock({
 }) {
   return (
     <div className="relative w-full">
-      <div className="relative w-full aspect-[600/750] border border-[rgba(168,131,58,0.15)] overflow-hidden">
+      <div className="group/photo relative w-full aspect-[600/750] border border-[rgba(168,131,58,0.15)] overflow-hidden">
         <Image
           src="/wedding/diff-couple.png"
           alt={alt}
           fill
           sizes="(min-width: 768px) 600px, 100vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-[1200ms] ease-out will-change-transform group-hover/photo:scale-105"
         />
       </div>
 

@@ -3308,11 +3308,13 @@
             "title": "Kit de bienvenue invités",
             "desc": "Eau Evian, serviette fraîche parfumée à la lavande et éventail élégant au monogramme du couple. Servi dans les véhicules du cortège."
           },
-          "classicCar": {
-            "title": "Véhicule classique pour photo",
-            "desc": "Rolls-Royce Phantom des années 60, Mercedes 280SE Cabriolet ou Bentley S2. Stationné sur le lieu de la cérémonie pour la séance photo."
+          "tattoo": {
+            "title": "Tattoo Experience",
+            "desc": "Un tatoueur sur place, avec de petits motifs au choix pour les mariés et les invités. Matériel jetable et stérilisé, encres certifiées, hygiène assurée et conseils de cicatrisation."
           }
-        }
+        },
+        "unitHourTiers": "3h · 5h · 8h",
+        "hours": "{count} heures"
       }
     },
     "faq": {
