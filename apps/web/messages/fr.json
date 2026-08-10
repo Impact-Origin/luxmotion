@@ -1004,7 +1004,10 @@
     "specialRequestPlaceholder": "Écrivez ici ce dont vous avez besoin...",
     "total": "Total",
     "add": "AJOUTER",
-    "bookedTimes": "réservé {count} fois aujourd'hui"
+    "bookedTimes": "réservé {count} fois aujourd'hui",
+    "stopDuration": "Durée de l'arrêt",
+    "stopDurationHint": "Choisissez la durée de l'arrêt. Le chauffeur attend sur place pendant la durée sélectionnée.",
+    "minutes": "{count} minutes"
   },
   "statsBanner": {
     "transfers": {

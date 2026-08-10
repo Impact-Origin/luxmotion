@@ -1,10 +1,16 @@
 "use client"
 
+import * as React from "react"
 import { Plus, Clock } from "lucide-react"
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 
 /** Selo canto superior esquerdo. `none` não desenha nada. */
 export type ExperienceCardTag = "none" | "recommended" | "mostPopular"
+
+const SERIF = {
+  fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
+} as const
 
 interface ExperienceCardProps {
   title: string
@@ -14,9 +20,18 @@ interface ExperienceCardProps {
   distanceKm?: number
   tag?: ExperienceCardTag
   tagLabel?: string
-  /** Prefixo do preço, para "a partir de" ou "15 min". */
+  /** Sufixo do preço, para "/ pessoa". */
   priceNote?: string
-  onAdd?: () => void
+  /** Localidade, na linha por cima do título. */
+  locationLabel?: string
+  description?: string
+  /**
+   * Durações de uma paragem. Havendo mais do que uma, o cartão deixa escolher
+   * ali mesmo e passa a escolha ao modal — é a diferença entre uma paragem
+   * (quanto tempo o motorista espera) e um tour (quantas pessoas vão).
+   */
+  durations?: { minutes: number; price: number }[]
+  onAdd?: (minutes?: number) => void
 }
 
 export function ExperienceCard({
@@ -27,57 +42,128 @@ export function ExperienceCard({
   tag = "none",
   tagLabel,
   priceNote,
+  locationLabel,
+  description,
+  durations,
   onAdd,
 }: ExperienceCardProps) {
+  const hasChoice = Boolean(durations && durations.length > 0)
+  // A mais longa por omissão, que é a que o protótipo mostra escolhida.
+  const [minutes, setMinutes] = React.useState<number | undefined>(
+    durations?.[durations.length - 1]?.minutes,
+  )
+  const chosen = durations?.find((d) => d.minutes === minutes)
+  const shownPrice = chosen?.price ?? price
+
   return (
-    <div className="bg-[var(--ck-surface,#1e1d1b)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] flex flex-col w-full h-[260px] overflow-hidden">
-      <div className="relative flex-1 min-h-0 w-full">
+    <article className="flex h-full w-full flex-col overflow-hidden border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] bg-[var(--ck-surface,#1e1d1b)]">
+      <div className="relative aspect-[16/10] w-full shrink-0">
         <Image
           src={image || "/placeholder.svg"}
           alt={title}
           fill
-          sizes="220px"
+          sizes="(max-width: 640px) 80vw, 320px"
           className="object-cover"
         />
         {tag !== "none" && tagLabel && (
           <span
-            className={
+            className={cn(
+              "absolute left-3 top-3 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.8px]",
               tag === "mostPopular"
-                ? "absolute left-2 top-2 bg-[var(--ck-accent,#c9a96e)] text-[#0d0d0d] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.6px]"
-                : "absolute left-2 top-2 bg-[rgba(13,13,13,0.82)] text-[var(--ck-accent,#c9a96e)] border border-[var(--ck-accent,#c9a96e)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.6px]"
-            }
+                ? "bg-[var(--ck-accent,#c9a96e)] text-[#0d0d0d]"
+                : "border border-[rgba(var(--ck-text-rgb,255,255,255),0.35)] bg-[rgba(13,13,13,0.72)] text-[var(--ck-text,#f7f4ef)]",
+            )}
           >
-            {tagLabel}
+            {tag === "mostPopular" ? `★ ${tagLabel}` : tagLabel}
           </span>
         )}
       </div>
-      <div className="flex flex-col gap-[3.3px] p-3">
-        <h3 className="text-[12px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[19.97px] truncate">{title}</h3>
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[22.53px]">
-              €{price.toFixed(0)}
-              {priceNote && (
-                <span className="ml-1 text-[11px] font-normal text-[var(--ck-text-muted,#999)]">
-                  {priceNote}
-                </span>
-              )}
-            </span>
-            <div className="flex items-center gap-[3px] text-[var(--ck-accent-strong,#9a7535)]">
-              <Clock className="w-[14px] h-[14px]" strokeWidth={2} />
-              <span className="text-[12px] font-normal leading-[15.87px]">{duration}</span>
+
+      <div className="flex min-h-0 flex-1 flex-col gap-2 p-4">
+        {locationLabel && (
+          <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[1.4px] text-[var(--ck-accent,#c9a96e)]">
+            <span aria-hidden>◆</span>
+            {locationLabel}
+          </span>
+        )}
+
+        <h3
+          className="text-[20px] leading-tight text-[var(--ck-text,#f7f4ef)]"
+          style={SERIF}
+        >
+          {title}
+        </h3>
+
+        {description && (
+          <p className="line-clamp-3 text-[13px] leading-[1.5] text-[var(--ck-text-muted,#999)]">
+            {description}
+          </p>
+        )}
+
+        <div className="mt-auto flex flex-col gap-3 pt-2">
+          {hasChoice ? (
+            <div className="grid grid-cols-2 border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
+              {durations!.map((d, i) => {
+                const active = d.minutes === minutes
+                return (
+                  <button
+                    key={d.minutes}
+                    type="button"
+                    onClick={() => setMinutes(d.minutes)}
+                    aria-pressed={active}
+                    className={cn(
+                      "flex flex-col items-center gap-0.5 py-2 transition-colors",
+                      i > 0 && "border-l border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]",
+                      active
+                        ? "bg-[rgba(var(--ck-accent-rgb,201,169,110),0.14)]"
+                        : "hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.04)]",
+                    )}
+                  >
+                    <span className="text-[10px] font-semibold uppercase tracking-[1px] text-[var(--ck-text-muted,#999)]">
+                      {d.minutes} min
+                    </span>
+                    <span
+                      className="text-[18px] leading-none text-[var(--ck-text,#f7f4ef)]"
+                      style={SERIF}
+                    >
+                      {d.price}€
+                    </span>
+                  </button>
+                )
+              })}
             </div>
+          ) : (
+            <div className="flex items-center gap-1.5 text-[var(--ck-accent-strong,#9a7535)]">
+              <Clock className="size-3.5" strokeWidth={2} />
+              <span className="text-[12px]">{duration}</span>
+            </div>
+          )}
+
+          <div className="flex items-end justify-between gap-3">
+            {!hasChoice && (
+              <span
+                className="text-[20px] leading-none text-[var(--ck-text,#f7f4ef)]"
+                style={SERIF}
+              >
+                €{shownPrice.toFixed(0)}
+                {priceNote && (
+                  <span className="ml-1 text-[11px] text-[var(--ck-text-muted,#999)]">
+                    {priceNote}
+                  </span>
+                )}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => onAdd?.(minutes)}
+              aria-label="Adicionar"
+              className="ml-auto flex size-10 shrink-0 items-center justify-center bg-[var(--ck-accent,#c9a96e)] transition-colors hover:bg-[var(--ck-accent-hover,#b89558)]"
+            >
+              <Plus className="size-5 text-[var(--ck-bg,#0d0d0d)]" strokeWidth={2.5} />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onAdd}
-            aria-label="Add"
-            className="w-8 h-8 shrink-0 bg-[var(--ck-accent,#c9a96e)] hover:bg-[var(--ck-accent-hover,#b89558)] transition-colors flex items-center justify-center"
-          >
-            <Plus className="w-[18px] h-[18px] text-[var(--ck-bg,#0d0d0d)]" strokeWidth={2.5} />
-          </button>
         </div>
       </div>
-    </div>
+    </article>
   )
 }

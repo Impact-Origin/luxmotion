@@ -124,7 +124,15 @@ interface AddExperienceModalProps {
    */
   requireDateTime?: boolean;
   /** Caixa de texto livre, ligada por upsell no admin. */
-  showSpecialRequest?: boolean;
+  showSpecialRequest?: boolean
+  /**
+   * Durações de uma paragem. Havendo-as, o modal troca os contadores de
+   * passageiros por um selector de duração: numa paragem escolhe-se quanto
+   * tempo o motorista espera, e as pessoas já vão todas no carro.
+   */
+  durations?: { minutes: number; price: number }[]
+  /** Duração já escolhida no cartão. */
+  initialMinutes?: number;
   onAdd: (data: {
     passengers: number;
     date: Date | undefined;
@@ -144,6 +152,8 @@ export function AddExperienceModal({
   flatPrice = false,
   requireDateTime = true,
   showSpecialRequest = false,
+  durations,
+  initialMinutes,
   onAdd,
 }: AddExperienceModalProps) {
   const t = useTranslations("addExperience");
@@ -158,6 +168,11 @@ export function AddExperienceModal({
   }>({ date: null, time: null });
   const [selectedExtras, setSelectedExtras] = React.useState<string[]>([]);
   const [specialRequest, setSpecialRequest] = React.useState("");
+  const isStop = Boolean(durations && durations.length > 0);
+  const [minutes, setMinutes] = React.useState<number | undefined>(
+    initialMinutes ?? durations?.[durations.length - 1]?.minutes,
+  );
+  const chosenDuration = durations?.find((d) => d.minutes === minutes);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const now = new Date();
@@ -187,6 +202,7 @@ export function AddExperienceModal({
       setDateTime({ date: null, time: null });
       setSelectedExtras([]);
       setSpecialRequest("");
+      setMinutes(initialMinutes ?? durations?.[durations.length - 1]?.minutes);
       if (isMobile) {
         requestAnimationFrame(() => setDrawerOpen(true));
       }
@@ -230,6 +246,8 @@ export function AddExperienceModal({
 
   const calculateTotal = () => {
     const extrasTotal = addonLines.reduce((sum, line) => sum + line.subtotal, 0);
+    // Numa paragem o preço é o da duração escolhida, e mais nada.
+    if (isStop) return (chosenDuration?.price ?? experience.basePrice) + extrasTotal;
     const base = flatPrice
       ? experience.basePrice
       : experience.basePrice * (totalGuests || 1);
@@ -238,7 +256,8 @@ export function AddExperienceModal({
 
   const handleAdd = () => {
     onAdd({
-      passengers: totalGuests,
+      // Numa paragem não há contagem de passageiros a fazer.
+      passengers: isStop ? 0 : totalGuests,
       date: dateTime.date ?? undefined,
       time: dateTime.time,
       selectedExtras,
@@ -284,6 +303,10 @@ export function AddExperienceModal({
     showSpecialRequest,
     specialRequest,
     setSpecialRequest,
+    isStop,
+    durations,
+    minutes,
+    setMinutes,
   };
 
   if (isMobile) {
@@ -357,6 +380,10 @@ interface ModalContentProps {
   showSpecialRequest: boolean;
   specialRequest: string;
   setSpecialRequest: (value: string) => void;
+  isStop: boolean;
+  durations?: { minutes: number; price: number }[];
+  minutes?: number;
+  setMinutes: (m: number) => void;
 }
 
 function ModalContent({
@@ -387,6 +414,10 @@ function ModalContent({
   showSpecialRequest,
   specialRequest,
   setSpecialRequest,
+  isStop,
+  durations,
+  minutes,
+  setMinutes,
 }: ModalContentProps) {
   const { checkoutBookedTodayMin, checkoutBookedTodayMax } =
     useMarketingStats();
@@ -472,33 +503,76 @@ function ModalContent({
           </div>
         )}
 
-        <div className="bg-[var(--ck-surface,#1e1d1b)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.08)] p-5 flex flex-col gap-4 mb-6">
-          <GuestRow
-            icon={<User className="size-5" strokeWidth={1.75} />}
-            label={tTour("adult")}
-            description={tTour("adultAge")}
-            count={adults}
-            onDecrement={() => setAdults(Math.max(1, adults - 1))}
-            onIncrement={() => setAdults(adults + 1)}
-            minCount={1}
-          />
-          <GuestRow
-            icon={<User className="size-5" strokeWidth={1.75} />}
-            label={tTour("children")}
-            description={tTour("childrenAge")}
-            count={children}
-            onDecrement={() => setChildren(Math.max(0, children - 1))}
-            onIncrement={() => setChildren(children + 1)}
-          />
-          <GuestRow
-            icon={<Baby className="size-5" strokeWidth={1.75} />}
-            label={tTour("infant")}
-            description={tTour("infantAge")}
-            count={infants}
-            onDecrement={() => setInfants(Math.max(0, infants - 1))}
-            onIncrement={() => setInfants(infants + 1)}
-          />
-        </div>
+        {isStop ? (
+          /* Numa paragem escolhe-se o tempo de espera, não quem vai: as pessoas
+             já seguem no carro. Os contadores de adultos, crianças e bebés não
+             faziam sentido nenhum aqui. */
+          <div className="mb-6">
+            <p className="mb-3 text-[13px] leading-[1.5] text-[var(--ck-text-muted,#999)]">
+              {t("stopDurationHint")}
+            </p>
+            <label className="mb-3 block text-[12px] font-bold uppercase tracking-[1.152px] text-[var(--ck-text,#f7f4ef)]">
+              {t("stopDuration")}
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              {durations!.map((d) => {
+                const active = d.minutes === minutes;
+                return (
+                  <button
+                    key={d.minutes}
+                    type="button"
+                    onClick={() => setMinutes(d.minutes)}
+                    aria-pressed={active}
+                    className={cn(
+                      "flex flex-col items-center gap-1 border px-4 py-4 transition-colors",
+                      active
+                        ? "border-[var(--ck-accent,#c9a96e)] bg-[rgba(var(--ck-accent-rgb,201,169,110),0.12)]"
+                        : "border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] hover:border-[rgba(var(--ck-text-rgb,255,255,255),0.3)]",
+                    )}
+                  >
+                    <span className="text-[11px] font-semibold uppercase tracking-[1px] text-[var(--ck-text-muted,#999)]">
+                      {t("minutes", { count: d.minutes })}
+                    </span>
+                    <span
+                      className="text-[24px] leading-none text-[var(--ck-text,#f7f4ef)]"
+                      style={SERIF_FONT}
+                    >
+                      {d.price}€
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className="bg-[var(--ck-surface,#1e1d1b)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.08)] p-5 flex flex-col gap-4 mb-6">
+            <GuestRow
+              icon={<User className="size-5" strokeWidth={1.75} />}
+              label={tTour("adult")}
+              description={tTour("adultAge")}
+              count={adults}
+              onDecrement={() => setAdults(Math.max(1, adults - 1))}
+              onIncrement={() => setAdults(adults + 1)}
+              minCount={1}
+            />
+            <GuestRow
+              icon={<User className="size-5" strokeWidth={1.75} />}
+              label={tTour("children")}
+              description={tTour("childrenAge")}
+              count={children}
+              onDecrement={() => setChildren(Math.max(0, children - 1))}
+              onIncrement={() => setChildren(children + 1)}
+            />
+            <GuestRow
+              icon={<Baby className="size-5" strokeWidth={1.75} />}
+              label={tTour("infant")}
+              description={tTour("infantAge")}
+              count={infants}
+              onDecrement={() => setInfants(Math.max(0, infants - 1))}
+              onIncrement={() => setInfants(infants + 1)}
+            />
+          </div>
+        )}
 
         {extras.length > 0 && (
           <div className="mb-2">

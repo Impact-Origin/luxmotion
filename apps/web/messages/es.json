@@ -1004,7 +1004,10 @@
     "specialRequestPlaceholder": "Escriba aquí lo que necesita...",
     "total": "Total",
     "add": "AÑADIR",
-    "bookedTimes": "reservado {count} veces hoy"
+    "bookedTimes": "reservado {count} veces hoy",
+    "stopDuration": "Duración de la parada",
+    "stopDurationHint": "Elija la duración de la parada. El conductor espera en el lugar durante el tiempo seleccionado.",
+    "minutes": "{count} minutos"
   },
   "statsBanner": {
     "transfers": {

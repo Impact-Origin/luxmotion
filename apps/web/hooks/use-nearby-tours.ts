@@ -102,9 +102,13 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       bannerImageUrl: stop.imageUrl,
       basePrice: stop.price30,
       duration: "30 min",
-      // O preço de 15 minutos era pedido no admin e nunca chegava a lado nenhum.
-      priceNote:
-        stop.price15 != null ? `· €${stop.price15.toFixed(0)} / 15 min` : undefined,
+      /* As duas durações seguem para o cartão e para o modal. O preço de 15
+         minutos era pedido no admin e não chegava a lado nenhum. */
+      durations: [
+        ...(stop.price15 != null ? [{ minutes: 15, price: stop.price15 }] : []),
+        { minutes: 30, price: stop.price30 },
+      ],
+      locationLabel: stop.location?.title ?? undefined,
       // Universais não têm distância: mostrar "a 0 km" seria uma mentira.
       distanceKm: stop.distanceKm ?? undefined,
       category: "upsellStop" as const,
@@ -112,7 +116,7 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       // Uma paragem cobra-se por paragem: quatro pessoas numa de €15 pagam €15.
       flatPrice: true,
       hasDateField: false,
-      hasSpecialRequest: false,
+      hasSpecialRequest: true,
       location: stop.location,
     }));
 
@@ -134,6 +138,7 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       hasDateField: experience.hasDateField,
       hasSpecialRequest: experience.hasSpecialRequest,
       location: experience.location,
+      locationLabel: experience.location?.title ?? undefined,
       addons: experience.addons.map((addon) => ({
         _id: addon.id,
         title: addon.name,

@@ -1004,7 +1004,10 @@
     "specialRequestPlaceholder": "Schrijf hier wat u nodig heeft...",
     "total": "Totaal",
     "add": "TOEVOEGEN",
-    "bookedTimes": "vandaag {count} keer geboekt"
+    "bookedTimes": "vandaag {count} keer geboekt",
+    "stopDuration": "Duur van de stop",
+    "stopDurationHint": "Kies hoelang de stop duurt. De chauffeur wacht ter plaatse gedurende de gekozen tijd.",
+    "minutes": "{count} minuten"
   },
   "statsBanner": {
     "transfers": {

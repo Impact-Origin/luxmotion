@@ -1004,7 +1004,10 @@
     "specialRequestPlaceholder": "Schreiben Sie hier, was Sie benötigen...",
     "total": "Gesamt",
     "add": "HINZUFÜGEN",
-    "bookedTimes": "heute {count} mal gebucht"
+    "bookedTimes": "heute {count} mal gebucht",
+    "stopDuration": "Dauer des Stopps",
+    "stopDurationHint": "Wählen Sie die Dauer des Stopps. Der Fahrer wartet währenddessen vor Ort.",
+    "minutes": "{count} Minuten"
   },
   "statsBanner": {
     "transfers": {

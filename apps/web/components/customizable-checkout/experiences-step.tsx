@@ -139,6 +139,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
       flatPrice={selectedItem?.flatPrice ?? false}
       requireDateTime={selectedItem?.hasDateField ?? true}
       showSpecialRequest={selectedItem?.hasSpecialRequest ?? false}
+      durations={selectedItem?.durations}
       onAdd={handleAddExperience}
     />
   )

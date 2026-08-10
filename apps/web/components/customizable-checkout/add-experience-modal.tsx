@@ -137,6 +137,9 @@ interface AddExperienceModalProps {
   requireDateTime?: boolean;
   /** Caixa de texto livre, ligada por upsell no admin. */
   showSpecialRequest?: boolean;
+  /** Ver o comentário na versão do checkout principal. */
+  durations?: { minutes: number; price: number }[];
+  initialMinutes?: number;
   onAdd: (data: {
     passengers: number;
     date: Date | undefined;
@@ -156,6 +159,8 @@ export function AddExperienceModal({
   flatPrice = false,
   requireDateTime = true,
   showSpecialRequest = false,
+  durations,
+  initialMinutes,
   onAdd,
 }: AddExperienceModalProps) {
   const t = useTranslations("addExperience");
@@ -170,6 +175,11 @@ export function AddExperienceModal({
   }>({ date: null, time: null });
   const [selectedExtras, setSelectedExtras] = React.useState<string[]>([]);
   const [specialRequest, setSpecialRequest] = React.useState("");
+  const isStop = Boolean(durations && durations.length > 0);
+  const [minutes, setMinutes] = React.useState<number | undefined>(
+    initialMinutes ?? durations?.[durations.length - 1]?.minutes,
+  );
+  const chosenDuration = durations?.find((d) => d.minutes === minutes);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const now = new Date();
@@ -199,6 +209,7 @@ export function AddExperienceModal({
       setDateTime({ date: null, time: null });
       setSelectedExtras([]);
       setSpecialRequest("");
+      setMinutes(initialMinutes ?? durations?.[durations.length - 1]?.minutes);
       if (isMobile) {
         requestAnimationFrame(() => setDrawerOpen(true));
       }
@@ -241,6 +252,7 @@ export function AddExperienceModal({
 
   const calculateTotal = () => {
     const extrasTotal = addonLines.reduce((sum, line) => sum + line.subtotal, 0);
+    if (isStop) return (chosenDuration?.price ?? experience.basePrice) + extrasTotal;
     const base = flatPrice
       ? experience.basePrice
       : experience.basePrice * (totalGuests || 1);
@@ -249,7 +261,7 @@ export function AddExperienceModal({
 
   const handleAdd = () => {
     onAdd({
-      passengers: totalGuests,
+      passengers: isStop ? 0 : totalGuests,
       date: dateTime.date ?? undefined,
       time: dateTime.time,
       selectedExtras,
@@ -295,6 +307,10 @@ export function AddExperienceModal({
     showSpecialRequest,
     specialRequest,
     setSpecialRequest,
+    isStop,
+    durations,
+    minutes,
+    setMinutes,
   };
 
   if (isMobile) {
@@ -378,6 +394,10 @@ interface ModalContentProps {
   showSpecialRequest: boolean;
   specialRequest: string;
   setSpecialRequest: (value: string) => void;
+  isStop: boolean;
+  durations?: { minutes: number; price: number }[];
+  minutes?: number;
+  setMinutes: (m: number) => void;
 }
 
 function ModalContent({
@@ -408,6 +428,10 @@ function ModalContent({
   showSpecialRequest,
   specialRequest,
   setSpecialRequest,
+  isStop,
+  durations,
+  minutes,
+  setMinutes,
 }: ModalContentProps) {
   const { checkoutBookedTodayMin, checkoutBookedTodayMax } =
     useMarketingStats();
@@ -523,39 +547,94 @@ function ModalContent({
           </div>
         )}
 
-        <div
-          data-theme-color="checkoutFormCheckboxBg"
-          className="rounded-[16px] p-4 flex flex-col gap-4 mb-6"
-          style={{
-            backgroundColor: "var(--theme-checkout-form-checkbox-bg, #F7F7F7)",
-          }}
-        >
-          <GuestRow
-            icon={<User className="size-5" />}
-            label={tTour("adult")}
-            description={tTour("adultAge")}
-            count={adults}
-            onDecrement={() => setAdults(Math.max(1, adults - 1))}
-            onIncrement={() => setAdults(adults + 1)}
-            minCount={1}
-          />
-          <GuestRow
-            icon={<User className="size-5" />}
-            label={tTour("children")}
-            description={tTour("childrenAge")}
-            count={children}
-            onDecrement={() => setChildren(Math.max(0, children - 1))}
-            onIncrement={() => setChildren(children + 1)}
-          />
-          <GuestRow
-            icon={<Baby className="size-5" />}
-            label={tTour("infant")}
-            description={tTour("infantAge")}
-            count={infants}
-            onDecrement={() => setInfants(Math.max(0, infants - 1))}
-            onIncrement={() => setInfants(infants + 1)}
-          />
-        </div>
+        {isStop ? (
+          /* Numa paragem escolhe-se o tempo de espera, não quem vai: as pessoas
+             já seguem no carro. */
+          <div className="mb-6">
+            <p
+              data-theme-color="checkoutOrderSummaryMutedText"
+              className="mb-3 text-sm"
+              style={{ color: "var(--theme-checkout-order-summary-muted-text, #808080)" }}
+            >
+              {t("stopDurationHint")}
+            </p>
+            <label
+              data-theme-color="checkoutFormLabelText"
+              className="mb-2 block text-[15px] font-bold"
+              style={{ color: "var(--theme-checkout-form-label-text, #222222)" }}
+            >
+              {t("stopDuration")}
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              {durations!.map((d) => {
+                const active = d.minutes === minutes;
+                return (
+                  <button
+                    key={d.minutes}
+                    type="button"
+                    onClick={() => setMinutes(d.minutes)}
+                    aria-pressed={active}
+                    className="flex flex-col items-center gap-1 rounded-[12px] border-2 px-4 py-4 transition-colors"
+                    style={{
+                      borderColor: active
+                        ? "var(--theme-checkout-primary-button-bg, #27C7FF)"
+                        : "var(--theme-checkout-input-border, #DEDEDE)",
+                    }}
+                  >
+                    <span
+                      data-theme-color="checkoutOrderSummaryMutedText"
+                      className="text-xs font-semibold uppercase tracking-wide"
+                      style={{ color: "var(--theme-checkout-order-summary-muted-text, #808080)" }}
+                    >
+                      {t("minutes", { count: d.minutes })}
+                    </span>
+                    <span
+                      data-theme-color="checkoutFormLabelText"
+                      className="text-[22px] font-bold leading-none"
+                      style={{ color: "var(--theme-checkout-form-label-text, #222222)" }}
+                    >
+                      {d.price}€
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div
+            data-theme-color="checkoutFormCheckboxBg"
+            className="rounded-[16px] p-4 flex flex-col gap-4 mb-6"
+            style={{
+              backgroundColor: "var(--theme-checkout-form-checkbox-bg, #F7F7F7)",
+            }}
+          >
+            <GuestRow
+              icon={<User className="size-5" />}
+              label={tTour("adult")}
+              description={tTour("adultAge")}
+              count={adults}
+              onDecrement={() => setAdults(Math.max(1, adults - 1))}
+              onIncrement={() => setAdults(adults + 1)}
+              minCount={1}
+            />
+            <GuestRow
+              icon={<User className="size-5" />}
+              label={tTour("children")}
+              description={tTour("childrenAge")}
+              count={children}
+              onDecrement={() => setChildren(Math.max(0, children - 1))}
+              onIncrement={() => setChildren(children + 1)}
+            />
+            <GuestRow
+              icon={<Baby className="size-5" />}
+              label={tTour("infant")}
+              description={tTour("infantAge")}
+              count={infants}
+              onDecrement={() => setInfants(Math.max(0, infants - 1))}
+              onIncrement={() => setInfants(infants + 1)}
+            />
+          </div>
+        )}
 
         {extras.length > 0 && (
           <div className="mb-4">

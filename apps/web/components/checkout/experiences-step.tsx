@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
 import { AddExperienceModal, type SelectedAddonLine } from "./add-experience-modal"
 import { CheckoutStepLayout } from "./shared/checkout-step-layout"
@@ -45,8 +45,16 @@ export interface NearbyTour {
   /** Nos upsells: o modal pede data? Mostra a caixa de pedido especial? */
   hasDateField?: boolean
   hasSpecialRequest?: boolean
-  /** Nota ao lado do preço no cartão ("· €10 / 15 min", "/ pessoa"). */
+  /** Nota ao lado do preço no cartão ("/ pessoa"). */
   priceNote?: string
+  /**
+   * Durações de uma paragem, com o preço de cada. É o que substitui os
+   * contadores de passageiros: numa paragem escolhe-se quanto tempo o motorista
+   * espera, não quantas pessoas vão — elas já vão todas no carro.
+   */
+  durations?: { minutes: number; price: number }[]
+  /** Localidade, para a linha por cima do título no cartão. */
+  locationLabel?: string
   /** Local do upsell, para a order saber onde é a paragem. */
   location?: {
     title: string
@@ -92,13 +100,91 @@ function toExperience(tour: NearbyTour): Experience {
   }
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+/**
+ * Secção em carrossel, como no protótipo.
+ *
+ * A grelha anterior crescia para baixo: com dezoito paragens o passo ficava uma
+ * lista interminável e o resto do checkout desaparecia do ecrã. Aqui os cartões
+ * correm na horizontal e as setas movem uma "página" de cada vez.
+ */
+function CarouselSection({
+  index,
+  title,
+  children,
+}: {
+  index: number
+  title: string
+  children: React.ReactNode
+}) {
+  const trackRef = React.useRef<HTMLDivElement>(null)
+  const [atStart, setAtStart] = React.useState(true)
+  const [atEnd, setAtEnd] = React.useState(false)
+
+  const sync = React.useCallback(() => {
+    const el = trackRef.current
+    if (!el) return
+    setAtStart(el.scrollLeft <= 1)
+    // 1px de folga: o scrollLeft é fraccionário e nunca bate certo com o fim.
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1)
+  }, [])
+
+  React.useEffect(() => {
+    sync()
+    const el = trackRef.current
+    if (!el) return
+    el.addEventListener("scroll", sync, { passive: true })
+    return () => el.removeEventListener("scroll", sync)
+  }, [sync])
+
+  const scrollBy = (dir: 1 | -1) => {
+    const el = trackRef.current
+    if (!el) return
+    el.scrollBy({ left: dir * Math.max(280, el.clientWidth * 0.8), behavior: "smooth" })
+  }
+
   return (
-    <div className="border-b-[0.8px] border-[rgba(var(--ck-text-rgb,247,244,239),0.08)] pb-2">
-      <span className="text-[12px] font-bold text-[var(--ck-text-muted,#999)] uppercase tracking-[1.152px] leading-none">
+    <section className="flex min-w-0 flex-col gap-5">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-baseline gap-3">
+          <span className="text-[11px] font-semibold tracking-[2px] text-[var(--ck-accent,#c9a96e)]">
+            {String(index).padStart(2, "0")}
+          </span>
+          <h2
+            className="text-[22px] leading-none text-[var(--ck-text,#f7f4ef)]"
+            style={SERIF_FONT}
+          >
+            {title}
+          </h2>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          {([-1, 1] as const).map((dir) => {
+            const disabled = dir === -1 ? atStart : atEnd
+            const Icon = dir === -1 ? ChevronLeft : ChevronRight
+            return (
+              <button
+                key={dir}
+                type="button"
+                onClick={() => scrollBy(dir)}
+                disabled={disabled}
+                aria-label={dir === -1 ? "Anterior" : "Seguinte"}
+                className="flex size-9 items-center justify-center rounded-full border border-[rgba(var(--ck-text-rgb,255,255,255),0.18)] text-[var(--ck-text,#f7f4ef)] transition-colors enabled:hover:border-[var(--ck-accent,#c9a96e)] enabled:hover:text-[var(--ck-accent,#c9a96e)] disabled:opacity-30"
+              >
+                <Icon className="size-4" strokeWidth={1.75} />
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* `snap` para os cartões pararem alinhados, e a scrollbar escondida por
+          serem as setas a comandar. */}
+      <div
+        ref={trackRef}
+        className="-mx-1 flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
         {children}
-      </span>
-    </div>
+      </div>
+    </section>
   )
 }
 
@@ -108,6 +194,8 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   const { addExperience } = useCheckout()
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [selectedExperience, setSelectedExperience] = React.useState<Experience | null>(null)
+  // Duração escolhida no cartão, para o modal já abrir com ela seleccionada.
+  const [initialMinutes, setInitialMinutes] = React.useState<number | undefined>()
 
   const tours = nearbyTours.filter((item) => item.category === "tours")
   const privateTours = nearbyTours.filter((item) => item.category === "private")
@@ -115,8 +203,9 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
   const stops = nearbyTours.filter((item) => item.category === "upsellStop")
   const experiences = nearbyTours.filter((item) => item.category === "upsellExperience")
 
-  const handleOpenModal = (experience: Experience) => {
+  const handleOpenModal = (experience: Experience, minutes?: number) => {
     setSelectedExperience(experience)
+    setInitialMinutes(minutes)
     setIsModalOpen(true)
   }
 
@@ -156,16 +245,16 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
     onContinue()
   }
 
-  const renderSection = (label: string, items: NearbyTour[]) => {
+  const renderSection = (label: string, items: NearbyTour[], index: number) => {
     if (items.length === 0) return null
     return (
-      <section className="flex flex-col gap-4">
-        <SectionLabel>{label}</SectionLabel>
-        {/* Uniform wrapping grid — every card is the same size, no horizontal scroll. */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-          {items.map((item) => (
+      <CarouselSection key={label} index={index} title={label}>
+        {items.map((item) => (
+          <div
+            key={item._id}
+            className="w-[264px] shrink-0 snap-start sm:w-[300px]"
+          >
             <ExperienceCard
-              key={item._id}
               title={item.title}
               price={item.basePrice}
               duration={item.duration}
@@ -174,11 +263,16 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
               tag={item.tag}
               tagLabel={item.tag && item.tag !== "none" ? t(`tags.${item.tag}`) : undefined}
               priceNote={item.priceNote}
-              onAdd={() => handleOpenModal(toExperience(item))}
+              locationLabel={item.locationLabel}
+              description={
+                typeof item.description === "string" ? item.description : item.subtitle
+              }
+              durations={item.durations}
+              onAdd={(minutes) => handleOpenModal(toExperience(item), minutes)}
             />
-          ))}
-        </div>
-      </section>
+          </div>
+        ))}
+      </CarouselSection>
     )
   }
 
@@ -210,12 +304,19 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           </button>
         </div>
 
-        {/* Paragens primeiro: são extras curtos no próprio trajeto. */}
-        {renderSection(t("extraStops"), stops)}
-        {renderSection(t("privateTours"), privateTours)}
-        {renderSection(t("tours"), tours)}
-        {renderSection(t("experiences"), experiences)}
-        {renderSection(t("events"), events)}
+        {/* Numeradas pela ordem em que aparecem, saltando as vazias — como no
+            protótipo, onde as paragens são a 01. */}
+        {[
+          [t("extraStops"), stops],
+          [t("experiences"), experiences],
+          [t("privateTours"), privateTours],
+          [t("tours"), tours],
+          [t("events"), events],
+        ]
+          .filter(([, items]) => (items as NearbyTour[]).length > 0)
+          .map(([label, items], i) =>
+            renderSection(label as string, items as NearbyTour[], i + 1),
+          )}
 
         <div className="flex items-center justify-between gap-4 mt-2">
           <button
@@ -245,6 +346,8 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
             flatPrice={selectedItem?.flatPrice ?? false}
             requireDateTime={selectedItem?.hasDateField ?? true}
             showSpecialRequest={selectedItem?.hasSpecialRequest ?? false}
+            durations={selectedItem?.durations}
+            initialMinutes={initialMinutes}
             onAdd={handleAddExperience}
           />
         )}

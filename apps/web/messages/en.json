@@ -1006,7 +1006,10 @@
     "specialRequestPlaceholder": "Write here what you need...",
     "total": "Total",
     "add": "ADD",
-    "bookedTimes": "booked {count} times today"
+    "bookedTimes": "booked {count} times today",
+    "stopDuration": "Stop duration",
+    "stopDurationHint": "Choose how long the stop should last. The driver waits on site for the selected time.",
+    "minutes": "{count} minutes"
   },
   "statsBanner": {
     "transfers": {
