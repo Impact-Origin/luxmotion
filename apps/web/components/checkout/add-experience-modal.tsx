@@ -6,6 +6,7 @@ import { X, Plus, Minus, Flame, User, Baby, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getDailyNumber } from "@/lib/daily-number";
 import { useMarketingStats } from "@/hooks/use-marketing-stats";
+import { useCheckoutTheme } from "@/components/checkout/checkout-theme";
 
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker";
@@ -419,6 +420,7 @@ function ModalContent({
   minutes,
   setMinutes,
 }: ModalContentProps) {
+  const { theme: checkoutTheme } = useCheckoutTheme();
   const { checkoutBookedTodayMin, checkoutBookedTodayMax } =
     useMarketingStats();
   const dailyBookedCount = React.useMemo(
@@ -497,7 +499,9 @@ function ModalContent({
                 onChange={(next) => setDateTime(toDateAndTime(next))}
                 label={t("date")}
                 placeholder={t("date")}
-                dark
+                /* Segue o tema do checkout. Estava fixo em escuro, e num
+                   checkout claro ficava uma caixa preta a meio do modal. */
+                dark={checkoutTheme === "dark"}
               />
             )}
           </div>
