@@ -67,11 +67,14 @@ export function ExperienceCard({
         />
         {tag !== "none" && tagLabel && (
           <span
+            /* Os dois selos em dourado: o "recomendado" era escuro sobre a
+               fotografia e mal se lia. O "mais popular" distingue-se pela
+               estrela e pelo preenchimento cheio, não pela cor. */
             className={cn(
               "absolute left-3 top-3 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.8px]",
               tag === "mostPopular"
                 ? "bg-[var(--ck-accent,#c9a96e)] text-[#0d0d0d]"
-                : "border border-[rgba(var(--ck-text-rgb,255,255,255),0.35)] bg-[rgba(13,13,13,0.72)] text-[var(--ck-text,#f7f4ef)]",
+                : "border border-[var(--ck-accent,#c9a96e)] bg-[rgba(13,13,13,0.72)] text-[var(--ck-accent,#c9a96e)]",
             )}
           >
             {tag === "mostPopular" ? `★ ${tagLabel}` : tagLabel}
