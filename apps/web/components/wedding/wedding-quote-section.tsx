@@ -54,7 +54,7 @@ const EXTRAS: ExtraDef[] = [
   { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 15, unitKey: "unitPerGuest", priceShape: "perGuest" },
   {
     id: "tattoo",
-    image: "/wedding-whitelabel/extras/tattoo.webp",
+    image: "/wedding-whitelabel/extras/tattoo.jpeg",
     price: 450,
     unitKey: "unitHourTiers",
     priceShape: "flat",
