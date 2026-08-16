@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import Image from "next/image"
 import { ArrowLeft, ArrowRight, Check } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -9,10 +10,24 @@ import { cn } from "@workspace/ui/lib/utils"
 const SANS = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const SERIF = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 
-const VENUE_PROFILE = ["profile1", "profile2", "profile3", "profile4"] as const
-const BEFORE_LIST = ["before1", "before2", "before3", "before4", "before5", "before6"] as const
-const IMPL_LIST = ["impl1", "impl2", "impl3", "impl4", "impl5", "impl6"] as const
-const EXP_LIST = ["exp1", "exp2", "exp3", "exp4", "exp5", "exp6"] as const
+/** Um caso de estudo. As listas não têm comprimento fixo: nem todos os
+ *  espaços contam a mesma história com o mesmo número de pontos. */
+interface Caso {
+  venueName: string
+  venueMeta: string
+  photo: string
+  photoAlt: string
+  profile: string[]
+  quote: string
+  quoteAuthor: string
+  /** Cinco valores, pela ordem das etiquetas stat1..stat5. */
+  stats: string[]
+  before: string[]
+  impl: string[]
+  exp: string[]
+  /** "48 horas", "72 horas" — o tempo de activação varia por espaço. */
+  footerEnd: string
+}
 
 function StatCell({ value, label }: { value: string; label: string }) {
   return (
@@ -53,6 +68,16 @@ function Bullet({ text, dim = true }: { text: string; dim?: boolean }) {
 export function WeddingPlannerCaseStudy() {
   const t = useTranslations("weddingPlanner.caseStudy")
   const { ref, reveal } = useScrollReveal<HTMLElement>()
+  const casos = t.raw("cases") as Caso[]
+  const [indice, setIndice] = React.useState(0)
+  const caso = casos[indice]
+
+  /* Dá a volta em vez de parar nos extremos: são poucos casos e o utilizador
+     que carrega duas vezes na seta espera continuar a ver, não bater no fim. */
+  const mover = (passo: 1 | -1) =>
+    setIndice((i) => (i + passo + casos.length) % casos.length)
+
+  if (!caso) return null
 
   return (
     <section ref={ref} className="bg-[#F7F4EF] px-4 md:px-[82px] py-16 md:py-24">
@@ -80,8 +105,8 @@ export function WeddingPlannerCaseStudy() {
           <div className="bg-[#0d0d0d] border border-[rgba(28,27,24,0.08)] flex flex-col lg:flex-row items-stretch overflow-hidden">
             <div className="group relative flex-1 min-h-[480px] lg:min-h-[655px] lg:max-w-[50%] overflow-hidden">
               <Image
-                src="/wedding-planner/case-quinta-das-rosas.png"
-                alt={t("photoAlt")}
+                src={caso.photo}
+                alt={caso.photoAlt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
@@ -103,13 +128,13 @@ export function WeddingPlannerCaseStudy() {
                   className="text-[28px] md:text-[32px] font-semibold text-[#f7f4ef] leading-[1.07] w-full"
                   style={SERIF}
                 >
-                  {t("venueName")}
+                  {caso.venueName}
                 </h3>
                 <p
                   className="text-[12px] font-medium text-white leading-[19px] w-full"
                   style={SANS}
                 >
-                  {t("venueMeta")}
+                  {caso.venueMeta}
                 </p>
                 <div className="flex flex-col gap-2 items-start w-full mt-1">
                   <span
@@ -119,8 +144,8 @@ export function WeddingPlannerCaseStudy() {
                     {t("venueProfileLabel")}
                   </span>
                   <div className="flex flex-col gap-1 w-full">
-                    {VENUE_PROFILE.map((k) => (
-                      <Bullet key={k} text={t(k)} dim={false} />
+                    {caso.profile.map((texto) => (
+                      <Bullet key={texto} text={texto} dim={false} />
                     ))}
                   </div>
                 </div>
@@ -129,13 +154,13 @@ export function WeddingPlannerCaseStudy() {
                     className="text-[18px] md:text-[24px] italic text-white leading-[1.2]"
                     style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
                   >
-                    {t("quote")}
+                    {caso.quote}
                   </p>
                   <p
                     className="text-[12px] font-semibold text-[#c9a96e] leading-none"
                     style={SANS}
                   >
-                    {t("quoteAuthor")}
+                    {caso.quoteAuthor}
                   </p>
                 </div>
               </div>
@@ -153,13 +178,9 @@ export function WeddingPlannerCaseStudy() {
 
               <div className="flex-1 flex flex-col gap-4 pt-6 px-6">
                 <div className="border border-[rgba(255,255,255,0.12)] flex flex-wrap md:flex-nowrap items-stretch divide-y md:divide-y-0 divide-[rgba(255,255,255,0.12)]">
-                  {[
-                    { value: "0%", label: t("stat1Label") },
-                    { value: "38", label: t("stat2Label") },
-                    { value: "€29", label: t("stat3Label") },
-                    { value: "€1.102", label: t("stat4Label") },
-                    { value: "0", label: t("stat5Label") },
-                  ].map((s, i, arr) => (
+                  {caso.stats
+                    .map((value, n) => ({ value, label: t(`stat${n + 1}Label`) }))
+                    .map((s, i, arr) => (
                     <div key={i} className="flex flex-1 items-stretch w-full md:w-auto">
                       <StatCell value={s.value} label={s.label} />
                       {i < arr.length - 1 && (
@@ -180,8 +201,8 @@ export function WeddingPlannerCaseStudy() {
                       {t("col1Title")} <em className="not-italic text-[#c9a96e] italic" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>LuxMotion</em>
                     </h4>
                     <div className="flex flex-col w-full">
-                      {BEFORE_LIST.map((k) => (
-                        <Bullet key={k} text={t(k)} />
+                      {caso.before.map((texto) => (
+                        <Bullet key={texto} text={texto} />
                       ))}
                     </div>
                   </div>
@@ -196,8 +217,8 @@ export function WeddingPlannerCaseStudy() {
                       {t("col2Title")}
                     </h4>
                     <div className="flex flex-col w-full">
-                      {IMPL_LIST.map((k) => (
-                        <Bullet key={k} text={t(k)} />
+                      {caso.impl.map((texto) => (
+                        <Bullet key={texto} text={texto} />
                       ))}
                     </div>
                   </div>
@@ -213,8 +234,8 @@ export function WeddingPlannerCaseStudy() {
                       <span className="text-[#c9a96e]">{t("col3TitleAccent")}</span>
                     </h4>
                     <div className="flex flex-col w-full">
-                      {EXP_LIST.map((k) => (
-                        <Bullet key={k} text={t(k)} />
+                      {caso.exp.map((texto) => (
+                        <Bullet key={texto} text={texto} />
                       ))}
                     </div>
                   </div>
@@ -227,31 +248,52 @@ export function WeddingPlannerCaseStudy() {
                   style={SANS}
                 >
                   <span className="text-[#696969]">{t("footerStart")}</span>
-                  <span> {t("footerEnd")}</span>
+                  <span> {caso.footerEnd}</span>
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex gap-2 items-center justify-center w-full">
-            <button
-              type="button"
-              aria-label={t("prevAria")}
-              className="w-12 h-12 border-[1.7px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#a08248] hover:border-[#c9a96e] hover:text-[#c9a96e] transition-colors"
-            >
-              <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
-            </button>
-            <span className="w-[5px] h-[5px] rounded-full bg-[#a08248]" />
-            <span className="w-[5px] h-[5px] rounded-full bg-[#a08248]/30" />
-            <span className="w-[5px] h-[5px] rounded-full bg-[#a08248]/30" />
-            <button
-              type="button"
-              aria-label={t("nextAria")}
-              className="w-12 h-12 border-[1.7px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#a08248] hover:border-[#c9a96e] hover:text-[#c9a96e] transition-colors"
-            >
-              <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2} />
-            </button>
-          </div>
+          {/* Setas e pontos estavam desenhados mas mortos: sem estado, sem
+              onClick, e com três pontos fixos independentemente de quantos
+              casos existissem. */}
+          {casos.length > 1 && (
+            <div className="flex gap-2 items-center justify-center w-full">
+              <button
+                type="button"
+                onClick={() => mover(-1)}
+                aria-label={t("prevAria")}
+                className="w-12 h-12 border-[1.7px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#a08248] hover:border-[#c9a96e] hover:text-[#c9a96e] transition-colors"
+              >
+                <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={2} />
+              </button>
+              {casos.map((c, i) => (
+                <button
+                  key={c.venueName}
+                  type="button"
+                  onClick={() => setIndice(i)}
+                  aria-label={c.venueName}
+                  aria-current={i === indice}
+                  className="p-1"
+                >
+                  <span
+                    className={cn(
+                      "block w-[5px] h-[5px] rounded-full transition-colors",
+                      i === indice ? "bg-[#a08248]" : "bg-[#a08248]/30",
+                    )}
+                  />
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => mover(1)}
+                aria-label={t("nextAria")}
+                className="w-12 h-12 border-[1.7px] border-[rgba(154,117,53,0.22)] flex items-center justify-center text-[#a08248] hover:border-[#c9a96e] hover:text-[#c9a96e] transition-colors"
+              >
+                <ArrowRight className="w-[18px] h-[18px]" strokeWidth={2} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

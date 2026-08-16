@@ -4292,15 +4292,7 @@
       "eyebrow": "CASO REAL",
       "heading": "Case Study",
       "pill": "PROGRAMA DE PARCERIA PREMIUM",
-      "venueName": "Quinta das Rosas",
-      "venueMeta": "Wedding Venue · 92 quartos · Sintra",
       "venueProfileLabel": "Perfil do Espaço",
-      "profile1": "42 casamentos por ano",
-      "profile2": "Média de 120 convidados por evento",
-      "profile3": "65% de casais internacionais",
-      "profile4": "Localização rural — 40 min do Aeroporto de Lisboa",
-      "quote": "“Os noivos costumavam organizar o transporte sozinhos e os convidados chegavam atrasados, stressados e em táxis aleatórios. Agora cada casamento decorre a horas e ganhamos comissão sem mexer uma palha.”",
-      "quoteAuthor": "Wedding Coordinator · Quinta das Rosas, Sintra",
       "resultsLabel": "Resultados após 6 meses",
       "stat1Label": "Reclamações\nde Transporte",
       "stat2Label": "Casamentos\nRealizados",
@@ -4311,29 +4303,302 @@
       "col2Title": "Implementação",
       "col3TitleStart": "Experiência do",
       "col3TitleAccent": "Espaço & Convidados",
-      "before1": "Noivos organizavam o transporte por conta própria",
-      "before2": "Atrasos frequentes dos convidados à cerimónia",
-      "before3": "Queixas sobre táxis e Uber em zonas rurais",
-      "before4": "Equipa de receção a gerir pedidos de transporte de última hora",
-      "before5": "Zero receita de transporte de convidados",
-      "before6": "Sem coordenação de shuttle entre espaços",
-      "impl1": "Página de reserva personalizada incluída nos materiais do casamento",
-      "impl2": "Emails automáticos aos convidados com link de reserva",
-      "impl3": "Ensaio prévio do percurso com os motoristas",
-      "impl4": "Coordenador de operações dedicado no dia do casamento",
-      "impl5": "Coordenação multi-veículo (sedans + carrinhas + autocarros)",
-      "impl6": "Notificações de chegada em tempo real para a equipa do espaço",
-      "exp1": "Convidados chegam juntos, a horas e relaxados",
-      "exp2": "Cerimónias começam à hora marcada",
-      "exp3": "Noivos mencionam a qualidade do transporte nas reviews",
-      "exp4": "Espaço posicionado como \"full-service\" sem pessoal extra",
-      "exp5": "Receita de comissão passiva — zero custo operacional",
-      "exp6": "Pontuações de satisfação mais altas nos inquéritos pós-casamento",
       "footerStart": "Parceria activada",
-      "footerEnd": "em menos de 48 horas",
-      "photoAlt": "Espaço de casamento Quinta das Rosas ao anoitecer",
       "prevAria": "Caso anterior",
-      "nextAria": "Próximo caso"
+      "nextAria": "Próximo caso",
+      "cases": [
+        {
+          "venueName": "Quinta das Rosas",
+          "venueMeta": "Wedding Venue · 92 quartos · Sintra",
+          "photo": "/wedding-planner/case-quinta-das-rosas.png",
+          "photoAlt": "Espaço de casamento Quinta das Rosas ao anoitecer",
+          "profile": [
+            "42 casamentos por ano",
+            "Média de 120 convidados por evento",
+            "65% de casais internacionais",
+            "Localização rural — 40 min do Aeroporto de Lisboa"
+          ],
+          "quote": "“Os noivos costumavam organizar o transporte sozinhos e os convidados chegavam atrasados, stressados e em táxis aleatórios. Agora cada casamento decorre a horas e ganhamos comissão sem mexer uma palha.”",
+          "quoteAuthor": "Wedding Coordinator · Quinta das Rosas, Sintra",
+          "stats": [
+            "0%",
+            "38",
+            "€29",
+            "€1.102",
+            "0"
+          ],
+          "before": [
+            "Noivos organizavam o transporte por conta própria",
+            "Atrasos frequentes dos convidados à cerimónia",
+            "Queixas sobre táxis e Uber em zonas rurais",
+            "Equipa de receção a gerir pedidos de transporte de última hora",
+            "Zero receita de transporte de convidados",
+            "Sem coordenação de shuttle entre espaços"
+          ],
+          "impl": [
+            "Página de reserva personalizada incluída nos materiais do casamento",
+            "Emails automáticos aos convidados com link de reserva",
+            "Ensaio prévio do percurso com os motoristas",
+            "Coordenador de operações dedicado no dia do casamento",
+            "Coordenação multi-veículo (sedans + carrinhas + autocarros)",
+            "Notificações de chegada em tempo real para a equipa do espaço"
+          ],
+          "exp": [
+            "Convidados chegam juntos, a horas e relaxados",
+            "Cerimónias começam à hora marcada",
+            "Noivos mencionam a qualidade do transporte nas reviews",
+            "Espaço posicionado como \"full-service\" sem pessoal extra",
+            "Receita de comissão passiva — zero custo operacional",
+            "Pontuações de satisfação mais altas nos inquéritos pós-casamento"
+          ],
+          "footerEnd": "em menos de 48 horas"
+        },
+        {
+          "venueName": "Quinta do Vale Sereno",
+          "venueMeta": "Wedding Venue · 76 quartos · Azeitão",
+          "photo": "/wedding/gallery-1.png",
+          "photoAlt": "Casamento na Quinta do Vale Sereno, Azeitão",
+          "profile": [
+            "36 casamentos por ano",
+            "Média de 105 convidados por evento",
+            "58% de casais internacionais",
+            "Localização semi-rural — 45 min do Aeroporto de Lisboa"
+          ],
+          "quote": "Antes, cada casamento exigia dezenas de mensagens sobre transportes. Agora os convidados recebem tudo organizado, os noivos sentem-se mais tranquilos e a nossa equipa acompanha tudo sem esforço.",
+          "quoteAuthor": "Wedding Manager · Quinta do Vale Sereno, Azeitão",
+          "stats": [
+            "0%",
+            "31",
+            "€27",
+            "€837",
+            "0"
+          ],
+          "before": [
+            "Noivos organizavam os transfers por conta própria",
+            "Convidados chegavam em horários diferentes",
+            "Equipa recebia pedidos de última hora",
+            "Pouca visibilidade sobre chegadas e regressos",
+            "Sem receita associada ao transporte",
+            "Dificuldade em coordenar grupos grandes",
+            "Alguns convidados recorriam a táxis sem garantia de disponibilidade"
+          ],
+          "impl": [
+            "Página de reserva personalizada para cada casamento",
+            "Link enviado aos convidados nos materiais do evento",
+            "Emails automáticos com horários e pontos de encontro",
+            "Coordenação prévia com os noivos e wedding planner",
+            "Motoristas atribuídos por horário e grupo",
+            "Monitorização das chegadas em tempo real",
+            "Apoio dedicado no dia do casamento"
+          ],
+          "exp": [
+            "Convidados chegam juntos e sem stress",
+            "Noivos recebem menos perguntas logísticas",
+            "Cerimónias começam à hora prevista",
+            "Melhor perceção de organização do espaço",
+            "Receita adicional sem custo operacional",
+            "Equipa de eventos com menos carga de coordenação",
+            "Avaliações pós-casamento mencionam maior conforto"
+          ],
+          "footerEnd": "em menos de 48 horas"
+        },
+        {
+          "venueName": "Herdade Monte Claro",
+          "venueMeta": "Wedding Venue · 48 quartos · Alentejo",
+          "photo": "/wedding/gallery-2.png",
+          "photoAlt": "Casamento na Herdade Monte Claro, Alentejo",
+          "profile": [
+            "28 casamentos por ano",
+            "Média de 130 convidados por evento",
+            "72% de casais estrangeiros",
+            "Localização rural — 1h25 do Aeroporto de Lisboa"
+          ],
+          "quote": "Os nossos casais valorizam muito a experiência completa. Ter o transporte organizado desde o aeroporto até à herdade elevou bastante a perceção de serviço, especialmente para convidados internacionais.",
+          "quoteAuthor": "Event Director · Herdade Monte Claro, Alentejo",
+          "stats": [
+            "0%",
+            "22",
+            "€34",
+            "€748",
+            "0"
+          ],
+          "before": [
+            "Convidados internacionais tinham dificuldade em chegar",
+            "Noivos criavam grupos de WhatsApp para coordenar boleias",
+            "Pedidos de transfers surgiam perto da data do casamento",
+            "Equipa perdia tempo a recomendar motoristas externos",
+            "Pouca consistência na experiência de chegada",
+            "Regressos noturnos eram difíceis de organizar",
+            "Sem upsell estruturado de transporte"
+          ],
+          "impl": [
+            "Página de reserva dedicada ao casamento",
+            "Opções de transfer aeroporto, hotel e regresso noturno",
+            "Comunicação automática com convidados",
+            "Planeamento de horários por grupos",
+            "Coordenação com a equipa da herdade",
+            "Motoristas profissionais informados sobre acessos rurais",
+            "Resumo operacional enviado antes do evento"
+          ],
+          "exp": [
+            "Chegadas mais previsíveis",
+            "Convidados internacionais sentem maior apoio",
+            "Menos chamadas para a equipa do espaço",
+            "Regressos noturnos mais seguros e organizados",
+            "Noivos com menor pressão logística",
+            "Serviço percebido como parte da experiência premium",
+            "Receita passiva sem equipa adicional"
+          ],
+          "footerEnd": "em menos de 72 horas"
+        },
+        {
+          "venueName": "Quinta da Luz Atlântica",
+          "venueMeta": "Wedding Venue · 64 quartos · Cascais",
+          "photo": "/wedding/gallery-3.png",
+          "photoAlt": "Casamento na Quinta da Luz Atlântica, Cascais",
+          "profile": [
+            "44 casamentos por ano",
+            "Média de 115 convidados por evento",
+            "61% de casais internacionais",
+            "Localização costeira — 35 min do Aeroporto de Lisboa"
+          ],
+          "quote": "O transporte deixou de ser um problema escondido. Os convidados chegam com instruções claras, os horários são respeitados e os noivos sentem que tudo está sob controlo.",
+          "quoteAuthor": "Front Office Manager · Quinta da Luz Atlântica, Cascais",
+          "stats": [
+            "0%",
+            "39",
+            "€25",
+            "€975",
+            "0"
+          ],
+          "before": [
+            "Muitos convidados marcavam táxis de forma independente",
+            "Chegadas aconteciam sem coordenação",
+            "Receção respondia diariamente a perguntas sobre transporte",
+            "Noivos pediam recomendações de última hora",
+            "Dificuldade em gerir horários entre hotéis e quinta",
+            "Sem controlo sobre a qualidade dos motoristas",
+            "Sem receita gerada pelos pedidos de transporte"
+          ],
+          "impl": [
+            "Link de reserva integrado no email dos noivos",
+            "Opções para convidados individuais e grupos",
+            "Transfers organizados por hotel e horário",
+            "Comunicação automática antes do evento",
+            "Motoristas monitorizados pela equipa LuxMotion",
+            "Contactos de emergência partilhados com a receção",
+            "Dashboard simples com reservas confirmadas"
+          ],
+          "exp": [
+            "Convidados chegam mais relaxados",
+            "Receção reduz tarefas operacionais",
+            "Melhor fluidez entre cerimónia, jantar e festa",
+            "Imagem mais profissional junto dos noivos",
+            "Mais conforto para convidados estrangeiros",
+            "Receita adicional sem investimento",
+            "Maior consistência na experiência de chegada"
+          ],
+          "footerEnd": "em menos de 48 horas"
+        },
+        {
+          "venueName": "Solar de Santa Amélia",
+          "venueMeta": "Wedding Venue · 34 quartos · Sintra",
+          "photo": "/wedding-planner/hero-bride.webp",
+          "photoAlt": "Casamento no Solar de Santa Amélia, Sintra",
+          "profile": [
+            "24 casamentos por ano",
+            "Média de 90 convidados por evento",
+            "54% de casais internacionais",
+            "Localização histórica — 40 min do Aeroporto de Lisboa"
+          ],
+          "quote": "A diferença foi imediata. Deixámos de improvisar soluções de transporte e passámos a oferecer uma experiência organizada, elegante e muito mais alinhada com o posicionamento do nosso espaço.",
+          "quoteAuthor": "Wedding Coordinator · Solar de Santa Amélia, Sintra",
+          "stats": [
+            "0%",
+            "18",
+            "€31",
+            "€558",
+            "0"
+          ],
+          "before": [
+            "Noivos pediam ajuda para organizar convidados",
+            "Muitos hóspedes ficavam alojados em zonas diferentes",
+            "Pouca previsibilidade nas chegadas ao espaço",
+            "Staff fazia chamadas para motoristas no dia do evento",
+            "Convidados tinham dúvidas sobre horários de regresso",
+            "Sem sistema central para acompanhar reservas",
+            "Oportunidade de receita não aproveitada"
+          ],
+          "impl": [
+            "Página de reserva criada para cada evento",
+            "Convite aos convidados para reservar transporte antecipadamente",
+            "Organização de pickups por alojamento",
+            "Coordenação dos horários com a equipa do espaço",
+            "Motoristas informados sobre acessos e pontos de paragem",
+            "Notificações automáticas antes da chegada",
+            "Resumo final enviado à equipa de eventos"
+          ],
+          "exp": [
+            "Menos atrasos na cerimónia",
+            "Convidados com informação clara",
+            "Noivos sentem maior tranquilidade",
+            "Equipa reduz chamadas e mensagens",
+            "Serviço mais premium e discreto",
+            "Melhor controlo nos regressos após a festa",
+            "Comissão gerada sem custo operacional"
+          ],
+          "footerEnd": "em menos de 48 horas"
+        },
+        {
+          "venueName": "Palácio do Rio Velho",
+          "venueMeta": "Wedding Venue · 88 quartos · Douro",
+          "photo": "/wedding/couple.webp",
+          "photoAlt": "Casamento no Palácio do Rio Velho, Douro",
+          "profile": [
+            "32 casamentos por ano",
+            "Média de 125 convidados por evento",
+            "69% de casais estrangeiros",
+            "Localização vinícola — 1h20 do Aeroporto do Porto"
+          ],
+          "quote": "Os nossos casamentos envolvem muitos convidados de fora de Portugal. A LuxMotion ajudou-nos a transformar uma parte complicada da operação numa experiência simples, elegante e rentável.",
+          "quoteAuthor": "General Manager · Palácio do Rio Velho, Douro",
+          "stats": [
+            "0%",
+            "26",
+            "€39",
+            "€1.014",
+            "0"
+          ],
+          "before": [
+            "Convidados chegavam por diferentes aeroportos e hotéis",
+            "Noivos precisavam de coordenar vários horários",
+            "Staff do espaço geria pedidos de transfer manualmente",
+            "Pouca visibilidade sobre alterações de voo",
+            "Motoristas externos nem sempre conheciam o acesso",
+            "Regressos depois da festa eram difíceis de prever",
+            "Sem receita associada à logística de transporte"
+          ],
+          "impl": [
+            "Sistema de reserva enviado aos convidados",
+            "Transfers de aeroporto e alojamento disponíveis online",
+            "Monitorização de voos e horários de chegada",
+            "Coordenação de vans, sedans e veículos executivos",
+            "Equipa informada sobre chegadas previstas",
+            "Comunicação automática com convidados",
+            "Gestão centralizada no dia do casamento"
+          ],
+          "exp": [
+            "Chegadas mais organizadas",
+            "Convidados internacionais sentem acompanhamento",
+            "Menos pressão sobre os noivos",
+            "Serviço alinhado com experiências de luxo",
+            "Regressos noturnos mais seguros",
+            "Melhores comentários sobre organização",
+            "Receita adicional recorrente"
+          ],
+          "footerEnd": "em menos de 72 horas"
+        }
+      ]
     },
     "whiteLabel": {
       "eyebrow": "RESERVAS COM A SUA MARCA",

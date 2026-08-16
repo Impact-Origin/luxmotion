@@ -4204,15 +4204,7 @@
       "eyebrow": "ECHTER FALL",
       "heading": "Fallstudie",
       "pill": "PREMIUM PARTNER-PROGRAMM",
-      "venueName": "Quinta das Rosas",
-      "venueMeta": "Hochzeitslocation · 92 Zimmer · Sintra",
       "venueProfileLabel": "Locationprofil",
-      "profile1": "42 Hochzeiten pro Jahr",
-      "profile2": "Durchschnittlich 120 Gäste pro Veranstaltung",
-      "profile3": "65 % internationale Paare",
-      "profile4": "Ländliche Lage — 40 Min. vom Flughafen Lissabon",
-      "quote": "„Brautpaare organisierten den Transport selbst und Gäste kamen zu spät, gestresst und in zufälligen Taxis. Jetzt läuft jede Hochzeit pünktlich und wir verdienen Provision, ohne den Finger zu rühren.“",
-      "quoteAuthor": "Hochzeitskoordinatorin · Quinta das Rosas, Sintra",
       "resultsLabel": "Ergebnisse nach 6 Monaten",
       "stat1Label": "Transport-\nBeschwerden",
       "stat2Label": "Betreute\nHochzeiten",
@@ -4223,29 +4215,302 @@
       "col2Title": "Umsetzung",
       "col3TitleStart": "Gast- & Location-",
       "col3TitleAccent": "Erlebnis",
-      "before1": "Paare organisierten den Transport eigenständig",
-      "before2": "Häufig verspätete Gäste bei der Zeremonie",
-      "before3": "Beschwerden über Taxis und Uber in ländlichen Gebieten",
-      "before4": "Empfangspersonal verwaltete spontane Transportanfragen",
-      "before5": "Null Einnahmen aus Gästetransport",
-      "before6": "Keine Shuttle-Koordination zwischen Locations",
-      "impl1": "Gebrandete Buchungsseite in den Hochzeitsunterlagen integriert",
-      "impl2": "Automatische Gäste-E-Mails mit Buchungslink",
-      "impl3": "Streckenprobe mit Fahrern vor der Veranstaltung",
-      "impl4": "Dedizierter Operations-Koordinator am Hochzeitstag",
-      "impl5": "Multi-Fahrzeug-Koordination (Limousinen + Vans + Busse)",
-      "impl6": "Echtzeit-Ankunftsbenachrichtigungen an Location-Personal",
-      "exp1": "Gäste kommen gemeinsam, pünktlich und entspannt an",
-      "exp2": "Zeremonien beginnen pünktlich",
-      "exp3": "Paare erwähnen Transportqualität in Bewertungen",
-      "exp4": "Location als \"Full-Service\" positioniert, ohne extra Personal",
-      "exp5": "Passive Provisionseinnahmen — null Betriebskosten",
-      "exp6": "Höhere Zufriedenheitswerte in Hochzeits-Nachbefragungen",
       "footerStart": "Partnerschaft aktiviert",
-      "footerEnd": "in weniger als 48 Stunden",
-      "photoAlt": "Hochzeitslocation Quinta das Rosas in der Abenddämmerung",
       "prevAria": "Vorheriger Fall",
-      "nextAria": "Nächster Fall"
+      "nextAria": "Nächster Fall",
+      "cases": [
+        {
+          "venueName": "Quinta das Rosas",
+          "venueMeta": "Hochzeitslocation · 92 Zimmer · Sintra",
+          "photo": "/wedding-planner/case-quinta-das-rosas.png",
+          "photoAlt": "Hochzeitslocation Quinta das Rosas in der Abenddämmerung",
+          "profile": [
+            "42 Hochzeiten pro Jahr",
+            "Durchschnittlich 120 Gäste pro Veranstaltung",
+            "65 % internationale Paare",
+            "Ländliche Lage — 40 Min. vom Flughafen Lissabon"
+          ],
+          "quote": "„Brautpaare organisierten den Transport selbst und Gäste kamen zu spät, gestresst und in zufälligen Taxis. Jetzt läuft jede Hochzeit pünktlich und wir verdienen Provision, ohne den Finger zu rühren.“",
+          "quoteAuthor": "Hochzeitskoordinatorin · Quinta das Rosas, Sintra",
+          "stats": [
+            "0%",
+            "38",
+            "€29",
+            "€1.102",
+            "0"
+          ],
+          "before": [
+            "Paare organisierten den Transport eigenständig",
+            "Häufig verspätete Gäste bei der Zeremonie",
+            "Beschwerden über Taxis und Uber in ländlichen Gebieten",
+            "Empfangspersonal verwaltete spontane Transportanfragen",
+            "Null Einnahmen aus Gästetransport",
+            "Keine Shuttle-Koordination zwischen Locations"
+          ],
+          "impl": [
+            "Gebrandete Buchungsseite in den Hochzeitsunterlagen integriert",
+            "Automatische Gäste-E-Mails mit Buchungslink",
+            "Streckenprobe mit Fahrern vor der Veranstaltung",
+            "Dedizierter Operations-Koordinator am Hochzeitstag",
+            "Multi-Fahrzeug-Koordination (Limousinen + Vans + Busse)",
+            "Echtzeit-Ankunftsbenachrichtigungen an Location-Personal"
+          ],
+          "exp": [
+            "Gäste kommen gemeinsam, pünktlich und entspannt an",
+            "Zeremonien beginnen pünktlich",
+            "Paare erwähnen Transportqualität in Bewertungen",
+            "Location als \"Full-Service\" positioniert, ohne extra Personal",
+            "Passive Provisionseinnahmen — null Betriebskosten",
+            "Höhere Zufriedenheitswerte in Hochzeits-Nachbefragungen"
+          ],
+          "footerEnd": "in weniger als 48 Stunden"
+        },
+        {
+          "venueName": "Quinta do Vale Sereno",
+          "venueMeta": "Wedding Venue · 76 rooms · Azeitão",
+          "photo": "/wedding/gallery-1.png",
+          "photoAlt": "Wedding at Quinta do Vale Sereno, Azeitão",
+          "profile": [
+            "36 weddings a year",
+            "120 guests per event on average",
+            "58% international couples",
+            "Semi-rural setting — 45 min from Lisbon Airport"
+          ],
+          "quote": "Every wedding used to mean dozens of messages about transport. Now guests receive everything already organised, the couple feels calmer, and our team keeps track of it all effortlessly.",
+          "quoteAuthor": "Wedding Manager · Quinta do Vale Sereno, Azeitão",
+          "stats": [
+            "0%",
+            "31",
+            "€27",
+            "€837",
+            "0"
+          ],
+          "before": [
+            "Couples arranged transfers on their own",
+            "Guests arrived at scattered times",
+            "The team fielded last-minute requests",
+            "Little visibility over arrivals and departures",
+            "No revenue tied to transport",
+            "Large groups were hard to coordinate",
+            "Some guests fell back on taxis with no guaranteed availability"
+          ],
+          "impl": [
+            "A booking page built for each wedding",
+            "Link sent to guests in the event materials",
+            "Automatic emails with times and meeting points",
+            "Planning agreed with the couple and wedding planner",
+            "Chauffeurs assigned by time slot and group",
+            "Arrivals tracked in real time",
+            "Dedicated support on the wedding day"
+          ],
+          "exp": [
+            "Guests arrive together and unhurried",
+            "Couples field fewer logistics questions",
+            "Ceremonies start on schedule",
+            "The venue reads as better organised",
+            "Extra revenue at no operating cost",
+            "Less coordination load on the events team",
+            "Post-wedding reviews mention the added comfort"
+          ],
+          "footerEnd": "in less than 48 hours"
+        },
+        {
+          "venueName": "Herdade Monte Claro",
+          "venueMeta": "Wedding Venue · 48 rooms · Alentejo",
+          "photo": "/wedding/gallery-2.png",
+          "photoAlt": "Wedding at Herdade Monte Claro, Alentejo",
+          "profile": [
+            "28 weddings a year",
+            "130 guests per event on average",
+            "72% couples from abroad",
+            "Rural setting — 1h25 from Lisbon Airport"
+          ],
+          "quote": "Our couples care a great deal about the whole experience. Having transport organised from the airport to the estate raised the perceived level of service, especially for international guests.",
+          "quoteAuthor": "Event Director · Herdade Monte Claro, Alentejo",
+          "stats": [
+            "0%",
+            "22",
+            "€34",
+            "€748",
+            "0"
+          ],
+          "before": [
+            "International guests struggled to reach us",
+            "Couples set up WhatsApp groups to arrange lifts",
+            "Transfer requests came in close to the wedding date",
+            "The team lost time recommending outside drivers",
+            "Arrival experience varied from guest to guest",
+            "Late-night returns were hard to organise",
+            "No structured transport upsell"
+          ],
+          "impl": [
+            "A booking page dedicated to the wedding",
+            "Airport, hotel and late-night return options",
+            "Automatic guest communication",
+            "Schedules planned group by group",
+            "Coordination with the estate's own team",
+            "Professional chauffeurs briefed on rural access",
+            "Operational summary sent ahead of the event"
+          ],
+          "exp": [
+            "Arrivals are far more predictable",
+            "International guests feel looked after",
+            "Fewer calls reaching the venue team",
+            "Safer, better organised late-night returns",
+            "Less logistical pressure on the couple",
+            "Transport reads as part of the premium experience",
+            "Passive revenue with no extra staff"
+          ],
+          "footerEnd": "in less than 72 hours"
+        },
+        {
+          "venueName": "Quinta da Luz Atlântica",
+          "venueMeta": "Wedding Venue · 64 rooms · Cascais",
+          "photo": "/wedding/gallery-3.png",
+          "photoAlt": "Wedding at Quinta da Luz Atlântica, Cascais",
+          "profile": [
+            "44 weddings a year",
+            "115 guests per event on average",
+            "61% international couples",
+            "Coastal setting — 35 min from Lisbon Airport"
+          ],
+          "quote": "Transport stopped being a hidden problem. Guests arrive with clear instructions, schedules are respected, and the couple feels everything is under control.",
+          "quoteAuthor": "Front Office Manager · Quinta da Luz Atlântica, Cascais",
+          "stats": [
+            "0%",
+            "39",
+            "€25",
+            "€975",
+            "0"
+          ],
+          "before": [
+            "Many guests booked taxis independently",
+            "Arrivals happened with no coordination",
+            "Reception answered transport questions daily",
+            "Couples asked for last-minute recommendations",
+            "Timing between hotels and the venue was hard to manage",
+            "No control over chauffeur quality",
+            "No revenue from the transport requests"
+          ],
+          "impl": [
+            "Booking link built into the couple's email",
+            "Options for individual guests and for groups",
+            "Transfers organised by hotel and time slot",
+            "Automatic communication ahead of the event",
+            "Chauffeurs monitored by the LuxMotion team",
+            "Emergency contacts shared with reception",
+            "A simple dashboard of confirmed bookings"
+          ],
+          "exp": [
+            "Guests arrive more relaxed",
+            "Reception carries fewer operational tasks",
+            "Smoother flow between ceremony, dinner and party",
+            "A more professional image with couples",
+            "More comfort for guests from abroad",
+            "Extra revenue with no investment",
+            "A more consistent arrival experience"
+          ],
+          "footerEnd": "in less than 48 hours"
+        },
+        {
+          "venueName": "Solar de Santa Amélia",
+          "venueMeta": "Wedding Venue · 34 rooms · Sintra",
+          "photo": "/wedding-planner/hero-bride.webp",
+          "photoAlt": "Wedding at Solar de Santa Amélia, Sintra",
+          "profile": [
+            "24 weddings a year",
+            "90 guests per event on average",
+            "54% international couples",
+            "Historic setting — 40 min from Lisbon Airport"
+          ],
+          "quote": "The difference was immediate. We stopped improvising transport solutions and started offering something organised and elegant, far closer to how our venue positions itself.",
+          "quoteAuthor": "Wedding Coordinator · Solar de Santa Amélia, Sintra",
+          "stats": [
+            "0%",
+            "18",
+            "€31",
+            "€558",
+            "0"
+          ],
+          "before": [
+            "Couples asked us to help organise their guests",
+            "Guests were spread across different areas",
+            "Arrivals at the venue were unpredictable",
+            "Staff called chauffeurs on the day of the event",
+            "Guests were unsure about return times",
+            "No single place to follow the bookings",
+            "A revenue opportunity left on the table"
+          ],
+          "impl": [
+            "A booking page created for each event",
+            "Guests invited to book their transport in advance",
+            "Pickups organised by accommodation",
+            "Schedules agreed with the venue team",
+            "Chauffeurs briefed on access and pickup points",
+            "Automatic notifications before arrival",
+            "Final summary sent to the events team"
+          ],
+          "exp": [
+            "Fewer delays to the ceremony",
+            "Guests have clear information",
+            "Couples feel noticeably calmer",
+            "Fewer calls and messages for the team",
+            "A more premium, more discreet service",
+            "Better control over returns after the party",
+            "Commission earned at no operating cost"
+          ],
+          "footerEnd": "in less than 48 hours"
+        },
+        {
+          "venueName": "Palácio do Rio Velho",
+          "venueMeta": "Wedding Venue · 88 rooms · Douro",
+          "photo": "/wedding/couple.webp",
+          "photoAlt": "Wedding at Palácio do Rio Velho, Douro",
+          "profile": [
+            "32 weddings a year",
+            "125 guests per event on average",
+            "69% couples from abroad",
+            "Wine-country setting — 1h20 from Porto Airport"
+          ],
+          "quote": "Our weddings bring in a great many guests from outside Portugal. LuxMotion helped us turn a complicated part of the operation into something simple, elegant and profitable.",
+          "quoteAuthor": "General Manager · Palácio do Rio Velho, Douro",
+          "stats": [
+            "0%",
+            "26",
+            "€39",
+            "€1.014",
+            "0"
+          ],
+          "before": [
+            "Guests arrived through different airports and hotels",
+            "Couples had to coordinate several schedules",
+            "Venue staff handled transfer requests by hand",
+            "Little visibility over flight changes",
+            "Outside chauffeurs did not always know the access road",
+            "Returns after the party were hard to predict",
+            "No revenue tied to the transport logistics"
+          ],
+          "impl": [
+            "Booking system sent out to the guests",
+            "Airport and accommodation transfers available online",
+            "Flights and arrival times monitored",
+            "Vans, sedans and executive cars coordinated together",
+            "The team briefed on expected arrivals",
+            "Automatic communication with guests",
+            "Centralised management on the wedding day"
+          ],
+          "exp": [
+            "Better organised arrivals",
+            "International guests feel accompanied",
+            "Less pressure on the couple",
+            "Service in line with luxury expectations",
+            "Safer late-night returns",
+            "Better feedback on the organisation",
+            "Recurring additional revenue"
+          ],
+          "footerEnd": "in less than 72 hours"
+        }
+      ]
     },
     "whiteLabel": {
       "eyebrow": "BUCHUNGEN UNTER IHRER MARKE",
