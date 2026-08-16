@@ -106,7 +106,6 @@ export function UltraLuxuryToursSection() {
           </h2>
           <div className="flex max-w-[828px] flex-col gap-4 text-[18px] leading-[1.3] text-[#999]">
             <p>{t("description1")}</p>
-            <p>{t("description2")}</p>
           </div>
         </div>
 
@@ -146,7 +145,7 @@ export function UltraLuxuryToursSection() {
           <div className="mt-10 flex justify-center">
             <Link
               href="/ultra-luxury-tours/tours"
-              className="flex h-[48px] items-center gap-2 border border-[#C9A96E] px-6 text-[14px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] transition-colors hover:bg-[rgba(201,169,110,0.08)]"
+              className="flex h-[48px] items-center gap-2 bg-[#C9A96E] px-6 text-[14px] font-medium uppercase tracking-[1.1px] text-[#0d0d0d] transition-colors hover:bg-[#b89558]"
             >
               <span className="px-2">{t("seeMore")}</span>
               <ArrowRight className="size-4" strokeWidth={2} />

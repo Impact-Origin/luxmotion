@@ -47,7 +47,7 @@ export function RegionTabStrip({
         <button
           type="button"
           onClick={scrollToCustomInquiry}
-          className="flex h-[40px] items-center justify-center whitespace-nowrap border border-[#C9A96E] px-[22px] text-[14px] font-medium uppercase tracking-[1.1px] text-[#C9A96E] transition-colors hover:bg-[rgba(201,169,110,0.08)]"
+          className="flex h-[40px] items-center justify-center whitespace-nowrap bg-[#C9A96E] px-[22px] text-[14px] font-medium uppercase tracking-[1.1px] text-[#0d0d0d] transition-colors hover:bg-[#b89558]"
         >
           {t("customTours")}
         </button>

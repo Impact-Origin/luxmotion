@@ -1,6 +1,6 @@
 "use client"
 
-import { Star } from "lucide-react"
+import { Check, Star } from "lucide-react"
 import { useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { LanguageSwitcher } from "@/components/ui/language-switcher"
@@ -131,10 +131,10 @@ export function CheckoutHeader({ currentStep = 1, onStepClick, allowStepSkip = f
                   }`}
                 >
                   <div
-                    /* pt: centragem óptica do algarismo — ver checkout-header.tsx */
-                    className={`w-6 h-6 xs:w-7 xs:h-7 rounded-full flex items-center justify-center pt-[0.5px] xs:pt-[1px] text-[11px] xs:text-[13px] font-extrabold transition-all duration-500 ease-out shrink-0 ${
-                      isActive ? "scale-110 shadow-sm" : "scale-95"
-                    }`}
+                    /* pt: centragem óptica — ver checkout-header.tsx */
+                    className={`w-6 h-6 xs:w-7 xs:h-7 rounded-full flex items-center justify-center text-[11px] xs:text-[13px] font-extrabold transition-all duration-500 ease-out shrink-0 ${
+                      isCompleted ? "pt-[0.5px]" : "pt-[0.5px] xs:pt-[1px]"
+                    } ${isActive ? "scale-110 shadow-sm" : "scale-95"}`}
                     style={{
                       backgroundColor: isActive || isCompleted
                         ? "var(--theme-checkout-step-active-bg, #0E4659)"
@@ -144,7 +144,11 @@ export function CheckoutHeader({ currentStep = 1, onStepClick, allowStepSkip = f
                         : "var(--theme-checkout-step-inactive-text, #BFBFBF)",
                     }}
                   >
-                    {step!.number}
+                    {isCompleted ? (
+                      <Check className="size-3.5" strokeWidth={3} />
+                    ) : (
+                      step!.number
+                    )}
                   </div>
                   <span
                     className={`text-[11px] xs:text-[13px] font-medium truncate transition-all duration-500 ease-out ${
@@ -201,8 +205,10 @@ function StepItem({
       }`}
     >
       <div
-        /* pt: centragem óptica do algarismo — ver checkout-header.tsx */
-        className="w-7 h-7 rounded-full flex items-center justify-center pt-[1px] text-xs font-bold transition-all duration-500"
+        /* pt: centragem óptica — ver checkout-header.tsx */
+        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 ${
+          isCompleted ? "pt-[0.5px]" : "pt-[1px]"
+        }`}
         style={{
           backgroundColor: isActive || isCompleted 
             ? "var(--theme-checkout-step-active-bg, #0E4659)" 
@@ -213,7 +219,7 @@ function StepItem({
           border: isActive || isCompleted ? "none" : "1px solid #D1D5DB",
         }}
       >
-        {number}
+        {isCompleted ? <Check className="size-3.5" strokeWidth={3} /> : number}
       </div>
       <div className="flex flex-col leading-tight">
         <span

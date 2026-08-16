@@ -304,15 +304,18 @@ function StepItem({
     >
       <div
         className={cn(
+          "size-6 rounded-full border flex items-center justify-center text-[11px] font-extrabold leading-none transition-all duration-500",
           /* O `pt` centra opticamente o algarismo. O flexbox centra a caixa de
              linha, não a tinta, e a Poppins tem um descendente largo que puxa a
              baseline para cima — os números ficavam 1px acima do centro. O
-             10.4px agravava-o: a baseline caía num arredondamento mau. */
-          "size-6 rounded-full border flex items-center justify-center pt-[1px] text-[11px] font-extrabold leading-none transition-all duration-500",
+             10.4px agravava-o: a baseline caía num arredondamento mau. O visto
+             precisa de menos: o lucide desenha-o entre y=6 e y=17 numa viewBox
+             de 24, que também não é o meio. */
+          isCompleted ? "pt-[0.5px]" : "pt-[1px]",
           circleCls
         )}
       >
-        {number}
+        {isCompleted ? <Check className="size-3.5" strokeWidth={3} /> : number}
       </div>
       <div className="flex flex-col leading-tight text-left px-[6px]">
         <span className={cn("text-[12px] font-semibold leading-[16.64px] whitespace-nowrap", labelCls)}>
