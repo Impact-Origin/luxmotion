@@ -122,12 +122,11 @@ export function ExperienceCard({
           </p>
         )}
 
-        {/* Altura fixa para o rodapé: numa paragem ele leva o selector de
-            durações (duas linhas por célula) e nos outros apenas uma linha de
-            duração. Sem isto a secção das paragens ficava 35px mais alta do que
-            a dos tours, e os cartões só emparelhavam dentro da própria secção —
-            o flexbox iguala irmãos, não secções diferentes. */}
-        <div className="mt-auto flex min-h-[113px] flex-col justify-end gap-3 pt-2">
+        {/* Sem altura fixa. Ela igualava as secções, mas à custa de um vazio
+            visível entre a descrição e a duração em tudo o que não fosse uma
+            paragem — o rodapé de uma paragem leva o selector de durações, com
+            duas linhas por célula, e os outros levam uma linha só. */}
+        <div className="mt-auto flex flex-col gap-3 pt-2">
           {hasChoice ? (
             <div className="grid grid-cols-2 border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
               {durations!.map((d, i) => {
