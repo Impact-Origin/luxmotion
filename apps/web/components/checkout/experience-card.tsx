@@ -107,7 +107,7 @@ export function ExperienceCard({
         {/* Caixas de altura fixa, não só `line-clamp`. O clamp impede de crescer
             mas deixa encolher, e com títulos de duas e de quatro linhas cada
             cartão começava a descrição a uma altura diferente. Com `min-h` mais
-            clamp, a caixa é sempre a mesma: 2 linhas de 25px no título, 3 de
+            clamp, a caixa é sempre a mesma: 2 linhas de 25px no título, 2 de
             19px na descrição. */}
         <h3
           className="line-clamp-2 min-h-[50px] text-[20px] leading-[25px] text-[var(--ck-text,#f7f4ef)]"
@@ -117,12 +117,17 @@ export function ExperienceCard({
         </h3>
 
         {description && (
-          <p className="line-clamp-3 min-h-[57px] text-[13px] leading-[19px] text-[var(--ck-text-muted,#999)]">
+          <p className="line-clamp-2 min-h-[38px] text-[13px] leading-[19px] text-[var(--ck-text-muted,#999)]">
             {description}
           </p>
         )}
 
-        <div className="mt-auto flex flex-col gap-3 pt-2">
+        {/* Altura fixa para o rodapé: numa paragem ele leva o selector de
+            durações (duas linhas por célula) e nos outros apenas uma linha de
+            duração. Sem isto a secção das paragens ficava 35px mais alta do que
+            a dos tours, e os cartões só emparelhavam dentro da própria secção —
+            o flexbox iguala irmãos, não secções diferentes. */}
+        <div className="mt-auto flex min-h-[113px] flex-col justify-end gap-3 pt-2">
           {hasChoice ? (
             <div className="grid grid-cols-2 border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
               {durations!.map((d, i) => {
