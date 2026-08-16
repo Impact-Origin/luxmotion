@@ -65,7 +65,9 @@ export function ExperienceCard({
 
   return (
     <article className="flex h-full w-full flex-col overflow-hidden border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] bg-[var(--ck-surface,#1e1d1b)]">
-      <div className="relative aspect-[16/10] w-full shrink-0">
+      {/* 16/9 e não 16/10: a imagem é o maior bloco do cartão e a proporção
+          antiga custava perto de 20px de altura sem mostrar mais nada. */}
+      <div className="relative aspect-[16/9] w-full shrink-0">
         <Image
           src={image || "/placeholder.svg"}
           alt={title}
@@ -102,15 +104,20 @@ export function ExperienceCard({
           </span>
         )}
 
+        {/* Caixas de altura fixa, não só `line-clamp`. O clamp impede de crescer
+            mas deixa encolher, e com títulos de duas e de quatro linhas cada
+            cartão começava a descrição a uma altura diferente. Com `min-h` mais
+            clamp, a caixa é sempre a mesma: 2 linhas de 25px no título, 3 de
+            19px na descrição. */}
         <h3
-          className="text-[20px] leading-tight text-[var(--ck-text,#f7f4ef)]"
+          className="line-clamp-2 min-h-[50px] text-[20px] leading-[25px] text-[var(--ck-text,#f7f4ef)]"
           style={SERIF}
         >
           {title}
         </h3>
 
         {description && (
-          <p className="line-clamp-3 text-[13px] leading-[1.5] text-[var(--ck-text-muted,#999)]">
+          <p className="line-clamp-3 min-h-[57px] text-[13px] leading-[19px] text-[var(--ck-text-muted,#999)]">
             {description}
           </p>
         )}
