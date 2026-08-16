@@ -241,48 +241,56 @@ export function WeddingPlannerCaseStudy() {
 
                     <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(201,169,110,0.35)] to-transparent my-2" />
 
-                    <div className="flex-1 flex flex-col md:flex-row items-stretch justify-between gap-6 md:gap-6 pb-6">
-                      <div className="flex flex-col gap-3 items-start w-full md:flex-1 md:min-w-0">
+                    {/* Grelha e não três colunas flex: os títulos têm números
+                        de linhas diferentes ("Implementação" cabe numa, os
+                        outros não) e, em colunas independentes, cada lista
+                        arrancava a uma altura diferente. Aqui os três títulos
+                        partilham a primeira linha da grelha e as três listas a
+                        segunda, portanto alinham em qualquer largura. O
+                        `md:contents` dissolve o invólucro de cada coluna na
+                        grelha, mantendo o empilhamento em ecrã estreito. */}
+                    <div className="flex-1 flex flex-col gap-6 pb-6 md:grid md:grid-cols-[1fr_1px_1fr_1px_1fr] md:grid-rows-[auto_1fr] md:gap-x-6 md:gap-y-3">
+                      <div className="flex flex-col gap-3 items-start w-full md:contents">
                         <h4
-                          className="text-[24px] font-semibold leading-[1.2] text-[#999]"
+                          className="text-[24px] font-semibold leading-[1.2] text-[#999] md:col-start-1 md:row-start-1"
                           style={SERIF}
                         >
                           {t("col1Title")} <em className="not-italic text-[#c9a96e] italic" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>LuxMotion</em>
                         </h4>
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full md:col-start-1 md:row-start-2">
                           {c.before.map((texto) => (
                             <Bullet key={texto} text={texto} />
                           ))}
                         </div>
                       </div>
 
-                      <div className="hidden md:block w-px self-stretch bg-gradient-to-b from-transparent via-[rgba(201,169,110,0.35)] to-transparent" />
+                      <div className="hidden md:block w-px self-stretch bg-gradient-to-b from-transparent via-[rgba(201,169,110,0.35)] to-transparent md:col-start-2 md:row-start-1 md:row-span-2" />
 
-                      <div className="flex flex-col gap-3 items-start w-full md:flex-1 md:min-w-0">
+                      <div className="flex flex-col gap-3 items-start w-full md:contents">
                         <h4
-                          className="text-[24px] font-semibold leading-[1.2] text-[#c9a96e]"
+                          className="text-[24px] font-semibold leading-[1.2] text-[#c9a96e] md:col-start-3 md:row-start-1"
                           style={SERIF}
                         >
                           {t("col2Title")}
                         </h4>
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full md:col-start-3 md:row-start-2">
                           {c.impl.map((texto) => (
                             <Bullet key={texto} text={texto} />
                           ))}
                         </div>
                       </div>
 
-                      <div className="hidden md:block w-px self-stretch bg-gradient-to-b from-transparent via-[rgba(201,169,110,0.35)] to-transparent" />
+                      <div className="hidden md:block w-px self-stretch bg-gradient-to-b from-transparent via-[rgba(201,169,110,0.35)] to-transparent md:col-start-4 md:row-start-1 md:row-span-2" />
 
-                      <div className="flex flex-col gap-3 items-start w-full md:flex-1 md:min-w-0">
+                      <div className="flex flex-col gap-3 items-start w-full md:contents">
                         <h4
-                          className="text-[24px] font-semibold leading-[1.2]"
+                          className="text-[24px] font-semibold leading-[1.2] md:col-start-5 md:row-start-1"
                           style={SERIF}
                         >
                           <span className="text-white">{t("col3TitleStart")} </span>
                           <span className="text-[#c9a96e]">{t("col3TitleAccent")}</span>
                         </h4>
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full md:col-start-5 md:row-start-2">
                           {c.exp.map((texto) => (
                             <Bullet key={texto} text={texto} />
                           ))}
