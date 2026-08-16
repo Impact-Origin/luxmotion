@@ -272,7 +272,11 @@ function CheckoutPageContent() {
         hasNearbyTours={hasNearbyTours}
       />
 
-      <main className="flex-1 bg-[var(--ck-bg,#0d0d0d)] text-[var(--ck-text,#f7f4ef)] overflow-x-hidden pb-16">
+      {/* `clip` e não `hidden`: o `overflow-x: hidden` faz o eixo vertical
+          computar para `auto`, o que torna isto um contentor de scroll e mata
+          o `sticky` do resumo do pedido sem dar erro nenhum. O `clip` corta na
+          horizontal na mesma e deixa o vertical em `visible`. */}
+      <main className="flex-1 bg-[var(--ck-bg,#0d0d0d)] text-[var(--ck-text,#f7f4ef)] overflow-x-clip pb-16">
         <div key={currentStep} className={getAnimationClass()} style={getAnimationStyle()}>
           {currentStep === 1 && (
             <VehicleSelectionStep

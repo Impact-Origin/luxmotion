@@ -254,7 +254,9 @@ function CheckoutPageContent() {
         hasNearbyTours={hasNearbyTours}
       />
 
-      <main className="flex-1 bg-[#F5F5F5] overflow-x-hidden pb-16">
+      {/* `clip` e não `hidden` — ver checkout/checkout-page.tsx: o `hidden`
+          matava o `sticky` do resumo do pedido. */}
+      <main className="flex-1 bg-[#F5F5F5] overflow-x-clip pb-16">
         <div key={currentStep} className={getAnimationClass()} style={getAnimationStyle()}>
           {currentStep === 1 && (
             <VehicleSelectionStep

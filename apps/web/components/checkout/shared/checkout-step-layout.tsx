@@ -19,7 +19,12 @@ export function CheckoutStepLayout({ children }: CheckoutStepLayoutProps) {
               conteúdo. Sem isto, um carrossel com scroll horizontal lá dentro
               esticava a coluna para 16000px em vez de rolar. */}
           <div className="min-w-0 pt-8 lg:pr-6">{children}</div>
-          <div className="hidden lg:block">
+          {/* Acompanha o scroll. O `max-h` com scroll interno é obrigatório:
+              um resumo mais alto do que o ecrã, se fosse sticky sem isto,
+              ficava com o total e o botão inalcançáveis — cola-se no topo e o
+              fundo nunca chega. O cabeçalho do checkout não é sticky, por isso
+              basta a folga de `top-6`. */}
+          <div className="hidden lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain">
             <OrderSummarySidebar />
           </div>
         </div>

@@ -20,7 +20,9 @@ export function CheckoutStepLayout({ children }: CheckoutStepLayoutProps) {
         <OrderSummaryMobile />
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 items-start mt-6 lg:mt-0">
           {children}
-          <div className="hidden lg:block">
+          {/* Acompanha o scroll — ver checkout/shared/checkout-step-layout.tsx
+              para o porquê do `max-h` com scroll interno. */}
+          <div className="hidden lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain">
             <OrderSummarySidebar />
           </div>
         </div>
