@@ -45,8 +45,8 @@ export interface NearbyTour {
   /** Nos upsells: o modal pede data? Mostra a caixa de pedido especial? */
   hasDateField?: boolean
   hasSpecialRequest?: boolean
-  /** Nota ao lado do preço no cartão ("/ pessoa"). */
-  priceNote?: string
+  /** Preço é por passageiro — a etiqueta sob o preço é traduzida no cartão. */
+  perPerson?: boolean
   /**
    * Durações de uma paragem, com o preço de cada. É o que substitui os
    * contadores de passageiros: numa paragem escolhe-se quanto tempo o motorista
@@ -91,6 +91,8 @@ function toExperience(tour: NearbyTour): Experience {
     description: typeof tour.description === "string" ? tour.description : tour.subtitle ?? "",
     image: tour.bannerImageUrl ?? "/images/placeholder-experience.webp",
     basePrice: tour.basePrice,
+    duration: tour.duration,
+    locationLabel: tour.locationLabel,
     extras: (tour.addons ?? []).map((addon) => ({
       id: addon._id,
       label: addon.title,
@@ -262,7 +264,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
               distanceKm={item.distanceKm}
               tag={item.tag}
               tagLabel={item.tag && item.tag !== "none" ? t(`tags.${item.tag}`) : undefined}
-              priceNote={item.priceNote}
+              priceNote={item.perPerson ? t("perPerson") : undefined}
               locationLabel={item.locationLabel}
               description={
                 typeof item.description === "string" ? item.description : item.subtitle

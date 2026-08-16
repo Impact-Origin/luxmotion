@@ -12,5 +12,8 @@ export interface Experience {
   image: string
   basePrice: number
   extras: ExperienceExtra[]
+  /** Linha de contexto sob a descrição, no modal. Ambos opcionais. */
+  duration?: string
+  locationLabel?: string
 }
 

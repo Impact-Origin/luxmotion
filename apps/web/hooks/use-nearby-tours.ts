@@ -133,7 +133,9 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       distanceKm: experience.distanceKm ?? undefined,
       category: "upsellExperience" as const,
       tag: experience.tag,
-      priceNote: experience.pricingModel === "perPerson" ? "/ pessoa" : undefined,
+      /* Só o facto, não a etiqueta: escrita aqui ficava em português nos seis
+         idiomas. Quem desenha o cartão é que a traduz. */
+      perPerson: experience.pricingModel === "perPerson",
       flatPrice: experience.pricingModel === "flat",
       hasDateField: experience.hasDateField,
       hasSpecialRequest: experience.hasSpecialRequest,

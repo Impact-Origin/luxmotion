@@ -2,7 +2,17 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { X, Plus, Minus, Flame, User, Baby, CalendarDays } from "lucide-react";
+import {
+  X,
+  Plus,
+  Minus,
+  Flame,
+  User,
+  Baby,
+  CalendarDays,
+  Clock,
+  MapPin,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getDailyNumber } from "@/lib/daily-number";
 import { useMarketingStats } from "@/hooks/use-marketing-stats";
@@ -462,12 +472,37 @@ function ModalContent({
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-[18px] font-bold text-[var(--ck-text,#f7f4ef)] mb-2 leading-tight">
+            <h3
+              className="mb-2 text-[26px] leading-tight text-[var(--ck-text,#f7f4ef)]"
+              style={SERIF_FONT}
+            >
               {experience.title}
             </h3>
             <p className="text-[13px] text-[var(--ck-text-muted,#999)] leading-[1.5] line-clamp-4">
               {experience.description}
             </p>
+            {(experience.duration || experience.locationLabel) && (
+              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-[var(--ck-text-muted,#999)]">
+                {experience.duration && (
+                  <span className="flex items-center gap-1.5">
+                    <Clock
+                      className="size-4 text-[var(--ck-accent,#c9a96e)]"
+                      strokeWidth={1.75}
+                    />
+                    {experience.duration}
+                  </span>
+                )}
+                {experience.locationLabel && (
+                  <span className="flex items-center gap-1.5">
+                    <MapPin
+                      className="size-4 text-[var(--ck-accent,#c9a96e)]"
+                      strokeWidth={1.75}
+                    />
+                    {experience.locationLabel}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -597,8 +632,8 @@ function ModalContent({
                   >
                     {extra.label}
                   </label>
-                  <span className="text-[14px] font-semibold text-[var(--ck-text,#f7f4ef)] shrink-0">
-                    + € {extra.price}
+                  <span className="text-[14px] font-semibold text-[var(--ck-accent,#c9a96e)] shrink-0">
+                    + €{extra.price}
                     {extra.pricingType && (
                       <span className="text-[11px] font-normal text-[var(--ck-text-muted,#999)] ml-1">
                         /

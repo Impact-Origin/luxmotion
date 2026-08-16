@@ -144,17 +144,19 @@ export function ExperienceCard({
 
           <div className="flex items-end justify-between gap-3">
             {!hasChoice && (
-              <span
-                className="text-[20px] leading-none text-[var(--ck-text,#f7f4ef)]"
-                style={SERIF}
-              >
-                €{shownPrice.toFixed(0)}
+              <div className="flex min-w-0 flex-col gap-1">
+                <span
+                  className="text-[22px] leading-none text-[var(--ck-text,#f7f4ef)]"
+                  style={SERIF}
+                >
+                  {shownPrice.toFixed(0)}€
+                </span>
                 {priceNote && (
-                  <span className="ml-1 text-[11px] text-[var(--ck-text-muted,#999)]">
+                  <span className="text-[10px] font-semibold uppercase leading-none tracking-[1.2px] text-[var(--ck-text-muted,#999)]">
                     {priceNote}
                   </span>
                 )}
-              </span>
+              </div>
             )}
             <button
               type="button"

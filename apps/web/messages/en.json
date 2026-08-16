@@ -670,7 +670,8 @@
     "tags": {
       "recommended": "Recommended",
       "mostPopular": "Most popular"
-    }
+    },
+    "perPerson": "per person"
   },
   "passengerForm": {
     "title": "Passenger information",

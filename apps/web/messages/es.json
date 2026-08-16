@@ -670,7 +670,8 @@
     "tags": {
       "recommended": "Recomendado",
       "mostPopular": "Más popular"
-    }
+    },
+    "perPerson": "por persona"
   },
   "passengerForm": {
     "iAmMainPassenger": "Soy el pasajero principal",
