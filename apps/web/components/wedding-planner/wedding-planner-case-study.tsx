@@ -131,16 +131,23 @@ export function WeddingPlannerCaseStudy() {
                      dos leitores de ecrã — estão no DOM, mas invisíveis. */
                   inert={!activo}
                   className={cn(
-                    "col-start-1 row-start-1 transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none",
+                    "col-start-1 row-start-1 transition-[opacity,translate] ease-out motion-reduce:transition-none",
+                    /* Escalonado de propósito: os dois casos partilham a mesma
+                       célula, e a esbater ao mesmo tempo viam-se os dois a meio
+                       tom, um por cima do outro. Assim o que sai desaparece em
+                       150ms e o que entra só começa depois disso. */
                     activo
-                      ? "opacity-100 translate-x-0"
+                      ? "translate-x-0 opacity-100 delay-150 duration-300"
                       : cn(
-                          "pointer-events-none opacity-0",
-                          direcao === 1 ? "translate-x-8" : "-translate-x-8",
+                          "pointer-events-none opacity-0 duration-150",
+                          direcao === 1 ? "translate-x-4" : "-translate-x-4",
                         ),
                   )}
                 >
-              <div className="bg-[#0d0d0d] border border-[rgba(28,27,24,0.08)] flex flex-col lg:flex-row items-stretch overflow-hidden">
+              {/* `h-full`: a célula da grelha tem a altura do caso mais alto,
+                  mas sem isto o cartão desenhado mantinha a sua altura natural
+                  lá dentro — e era essa que se via a variar. */}
+              <div className="h-full bg-[#0d0d0d] border border-[rgba(28,27,24,0.08)] flex flex-col lg:flex-row items-stretch overflow-hidden">
                 <div className="group relative flex-1 min-h-[480px] lg:min-h-[655px] lg:max-w-[50%] overflow-hidden">
                   {/* Só as fotografias já mostradas: empilhar seis <Image>
                       punha o browser a descarregar as seis de uma vez. */}
