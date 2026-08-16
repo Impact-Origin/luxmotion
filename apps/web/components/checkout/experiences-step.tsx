@@ -161,10 +161,13 @@ function CarouselSection({
     return () => el.removeEventListener("scroll", sync)
   }, [sync])
 
+  /* Uma página inteira, não uma fracção arbitrária: como os cartões estão
+     dimensionados para caberem certos na largura da pista, avançar exactamente
+     `clientWidth` deixa sempre cartões inteiros à vista. */
   const scrollBy = (dir: 1 | -1) => {
     const el = trackRef.current
     if (!el) return
-    el.scrollBy({ left: dir * Math.max(280, el.clientWidth * 0.8), behavior: "smooth" })
+    el.scrollBy({ left: dir * el.clientWidth, behavior: "smooth" })
   }
 
   return (
@@ -192,7 +195,11 @@ function CarouselSection({
                 onClick={() => scrollBy(dir)}
                 disabled={disabled}
                 aria-label={dir === -1 ? "Anterior" : "Seguinte"}
-                className="flex size-9 items-center justify-center rounded-full border border-[rgba(var(--ck-text-rgb,255,255,255),0.18)] text-[var(--ck-text,#f7f4ef)] transition-colors enabled:hover:border-[var(--ck-accent,#c9a96e)] enabled:hover:text-[var(--ck-accent,#c9a96e)] disabled:opacity-30"
+                /* O anel de foco por omissão do browser é azul e destoa de
+                   tudo. Sai, mas só para dar lugar a um dourado — tirá-lo sem
+                   substituto deixava quem navega por teclado sem saber onde
+                   está. */
+                className="flex size-9 items-center justify-center rounded-full border border-[rgba(var(--ck-text-rgb,255,255,255),0.18)] text-[var(--ck-text,#f7f4ef)] transition-colors outline-none focus-visible:border-[var(--ck-accent,#c9a96e)] focus-visible:ring-1 focus-visible:ring-[var(--ck-accent,#c9a96e)] enabled:hover:border-[var(--ck-accent,#c9a96e)] enabled:hover:text-[var(--ck-accent,#c9a96e)] disabled:opacity-30"
               >
                 <Icon className="size-4" strokeWidth={1.75} />
               </button>
@@ -202,10 +209,11 @@ function CarouselSection({
       </div>
 
       {/* `snap` para os cartões pararem alinhados, e a scrollbar escondida por
-          serem as setas a comandar. */}
+          serem as setas a comandar. Sem padding lateral: qualquer folga aqui
+          desalinhava a conta que dá os cartões inteiros. */}
       <div
         ref={trackRef}
-        className="-mx-1 flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
       </div>
@@ -282,7 +290,11 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           return (
           <div
             key={item._id}
-            className="w-[264px] shrink-0 snap-start sm:w-[300px]"
+            /* Largura em fracção da pista, não fixa: com 300px fixos a última
+               coluna ficava sempre cortada a meio, porque a largura disponível
+               não é múltipla de 300+16. Aqui cabem 1, 2 ou 3 cartões inteiros,
+               e o `gap-4` (1rem) é o que se desconta na conta. */
+            className="w-full shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
           >
             <ExperienceCard
               title={item.title}
