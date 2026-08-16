@@ -22,7 +22,7 @@ export function CheckoutStepLayout({ children }: CheckoutStepLayoutProps) {
           {children}
           {/* Acompanha o scroll — ver checkout/shared/checkout-step-layout.tsx
               para o porquê do `max-h` com scroll interno. */}
-          <div className="hidden lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain">
+          <div className="hidden lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
             <OrderSummarySidebar />
           </div>
         </div>

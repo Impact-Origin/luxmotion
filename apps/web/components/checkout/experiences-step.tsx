@@ -219,7 +219,7 @@ function CarouselSection({
           desalinhava a conta que dá os cartões inteiros. */}
       <div
         ref={trackRef}
-        className="flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex w-full min-w-0 snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
       </div>
@@ -298,9 +298,10 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
             key={item._id}
             /* Largura em fracção da pista, não fixa: com 300px fixos a última
                coluna ficava sempre cortada a meio, porque a largura disponível
-               não é múltipla de 300+16. Aqui cabem 1, 2 ou 3 cartões inteiros,
-               e o `gap-4` (1rem) é o que se desconta na conta. */
-            className="w-full shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
+               não é múltipla da largura do cartão mais o espaço. Aqui cabem
+               1, 2 ou 3 cartões inteiros, e o `gap-5` (1.25rem) é o que se
+               desconta na conta. */
+            className="w-full shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
           >
             <ExperienceCard
               title={item.title}

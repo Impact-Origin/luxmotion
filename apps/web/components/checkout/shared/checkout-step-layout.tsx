@@ -24,7 +24,10 @@ export function CheckoutStepLayout({ children }: CheckoutStepLayoutProps) {
               ficava com o total e o botão inalcançáveis — cola-se no topo e o
               fundo nunca chega. O cabeçalho do checkout não é sticky, por isso
               basta a folga de `top-6`. */}
-          <div className="hidden lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain">
+          {/* A barra de scroll fica escondida, mas o scroll mantém-se: sem ele,
+              um resumo mais alto do que o ecrã ficava com o total inalcançável.
+              Roda com a roda do rato e com o trackpad na mesma. */}
+          <div className="hidden lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
             <OrderSummarySidebar />
           </div>
         </div>
