@@ -7,9 +7,6 @@ import {
   Plus,
   Minus,
   Flame,
-  User,
-  Baby,
-  CalendarDays,
   Clock,
   MapPin,
 } from "lucide-react";
@@ -28,72 +25,12 @@ import type { Experience, ExperienceExtra } from "./shared";
 
 export type { Experience, ExperienceExtra };
 
+/** O que se está a adicionar. Muda o título e a frase, não o comportamento. */
+export type ExperienceKind = "tour" | "event" | "experience" | "stop";
+
 const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
 } as const;
-
-interface GuestRowProps {
-  icon: React.ReactNode;
-  label: string;
-  description: string;
-  count: number;
-  onDecrement: () => void;
-  onIncrement: () => void;
-  minCount?: number;
-}
-
-function GuestRow({
-  icon,
-  label,
-  description,
-  count,
-  onDecrement,
-  onIncrement,
-  minCount = 0,
-}: GuestRowProps) {
-  return (
-    <div className="flex items-center justify-between w-full">
-      <div className="flex gap-2.5 items-start">
-        <div className="size-5 text-[var(--ck-accent,#c9a96e)] shrink-0">{icon}</div>
-        <div className="flex flex-col">
-          <span className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)] leading-[19.2px]">
-            {label}
-          </span>
-          <span className="text-[12px] font-medium text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] uppercase tracking-[0.1px] leading-[14.85px]">
-            {description}
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center">
-        <button
-          type="button"
-          onClick={onDecrement}
-          disabled={count <= minCount}
-          className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[var(--ck-text,#f7f4ef)] hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.04)] disabled:text-[rgba(var(--ck-text-rgb,247,244,239),0.35)] disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors"
-        >
-          <Minus className="w-3.5 h-3.5" strokeWidth={2} />
-        </button>
-        <div className="w-10 h-8 flex items-center justify-center border-y-[1.5px] border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
-          <span
-            className={cn(
-              "text-[14px] font-medium tabular-nums",
-              count > 0 ? "text-[var(--ck-text,#f7f4ef)]" : "text-[var(--ck-text-subtle,#696969)]",
-            )}
-          >
-            {count}
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={onIncrement}
-          className="w-8 h-8 flex items-center justify-center border-[1.5px] border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[var(--ck-text,#f7f4ef)] hover:bg-[rgba(var(--ck-text-rgb,255,255,255),0.04)] transition-colors"
-        >
-          <Plus className="w-3.5 h-3.5" strokeWidth={2} />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 /**
  * O `DateTimePicker` livre devolve um único `Date` com a hora lá dentro; o modal
@@ -144,6 +81,8 @@ interface AddExperienceModalProps {
   durations?: { minutes: number; price: number }[]
   /** Duração já escolhida no cartão. */
   initialMinutes?: number;
+  /** Decide o título do modal e a frase de introdução. */
+  kind?: ExperienceKind;
   onAdd: (data: {
     passengers: number;
     date: Date | undefined;
@@ -165,14 +104,13 @@ export function AddExperienceModal({
   showSpecialRequest = false,
   durations,
   initialMinutes,
+  kind = "experience",
   onAdd,
 }: AddExperienceModalProps) {
   const t = useTranslations("addExperience");
   const tTour = useTranslations("tourDetails");
   const isMobile = useIsMobile();
-  const [adults, setAdults] = React.useState(1);
-  const [children, setChildren] = React.useState(0);
-  const [infants, setInfants] = React.useState(0);
+  const [passengers, setPassengers] = React.useState(1);
   const [dateTime, setDateTime] = React.useState<{
     date: Date | null;
     time: string | null;
@@ -207,9 +145,7 @@ export function AddExperienceModal({
 
   React.useEffect(() => {
     if (isOpen) {
-      setAdults(1);
-      setChildren(0);
-      setInfants(0);
+      setPassengers(1);
       setDateTime({ date: null, time: null });
       setSelectedExtras([]);
       setSpecialRequest("");
@@ -236,7 +172,7 @@ export function AddExperienceModal({
     );
   };
 
-  const totalGuests = adults + children + infants;
+  const totalGuests = passengers;
 
   /* Extras marcados, já valorizados. A UI sempre disse "/por pessoa" nos
      add-ons `per_person`, mas o total somava o preço uma única vez — o cartão
@@ -289,14 +225,11 @@ export function AddExperienceModal({
 
   const modalProps = {
     experience,
-    adults,
-    children,
-    infants,
+    passengers,
+    kind,
     dateTime,
     selectedExtras,
-    setAdults,
-    setChildren,
-    setInfants,
+    setPassengers,
     handleExtraToggle,
     setDateTime,
     calculateTotal,
@@ -357,15 +290,12 @@ export function AddExperienceModal({
 
 interface ModalContentProps {
   experience: Experience;
-  adults: number;
-  children: number;
-  infants: number;
+  passengers: number;
+  kind: ExperienceKind;
   dateTime: { date: Date | null; time: string | null };
   selectedExtras: string[];
   onClose: () => void;
-  setAdults: (n: number) => void;
-  setChildren: (n: number) => void;
-  setInfants: (n: number) => void;
+  setPassengers: (n: number) => void;
   handleExtraToggle: (id: string) => void;
   setDateTime: (d: { date: Date | null; time: string | null }) => void;
   calculateTotal: () => number;
@@ -399,15 +329,12 @@ interface ModalContentProps {
 
 function ModalContent({
   experience,
-  adults,
-  children,
-  infants,
+  passengers,
+  kind,
   dateTime,
   selectedExtras,
   onClose,
-  setAdults,
-  setChildren,
-  setInfants,
+  setPassengers,
   handleExtraToggle,
   setDateTime,
   calculateTotal,
@@ -450,7 +377,7 @@ function ModalContent({
           className="text-[24px] font-semibold leading-none text-[var(--ck-text,#f7f4ef)]"
           style={SERIF_FONT}
         >
-          {t("title")}
+          {t(`kinds.${kind}`)}
         </h2>
         <button
           type="button"
@@ -506,14 +433,45 @@ function ModalContent({
           </div>
         </div>
 
-        {requireDateTime && (
-          <div className="mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <CalendarDays className="size-5 text-[var(--ck-accent,#c9a96e)]" strokeWidth={1.75} />
-              <span className="text-[14px] font-bold text-[var(--ck-text,#f7f4ef)]">
-                {t("date")}
-              </span>
-            </div>
+        {!isStop && (
+          <>
+            <p className="mb-4 text-[13px] leading-[1.5] text-[var(--ck-text-muted,#999)]">
+              {t(`intro.${kind}`)}
+            </p>
+            <div className="mb-6 grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-[13px] font-semibold text-[var(--ck-text,#f7f4ef)]">
+                  {t("passengers")}
+                </label>
+                <div className="flex h-12 w-fit items-stretch border border-[rgba(var(--ck-text-rgb,255,255,255),0.12)]">
+                  <button
+                    type="button"
+                    onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                    disabled={passengers <= 1}
+                    aria-label={t("passengers")}
+                    className="flex w-11 items-center justify-center text-[var(--ck-text,#f7f4ef)] transition-colors hover:text-[var(--ck-accent,#c9a96e)] disabled:opacity-30"
+                  >
+                    <Minus className="size-4" strokeWidth={2} />
+                  </button>
+                  <span className="flex w-12 items-center justify-center border-x border-[rgba(var(--ck-text-rgb,255,255,255),0.12)] text-[15px] text-[var(--ck-text,#f7f4ef)]">
+                    {passengers}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setPassengers(passengers + 1)}
+                    aria-label={t("passengers")}
+                    className="flex w-11 items-center justify-center text-[var(--ck-text,#f7f4ef)] transition-colors hover:text-[var(--ck-accent,#c9a96e)]"
+                  >
+                    <Plus className="size-4" strokeWidth={2} />
+                  </button>
+                </div>
+              </div>
+
+              {requireDateTime && (
+          <div>
+            <label className="mb-2 block text-[13px] font-semibold text-[var(--ck-text,#f7f4ef)]">
+              {t("date")}
+            </label>
             {/* Só os tours têm horários em `tourSchedules`. Um upsell não tem, e
                 o `TourDateTimePicker` só deixa escolher dias que existam na
                 disponibilidade — com a lista vazia, nenhum dia era selecionável
@@ -540,12 +498,14 @@ function ModalContent({
               />
             )}
           </div>
+              )}
+            </div>
+          </>
         )}
 
-        {isStop ? (
+        {isStop && (
           /* Numa paragem escolhe-se o tempo de espera, não quem vai: as pessoas
-             já seguem no carro. Os contadores de adultos, crianças e bebés não
-             faziam sentido nenhum aqui. */
+             já seguem no carro. Contar passageiros aqui não fazia sentido. */
           <div className="mb-6">
             <p className="mb-3 text-[13px] leading-[1.5] text-[var(--ck-text-muted,#999)]">
               {t("stopDurationHint")}
@@ -582,34 +542,6 @@ function ModalContent({
                 );
               })}
             </div>
-          </div>
-        ) : (
-          <div className="bg-[var(--ck-surface,#1e1d1b)] border border-[rgba(var(--ck-text-rgb,255,255,255),0.08)] p-5 flex flex-col gap-4 mb-6">
-            <GuestRow
-              icon={<User className="size-5" strokeWidth={1.75} />}
-              label={tTour("adult")}
-              description={tTour("adultAge")}
-              count={adults}
-              onDecrement={() => setAdults(Math.max(1, adults - 1))}
-              onIncrement={() => setAdults(adults + 1)}
-              minCount={1}
-            />
-            <GuestRow
-              icon={<User className="size-5" strokeWidth={1.75} />}
-              label={tTour("children")}
-              description={tTour("childrenAge")}
-              count={children}
-              onDecrement={() => setChildren(Math.max(0, children - 1))}
-              onIncrement={() => setChildren(children + 1)}
-            />
-            <GuestRow
-              icon={<Baby className="size-5" strokeWidth={1.75} />}
-              label={tTour("infant")}
-              description={tTour("infantAge")}
-              count={infants}
-              onDecrement={() => setInfants(Math.max(0, infants - 1))}
-              onIncrement={() => setInfants(infants + 1)}
-            />
           </div>
         )}
 

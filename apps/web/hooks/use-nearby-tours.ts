@@ -89,6 +89,8 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       bannerImageUrl: event.bannerImageUrl,
       basePrice: event.basePrice,
       duration: formatEventDate(event.eventDate),
+      /* A cidade do evento; quem desenha o cartão junta-lhe a data. */
+      locationLabel: event.location,
       distanceKm: event.distanceKm,
       category: "events" as const,
       addons: event.addons,

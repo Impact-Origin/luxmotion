@@ -3,7 +3,11 @@
 import * as React from "react"
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { ExperienceCard } from "./experience-card"
-import { AddExperienceModal, type SelectedAddonLine } from "./add-experience-modal"
+import {
+  AddExperienceModal,
+  type ExperienceKind,
+  type SelectedAddonLine,
+} from "./add-experience-modal"
 import { CheckoutStepLayout } from "./shared/checkout-step-layout"
 import type { Experience } from "./shared/types"
 import { useTranslations } from "next-intl"
@@ -83,6 +87,25 @@ interface ExperiencesStepProps {
 const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
 } as const
+
+/* Onde o preço é um ponto de partida — muda com passageiros, data ou opções —
+   e não o valor final. Numa paragem o preço é o que é: sai da grelha de
+   durações e não leva "desde". */
+const KIND_BY_CATEGORY: Record<NearbyCategory, ExperienceKind> = {
+  tours: "tour",
+  private: "tour",
+  experiences: "experience",
+  upsellExperience: "experience",
+  events: "event",
+  stops: "stop",
+  upsellStop: "stop",
+}
+
+const FROM_PRICE_CATEGORIES = new Set<NearbyCategory>([
+  "tours",
+  "private",
+  "events",
+])
 
 function toExperience(tour: NearbyTour): Experience {
   return {
@@ -251,7 +274,12 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
     if (items.length === 0) return null
     return (
       <CarouselSection key={label} index={index} title={label}>
-        {items.map((item) => (
+        {items.map((item) => {
+          const isEvent = item.category === "events"
+          /* Um evento é sempre um evento: o selo é a categoria, não uma
+             distinção editorial como o "recomendado". */
+          const tag = isEvent ? ("event" as const) : item.tag
+          return (
           <div
             key={item._id}
             className="w-[264px] shrink-0 snap-start sm:w-[300px]"
@@ -259,13 +287,20 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
             <ExperienceCard
               title={item.title}
               price={item.basePrice}
-              duration={item.duration}
+              /* No evento a data vive na linha da localidade, e a linha do
+                 relógio diz só o que aquilo é. */
+              duration={isEvent ? t("eventLabel") : item.duration}
               image={item.bannerImageUrl ?? "/images/placeholder-experience.webp"}
               distanceKm={item.distanceKm}
-              tag={item.tag}
-              tagLabel={item.tag && item.tag !== "none" ? t(`tags.${item.tag}`) : undefined}
+              tag={tag}
+              tagLabel={tag && tag !== "none" ? t(`tags.${tag}`) : undefined}
+              priceLabel={FROM_PRICE_CATEGORIES.has(item.category) ? t("from") : undefined}
               priceNote={item.perPerson ? t("perPerson") : undefined}
-              locationLabel={item.locationLabel}
+              locationLabel={
+                isEvent
+                  ? [item.locationLabel, item.duration].filter(Boolean).join(" · ")
+                  : item.locationLabel
+              }
               description={
                 typeof item.description === "string" ? item.description : item.subtitle
               }
@@ -273,7 +308,8 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
               onAdd={(minutes) => handleOpenModal(toExperience(item), minutes)}
             />
           </div>
-        ))}
+          )
+        })}
       </CarouselSection>
     )
   }
@@ -349,6 +385,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
             requireDateTime={selectedItem?.hasDateField ?? true}
             showSpecialRequest={selectedItem?.hasSpecialRequest ?? false}
             durations={selectedItem?.durations}
+            kind={selectedItem ? KIND_BY_CATEGORY[selectedItem.category] : "experience"}
             initialMinutes={initialMinutes}
             onAdd={handleAddExperience}
           />

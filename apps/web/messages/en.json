@@ -669,9 +669,13 @@
     "extraStops": "Extra stops",
     "tags": {
       "recommended": "Recommended",
-      "mostPopular": "Most popular"
+      "mostPopular": "Most popular",
+      "ultraLuxury": "Ultra-luxury",
+      "event": "Event"
     },
-    "perPerson": "per person"
+    "perPerson": "per person",
+    "from": "from",
+    "eventLabel": "Event"
   },
   "passengerForm": {
     "title": "Passenger information",
@@ -1010,7 +1014,19 @@
     "bookedTimes": "booked {count} times today",
     "stopDuration": "Stop duration",
     "stopDurationHint": "Choose how long the stop should last. The driver waits on site for the selected time.",
-    "minutes": "{count} minutes"
+    "minutes": "{count} minutes",
+    "kinds": {
+      "tour": "Tour",
+      "event": "Event",
+      "experience": "Experience",
+      "stop": "Stop"
+    },
+    "intro": {
+      "tour": "Fill in the details to add the tour to your trip.",
+      "event": "Fill in the details to add the transfer to the event.",
+      "experience": "Fill in the details below to add your experience.",
+      "stop": "Choose how long the stop should last."
+    }
   },
   "statsBanner": {
     "transfers": {

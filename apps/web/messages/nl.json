@@ -669,9 +669,13 @@
     "extraStops": "Extra stops",
     "tags": {
       "recommended": "Aanbevolen",
-      "mostPopular": "Populairst"
+      "mostPopular": "Populairst",
+      "ultraLuxury": "Ultra-luxe",
+      "event": "Evenement"
     },
-    "perPerson": "per persoon"
+    "perPerson": "per persoon",
+    "from": "vanaf",
+    "eventLabel": "Evenement"
   },
   "passengerForm": {
     "iAmMainPassenger": "Ik ben de hoofdpassagier",
@@ -1008,7 +1012,19 @@
     "bookedTimes": "vandaag {count} keer geboekt",
     "stopDuration": "Duur van de stop",
     "stopDurationHint": "Kies hoelang de stop duurt. De chauffeur wacht ter plaatse gedurende de gekozen tijd.",
-    "minutes": "{count} minuten"
+    "minutes": "{count} minuten",
+    "kinds": {
+      "tour": "Tour",
+      "event": "Evenement",
+      "experience": "Ervaring",
+      "stop": "Stop"
+    },
+    "intro": {
+      "tour": "Vul de gegevens in om de tour aan uw reis toe te voegen.",
+      "event": "Vul de gegevens in om de transfer naar het evenement toe te voegen.",
+      "experience": "Vul de gegevens hieronder in om uw ervaring toe te voegen.",
+      "stop": "Kies hoe lang de stop moet duren."
+    }
   },
   "statsBanner": {
     "transfers": {

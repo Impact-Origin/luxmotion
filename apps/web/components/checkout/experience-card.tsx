@@ -6,7 +6,12 @@ import Image from "next/image"
 import { cn } from "@workspace/ui/lib/utils"
 
 /** Selo canto superior esquerdo. `none` não desenha nada. */
-export type ExperienceCardTag = "none" | "recommended" | "mostPopular"
+export type ExperienceCardTag =
+  | "none"
+  | "recommended"
+  | "mostPopular"
+  | "ultraLuxury"
+  | "event"
 
 const SERIF = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
@@ -20,7 +25,9 @@ interface ExperienceCardProps {
   distanceKm?: number
   tag?: ExperienceCardTag
   tagLabel?: string
-  /** Sufixo do preço, para "/ pessoa". */
+  /** Etiqueta por cima do preço, para "desde". */
+  priceLabel?: string
+  /** Etiqueta por baixo do preço, para "por pessoa". */
   priceNote?: string
   /** Localidade, na linha por cima do título. */
   locationLabel?: string
@@ -41,6 +48,7 @@ export function ExperienceCard({
   image,
   tag = "none",
   tagLabel,
+  priceLabel,
   priceNote,
   locationLabel,
   description,
@@ -72,9 +80,13 @@ export function ExperienceCard({
                estrela e pelo preenchimento cheio, não pela cor. */
             className={cn(
               "absolute left-3 top-3 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.8px]",
-              tag === "mostPopular"
-                ? "bg-[var(--ck-accent,#c9a96e)] text-[#0d0d0d]"
-                : "border border-[var(--ck-accent,#c9a96e)] bg-[rgba(13,13,13,0.72)] text-[var(--ck-accent,#c9a96e)]",
+              (tag === "mostPopular" || tag === "ultraLuxury") &&
+                "bg-[var(--ck-accent,#c9a96e)] text-[#0d0d0d]",
+              /* Os eventos distinguem-se por cor, não por hierarquia: não são
+                 "melhores" do que um tour, são outra coisa. */
+              tag === "event" && "bg-[#7c3aed] text-white",
+              tag === "recommended" &&
+                "border border-[var(--ck-accent,#c9a96e)] bg-[rgba(13,13,13,0.72)] text-[var(--ck-accent,#c9a96e)]",
             )}
           >
             {tag === "mostPopular" ? `★ ${tagLabel}` : tagLabel}
@@ -145,6 +157,11 @@ export function ExperienceCard({
           <div className="flex items-end justify-between gap-3">
             {!hasChoice && (
               <div className="flex min-w-0 flex-col gap-1">
+                {priceLabel && (
+                  <span className="text-[10px] font-semibold uppercase leading-none tracking-[1.2px] text-[var(--ck-text-muted,#999)]">
+                    {priceLabel}
+                  </span>
+                )}
                 <span
                   className="text-[22px] leading-none text-[var(--ck-text,#f7f4ef)]"
                   style={SERIF}

@@ -669,9 +669,13 @@
     "extraStops": "Arrêts supplémentaires",
     "tags": {
       "recommended": "Recommandé",
-      "mostPopular": "Le plus populaire"
+      "mostPopular": "Le plus populaire",
+      "ultraLuxury": "Ultra-luxe",
+      "event": "Événement"
     },
-    "perPerson": "par personne"
+    "perPerson": "par personne",
+    "from": "à partir de",
+    "eventLabel": "Événement"
   },
   "passengerForm": {
     "iAmMainPassenger": "Je suis le passager principal",
@@ -1008,7 +1012,19 @@
     "bookedTimes": "réservé {count} fois aujourd'hui",
     "stopDuration": "Durée de l'arrêt",
     "stopDurationHint": "Choisissez la durée de l'arrêt. Le chauffeur attend sur place pendant la durée sélectionnée.",
-    "minutes": "{count} minutes"
+    "minutes": "{count} minutes",
+    "kinds": {
+      "tour": "Tour",
+      "event": "Événement",
+      "experience": "Expérience",
+      "stop": "Arrêt"
+    },
+    "intro": {
+      "tour": "Renseignez les détails pour ajouter le tour à votre voyage.",
+      "event": "Renseignez les détails pour ajouter le transfert à l'événement.",
+      "experience": "Renseignez les détails ci-dessous pour ajouter votre expérience.",
+      "stop": "Choisissez la durée de l'arrêt."
+    }
   },
   "statsBanner": {
     "transfers": {

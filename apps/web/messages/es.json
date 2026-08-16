@@ -669,9 +669,13 @@
     "extraStops": "Paradas extra",
     "tags": {
       "recommended": "Recomendado",
-      "mostPopular": "Más popular"
+      "mostPopular": "Más popular",
+      "ultraLuxury": "Ultra-lujo",
+      "event": "Evento"
     },
-    "perPerson": "por persona"
+    "perPerson": "por persona",
+    "from": "desde",
+    "eventLabel": "Evento"
   },
   "passengerForm": {
     "iAmMainPassenger": "Soy el pasajero principal",
@@ -1008,7 +1012,19 @@
     "bookedTimes": "reservado {count} veces hoy",
     "stopDuration": "Duración de la parada",
     "stopDurationHint": "Elija la duración de la parada. El conductor espera en el lugar durante el tiempo seleccionado.",
-    "minutes": "{count} minutos"
+    "minutes": "{count} minutos",
+    "kinds": {
+      "tour": "Tour",
+      "event": "Evento",
+      "experience": "Experiencia",
+      "stop": "Parada"
+    },
+    "intro": {
+      "tour": "Complete los datos para añadir el tour a su viaje.",
+      "event": "Complete los datos para añadir el traslado al evento.",
+      "experience": "Complete los datos para añadir su experiencia.",
+      "stop": "Elija la duración de la parada."
+    }
   },
   "statsBanner": {
     "transfers": {
