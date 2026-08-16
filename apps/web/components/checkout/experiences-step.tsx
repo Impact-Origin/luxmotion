@@ -35,7 +35,8 @@ export interface NearbyTour {
   slug: string
   title: string
   subtitle?: string
-  description: unknown
+  /** Já reduzida a texto no hook: o TipTap não chega aqui. */
+  description: string
   bannerImageUrl: string | null
   basePrice: number
   duration: string
@@ -88,9 +89,6 @@ const SERIF_FONT = {
   fontFamily: "var(--font-title), 'Cormorant Garamond', serif",
 } as const
 
-/* Onde o preço é um ponto de partida — muda com passageiros, data ou opções —
-   e não o valor final. Numa paragem o preço é o que é: sai da grelha de
-   durações e não leva "desde". */
 const KIND_BY_CATEGORY: Record<NearbyCategory, ExperienceKind> = {
   tours: "tour",
   private: "tour",
@@ -101,6 +99,9 @@ const KIND_BY_CATEGORY: Record<NearbyCategory, ExperienceKind> = {
   upsellStop: "stop",
 }
 
+/* Onde o preço é um ponto de partida — muda com passageiros, data ou opções —
+   e não o valor final. Numa paragem o preço é o que é: sai da grelha de
+   durações e não leva "desde". */
 const FROM_PRICE_CATEGORIES = new Set<NearbyCategory>([
   "tours",
   "private",
@@ -111,7 +112,7 @@ function toExperience(tour: NearbyTour): Experience {
   return {
     id: tour._id,
     title: tour.title,
-    description: typeof tour.description === "string" ? tour.description : tour.subtitle ?? "",
+    description: tour.description ?? "",
     image: tour.bannerImageUrl ?? "/images/placeholder-experience.webp",
     basePrice: tour.basePrice,
     duration: tour.duration,
@@ -313,9 +314,9 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
                   ? [item.locationLabel, item.duration].filter(Boolean).join(" · ")
                   : item.locationLabel
               }
-              description={
-                typeof item.description === "string" ? item.description : item.subtitle
-              }
+              /* Já chega sempre como string do hook — o TipTap é reduzido a
+                 texto lá, que é onde a forma dos dados se conhece. */
+              description={item.description}
               durations={item.durations}
               onAdd={(minutes) => handleOpenModal(toExperience(item), minutes)}
             />

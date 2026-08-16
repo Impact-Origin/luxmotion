@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@workspace/convex/api";
 import type { NearbyTour } from "@/components/checkout/experiences-step";
+import { extractTextContent } from "@/lib/seo";
 import { useSafeQuery } from "@/hooks/use-safe-query";
 import { useCheckoutRadiiKm } from "@/hooks/use-site-settings";
 
@@ -85,7 +86,10 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       slug: event.slug,
       title: event.title,
       subtitle: event.subtitle,
-      description: event.description,
+      /* Como nos tours: `description` é TipTap, não uma string. Sem isto o
+         cartão do evento ficava sem texto nenhum. */
+      description:
+        event.subtitle?.trim() || extractTextContent(event.description),
       bannerImageUrl: event.bannerImageUrl,
       basePrice: event.basePrice,
       duration: formatEventDate(event.eventDate),
@@ -159,8 +163,24 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       (tour) => tour.category !== "stops" && tour.category !== "experiences"
     );
 
+    /* Os tours vinham em bruto do Convex e o cartão ficava quase vazio: sem
+       selo, sem localidade e — o mais visível — sem descrição nenhuma, porque
+       `description` é conteúdo TipTap e não uma string, e o `subtitle` está
+       vazio na maioria dos tours. */
+    const transformedTours: NearbyTour[] = legacyFiltered.map((tour) => ({
+      ...tour,
+      tag: tour.isBestSeller
+        ? ("mostPopular" as const)
+        : tour.isFeatured
+          ? ("recommended" as const)
+          : undefined,
+      locationLabel: tour.destination || undefined,
+      description:
+        tour.subtitle?.trim() || extractTextContent(tour.description),
+    }));
+
     return [
-      ...legacyFiltered,
+      ...transformedTours,
       ...transformedEvents,
       ...transformedStops,
       ...transformedUpsellExperiences,
