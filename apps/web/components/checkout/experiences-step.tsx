@@ -162,13 +162,18 @@ function CarouselSection({
     return () => el.removeEventListener("scroll", sync)
   }, [sync])
 
-  /* Uma página inteira, não uma fracção arbitrária: como os cartões estão
-     dimensionados para caberem certos na largura da pista, avançar exactamente
-     `clientWidth` deixa sempre cartões inteiros à vista. */
+  /* Um cartão de cada vez. O passo mede-se pela distância entre os dois
+     primeiros cartões, e não por uma largura escrita à mão: assim inclui o
+     `gap` e continua certo se a largura do cartão mudar com o breakpoint. */
   const scrollBy = (dir: 1 | -1) => {
     const el = trackRef.current
     if (!el) return
-    el.scrollBy({ left: dir * el.clientWidth, behavior: "smooth" })
+    const [primeiro, segundo] = el.children
+    const passo =
+      primeiro && segundo
+        ? segundo.getBoundingClientRect().left - primeiro.getBoundingClientRect().left
+        : el.clientWidth
+    el.scrollBy({ left: dir * passo, behavior: "smooth" })
   }
 
   return (
