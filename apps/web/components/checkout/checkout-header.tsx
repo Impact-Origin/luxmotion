@@ -304,7 +304,11 @@ function StepItem({
     >
       <div
         className={cn(
-          "size-6 rounded-full border flex items-center justify-center text-[10.4px] font-extrabold leading-none transition-all duration-500",
+          /* O `pt` centra opticamente o algarismo. O flexbox centra a caixa de
+             linha, não a tinta, e a Poppins tem um descendente largo que puxa a
+             baseline para cima — os números ficavam 1px acima do centro. O
+             10.4px agravava-o: a baseline caía num arredondamento mau. */
+          "size-6 rounded-full border flex items-center justify-center pt-[1px] text-[11px] font-extrabold leading-none transition-all duration-500",
           circleCls
         )}
       >

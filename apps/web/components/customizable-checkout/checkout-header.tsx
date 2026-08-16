@@ -131,7 +131,8 @@ export function CheckoutHeader({ currentStep = 1, onStepClick, allowStepSkip = f
                   }`}
                 >
                   <div
-                    className={`w-6 h-6 xs:w-7 xs:h-7 rounded-full flex items-center justify-center text-[11px] xs:text-[13px] font-extrabold transition-all duration-500 ease-out shrink-0 ${
+                    /* pt: centragem óptica do algarismo — ver checkout-header.tsx */
+                    className={`w-6 h-6 xs:w-7 xs:h-7 rounded-full flex items-center justify-center pt-[0.5px] xs:pt-[1px] text-[11px] xs:text-[13px] font-extrabold transition-all duration-500 ease-out shrink-0 ${
                       isActive ? "scale-110 shadow-sm" : "scale-95"
                     }`}
                     style={{
@@ -200,7 +201,8 @@ function StepItem({
       }`}
     >
       <div
-        className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500"
+        /* pt: centragem óptica do algarismo — ver checkout-header.tsx */
+        className="w-7 h-7 rounded-full flex items-center justify-center pt-[1px] text-xs font-bold transition-all duration-500"
         style={{
           backgroundColor: isActive || isCompleted 
             ? "var(--theme-checkout-step-active-bg, #0E4659)" 
