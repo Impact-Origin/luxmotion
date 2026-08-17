@@ -57,8 +57,10 @@ interface BookingData {
   total: number
   /** Só vem preenchido quando o produto tem preço partilhado. */
   sharingMode?: SharingMode
-  /** Preço por pessoa que a escolha determinou; é o que o checkout multiplica. */
+  /** Preço que a escolha determinou: por pessoa no partilhado, por viatura no privado. */
   unitPrice?: number
+  /** Quando verdadeiro, `unitPrice` NÃO se multiplica pelos passageiros. */
+  perVehicle?: boolean
   selectedAddons?: Array<{
     /** Um dos dois, nunca os dois: um extra próprio do tour ou um universal. */
     addonId?: string
@@ -121,7 +123,11 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   const [sharingMode, setSharingMode] = useState<SharingMode>(
     temEscolha ? "shared" : "private",
   )
-  const precoPorPessoa = temEscolha && sharingMode === "shared" ? sharedPrice! : price
+  /* O partilhado vende-se por pessoa e o privado por viatura: são unidades
+     diferentes, e tratar as duas como "por pessoa" multiplicava o preço da
+     viatura pelo número de passageiros. */
+  const porViatura = temEscolha && sharingMode === "private"
+  const precoUnitario = temEscolha && sharingMode === "shared" ? sharedPrice! : price
 
   useEffect(() => {
     if (fixedDateTime) {
@@ -176,7 +182,7 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   }, [addons, selectedAddonIds, totalGuests])
 
   const payingGuests = adults + children
-  const total = precoPorPessoa * (totalGuests || 1) + addonsTotal
+  const total = (porViatura ? precoUnitario : precoUnitario * (totalGuests || 1)) + addonsTotal
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   const isBelowMin = minPassengers ? payingGuests < minPassengers : false
 
@@ -231,7 +237,8 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
       infants,
       total,
       sharingMode: temEscolha ? sharingMode : undefined,
-      unitPrice: precoPorPessoa,
+      unitPrice: precoUnitario,
+      perVehicle: porViatura,
       selectedAddons: selectedAddonsData?.length ? selectedAddonsData : undefined,
       addonsTotal: addonsTotal > 0 ? addonsTotal : undefined,
     })
@@ -242,16 +249,21 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
       <div className="h-[2px] bg-gradient-to-r from-[var(--lm-accent,#C9A96E)] to-[rgba(var(--lm-accent-rgb,201,169,110),0.2)]" />
 
       <div className="border-b border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] px-6 pt-6 pb-5">
-        <span className="text-[12px] font-semibold text-[var(--lm-muted,#8c8680)] tracking-[1.35px] uppercase">{t("from")}</span>
+        <span className="text-[12px] font-semibold text-[var(--lm-muted,#8c8680)] tracking-[1.35px] uppercase">
+          {t("from")}
+          {temEscolha && (
+            <> · {sharingMode === "shared" ? t("sharing.shared") : t("sharing.private")}</>
+          )}
+        </span>
         <div className="flex items-baseline gap-[10px] mt-1">
           <span className="text-[48px] font-semibold text-[var(--lm-accent,#C9A96E)] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
-            {format(precoPorPessoa)}
+            {format(precoUnitario)}
           </span>
           {/* O "i" e o "por pessoa" na mesma caixa: assim o círculo centra-se
               com o texto ao lado, e não com a linha inteira, que é alta por
               causa do preço a 48px. */}
           <span className="flex items-center gap-1.5 text-[14px] text-[var(--lm-muted,rgba(255,255,255,0.3))]">
-            {t("perPerson")}
+            {porViatura ? t("sharing.perVehicle") : t("perPerson")}
             {temEscolha && (
             <Popover>
                 <PopoverTrigger asChild>
@@ -283,9 +295,27 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
         {temEscolha && (
           <div className="mt-4 grid grid-cols-2 gap-2">
             {([
-              { modo: "shared" as const, preco: sharedPrice!, Icone: UsersRound, rotulo: t("sharing.shared"), nota: t("sharing.sharedNote") },
-              { modo: "private" as const, preco: price, Icone: User, rotulo: t("sharing.private"), nota: t("sharing.privateNote") },
-            ]).map(({ modo, preco, Icone, rotulo, nota }) => {
+              {
+                modo: "shared" as const,
+                preco: sharedPrice!,
+                Icone: UsersRound,
+                rotulo: t("sharing.shared"),
+                unidade: t("perPerson"),
+                nota: t("sharing.sharedNote"),
+              },
+              {
+                modo: "private" as const,
+                preco: price,
+                Icone: User,
+                rotulo: t("sharing.private"),
+                unidade: t("sharing.perVehicle"),
+                /* Quantas pessoas cabem na viatura: sem isto, "por viatura" não
+                   diz a quem está a comprar se o seu grupo cabe lá. */
+                nota: maxPassengers
+                  ? t("sharing.upToPassengers", { count: maxPassengers })
+                  : t("sharing.privateNote"),
+              },
+            ]).map(({ modo, preco, Icone, rotulo, unidade, nota }) => {
               const activo = sharingMode === modo
               return (
                 <button
@@ -309,7 +339,8 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
                     </span>
                   </span>
                   <span className="text-[13px] text-[var(--lm-accent,#C9A96E)]">
-                    {format(preco)}
+                    {format(preco)}{" "}
+                    <span className="text-[10px] text-[var(--lm-muted,#8c8680)]">{unidade}</span>
                   </span>
                   <span className="text-[10px] leading-[1.35] text-[var(--lm-muted,#8c8680)]">{nota}</span>
                 </button>
@@ -354,6 +385,16 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
           <Users className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
           <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("passengers")}</span>
         </div>
+
+        {/* Em viatura privada os contadores continuam a servir — é preciso saber
+            quem vai — mas não mexem no preço, e sem o dizer parece um erro. */}
+        {porViatura && (
+          <p className="-mt-1 text-[11px] leading-[1.4] text-[var(--lm-muted,#8c8680)]">
+            {maxPassengers
+              ? t("sharing.vehicleIncludes", { count: maxPassengers })
+              : t("sharing.vehicleFlat")}
+          </p>
+        )}
 
         <div className="border border-[rgba(var(--lm-text-rgb,255,255,255),0.06)]">
           <PaxRow label={t("adult")} desc={t("adultAge")} count={adults} onDec={() => setAdults(Math.max(1, adults - 1))} onInc={() => setAdults(adults + 1)} disableInc={isAtMax} />

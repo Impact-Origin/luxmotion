@@ -160,6 +160,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
     total: number
     sharingMode?: "private" | "shared"
     unitPrice?: number
+    perVehicle?: boolean
     selectedAddons?: Array<{
       addonId?: string
       universalAddonId?: string
@@ -182,6 +183,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
            `openCheckout` multiplica-o pelos passageiros. */
         price: data.unitPrice ?? event.basePrice,
         sharingMode: data.sharingMode,
+        perVehicle: data.perVehicle,
         currency: event.currency ?? "€",
         image: event.bannerImage,
         meetingPoint: event.meetingPoint,

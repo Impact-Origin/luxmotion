@@ -1349,7 +1349,11 @@
       "shared": "Shared",
       "sharedNote": "You go with other guests",
       "private": "Private",
-      "privateNote": "Only your group"
+      "privateNote": "Only your group",
+      "perVehicle": "per vehicle",
+      "upToPassengers": "Up to {count} passengers",
+      "vehicleIncludes": "The price is per vehicle and includes up to {count} passengers, so it does not change with the count below.",
+      "vehicleFlat": "The price is per vehicle and does not change with the number of passengers."
     }
   },
   "blogsHero": {

@@ -321,7 +321,8 @@ export function TourCheckoutModal() {
         passengers: guests,
         selectedDate: dateStr,
         selectedTime: timeStr,
-        basePrice: Math.max(0, Number(tour.price) || 0) * guests,
+        basePrice:
+          Math.max(0, Number(tour.price) || 0) * (tour.perVehicle ? 1 : guests),
         sharingMode: tour.sharingMode,
         selectedAddons: selectedAddons?.length ? selectedAddons : undefined,
         addonsTotal: bookingData.addonsTotal ?? undefined,

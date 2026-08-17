@@ -22,6 +22,8 @@ export interface TourCheckoutTour {
   currency?: string
   /** Só nos eventos com lugar partilhado; segue para a reserva. */
   sharingMode?: "private" | "shared"
+  /** `price` é por viatura e não por pessoa: não se multiplica pelos passageiros. */
+  perVehicle?: boolean
   /** Thumbnail/banner image URL for the modal header and summary */
   image?: string
   pickup?: TourCheckoutPickup
@@ -140,7 +142,9 @@ export function TourCheckoutProvider({ children }: { children: ReactNode }) {
   const openCheckout = useCallback(
     (productType: ProductType, product: TourCheckoutTour, bookingData: TourCheckoutBookingData) => {
       const totalGuests = bookingData.adults + bookingData.children + bookingData.infants
-      const baseTotal = product.price * (totalGuests || 1)
+      const baseTotal = product.perVehicle
+        ? product.price
+        : product.price * (totalGuests || 1)
       const addonsTotal = bookingData.addonsTotal ?? 0
       const pickup = product.pickup ?? product.meetingPoint ?? null
       setState({

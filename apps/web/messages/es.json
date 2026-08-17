@@ -1346,7 +1346,11 @@
       "shared": "Compartido",
       "sharedNote": "Vas con otros participantes",
       "private": "Privado",
-      "privateNote": "Solo tu grupo"
+      "privateNote": "Solo tu grupo",
+      "perVehicle": "por vehículo",
+      "upToPassengers": "Hasta {count} pasajeros",
+      "vehicleIncludes": "El precio es por vehículo e incluye hasta {count} pasajeros, así que no cambia con el número de abajo.",
+      "vehicleFlat": "El precio es por vehículo y no cambia con el número de pasajeros."
     }
   },
   "blogsHero": {

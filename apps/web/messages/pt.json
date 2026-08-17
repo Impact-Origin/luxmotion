@@ -1348,7 +1348,11 @@
       "shared": "Partilhado",
       "sharedNote": "Vais com outros participantes",
       "private": "Privado",
-      "privateNote": "Só o teu grupo"
+      "privateNote": "Só o teu grupo",
+      "perVehicle": "por viatura",
+      "upToPassengers": "Até {count} passageiros",
+      "vehicleIncludes": "O preço é por viatura e inclui até {count} passageiros, por isso não muda com a contagem aqui em baixo.",
+      "vehicleFlat": "O preço é por viatura e não muda com o número de passageiros."
     }
   },
   "blogsHero": {

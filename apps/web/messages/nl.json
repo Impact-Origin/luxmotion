@@ -1346,7 +1346,11 @@
       "shared": "Gedeeld",
       "sharedNote": "U gaat met andere gasten",
       "private": "Privé",
-      "privateNote": "Alleen uw groep"
+      "privateNote": "Alleen uw groep",
+      "perVehicle": "per voertuig",
+      "upToPassengers": "Tot {count} passagiers",
+      "vehicleIncludes": "De prijs geldt per voertuig en voor maximaal {count} passagiers; het aantal hieronder verandert die niet.",
+      "vehicleFlat": "De prijs geldt per voertuig en verandert niet met het aantal passagiers."
     }
   },
   "blogsHero": {
