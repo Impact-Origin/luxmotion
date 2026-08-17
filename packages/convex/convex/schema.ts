@@ -185,6 +185,10 @@ export default defineSchema({
     ),
     addonsTotal: v.optional(v.number()),
 
+    /* Copiado da reserva: um evento vendido em lugar partilhado tem de se ver
+       na order sem ter de ir buscar a reserva. */
+    sharingMode: v.optional(v.union(v.literal("private"), v.literal("shared"))),
+
     // Tour booking link (when order represents a paid tour/experience/event)
     tourBookingId: v.optional(v.id("tourBookings")),
 

@@ -220,7 +220,7 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
 
       {/* Sangra também para cima: o <main> do admin tem padding vertical, e sem
           o -mt/pt o conteúdo passava visível por essa faixa por cima da barra. */}
-      <div className="sticky top-0 z-10 -mx-4 -mt-5 border-b border-border bg-background px-4 pb-3 pt-8 lg:-mx-8 lg:-mt-6 lg:px-8 lg:pt-9">
+      <div className="sticky -top-5 z-10 -mx-4 -mt-5 border-b border-border bg-background px-4 pb-3 pt-8 lg:-top-6 lg:-mx-8 lg:-mt-6 lg:px-8 lg:pt-9">
         <div className="mb-2 flex items-center justify-between text-xs font-medium uppercase tracking-[1px] text-muted-foreground">
           <span className="truncate">{STEPS[currentStepIndex]?.label}</span>
           <span className="shrink-0 pl-3 tabular-nums">

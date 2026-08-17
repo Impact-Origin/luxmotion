@@ -286,6 +286,7 @@ export function buildOrderFromTourBooking(
     customerPhone: string;
     customerNif?: string | null;
     paymentMethod?: string | null;
+    sharingMode?: "private" | "shared";
     selectedAddons?: Array<{
       // Opcional: os add-ons dos upsells do checkout são embutidos na própria
       // experiência e não têm linha em `tourAddons`.
@@ -330,6 +331,7 @@ export function buildOrderFromTourBooking(
     customerEmail: booking.customerEmail,
     customerPhone: booking.customerPhone,
     customerNif: booking.customerNif ?? undefined,
+    ...(booking.sharingMode && { sharingMode: booking.sharingMode }),
     ...(booking.selectedAddons?.length && { selectedAddons: booking.selectedAddons }),
     ...(booking.addonsTotal != null && booking.addonsTotal > 0 && { addonsTotal: booking.addonsTotal }),
     paymentMethod: paymentMethod as "cash" | "mbway" | "mb" | "ccard",

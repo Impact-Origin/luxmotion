@@ -564,7 +564,13 @@ export function TourForm({ onClose, initialData }: TourFormProps) {
         </button>
       </div>
 
-      <div className="sticky top-0 z-10 -mx-4 -mt-5 border-b border-border bg-background px-4 pb-3 pt-8 lg:-mx-8 lg:-mt-6 lg:px-8 lg:pt-9">
+      {/* Cola pelo topo do contentor e não pela caixa de conteúdo: o `<main>`
+          do admin tem 20/24px de padding em cima, e com `top-0` a barra ficava
+          essa distância abaixo do topo — pela fresta via-se o formulário a
+          passar por trás. O deslocamento negativo iguala esse padding, e o
+          `pt-8` da própria barra garante que nada do que interessa fica
+          escondido acima da dobra. */}
+      <div className="sticky -top-5 z-10 -mx-4 -mt-5 border-b border-border bg-background px-4 pb-3 pt-8 lg:-top-6 lg:-mx-8 lg:-mt-6 lg:px-8 lg:pt-9">
         <div className="mb-2 flex items-center justify-between text-xs font-medium uppercase tracking-[1px] text-muted-foreground">
           <span className="truncate">{STEPS[currentStepIndex]?.label}</span>
           <span className="shrink-0 pl-3 tabular-nums">

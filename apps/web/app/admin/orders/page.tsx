@@ -201,6 +201,14 @@ function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () =
               </DetailSection>
 
               <DetailSection title="Pricing">
+                {/* Eventos com lugar partilhado: quem organiza precisa de saber
+                    quem vai junto, e o preço sozinho não o diz. */}
+                {order.sharingMode ? (
+                  <DetailRow
+                    label="Seat"
+                    value={order.sharingMode === "shared" ? "Shared" : "Private"}
+                  />
+                ) : null}
                 <DetailRow label="Base" value={money(order.basePrice)} />
                 {order.discountAmount ? (
                   <DetailRow label="Discount" value={money(order.discountAmount)} />
