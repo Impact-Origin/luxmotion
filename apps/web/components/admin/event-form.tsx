@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import type { Id } from "@workspace/convex/dataModel"
 import { cn } from "@workspace/ui/lib/utils"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
@@ -90,6 +91,12 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   const [maxCapacity, setMaxCapacity] = React.useState("")
   const [minPassengers, setMinPassengers] = React.useState("")
   const [maxPassengers, setMaxPassengers] = React.useState("")
+  /* O serviço: hora de regresso, viatura e prazo de confirmação. É daqui que a
+     barra de reserva tira a rota, a classe e os lugares. */
+  const veiculos = useQuery(api.vehicles.listActive, {})
+  const [returnTime, setReturnTime] = React.useState("")
+  const [vehicleId, setVehicleId] = React.useState<string>("")
+  const [confirmationHours, setConfirmationHours] = React.useState("")
 
   const [status, setStatus] = React.useState<"draft" | "published" | "cancelled" | "completed">(
     initialData?.status || "draft",
@@ -150,6 +157,14 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       setMaxCapacity(initialData.maxCapacity?.toString() || "")
       setMinPassengers(initialData.minPassengers?.toString() || "")
       setMaxPassengers(initialData.maxPassengers?.toString() || "")
+      if (initialData.returnAt) {
+        const r = new Date(initialData.returnAt)
+        setReturnTime(
+          `${String(r.getHours()).padStart(2, "0")}:${String(r.getMinutes()).padStart(2, "0")}`,
+        )
+      }
+      setVehicleId(initialData.vehicleId ?? "")
+      setConfirmationHours(initialData.confirmationHours?.toString() || "")
       setStatus(initialData.status || "draft")
       setIsFeatured(initialData.isFeatured || false)
       setIsActive(initialData.isActive ?? true)
@@ -258,6 +273,13 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
         maxCapacity: maxCapacity ? parseInt(maxCapacity) : undefined,
         minPassengers: minPassengers ? parseInt(minPassengers) : undefined,
         maxPassengers: maxPassengers ? parseInt(maxPassengers) : undefined,
+        /* A hora de regresso guarda-se no dia do evento: é a hora que
+           interessa, e a data sai daí. */
+        returnAt: returnTime ? combineDateTime(eventDate, returnTime) : undefined,
+        vehicleId: (vehicleId || undefined) as Id<"vehicles"> | undefined,
+        confirmationHours: confirmationHours
+          ? parseInt(confirmationHours)
+          : undefined,
         privatePrice: parseFloat(privatePrice),
         sharedPrice: sharedPrice ? parseFloat(sharedPrice) : undefined,
         currency,
@@ -670,6 +692,60 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                         value={maxPassengers}
                         onChange={(e) => setMaxPassengers(e.target.value)}
                         placeholder={t("form.maxPassengersPlaceholder")}
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
+                  </div>
+
+                  {/* O serviço em si. É daqui que a barra de reserva tira a
+                      rota de regresso, a classe da viatura e os lugares — e é
+                      dos lugares que sai o limite pedido no checkout. */}
+                  <div className="grid grid-cols-1 gap-4 pt-2 md:grid-cols-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="returnTime">{t("form.returnTimeLabel")}</Label>
+                      <Input
+                        id="returnTime"
+                        type="time"
+                        value={returnTime}
+                        onChange={(e) => setReturnTime(e.target.value)}
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label>{t("form.vehicleLabel")}</Label>
+                      <Select
+                        value={vehicleId || "none"}
+                        onValueChange={(v) => setVehicleId(v === "none" ? "" : v)}
+                        disabled={isSubmitting}
+                      >
+                        <SelectTrigger className="h-9">
+                          <SelectValue placeholder={t("form.vehiclePlaceholder")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">{t("form.vehicleNone")}</SelectItem>
+                          {(veiculos ?? []).map((v) => (
+                            <SelectItem key={v._id} value={v._id}>
+                              {v.name} · {v.passengers} lug.
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="confirmationHours">
+                        {t("form.confirmationHoursLabel")}
+                      </Label>
+                      <Input
+                        id="confirmationHours"
+                        type="number"
+                        min="0"
+                        value={confirmationHours}
+                        onChange={(e) => setConfirmationHours(e.target.value)}
+                        placeholder="72"
                         disabled={isSubmitting}
                         className="h-9"
                       />

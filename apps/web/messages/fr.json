@@ -705,7 +705,10 @@
     "orderNotInitialized": "La commande n'est pas encore initialisée.",
     "saveError": "Échec de l'enregistrement des informations du passager.",
     "title": "Informations passager",
-    "mainPassengerData": "Données du passager principal"
+    "mainPassengerData": "Données du passager principal",
+    "howManyPeople": "Combien de personnes voyagent ?",
+    "howManyRequired": "Indiquez combien de personnes voyagent.",
+    "seatLimit": "Ce véhicule accueille jusqu'à {count} passagers."
   },
   "payment": {
     "title": "Paiement",
@@ -1351,6 +1354,20 @@
       "upToPassengers": "Jusqu'à {count} passagers",
       "vehicleIncludes": "Le prix est par véhicule et comprend jusqu'à {count} passagers ; le nombre ci-dessous ne le modifie pas.",
       "vehicleFlat": "Le prix est par véhicule et ne change pas selon le nombre de passagers."
+    },
+    "service": {
+      "route": "Itinéraire",
+      "departureReturn": "Départ et retour",
+      "returnAt": "retour {time}",
+      "flexibility": "Flexibilité",
+      "scheduledPickup": "Prise en charge et retour programmés",
+      "included": "Inclus",
+      "exclusiveVehicle": "Véhicule exclusif pour votre groupe",
+      "plannedDeparture": "Départ prévu · confirmation jusqu'à {hours} h avant",
+      "ctaShared": "Choisir une place partagée",
+      "ctaPrivate": "Réserver le transfert privé",
+      "fineShared": "Véhicule exécutif adapté au nombre de places vendues. Remboursement intégral si le départ minimum n'est pas atteint.",
+      "finePrivate": "Prix de base par véhicule. Les autres catégories et points de départ sont calculés avant la confirmation."
     }
   },
   "blogsHero": {
@@ -2293,7 +2310,12 @@
       "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)",
       "sharedPriceLabel": "Prix partagé (par personne)",
       "privatePriceLabel": "Prix privé (par véhicule)",
-      "privatePriceRequired": "Le prix privé est obligatoire."
+      "privatePriceRequired": "Le prix privé est obligatoire.",
+      "returnTimeLabel": "Heure de retour",
+      "vehicleLabel": "Véhicule",
+      "vehiclePlaceholder": "Choisir un véhicule",
+      "vehicleNone": "Aucun véhicule",
+      "confirmationHoursLabel": "Confirmation jusqu'à (heures avant)"
     }
   },
   "adminBlogs": {

@@ -705,7 +705,10 @@
     "orderNotInitialized": "El pedido aún no se ha inicializado.",
     "saveError": "Error al guardar la información del pasajero.",
     "title": "Información del pasajero",
-    "mainPassengerData": "Datos del pasajero principal"
+    "mainPassengerData": "Datos del pasajero principal",
+    "howManyPeople": "¿Cuántas personas viajan?",
+    "howManyRequired": "Dinos cuántas personas viajan.",
+    "seatLimit": "Este vehículo admite hasta {count} pasajeros."
   },
   "payment": {
     "title": "Pago",
@@ -1351,6 +1354,20 @@
       "upToPassengers": "Hasta {count} pasajeros",
       "vehicleIncludes": "El precio es por vehículo e incluye hasta {count} pasajeros, así que no cambia con el número de abajo.",
       "vehicleFlat": "El precio es por vehículo y no cambia con el número de pasajeros."
+    },
+    "service": {
+      "route": "Ruta",
+      "departureReturn": "Salida y regreso",
+      "returnAt": "regreso {time}",
+      "flexibility": "Flexibilidad",
+      "scheduledPickup": "Recogida y regreso programados",
+      "included": "Incluido",
+      "exclusiveVehicle": "Vehículo exclusivo para tu grupo",
+      "plannedDeparture": "Salida prevista · confirmación hasta {hours} h antes",
+      "ctaShared": "Seleccionar plaza compartida",
+      "ctaPrivate": "Reservar traslado privado",
+      "fineShared": "Vehículo ejecutivo adaptado al número de plazas vendidas. Reembolso íntegro si no se alcanza la salida mínima.",
+      "finePrivate": "Precio base por vehículo. Otras categorías y orígenes se calculan antes de la confirmación."
     }
   },
   "blogsHero": {
@@ -2309,7 +2326,12 @@
       "addonImageForget": "Quitar de la biblioteca (los extras conservan la imagen)",
       "sharedPriceLabel": "Precio compartido (por persona)",
       "privatePriceLabel": "Precio privado (por vehículo)",
-      "privatePriceRequired": "El precio privado es obligatorio."
+      "privatePriceRequired": "El precio privado es obligatorio.",
+      "returnTimeLabel": "Hora de regreso",
+      "vehicleLabel": "Vehículo",
+      "vehiclePlaceholder": "Elegir vehículo",
+      "vehicleNone": "Sin vehículo",
+      "confirmationHoursLabel": "Confirmación hasta (horas antes)"
     }
   },
   "adminBlogs": {

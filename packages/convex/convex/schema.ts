@@ -754,6 +754,17 @@ export default defineSchema({
     manualReviewCount: v.optional(v.number()),
     minPassengers: v.optional(v.number()),
     maxPassengers: v.optional(v.number()),
+
+    /* Hora a que se regressa ao ponto de encontro. Sem ela, a rota mostrada no
+       cartão de reserva é só de ida. */
+    returnAt: v.optional(v.number()),
+    /* A viatura do serviço. Traz de lá o nome da classe, quantos lugares tem e
+       os modelos concretos, em vez de se escrever "First Class" à mão em cada
+       evento — e é dela que sai o limite de pessoas pedido no checkout. */
+    vehicleId: v.optional(v.id("vehicles")),
+    /* Quantas horas antes se confirma a partida. 72 quando está vazio. */
+    confirmationHours: v.optional(v.number()),
+
     /* Extras universais que este evento dispensa. Fica aqui e não numa tabela
        à parte porque é lido exactamente onde o evento é lido. */
     disabledUniversalAddons: v.optional(v.array(v.id("universalAddons"))),

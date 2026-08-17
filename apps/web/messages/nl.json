@@ -705,7 +705,10 @@
     "orderNotInitialized": "Bestelling is nog niet geïnitialiseerd.",
     "saveError": "Opslaan van passagiersinformatie mislukt.",
     "title": "Passagiersgegevens",
-    "mainPassengerData": "Gegevens van hoofdpassagier"
+    "mainPassengerData": "Gegevens van hoofdpassagier",
+    "howManyPeople": "Hoeveel personen reizen er?",
+    "howManyRequired": "Geef aan hoeveel personen er reizen.",
+    "seatLimit": "Dit voertuig biedt plaats aan {count} passagiers."
   },
   "payment": {
     "title": "Betaling",
@@ -1351,6 +1354,20 @@
       "upToPassengers": "Tot {count} passagiers",
       "vehicleIncludes": "De prijs geldt per voertuig en voor maximaal {count} passagiers; het aantal hieronder verandert die niet.",
       "vehicleFlat": "De prijs geldt per voertuig en verandert niet met het aantal passagiers."
+    },
+    "service": {
+      "route": "Route",
+      "departureReturn": "Vertrek en terugkeer",
+      "returnAt": "terug {time}",
+      "flexibility": "Flexibiliteit",
+      "scheduledPickup": "Ophalen en terugkeer op afspraak",
+      "included": "Inbegrepen",
+      "exclusiveVehicle": "Exclusief voertuig voor uw groep",
+      "plannedDeparture": "Vertrek gepland · bevestiging tot {hours} u vooraf",
+      "ctaShared": "Gedeelde plek kiezen",
+      "ctaPrivate": "Privétransfer boeken",
+      "fineShared": "Executive voertuig afgestemd op het aantal verkochte plaatsen. Volledige terugbetaling als het minimum niet wordt gehaald.",
+      "finePrivate": "Basisprijs per voertuig. Andere categorieën en ophaalpunten worden vóór de bevestiging berekend."
     }
   },
   "blogsHero": {
@@ -2293,7 +2310,12 @@
       "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)",
       "sharedPriceLabel": "Gedeelde prijs (per persoon)",
       "privatePriceLabel": "Privéprijs (per voertuig)",
-      "privatePriceRequired": "De privéprijs is verplicht."
+      "privatePriceRequired": "De privéprijs is verplicht.",
+      "returnTimeLabel": "Terugkeertijd",
+      "vehicleLabel": "Voertuig",
+      "vehiclePlaceholder": "Voertuig kiezen",
+      "vehicleNone": "Geen voertuig",
+      "confirmationHoursLabel": "Bevestiging tot (uren vooraf)"
     }
   },
   "adminBlogs": {

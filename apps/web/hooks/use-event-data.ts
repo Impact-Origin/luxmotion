@@ -51,6 +51,11 @@ export interface EventData {
   reviewCount?: number
   minPassengers?: number
   maxPassengers?: number
+  /** Hora de regresso ao ponto de encontro. */
+  returnAt?: number
+  vehicleId?: string
+  /** Horas antes da partida em que a viagem se confirma; 72 por omissão. */
+  confirmationHours?: number
   seoTitle?: string
   seoDescription?: string
   publishedAt?: number
@@ -81,6 +86,8 @@ export function precoDeMontra(e: {
 }
 
 export interface EventWithDetails extends EventData {
+  /** A viatura já resolvida pelo `getBySlug`: nome da classe e lugares. */
+  vehicle?: { _id: string; name: string; examples?: string; passengers: number } | null
   translations: Array<{
     _id: string
     eventId: string

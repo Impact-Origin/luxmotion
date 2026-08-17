@@ -93,6 +93,9 @@ export const updateContact = mutation({
     customerEmail: v.string(),
     customerPhone: v.string(),
     customerNif: v.optional(v.string()),
+    /* Só nas reservas por viatura: o cartão não tem contadores e o número real
+       é pedido aqui. */
+    passengers: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -101,6 +104,7 @@ export const updateContact = mutation({
       customerEmail: args.customerEmail,
       customerPhone: args.customerPhone,
       customerNif: args.customerNif ?? undefined,
+      ...(args.passengers !== undefined && { passengers: args.passengers }),
       updatedAt: now,
     });
     return await ctx.db.get(args.bookingId);

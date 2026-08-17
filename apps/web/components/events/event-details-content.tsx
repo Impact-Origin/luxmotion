@@ -26,6 +26,12 @@ export interface EventDetailsData {
   endDate?: number
   /** Preço por pessoa em lugar partilhado; sem ele o evento só se vende em privado. */
   sharedPrice?: number
+  /** Hora de regresso ao ponto de encontro. */
+  returnAt?: number
+  /** Horas antes da partida em que a viagem se confirma; 72 por omissão. */
+  confirmationHours?: number
+  /** A viatura do serviço, já resolvida pela query. */
+  vehicle?: { name: string; examples?: string; passengers: number } | null
   bannerImage: string
   additionalBannerImages?: string[]
   images?: string[]
@@ -185,6 +191,8 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
         price: data.unitPrice ?? event.privatePrice,
         sharingMode: data.sharingMode,
         perVehicle: data.perVehicle,
+        vehicleSeats: event.vehicle?.passengers,
+        maxPassengers: event.maxPassengers,
         currency: event.currency ?? "€",
         image: event.bannerImage,
         meetingPoint: event.meetingPoint,
@@ -223,6 +231,22 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
   const timeRange = event.endDate
     ? `${formatTime(event.eventDate)} - ${formatTime(event.endDate)}`
     : formatTime(event.eventDate)
+
+  /* O que a barra de reserva mostra sobre o serviço. A rota sai do ponto de
+     encontro e do local — não há campo para ela, nem precisa. */
+  const servico = {
+    origin: event.meetingPoint?.title || event.location,
+    destination: event.venue || event.location,
+    returnTime: event.returnAt
+      ? new Date(event.returnAt).toLocaleTimeString("pt-PT", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : undefined,
+    vehicleName: event.vehicle?.name,
+    vehicleSeats: event.vehicle?.passengers,
+    confirmationHours: event.confirmationHours,
+  }
 
   const infoItems = [
     { key: "date", icon: Calendar, label: t("date"), value: formatDate(event.eventDate) },
@@ -452,6 +476,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                 <TourBookingCard
                   price={event.privatePrice}
                   sharedPrice={event.sharedPrice}
+                  service={servico}
                   rating={event.rating ?? 0}
                   reviewCount={event.reviewCount ?? 0}
                   tourId={event._id}
@@ -473,6 +498,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
         <TourBookingCard
           price={event.privatePrice}
           sharedPrice={event.sharedPrice}
+          service={servico}
           rating={event.rating ?? 0}
           reviewCount={event.reviewCount ?? 0}
           tourId={event._id}

@@ -705,7 +705,10 @@
     "fillTravelerRequired": "Please fill in the traveler's name, email and phone.",
     "orderNotInitialized": "Order is not initialized yet.",
     "saveError": "Failed to save passenger information.",
-    "mainPassengerData": "Main passenger details"
+    "mainPassengerData": "Main passenger details",
+    "howManyPeople": "How many people are travelling?",
+    "howManyRequired": "Tell us how many people are travelling.",
+    "seatLimit": "This vehicle takes up to {count} passengers."
   },
   "payment": {
     "title": "Payment",
@@ -1354,6 +1357,20 @@
       "upToPassengers": "Up to {count} passengers",
       "vehicleIncludes": "The price is per vehicle and includes up to {count} passengers, so it does not change with the count below.",
       "vehicleFlat": "The price is per vehicle and does not change with the number of passengers."
+    },
+    "service": {
+      "route": "Route",
+      "departureReturn": "Departure and return",
+      "returnAt": "return {time}",
+      "flexibility": "Flexibility",
+      "scheduledPickup": "Pickup and return on your schedule",
+      "included": "Included",
+      "exclusiveVehicle": "Exclusive vehicle for your group",
+      "plannedDeparture": "Departure planned · confirmed up to {hours} h before",
+      "ctaShared": "Select shared seat",
+      "ctaPrivate": "Book private transfer",
+      "fineShared": "Executive vehicle matched to the seats sold. Full refund if the minimum departure is not reached.",
+      "finePrivate": "Base price per vehicle. Other categories and pickup points are quoted before confirmation."
     }
   },
   "blogsHero": {
@@ -2476,7 +2493,12 @@
       "addonImageForget": "Remove from the library (the add-ons using it keep the image)",
       "sharedPriceLabel": "Shared price (per person)",
       "privatePriceLabel": "Private price (per vehicle)",
-      "privatePriceRequired": "The private price is required."
+      "privatePriceRequired": "The private price is required.",
+      "returnTimeLabel": "Return time",
+      "vehicleLabel": "Vehicle",
+      "vehiclePlaceholder": "Choose a vehicle",
+      "vehicleNone": "No vehicle set",
+      "confirmationHoursLabel": "Confirm up to (hours before)"
     }
   },
   "adminBlogs": {

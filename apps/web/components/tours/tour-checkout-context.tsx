@@ -24,6 +24,10 @@ export interface TourCheckoutTour {
   sharingMode?: "private" | "shared"
   /** `price` é por viatura e não por pessoa: não se multiplica pelos passageiros. */
   perVehicle?: boolean
+  /** Lugares da viatura; é o limite do "quantas pessoas vão" no checkout. */
+  vehicleSeats?: number
+  /** Alternativa quando não há viatura ligada ao evento. */
+  maxPassengers?: number
   /** Thumbnail/banner image URL for the modal header and summary */
   image?: string
   pickup?: TourCheckoutPickup

@@ -705,7 +705,10 @@
     "orderNotInitialized": "Bestellung ist noch nicht initialisiert.",
     "saveError": "Fehler beim Speichern der Passagierinformationen.",
     "title": "Passagierinformationen",
-    "mainPassengerData": "Daten des Hauptpassagiers"
+    "mainPassengerData": "Daten des Hauptpassagiers",
+    "howManyPeople": "Wie viele Personen reisen?",
+    "howManyRequired": "Bitte geben Sie die Personenzahl an.",
+    "seatLimit": "Dieses Fahrzeug fasst bis zu {count} Passagiere."
   },
   "payment": {
     "title": "Zahlung",
@@ -1351,6 +1354,20 @@
       "upToPassengers": "Bis zu {count} Passagiere",
       "vehicleIncludes": "Der Preis gilt pro Fahrzeug und für bis zu {count} Passagiere; die Zahl unten ändert ihn nicht.",
       "vehicleFlat": "Der Preis gilt pro Fahrzeug und ändert sich nicht mit der Passagierzahl."
+    },
+    "service": {
+      "route": "Route",
+      "departureReturn": "Abfahrt und Rückfahrt",
+      "returnAt": "Rückfahrt {time}",
+      "flexibility": "Flexibilität",
+      "scheduledPickup": "Abholung und Rückfahrt nach Absprache",
+      "included": "Inklusive",
+      "exclusiveVehicle": "Exklusives Fahrzeug für Ihre Gruppe",
+      "plannedDeparture": "Abfahrt geplant · Bestätigung bis {hours} h vorher",
+      "ctaShared": "Geteilten Platz wählen",
+      "ctaPrivate": "Privattransfer buchen",
+      "fineShared": "Executive-Fahrzeug passend zur Zahl der verkauften Plätze. Volle Erstattung, wenn die Mindestabfahrt nicht erreicht wird.",
+      "finePrivate": "Grundpreis pro Fahrzeug. Andere Kategorien und Abholorte werden vor der Bestätigung berechnet."
     }
   },
   "blogsHero": {
@@ -2390,7 +2407,12 @@
       "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)",
       "sharedPriceLabel": "Preis geteilt (pro Person)",
       "privatePriceLabel": "Preis privat (pro Fahrzeug)",
-      "privatePriceRequired": "Der Privatpreis ist erforderlich."
+      "privatePriceRequired": "Der Privatpreis ist erforderlich.",
+      "returnTimeLabel": "Rückfahrt",
+      "vehicleLabel": "Fahrzeug",
+      "vehiclePlaceholder": "Fahrzeug wählen",
+      "vehicleNone": "Kein Fahrzeug",
+      "confirmationHoursLabel": "Bestätigung bis (Stunden vorher)"
     }
   },
   "adminBlogs": {

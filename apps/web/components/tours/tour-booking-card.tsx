@@ -34,6 +34,24 @@ interface TourBookingCardProps {
   hideReviews?: boolean
   minPassengers?: number
   maxPassengers?: number
+  /**
+   * Serviço de evento: rota, regresso e viatura. Só os eventos passam isto —
+   * os tours não, e por isso a barra deles não muda em nada.
+   */
+  service?: {
+    /** Ponto de encontro, de onde se parte. */
+    origin?: string
+    /** Onde é o evento. */
+    destination?: string
+    /** Hora de regresso ao ponto de encontro; sem ela a rota é só de ida. */
+    returnTime?: string
+    /** Nome da classe da viatura, ex. "First Class". */
+    vehicleName?: string
+    /** Lugares da viatura; manda no "até N passageiros" e no limite do checkout. */
+    vehicleSeats?: number
+    /** Horas antes da partida em que a viagem se confirma. */
+    confirmationHours?: number
+  }
   addons?: BookingAddon[]
   onBook?: (data: BookingData) => void
   /** Chamada quando já há data e hora: o pai usa-a para guardar o
@@ -106,7 +124,24 @@ function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: strin
   )
 }
 
-export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook, onSelectionReady }: TourBookingCardProps) {
+/**
+ * Linha só de leitura: rótulo pequeno em maiúsculas por cima do valor, no molde
+ * das caixas de informação que a página do evento já usa.
+ */
+function LinhaDeInfo({ rotulo, valor }: { rotulo: string; valor: string }) {
+  return (
+    <div className="border border-[rgba(var(--lm-text-rgb,255,255,255),0.1)] bg-[var(--lm-surface,#1E1D1B)] px-[13px] py-[9px]">
+      <span className="block text-[10px] font-semibold uppercase tracking-[1.3px] text-[var(--lm-muted,#8c8680)]">
+        {rotulo}
+      </span>
+      <span className="mt-0.5 block text-[13px] leading-[1.35] text-[var(--lm-text,#fff)]">
+        {valor}
+      </span>
+    </div>
+  )
+}
+
+export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, service, addons, onBook, onSelectionReady }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
   // O picker escolhe a paleta por prop (não por var CSS). Só clareia dentro do
@@ -166,6 +201,34 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
     return `${day}/${month}/${year} ${t("at")} ${time}`
   }
 
+  /* A rota sai do que o evento já tem: ponto de encontro e local. Com hora de
+     regresso é ida e volta; sem ela, só ida. */
+  const rota = useMemo(() => {
+    const origem = service?.origin?.trim()
+    const destino = service?.destination?.trim()
+    if (!origem || !destino) return null
+    return service?.returnTime ? `${origem} → ${destino} → ${origem}` : `${origem} → ${destino}`
+  }, [service?.origin, service?.destination, service?.returnTime])
+
+  const horarios = useMemo(() => {
+    const partida = fixedDateTime
+      ? new Date(fixedDateTime).toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })
+      : null
+    if (!partida) return null
+    return service?.returnTime
+      ? `${partida} · ${t("service.returnAt", { time: service.returnTime })}`
+      : partida
+  }, [fixedDateTime, service?.returnTime, t])
+
+  /** Lugares: os da viatura quando há uma, senão o máximo do evento. */
+  const lugares = service?.vehicleSeats ?? maxPassengers
+  const incluido = [
+    lugares ? t("sharing.upToPassengers", { count: lugares }) : null,
+    service?.vehicleName,
+  ]
+    .filter(Boolean)
+    .join(" · ")
+
   const totalGuests = adults + children + infants
 
   const handleToggleAddon = useCallback((addonId: string) => {
@@ -184,7 +247,9 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   const payingGuests = adults + children
   const total = (porViatura ? precoUnitario : precoUnitario * (totalGuests || 1)) + addonsTotal
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
-  const isBelowMin = minPassengers ? payingGuests < minPassengers : false
+  /* Numa viatura inteira não há mínimo de pessoas a cumprir — vende-se o
+     carro. Sem isto, e sem contadores, o botão ficava desligado para sempre. */
+  const isBelowMin = !porViatura && minPassengers ? payingGuests < minPassengers : false
 
   // Basta escolher data e hora para a reserva passar a existir: o pai guarda-a
   // e a barra de baixo acende, mesmo que a pessoa nunca abra o checkout.
@@ -310,9 +375,10 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
                 rotulo: t("sharing.private"),
                 unidade: t("sharing.perVehicle"),
                 /* Quantas pessoas cabem na viatura: sem isto, "por viatura" não
-                   diz a quem está a comprar se o seu grupo cabe lá. */
-                nota: maxPassengers
-                  ? t("sharing.upToPassengers", { count: maxPassengers })
+                   diz a quem está a comprar se o seu grupo cabe lá. Os lugares
+                   da viatura mandam no máximo do evento — é o carro que limita. */
+                nota: lugares
+                  ? t("sharing.upToPassengers", { count: lugares })
                   : t("sharing.privateNote"),
               },
             ]).map(({ modo, preco, Icone, rotulo, unidade, nota }) => {
@@ -381,26 +447,52 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
           )}
         </div>
 
-        <div className="flex items-center gap-2 pt-3">
-          <Users className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
-          <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("passengers")}</span>
-        </div>
+        {rota && <LinhaDeInfo rotulo={t("service.route")} valor={rota} />}
 
-        {/* Em viatura privada os contadores continuam a servir — é preciso saber
-            quem vai — mas não mexem no preço, e sem o dizer parece um erro. */}
-        {porViatura && (
-          <p className="-mt-1 text-[11px] leading-[1.4] text-[var(--lm-muted,#8c8680)]">
-            {maxPassengers
-              ? t("sharing.vehicleIncludes", { count: maxPassengers })
-              : t("sharing.vehicleFlat")}
-          </p>
+        {/* Em partilhado interessa a hora a que se parte e se volta; em privado
+            a recolha é combinada, e o que interessa é o que a viatura leva. */}
+        {porViatura ? (
+          <>
+            <LinhaDeInfo rotulo={t("service.flexibility")} valor={t("service.scheduledPickup")} />
+            <LinhaDeInfo rotulo={t("service.included")} valor={incluido} />
+          </>
+        ) : (
+          <>
+            {horarios && (
+              <LinhaDeInfo rotulo={t("service.departureReturn")} valor={horarios} />
+            )}
+
+            <div className="flex items-center gap-2 pt-3">
+              <Users className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
+              <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("passengers")}</span>
+            </div>
+
+            {/* Os contadores ficam só aqui: em partilhado é o número de pessoas
+                que faz o preço. Em privado vende-se a viatura, e o número real
+                é pedido no checkout, limitado aos lugares. */}
+            <div className="border border-[rgba(var(--lm-text-rgb,255,255,255),0.06)]">
+              <PaxRow label={t("adult")} desc={t("adultAge")} count={adults} onDec={() => setAdults(Math.max(1, adults - 1))} onInc={() => setAdults(adults + 1)} disableInc={isAtMax} />
+              <PaxRow label={t("children")} desc={t("childrenAge")} count={children} onDec={() => setChildren(Math.max(0, children - 1))} onInc={() => setChildren(children + 1)} disableInc={isAtMax} />
+              <PaxRow label={t("infant")} desc={t("infantAge")} count={infants} onDec={() => setInfants(Math.max(0, infants - 1))} onInc={() => setInfants(infants + 1)} disableInc={isAtMax} />
+            </div>
+          </>
         )}
 
-        <div className="border border-[rgba(var(--lm-text-rgb,255,255,255),0.06)]">
-          <PaxRow label={t("adult")} desc={t("adultAge")} count={adults} onDec={() => setAdults(Math.max(1, adults - 1))} onInc={() => setAdults(adults + 1)} disableInc={isAtMax} />
-          <PaxRow label={t("children")} desc={t("childrenAge")} count={children} onDec={() => setChildren(Math.max(0, children - 1))} onInc={() => setChildren(children + 1)} disableInc={isAtMax} />
-          <PaxRow label={t("infant")} desc={t("infantAge")} count={infants} onDec={() => setInfants(Math.max(0, infants - 1))} onInc={() => setInfants(infants + 1)} disableInc={isAtMax} />
-        </div>
+        {temEscolha && (
+          <div className="flex items-center gap-2 pt-1">
+            <span className="relative inline-flex size-2 shrink-0">
+              <span className="absolute inset-0 rounded-full bg-[#4ADE80] opacity-75 animate-ping" />
+              <span className="relative inline-flex size-2 rounded-full bg-[#4ADE80]" />
+            </span>
+            <span className="text-[11px] leading-[1.35] text-[#4ADE80]">
+              {porViatura
+                ? t("service.exclusiveVehicle")
+                : t("service.plannedDeparture", {
+                    hours: service?.confirmationHours ?? 72,
+                  })}
+            </span>
+          </div>
+        )}
 
         {addons && addons.length > 0 && (
           <>
@@ -430,7 +522,13 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
           disabled={(!fixedDateTime && !dateTime.time) || isBelowMin}
           className="w-full h-[48px] bg-[var(--lm-accent,#C9A96E)] border border-[var(--lm-accent,#C9A96E)] flex items-center justify-center gap-2 hover:bg-[#b8954f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span className="text-[14px] font-medium text-[#0D0D0D] uppercase tracking-[1.1px]">{t("bookNow")}</span>
+          <span className="text-[14px] font-medium text-[#0D0D0D] uppercase tracking-[1.1px]">
+            {temEscolha
+              ? porViatura
+                ? t("service.ctaPrivate")
+                : t("service.ctaShared")
+              : t("bookNow")}
+          </span>
           <ArrowRight className="size-[18px] text-[#0D0D0D]" />
         </button>
 
@@ -446,6 +544,12 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
             </p>
           </div>
         </div>
+
+        {temEscolha && (
+          <p className="px-1 text-center text-[10px] leading-[1.5] text-[var(--lm-muted,#8c8680)]">
+            {porViatura ? t("service.finePrivate") : t("service.fineShared")}
+          </p>
+        )}
 
         <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.04)] pt-4 flex items-center justify-center gap-2">
           <span className="relative inline-flex size-2">

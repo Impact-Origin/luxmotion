@@ -280,6 +280,8 @@ export const getBySlug = query({
       disabled: event.disabledUniversalAddons,
     });
 
+    const veiculo = event.vehicleId ? await ctx.db.get(event.vehicleId) : null;
+
     return withDisplayedReviewCount({
       ...event,
       bannerImageUrl,
@@ -288,6 +290,16 @@ export const getBySlug = query({
       translations,
       reviews: approvedReviews,
       addons: addonsWithData,
+      /* A viatura vem resolvida: o cartão precisa do nome da classe e dos
+         lugares, e o checkout usa os lugares como limite. */
+      vehicle: veiculo
+        ? {
+            _id: veiculo._id,
+            name: veiculo.name,
+            examples: veiculo.examples,
+            passengers: veiculo.passengers,
+          }
+        : null,
       availableLanguages: [
         event.originalLanguage,
         ...translations.map((t) => t.locale),
@@ -476,6 +488,9 @@ export const create = mutation({
     seoDescription: v.optional(v.string()),
     minPassengers: v.optional(v.number()),
     maxPassengers: v.optional(v.number()),
+    returnAt: v.optional(v.number()),
+    vehicleId: v.optional(v.id("vehicles")),
+    confirmationHours: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     if (args.isFeatured) {
@@ -559,6 +574,9 @@ export const update = mutation({
     seoDescription: v.optional(v.string()),
     minPassengers: v.optional(v.number()),
     maxPassengers: v.optional(v.number()),
+    returnAt: v.optional(v.number()),
+    vehicleId: v.optional(v.id("vehicles")),
+    confirmationHours: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;

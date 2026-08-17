@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@workspace/ui/components/dialog"
-import { User, Mail, FileText, MapPin, CheckCircle2, CreditCard, Banknote, ChevronLeft, X, MessageSquare, ArrowRight } from "lucide-react"
+import { User, Users, Mail, FileText, MapPin, CheckCircle2, CreditCard, Banknote, ChevronLeft, X, MessageSquare, ArrowRight } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useTranslations } from "next-intl"
 import { useTourCheckout } from "@/components/tours/tour-checkout-context"
@@ -102,6 +102,9 @@ function OrderSummarySidebar({
   t: (key: string) => string
 }) {
   const { format, isEur } = useMoney()
+  /* O `t` que chega por prop não interpola; a linha dos lugares precisa do
+     número lá dentro. */
+  const tSharing = useTranslations("tourDetails.sharing")
   if (!tour) return null
   const dateTime =
     bookingData?.date && bookingData.time
@@ -134,11 +137,21 @@ function OrderSummarySidebar({
               {tour.title}
             </p>
             <p className="text-[11px] sm:text-[12px] text-[#999] mt-1 leading-[1.2]">{dateTime}</p>
-            {guests > 0 && (
+            {/* Por viatura não há "N × preço": vende-se o carro, e o que
+                interessa é quantos lugares tem. */}
+            {tour.perVehicle ? (
+              <p className="text-[11px] sm:text-[12px] text-[#696969] mt-0.5">
+                {tour.vehicleSeats ?? tour.maxPassengers
+                  ? tSharing("upToPassengers", {
+                      count: (tour.vehicleSeats ?? tour.maxPassengers)!,
+                    })
+                  : tSharing("perVehicle")}
+              </p>
+            ) : guests > 0 ? (
               <p className="text-[11px] sm:text-[12px] text-[#696969] mt-0.5">
                 {t("tourCheckout.passengers")}: {guests} × €{tour.price.toFixed(2)}
               </p>
-            )}
+            ) : null}
           </div>
           <div className="text-right shrink-0 self-start">
             <span className="font-bold text-[#F7F4EF] text-[14px] sm:text-[16px]">€{basePrice.toFixed(2)}</span>
@@ -290,6 +303,12 @@ export function TourCheckoutModal() {
     { percent: -1, label: "tourCheckout.custom" },
   ]
 
+  /* Quantas pessoas vão numa viatura privada. Fica em branco de propósito: um
+     "1" pré-preenchido passava despercebido e a reserva ia com o número errado. */
+  const [pessoas, setPessoas] = useState("")
+  const porViatura = tour?.perVehicle === true
+  const limiteDeLugares = tour?.vehicleSeats ?? tour?.maxPassengers
+
   const handleStep1Continue = async () => {
     if (!tour || !bookingData) return
     setSubmitError("")
@@ -346,6 +365,17 @@ export function TourCheckoutModal() {
       setSubmitError(t("passengerForm.fillRequired"))
       return
     }
+    if (porViatura) {
+      const n = parseInt(pessoas, 10)
+      if (!Number.isFinite(n) || n < 1) {
+        setSubmitError(t("passengerForm.howManyRequired"))
+        return
+      }
+      if (limiteDeLugares && n > limiteDeLugares) {
+        setSubmitError(t("passengerForm.seatLimit", { count: limiteDeLugares }))
+        return
+      }
+    }
     setSubmitError("")
     setIsSubmitting(true)
     try {
@@ -355,6 +385,7 @@ export function TourCheckoutModal() {
         customerEmail: contact.email.trim(),
         customerPhone: contact.phone.trim(),
         customerNif: contact.nif?.trim() || undefined,
+        passengers: porViatura ? parseInt(pessoas, 10) : undefined,
       })
       setStep(3)
     } catch (e: any) {
@@ -688,6 +719,32 @@ export function TourCheckoutModal() {
                         dark
                       />
                     </div>
+                    {/* Numa viatura privada não há contadores na barra — vende-se
+                        o carro. O número real pergunta-se aqui, limitado aos
+                        lugares, senão a reserva seguia com uma pessoa e o
+                        motorista aparecia para levar três. */}
+                    {porViatura && (
+                      <div>
+                        <FieldLabel required>
+                          {t("passengerForm.howManyPeople")}
+                        </FieldLabel>
+                        <DarkInput
+                          icon={<Users className="w-4 h-4" strokeWidth={2} />}
+                          value={pessoas}
+                          onChange={(e) => setPessoas(e.target.value)}
+                          placeholder="1"
+                          type="number"
+                          min={1}
+                          max={limiteDeLugares}
+                        />
+                        {limiteDeLugares ? (
+                          <p className="mt-1 text-[11px] text-[#696969]">
+                            {t("passengerForm.seatLimit", { count: limiteDeLugares })}
+                          </p>
+                        ) : null}
+                      </div>
+                    )}
+
                     <div>
                       <FieldLabel>{t("passengerForm.nifVat")}</FieldLabel>
                       <DarkInput

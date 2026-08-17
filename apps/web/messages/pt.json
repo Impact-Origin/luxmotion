@@ -705,7 +705,10 @@
     "orderNotInitialized": "O pedido ainda não foi inicializado.",
     "saveError": "Falha ao salvar as informações do passageiro.",
     "title": "Informação do passageiro",
-    "mainPassengerData": "Dados do passageiro principal"
+    "mainPassengerData": "Dados do passageiro principal",
+    "howManyPeople": "Quantas pessoas vão?",
+    "howManyRequired": "Diz-nos quantas pessoas vão.",
+    "seatLimit": "Esta viatura leva até {count} passageiros."
   },
   "payment": {
     "title": "Pagamento",
@@ -1353,6 +1356,20 @@
       "upToPassengers": "Até {count} passageiros",
       "vehicleIncludes": "O preço é por viatura e inclui até {count} passageiros, por isso não muda com a contagem aqui em baixo.",
       "vehicleFlat": "O preço é por viatura e não muda com o número de passageiros."
+    },
+    "service": {
+      "route": "Rota",
+      "departureReturn": "Partida e regresso",
+      "returnAt": "regresso {time}",
+      "flexibility": "Flexibilidade",
+      "scheduledPickup": "Recolha e regresso agendados",
+      "included": "Incluído",
+      "exclusiveVehicle": "Viatura exclusiva para o seu grupo",
+      "plannedDeparture": "Partida planeada · confirmação até {hours} h antes",
+      "ctaShared": "Selecionar lugar partilhado",
+      "ctaPrivate": "Reservar transfer privado",
+      "fineShared": "Viatura executiva adaptada ao número de lugares vendidos. Reembolso integral se a partida mínima não for atingida.",
+      "finePrivate": "Preço-base por viatura. Outras categorias e origens são calculadas antes da confirmação."
     }
   },
   "blogsHero": {
@@ -2475,7 +2492,12 @@
       "addonImageForget": "Tirar da biblioteca (os extras que a usam ficam com a imagem)",
       "sharedPriceLabel": "Preço partilhado (por pessoa)",
       "privatePriceLabel": "Preço privado (por viatura)",
-      "privatePriceRequired": "O preço privado é obrigatório."
+      "privatePriceRequired": "O preço privado é obrigatório.",
+      "returnTimeLabel": "Hora de regresso",
+      "vehicleLabel": "Viatura",
+      "vehiclePlaceholder": "Escolher viatura",
+      "vehicleNone": "Sem viatura definida",
+      "confirmationHoursLabel": "Confirmação até (horas antes)"
     }
   },
   "adminBlogs": {
