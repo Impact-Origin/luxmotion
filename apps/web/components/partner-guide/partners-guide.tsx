@@ -51,8 +51,12 @@ function PartnersHero({ t }: { t: ReturnType<typeof useTranslations> }) {
             })}
           </div>
         </div>
-        <HeroSlider className="order-first lg:order-none relative h-[300px] sm:h-[400px] lg:h-[480px]" />
+        {/* Encostada ao bordo em ecrã largo — ver client-guide.tsx. */}
+        <HeroSlider className="order-first relative h-[300px] sm:h-[400px] lg:hidden" />
+        <div className="hidden lg:block" aria-hidden />
       </div>
+
+      <HeroSlider className="pointer-events-none absolute right-0 top-0 hidden h-full w-[46%] max-w-[850px] lg:block xl:w-[48%] 2xl:w-[50%]" />
     </section>
   )
 }

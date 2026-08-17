@@ -47,11 +47,21 @@ function ClientHero({ t }: { t: ReturnType<typeof useTranslations> }) {
             </a>
           </div>
         </div>
+        {/* Em ecrã largo a fotografia sai da grelha e encosta ao bordo, como
+            no hero da página principal: lá é `absolute top-0 right-0` fora do
+            contentor de 1280px, senão sobrava sempre uma faixa vazia à direita.
+            A célula da grelha fica, vazia, a reservar a largura do texto. */}
         <HeroSlider
-          className="order-first lg:order-none relative h-[330px] sm:h-[420px] lg:h-[520px]"
+          className="order-first relative h-[330px] sm:h-[420px] lg:hidden"
           objectPosition="object-bottom"
         />
+        <div className="hidden lg:block" aria-hidden />
       </div>
+
+      <HeroSlider
+        className="pointer-events-none absolute right-0 top-0 hidden h-full w-[46%] max-w-[850px] lg:block xl:w-[48%] 2xl:w-[50%]"
+        objectPosition="object-bottom"
+      />
     </section>
   )
 }
