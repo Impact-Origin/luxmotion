@@ -431,7 +431,9 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
           </div>
           {fixedDateTime ? (
             <div className="w-full h-[44px] px-[13px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#1E1D1B)] flex items-center gap-3">
-              <span className="flex-1 text-[14px] text-[var(--lm-muted,#999)]">{formatFixedDateTime()}</span>
+              {/* Branco como os valores das linhas abaixo: é informação, não
+                  um campo por preencher. */}
+              <span className="flex-1 text-[14px] text-[var(--lm-text,#fff)]">{formatFixedDateTime()}</span>
               <CalendarClock className="size-6 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
             </div>
           ) : (
