@@ -4151,8 +4151,8 @@
         "body": "Every Monday, we process the payment for all trips from the previous week. Automatic transfer to your preferred account, no paperwork."
       },
       "phone": {
-        "step1Title": "Bookings",
-        "step1Cta": "Accept →",
+        "step1Title": "New booking",
+        "step1Cta": "Open booking",
         "step2Title": "Current trip",
         "step2Pax": "passengers",
         "step2Cta1": "Start",
@@ -4162,7 +4162,12 @@
         "step3Title": "Earnings",
         "step3StatWeek": "Week",
         "step3StatTrips": "Trips",
-        "step3Payday": "Payout: Monday"
+        "step3Payday": "Payout: Monday",
+        "step1Badge": "In 36h",
+        "step1Origin": "Lisbon Airport",
+        "step1To": "to",
+        "step1Dest": "Sublime Comporta",
+        "step1Meta": "M. Ferreira · 2 pax · Fri, 14:30"
       }
     },
     "trust": {

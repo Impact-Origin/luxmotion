@@ -4150,8 +4150,8 @@
         "body": "Todas as segundas-feiras, processamos o pagamento de todas as viagens da semana anterior. Transferência automática para a tua conta preferida, sem burocracia."
       },
       "phone": {
-        "step1Title": "Reservas",
-        "step1Cta": "Aceitar →",
+        "step1Title": "Nova reserva",
+        "step1Cta": "Abrir reserva",
         "step2Title": "Viagem atual",
         "step2Pax": "passageiros",
         "step2Cta1": "Iniciar",
@@ -4161,7 +4161,12 @@
         "step3Title": "Ganhos",
         "step3StatWeek": "Semana",
         "step3StatTrips": "Viagens",
-        "step3Payday": "Pagamento: 2ª feira"
+        "step3Payday": "Pagamento: 2ª feira",
+        "step1Badge": "Em 36h",
+        "step1Origin": "Aeroporto de Lisboa",
+        "step1To": "para",
+        "step1Dest": "Sublime Comporta",
+        "step1Meta": "M. Ferreira · 2 pax · Sex, 14:30"
       }
     },
     "trust": {

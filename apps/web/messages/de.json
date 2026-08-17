@@ -4062,8 +4062,8 @@
         "body": "Jeden Montag verarbeiten wir die Zahlung für alle Fahrten der Vorwoche. Automatische Überweisung auf dein bevorzugtes Konto, ohne Papierkram."
       },
       "phone": {
-        "step1Title": "Buchungen",
-        "step1Cta": "Annehmen →",
+        "step1Title": "Neue Buchung",
+        "step1Cta": "Buchung öffnen",
         "step2Title": "Aktuelle Fahrt",
         "step2Pax": "Fahrgäste",
         "step2Cta1": "Transfer",
@@ -4073,7 +4073,12 @@
         "step3Title": "Verdienst",
         "step3StatWeek": "Woche",
         "step3StatTrips": "Fahrten",
-        "step3Payday": "Auszahlung: Mo."
+        "step3Payday": "Auszahlung: Mo.",
+        "step1Badge": "In 36 Std",
+        "step1Origin": "Flughafen Lissabon",
+        "step1To": "nach",
+        "step1Dest": "Sublime Comporta",
+        "step1Meta": "M. Ferreira · 2 Pax · Fr, 14:30"
       }
     },
     "trust": {

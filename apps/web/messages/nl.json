@@ -3965,8 +3965,8 @@
         "body": "Elke maandag verwerken we de betaling voor alle ritten van de afgelopen week. Automatische overschrijving naar je voorkeursrekening, zonder papierwerk."
       },
       "phone": {
-        "step1Title": "Reserveringen",
-        "step1Cta": "Accepteer →",
+        "step1Title": "Nieuwe boeking",
+        "step1Cta": "Boeking openen",
         "step2Title": "Huidige rit",
         "step2Pax": "passagiers",
         "step2Cta1": "Start",
@@ -3976,7 +3976,12 @@
         "step3Title": "Inkomsten",
         "step3StatWeek": "Week",
         "step3StatTrips": "Ritten",
-        "step3Payday": "Uitbetaling: ma."
+        "step3Payday": "Uitbetaling: ma.",
+        "step1Badge": "Over 36u",
+        "step1Origin": "Luchthaven Lissabon",
+        "step1To": "naar",
+        "step1Dest": "Sublime Comporta",
+        "step1Meta": "M. Ferreira · 2 pax · Vr, 14:30"
       }
     },
     "trust": {

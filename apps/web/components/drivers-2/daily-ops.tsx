@@ -16,9 +16,12 @@ const SCREEN_BG =
 function MiniPhoneShell({
   children,
   time,
+  /** Quando o próprio cabeçalho já mostra a hora, como no ecrã de reserva. */
+  barraDeEstado = true,
 }: {
   children: React.ReactNode
   time: string
+  barraDeEstado?: boolean
 }) {
   return (
     <div className="bg-[#111110] border-4 border-[#222] h-[178px] w-[100px] relative rounded-[18px] shadow-[0_12px_40px_0_rgba(0,0,0,0.25),0_0_0_1px_rgba(255,255,255,0.05)] overflow-hidden">
@@ -29,14 +32,18 @@ function MiniPhoneShell({
         className="absolute inset-[1px] flex flex-col rounded-[15px] overflow-hidden"
         style={{ backgroundImage: SCREEN_BG }}
       >
-        <div className="flex h-4 items-center justify-end pb-0.5 pt-2.5 px-1.5">
-          <span
-            className="text-[5px] text-[rgba(255,255,255,0.3)] leading-none"
-            style={SANS_FONT}
-          >
-            {time}
-          </span>
-        </div>
+        {barraDeEstado ? (
+          <div className="flex h-4 items-center justify-end pb-0.5 pt-2.5 px-1.5">
+            <span
+              className="text-[5px] text-[rgba(255,255,255,0.3)] leading-none"
+              style={SANS_FONT}
+            >
+              {time}
+            </span>
+          </div>
+        ) : (
+          <div className="h-2.5" />
+        )}
         {children}
       </div>
     </div>
@@ -81,50 +88,84 @@ function MiniNav({ items }: { items: { label: string; active: boolean }[] }) {
   )
 }
 
+/**
+ * Ecrã de nova reserva, desenhado a partir do mockup fornecido: ponto e título
+ * na mesma linha da hora, selo de antecedência ao lado do valor, rota em duas
+ * linhas com a preposição em peso normal, e o botão em contorno, não cheio.
+ */
 function PhoneStep1({ tNav }: { tNav: (k: string) => string }) {
   return (
-    <MiniPhoneShell time="9:41">
-      <MiniHeader title={tNav("step1Title")} />
-      <div className="flex flex-1 flex-col gap-[3px] p-[5px] min-h-0">
-        <div className="bg-[rgba(201,169,110,0.06)] border border-[rgba(201,169,110,0.3)] flex flex-col p-[5.64px] rounded-[2px]">
+    <MiniPhoneShell time="09:41" barraDeEstado={false}>
+      <div className="flex items-center justify-between gap-1 px-[6px] pb-[5px] pt-[3px]">
+        <span className="flex items-center gap-[3px] min-w-0">
+          <span className="bg-[#c4973e] rounded-full size-[3px] shrink-0" />
           <span
-            className="text-[#c4973e] text-[8px] font-extrabold text-right leading-none"
-            style={SANS_FONT}
+            className="text-[8px] text-white leading-none truncate"
+            style={SERIF_FONT}
           >
-            € 47,00
+            {tNav("step1Title")}
           </span>
+        </span>
+        <span
+          className="text-[5px] text-[rgba(255,255,255,0.45)] leading-none shrink-0"
+          style={SANS_FONT}
+        >
+          09:41
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col gap-[4px] px-[6px] pb-[5px] min-h-0">
+        <div className="border border-[rgba(201,169,110,0.45)] flex flex-col gap-[3px] p-[5px]">
+          <div className="flex items-center justify-between gap-1">
+            <span
+              className="border border-[rgba(201,169,110,0.55)] text-[#c4973e] text-[4px] font-bold uppercase tracking-[0.4px] leading-none px-[3px] py-[2px]"
+              style={SANS_FONT}
+            >
+              {tNav("step1Badge")}
+            </span>
+            <span
+              className="text-[#c4973e] text-[9px] leading-none"
+              style={SERIF_FONT}
+            >
+              € 320,00
+            </span>
+          </div>
+
           <p
-            className="text-[6px] text-[rgba(255,255,255,0.5)] leading-[8.4px] pb-[3px]"
+            className="text-[6px] text-white font-bold leading-[8px]"
             style={SANS_FONT}
           >
-            <span className="font-bold">Aeroporto</span>
-            <span> → Bairro Alto</span>
+            {tNav("step1Origin")}{" "}
+            <span className="font-normal">{tNav("step1To")}</span>{" "}
+            {tNav("step1Dest")}
           </p>
-          <div className="bg-[#c4973e] rounded-[1px] flex justify-center py-[2px] px-1">
+
+          <p
+            className="text-[5px] text-[rgba(255,255,255,0.45)] leading-[7px]"
+            style={SANS_FONT}
+          >
+            {tNav("step1Meta")}
+          </p>
+
+          <div className="border border-[rgba(201,169,110,0.55)] flex justify-center mt-[1px] py-[3px] px-1">
             <span
-              className="text-[#111110] text-[6px] font-extrabold tracking-[0.3px] leading-none"
+              className="text-[#c4973e] text-[6px] font-semibold leading-none"
               style={SANS_FONT}
             >
               {tNav("step1Cta")}
             </span>
           </div>
         </div>
-        <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.07)] p-[5.64px] rounded-[2px] flex flex-col gap-px">
-          <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[55.8px]" />
-          <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[41.85px]" />
-        </div>
-        <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.07)] p-[5.64px] rounded-[2px] flex flex-col gap-px">
-          <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[41.85px]" />
-          <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[31.39px]" />
-        </div>
+
+        {/* Reservas seguintes, ainda por abrir: blocos cheios, sem conteúdo. */}
+        <div className="bg-[rgba(255,255,255,0.04)] h-[15px]" />
+        <div className="bg-[rgba(255,255,255,0.04)] h-[15px]" />
       </div>
-      <MiniNav
-        items={[
-          { label: tNav("step1Title"), active: true },
-          { label: tNav("step2NavMap"), active: false },
-          { label: tNav("step3Title"), active: false },
-        ]}
-      />
+
+      <div className="flex gap-[4px] items-center justify-center pb-[5px]">
+        <span className="bg-[#c4973e] h-[2px] rounded-[1px] w-[14px]" />
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[14px]" />
+      </div>
     </MiniPhoneShell>
   )
 }

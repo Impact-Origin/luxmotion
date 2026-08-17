@@ -3981,8 +3981,8 @@
         "body": "Todos los lunes, procesamos el pago de todos los viajes de la semana anterior. Transferencia automática a tu cuenta preferida, sin burocracia."
       },
       "phone": {
-        "step1Title": "Reservas",
-        "step1Cta": "Aceptar →",
+        "step1Title": "Nueva reserva",
+        "step1Cta": "Abrir reserva",
         "step2Title": "Viaje actual",
         "step2Pax": "pasajeros",
         "step2Cta1": "Iniciar",
@@ -3992,7 +3992,12 @@
         "step3Title": "Ingresos",
         "step3StatWeek": "Semana",
         "step3StatTrips": "Viajes",
-        "step3Payday": "Pago: lunes"
+        "step3Payday": "Pago: lunes",
+        "step1Badge": "En 36h",
+        "step1Origin": "Aeropuerto de Lisboa",
+        "step1To": "a",
+        "step1Dest": "Sublime Comporta",
+        "step1Meta": "M. Ferreira · 2 pax · Vie, 14:30"
       }
     },
     "trust": {
