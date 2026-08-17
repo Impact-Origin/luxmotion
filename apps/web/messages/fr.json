@@ -3968,10 +3968,9 @@
         "step1Title": "Nouvelle réservation",
         "step1Cta": "Ouvrir la réservation",
         "step2Title": "Attribuer un chauffeur",
-        "step3Title": "Gains",
-        "step3StatWeek": "Semaine",
-        "step3StatTrips": "Courses",
-        "step3Payday": "Paiement: lun.",
+        "step3Title": "Paiements",
+        "step3StatWeek": "Cette semaine",
+        "step3StatTrips": "Trajets",
         "step1Badge": "Dans 36h",
         "step1Origin": "Aéroport de Lisbonne",
         "step1To": "vers",
@@ -3984,7 +3983,12 @@
         "step2Driver2": "Rui Antunes",
         "step2Car2": "BMW Série 7 · Disponible",
         "step2Cta": "Confirmer l'attribution",
-        "step2Note": "Le client est prévenu automatiquement avec la photo du chauffeur"
+        "step2Note": "Le client est prévenu automatiquement avec la photo du chauffeur",
+        "step3Trip1": "Aéroport vers Comporta",
+        "step3Trip2": "Cascais vers Aéroport",
+        "step3Trip3": "Ericeira vers Lisbonne",
+        "step3PayoutLabel": "Paiement",
+        "step3PayoutValue": "Vendredi, virement automatique"
       }
     },
     "trust": {

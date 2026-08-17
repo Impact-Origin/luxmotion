@@ -3984,10 +3984,9 @@
         "step1Title": "Nueva reserva",
         "step1Cta": "Abrir reserva",
         "step2Title": "Asignar conductor",
-        "step3Title": "Ingresos",
-        "step3StatWeek": "Semana",
+        "step3Title": "Pagos",
+        "step3StatWeek": "Esta semana",
         "step3StatTrips": "Viajes",
-        "step3Payday": "Pago: lunes",
         "step1Badge": "En 36h",
         "step1Origin": "Aeropuerto de Lisboa",
         "step1To": "a",
@@ -4000,7 +3999,12 @@
         "step2Driver2": "Rui Antunes",
         "step2Car2": "BMW Serie 7 · Disponible",
         "step2Cta": "Confirmar asignación",
-        "step2Note": "El cliente recibe aviso automático con la foto del conductor"
+        "step2Note": "El cliente recibe aviso automático con la foto del conductor",
+        "step3Trip1": "Aeropuerto a Comporta",
+        "step3Trip2": "Cascais a Aeropuerto",
+        "step3Trip3": "Ericeira a Lisboa",
+        "step3PayoutLabel": "Pago",
+        "step3PayoutValue": "Viernes, transferencia automática"
       }
     },
     "trust": {

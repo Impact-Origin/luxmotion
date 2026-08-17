@@ -4153,10 +4153,9 @@
         "step1Title": "Nova reserva",
         "step1Cta": "Abrir reserva",
         "step2Title": "Atribuir motorista",
-        "step3Title": "Ganhos",
-        "step3StatWeek": "Semana",
+        "step3Title": "Pagamentos",
+        "step3StatWeek": "Esta semana",
         "step3StatTrips": "Viagens",
-        "step3Payday": "Pagamento: 2ª feira",
         "step1Badge": "Em 36h",
         "step1Origin": "Aeroporto de Lisboa",
         "step1To": "para",
@@ -4169,7 +4168,12 @@
         "step2Driver2": "Rui Antunes",
         "step2Car2": "BMW Série 7 · Disponível",
         "step2Cta": "Confirmar atribuição",
-        "step2Note": "Cliente notificado automaticamente com a foto do motorista"
+        "step2Note": "Cliente notificado automaticamente com a foto do motorista",
+        "step3Trip1": "Aeroporto para Comporta",
+        "step3Trip2": "Cascais para Aeroporto",
+        "step3Trip3": "Ericeira para Lisboa",
+        "step3PayoutLabel": "Pagamento",
+        "step3PayoutValue": "Sexta, transferência automática"
       }
     },
     "trust": {

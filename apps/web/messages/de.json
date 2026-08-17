@@ -4065,10 +4065,9 @@
         "step1Title": "Neue Buchung",
         "step1Cta": "Buchung öffnen",
         "step2Title": "Fahrer zuweisen",
-        "step3Title": "Verdienst",
-        "step3StatWeek": "Woche",
+        "step3Title": "Auszahlungen",
+        "step3StatWeek": "Diese Woche",
         "step3StatTrips": "Fahrten",
-        "step3Payday": "Auszahlung: Mo.",
         "step1Badge": "In 36 Std",
         "step1Origin": "Flughafen Lissabon",
         "step1To": "nach",
@@ -4081,7 +4080,12 @@
         "step2Driver2": "Rui Antunes",
         "step2Car2": "BMW 7er · Verfügbar",
         "step2Cta": "Zuweisung bestätigen",
-        "step2Note": "Der Kunde wird automatisch mit Fahrerfoto benachrichtigt"
+        "step2Note": "Der Kunde wird automatisch mit Fahrerfoto benachrichtigt",
+        "step3Trip1": "Flughafen nach Comporta",
+        "step3Trip2": "Cascais nach Flughafen",
+        "step3Trip3": "Ericeira nach Lissabon",
+        "step3PayoutLabel": "Auszahlung",
+        "step3PayoutValue": "Freitag, automatisch"
       }
     },
     "trust": {

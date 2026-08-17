@@ -50,44 +50,6 @@ function MiniPhoneShell({
   )
 }
 
-function MiniHeader({ title }: { title: string }) {
-  return (
-    <div className="border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between pb-1.5 pt-1 px-1.5">
-      <span
-        className="text-[9px] text-white leading-none"
-        style={SERIF_FONT}
-      >
-        {title}
-      </span>
-      <span className="bg-[rgba(201,169,110,0.5)] rounded-[2.5px] size-[5px]" />
-    </div>
-  )
-}
-
-function MiniNav({ items }: { items: { label: string; active: boolean }[] }) {
-  return (
-    <div className="border-t border-[rgba(255,255,255,0.05)] flex gap-[3px] h-[18.64px] items-start justify-center pb-1 pt-[4.64px] px-1.5">
-      {items.map((item, i) => (
-        <div key={i} className="flex flex-col items-center gap-px w-[25px]">
-          <span
-            className={`h-1 rounded-[1px] w-3 ${
-              item.active ? "bg-[rgba(201,169,110,0.4)]" : "bg-[rgba(255,255,255,0.08)]"
-            }`}
-          />
-          {item.active && (
-            <span
-              className="text-[4px] text-[rgba(255,255,255,0.2)] leading-none"
-              style={SANS_FONT}
-            >
-              {item.label}
-            </span>
-          )}
-        </div>
-      ))}
-    </div>
-  )
-}
-
 /**
  * Ecrã de nova reserva, desenhado a partir do mockup fornecido: ponto e título
  * na mesma linha da hora, selo de antecedência ao lado do valor, rota em duas
@@ -316,62 +278,120 @@ function PhoneStep2({ tNav }: { tNav: (k: string) => string }) {
   )
 }
 
+function LinhaViagem({ rota, valor }: { rota: string; valor: string }) {
+  return (
+    <div className="border-b border-[rgba(255,255,255,0.07)] flex gap-1 items-center justify-between py-[3px]">
+      <span
+        className="text-[5.5px] text-[rgba(255,255,255,0.75)] leading-none truncate"
+        style={SANS_FONT}
+      >
+        {rota}
+      </span>
+      <span
+        className="text-[5.5px] text-white leading-none shrink-0"
+        style={SANS_FONT}
+      >
+        {valor}
+      </span>
+    </div>
+  )
+}
+
+/** Caixa de número grande, dourada, das duas do topo do ecrã de pagamentos. */
+function CaixaNumero({
+  valor,
+  prefixo,
+  etiqueta,
+}: {
+  valor: string
+  prefixo?: string
+  etiqueta: string
+}) {
+  return (
+    <div className="border border-[rgba(201,169,110,0.45)] flex-1 flex flex-col gap-[2px] justify-center p-[5px] min-w-0">
+      {prefixo && (
+        <span
+          className="text-[#c4973e] text-[7px] leading-none"
+          style={SERIF_FONT}
+        >
+          {prefixo}
+        </span>
+      )}
+      <span
+        className="text-[#c4973e] text-[12px] leading-none"
+        style={SERIF_FONT}
+      >
+        {valor}
+      </span>
+      <span
+        className="text-[4px] text-[#c4973e] font-bold uppercase tracking-[0.8px] leading-[6px]"
+        style={SANS_FONT}
+      >
+        {etiqueta}
+      </span>
+    </div>
+  )
+}
+
+/**
+ * Ecrã de pagamentos, desenhado a partir do mockup: dois números grandes em
+ * dourado, as viagens da semana com o respectivo valor, e a data do pagamento.
+ */
 function PhoneStep3({ tNav }: { tNav: (k: string) => string }) {
   return (
-    <MiniPhoneShell time="18:05">
-      <MiniHeader title={tNav("step3Title")} />
-      <div className="flex flex-1 flex-col gap-[3px] p-[5px] min-h-0">
-        <div className="flex gap-[3px] h-[26.28px]">
-          <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] flex-1 flex flex-col items-center p-[4.64px] rounded-[2px]">
-            <span
-              className="text-[#c4973e] text-[9px] font-extrabold leading-none"
-              style={SANS_FONT}
-            >
-              €234
-            </span>
-            <span
-              className="text-[5px] text-[rgba(255,255,255,0.3)] tracking-[0.3px] uppercase leading-none"
-              style={SANS_FONT}
-            >
-              {tNav("step3StatWeek")}
-            </span>
-          </div>
-          <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] flex-1 flex flex-col items-center p-[4.64px] rounded-[2px]">
-            <span
-              className="text-[#c4973e] text-[9px] font-extrabold leading-none"
-              style={SANS_FONT}
-            >
-              8
-            </span>
-            <span
-              className="text-[5px] text-[rgba(255,255,255,0.3)] tracking-[0.3px] uppercase leading-none"
-              style={SANS_FONT}
-            >
-              {tNav("step3StatTrips")}
-            </span>
-          </div>
-        </div>
-        <div className="h-1" />
-        <div className="bg-[rgba(201,169,110,0.3)] h-[7px] rounded-[1px] w-[64.83px]" />
-        <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[48.62px]" />
-        <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[64.83px]" />
-        <div className="bg-[rgba(201,169,110,0.2)] h-[5px] rounded-[1px] w-[36.46px]" />
-        <div className="flex justify-end pt-0.5">
+    <MiniPhoneShell time="18:05" barraDeEstado={false}>
+      <div className="flex items-center justify-between gap-1 px-[6px] pb-[4px] pt-[3px]">
+        <span className="flex items-center gap-[3px] min-w-0">
+          <span className="bg-[#c4973e] rounded-full size-[3px] shrink-0" />
           <span
-            className="text-[7px] text-[rgba(255,255,255,0.3)] leading-none"
+            className="text-[8px] text-white leading-none truncate"
+            style={SERIF_FONT}
+          >
+            {tNav("step3Title")}
+          </span>
+        </span>
+        <span
+          className="text-[5px] text-[rgba(255,255,255,0.45)] leading-none shrink-0"
+          style={SANS_FONT}
+        >
+          18:05
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col gap-[5px] px-[6px] pb-[4px] min-h-0">
+        <div className="flex gap-[5px]">
+          <CaixaNumero prefixo="€" valor="1.840" etiqueta={tNav("step3StatWeek")} />
+          <CaixaNumero valor="12" etiqueta={tNav("step3StatTrips")} />
+        </div>
+
+        <div className="flex flex-col">
+          <LinhaViagem rota={tNav("step3Trip1")} valor="€ 320,00" />
+          <LinhaViagem rota={tNav("step3Trip2")} valor="€ 185,00" />
+          <LinhaViagem rota={tNav("step3Trip3")} valor="€ 210,00" />
+        </div>
+
+        <div className="flex gap-[3px] items-baseline mt-auto">
+          <span
+            className="text-[4px] text-[rgba(255,255,255,0.4)] font-bold uppercase tracking-[0.8px] leading-none shrink-0"
             style={SANS_FONT}
           >
-            {tNav("step3Payday")}
+            {tNav("step3PayoutLabel")}
+          </span>
+          <span
+            className="text-[6.5px] text-white leading-none truncate"
+            style={SERIF_FONT}
+          >
+            {tNav("step3PayoutValue")}
           </span>
         </div>
       </div>
-      <MiniNav
-        items={[
-          { label: "", active: false },
-          { label: "", active: false },
-          { label: tNav("step3Title"), active: true },
-        ]}
-      />
+
+      {/* Último traço aceso: este é o separador da direita. */}
+      <div className="flex gap-[4px] items-center justify-center pb-[5px]">
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[12px]" />
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[12px]" />
+        <span className="bg-[#c4973e] h-[2px] rounded-[1px] w-[12px]" />
+      </div>
     </MiniPhoneShell>
   )
 }

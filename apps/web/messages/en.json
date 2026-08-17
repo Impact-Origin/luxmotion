@@ -4154,10 +4154,9 @@
         "step1Title": "New booking",
         "step1Cta": "Open booking",
         "step2Title": "Assign driver",
-        "step3Title": "Earnings",
-        "step3StatWeek": "Week",
+        "step3Title": "Payouts",
+        "step3StatWeek": "This week",
         "step3StatTrips": "Trips",
-        "step3Payday": "Payout: Monday",
         "step1Badge": "In 36h",
         "step1Origin": "Lisbon Airport",
         "step1To": "to",
@@ -4170,7 +4169,12 @@
         "step2Driver2": "Rui Antunes",
         "step2Car2": "BMW 7 Series · Available",
         "step2Cta": "Confirm assignment",
-        "step2Note": "Client notified automatically with driver photo"
+        "step2Note": "Client notified automatically with driver photo",
+        "step3Trip1": "Airport to Comporta",
+        "step3Trip2": "Cascais to Airport",
+        "step3Trip3": "Ericeira to Lisbon",
+        "step3PayoutLabel": "Payout",
+        "step3PayoutValue": "Friday, auto transfer"
       }
     },
     "trust": {

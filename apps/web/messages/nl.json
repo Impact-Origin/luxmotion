@@ -3968,10 +3968,9 @@
         "step1Title": "Nieuwe boeking",
         "step1Cta": "Boeking openen",
         "step2Title": "Chauffeur toewijzen",
-        "step3Title": "Inkomsten",
-        "step3StatWeek": "Week",
+        "step3Title": "Uitbetalingen",
+        "step3StatWeek": "Deze week",
         "step3StatTrips": "Ritten",
-        "step3Payday": "Uitbetaling: ma.",
         "step1Badge": "Over 36u",
         "step1Origin": "Luchthaven Lissabon",
         "step1To": "naar",
@@ -3984,7 +3983,12 @@
         "step2Driver2": "Rui Antunes",
         "step2Car2": "BMW 7 Serie · Beschikbaar",
         "step2Cta": "Toewijzing bevestigen",
-        "step2Note": "De klant krijgt automatisch bericht met foto van de chauffeur"
+        "step2Note": "De klant krijgt automatisch bericht met foto van de chauffeur",
+        "step3Trip1": "Luchthaven naar Comporta",
+        "step3Trip2": "Cascais naar Luchthaven",
+        "step3Trip3": "Ericeira naar Lissabon",
+        "step3PayoutLabel": "Uitbetaling",
+        "step3PayoutValue": "Vrijdag, automatisch"
       }
     },
     "trust": {
