@@ -114,23 +114,33 @@ export const rename = mutation({
 });
 
 /**
- * Tira a imagem do catálogo. O ficheiro em si só desaparece se nenhum extra o
- * estiver a usar — os extras guardam o `_storage` id directamente e ficariam sem
- * imagem. Devolve `ficheiroMantido` para a página poder explicar porquê.
+ * Apaga a imagem a sério: tira-a da biblioteca, limpa-a dos extras que a estejam
+ * a usar e apaga o ficheiro.
+ *
+ * É por `storageId` e não pela linha da biblioteca de propósito — as imagens que
+ * vieram dos extras e nunca foram registadas não têm linha nenhuma, e eram
+ * justamente essas que não havia maneira de apagar.
+ *
+ * Devolve quantos extras ficaram sem imagem, para a página o poder dizer.
  */
 export const remove = mutation({
-  args: { id: v.id("addonImages") },
+  args: { storageId: v.id("_storage") },
   handler: async (ctx, args) => {
-    const linha = await ctx.db.get(args.id);
-    if (!linha) return { ficheiroMantido: false };
+    const linha = await ctx.db
+      .query("addonImages")
+      .withIndex("by_storage", (q) => q.eq("storageId", args.storageId))
+      .first();
+    if (linha) await ctx.db.delete(linha._id);
 
     const extras = await ctx.db.query("tourAddons").collect();
-    const emUso = extras.some((a) => a.imageId === linha.storageId);
+    const afectados = extras.filter((a) => a.imageId === args.storageId);
+    for (const extra of afectados) {
+      await ctx.db.patch(extra._id, { imageId: undefined, updatedAt: Date.now() });
+    }
 
-    await ctx.db.delete(args.id);
-    if (!emUso) await ctx.storage.delete(linha.storageId);
+    await ctx.storage.delete(args.storageId);
 
-    return { ficheiroMantido: emUso };
+    return { extrasAfectados: afectados.length };
   },
 });
 

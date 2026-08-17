@@ -19,6 +19,8 @@ import {
 } from "@workspace/ui/components/alert-dialog"
 import { ImageIcon, Loader2, Search, Trash2, Upload } from "lucide-react"
 import { toast } from "sonner"
+import { encolherImagem } from "@/lib/encolher-imagem"
+import { MiniaturaImagem } from "@/components/admin/miniatura-imagem"
 
 type ItemDaBiblioteca = {
   libraryId?: Id<"addonImages">
@@ -59,6 +61,11 @@ function useBiblioteca(): {
   }, [bruto])
 }
 
+/**
+ * As imagens vêm do storage no tamanho original — as que já lá estavam pesam
+ * mais de 1 MB cada. Sem isto uma grelha cheia eram quadrados brancos durante
+ * segundos e parecia avariada.
+ */
 export default function AdminAddonImagesPage() {
   const { itens, aCarregar, indisponivel } = useBiblioteca()
 
@@ -84,11 +91,13 @@ export default function AdminAddonImagesPage() {
 
     for (const ficheiro of lista) {
       try {
+        // Encolhida antes de subir: ver `lib/encolher-imagem.ts` para o porquê.
+        const leve = await encolherImagem(ficheiro)
         const url = await gerarUrlDeUpload()
         const resposta = await fetch(url, {
           method: "POST",
-          headers: { "Content-Type": ficheiro.type },
-          body: ficheiro,
+          headers: { "Content-Type": leve.type },
+          body: leve,
         })
         const { storageId } = await resposta.json()
         await registar({
@@ -117,13 +126,14 @@ export default function AdminAddonImagesPage() {
 
   const confirmarApagar = async () => {
     const alvo = aApagar
-    if (!alvo?.libraryId) return
+    if (!alvo) return
     setAApagar(null)
     try {
-      const r = await remover({ id: alvo.libraryId })
+      const r = await remover({ storageId: alvo.storageId as Id<"_storage"> })
+      const n = r?.extrasAfectados ?? 0
       toast.success(
-        r?.ficheiroMantido
-          ? "Retirada da biblioteca. O ficheiro fica, porque há extras a usá-lo."
+        n > 0
+          ? `Imagem apagada. ${n} ${n === 1 ? "extra ficou" : "extras ficaram"} sem imagem.`
           : "Imagem apagada.",
       )
     } catch (erro) {
@@ -218,15 +228,7 @@ export default function AdminAddonImagesPage() {
               key={item.storageId}
               className="overflow-hidden rounded-lg border border-border bg-card"
             >
-              <div className="relative aspect-video bg-muted/30">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.url}
-                  alt={item.label}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+              <MiniaturaImagem url={item.url} alt={item.label} />
 
               <div className="space-y-2 p-3">
                 <Input
@@ -242,20 +244,16 @@ export default function AdminAddonImagesPage() {
                         ? "Em 1 extra"
                         : `Em ${item.usageCount} extras`}
                   </span>
-                  {/* Só as registadas se apagam: as herdadas não têm linha para
-                      apagar, e o ficheiro é do extra que a usa. */}
-                  {item.libraryId && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                      onClick={() => setAApagar(item)}
-                      title="Apagar"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
-                  )}
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                    onClick={() => setAApagar(item)}
+                    title="Apagar"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
               </div>
             </div>
@@ -272,10 +270,10 @@ export default function AdminAddonImagesPage() {
             <AlertDialogTitle>Apagar &quot;{aApagar?.label}&quot;?</AlertDialogTitle>
             <AlertDialogDescription>
               {aApagar && aApagar.usageCount > 0
-                ? `Esta imagem está a ser usada em ${aApagar.usageCount} ${
-                    aApagar.usageCount === 1 ? "extra" : "extras"
-                  }. Sai da biblioteca, mas o ficheiro fica e esses extras continuam a mostrá-la.`
-                : "Ninguém está a usar esta imagem, por isso o ficheiro é mesmo apagado. Não há como voltar atrás."}
+                ? `Está a ser usada em ${aApagar.usageCount} ${
+                    aApagar.usageCount === 1 ? "extra, que fica" : "extras, que ficam"
+                  } sem imagem. O ficheiro é apagado e não há como voltar atrás.`
+                : "Ninguém está a usar esta imagem. O ficheiro é apagado e não há como voltar atrás."}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -124,7 +124,6 @@ function AddonCard({
               empty: t("form.addonImageEmpty"),
               remove: t("form.addonImageRemove"),
               rename: t("form.addonImageRename"),
-              forget: t("form.addonImageForget"),
             }}
           />
         </div>

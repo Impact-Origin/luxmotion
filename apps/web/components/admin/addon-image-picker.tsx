@@ -15,8 +15,10 @@ import {
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
-import { Check, ImageIcon, Loader2, Trash2, Upload, X } from "lucide-react"
+import { Check, ImageIcon, Loader2, Upload, X } from "lucide-react"
 import { toast } from "sonner"
+import { encolherImagem } from "@/lib/encolher-imagem"
+import { MiniaturaImagem } from "./miniatura-imagem"
 
 type ItemDaBiblioteca = {
   libraryId?: Id<"addonImages">
@@ -43,7 +45,6 @@ interface AddonImagePickerProps {
     empty: string
     remove: string
     rename: string
-    forget: string
   }
 }
 
@@ -83,7 +84,6 @@ export function AddonImagePicker({
   const { itens, indisponivel } = useBiblioteca()
   const gerarUrlDeUpload = useMutation(api.addonImages.generateUploadUrl)
   const registar = useMutation(api.addonImages.add)
-  const esquecer = useMutation(api.addonImages.remove)
   const renomear = useMutation(api.addonImages.rename)
 
   React.useEffect(() => {
@@ -98,11 +98,13 @@ export function AddonImagePicker({
       const local = URL.createObjectURL(ficheiro)
       setPreviewLocal(local)
 
+      // Encolhida antes de subir: ver `lib/encolher-imagem.ts` para o porquê.
+      const leve = await encolherImagem(ficheiro)
       const url = await gerarUrlDeUpload()
       const resposta = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": ficheiro.type },
-        body: ficheiro,
+        headers: { "Content-Type": leve.type },
+        body: leve,
       })
       const { storageId } = await resposta.json()
 
@@ -133,8 +135,7 @@ export function AddonImagePicker({
       >
         {mostrada ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={mostrada} alt="" className="h-full w-full object-cover" />
+            <MiniaturaImagem url={mostrada} alt="" className="h-full w-full" />
             <button
               type="button"
               onClick={() => {
@@ -196,13 +197,7 @@ export function AddonImagePicker({
                             : "border-transparent hover:border-muted-foreground/40",
                         )}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.url}
-                          alt={item.label}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
+                        <MiniaturaImagem url={item.url} alt={item.label} />
                         {escolhida && (
                           <span className="absolute right-1 top-1 rounded-full bg-primary p-0.5 text-primary-foreground">
                             <Check className="h-3 w-3" />
@@ -231,16 +226,6 @@ export function AddonImagePicker({
                             }
                           }}
                         />
-                        {item.libraryId && (
-                          <button
-                            type="button"
-                            title={labels.forget}
-                            onClick={() => void esquecer({ id: item.libraryId! })}
-                            className="rounded p-1 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        )}
                       </div>
                     </div>
                   )
