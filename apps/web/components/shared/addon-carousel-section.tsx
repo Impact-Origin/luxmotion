@@ -74,7 +74,7 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
     >
       <div className="flex items-center justify-between mb-6">
         <h2
-          className="text-[28px] md:text-[32px] font-light leading-none text-white"
+          className="text-[28px] md:text-[32px] font-light leading-none text-[var(--lm-text,#fff)]"
           style={{ fontFamily: SERIF_FONT }}
         >
           {t("addOns")}
@@ -89,7 +89,7 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
                 "size-[36px] flex items-center justify-center border transition-colors",
                 currentSlide === 0
                   ? "border-[rgba(201,169,110,0.16)] text-[rgba(201,169,110,0.35)] cursor-not-allowed"
-                  : "border-[rgba(201,169,110,0.36)] text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+                  : "border-[rgba(var(--lm-accent-rgb,201,169,110),0.36)] text-[var(--lm-accent,#C9A96E)] hover:border-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
               )}
             >
               <ChevronLeft className="size-[16px]" strokeWidth={1.6} />
@@ -102,7 +102,7 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
                 "size-[36px] flex items-center justify-center border transition-colors",
                 currentSlide >= maxSlide
                   ? "border-[rgba(201,169,110,0.16)] text-[rgba(201,169,110,0.35)] cursor-not-allowed"
-                  : "border-[rgba(201,169,110,0.36)] text-[#C9A96E] hover:border-[#C9A96E] hover:bg-[rgba(201,169,110,0.08)]"
+                  : "border-[rgba(var(--lm-accent-rgb,201,169,110),0.36)] text-[var(--lm-accent,#C9A96E)] hover:border-[var(--lm-accent,#C9A96E)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)]"
               )}
             >
               <ChevronRight className="size-[16px]" strokeWidth={1.6} />
@@ -120,9 +120,9 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
         >
           {addons.map((addon) => (
             <div key={addon._id} className="shrink-0" style={{ width: cardWidth }}>
-              <div className="h-full overflow-hidden border border-[rgba(201,169,110,0.18)] bg-[#1A1A1A] transition-colors hover:border-[rgba(201,169,110,0.42)]">
+              <div className="h-full overflow-hidden border border-[rgba(var(--lm-accent-rgb,201,169,110),0.18)] bg-[var(--lm-surface,#1A1A1A)] transition-colors hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.42)]">
                 {addon.imageUrl ? (
-                  <div className="relative aspect-[183/120] w-full overflow-hidden bg-[#111]">
+                  <div className="relative aspect-[183/120] w-full overflow-hidden bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)]">
                     <Image
                       src={addon.imageUrl}
                       alt={addon.title}
@@ -132,31 +132,34 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
                     />
                   </div>
                 ) : (
-                  <div className="aspect-[183/120] w-full bg-[#111]" />
+                  <div className="aspect-[183/120] w-full bg-[rgba(var(--lm-text-rgb,255,255,255),0.06)]" />
                 )}
 
-                <div className="flex min-h-[148px] flex-col gap-[8px] bg-[#1A1A1A] px-4 py-4">
+                <div className="flex min-h-[148px] flex-col gap-[8px] bg-[var(--lm-surface,#1A1A1A)] px-4 py-4">
                   <h3
-                    className="text-[20px] font-medium leading-[1.1] text-white"
+                    className="text-[20px] font-medium leading-[1.1] text-[var(--lm-text,#fff)]"
                     style={{ fontFamily: SERIF_FONT }}
                   >
                     {addon.title}
                   </h3>
                   <div className="flex items-center">
                     <span
-                      className="text-[20px] font-semibold leading-none text-[#C9A96E]"
+                      className="text-[20px] font-semibold leading-none text-[var(--lm-accent,#C9A96E)]"
                       style={{ fontFamily: SERIF_FONT }}
                     >
-                      {format(addon.price)}/
+                      {/* A barra só se escreve quando há unidade a seguir: num
+                          preço fixo ficava "€ 15/" pendurado. */}
+                      {format(addon.price)}
+                      {addon.pricingType === "per_person" ? "/" : ""}
                     </span>
                     {addon.pricingType === "per_person" && (
-                      <span className="ml-1 text-[12px] font-medium text-[#8c8680]">
+                      <span className="ml-1 text-[12px] font-medium text-[var(--lm-muted,#8c8680)]">
                         {t("perPerson")}
                       </span>
                     )}
                   </div>
                   {addon.description && (
-                    <p className="line-clamp-2 text-[13px] leading-[1.45] text-[#999]">
+                    <p className="line-clamp-2 text-[13px] leading-[1.45] text-[var(--lm-muted,#999)]">
                       {addon.description}
                     </p>
                   )}
@@ -178,8 +181,8 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
               className={cn(
                 "h-[2px] transition-all",
                 index === currentSlide
-                  ? "w-8 bg-[#C9A96E]"
-                  : "w-4 bg-[rgba(201,169,110,0.3)] hover:bg-[rgba(201,169,110,0.55)]"
+                  ? "w-8 bg-[var(--lm-accent,#C9A96E)]"
+                  : "w-4 bg-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.55)]"
               )}
             />
           ))}
