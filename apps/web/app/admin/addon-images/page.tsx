@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useMemo } from "react"
 import { useMutation, useQueries } from "convex/react"
+import type { RequestForQueries } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import { Button } from "@workspace/ui/components/button"
@@ -25,6 +26,21 @@ import {
   DialogTitle,
 } from "@workspace/ui/components/dialog"
 import { AlertTriangle, ImageIcon, Loader2, Search, Trash2, Upload } from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@workspace/ui/components/table"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@workspace/ui/components/sheet"
 import { toast } from "sonner"
 import { encolherImagem } from "@/lib/encolher-imagem"
 import { MiniaturaImagem } from "@/components/admin/miniatura-imagem"
@@ -223,6 +239,130 @@ function BlocoSemImagem({
   )
 }
 
+/**
+ * Detalhe de uma imagem, em painel lateral: a imagem em grande, o nome
+ * editável e a lista de extras que a usam — que é o que interessa saber antes
+ * de lhe mexer.
+ */
+function PainelDeDetalhe({
+  item,
+  onFechar,
+  onRenomear,
+  onApagar,
+}: {
+  item: ItemDaBiblioteca | null
+  onFechar: () => void
+  onRenomear: (item: ItemDaBiblioteca, valor: string) => void
+  onApagar: (item: ItemDaBiblioteca) => void
+}) {
+  /* A query só corre com o painel aberto: percorre os extras todos, e não vale
+     fazê-lo enquanto ninguém está a olhar. */
+  const queries = useMemo(
+    () =>
+      (item
+        ? {
+            usos: {
+              query: api.addonImages.usedBy,
+              args: { storageId: item.storageId as Id<"_storage"> },
+            },
+          }
+        : {}) as RequestForQueries,
+    [item],
+  )
+  const bruto = (useQueries(queries) as Record<string, unknown>).usos
+  const usos = Array.isArray(bruto)
+    ? (bruto as {
+        addonId: string
+        addonTitle: string
+        tipo: "tour" | "event"
+        donoTitulo: string
+      }[])
+    : []
+
+  return (
+    <Sheet open={item !== null} onOpenChange={(aberto) => !aberto && onFechar()}>
+      <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-lg">
+        {item && (
+          <>
+            <SheetHeader className="border-b border-border p-6">
+              <SheetTitle className="truncate">{item.label}</SheetTitle>
+              <SheetDescription>
+                {item.usageCount === 0
+                  ? "Não está a ser usada em nenhum extra"
+                  : `Usada em ${item.usageCount} ${item.usageCount === 1 ? "extra" : "extras"}`}
+              </SheetDescription>
+            </SheetHeader>
+
+            <div className="flex-1 space-y-5 overflow-y-auto p-6">
+              <MiniaturaImagem
+                url={item.url}
+                alt={item.label}
+                className="overflow-hidden rounded-lg border border-border"
+              />
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-muted-foreground">
+                  Nome
+                </label>
+                <Input
+                  key={item.storageId}
+                  defaultValue={item.label}
+                  onBlur={(e) => onRenomear(item, e.target.value)}
+                  className="h-9"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">
+                  Onde aparece
+                </p>
+                {bruto === undefined ? (
+                  <div className="flex justify-center py-6">
+                    <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                  </div>
+                ) : bruto instanceof Error ? (
+                  /* Não é o mesmo que "ninguém a usa": dizer isso quando a
+                     query falhou seria mentir sobre 23 extras. */
+                  <p className="text-sm text-muted-foreground">
+                    Não foi possível ler onde esta imagem aparece.
+                  </p>
+                ) : usos.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    Nenhum extra a usa de momento.
+                  </p>
+                ) : (
+                  <ul className="divide-y divide-border rounded-md border border-border">
+                    {usos.map((u) => (
+                      <li key={u.addonId} className="px-3 py-2">
+                        <p className="text-sm font-medium">{u.addonTitle}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {u.tipo === "event" ? "Evento" : "Tour"} · {u.donoTitulo}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+
+            <div className="border-t border-border p-6">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full text-destructive hover:bg-destructive/10 hover:text-destructive"
+                onClick={() => onApagar(item)}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Apagar imagem
+              </Button>
+            </div>
+          </>
+        )}
+      </SheetContent>
+    </Sheet>
+  )
+}
+
 export default function AdminAddonImagesPage() {
   const { itens, semImagem, aCarregar, indisponivel } = useBiblioteca()
 
@@ -235,6 +375,7 @@ export default function AdminAddonImagesPage() {
   const [pesquisa, setPesquisa] = React.useState("")
   const [aEnviar, setAEnviar] = React.useState(0)
   const [aApagar, setAApagar] = React.useState<ItemDaBiblioteca | null>(null)
+  const [detalhe, setDetalhe] = React.useState<ItemDaBiblioteca | null>(null)
 
   const visiveis = useMemo(() => {
     const termo = pesquisa.trim().toLowerCase()
@@ -415,44 +556,71 @@ export default function AdminAddonImagesPage() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {visiveis.map((item) => (
-            <div
-              key={item.storageId}
-              className="overflow-hidden rounded-lg border border-border bg-card"
-            >
-              <MiniaturaImagem url={item.url} alt={item.label} />
-
-              <div className="space-y-2 p-3">
-                <Input
-                  defaultValue={item.label}
-                  onBlur={(e) => guardarNome(item, e.target.value)}
-                  className="h-8 text-sm"
-                />
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs text-muted-foreground">
+        <div className="overflow-hidden rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[92px]">Imagem</TableHead>
+                <TableHead>Nome</TableHead>
+                <TableHead className="w-[140px]">Uso</TableHead>
+                <TableHead className="w-[60px] text-right">Ações</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {visiveis.map((item) => (
+                <TableRow
+                  key={item.storageId}
+                  className="cursor-pointer"
+                  onClick={() => setDetalhe(item)}
+                >
+                  <TableCell className="py-2">
+                    <MiniaturaImagem
+                      url={item.url}
+                      alt={item.label}
+                      className="h-12 w-[68px] overflow-hidden rounded"
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium">{item.label}</TableCell>
+                  <TableCell className="text-muted-foreground">
                     {item.usageCount === 0
                       ? "Sem uso"
                       : item.usageCount === 1
                         ? "Em 1 extra"
                         : `Em ${item.usageCount} extras`}
-                  </span>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                    onClick={() => setAApagar(item)}
-                    title="Apagar"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                      /* Sem isto o clique subia à linha e abria o painel por
+                         cima do diálogo de apagar. */
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setAApagar(item)
+                      }}
+                      title="Apagar"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       )}
+
+      <PainelDeDetalhe
+        item={detalhe}
+        onFechar={() => setDetalhe(null)}
+        onRenomear={guardarNome}
+        onApagar={(item) => {
+          setDetalhe(null)
+          setAApagar(item)
+        }}
+      />
 
       <AlertDialog
         open={aApagar !== null}

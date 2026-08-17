@@ -223,6 +223,35 @@ export const assign = mutation({
   },
 });
 
+/**
+ * Onde é que esta imagem está a ser usada: um extra por linha, com o tour ou o
+ * evento a que pertence. É o que dá conteúdo ao painel de detalhe — antes de
+ * apagar uma imagem convém ver o que é que ela ilustra.
+ */
+export const usedBy = query({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    const extras = await ctx.db.query("tourAddons").collect();
+    const usados = extras.filter((a) => a.imageId === args.storageId);
+
+    return await Promise.all(
+      usados.map(async (extra) => {
+        const dono = extra.tourId
+          ? await ctx.db.get(extra.tourId)
+          : extra.eventId
+            ? await ctx.db.get(extra.eventId)
+            : null;
+        return {
+          addonId: extra._id,
+          addonTitle: extra.title,
+          tipo: extra.eventId ? ("event" as const) : ("tour" as const),
+          donoTitulo: dono?.title ?? "—",
+        };
+      }),
+    );
+  },
+});
+
 /** URL de upload próprio, para a biblioteca não depender de `blogs`. */
 export const generateUploadUrl = mutation({
   args: {},
