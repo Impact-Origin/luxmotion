@@ -46,7 +46,12 @@ const REVIEW_COUNT = 324
 // um círculo mostravam céu e pedra em vez de caras.
 const SOCIAL_AVATARS = ["/reviewer-1.png", "/reviewer-2.png", "/reviewer-3.png"]
 
-export function SocialProofBar({ escala = 1 }: { escala?: number }) {
+/**
+ * Barra de prova social. `escala` multiplica as medidas da versão de ecrã
+ * largo — 0,8 por omissão, que é a versão comprimida pedida para todas as
+ * páginas que a usam (home e hotéis). Passa-se 1 para o tamanho original.
+ */
+export function SocialProofBar({ escala = 0.8 }: { escala?: number }) {
   const t = useTranslations("hero")
 
   // Fundo dourado da marca (#9A7535) a 7%, cantos vivos.
@@ -223,12 +228,13 @@ export function SocialProofBar({ escala = 1 }: { escala?: number }) {
   )
 
   /* Mesma estrutura nas duas larguras — o mobile é só a mesma barra à escala.
-     A `escala` multiplica as duas, para quem precisa da barra mais pequena sem
-     mexer na da página principal. */
+     A `escala` toca só na de ecrã largo: a do telemóvel já corre a 62%, medida
+     para o espaço que lá há, e multiplicá-la outra vez punha-a a 50% do
+     original, com o "4.9" a 22px. */
   return (
     <>
       {bar(1 * escala, "hidden lg:flex", 34 * escala)}
-      {bar(0.62 * escala, "flex lg:hidden", 6 * escala)}
+      {bar(0.62, "flex lg:hidden", 6)}
     </>
   )
 }

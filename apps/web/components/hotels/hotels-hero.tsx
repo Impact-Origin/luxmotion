@@ -35,10 +35,8 @@ export function HotelsHero() {
 
           {/* A página inteira vive dentro do HomeThemeProvider, por isso os
               tokens --lm-* já existem aqui e a barra segue o tema da página. */}
-          {/* 20% mais pequena do que na página principal: aqui a barra é
-              apoio ao argumento, não o argumento. */}
           <div className="mt-[22px]">
-            <SocialProofBar escala={0.8} />
+            <SocialProofBar />
           </div>
 
           {/* Botões à mesma escala da barra: 54→44 de altura, 28→22 de
