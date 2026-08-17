@@ -1515,6 +1515,11 @@
           "name": "Madeira",
           "label": "Luxe Tour",
           "subtitle": "Hele dag · Meerdaags"
+        },
+        "cruzeiros": {
+          "name": "Cruises",
+          "label": "Cruise-excursie",
+          "subtitle": "Halve dag · Hele dag · Terug aan boord"
         }
       }
     }

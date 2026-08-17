@@ -1516,6 +1516,11 @@
           "name": "Madeira",
           "label": "Tour de Luxo",
           "subtitle": "Dia inteiro · Vários dias"
+        },
+        "cruzeiros": {
+          "name": "Cruzeiros",
+          "label": "Escala de Cruzeiro",
+          "subtitle": "Meio dia · Dia inteiro · Regresso a bordo"
         }
       }
     }

@@ -16,6 +16,9 @@ const DESTINATIONS = [
   { id: "ericeira", image: "/tours/dest-ericeira.webp" },
   { id: "alentejo", image: "/tours/regions/regions-alentejo.webp" },
   { id: "madeira", image: "/tours/regions/regions-madeira.webp" },
+  /* Escalas de cruzeiro: quem chega ao porto de Lisboa por um dia. Não é
+     uma região, é um ponto de partida — e é assim que se vende. */
+  { id: "cruzeiros", image: "/tours/dest-cruzeiros.webp" },
 ]
 
 const DESKTOP_VISIBLE = 4

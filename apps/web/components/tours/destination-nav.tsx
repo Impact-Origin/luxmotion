@@ -15,6 +15,7 @@ const DESTINATIONS: { slug: string; label: string }[] = [
   { slug: "alentejo", label: "Alentejo" },
   { slug: "acores", label: "Açores" },
   { slug: "madeira", label: "Madeira" },
+  { slug: "cruzeiros", label: "Cruzeiros" },
 ]
 
 export function DestinationNav({ currentSlug }: DestinationNavProps) {

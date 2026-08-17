@@ -1515,6 +1515,11 @@
           "name": "Madeira",
           "label": "Luxus-Tour",
           "subtitle": "Ganztag · Mehrtägig"
+        },
+        "cruzeiros": {
+          "name": "Kreuzfahrten",
+          "label": "Landausflug",
+          "subtitle": "Halbtags · Ganztags · Zurück an Bord"
         }
       }
     }

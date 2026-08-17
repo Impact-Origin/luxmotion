@@ -1517,6 +1517,11 @@
           "name": "Madeira",
           "label": "Luxury Tour",
           "subtitle": "Full day · Multi-day"
+        },
+        "cruzeiros": {
+          "name": "Cruises",
+          "label": "Shore Excursion",
+          "subtitle": "Half day · Full day · Back on board"
         }
       }
     }

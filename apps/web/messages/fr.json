@@ -1515,6 +1515,11 @@
           "name": "Madère",
           "label": "Tour de Luxe",
           "subtitle": "Journée · Plusieurs jours"
+        },
+        "cruzeiros": {
+          "name": "Croisières",
+          "label": "Escale de croisière",
+          "subtitle": "Demi-journée · Journée · Retour à bord"
         }
       }
     }

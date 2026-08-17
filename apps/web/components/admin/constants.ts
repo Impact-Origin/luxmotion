@@ -15,6 +15,7 @@ export const PORTUGAL_LOCATIONS = [
   "Alentejo",
   "Açores",
   "Madeira",
+  "Cruzeiros",
   "Other",
 ] as const;
 

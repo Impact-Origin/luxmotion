@@ -25,6 +25,7 @@ const destinations: Record<string, string> = {
   alentejo: "Alentejo",
   acores: "Açores",
   madeira: "Madeira",
+  cruzeiros: "Cruzeiros",
 };
 
 interface DestinationPageProps {
