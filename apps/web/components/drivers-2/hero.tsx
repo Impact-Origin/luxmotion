@@ -231,22 +231,36 @@ export function DriversHero2() {
             </div>
           </div>
 
-          {/* A fotografia é um recorte com transparência, e por isso assenta
-              sobre o gradiente do hero em vez de o tapar. Coluna mais larga do
-              que a do telemóvel que aqui estava — 420px deixavam as caras
-              demasiado pequenas para se perceber a cena. */}
-          <div className="flex justify-center w-full lg:w-[520px] shrink-0">
+          {/* Em ecrã largo a fotografia sai do fluxo e encosta ao bordo, como no
+              hero da página principal e nos guias de parceria. O `div` vazio
+              reserva a largura, senão o texto espalhava-se pela linha toda e ia
+              parar debaixo dela. */}
+          <div className="flex justify-center w-full lg:hidden">
             <Image
               src="/drivers-2/hero-chauffeur.webp"
               alt={t("photoAlt")}
               width={1200}
               height={896}
               priority
-              sizes="(max-width: 1024px) 100vw, 520px"
+              sizes="100vw"
               className="h-auto w-full max-w-[520px] object-contain"
             />
           </div>
+          <div className="hidden lg:block lg:w-[420px] shrink-0" aria-hidden />
         </div>
+      </div>
+
+      {/* A fotografia é um recorte com transparência: assenta sobre o gradiente
+          do hero em vez de o tapar. */}
+      <div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[46%] max-w-[900px] lg:block xl:w-[50%] 2xl:w-[52%]">
+        <Image
+          src="/drivers-2/hero-chauffeur.webp"
+          alt=""
+          fill
+          priority
+          sizes="(min-width:1024px) 50vw, 100vw"
+          className="object-contain object-right"
+        />
       </div>
     </section>
   )
