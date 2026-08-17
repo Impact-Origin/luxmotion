@@ -175,7 +175,7 @@ export function HowItWorks() {
   const cards: CardConfig[] = [
     {
       num: "01",
-      photo: "/drivers/adv-1-driving.png",
+      photo: "/drivers/advantages-1.webp",
       photoAlt: t("card1.photoAlt"),
       heading: (
         <>
@@ -201,7 +201,7 @@ export function HowItWorks() {
     },
     {
       num: "02",
-      photo: "/drivers/adv-2-calendar.webp",
+      photo: "/drivers/advantages-2.webp",
       photoAlt: t("card2.photoAlt"),
       heading: (
         <>
@@ -225,7 +225,7 @@ export function HowItWorks() {
     },
     {
       num: "03",
-      photo: "/drivers/adv-3-training.webp",
+      photo: "/drivers/advantages-3.webp",
       photoAlt: t("card3.photoAlt"),
       heading: (
         <>
@@ -250,7 +250,7 @@ export function HowItWorks() {
     },
     {
       num: "04",
-      photo: "/drivers/adv-4-payments.webp",
+      photo: "/drivers/advantages-4.webp",
       photoAlt: t("card4.photoAlt"),
       heading: (
         <>
