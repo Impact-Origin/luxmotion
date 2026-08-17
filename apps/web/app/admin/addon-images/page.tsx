@@ -25,15 +25,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@workspace/ui/components/dialog"
-import { AlertTriangle, ImageIcon, Loader2, Search, Trash2, Upload } from "lucide-react"
+import { AlertTriangle, ImageIcon, Loader2, Trash2, Upload } from "lucide-react"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table"
+  DataTable,
+  type DataTableColumn,
+} from "@/components/admin/data-table"
 import {
   Sheet,
   SheetContent,
@@ -53,6 +49,10 @@ type ItemDaBiblioteca = {
   createdAt: number
   usageCount: number
 }
+
+/* A DataTable pede `_id` em cada linha, e a biblioteca é identificada pelo
+   ficheiro; um é cópia do outro. */
+type LinhaDaTabela = ItemDaBiblioteca & { _id: string }
 
 type GrupoSemImagem = {
   titulo: string
@@ -109,51 +109,71 @@ function BlocoSemImagem({
   onEscolher: (grupo: GrupoSemImagem, storageId: Id<"_storage">) => Promise<void>
   onCarregar: (ficheiro: File, nome?: string) => Promise<Id<"_storage">>
 }) {
+  const [lista, setLista] = React.useState(false)
   const [aberto, setAberto] = React.useState<GrupoSemImagem | null>(null)
   const [aEnviar, setAEnviar] = React.useState(false)
 
   const total = grupos.reduce((n, g) => n + g.quantidade, 0)
 
   return (
-    <div className="rounded-lg border border-amber-500/40 bg-amber-500/5 p-4">
-      <div className="flex items-start gap-3">
-        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
-        <div className="space-y-1">
-          <p className="text-sm font-medium">
-            {grupos.length} {grupos.length === 1 ? "extra" : "extras"} sem imagem,
-            em {total} {total === 1 ? "tour ou evento" : "tours e eventos"}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Escolhe uma imagem para cada um: fica logo em todos os tours e
-            eventos onde esse extra aparece.
-          </p>
-        </div>
-      </div>
+    <div className="flex items-center gap-3 rounded-lg border border-amber-500/40 bg-amber-500/5 px-4 py-2.5">
+      <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
+      <p className="min-w-0 flex-1 truncate text-sm">
+        <span className="font-medium">
+          {grupos.length} {grupos.length === 1 ? "extra" : "extras"} sem imagem
+        </span>
+        <span className="text-muted-foreground">
+          {" "}
+          · em {total} {total === 1 ? "tour ou evento" : "tours e eventos"}
+        </span>
+      </p>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-7 shrink-0 text-xs"
+        onClick={() => setLista(true)}
+      >
+        Resolver
+      </Button>
 
-      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-        {grupos.map((g) => (
-          <div
-            key={g.titulo}
-            className="flex items-center justify-between gap-3 rounded-md border border-border bg-background px-3 py-2"
-          >
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium">{g.titulo}</p>
-              <p className="text-xs text-muted-foreground">
-                Em {g.quantidade} {g.quantidade === 1 ? "extra" : "extras"}
-              </p>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 shrink-0 text-xs"
-              onClick={() => setAberto(g)}
-            >
-              Escolher
-            </Button>
+      {/* A lista vive num diálogo: em cima da página, oito linhas de avisos
+          empurravam a tabela para fora do ecrã. */}
+      <Dialog open={lista} onOpenChange={setLista}>
+        <DialogContent className="flex max-h-[85vh] max-w-lg flex-col overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Extras sem imagem</DialogTitle>
+            <DialogDescription>
+              Escolhe uma imagem para cada um: fica logo em todos os tours e
+              eventos onde esse extra aparece.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex-1 divide-y divide-border overflow-y-auto">
+            {grupos.map((g) => (
+              <div key={g.titulo} className="flex items-center gap-3 py-2.5">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium">{g.titulo}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Em {g.quantidade} {g.quantidade === 1 ? "extra" : "extras"}
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7 shrink-0 text-xs"
+                  onClick={() => {
+                    setLista(false)
+                    setAberto(g)
+                  }}
+                >
+                  Escolher
+                </Button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={aberto !== null} onOpenChange={(v) => !v && setAberto(null)}>
         <DialogContent className="flex max-h-[85vh] max-w-3xl flex-col overflow-hidden">
@@ -372,16 +392,9 @@ export default function AdminAddonImagesPage() {
   const remover = useMutation(api.addonImages.remove)
   const atribuir = useMutation(api.addonImages.assign)
 
-  const [pesquisa, setPesquisa] = React.useState("")
   const [aEnviar, setAEnviar] = React.useState(0)
   const [aApagar, setAApagar] = React.useState<ItemDaBiblioteca | null>(null)
   const [detalhe, setDetalhe] = React.useState<ItemDaBiblioteca | null>(null)
-
-  const visiveis = useMemo(() => {
-    const termo = pesquisa.trim().toLowerCase()
-    if (!termo) return itens
-    return itens.filter((i) => i.label.toLowerCase().includes(termo))
-  }, [itens, pesquisa])
 
   /** Sobe um ficheiro e devolve o `storageId`, já registado na biblioteca. */
   const subirUm = async (ficheiro: File, nome?: string) => {
@@ -467,6 +480,50 @@ export default function AdminAddonImagesPage() {
     }
   }
 
+  const linhas: LinhaDaTabela[] = useMemo(
+    () => itens.map((i) => ({ ...i, _id: i.storageId })),
+    [itens],
+  )
+
+  const colunas: DataTableColumn<LinhaDaTabela>[] = useMemo(
+    () => [
+      {
+        id: "imagem",
+        header: "Imagem",
+        headerClassName: "w-[92px]",
+        cell: (item) => (
+          <MiniaturaImagem
+            url={item.url}
+            alt={item.label}
+            className="h-12 w-[68px] overflow-hidden rounded"
+          />
+        ),
+      },
+      {
+        id: "nome",
+        header: "Nome",
+        cell: (item) => <span className="font-medium">{item.label}</span>,
+        sortAccessor: (item) => item.label.toLowerCase(),
+      },
+      {
+        id: "uso",
+        header: "Uso",
+        headerClassName: "w-[140px]",
+        cell: (item) => (
+          <span className="text-muted-foreground">
+            {item.usageCount === 0
+              ? "Sem uso"
+              : item.usageCount === 1
+                ? "Em 1 extra"
+                : `Em ${item.usageCount} extras`}
+          </span>
+        ),
+        sortAccessor: (item) => item.usageCount,
+      },
+    ],
+    [],
+  )
+
   const guardarNome = (item: ItemDaBiblioteca, valor: string) => {
     const novo = valor.trim()
     if (!novo || novo === item.label) return
@@ -527,89 +584,40 @@ export default function AdminAddonImagesPage() {
         />
       )}
 
-      <div className="relative max-w-sm">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          value={pesquisa}
-          onChange={(e) => setPesquisa(e.target.value)}
-          placeholder="Procurar por nome"
-          className="pl-9"
-        />
-      </div>
-
       {indisponivel ? (
         <div className="rounded-lg border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
           A biblioteca ainda não está disponível no servidor. Faz o deploy do
           Convex e volta aqui.
         </div>
-      ) : aCarregar ? (
-        <div className="flex justify-center py-16">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        </div>
-      ) : visiveis.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-border py-16 text-center">
-          <ImageIcon className="h-8 w-8 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">
-            {itens.length === 0
-              ? "Ainda não há imagens. Carrega as primeiras aqui em cima."
-              : "Nenhuma imagem com esse nome."}
-          </p>
-        </div>
       ) : (
-        <div className="overflow-hidden rounded-lg border border-border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[92px]">Imagem</TableHead>
-                <TableHead>Nome</TableHead>
-                <TableHead className="w-[140px]">Uso</TableHead>
-                <TableHead className="w-[60px] text-right">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {visiveis.map((item) => (
-                <TableRow
-                  key={item.storageId}
-                  className="cursor-pointer"
-                  onClick={() => setDetalhe(item)}
-                >
-                  <TableCell className="py-2">
-                    <MiniaturaImagem
-                      url={item.url}
-                      alt={item.label}
-                      className="h-12 w-[68px] overflow-hidden rounded"
-                    />
-                  </TableCell>
-                  <TableCell className="font-medium">{item.label}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {item.usageCount === 0
-                      ? "Sem uso"
-                      : item.usageCount === 1
-                        ? "Em 1 extra"
-                        : `Em ${item.usageCount} extras`}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                      /* Sem isto o clique subia à linha e abria o painel por
-                         cima do diálogo de apagar. */
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setAApagar(item)
-                      }}
-                      title="Apagar"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+        /* A mesma tabela dos tours e da equipa: pesquisa, ordenação e
+           paginação vêm de lá. Modo cliente porque a listagem é a união de
+           duas fontes e não se pagina no servidor. */
+        <DataTable<LinhaDaTabela>
+          data={aCarregar ? undefined : linhas}
+          columns={colunas}
+          searchKeys={["label"]}
+          searchPlaceholder="Procurar por nome"
+          pageSize={12}
+          getRowId={(i) => i.storageId}
+          onRowClick={setDetalhe}
+          rowActions={(item) => (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+              onClick={() => setAApagar(item)}
+              title="Apagar"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+          initialSort={{ columnId: "uso", dir: "desc" }}
+          emptyTitle="Ainda não há imagens"
+          emptyDescription="Carrega as primeiras aqui em cima."
+          emptyIcon={ImageIcon}
+        />
       )}
 
       <PainelDeDetalhe
