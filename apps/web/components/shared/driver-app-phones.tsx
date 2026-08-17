@@ -97,7 +97,7 @@ function PhoneStep1({ tNav }: { tNav: (k: string) => string }) {
               className="text-[#c4973e] text-[9px] leading-none"
               style={SERIF_FONT}
             >
-              € 320,00
+              € 60,00
             </span>
           </div>
 
@@ -368,14 +368,16 @@ function PhoneStep3({ tNav }: { tNav: (k: string) => string }) {
 
       <div className="flex flex-1 flex-col gap-[5px] px-[6px] pb-[4px] min-h-0">
         <div className="flex gap-[5px]">
-          <CaixaNumero prefixo="€" valor="1.840" etiqueta={tNav("step3StatWeek")} />
+          <CaixaNumero prefixo="€" valor="540" etiqueta={tNav("step3StatWeek")} />
           <CaixaNumero valor="12" etiqueta={tNav("step3StatTrips")} />
         </div>
 
         <div className="flex flex-col">
-          <LinhaViagem rota={tNav("step3Trip1")} valor="€ 320,00" />
-          <LinhaViagem rota={tNav("step3Trip2")} valor="€ 185,00" />
-          <LinhaViagem rota={tNav("step3Trip3")} valor="€ 210,00" />
+          {/* Tarifário do Porto: Aveiro, Braga e Gaia, aos preços de dia. O
+              total da semana são estas três mais as restantes nove viagens. */}
+          <LinhaViagem rota={tNav("step3Trip1")} valor="€ 55,00" />
+          <LinhaViagem rota={tNav("step3Trip2")} valor="€ 40,00" />
+          <LinhaViagem rota={tNav("step3Trip3")} valor="€ 25,00" />
         </div>
 
         <div className="flex gap-[3px] items-baseline mt-auto">
