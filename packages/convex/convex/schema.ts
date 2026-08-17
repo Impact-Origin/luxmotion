@@ -1136,6 +1136,37 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_created", ["createdAt"]),
 
+  /**
+   * O que já foi para o Pipedrive, e até que passo.
+   *
+   * O Pipedrive não tem cabeçalho de idempotência em nenhum destes endpoints:
+   * um POST que chega ao servidor mas cuja resposta se perde produz, na
+   * tentativa seguinte, uma segunda lead. Esta linha é a memória que falta —
+   * escrita na mesma transação da submissão, para que duas submissões
+   * simultâneas não passem as duas, e preenchida passo a passo para que uma
+   * retransmissão continue de onde ficou em vez de recomeçar.
+   */
+  pipedriveSync: defineTable({
+    /* Nome da tabela de origem, ou "orders" para uma reserva paga. */
+    origem: v.string(),
+    origemId: v.string(),
+    personId: v.optional(v.number()),
+    organizationId: v.optional(v.number()),
+    /* As leads do Pipedrive são identificadas por UUID, não por número. */
+    leadId: v.optional(v.string()),
+    dealId: v.optional(v.number()),
+    noteId: v.optional(v.number()),
+    estado: v.union(
+      v.literal("pendente"),
+      v.literal("concluido"),
+      v.literal("falhado"),
+    ),
+    tentativas: v.number(),
+    ultimoErro: v.optional(v.string()),
+    criadoEm: v.number(),
+    atualizadoEm: v.number(),
+  }).index("by_origem", ["origem", "origemId"]),
+
   marketingStats: defineTable({
     key: v.string(),
     trustpilotReviewCount: v.number(),

@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { resolveReferral } from "./lib/referral";
+import { enfileirarLead } from "./lib/pipedriveFila";
 
 export const submit = mutation({
   args: {
@@ -13,13 +14,15 @@ export const submit = mutation({
   handler: async (ctx, args) => {
     const { referralSlug, ...rest } = args;
     const ref = await resolveReferral(ctx, referralSlug);
-    await ctx.db.insert("contactSubmissions", {
+    const id = await ctx.db.insert("contactSubmissions", {
       ...rest,
       partnershipId: ref.partnershipId,
       partnershipName: ref.partnershipName,
       status: "new",
       createdAt: Date.now(),
     });
+
+    await enfileirarLead(ctx, "contactSubmissions", id);
   },
 });
 

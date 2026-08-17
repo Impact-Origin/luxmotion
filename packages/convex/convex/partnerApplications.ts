@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { enfileirarLead } from "./lib/pipedriveFila"
 
 const driverEntry = v.object({
   fullName: v.string(),
@@ -71,6 +72,10 @@ export const submit = mutation({
       queuePosition,
       createdAt: Date.now(),
     })
+
+    /* Para o CRM vai só o representante e as contagens — os dados bancários, os
+       documentos e os dados dos condutores ficam aqui. Ver `lib/pipedriveMapa`. */
+    await enfileirarLead(ctx, "partnerApplications", id)
 
     return { id, queuePosition }
   },

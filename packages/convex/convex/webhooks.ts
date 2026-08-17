@@ -77,6 +77,19 @@ export const sendOrderPayload = internalAction({
       return;
     }
 
+    /* O CRM, antes do POST e não depois: uma avaria da API EasyTransfer não
+       pode levar o Pipedrive atrás. Agendado e não `runAction`, para que um
+       problema do lado do CRM não faça reenviar a reserva à EasyTransfer.
+       A própria mutation trava as repetições — este ponto é chamado de seis
+       sítios, cada um a começar na tentativa 1, e uma re-entrega do Stripe
+       criaria um segundo negócio ganho. */
+    const novoNoCrm = await ctx.runMutation(internal.pipedrive.enfileirarReserva, {
+      orderId: args.orderId,
+    });
+    if (!novoNoCrm) {
+      console.log(`[Pipedrive] reserva ${args.orderId} já estava na fila do CRM — não repetida.`);
+    }
+
     const orders: Doc<"orders">[] = [order];
     if (order.relatedOrderId) {
       const returnOrder = await ctx.runQuery(api.orders.getById, {

@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { resolveReferral } from "./lib/referral";
+import { enfileirarLead } from "./lib/pipedriveFila";
 
 export const submit = mutation({
   args: {
@@ -44,6 +45,10 @@ export const submit = mutation({
         total_passageiros: args.people ?? "",
       },
     });
+
+    // Depois da confirmação: as duas são `runAfter(0)` e correm por ordem de
+    // agendamento, portanto o email ao cliente sai primeiro.
+    await enfileirarLead(ctx, "tourInquiries", id);
 
     return id;
   },

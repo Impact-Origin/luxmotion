@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { resolveReferral } from "./lib/referral"
+import { enfileirarLead } from "./lib/pipedriveFila"
 
 const statusValidator = v.union(
   v.literal("new"),
@@ -29,6 +30,9 @@ export const submit = mutation({
       status: "new",
       createdAt: Date.now(),
     })
+
+    await enfileirarLead(ctx, "contactQuotes", id)
+
     return { id }
   },
 })

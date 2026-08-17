@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { resolveReferral } from "./lib/referral";
+import { enfileirarLead } from "./lib/pipedriveFila";
 
 export const submit = mutation({
   args: {
@@ -21,7 +22,7 @@ export const submit = mutation({
   handler: async (ctx, args) => {
     const { referralSlug, ...rest } = args;
     const ref = await resolveReferral(ctx, referralSlug);
-    await ctx.db.insert("schoolQuoteSubmissions", {
+    const id = await ctx.db.insert("schoolQuoteSubmissions", {
       ...rest,
       partnershipId: ref.partnershipId,
       partnershipName: ref.partnershipName,
@@ -39,6 +40,10 @@ export const submit = mutation({
         numero_alunos: args.children != null ? String(args.children) : "",
       },
     });
+
+    // Depois da confirmação: as duas são `runAfter(0)` e correm por ordem de
+    // agendamento, portanto o email ao cliente sai primeiro.
+    await enfileirarLead(ctx, "schoolQuoteSubmissions", id);
   },
 });
 
