@@ -23,6 +23,7 @@ import {
   BarChart3,
   CalendarClock,
   ShoppingBag,
+  Images,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -61,6 +62,9 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
           { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag },
+          /* As imagens dos extras carregam-se aqui uma vez; associam-se
+             depois, dentro do tour ou do evento. */
+          { title: "Imagens dos extras", url: "/admin/addon-images", icon: Images },
           { title: "Corporate", url: "/admin/corporate-experiences", icon: Briefcase },
           { title: "Experiências passadas - sobre nós", url: "/admin/experiences", icon: Sparkles },
           { title: "Blogs", url: "/admin/blogs", icon: FileText },

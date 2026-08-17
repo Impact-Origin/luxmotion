@@ -19,6 +19,7 @@ const ROUTE_META: Record<string, { section: string; title: string }> = {
   experiences: { section: "Catalog", title: "Experiências passadas - sobre nós" },
   "corporate-experiences": { section: "Catalog", title: "Corporate" },
   upsells: { section: "Catalog", title: "Upsells" },
+  "addon-images": { section: "Catalog", title: "Imagens dos extras" },
   blogs: { section: "Catalog", title: "Blogs" },
   team: { section: "People", title: "Team" },
   drivers: { section: "People", title: "Drivers" },

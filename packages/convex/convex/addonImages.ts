@@ -15,6 +15,9 @@ type ItemDaBiblioteca = {
   label: string;
   url: string;
   createdAt: number;
+  /** Quantos extras apontam para este ficheiro. A página de gestão avisa com
+   *  base nisto antes de apagar; o selector ignora-o. */
+  usageCount: number;
 };
 
 /**
@@ -33,6 +36,13 @@ export const list = query({
 
     const porStorage = new Map<string, ItemDaBiblioteca>();
 
+    // Contagem primeiro, num ciclo só: as duas passagens abaixo já precisam dela.
+    const usos = new Map<string, number>();
+    for (const extra of extras) {
+      if (!extra.imageId) continue;
+      usos.set(extra.imageId, (usos.get(extra.imageId) ?? 0) + 1);
+    }
+
     for (const img of registadas) {
       const url = await ctx.storage.getUrl(img.storageId);
       // Ficheiro apagado do storage: a linha fica órfã e não vale mostrá-la.
@@ -43,6 +53,7 @@ export const list = query({
         label: img.label,
         url,
         createdAt: img.createdAt,
+        usageCount: usos.get(img.storageId) ?? 0,
       });
     }
 
@@ -56,6 +67,7 @@ export const list = query({
         label: extra.title,
         url,
         createdAt: extra.createdAt,
+        usageCount: usos.get(extra.imageId) ?? 0,
       });
     }
 
@@ -102,13 +114,23 @@ export const rename = mutation({
 });
 
 /**
- * Tira a imagem do catálogo **sem** apagar o ficheiro: os extras que a estejam a
- * usar guardam o `_storage` id directamente e ficariam sem imagem.
+ * Tira a imagem do catálogo. O ficheiro em si só desaparece se nenhum extra o
+ * estiver a usar — os extras guardam o `_storage` id directamente e ficariam sem
+ * imagem. Devolve `ficheiroMantido` para a página poder explicar porquê.
  */
 export const remove = mutation({
   args: { id: v.id("addonImages") },
   handler: async (ctx, args) => {
+    const linha = await ctx.db.get(args.id);
+    if (!linha) return { ficheiroMantido: false };
+
+    const extras = await ctx.db.query("tourAddons").collect();
+    const emUso = extras.some((a) => a.imageId === linha.storageId);
+
     await ctx.db.delete(args.id);
+    if (!emUso) await ctx.storage.delete(linha.storageId);
+
+    return { ficheiroMantido: emUso };
   },
 });
 
