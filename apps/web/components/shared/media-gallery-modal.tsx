@@ -70,7 +70,15 @@ export function MediaGalleryModal({
   }, [open, goToPrev, goToNext])
 
   const stripRef = useRef<HTMLDivElement>(null)
-  const dragState = useRef({ down: false, moved: false, startX: 0, startScroll: 0 })
+  const dragState = useRef({
+    down: false,
+    moved: false,
+    /** Só se captura o ponteiro depois de haver arrasto a sério. */
+    captured: false,
+    pointerId: -1,
+    startX: 0,
+    startScroll: 0,
+  })
 
   useEffect(() => {
     if (!open) return
@@ -85,16 +93,28 @@ export function MediaGalleryModal({
     }
   }, [safeCurrentIndex, open])
 
+  /**
+   * A tira arrasta-se para o lado, e as miniaturas são botões. As duas coisas
+   * partilham o mesmo ponteiro, e é aí que estava o defeito:
+   *
+   * - capturar o ponteiro logo no `pointerdown` fazia com que o `click` fosse
+   *   entregue à TIRA e nunca ao botão por baixo do rato — as miniaturas
+   *   deixavam de mudar a imagem. Agora só se captura quando há arrasto a
+   *   sério, passados 4px;
+   * - o `moved` nunca voltava a `false`, portanto bastava um arrasto para os
+   *   cliques ficarem ignorados até se recarregar a página.
+   */
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     const strip = stripRef.current
     if (!strip) return
     dragState.current = {
       down: true,
       moved: false,
+      captured: false,
+      pointerId: e.pointerId,
       startX: e.clientX,
       startScroll: strip.scrollLeft,
     }
-    strip.setPointerCapture(e.pointerId)
   }
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -102,14 +122,32 @@ export function MediaGalleryModal({
     const state = dragState.current
     if (!strip || !state.down) return
     const dx = e.clientX - state.startX
-    if (Math.abs(dx) > 4) state.moved = true
+    if (Math.abs(dx) > 4) {
+      state.moved = true
+      // Só a partir daqui é que o ponteiro é nosso: assim o dedo pode sair da
+      // tira a meio do arrasto sem o interromper.
+      if (!state.captured) {
+        strip.setPointerCapture(e.pointerId)
+        state.captured = true
+      }
+    }
+    if (!state.moved) return
     strip.scrollLeft = state.startScroll - dx
   }
 
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     const strip = stripRef.current
-    if (strip && strip.hasPointerCapture(e.pointerId)) strip.releasePointerCapture(e.pointerId)
-    setTimeout(() => (dragState.current.down = false), 0)
+    const state = dragState.current
+    if (strip && state.captured && strip.hasPointerCapture(e.pointerId)) {
+      strip.releasePointerCapture(e.pointerId)
+    }
+    /* Limpo no fim da fila: o `click` corre a seguir a isto e ainda precisa de
+       saber se houve arrasto, para não abrir a imagem que passou por baixo. */
+    setTimeout(() => {
+      dragState.current.down = false
+      dragState.current.moved = false
+      dragState.current.captured = false
+    }, 0)
   }
 
   if (media.length === 0) return null
