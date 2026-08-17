@@ -35,24 +35,24 @@ export function HotelsHero() {
 
           {/* A página inteira vive dentro do HomeThemeProvider, por isso os
               tokens --lm-* já existem aqui e a barra segue o tema da página. */}
-          <div className="mt-7">
+          <div className="mt-[22px]">
             <SocialProofBar />
           </div>
 
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Link
               href="/hotels/candidatura"
-              className="inline-flex h-[54px] items-center justify-center gap-2 bg-[var(--lm-accent,#C9A96E)] px-7 text-[13px] font-semibold uppercase tracking-[1.2px] text-[#1a1510] transition-colors hover:bg-[#d4b87f]"
+              className="inline-flex h-[44px] items-center justify-center gap-[7px] bg-[var(--lm-accent,#C9A96E)] px-[22px] text-[11px] font-semibold uppercase tracking-[1px] text-[#1a1510] transition-colors hover:bg-[#d4b87f]"
               style={sans}
             >
-              {t("cta1")} <ArrowRight className="h-4 w-4" />
+              {t("cta1")} <ArrowRight className="h-[13px] w-[13px]" />
             </Link>
             <Link
               href="#calcular"
-              className="inline-flex h-[54px] items-center justify-center gap-2 border border-[rgba(var(--lm-text-rgb,255,255,255),0.25)] px-7 text-[13px] font-semibold uppercase tracking-[1.2px] text-[var(--lm-text,#fff)] transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)]"
+              className="inline-flex h-[44px] items-center justify-center gap-[7px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.25)] px-[22px] text-[11px] font-semibold uppercase tracking-[1px] text-[var(--lm-text,#fff)] transition-colors hover:border-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)]"
               style={sans}
             >
-              {t("cta2")} <Calculator className="h-4 w-4" />
+              {t("cta2")} <Calculator className="h-[13px] w-[13px]" />
             </Link>
           </div>
         </div>
