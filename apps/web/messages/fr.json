@@ -3967,12 +3967,7 @@
       "phone": {
         "step1Title": "Nouvelle réservation",
         "step1Cta": "Ouvrir la réservation",
-        "step2Title": "Course actuelle",
-        "step2Pax": "passagers",
-        "step2Cta1": "Démarrer",
-        "step2Cta2": "transfert",
-        "step2NavMap": "Carte",
-        "step2NavCurrent": "Actuelle",
+        "step2Title": "Attribuer un chauffeur",
         "step3Title": "Gains",
         "step3StatWeek": "Semaine",
         "step3StatTrips": "Courses",
@@ -3981,7 +3976,15 @@
         "step1Origin": "Aéroport de Lisbonne",
         "step1To": "vers",
         "step1Dest": "Sublime Comporta",
-        "step1Meta": "M. Ferreira · 2 pax · Ven, 14h30"
+        "step1Meta": "M. Ferreira · 2 pax · Ven, 14h30",
+        "step2BookingLabel": "Réservation",
+        "step2When": "Ven, 14h30",
+        "step2Driver1": "Tiago Mendes",
+        "step2Car1": "Mercedes Classe V · Disponible",
+        "step2Driver2": "Rui Antunes",
+        "step2Car2": "BMW Série 7 · Disponible",
+        "step2Cta": "Confirmer l'attribution",
+        "step2Note": "Le client est prévenu automatiquement avec la photo du chauffeur"
       }
     },
     "trust": {

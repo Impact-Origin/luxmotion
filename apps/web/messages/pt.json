@@ -4152,12 +4152,7 @@
       "phone": {
         "step1Title": "Nova reserva",
         "step1Cta": "Abrir reserva",
-        "step2Title": "Viagem atual",
-        "step2Pax": "passageiros",
-        "step2Cta1": "Iniciar",
-        "step2Cta2": "transferência",
-        "step2NavMap": "Mapa",
-        "step2NavCurrent": "Atual",
+        "step2Title": "Atribuir motorista",
         "step3Title": "Ganhos",
         "step3StatWeek": "Semana",
         "step3StatTrips": "Viagens",
@@ -4166,7 +4161,15 @@
         "step1Origin": "Aeroporto de Lisboa",
         "step1To": "para",
         "step1Dest": "Sublime Comporta",
-        "step1Meta": "M. Ferreira · 2 pax · Sex, 14:30"
+        "step1Meta": "M. Ferreira · 2 pax · Sex, 14:30",
+        "step2BookingLabel": "Reserva",
+        "step2When": "Sex, 14:30",
+        "step2Driver1": "Tiago Mendes",
+        "step2Car1": "Mercedes V-Class · Disponível",
+        "step2Driver2": "Rui Antunes",
+        "step2Car2": "BMW Série 7 · Disponível",
+        "step2Cta": "Confirmar atribuição",
+        "step2Note": "Cliente notificado automaticamente com a foto do motorista"
       }
     },
     "trust": {

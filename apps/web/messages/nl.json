@@ -3967,12 +3967,7 @@
       "phone": {
         "step1Title": "Nieuwe boeking",
         "step1Cta": "Boeking openen",
-        "step2Title": "Huidige rit",
-        "step2Pax": "passagiers",
-        "step2Cta1": "Start",
-        "step2Cta2": "transfer",
-        "step2NavMap": "Kaart",
-        "step2NavCurrent": "Huidig",
+        "step2Title": "Chauffeur toewijzen",
         "step3Title": "Inkomsten",
         "step3StatWeek": "Week",
         "step3StatTrips": "Ritten",
@@ -3981,7 +3976,15 @@
         "step1Origin": "Luchthaven Lissabon",
         "step1To": "naar",
         "step1Dest": "Sublime Comporta",
-        "step1Meta": "M. Ferreira · 2 pax · Vr, 14:30"
+        "step1Meta": "M. Ferreira · 2 pax · Vr, 14:30",
+        "step2BookingLabel": "Boeking",
+        "step2When": "Vr, 14:30",
+        "step2Driver1": "Tiago Mendes",
+        "step2Car1": "Mercedes V-Klasse · Beschikbaar",
+        "step2Driver2": "Rui Antunes",
+        "step2Car2": "BMW 7 Serie · Beschikbaar",
+        "step2Cta": "Toewijzing bevestigen",
+        "step2Note": "De klant krijgt automatisch bericht met foto van de chauffeur"
       }
     },
     "trust": {

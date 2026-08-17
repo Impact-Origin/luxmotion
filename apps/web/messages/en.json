@@ -4153,12 +4153,7 @@
       "phone": {
         "step1Title": "New booking",
         "step1Cta": "Open booking",
-        "step2Title": "Current trip",
-        "step2Pax": "passengers",
-        "step2Cta1": "Start",
-        "step2Cta2": "transfer",
-        "step2NavMap": "Map",
-        "step2NavCurrent": "Current",
+        "step2Title": "Assign driver",
         "step3Title": "Earnings",
         "step3StatWeek": "Week",
         "step3StatTrips": "Trips",
@@ -4167,7 +4162,15 @@
         "step1Origin": "Lisbon Airport",
         "step1To": "to",
         "step1Dest": "Sublime Comporta",
-        "step1Meta": "M. Ferreira · 2 pax · Fri, 14:30"
+        "step1Meta": "M. Ferreira · 2 pax · Fri, 14:30",
+        "step2BookingLabel": "Booking",
+        "step2When": "Fri, 14:30",
+        "step2Driver1": "Tiago Mendes",
+        "step2Car1": "Mercedes V-Class · Available",
+        "step2Driver2": "Rui Antunes",
+        "step2Car2": "BMW 7 Series · Available",
+        "step2Cta": "Confirm assignment",
+        "step2Note": "Client notified automatically with driver photo"
       }
     },
     "trust": {

@@ -162,53 +162,156 @@ function PhoneStep1({ tNav }: { tNav: (k: string) => string }) {
         <div className="bg-[rgba(255,255,255,0.04)] h-[15px]" />
       </div>
 
+      {/* Três separadores, com o primeiro aceso — o mesmo esquema do ecrã de
+          atribuição, onde acende o do meio. */}
       <div className="flex gap-[4px] items-center justify-center pb-[5px]">
-        <span className="bg-[#c4973e] h-[2px] rounded-[1px] w-[14px]" />
-        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[14px]" />
+        <span className="bg-[#c4973e] h-[2px] rounded-[1px] w-[12px]" />
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[12px]" />
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[12px]" />
       </div>
     </MiniPhoneShell>
   )
 }
 
+/** Iniciais do motorista, para o quadrado do avatar: "Tiago Mendes" → "TM". */
+function iniciais(nome: string) {
+  return nome
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((parte) => parte[0]?.toUpperCase() ?? "")
+    .join("")
+}
+
+function LinhaMotorista({
+  nome,
+  carro,
+  escolhido,
+}: {
+  nome: string
+  carro: string
+  escolhido: boolean
+}) {
+  return (
+    <div
+      className={
+        escolhido
+          ? "border border-[rgba(201,169,110,0.5)] bg-[rgba(201,169,110,0.07)] flex gap-[4px] items-center p-[4px]"
+          : "border border-[rgba(255,255,255,0.09)] flex gap-[4px] items-center p-[4px]"
+      }
+    >
+      <span
+        className={`flex items-center justify-center shrink-0 size-[16px] border ${
+          escolhido
+            ? "border-[rgba(201,169,110,0.5)] text-[#c4973e]"
+            : "border-[rgba(255,255,255,0.12)] text-[rgba(255,255,255,0.35)]"
+        }`}
+      >
+        <span className="text-[5px] leading-none" style={SERIF_FONT}>
+          {iniciais(nome)}
+        </span>
+      </span>
+
+      <span className="flex flex-col gap-px min-w-0 flex-1">
+        <span
+          className="text-[6px] text-white font-bold leading-[7.5px]"
+          style={SANS_FONT}
+        >
+          {nome}
+        </span>
+        <span
+          className="text-[4.5px] text-[rgba(255,255,255,0.4)] leading-[6px]"
+          style={SANS_FONT}
+        >
+          {carro}
+        </span>
+      </span>
+
+      {escolhido && (
+        <span className="border border-[rgba(201,169,110,0.5)] flex items-center justify-center shrink-0 size-[9px]">
+          <span className="text-[#c4973e] text-[5px] leading-none">✓</span>
+        </span>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Ecrã de atribuição de motorista, desenhado a partir do mockup: a reserva em
+ * cima, dois motoristas em baixo com o escolhido em dourado, e o botão cheio.
+ */
 function PhoneStep2({ tNav }: { tNav: (k: string) => string }) {
   return (
-    <MiniPhoneShell time="11:28">
-      <MiniHeader title={tNav("step2Title")} />
-      <div className="flex flex-1 flex-col gap-[3px] p-[5px] min-h-0">
-        <div className="bg-[rgba(201,169,110,0.3)] h-[6px] rounded-[1px] w-[48.62px]" />
-        <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.07)] flex flex-col gap-[3px] p-[6.64px] rounded-[2px]">
-          <p
-            className="text-[6px] text-[rgba(255,255,255,0.5)] leading-[8.4px]"
-            style={SANS_FONT}
-          >
-            <span className="font-bold">Francisca R.</span>
-            <span> · 2 {tNav("step2Pax")}</span>
-          </p>
-          <div className="flex gap-1">
-            <div className="bg-[rgba(201,169,110,0.15)] border border-[rgba(201,169,110,0.25)] flex-1 h-4 rounded-[1px]" />
-            <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.07)] flex-1 h-4 rounded-[1px]" />
-          </div>
-        </div>
-        <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[64.83px]" />
-        <div className="bg-[rgba(255,255,255,0.08)] h-[5px] rounded-[1px] w-[36.46px]" />
-        <div className="bg-[rgba(201,169,110,0.2)] flex flex-col items-center p-1 rounded-[2px] mt-[3px]">
+    <MiniPhoneShell time="09:42" barraDeEstado={false}>
+      <div className="flex items-center justify-between gap-1 px-[6px] pb-[4px] pt-[3px]">
+        <span className="flex items-center gap-[3px] min-w-0">
+          <span className="bg-[#c4973e] rounded-full size-[3px] shrink-0" />
           <span
-            className="text-[#c4973e] text-[7px] font-extrabold tracking-[0.35px] leading-none text-center"
+            className="text-[8px] text-white leading-none truncate"
+            style={SERIF_FONT}
+          >
+            {tNav("step2Title")}
+          </span>
+        </span>
+        <span
+          className="text-[5px] text-[rgba(255,255,255,0.45)] leading-none shrink-0"
+          style={SANS_FONT}
+        >
+          09:42
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col gap-[4px] px-[6px] pb-[4px] min-h-0">
+        <div className="flex flex-col gap-[2px] border-b border-[rgba(255,255,255,0.08)] pb-[4px]">
+          <span
+            className="text-[#c4973e] text-[4px] font-bold uppercase tracking-[0.8px] leading-none"
             style={SANS_FONT}
           >
-            {tNav("step2Cta1")}
-            <br />
-            {tNav("step2Cta2")}
+            {tNav("step2BookingLabel")}
+          </span>
+          <p
+            className="text-[5.5px] text-white leading-[7.5px]"
+            style={SANS_FONT}
+          >
+            {tNav("step1Origin")} {tNav("step1To")} {tNav("step1Dest")} ·{" "}
+            {tNav("step2When")}
+          </p>
+        </div>
+
+        <LinhaMotorista
+          nome={tNav("step2Driver1")}
+          carro={tNav("step2Car1")}
+          escolhido
+        />
+        <LinhaMotorista
+          nome={tNav("step2Driver2")}
+          carro={tNav("step2Car2")}
+          escolhido={false}
+        />
+
+        <div className="bg-[#c4973e] flex justify-center mt-auto py-[3.5px] px-1">
+          <span
+            className="text-[#111110] text-[6px] font-bold leading-none"
+            style={SANS_FONT}
+          >
+            {tNav("step2Cta")}
           </span>
         </div>
+
+        <p
+          className="text-[4px] text-[rgba(255,255,255,0.35)] leading-[5.5px] text-center px-[2px]"
+          style={SANS_FONT}
+        >
+          {tNav("step2Note")}
+        </p>
       </div>
-      <MiniNav
-        items={[
-          { label: "", active: false },
-          { label: tNav("step2NavCurrent"), active: true },
-          { label: "", active: false },
-        ]}
-      />
+
+      {/* Traço do meio preenchido: este é o separador do meio da app. */}
+      <div className="flex gap-[4px] items-center justify-center pb-[5px]">
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[12px]" />
+        <span className="bg-[#c4973e] h-[2px] rounded-[1px] w-[12px]" />
+        <span className="bg-[rgba(255,255,255,0.12)] h-[2px] rounded-[1px] w-[12px]" />
+      </div>
     </MiniPhoneShell>
   )
 }
