@@ -175,6 +175,9 @@ export default defineSchema({
           // Opcional: os add-ons dos upsells do checkout são embutidos na
           // própria experiência e não têm linha em `tourAddons`.
           addonId: v.optional(v.id("tourAddons")),
+          /* Um extra universal vive noutra tabela, e o Convex valida a tabela
+             do id — daí um campo próprio em vez de reaproveitar o de cima. */
+          universalAddonId: v.optional(v.id("universalAddons")),
           title: v.string(),
           price: v.number(),
           pricingType: v.union(v.literal("per_person"), v.literal("flat")),
@@ -232,6 +235,7 @@ export default defineSchema({
             v.array(
               v.object({
                 addonId: v.optional(v.id("tourAddons")),
+                universalAddonId: v.optional(v.id("universalAddons")),
                 title: v.string(),
                 price: v.number(),
                 pricingType: v.union(
@@ -498,6 +502,9 @@ export default defineSchema({
     isBestSeller: v.boolean(),
     isActive: v.boolean(),
     isUltraLuxury: v.optional(v.boolean()),
+    /* Extras universais que este tour dispensa. Fica aqui e não numa tabela à
+       parte porque é lido exactamente onde o tour é lido. */
+    disabledUniversalAddons: v.optional(v.array(v.id("universalAddons"))),
     tourTypeTag: v.optional(
       v.union(
         v.literal("half-day"),
@@ -737,6 +744,9 @@ export default defineSchema({
     manualReviewCount: v.optional(v.number()),
     minPassengers: v.optional(v.number()),
     maxPassengers: v.optional(v.number()),
+    /* Extras universais que este evento dispensa. Fica aqui e não numa tabela
+       à parte porque é lido exactamente onde o evento é lido. */
+    disabledUniversalAddons: v.optional(v.array(v.id("universalAddons"))),
     publishedAt: v.optional(v.number()),
     createdAt: v.number(),
     updatedAt: v.number(),
@@ -1231,6 +1241,36 @@ export default defineSchema({
     .index("by_tour", ["tourId"])
     .index("by_event", ["eventId"]),
 
+  /* Extras universais: definidos uma vez e mostrados em todos os tours ou
+     eventos do seu âmbito.
+
+     Tabela própria e não uma marca em `tourAddons` porque lá `tourId` e
+     `eventId` são os únicos caminhos de leitura — uma linha sem dono seria
+     invisível a todas as queries. Um extra universal não tem dono.
+
+     `scopes` é uma lista porque o mesmo extra pode servir tours e ultra-luxo. É
+     curta e filtra-se em memória, como o `universal` dos upsells. */
+  universalAddons: defineTable({
+    title: v.string(),
+    description: v.optional(v.string()),
+    imageId: v.optional(v.id("_storage")),
+    price: v.number(),
+    pricingType: v.union(v.literal("per_person"), v.literal("flat")),
+    currency: v.string(),
+    originalLanguage: v.string(),
+    order: v.number(),
+    status: v.union(v.literal("draft"), v.literal("published")),
+    scopes: v.array(
+      v.union(
+        v.literal("tours"),
+        v.literal("events"),
+        v.literal("ultraLuxury"),
+      ),
+    ),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_status", ["status"]),
+
   /* Biblioteca de imagens dos extras.
 
      As imagens dos extras repetem-se — o champanhe, as flores, o fotógrafo são
@@ -1394,6 +1434,9 @@ export default defineSchema({
           // Opcional: os add-ons dos upsells do checkout são embutidos na
           // própria experiência e não têm linha em `tourAddons`.
           addonId: v.optional(v.id("tourAddons")),
+          /* Um extra universal vive noutra tabela, e o Convex valida a tabela
+             do id — daí um campo próprio em vez de reaproveitar o de cima. */
+          universalAddonId: v.optional(v.id("universalAddons")),
           title: v.string(),
           price: v.number(),
           pricingType: v.union(v.literal("per_person"), v.literal("flat")),

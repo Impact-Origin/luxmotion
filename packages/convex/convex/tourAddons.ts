@@ -51,56 +51,6 @@ export const listByEvent = query({
   },
 });
 
-export const listPublishedByTour = query({
-  args: { tourId: v.id("tours") },
-  handler: async (ctx, args) => {
-    const addons = await ctx.db
-      .query("tourAddons")
-      .withIndex("by_tour", (q) => q.eq("tourId", args.tourId))
-      .collect();
-
-    const published = addons.filter((a) => a.status === "published" || (a.status === undefined && a.isActive === true)).sort((a, b) => a.order - b.order);
-
-    return await Promise.all(
-      published.map(async (addon) => {
-        const imageUrl = addon.imageId
-          ? await ctx.storage.getUrl(addon.imageId)
-          : null;
-        const translations = await ctx.db
-          .query("tourAddonTranslations")
-          .withIndex("by_addon", (q) => q.eq("addonId", addon._id))
-          .collect();
-        return { ...addon, imageUrl, translations };
-      })
-    );
-  },
-});
-
-export const listPublishedByEvent = query({
-  args: { eventId: v.id("events") },
-  handler: async (ctx, args) => {
-    const addons = await ctx.db
-      .query("tourAddons")
-      .withIndex("by_event", (q) => q.eq("eventId", args.eventId))
-      .collect();
-
-    const published = addons.filter((a) => a.status === "published" || (a.status === undefined && a.isActive === true)).sort((a, b) => a.order - b.order);
-
-    return await Promise.all(
-      published.map(async (addon) => {
-        const imageUrl = addon.imageId
-          ? await ctx.storage.getUrl(addon.imageId)
-          : null;
-        const translations = await ctx.db
-          .query("tourAddonTranslations")
-          .withIndex("by_addon", (q) => q.eq("addonId", addon._id))
-          .collect();
-        return { ...addon, imageUrl, translations };
-      })
-    );
-  },
-});
-
 export const getTranslation = query({
   args: {
     addonId: v.id("tourAddons"),
@@ -113,13 +63,6 @@ export const getTranslation = query({
         q.eq("addonId", args.addonId).eq("locale", args.locale)
       )
       .first();
-  },
-});
-
-export const generateUploadUrl = mutation({
-  args: {},
-  handler: async (ctx) => {
-    return await ctx.storage.generateUploadUrl();
   },
 });
 
@@ -219,18 +162,6 @@ export const remove = mutation({
   },
 });
 
-export const reorder = mutation({
-  args: {
-    ids: v.array(v.id("tourAddons")),
-  },
-  handler: async (ctx, args) => {
-    const now = Date.now();
-    for (let i = 0; i < args.ids.length; i++) {
-      await ctx.db.patch(args.ids[i]!, { order: i, updatedAt: now });
-    }
-  },
-});
-
 export const upsertTranslation = mutation({
   args: {
     addonId: v.id("tourAddons"),
@@ -274,22 +205,3 @@ export const upsertTranslation = mutation({
   },
 });
 
-export const removeTranslation = mutation({
-  args: {
-    addonId: v.id("tourAddons"),
-    locale: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const translation = await ctx.db
-      .query("tourAddonTranslations")
-      .withIndex("by_addon_locale", (q) =>
-        q.eq("addonId", args.addonId).eq("locale", args.locale)
-      )
-      .first();
-
-    if (!translation) throw new Error("Translation not found");
-
-    await ctx.db.delete(translation._id);
-    return translation._id;
-  },
-});

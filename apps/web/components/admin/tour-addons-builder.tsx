@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { useMutation, useQuery } from "convex/react"
+import { useMutation, useQueries, useQuery } from "convex/react"
+import type { RequestForQueries } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
 import { Button } from "@workspace/ui/components/button"
@@ -22,6 +23,9 @@ import {
   DialogTitle,
 } from "@workspace/ui/components/dialog"
 import { AddonImagePicker } from "./addon-image-picker"
+import { MiniaturaImagem } from "./miniatura-imagem"
+import { Switch } from "@workspace/ui/components/switch"
+import { cn } from "@workspace/ui/lib/utils"
 import { Plus, Trash2, Languages, Loader2, Gem } from "lucide-react"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
@@ -226,6 +230,119 @@ function AddonCard({
   )
 }
 
+/**
+ * Os extras universais que se aplicam a este tour ou evento.
+ *
+ * Não se editam aqui — vivem em /admin/universal-addons e o preço está num sítio
+ * só. O que se pode é desligar os que não servem a este: um tour a pé não vende
+ * "Bagagem Extra".
+ */
+function UniversaisAplicaveis({
+  entityId,
+  entityType,
+}: {
+  entityId: string
+  entityType: "tour" | "event"
+}) {
+  const args = React.useMemo(
+    () =>
+      entityType === "tour"
+        ? { tourId: entityId as Id<"tours"> }
+        : { eventId: entityId as Id<"events"> },
+    [entityId, entityType],
+  )
+
+  /* `useQueries` e não `useQuery`: enquanto `universalAddons.listForOwner` não
+     estiver deployada, o formulário do tour continua a abrir em vez de dar ecrã
+     de erro. */
+  const queries: RequestForQueries = React.useMemo(
+    () => ({
+      lista: {
+        query: api.universalAddons.listForOwner,
+        // Os ids do Convex são strings com marca; a assinatura do `useQueries`
+        // só aceita valores simples.
+        args: args as unknown as Record<string, string>,
+      },
+    }),
+    [args],
+  )
+  const bruto = useQueries(queries).lista
+  const universais = Array.isArray(bruto)
+    ? (bruto as Array<{
+        _id: Id<"universalAddons">
+        title: string
+        description?: string
+        price: number
+        pricingType: "per_person" | "flat"
+        imageUrl: string | null
+        status: "draft" | "published"
+        disabled: boolean
+      }>)
+    : []
+
+  const alternar = useMutation(api.universalAddons.setDisabled)
+  const [aGuardar, setAGuardar] = React.useState<string | null>(null)
+
+  if (universais.length === 0) return null
+
+  return (
+    <div className="rounded-lg border border-border bg-muted/20 p-4">
+      <h4 className="text-sm font-semibold text-foreground">
+        Extras universais que se aplicam aqui
+      </h4>
+      <p className="mt-0.5 text-xs text-muted-foreground">
+        Definidos uma vez em Extras universais. Desliga os que não servem a este{" "}
+        {entityType === "tour" ? "tour" : "evento"}.
+      </p>
+
+      <div className="mt-3 space-y-2">
+        {universais.map((u) => (
+          <div
+            key={u._id}
+            className="flex items-center gap-3 rounded-md border border-border bg-background px-3 py-2"
+          >
+            {u.imageUrl ? (
+              <MiniaturaImagem
+                url={u.imageUrl}
+                alt={u.title}
+                className="h-9 w-[52px] shrink-0 overflow-hidden rounded"
+              />
+            ) : (
+              <div className="h-9 w-[52px] shrink-0 rounded bg-muted" />
+            )}
+
+            <div className="min-w-0 flex-1">
+              <p className={cn("truncate text-sm font-medium", u.disabled && "text-muted-foreground line-through")}>
+                {u.title}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {u.price.toFixed(2)} € {u.pricingType === "per_person" ? "/ pessoa" : "fixo"}
+                {u.status === "draft" && " · rascunho"}
+              </p>
+            </div>
+
+            <Switch
+              checked={!u.disabled}
+              disabled={aGuardar === u._id}
+              onCheckedChange={async (ligado) => {
+                setAGuardar(u._id)
+                try {
+                  await alternar({ addonId: u._id, ...args, disabled: !ligado })
+                } catch (erro) {
+                  console.error(erro)
+                  toast.error("Não foi possível guardar.")
+                } finally {
+                  setAGuardar(null)
+                }
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function TourAddonsBuilder({ entityId, entityType, originalLanguage }: TourAddonsBuilderProps) {
   const tKey = entityType === "tour" ? "adminTours" : "adminEvents"
   const t = useTranslations(tKey)
@@ -302,6 +419,8 @@ export function TourAddonsBuilder({ entityId, entityType, originalLanguage }: To
         <h3 className="text-sm font-semibold text-foreground">{t("form.addonsTitle")}</h3>
         <p className="text-xs text-muted-foreground mt-0.5">{t("form.addonsDescription")}</p>
       </div>
+
+      <UniversaisAplicaveis entityId={entityId} entityType={entityType} />
 
       {addons === undefined ? (
         <div className="flex justify-center py-8">

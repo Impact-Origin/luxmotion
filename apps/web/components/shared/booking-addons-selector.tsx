@@ -9,6 +9,8 @@ const SANS_FONT = "var(--font-sans), system-ui, sans-serif"
 
 export interface BookingAddon {
   _id: string
+  /** Extra universal: vive noutra tabela e a reserva guarda-o noutro campo. */
+  isUniversal?: boolean
   title: string
   description?: string
   imageUrl?: string | null

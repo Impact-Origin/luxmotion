@@ -690,6 +690,7 @@ const pendingExperienceValidator = v.object({
     v.array(
       v.object({
         addonId: v.optional(v.id("tourAddons")),
+        universalAddonId: v.optional(v.id("universalAddons")),
         title: v.string(),
         price: v.number(),
         pricingType: v.union(v.literal("per_person"), v.literal("flat")),

@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { resolveAddons } from "./lib/addons";
 import { query, mutation, internalMutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
 import { safeStorageDelete } from "./lib/storage";
@@ -433,31 +434,12 @@ export const getBySlug = query({
 
     const approvedReviews = reviews.filter((r) => r.isApproved);
 
-    const addons = await ctx.db
-      .query("tourAddons")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
-      .collect();
-
-    const activeAddons = addons
-      .filter(
-        (a) =>
-          a.status === "published" ||
-          (a.status === undefined && a.isActive === true),
-      )
-      .sort((a, b) => a.order - b.order);
-
-    const addonsWithData = await Promise.all(
-      activeAddons.map(async (addon) => {
-        const imageUrl = addon.imageId
-          ? await ctx.storage.getUrl(addon.imageId)
-          : null;
-        const addonTranslations = await ctx.db
-          .query("tourAddonTranslations")
-          .withIndex("by_addon", (q) => q.eq("addonId", addon._id))
-          .collect();
-        return { ...addon, imageUrl, translations: addonTranslations };
-      }),
-    );
+    // Os próprios deste tour mais os universais do seu âmbito.
+    const addonsWithData = await resolveAddons(ctx, {
+      tourId: tour._id,
+      isUltraLuxury: tour.isUltraLuxury,
+      disabled: tour.disabledUniversalAddons,
+    });
 
     const itineraryDays = tour.itineraryDays
       ? await Promise.all(
@@ -630,31 +612,12 @@ export const listNearCoordinates = query({
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
 
-        const allAddons = await ctx.db
-          .query("tourAddons")
-          .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
-          .collect();
-        const activeAddons = allAddons.filter(
-          (a) =>
-            a.status === "published" ||
-            (a.status === undefined && a.isActive === true),
-        );
-        const addons = await Promise.all(
-          activeAddons.map(async (addon) => {
-            const imageUrl = addon.imageId
-              ? await ctx.storage.getUrl(addon.imageId)
-              : null;
-            return {
-              _id: addon._id,
-              title: addon.title,
-              description: addon.description,
-              imageUrl,
-              price: addon.price,
-              pricingType: addon.pricingType,
-              currency: addon.currency,
-            };
-          }),
-        );
+        const addons = await resolveAddons(ctx, {
+          tourId: tour._id,
+          isUltraLuxury: tour.isUltraLuxury,
+          disabled: tour.disabledUniversalAddons,
+          trimmed: true,
+        });
 
         return withDisplayedReviewCount({
           ...tour,

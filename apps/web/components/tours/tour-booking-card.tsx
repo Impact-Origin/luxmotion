@@ -60,7 +60,9 @@ interface BookingData {
   /** Preço por pessoa que a escolha determinou; é o que o checkout multiplica. */
   unitPrice?: number
   selectedAddons?: Array<{
-    addonId: string
+    /** Um dos dois, nunca os dois: um extra próprio do tour ou um universal. */
+    addonId?: string
+    universalAddonId?: string
     title: string
     price: number
     pricingType: "per_person" | "flat"
@@ -213,7 +215,7 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
     const selectedAddonsData = addons
       ?.filter((a) => selectedAddonIds.includes(a._id))
       .map((a) => ({
-        addonId: a._id,
+        ...(a.isUniversal ? { universalAddonId: a._id } : { addonId: a._id }),
         title: a.title,
         price: a.price,
         pricingType: a.pricingType,

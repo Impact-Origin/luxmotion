@@ -27,6 +27,7 @@ export const init = mutation({
     sharingMode: v.optional(v.union(v.literal("private"), v.literal("shared"))),
     selectedAddons: v.optional(v.array(v.object({
       addonId: v.optional(v.id("tourAddons")),
+      universalAddonId: v.optional(v.id("universalAddons")),
       title: v.string(),
       price: v.number(),
       pricingType: v.union(v.literal("per_person"), v.literal("flat")),
@@ -291,6 +292,7 @@ export function buildOrderFromTourBooking(
       // Opcional: os add-ons dos upsells do checkout são embutidos na própria
       // experiência e não têm linha em `tourAddons`.
       addonId?: Id<"tourAddons">;
+      universalAddonId?: Id<"universalAddons">;
       title: string;
       price: number;
       pricingType: "per_person" | "flat";

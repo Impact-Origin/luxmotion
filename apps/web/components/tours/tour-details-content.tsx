@@ -90,7 +90,7 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
 
   const handleBook = (data: {
     date: Date | null; time: string | null; adults: number; children: number; infants: number; total: number;
-    selectedAddons?: Array<{ addonId: string; title: string; price: number; pricingType: "per_person" | "flat"; quantity: number; subtotal: number }>;
+    selectedAddons?: Array<{ addonId?: string; universalAddonId?: string; title: string; price: number; pricingType: "per_person" | "flat"; quantity: number; subtotal: number }>;
     addonsTotal?: number;
   }) => {
     if (!tour._id) return

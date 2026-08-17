@@ -163,6 +163,7 @@ export const updatePaymentStatus = internalMutation({
         };
         selectedAddons?: Array<{
           addonId?: Id<"tourAddons">;
+          universalAddonId?: Id<"universalAddons">;
           title: string;
           price: number;
           pricingType: "per_person" | "flat";

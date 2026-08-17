@@ -37,7 +37,8 @@ export interface TourCheckoutBookingData {
   infants: number
   total: number
   selectedAddons?: Array<{
-    addonId: string
+    addonId?: string
+    universalAddonId?: string
     title: string
     price: number
     pricingType: "per_person" | "flat"

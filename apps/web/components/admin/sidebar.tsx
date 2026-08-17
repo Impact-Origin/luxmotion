@@ -24,6 +24,7 @@ import {
   CalendarClock,
   ShoppingBag,
   Images,
+  Layers,
 } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { UserNav } from "./user-nav";
@@ -62,6 +63,9 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
           { title: "Tours", url: "/admin/tours", icon: Map },
           { title: "Events", url: "/admin/events", icon: CalendarDays },
           { title: "Upsells", url: "/admin/upsells", icon: ShoppingBag },
+          /* Um extra definido uma vez, mostrado em todos os tours ou eventos
+             do seu âmbito. */
+          { title: "Extras universais", url: "/admin/universal-addons", icon: Layers },
           /* As imagens dos extras carregam-se aqui uma vez; associam-se
              depois, dentro do tour ou do evento. */
           { title: "Imagens dos extras", url: "/admin/addon-images", icon: Images },

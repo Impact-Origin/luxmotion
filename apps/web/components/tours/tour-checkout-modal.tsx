@@ -98,7 +98,7 @@ function OrderSummarySidebar({
   isSubmitting: boolean
   reservationTimeLabel?: string | null
   addonsTotal?: number
-  selectedAddons?: Array<{ addonId: string; title: string; price: number; pricingType: "per_person" | "flat"; quantity: number; subtotal: number }>
+  selectedAddons?: Array<{ addonId?: string; universalAddonId?: string; title: string; price: number; pricingType: "per_person" | "flat"; quantity: number; subtotal: number }>
   t: (key: string) => string
 }) {
   const { format, isEur } = useMoney()
@@ -303,7 +303,9 @@ export function TourCheckoutModal() {
       const looksLikeMockId = (id: string) => typeof id === "string" && (id.startsWith("tour-") || id.startsWith("event-") || id.length < 15)
       const canUseTourId = !useMockTours && tour._id && !looksLikeMockId(tour._id)
       const selectedAddons = bookingData.selectedAddons?.map((a) => ({
-        addonId: a.addonId as Id<"tourAddons">,
+        // Um ou outro: um extra próprio do tour ou um universal, que vive noutra tabela.
+        addonId: a.addonId as Id<"tourAddons"> | undefined,
+        universalAddonId: a.universalAddonId as Id<"universalAddons"> | undefined,
         title: a.title,
         price: a.price,
         pricingType: a.pricingType as "per_person" | "flat",
