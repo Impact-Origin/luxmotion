@@ -6724,7 +6724,8 @@
           "activatedRest": "em menos de 48 horas",
           "name": "City Hotel",
           "stars": "4",
-          "rooms": "110 Quartos"
+          "rooms": "110 Quartos",
+          "photo": "/hotels/cases/evolution-lisboa.webp"
         },
         {
           "hotelLead": "Boutique Hotel · 4",
@@ -6798,7 +6799,8 @@
           "activatedRest": "em menos de 48 horas",
           "name": "Boutique Hotel",
           "stars": "4",
-          "rooms": "28 Quartos"
+          "rooms": "28 Quartos",
+          "photo": "/hotels/cases/pure-surf-ericeira.webp"
         },
         {
           "hotelLead": "Hotel · 4",
@@ -6872,7 +6874,8 @@
           "activatedRest": "em menos de 48 horas",
           "name": "Hotel",
           "stars": "4",
-          "rooms": "82 Quartos"
+          "rooms": "82 Quartos",
+          "photo": "/b2b/hotel-arrival.webp"
         },
         {
           "hotelLead": "Hotel · 5",
@@ -6940,7 +6943,8 @@
           "activatedRest": "em menos de 72 horas",
           "name": "Hotel",
           "stars": "5",
-          "rooms": "207 Quartos"
+          "rooms": "207 Quartos",
+          "photo": "/hotels/cases/vila-gale-ericeira.webp"
         },
         {
           "hotelLead": "Resort · 5",
@@ -7007,7 +7011,8 @@
           "activatedRest": "em menos de 72 horas",
           "name": "Resort",
           "stars": "",
-          "rooms": "210 Quartos"
+          "rooms": "210 Quartos",
+          "photo": "/hotels/cases/vila-gale-albufeira.webp"
         },
         {
           "hotelLead": "Hotel · 5",
@@ -7077,7 +7082,8 @@
           "activatedRest": "em menos de 48 horas",
           "name": "Hotel",
           "stars": "5",
-          "rooms": "92 Quartos"
+          "rooms": "92 Quartos",
+          "photo": "/hotels/cases/ms-collection-aveiro.webp"
         }
       ]
     },

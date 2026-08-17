@@ -11,6 +11,8 @@ const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } a
 type Stat = { value: string; label: string }
 type Column = { title: string; items: string[] }
 type Case = {
+  /** Fotografia do hotel deste caso. */
+  photo: string
   name: string
   stars: string
   rooms: string
@@ -50,7 +52,8 @@ export function HotelsResults() {
           {/* LEFT — perfil do hotel por cima da fotografia: o contraste vem do
               véu escuro sobre a foto, não do tema, por isso fica fixo. */}
           <div className="relative flex min-h-[540px] flex-col gap-5 p-6 lg:p-7">
-            <Image src="/b2b/hotel-arrival.webp" alt="" fill className="object-cover" sizes="(min-width:1024px) 35vw, 100vw" />
+            {/* A fotografia acompanha o caso — era a mesma para os seis. */}
+            <Image src={c.photo} alt="" fill className="object-cover" sizes="(min-width:1024px) 35vw, 100vw" />
             <div
               aria-hidden
               className="absolute inset-0"
