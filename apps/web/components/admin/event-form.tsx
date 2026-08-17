@@ -114,6 +114,12 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   const featuredCount = useQuery(api.events.countFeatured) ?? 0
   const isAtFeaturedLimit = featuredCount >= 6 && !initialData?.isFeatured
 
+  /* Depende do ID e não do objecto: o `initialData` vem de uma query reactiva,
+     e qualquer gravação no documento — desligar um extra universal, por exemplo
+     — devolvia um objecto novo, este efeito voltava a correr, o formulário
+     saltava para o primeiro passo e as edições por guardar desapareciam.
+     Repovoar só faz sentido quando se abre outro registo. */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (initialData) {
       setTitle(initialData.title || "")
@@ -176,7 +182,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
     } else {
       resetForm()
     }
-  }, [initialData])
+  }, [initialData?._id])
 
   const resetForm = () => {
     setTitle("")
