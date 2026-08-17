@@ -13,9 +13,14 @@ import {
   buildServiceSchema,
 } from "@/lib/structured-data";
 
+/* O universo de destinos vive em três sítios que têm de andar a par: aqui (as
+   rotas), em `components/tours/destination-nav.tsx` (a barra) e em
+   `components/admin/constants.ts` (o que o admin deixa escolher). Faltar num
+   deles dá uma página sem entrada no menu, ou uma entrada que dá 404. */
 const destinations: Record<string, string> = {
   lisboa: "Lisboa",
   porto: "Porto",
+  ericeira: "Ericeira",
   algarve: "Algarve",
   alentejo: "Alentejo",
   acores: "Açores",

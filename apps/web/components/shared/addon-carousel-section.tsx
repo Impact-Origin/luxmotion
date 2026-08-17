@@ -73,8 +73,12 @@ export function AddonCarouselSection({ addons }: AddonCarouselSectionProps) {
       {...addonSwipe}
     >
       <div className="flex items-center justify-between mb-6">
+        {/* A mesma tipografia do "Ponto de Encontro" logo abaixo
+            (`tour-meeting-points.tsx:53`): serifa em itálico, dourada. Estava
+            em corpo maior, direita e na cor do texto — duas secções seguidas da
+            mesma página a anunciarem-se de maneiras diferentes. */}
         <h2
-          className="text-[28px] md:text-[32px] font-light leading-none text-[var(--lm-text,#fff)]"
+          className="text-[24px] font-medium italic leading-none text-[var(--lm-accent,#c9a96e)]"
           style={{ fontFamily: SERIF_FONT }}
         >
           {t("addOns")}

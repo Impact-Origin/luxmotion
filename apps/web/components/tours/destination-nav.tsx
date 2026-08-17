@@ -10,6 +10,7 @@ interface DestinationNavProps {
 const DESTINATIONS: { slug: string; label: string }[] = [
   { slug: "lisboa", label: "Lisboa" },
   { slug: "porto", label: "Porto" },
+  { slug: "ericeira", label: "Ericeira" },
   { slug: "algarve", label: "Algarve" },
   { slug: "alentejo", label: "Alentejo" },
   { slug: "acores", label: "Açores" },

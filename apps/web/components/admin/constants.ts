@@ -10,6 +10,7 @@ export const LANGUAGES = [
 export const PORTUGAL_LOCATIONS = [
   "Lisboa",
   "Porto",
+  "Ericeira",
   "Algarve",
   "Alentejo",
   "Açores",
