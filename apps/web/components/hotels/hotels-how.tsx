@@ -25,8 +25,20 @@ function StepIllustration({ index, alt }: { index: number; alt: string }) {
   const src = PASSOS[index]
   if (!src) return null
   return (
-    <div className="relative aspect-[5/4] w-full overflow-hidden">
-      <Image src={src} alt={alt} fill sizes="(min-width:768px) 33vw, 100vw" className="object-cover" />
+    /* `-mx` cancela o padding do cartão: as imagens passam a ocupar a largura
+       toda em vez de ficarem uma coluna estreita ao centro.
+
+       `mix-blend-lighten` só no escuro. O fundo destas imagens é preto puro
+       (#000 a #010102, medido), e sobre o cartão lia-se como um rectângulo mais
+       escuro; o `lighten` deixa passar o cartão onde a imagem é mais escura do
+       que ele, e não toca no resto. No tema claro seria o contrário — lavava a
+       imagem toda — por isso fica de fora.
+
+       A ampliação do hover vive aqui e não num invólucro: um `transform` num
+       antepassado cria contexto de composição e o blend deixaria de ver o
+       cartão por baixo. */
+    <div className="relative -mx-7 aspect-[5/4] overflow-hidden transition-transform duration-300 ease-out group-hover:scale-[1.03] dark:mix-blend-lighten md:-mx-8">
+      <Image src={src} alt={alt} fill sizes="(min-width:768px) 40vw, 100vw" className="object-cover" />
     </div>
   )
 }
@@ -64,9 +76,7 @@ export function HotelsHow() {
                   <span className="flex h-10 w-10 items-center justify-center border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] text-[17px] text-[var(--lm-accent,#C9A96E)]" style={serif}>
                     0{i + 1}
                   </span>
-                  <div className="transition-transform duration-300 ease-out group-hover:scale-[1.03]">
-                    <StepIllustration index={i} alt={s.title} />
-                  </div>
+                  <StepIllustration index={i} alt={s.title} />
                 </div>
                 <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] px-7 py-6 md:px-8">
                   <h3 className="font-sans text-[15px] font-semibold text-[var(--lm-text,#fff)]">{s.title}</h3>
