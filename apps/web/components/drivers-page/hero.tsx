@@ -190,38 +190,17 @@ export function DriversHero() {
           }}
         />
 
-        <div className="hidden lg:flex flex-1 min-w-0 self-stretch z-[1] bg-[#E2DAD0] gap-[2px]">
-          <div className="relative w-1/2 overflow-hidden bg-[#EDE8DF]">
-            <Image
-              src="/drivers/hero-mercedes-interior.webp"
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 30vw"
-              className="object-cover object-center"
-              priority
-            />
-          </div>
-          <div className="relative w-1/2 flex flex-col gap-[2px]">
-            <div className="relative flex-[441] overflow-hidden">
-              <Image
-                src="/drivers/hero-chauffeur.png"
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 30vw"
-                className="object-cover object-center"
-                priority
-              />
-            </div>
-            <div className="relative flex-[412] overflow-hidden">
-              <Image
-                src="/drivers/hero-van.webp"
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 30vw"
-                className="object-cover object-[39%_center]"
-              />
-            </div>
-          </div>
+        {/* Uma fotografia só, em vez do mosaico de três: a frota e a equipa
+            aparecem na mesma imagem, que é o que esta página vende. */}
+        <div className="relative hidden lg:block flex-1 min-w-0 self-stretch z-[1] overflow-hidden bg-[#EDE8DF]">
+          <Image
+            src="/driver_companies/hero-partner.webp"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 50vw"
+            className="object-cover object-center"
+            priority
+          />
         </div>
       </div>
     </section>
