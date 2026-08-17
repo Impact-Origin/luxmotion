@@ -36,16 +36,16 @@ export function HotelsCalculator() {
 
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* image */}
-          <div className="relative w-full">
-            <div className="relative aspect-[4/3.3] w-full overflow-hidden">
-              <Image src="/partnership/homem.webp" alt="" fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" />
-            </div>
+          {/* Uma fotografia só, em vez do retrato de banco de imagens com as
+              moedas douradas coladas ao canto. Esta mostra a coisa: um
+              hoteleiro a olhar para a página de reserva da própria marca. */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden">
             <Image
-              src="/partnership/money.png"
-              alt=""
-              width={458}
-              height={348}
-              className="pointer-events-none absolute bottom-1 right-1 w-[42%]"
+              src="/hotels/calculator-revenue.webp"
+              alt={t("photoAlt")}
+              fill
+              className="object-cover"
+              sizes="(min-width:1024px) 50vw, 100vw"
             />
           </div>
 

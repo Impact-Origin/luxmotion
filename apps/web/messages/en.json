@@ -7287,7 +7287,8 @@
       "intro": "Expected monthly and annual commission revenue with the partnership.",
       "monthlyLabel": "Average monthly commission",
       "yearlyLabel": "Average annual commission",
-      "note": "*Estimates based on 60% occupancy and a 20% transfer booking rate."
+      "note": "*Estimates based on 60% occupancy and a 20% transfer booking rate.",
+      "photoAlt": "Hotelier looking at the transfer booking page branded with their own hotel"
     },
     "payment": {
       "eyebrow": "Flexible options",

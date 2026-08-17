@@ -7286,7 +7286,8 @@
       "intro": "Faturamento mensal e anual esperado em comissões com parceria.",
       "monthlyLabel": "Comissão média mensal",
       "yearlyLabel": "Comissão média anual",
-      "note": "*Estimativas baseadas em 60% de ocupação e 20% de taxa de reserva de transferência."
+      "note": "*Estimativas baseadas em 60% de ocupação e 20% de taxa de reserva de transferência.",
+      "photoAlt": "Hoteleiro a ver a página de reserva de transfers com a marca do seu hotel"
     },
     "payment": {
       "eyebrow": "Opções flexíveis",
