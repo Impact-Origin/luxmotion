@@ -80,7 +80,8 @@ export const listPaged = query({
     rows = applySort(rows, a.sortBy, a.sortDir, {
       title: (r) => r.title.toLowerCase(),
       date: (r) => r.eventDate,
-      price: (r) => r.basePrice,
+      // `?? basePrice` cai quando o deploy 2 tirar o campo antigo.
+      price: (r) => r.privatePrice ?? r.basePrice ?? 0,
     });
 
     const result = paginate(rows, a.page, a.pageSize);
@@ -452,9 +453,8 @@ export const create = mutation({
       v.literal("completed"),
     ),
     maxCapacity: v.optional(v.number()),
-    basePrice: v.number(),
+    privatePrice: v.number(),
     sharedPrice: v.optional(v.number()),
-    originalPrice: v.optional(v.number()),
     currency: v.string(),
     bannerImageId: v.optional(v.id("_storage")),
     additionalBannerIds: v.optional(v.array(v.id("_storage"))),
@@ -536,9 +536,8 @@ export const update = mutation({
       ),
     ),
     maxCapacity: v.optional(v.number()),
-    basePrice: v.optional(v.number()),
+    privatePrice: v.optional(v.number()),
     sharedPrice: v.optional(v.number()),
-    originalPrice: v.optional(v.number()),
     currency: v.optional(v.string()),
     bannerImageId: v.optional(v.id("_storage")),
     additionalBannerIds: v.optional(v.array(v.id("_storage"))),
@@ -886,5 +885,74 @@ export const updateRating = mutation({
     });
 
     return { rating, reviewCount };
+  },
+});
+
+/* ---------------------------------------------------------------------------
+   Migração dos preços.
+
+   `basePrice` passou a `privatePrice`, e `originalPrice` — o preço riscado —
+   desapareceu por ser igual ao outro em todos os eventos: um desconto a fingir.
+
+   São dois passos e dois deploys de propósito. O Convex valida o schema contra
+   os documentos que já lá estão; trocar o nome de um campo obrigatório de uma
+   só vez fazia o deploy rebentar com os eventos existentes.
+   --------------------------------------------------------------------------- */
+
+/** Passo 1: copia `basePrice` para `privatePrice` em quem ainda não o tem. */
+export const backfillPrivatePrice = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const eventos = await ctx.db.query("events").collect();
+    let copiados = 0;
+    let semOrigem = 0;
+
+    for (const e of eventos) {
+      if (e.privatePrice !== undefined) continue;
+      if (e.basePrice === undefined) {
+        semOrigem++;
+        continue;
+      }
+      await ctx.db.patch(e._id, { privatePrice: e.basePrice, updatedAt: Date.now() });
+      copiados++;
+    }
+
+    return { total: eventos.length, copiados, semOrigem };
+  },
+});
+
+/**
+ * Passo 2, só depois de o deploy seguinte tirar os campos do schema: limpa
+ * `basePrice` e `originalPrice` dos documentos.
+ *
+ * Recusa-se a correr enquanto houver um evento sem `privatePrice` — apagar a
+ * origem antes de a cópia estar feita deixava o evento sem preço nenhum.
+ */
+export const dropLegacyPrices = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const eventos = await ctx.db.query("events").collect();
+
+    const porCopiar = eventos.filter(
+      (e) => e.privatePrice === undefined && e.basePrice !== undefined,
+    );
+    if (porCopiar.length > 0) {
+      throw new Error(
+        `Há ${porCopiar.length} eventos sem privatePrice. Corre primeiro o backfill.`,
+      );
+    }
+
+    let limpos = 0;
+    for (const e of eventos) {
+      if (e.basePrice === undefined && e.originalPrice === undefined) continue;
+      await ctx.db.patch(e._id, {
+        basePrice: undefined,
+        originalPrice: undefined,
+        updatedAt: Date.now(),
+      });
+      limpos++;
+    }
+
+    return { limpos };
   },
 });

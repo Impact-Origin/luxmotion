@@ -2291,7 +2291,9 @@
       "addonImageRemove": "Afbeelding uit dit extra verwijderen",
       "addonImageRename": "Naam wijzigen",
       "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)",
-      "sharedPriceLabel": "Gedeelde prijs (per persoon)"
+      "sharedPriceLabel": "Gedeelde prijs (per persoon)",
+      "privatePriceLabel": "Privéprijs (per voertuig)",
+      "privatePriceRequired": "De privéprijs is verplicht."
     }
   },
   "adminBlogs": {
@@ -2399,7 +2401,9 @@
     "categoryCulture": "Cultuur",
     "categoryCorporate": "Zakelijk",
     "priceOnRequest": "Op aanvraag",
-    "from": "Vanaf"
+    "from": "Vanaf",
+    "perPerson": "per persoon",
+    "perVehicle": "per voertuig"
   },
   "eventDetails": {
     "date": "Datum",

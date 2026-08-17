@@ -4,6 +4,7 @@ import { useState, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
+import { precoDeMontra } from "@/hooks/use-event-data"
 import { Calendar, MapPin, Search, Loader2 } from "lucide-react"
 import { useFilteredEvents, type EventData } from "@/hooks/use-event-data"
 
@@ -28,6 +29,7 @@ function formatDate(timestamp: number, endDate?: number): string {
 
 function EventGridCard({ event, featuredLabel }: { event: EventData; featuredLabel: string }) {
   const t = useTranslations("eventsPage")
+  const montra = precoDeMontra(event)
   return (
     <Link
       href={`/events/${event.slug}`}
@@ -77,15 +79,19 @@ function EventGridCard({ event, featuredLabel }: { event: EventData; featuredLab
           {event.subtitle}
         </p>
         <div className="border-t-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] flex items-center justify-between pt-3 mt-auto">
-          <span className="flex items-center gap-2">
-            {event.originalPrice && (
-              <span className="text-[10px] text-[var(--lm-muted,rgba(255,255,255,0.18))] line-through" style={sans}>
-                €{event.originalPrice}
+          {/* Um preço só, e o mais barato: o lugar partilhado. O riscado que
+              aqui estava mostrava o mesmo número do outro, um desconto a
+              fingir. Sem partilhado mostra-se a viatura, mas dizendo-o — sem a
+              unidade o número engana quem compara. */}
+          <span className="flex items-baseline gap-1.5">
+            <span className="text-[18px] md:text-[20px] text-[var(--lm-accent,#C9A96E)]" style={serif}>
+              {montra.valor > 0 ? `€${montra.valor}` : t("priceOnRequest")}
+            </span>
+            {montra.valor > 0 && (
+              <span className="text-[10px] md:text-[11px] text-[var(--lm-muted,rgba(255,255,255,0.4))]" style={sans}>
+                {montra.unidade === "person" ? t("perPerson") : t("perVehicle")}
               </span>
             )}
-            <span className="text-[18px] md:text-[20px] text-[var(--lm-accent,#C9A96E)]" style={serif}>
-              {event.basePrice > 0 ? `€${event.basePrice}` : t("priceOnRequest")}
-            </span>
           </span>
           {event.tags?.[0] && (
             <div className="bg-[rgba(var(--lm-text-rgb,255,255,255),0.05)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] px-[8.8px] py-[3.8px] hidden md:flex">

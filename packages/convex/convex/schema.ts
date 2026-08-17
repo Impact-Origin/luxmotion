@@ -713,11 +713,21 @@ export default defineSchema({
       v.literal("completed"),
     ),
     maxCapacity: v.optional(v.number()),
-    basePrice: v.number(),
-    /* Preço por pessoa em lugar partilhado: vai-se com outros participantes e
-       paga-se menos. Vazio quer dizer que este evento só se vende em privado, e
-       é isso que decide se o cartão de reserva mostra a escolha. */
+    /* Um evento tem dois preços, e só dois:
+
+       - `privatePrice` é a viatura inteira, para o grupo de quem reserva;
+       - `sharedPrice` é o lugar por pessoa, com outros participantes. Vazio quer
+         dizer que este evento só se vende em privado, e é isso que decide se o
+         cartão de reserva mostra a escolha.
+
+       `basePrice` e `originalPrice` são o que havia antes. O primeiro passou a
+       chamar-se `privatePrice` — era ele que mandava no que se cobra — e o
+       segundo, o preço riscado, era igual ao primeiro nos 22 eventos: um
+       desconto a fingir. Ficam opcionais só até a migração correr e o deploy
+       seguinte os tirar daqui. */
+    privatePrice: v.optional(v.number()),
     sharedPrice: v.optional(v.number()),
+    basePrice: v.optional(v.number()),
     originalPrice: v.optional(v.number()),
     currency: v.string(),
     bannerImageId: v.optional(v.id("_storage")),

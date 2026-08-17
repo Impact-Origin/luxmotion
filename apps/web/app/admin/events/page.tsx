@@ -7,8 +7,9 @@ import { api } from "@workspace/convex/api"
 import { ViewOnSite, eventPublicUrl } from "@/components/admin/view-on-site"
 import { Button } from "@workspace/ui/components/button"
 import { EventTranslationForm } from "@/components/admin/event-translation-form"
-import { Plus, Star, Globe, Pencil, Trash2, MoreHorizontal, Calendar, MapPin, XCircle, Send, EyeOff } from "lucide-react"
+import { Plus, Star, Globe, Pencil, Trash2, MoreHorizontal, Calendar, MapPin, XCircle, Send, EyeOff, Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { precoPrivado } from "@/hooks/use-event-data"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +31,53 @@ import { toast } from "sonner"
 import Image from "next/image"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
+
+/**
+ * Copia o `basePrice` de cada evento para o `privatePrice` novo.
+ *
+ * Some assim que não houver nada por copiar — é um botão de uma vez só, e
+ * deixá-lo lá para sempre era convidar a carregar nele por engano. Correr duas
+ * vezes não faz mal nenhum: só mexe em quem ainda não tem o campo.
+ */
+function BotaoDeMigracao() {
+  const migrar = useMutation(api.events.backfillPrivatePrice)
+  const [aCorrer, setACorrer] = React.useState(false)
+  const [feito, setFeito] = React.useState(false)
+
+  if (feito) return null
+
+  return (
+    <Button
+      variant="outline"
+      disabled={aCorrer}
+      onClick={async () => {
+        setACorrer(true)
+        try {
+          const r = await migrar({})
+          if (r.copiados === 0) {
+            toast.success("Nada por copiar: os preços já estão todos no sítio.")
+            setFeito(true)
+          } else {
+            toast.success(
+              `${r.copiados} de ${r.total} eventos passaram a ter preço privado.`,
+            )
+          }
+          if (r.semOrigem > 0) {
+            toast.warning(`${r.semOrigem} eventos ficaram sem preço nenhum — abre-os e preenche.`)
+          }
+        } catch (erro) {
+          console.error(erro)
+          toast.error("A migração falhou.")
+        } finally {
+          setACorrer(false)
+        }
+      }}
+    >
+      {aCorrer ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      Migrar preços
+    </Button>
+  )
+}
 
 export default function AdminEventsPage() {
   const t = useTranslations("adminEvents")
@@ -120,7 +168,7 @@ export default function AdminEventsPage() {
 
   const formatPrice = (event: EventRow) => {
     const symbol = event.currency === "EUR" ? "€" : event.currency === "USD" ? "$" : "£"
-    return `${symbol}${event.basePrice.toFixed(2)}`
+    return `${symbol}${precoPrivado(event).toFixed(2)}`
   }
 
   const rowActions = (event: EventRow) => (
@@ -233,9 +281,9 @@ export default function AdminEventsPage() {
     },
     {
       id: "price",
-      header: t("form.basePriceLabel"),
+      header: t("form.privatePriceLabel"),
       align: "right",
-      sortAccessor: (e) => e.basePrice,
+      sortAccessor: (e) => precoPrivado(e),
       cell: (e) => <span className="font-medium tabular-nums">{formatPrice(e)}</span>,
     },
   ]
@@ -321,10 +369,13 @@ export default function AdminEventsPage() {
         rowActions={rowActions}
         initialSort={{ columnId: "date", dir: "desc" }}
         toolbarActions={
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 size-4" />
-            {t("addEvent")}
-          </Button>
+          <>
+            <BotaoDeMigracao />
+            <Button onClick={handleCreate}>
+              <Plus className="mr-2 size-4" />
+              {t("addEvent")}
+            </Button>
+          </>
         }
         emptyTitle={t("noEventsFound")}
         emptyDescription={res && res.total === 0 ? t("getStarted") : t("tryFilters")}

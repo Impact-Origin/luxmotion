@@ -2419,9 +2419,6 @@
       "additionalBannersMediaHelp": "Add up to 15 images or videos (MP4/WebM) for the banner carousel.",
       "meetingPointLabel": "Meeting Point",
       "pricingLabel": "Pricing",
-      "basePriceLabel": "Base Price",
-      "basePriceRequired": "Base price is required",
-      "originalPriceLabel": "Original Price",
       "currencyLabel": "Currency",
       "minPassengersLabel": "Min. Passengers per Booking",
       "maxPassengersLabel": "Max. Passengers per Booking",
@@ -2477,7 +2474,9 @@
       "addonImageRemove": "Remove image from this add-on",
       "addonImageRename": "Rename",
       "addonImageForget": "Remove from the library (the add-ons using it keep the image)",
-      "sharedPriceLabel": "Shared price (per person)"
+      "sharedPriceLabel": "Shared price (per person)",
+      "privatePriceLabel": "Private price (per vehicle)",
+      "privatePriceRequired": "The private price is required."
     }
   },
   "adminBlogs": {
@@ -2585,7 +2584,9 @@
     "categoryCulture": "Culture",
     "categoryCorporate": "Corporate",
     "priceOnRequest": "On request",
-    "from": "From"
+    "from": "From",
+    "perPerson": "per person",
+    "perVehicle": "per vehicle"
   },
   "eventDetails": {
     "date": "Date",

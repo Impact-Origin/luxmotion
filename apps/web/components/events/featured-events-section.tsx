@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
+import { precoDeMontra } from "@/hooks/use-event-data"
 import { Calendar, MapPin, ArrowRight, Star, Loader2 } from "lucide-react"
 import { useFeaturedEvents, type EventData } from "@/hooks/use-event-data"
 
@@ -61,23 +62,25 @@ function CategoryBadge({ category }: { category: string }) {
 
 function CardFooter({ event, isHero }: { event: Partial<EventData>; isHero?: boolean }) {
   const t = useTranslations("eventsPage")
+  /* O mesmo critério da grelha logo abaixo: o lugar partilhado, que é o mais
+     barato. Estas duas secções vivem na mesma página — o destaque a dizer €135
+     e a grelha a dizer €35 era pior do que estava. */
+  const montra = precoDeMontra(event)
   // "€0" lia-se como grátis; a maioria dos eventos ainda não tem preço.
-  const price = event.basePrice ? `€${event.basePrice}` : t("priceOnRequest")
+  const price = montra.valor > 0 ? `€${montra.valor}` : t("priceOnRequest")
+  const unidade = montra.unidade === "person" ? t("perPerson") : t("perVehicle")
   return (
     <div className="border-t-[0.8px] border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] flex items-center justify-between pt-[13px]">
-      <div className="flex items-center gap-2">
-        {isHero && event.originalPrice ? (
-          <>
-            <span className="text-[10px] text-[var(--lm-muted,#999)] line-through" style={sans}>
-              €{event.originalPrice}
-            </span>
-            <span className="text-[24px] font-bold text-[var(--lm-accent,#C9A96E)] leading-none" style={serif}>
-              {price}
-            </span>
-          </>
-        ) : (
-          <span className="text-[18px] font-bold text-[var(--lm-accent,#C9A96E)] leading-none" style={serif}>
-            {event.basePrice ? `${t("from")} ${price}` : price}
+      <div className="flex items-baseline gap-2">
+        <span
+          className={`${isHero ? "text-[24px]" : "text-[18px]"} font-bold text-[var(--lm-accent,#C9A96E)] leading-none`}
+          style={serif}
+        >
+          {montra.valor > 0 && !isHero ? `${t("from")} ${price}` : price}
+        </span>
+        {montra.valor > 0 && (
+          <span className="text-[11px] text-[var(--lm-muted,#999)]" style={sans}>
+            {unidade}
           </span>
         )}
       </div>

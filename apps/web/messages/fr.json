@@ -2291,7 +2291,9 @@
       "addonImageRemove": "Retirer l'image de cet extra",
       "addonImageRename": "Renommer",
       "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)",
-      "sharedPriceLabel": "Prix partagé (par personne)"
+      "sharedPriceLabel": "Prix partagé (par personne)",
+      "privatePriceLabel": "Prix privé (par véhicule)",
+      "privatePriceRequired": "Le prix privé est obligatoire."
     }
   },
   "adminBlogs": {
@@ -2399,7 +2401,9 @@
     "categoryCulture": "Culture",
     "categoryCorporate": "Entreprise",
     "priceOnRequest": "Sur demande",
-    "from": "À partir de"
+    "from": "À partir de",
+    "perPerson": "par personne",
+    "perVehicle": "par véhicule"
   },
   "eventDetails": {
     "date": "Date",

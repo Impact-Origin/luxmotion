@@ -28,10 +28,11 @@ export interface EventData {
   isActive: boolean
   status: "draft" | "published" | "cancelled" | "completed"
   maxCapacity?: number
-  basePrice: number
+  /** A viatura inteira. `basePrice` é o nome antigo e desaparece no deploy 2. */
+  privatePrice?: number
+  basePrice?: number
   /** Preço por pessoa em lugar partilhado; sem ele o evento só se vende em privado. */
   sharedPrice?: number
-  originalPrice?: number
   currency: string
   bannerImageUrl: string | null
   additionalBannerUrls?: (string | null)[]
@@ -56,6 +57,27 @@ export interface EventData {
   createdAt: number
   updatedAt: number
   availableLanguages: string[]
+}
+
+/** O preço da viatura, venha ele do campo novo ou do antigo. */
+export function precoPrivado(e: { privatePrice?: number; basePrice?: number }) {
+  return e.privatePrice ?? e.basePrice ?? 0
+}
+
+/**
+ * O que se anuncia numa listagem: o lugar partilhado, que é o mais barato e o
+ * que traz gente. Sem ele, a viatura — dizendo que é por viatura, senão o
+ * número engana.
+ */
+export function precoDeMontra(e: {
+  privatePrice?: number
+  basePrice?: number
+  sharedPrice?: number
+}): { valor: number; unidade: "person" | "vehicle" } {
+  if (typeof e.sharedPrice === "number" && e.sharedPrice > 0) {
+    return { valor: e.sharedPrice, unidade: "person" }
+  }
+  return { valor: precoPrivado(e), unidade: "vehicle" }
 }
 
 export interface EventWithDetails extends EventData {
@@ -357,10 +379,10 @@ export function useFilteredEvents(filters: {
       filtered.sort((a, b) => b.eventDate - a.eventDate)
       break
     case "price_low":
-      filtered.sort((a, b) => a.basePrice - b.basePrice)
+      filtered.sort((a, b) => precoPrivado(a) - precoPrivado(b))
       break
     case "price_high":
-      filtered.sort((a, b) => b.basePrice - a.basePrice)
+      filtered.sort((a, b) => precoPrivado(b) - precoPrivado(a))
       break
     default:
       filtered.sort((a, b) => b.createdAt - a.createdAt)

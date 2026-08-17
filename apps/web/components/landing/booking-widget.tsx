@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { Plus, CircleMinus } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { precoPrivado } from "@/hooks/use-event-data"
 import { cn } from "@workspace/ui/lib/utils"
 import { motion } from "framer-motion"
 import { TransferForm } from "./booking/transfer-form"
@@ -73,7 +74,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       productType: "event" as const,
       title: event.title,
       slug: event.slug,
-      price: event.basePrice,
+      price: precoPrivado(event),
       image: event.bannerImageUrl ?? undefined,
       subtitle: event.subtitle ?? undefined,
       eventDate: event.eventDate,

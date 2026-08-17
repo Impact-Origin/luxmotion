@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { CircleMinus, BadgeCheck, ShieldCheck } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { precoPrivado } from "@/hooks/use-event-data"
 import { cn } from "@workspace/ui/lib/utils"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
@@ -78,7 +79,7 @@ export function BookingWidget({ className, checkoutBasePath = "" }: BookingWidge
       productType: "event" as const,
       title: event.title,
       slug: event.slug,
-      price: event.basePrice,
+      price: precoPrivado(event),
       image: event.bannerImageUrl ?? undefined,
       subtitle: event.subtitle ?? undefined,
       eventDate: event.eventDate,

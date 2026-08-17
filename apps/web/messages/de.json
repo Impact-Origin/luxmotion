@@ -2388,7 +2388,9 @@
       "addonImageRemove": "Bild aus diesem Extra entfernen",
       "addonImageRename": "Umbenennen",
       "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)",
-      "sharedPriceLabel": "Preis geteilt (pro Person)"
+      "sharedPriceLabel": "Preis geteilt (pro Person)",
+      "privatePriceLabel": "Preis privat (pro Fahrzeug)",
+      "privatePriceRequired": "Der Privatpreis ist erforderlich."
     }
   },
   "adminBlogs": {
@@ -2496,7 +2498,9 @@
     "categoryCulture": "Kultur",
     "categoryCorporate": "Geschäftlich",
     "priceOnRequest": "Auf Anfrage",
-    "from": "Ab"
+    "from": "Ab",
+    "perPerson": "pro Person",
+    "perVehicle": "pro Fahrzeug"
   },
   "eventDetails": {
     "date": "Datum",

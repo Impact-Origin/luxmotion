@@ -83,10 +83,9 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
 
   const [meetingPoint, setMeetingPoint] = React.useState<any>(null)
 
-  const [basePrice, setBasePrice] = React.useState("")
+  const [privatePrice, setPrivatePrice] = React.useState("")
   /* Vazio = só se vende em privado; é o vazio que esconde a escolha no site. */
   const [sharedPrice, setSharedPrice] = React.useState("")
-  const [originalPrice, setOriginalPrice] = React.useState("")
   const [currency, setCurrency] = React.useState(initialData?.currency || "EUR")
   const [maxCapacity, setMaxCapacity] = React.useState("")
   const [minPassengers, setMinPassengers] = React.useState("")
@@ -143,9 +142,10 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       setIncluded(initialData.included?.join("\n") || "")
       setExcluded(initialData.excluded?.join("\n") || "")
       setMeetingPoint(initialData.meetingPoint || null)
-      setBasePrice(initialData.basePrice?.toString() || "")
+      setPrivatePrice(
+        (initialData.privatePrice ?? initialData.basePrice)?.toString() || "",
+      )
       setSharedPrice(initialData.sharedPrice?.toString() || "")
-      setOriginalPrice(initialData.originalPrice?.toString() || "")
       setCurrency(initialData.currency || "EUR")
       setMaxCapacity(initialData.maxCapacity?.toString() || "")
       setMinPassengers(initialData.minPassengers?.toString() || "")
@@ -179,8 +179,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
     setIncluded("")
     setExcluded("")
     setMeetingPoint(null)
-    setBasePrice("")
-    setOriginalPrice("")
+    setPrivatePrice("")
     setCurrency("EUR")
     setMaxCapacity("")
     setStatus("draft")
@@ -227,8 +226,8 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       return
     }
 
-    if (!basePrice || parseFloat(basePrice) <= 0) {
-      toast.error(t("form.basePriceRequired"))
+    if (!privatePrice || parseFloat(privatePrice) <= 0) {
+      toast.error(t("form.privatePriceRequired"))
       setActiveTab("pricing")
       return
     }
@@ -259,9 +258,8 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
         maxCapacity: maxCapacity ? parseInt(maxCapacity) : undefined,
         minPassengers: minPassengers ? parseInt(minPassengers) : undefined,
         maxPassengers: maxPassengers ? parseInt(maxPassengers) : undefined,
-        basePrice: parseFloat(basePrice),
+        privatePrice: parseFloat(privatePrice),
         sharedPrice: sharedPrice ? parseFloat(sharedPrice) : undefined,
-        originalPrice: originalPrice ? parseFloat(originalPrice) : undefined,
         currency,
         bannerImageId: bannerImageId as any,
         additionalBannerIds: additionalBanners.length > 0 ? additionalBanners.map((b) => b.id) as any : undefined,
@@ -589,16 +587,16 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                     <DollarSign className="h-4 w-4" /> {t("form.pricingLabel")}
                   </Label>
 
-                  <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
                     <div className="space-y-1.5">
-                      <Label htmlFor="basePrice">{t("form.basePriceLabel")} *</Label>
+                      <Label htmlFor="privatePrice">{t("form.privatePriceLabel")} *</Label>
                       <Input
-                        id="basePrice"
+                        id="privatePrice"
                         type="number"
                         min="0"
                         step="0.01"
-                        value={basePrice}
-                        onChange={(e) => setBasePrice(e.target.value)}
+                        value={privatePrice}
+                        onChange={(e) => setPrivatePrice(e.target.value)}
                         placeholder="0.00"
                         required
                         disabled={isSubmitting}
@@ -615,21 +613,6 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                         step="0.01"
                         value={sharedPrice}
                         onChange={(e) => setSharedPrice(e.target.value)}
-                        placeholder="0.00"
-                        disabled={isSubmitting}
-                        className="h-9"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="originalPrice">{t("form.originalPriceLabel")}</Label>
-                      <Input
-                        id="originalPrice"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={originalPrice}
-                        onChange={(e) => setOriginalPrice(e.target.value)}
                         placeholder="0.00"
                         disabled={isSubmitting}
                         className="h-9"

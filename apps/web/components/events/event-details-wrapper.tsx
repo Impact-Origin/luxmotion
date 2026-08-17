@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation"
 import { useLocale } from "next-intl"
-import { useEventBySlug } from "@/hooks/use-event-data"
+import { precoPrivado, useEventBySlug } from "@/hooks/use-event-data"
 import { EventDetailsContent, type EventDetailsData } from "./event-details-content"
 import { Loader2 } from "lucide-react"
 
@@ -39,9 +39,8 @@ export function EventDetailsWrapper({ slug }: EventDetailsWrapperProps) {
     bannerImage: event.bannerImageUrl || "/mockup-tours-details/Frame 1171275668.webp",
     additionalBannerImages: event.additionalBannerUrls?.filter(Boolean) as string[] || [],
     images: event.galleryImageUrls?.filter(Boolean) as string[] || [],
-    basePrice: event.basePrice,
+    privatePrice: precoPrivado(event),
     sharedPrice: event.sharedPrice,
-    originalPrice: event.originalPrice,
     currency: event.currency,
     maxCapacity: event.maxCapacity,
     minPassengers: event.minPassengers,

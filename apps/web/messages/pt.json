@@ -2418,9 +2418,6 @@
       "additionalBannersMediaHelp": "Adicione até 15 imagens ou vídeos (MP4/WebM) para o carrossel do banner.",
       "meetingPointLabel": "Ponto de Encontro",
       "pricingLabel": "Preços",
-      "basePriceLabel": "Preço Base",
-      "basePriceRequired": "O preço base é obrigatório",
-      "originalPriceLabel": "Preço Original",
       "currencyLabel": "Moeda",
       "minPassengersLabel": "Mín. Passageiros por Reserva",
       "maxPassengersLabel": "Máx. Passageiros por Reserva",
@@ -2476,7 +2473,9 @@
       "addonImageRemove": "Retirar a imagem deste extra",
       "addonImageRename": "Mudar o nome",
       "addonImageForget": "Tirar da biblioteca (os extras que a usam ficam com a imagem)",
-      "sharedPriceLabel": "Preço partilhado (por pessoa)"
+      "sharedPriceLabel": "Preço partilhado (por pessoa)",
+      "privatePriceLabel": "Preço privado (por viatura)",
+      "privatePriceRequired": "O preço privado é obrigatório."
     }
   },
   "adminBlogs": {
@@ -2584,7 +2583,9 @@
     "categoryCulture": "Cultura",
     "categoryCorporate": "Corporativo",
     "priceOnRequest": "Sob consulta",
-    "from": "Desde"
+    "from": "Desde",
+    "perPerson": "por pessoa",
+    "perVehicle": "por viatura"
   },
   "eventDetails": {
     "date": "Data",

@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import { useQuery } from "convex/react";
-import { api } from "@workspace/convex/api";
+import { api } from "@workspace/convex/api"
+import { precoPrivado } from "@/hooks/use-event-data";
 import type { NearbyTour } from "@/components/checkout/experiences-step";
 import { extractTextContent } from "@/lib/seo";
 import { useSafeQuery } from "@/hooks/use-safe-query";
@@ -91,7 +92,9 @@ export function useNearbyTours({ lat, lng, radiusKm }: UseNearbyToursProps) {
       description:
         event.subtitle?.trim() || extractTextContent(event.description),
       bannerImageUrl: event.bannerImageUrl,
-      basePrice: event.basePrice,
+      // O DTO chama-se `basePrice` e é partilhado com os upsells; o que muda
+      // é a origem, que passou a ser o preço da viatura.
+      basePrice: precoPrivado(event),
       duration: formatEventDate(event.eventDate),
       /* A cidade do evento; quem desenha o cartão junta-lhe a data. */
       locationLabel: event.location,

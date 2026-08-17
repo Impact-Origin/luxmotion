@@ -13,8 +13,8 @@ export interface MockEvent {
   isActive: boolean
   status: "draft" | "published" | "cancelled" | "completed"
   maxCapacity?: number
-  basePrice: number
-  originalPrice?: number
+  privatePrice: number
+  sharedPrice?: number
   currency: string
   bannerImageUrl: string
   galleryImageUrls: string[]
@@ -59,8 +59,8 @@ export const MOCK_EVENTS: MockEvent[] = [
     isActive: true,
     status: "published",
     maxCapacity: 50,
-    basePrice: 65,
-    originalPrice: 80,
+    privatePrice: 65,
+    sharedPrice: 15,
     currency: "EUR",
     bannerImageUrl: "/mockup-tours-details/Frame 1171275668.webp",
     galleryImageUrls: [],
@@ -109,8 +109,8 @@ export const MOCK_EVENTS: MockEvent[] = [
     isActive: true,
     status: "published",
     maxCapacity: 100,
-    basePrice: 180,
-    originalPrice: 220,
+    privatePrice: 180,
+    sharedPrice: 45,
     currency: "EUR",
     bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (1).png",
     galleryImageUrls: [],
@@ -158,8 +158,8 @@ export const MOCK_EVENTS: MockEvent[] = [
     isActive: true,
     status: "published",
     maxCapacity: 30,
-    basePrice: 45,
-    originalPrice: 55,
+    privatePrice: 45,
+    sharedPrice: 15,
     currency: "EUR",
     bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (3).png",
     galleryImageUrls: [],
@@ -206,8 +206,8 @@ export const MOCK_EVENTS: MockEvent[] = [
     isActive: true,
     status: "published",
     maxCapacity: 500,
-    basePrice: 35,
-    originalPrice: 45,
+    privatePrice: 35,
+    sharedPrice: 15,
     currency: "EUR",
     bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (2).png",
     galleryImageUrls: [],

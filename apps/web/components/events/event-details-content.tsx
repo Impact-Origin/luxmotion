@@ -29,7 +29,8 @@ export interface EventDetailsData {
   bannerImage: string
   additionalBannerImages?: string[]
   images?: string[]
-  basePrice: number
+  /** Viatura inteira. */
+  privatePrice: number
   originalPrice?: number
   currency: string
   maxCapacity?: number
@@ -124,7 +125,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
       const children = parseInt(searchParams.get("children") || "0", 10)
       const infants = parseInt(searchParams.get("infants") || "0", 10)
       const guests = adults + children + infants || 1
-      const total = event.basePrice * guests
+      const total = event.privatePrice * guests
 
       setTimeout(() => {
         openCheckout(
@@ -133,7 +134,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
             _id: event._id!,
             title: event.title,
             slug: event.slug,
-            price: event.basePrice,
+            price: event.privatePrice,
             currency: event.currency ?? "€",
             image: event.bannerImage,
             meetingPoint: event.meetingPoint,
@@ -181,7 +182,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
         slug: event.slug,
         /* O preço que segue para o checkout é o da opção escolhida — o
            `openCheckout` multiplica-o pelos passageiros. */
-        price: data.unitPrice ?? event.basePrice,
+        price: data.unitPrice ?? event.privatePrice,
         sharingMode: data.sharingMode,
         perVehicle: data.perVehicle,
         currency: event.currency ?? "€",
@@ -449,7 +450,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
             <div className="hidden lg:block w-[29%] min-w-[320px] max-w-[380px] shrink-0 pt-[20px] md:pt-[28px]">
               <div className="sticky top-[70px]">
                 <TourBookingCard
-                  price={event.basePrice}
+                  price={event.privatePrice}
                   sharedPrice={event.sharedPrice}
                   rating={event.rating ?? 0}
                   reviewCount={event.reviewCount ?? 0}
@@ -470,7 +471,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
 
       <div className="lg:hidden px-4 pb-8">
         <TourBookingCard
-          price={event.basePrice}
+          price={event.privatePrice}
           sharedPrice={event.sharedPrice}
           rating={event.rating ?? 0}
           reviewCount={event.reviewCount ?? 0}
