@@ -17,7 +17,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog"
-import { ImageIcon, Loader2, Search, Trash2, Upload } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@workspace/ui/components/dialog"
+import { AlertTriangle, ImageIcon, Loader2, Search, Trash2, Upload } from "lucide-react"
 import { toast } from "sonner"
 import { encolherImagem } from "@/lib/encolher-imagem"
 import { MiniaturaImagem } from "@/components/admin/miniatura-imagem"
@@ -31,48 +38,199 @@ type ItemDaBiblioteca = {
   usageCount: number
 }
 
+type GrupoSemImagem = {
+  titulo: string
+  quantidade: number
+  addonIds: Id<"tourAddons">[]
+}
+
 /**
  * `useQueries` e não `useQuery`, como em `hooks/use-site-settings.ts`: enquanto
- * `addonImages.list` não estiver deployada no Convex o resultado chega como um
- * Error em vez de ser lançado durante o render, e a página abre vazia em vez de
- * deitar abaixo o admin inteiro.
+ * as funções não estiverem deployadas no Convex o resultado chega como um Error
+ * em vez de ser lançado durante o render, e a página abre vazia em vez de deitar
+ * abaixo o admin inteiro.
  */
 function useBiblioteca(): {
   itens: ItemDaBiblioteca[]
+  semImagem: GrupoSemImagem[]
   aCarregar: boolean
   indisponivel: boolean
 } {
   const queries = useMemo(
-    () => ({ biblioteca: { query: api.addonImages.list, args: {} } }),
+    () => ({
+      biblioteca: { query: api.addonImages.list, args: {} },
+      semImagem: { query: api.addonImages.listMissing, args: {} },
+    }),
     [],
   )
-  const bruto = useQueries(queries).biblioteca
+  const r = useQueries(queries)
 
   return useMemo(() => {
-    if (bruto instanceof Error)
-      return { itens: [], aCarregar: false, indisponivel: true }
-    if (bruto === undefined)
-      return { itens: [], aCarregar: true, indisponivel: false }
+    const lista = r.biblioteca
+    const faltam = r.semImagem
     return {
-      itens: bruto as ItemDaBiblioteca[],
-      aCarregar: false,
-      indisponivel: false,
+      itens: Array.isArray(lista) ? (lista as ItemDaBiblioteca[]) : [],
+      semImagem: Array.isArray(faltam) ? (faltam as GrupoSemImagem[]) : [],
+      aCarregar: lista === undefined,
+      indisponivel: lista instanceof Error,
     }
-  }, [bruto])
+  }, [r.biblioteca, r.semImagem])
 }
 
 /**
- * As imagens vêm do storage no tamanho original — as que já lá estavam pesam
- * mais de 1 MB cada. Sem isto uma grelha cheia eram quadrados brancos durante
- * segundos e parecia avariada.
+ * Extras que aparecem no site sem fotografia nenhuma. Resolvem-se por título e
+ * não um a um: "Bagagem Extra" é o mesmo extra repetido em dezenas de tours, e
+ * escolher a imagem uma vez arruma-os todos.
  */
+function BlocoSemImagem({
+  grupos,
+  biblioteca,
+  onEscolher,
+  onCarregar,
+}: {
+  grupos: GrupoSemImagem[]
+  biblioteca: ItemDaBiblioteca[]
+  onEscolher: (grupo: GrupoSemImagem, storageId: Id<"_storage">) => Promise<void>
+  onCarregar: (ficheiro: File, nome?: string) => Promise<Id<"_storage">>
+}) {
+  const [aberto, setAberto] = React.useState<GrupoSemImagem | null>(null)
+  const [aEnviar, setAEnviar] = React.useState(false)
+
+  const total = grupos.reduce((n, g) => n + g.quantidade, 0)
+
+  return (
+    <div className="rounded-lg border border-amber-500/40 bg-amber-500/5 p-4">
+      <div className="flex items-start gap-3">
+        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+        <div className="space-y-1">
+          <p className="text-sm font-medium">
+            {grupos.length} {grupos.length === 1 ? "extra" : "extras"} sem imagem,
+            em {total} {total === 1 ? "tour ou evento" : "tours e eventos"}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Escolhe uma imagem para cada um: fica logo em todos os tours e
+            eventos onde esse extra aparece.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {grupos.map((g) => (
+          <div
+            key={g.titulo}
+            className="flex items-center justify-between gap-3 rounded-md border border-border bg-background px-3 py-2"
+          >
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">{g.titulo}</p>
+              <p className="text-xs text-muted-foreground">
+                Em {g.quantidade} {g.quantidade === 1 ? "extra" : "extras"}
+              </p>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 shrink-0 text-xs"
+              onClick={() => setAberto(g)}
+            >
+              Escolher
+            </Button>
+          </div>
+        ))}
+      </div>
+
+      <Dialog open={aberto !== null} onOpenChange={(v) => !v && setAberto(null)}>
+        <DialogContent className="flex max-h-[85vh] max-w-3xl flex-col overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Imagem para &quot;{aberto?.titulo}&quot;</DialogTitle>
+            <DialogDescription>
+              Fica em {aberto?.quantidade}{" "}
+              {aberto?.quantidade === 1 ? "extra" : "extras"} de uma só vez.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-y-auto">
+            {biblioteca.length === 0 ? (
+              <p className="py-8 text-center text-sm text-muted-foreground">
+                A biblioteca está vazia. Carrega uma imagem aqui em baixo.
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                {biblioteca.map((item) => (
+                  <button
+                    key={item.storageId}
+                    type="button"
+                    title={item.label}
+                    onClick={async () => {
+                      const g = aberto
+                      setAberto(null)
+                      if (g) await onEscolher(g, item.storageId as Id<"_storage">)
+                    }}
+                    className="overflow-hidden rounded-md border-2 border-transparent transition-colors hover:border-primary"
+                  >
+                    <MiniaturaImagem url={item.url} alt={item.label} />
+                    <span className="block truncate px-1 py-1 text-[11px] text-muted-foreground">
+                      {item.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <label
+            className={`flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border py-3 text-sm text-muted-foreground transition-colors hover:bg-accent ${
+              aEnviar ? "pointer-events-none opacity-50" : ""
+            }`}
+          >
+            {aEnviar ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />A carregar…
+              </>
+            ) : (
+              <>
+                <Upload className="h-4 w-4" />
+                Carregar uma imagem nova
+              </>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              disabled={aEnviar}
+              onChange={async (e) => {
+                const f = e.target.files?.[0]
+                e.target.value = ""
+                const g = aberto
+                if (!f || !g) return
+                try {
+                  setAEnviar(true)
+                  const storageId = await onCarregar(f, g.titulo)
+                  setAberto(null)
+                  await onEscolher(g, storageId)
+                } catch (erro) {
+                  console.error(erro)
+                  toast.error("Não foi possível carregar a imagem.")
+                } finally {
+                  setAEnviar(false)
+                }
+              }}
+            />
+          </label>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
+
 export default function AdminAddonImagesPage() {
-  const { itens, aCarregar, indisponivel } = useBiblioteca()
+  const { itens, semImagem, aCarregar, indisponivel } = useBiblioteca()
 
   const gerarUrlDeUpload = useMutation(api.addonImages.generateUploadUrl)
   const registar = useMutation(api.addonImages.add)
   const renomear = useMutation(api.addonImages.rename)
   const remover = useMutation(api.addonImages.remove)
+  const atribuir = useMutation(api.addonImages.assign)
 
   const [pesquisa, setPesquisa] = React.useState("")
   const [aEnviar, setAEnviar] = React.useState(0)
@@ -84,6 +242,25 @@ export default function AdminAddonImagesPage() {
     return itens.filter((i) => i.label.toLowerCase().includes(termo))
   }, [itens, pesquisa])
 
+  /** Sobe um ficheiro e devolve o `storageId`, já registado na biblioteca. */
+  const subirUm = async (ficheiro: File, nome?: string) => {
+    // Encolhida antes de subir: ver `lib/encolher-imagem.ts` para o porquê.
+    const leve = await encolherImagem(ficheiro)
+    const url = await gerarUrlDeUpload()
+    const resposta = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": leve.type },
+      body: leve,
+    })
+    const { storageId } = await resposta.json()
+    await registar({
+      storageId: storageId as Id<"_storage">,
+      // Nome do ficheiro sem extensão: é o melhor palpite, e edita-se depois.
+      label: nome?.trim() || ficheiro.name.replace(/\.[^.]+$/, ""),
+    })
+    return storageId as Id<"_storage">
+  }
+
   const carregar = async (ficheiros: FileList) => {
     const lista = [...ficheiros]
     setAEnviar(lista.length)
@@ -91,20 +268,7 @@ export default function AdminAddonImagesPage() {
 
     for (const ficheiro of lista) {
       try {
-        // Encolhida antes de subir: ver `lib/encolher-imagem.ts` para o porquê.
-        const leve = await encolherImagem(ficheiro)
-        const url = await gerarUrlDeUpload()
-        const resposta = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": leve.type },
-          body: leve,
-        })
-        const { storageId } = await resposta.json()
-        await registar({
-          storageId: storageId as Id<"_storage">,
-          // Nome do ficheiro sem extensão: é o melhor palpite, e edita-se aqui.
-          label: ficheiro.name.replace(/\.[^.]+$/, ""),
-        })
+        await subirUm(ficheiro)
       } catch (erro) {
         console.error("Upload da imagem falhou:", erro)
         falhas++
@@ -139,6 +303,26 @@ export default function AdminAddonImagesPage() {
     } catch (erro) {
       console.error(erro)
       toast.error("Não foi possível apagar a imagem.")
+    }
+  }
+
+  const darImagemAoGrupo = async (
+    grupo: GrupoSemImagem,
+    storageId: Id<"_storage">,
+  ) => {
+    try {
+      const r = await atribuir({
+        storageId,
+        addonIds: grupo.addonIds,
+        label: grupo.titulo,
+      })
+      const n = r?.atribuidos ?? grupo.addonIds.length
+      toast.success(
+        `"${grupo.titulo}" ficou com imagem em ${n} ${n === 1 ? "extra" : "extras"}.`,
+      )
+    } catch (erro) {
+      console.error(erro)
+      toast.error("Não foi possível atribuir a imagem.")
     }
   }
 
@@ -192,6 +376,15 @@ export default function AdminAddonImagesPage() {
           />
         </label>
       </div>
+
+      {semImagem.length > 0 && (
+        <BlocoSemImagem
+          grupos={semImagem}
+          biblioteca={itens}
+          onEscolher={darImagemAoGrupo}
+          onCarregar={subirUm}
+        />
+      )}
 
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

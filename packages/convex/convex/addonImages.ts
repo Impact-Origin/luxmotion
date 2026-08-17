@@ -144,6 +144,85 @@ export const remove = mutation({
   },
 });
 
+/**
+ * Extras cuja imagem não se vê, agrupados pelo título.
+ *
+ * São dois casos, e do lado de fora dão no mesmo — um extra sem fotografia no
+ * site: os que nunca tiveram imagem, e os que apontam para um ficheiro que já
+ * não existe. O segundo caso é o rasto do defeito antigo em `tourAddons.remove`,
+ * que apagava o ficheiro ao apagar um extra mesmo quando dezenas de outros
+ * apontavam para o mesmo: um extra apagado levava a imagem dos restantes.
+ *
+ * Agrupa-se pelo título porque é assim que se resolvem — "Bagagem Extra" é o
+ * mesmo extra repetido em 56 tours, e escolher a imagem uma vez arruma os 56.
+ */
+export const listMissing = query({
+  args: {},
+  handler: async (ctx) => {
+    const extras = await ctx.db.query("tourAddons").collect();
+
+    // O mesmo ficheiro aparece em dezenas de extras; sem cache era um getUrl
+    // por extra, e são centenas.
+    const vivos = new Map<string, boolean>();
+    const estaViva = async (id: string) => {
+      const guardado = vivos.get(id);
+      if (guardado !== undefined) return guardado;
+      const url = await ctx.storage.getUrl(id as Id<"_storage">);
+      vivos.set(id, url !== null);
+      return url !== null;
+    };
+
+    const grupos = new Map<
+      string,
+      { titulo: string; quantidade: number; addonIds: Id<"tourAddons">[] }
+    >();
+
+    for (const extra of extras) {
+      const semImagem = !extra.imageId || !(await estaViva(extra.imageId));
+      if (!semImagem) continue;
+      // Extras ainda sem título são rascunhos por preencher; não vale listá-los.
+      const titulo = extra.title.trim();
+      if (!titulo) continue;
+      const grupo = grupos.get(titulo) ?? { titulo, quantidade: 0, addonIds: [] };
+      grupo.quantidade += 1;
+      grupo.addonIds.push(extra._id);
+      grupos.set(titulo, grupo);
+    }
+
+    return [...grupos.values()].sort((a, b) => b.quantidade - a.quantidade);
+  },
+});
+
+/** Dá a mesma imagem a um conjunto de extras de uma vez. */
+export const assign = mutation({
+  args: {
+    storageId: v.id("_storage"),
+    addonIds: v.array(v.id("tourAddons")),
+    /** Nome com que a imagem fica na biblioteca, se ainda não estiver lá. */
+    label: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const agora = Date.now();
+    for (const id of args.addonIds) {
+      await ctx.db.patch(id, { imageId: args.storageId, updatedAt: agora });
+    }
+
+    const jaRegistada = await ctx.db
+      .query("addonImages")
+      .withIndex("by_storage", (q) => q.eq("storageId", args.storageId))
+      .first();
+    if (!jaRegistada) {
+      await ctx.db.insert("addonImages", {
+        storageId: args.storageId,
+        label: args.label?.trim() || "Sem nome",
+        createdAt: agora,
+      });
+    }
+
+    return { atribuidos: args.addonIds.length };
+  },
+});
+
 /** URL de upload próprio, para a biblioteca não depender de `blogs`. */
 export const generateUploadUrl = mutation({
   args: {},
