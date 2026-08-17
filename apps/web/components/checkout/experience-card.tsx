@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Plus, Clock } from "lucide-react"
+import { Plus, Clock, Check } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -31,6 +31,8 @@ interface ExperienceCardProps {
   priceNote?: string
   /** Localidade, na linha por cima do título. */
   locationLabel?: string
+  /** Já adicionado ao pedido: desenha o visto no canto. */
+  selected?: boolean
   description?: string
   /**
    * Durações de uma paragem. Havendo mais do que uma, o cartão deixa escolher
@@ -51,6 +53,7 @@ export function ExperienceCard({
   priceLabel,
   priceNote,
   locationLabel,
+  selected = false,
   description,
   durations,
   onAdd,
@@ -75,6 +78,16 @@ export function ExperienceCard({
           sizes="(max-width: 640px) 80vw, 320px"
           className="object-cover"
         />
+        {/* Visto no canto oposto ao selo, para não se taparem. Dourado cheio
+            com o traço escuro, como o botão de adicionar. */}
+        {selected && (
+          <span
+            aria-label="Adicionado"
+            className="absolute right-3 top-3 flex size-7 items-center justify-center rounded-full bg-[var(--ck-accent,#c9a96e)] shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
+          >
+            <Check className="size-4 text-[var(--ck-bg,#0d0d0d)]" strokeWidth={3} />
+          </span>
+        )}
         {tag !== "none" && tagLabel && (
           <span
             /* Os dois selos em dourado: o "recomendado" era escuro sobre a

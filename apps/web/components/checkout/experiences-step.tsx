@@ -230,7 +230,12 @@ function CarouselSection({
 export function ExperiencesStep({ onContinue, onBack, nearbyTours }: ExperiencesStepProps) {
   const t = useTranslations("experiences")
   const tCommon = useTranslations("common")
-  const { addExperience } = useCheckout()
+  const { state, addExperience } = useCheckout()
+  /* Ids já no pedido, para o cartão mostrar o visto. */
+  const jaAdicionados = React.useMemo(
+    () => new Set(state.experiences.map((e) => e.experienceId)),
+    [state.experiences],
+  )
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [selectedExperience, setSelectedExperience] = React.useState<Experience | null>(null)
   // Duração escolhida no cartão, para o modal já abrir com ela seleccionada.
@@ -317,6 +322,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
               tagLabel={tag && tag !== "none" ? t(`tags.${tag}`) : undefined}
               priceLabel={FROM_PRICE_CATEGORIES.has(item.category) ? t("from") : undefined}
               priceNote={item.perPerson ? t("perPerson") : undefined}
+              selected={jaAdicionados.has(item._id)}
               locationLabel={
                 isEvent
                   ? [item.locationLabel, item.duration].filter(Boolean).join(" · ")
