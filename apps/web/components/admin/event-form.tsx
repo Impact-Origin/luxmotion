@@ -8,6 +8,7 @@ import { cn } from "@workspace/ui/lib/utils"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
+import { TimeSelect } from "./time-select"
 import { Textarea } from "@workspace/ui/components/textarea"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import {
@@ -492,12 +493,10 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">{t("form.startTime")}</Label>
-                        <Input
-                          type="time"
+                        <TimeSelect
                           value={eventTime}
-                          onChange={(e) => setEventTime(e.target.value)}
+                          onChange={setEventTime}
                           disabled={isSubmitting}
-                          className="h-9"
                         />
                       </div>
                     </div>
@@ -515,12 +514,10 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-xs text-muted-foreground">{t("form.endTime")}</Label>
-                        <Input
-                          type="time"
+                        <TimeSelect
                           value={endTime}
-                          onChange={(e) => setEndTime(e.target.value)}
+                          onChange={setEndTime}
                           disabled={isSubmitting}
-                          className="h-9"
                         />
                       </div>
                     </div>
@@ -704,13 +701,11 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                   <div className="grid grid-cols-1 gap-4 pt-2 md:grid-cols-3">
                     <div className="space-y-1.5">
                       <Label htmlFor="returnTime">{t("form.returnTimeLabel")}</Label>
-                      <Input
+                      <TimeSelect
                         id="returnTime"
-                        type="time"
                         value={returnTime}
-                        onChange={(e) => setReturnTime(e.target.value)}
+                        onChange={setReturnTime}
                         disabled={isSubmitting}
-                        className="h-9"
                       />
                     </div>
 
