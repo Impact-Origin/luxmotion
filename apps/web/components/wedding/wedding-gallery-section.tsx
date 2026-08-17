@@ -13,12 +13,20 @@ const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as c
 // Fotos de casamentos reais, com a zona em Portugal identificada ou atribuída.
 type GalleryPhoto = {
   src: string
-  primary: string
-  subtitle: "Portugal"
+  /** Quando presente, o cartão mostra vídeo em vez da fotografia. */
+  video?: string
+  /** Sem `primary` não se desenha legenda nenhuma — é o caso dos vídeos. */
+  primary?: string
+  subtitle?: "Portugal"
   tagline?: string
 }
 
 const PHOTOS: readonly GalleryPhoto[] = [
+  /* Os três primeiros são vídeos e não levam legenda. O `src` serve de chave
+     na lista, que aparece três vezes no carrossel. */
+  { src: "/wedding/recent/video-01.mp4", video: "/wedding/recent/video-01.mp4" },
+  { src: "/wedding/recent/video-02.mp4", video: "/wedding/recent/video-02.mp4" },
+  { src: "/wedding/recent/video-03.mp4", video: "/wedding/recent/video-03.mp4" },
   { src: "/wedding/recent/1055587.webp", primary: "Sintra", subtitle: "Portugal" },
   { src: "/wedding/recent/1528188276.webp", primary: "Lisboa", subtitle: "Portugal" },
   { src: "/wedding/recent/carro-casamento-classico.webp", primary: "Cascais", subtitle: "Portugal" },
@@ -54,6 +62,7 @@ const PHOTOS: readonly GalleryPhoto[] = [
 
 function TiltCard({
   src,
+  video,
   alt,
   primary,
   subtitle,
@@ -62,6 +71,7 @@ function TiltCard({
   restRotateY = 0,
 }: {
   src: string
+  video?: string
   alt: string
   primary?: string
   subtitle?: string
@@ -113,6 +123,21 @@ function TiltCard({
             transformStyle: "preserve-3d",
           }}
         >
+          {video ? (
+            /* Mudo e em ciclo: é decoração, não conteúdo com som. O browser
+               só o põe a andar quando está à vista, por isso as cópias do
+               carrossel que estão fora do ecrã não gastam nada. */
+            <video
+              src={video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label={alt}
+              className="absolute inset-0 h-full w-full object-cover select-none"
+            />
+          ) : (
           <Image
             src={src}
             alt={alt}
@@ -126,6 +151,7 @@ function TiltCard({
             /* WebP já à medida — servidas directamente (ver testimonials). */
             unoptimized
           />
+          )}
         </div>
 
         <div
@@ -322,6 +348,7 @@ export function WeddingGallerySection() {
               >
                 <TiltCard
                   src={photo.src}
+                  video={photo.video}
                   primary={photo.primary}
                   subtitle={photo.subtitle}
                   tagline={photo.tagline}
@@ -348,6 +375,7 @@ export function WeddingGallerySection() {
               <div key={`${photo.src}-${i}`} className="relative shrink-0 basis-full h-full">
                 <TiltCard
                   src={photo.src}
+                  video={photo.video}
                   primary={photo.primary}
                   subtitle={photo.subtitle}
                   tagline={photo.tagline}
