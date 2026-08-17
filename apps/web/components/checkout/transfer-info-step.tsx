@@ -6,6 +6,7 @@ import { Checkbox } from "@workspace/ui/components/checkbox"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
 import { AnimatedCollapse } from "@/components/checkout/shared"
 import { useTranslations } from "next-intl"
+import { insurancePrice, calcExtras } from "@/components/checkout/pricing"
 import { useCheckout } from "@/components/checkout/checkout-context"
 import { useCheckoutTheme } from "@/components/checkout/checkout-theme"
 import { GooglePlacesInput } from "@/components/ui/google-places-input"
@@ -361,20 +362,21 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
     updateTransfer({ transferType })
   }
 
-  const premiumInsurancePrice = payment.premiumInsurance ? (isRoundTrip ? 18 : 9) : 0
-  const refundTermsPrice = payment.refundTerms ? (isRoundTrip ? 8 : 4) : 0
-  const comfortConnectionPrice = payment.comfortConnection ? (isRoundTrip ? 14 : 7) : 0
-  const insuranceTotal = premiumInsurancePrice + refundTermsPrice + comfortConnectionPrice
-  const cardFeeRate = payment.method === "cartao" ? 0.02 : 0
+  /* Os preços vêm de ./pricing, como no resumo do pedido. Estavam aqui escritos
+     à mão e já tinham divergido: o Meet & Greet cobrava 4 e a factura 5, e o
+     Priority Pickup nem sequer entrava na conta do botão. */
+  const premiumInsurancePrice = payment.premiumInsurance ? insurancePrice("premiumInsurance", isRoundTrip) : 0
+  const refundTermsPrice = payment.refundTerms ? insurancePrice("refundTerms", isRoundTrip) : 0
+  const priorityPickupPrice = payment.priorityPickup ? insurancePrice("priorityPickup", isRoundTrip) : 0
+  const comfortConnectionPrice = payment.comfortConnection ? insurancePrice("comfortConnection", isRoundTrip) : 0
+  const insuranceTotal =
+    premiumInsurancePrice + refundTermsPrice + priorityPickupPrice + comfortConnectionPrice
+  /* Zero, como no resumo e no passo do pagamento. A sobretaxa de cartão foi
+     retirada — é proibida na UE e o método é escolhido pela Stripe — mas este
+     sítio ficou para trás, e era ele que punha o botão 2% acima da factura. */
+  const cardFeeRate = 0
 
-  const multiplier = isRoundTrip ? 2 : 1
-  const totalChildSeats = transfer.childSeatChecked ? (transfer.childSeats.baby + transfer.childSeats.child + transfer.childSeats.booster) : 0
-  const totalSurfboards = transfer.surfboardChecked ? (transfer.surfboard.standard + transfer.surfboard.upgraded) : 0
-  const totalPets = transfer.petChecked ? (transfer.pet.small + transfer.pet.large) : 0
-  const childSeatsCost = totalChildSeats * 5 * multiplier
-  const surfboardsCost = totalSurfboards * 5 * multiplier
-  const petsCost = totalPets * 10 * multiplier
-  const extrasTotal = childSeatsCost + surfboardsCost + petsCost
+  const { total: extrasTotal } = calcExtras(transfer, isRoundTrip)
 
   const experiencesTotal = experiences.reduce((sum, exp) => sum + exp.totalPrice, 0)
 
