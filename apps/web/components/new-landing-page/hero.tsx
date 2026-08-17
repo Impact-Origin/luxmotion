@@ -47,11 +47,13 @@ const REVIEW_COUNT = 324
 const SOCIAL_AVATARS = ["/reviewer-1.png", "/reviewer-2.png", "/reviewer-3.png"]
 
 /**
- * Barra de prova social. `escala` multiplica as medidas da versão de ecrã
- * largo — 0,8 por omissão, que é a versão comprimida pedida para todas as
- * páginas que a usam (home e hotéis). Passa-se 1 para o tamanho original.
+ * Barra de prova social, partilhada pela página principal e pela dos hotéis —
+ * é o único sítio onde este desenho existe, e é aqui que se mexe nele.
+ *
+ * `escala` multiplica as medidas da versão de ecrã largo. Fica em 1, que é o
+ * tamanho de referência; 0,8 dá a versão comprimida.
  */
-export function SocialProofBar({ escala = 0.8 }: { escala?: number }) {
+export function SocialProofBar({ escala = 1 }: { escala?: number }) {
   const t = useTranslations("hero")
 
   // Fundo dourado da marca (#9A7535) a 7%, cantos vivos.
