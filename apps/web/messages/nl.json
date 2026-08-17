@@ -1339,6 +1339,14 @@
         "exploreServices": "Diensten Verkennen",
         "footerNote": "Wilt u details aan uw aanvraag toevoegen? <reply>Beantwoord onze bevestigingsmail</reply> of stuur ons een bericht op WhatsApp via <num>{phone}</num>."
       }
+    },
+    "sharing": {
+      "what": "Gedeeld of privé?",
+      "explainer": "Bij een gedeelde plek sluit u aan bij andere gasten op hetzelfde evenement en betaalt u minder per persoon. Privé betekent dat de ervaring alleen voor uw groep is.",
+      "shared": "Gedeeld",
+      "sharedNote": "U gaat met andere gasten",
+      "private": "Privé",
+      "privateNote": "Alleen uw groep"
     }
   },
   "blogsHero": {
@@ -2278,7 +2286,9 @@
       "addonImageEmpty": "Nog geen afbeeldingen. Upload de eerste hieronder.",
       "addonImageRemove": "Afbeelding uit dit extra verwijderen",
       "addonImageRename": "Naam wijzigen",
-      "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)"
+      "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)",
+      "sharedPriceLabel": "Gedeelde prijs (per persoon)",
+      "sharedPriceHint": "Laat leeg als dit evenement alleen privé wordt verkocht. Ingevuld kan de gast kiezen tussen een gedeelde plek en de privé-ervaring."
     }
   },
   "adminBlogs": {

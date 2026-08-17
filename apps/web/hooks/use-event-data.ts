@@ -29,6 +29,8 @@ export interface EventData {
   status: "draft" | "published" | "cancelled" | "completed"
   maxCapacity?: number
   basePrice: number
+  /** Preço por pessoa em lugar partilhado; sem ele o evento só se vende em privado. */
+  sharedPrice?: number
   originalPrice?: number
   currency: string
   bannerImageUrl: string | null

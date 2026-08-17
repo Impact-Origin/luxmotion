@@ -1,16 +1,30 @@
 "use client"
 
 import { useState, useCallback, useEffect, useMemo, useRef } from "react"
-import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight } from "lucide-react"
+import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight, User, UsersRound, Info } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { useHomeTheme } from "@/components/new-landing-page/home-theme"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { BookingAddonsSelector, type BookingAddon } from "@/components/shared/booking-addons-selector"
 import { useMoney } from "@/components/currency-provider"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@workspace/ui/components/popover"
+
+/** Privado: o evento é só do grupo de quem reserva. Partilhado: vai-se com
+ *  outros participantes e paga-se menos por pessoa. */
+export type SharingMode = "private" | "shared"
 
 interface TourBookingCardProps {
   price: number
+  /**
+   * Preço por pessoa em lugar partilhado. Só quando existe é que o cartão mostra
+   * a escolha — sem ele nada muda, que é o caso de todos os tours.
+   */
+  sharedPrice?: number
   currency?: string
   rating: number
   reviewCount: number
@@ -41,6 +55,10 @@ interface BookingData {
   children: number
   infants: number
   total: number
+  /** Só vem preenchido quando o produto tem preço partilhado. */
+  sharingMode?: SharingMode
+  /** Preço por pessoa que a escolha determinou; é o que o checkout multiplica. */
+  unitPrice?: number
   selectedAddons?: Array<{
     addonId: string
     title: string
@@ -84,7 +102,7 @@ function PaxRow({ label, desc, count, onDec, onInc, disableInc }: { label: strin
   )
 }
 
-export function TourBookingCard({ price, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook, onSelectionReady }: TourBookingCardProps) {
+export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, addons, onBook, onSelectionReady }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
   // O picker escolhe a paleta por prop (não por var CSS). Só clareia dentro do
@@ -95,6 +113,13 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   const [children, setChildren] = useState(0)
   const [infants, setInfants] = useState(0)
   const [selectedAddonIds, setSelectedAddonIds] = useState<string[]>([])
+  /* Começa no partilhado quando existe: é o mais barato, e é o que a etiqueta
+     "desde" em cima do preço promete. */
+  const temEscolha = typeof sharedPrice === "number" && sharedPrice > 0
+  const [sharingMode, setSharingMode] = useState<SharingMode>(
+    temEscolha ? "shared" : "private",
+  )
+  const precoPorPessoa = temEscolha && sharingMode === "shared" ? sharedPrice! : price
 
   useEffect(() => {
     if (fixedDateTime) {
@@ -149,7 +174,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
   }, [addons, selectedAddonIds, totalGuests])
 
   const payingGuests = adults + children
-  const total = price * (totalGuests || 1) + addonsTotal
+  const total = precoPorPessoa * (totalGuests || 1) + addonsTotal
   const isAtMax = maxPassengers ? totalGuests >= maxPassengers : false
   const isBelowMin = minPassengers ? payingGuests < minPassengers : false
 
@@ -170,6 +195,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
       children,
       infants,
       total,
+      sharingMode,
     ].join("|")
     if (lastSelection.current === signature) return
     lastSelection.current = signature
@@ -181,7 +207,7 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
       infants,
       total,
     })
-  }, [dateTime.date, dateTime.time, adults, children, infants, total, onSelectionReady])
+  }, [dateTime.date, dateTime.time, adults, children, infants, total, sharingMode, onSelectionReady])
 
   const handleBook = () => {
     const selectedAddonsData = addons
@@ -202,6 +228,8 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
       children,
       infants,
       total,
+      sharingMode: temEscolha ? sharingMode : undefined,
+      unitPrice: precoPorPessoa,
       selectedAddons: selectedAddonsData?.length ? selectedAddonsData : undefined,
       addonsTotal: addonsTotal > 0 ? addonsTotal : undefined,
     })
@@ -215,10 +243,82 @@ export function TourBookingCard({ price, currency = "€", rating, reviewCount, 
         <span className="text-[12px] font-semibold text-[var(--lm-muted,#8c8680)] tracking-[1.35px] uppercase">{t("from")}</span>
         <div className="flex items-baseline gap-[10px] mt-1">
           <span className="text-[48px] font-semibold text-[var(--lm-accent,#C9A96E)] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
-            {format(price)}
+            {format(precoPorPessoa)}
           </span>
           <span className="text-[14px] text-[var(--lm-muted,rgba(255,255,255,0.3))]">{t("perPerson")}</span>
+          {temEscolha && (
+            <span className="flex items-center gap-1.5 text-[var(--lm-accent,#C9A96E)]">
+              {/* Uma pessoa para o privado, um grupo para o partilhado: diz-se
+                  pelo ícone o que se está a comprar, sem ler o rótulo. */}
+              {sharingMode === "shared" ? (
+                <UsersRound className="size-[18px]" strokeWidth={1.6} />
+              ) : (
+                <User className="size-[18px]" strokeWidth={1.6} />
+              )}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label={t("sharing.what")}
+                    className="flex size-[18px] items-center justify-center rounded-full border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] text-[var(--lm-accent,#C9A96E)] transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.15)]"
+                  >
+                    <Info className="size-[11px]" strokeWidth={2.2} />
+                  </button>
+                </PopoverTrigger>
+                {/* Popover e não tooltip: no telemóvel um tooltip não abre. */}
+                <PopoverContent
+                  align="start"
+                  className="w-[260px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] bg-[var(--lm-surface,#1A1A1A)] text-[var(--lm-text,#fff)]"
+                >
+                  <p className="text-[12px] font-semibold uppercase tracking-[1px] text-[var(--lm-accent,#C9A96E)]">
+                    {t("sharing.what")}
+                  </p>
+                  <p className="mt-2 text-[12px] leading-[1.5] text-[var(--lm-muted,#999)]">
+                    {t("sharing.explainer")}
+                  </p>
+                </PopoverContent>
+              </Popover>
+            </span>
+          )}
         </div>
+
+        {temEscolha && (
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            {([
+              { modo: "shared" as const, preco: sharedPrice!, Icone: UsersRound, rotulo: t("sharing.shared"), nota: t("sharing.sharedNote") },
+              { modo: "private" as const, preco: price, Icone: User, rotulo: t("sharing.private"), nota: t("sharing.privateNote") },
+            ]).map(({ modo, preco, Icone, rotulo, nota }) => {
+              const activo = sharingMode === modo
+              return (
+                <button
+                  key={modo}
+                  type="button"
+                  onClick={() => setSharingMode(modo)}
+                  aria-pressed={activo}
+                  className={`flex flex-col gap-1 border px-3 py-2.5 text-left transition-colors ${
+                    activo
+                      ? "border-[var(--lm-accent,#C9A96E)] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.1)]"
+                      : "border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.4)]"
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <Icone
+                      className={`size-[14px] ${activo ? "text-[var(--lm-accent,#C9A96E)]" : "text-[var(--lm-muted,#999)]"}`}
+                      strokeWidth={1.6}
+                    />
+                    <span className={`text-[12px] font-semibold ${activo ? "text-[var(--lm-text,#fff)]" : "text-[var(--lm-muted,#999)]"}`}>
+                      {rotulo}
+                    </span>
+                  </span>
+                  <span className="text-[13px] text-[var(--lm-accent,#C9A96E)]">
+                    {format(preco)} <span className="text-[10px] text-[var(--lm-muted,#8c8680)]">{t("perPerson")}</span>
+                  </span>
+                  <span className="text-[10px] leading-[1.35] text-[var(--lm-muted,#8c8680)]">{nota}</span>
+                </button>
+              )
+            })}
+          </div>
+        )}
         {!hideReviews && (
           <div className="flex items-center gap-[6px] mt-1">
             <span className="text-[12px] text-[var(--lm-accent,#C9A96E)] tracking-[0.5px]">★★★★★</span>

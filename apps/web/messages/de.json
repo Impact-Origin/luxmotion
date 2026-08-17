@@ -1339,6 +1339,14 @@
         "exploreServices": "Leistungen entdecken",
         "footerNote": "Möchten Sie Ihre Anfrage ergänzen? <reply>Antworten Sie auf unsere Bestätigungs-E-Mail</reply> oder schreiben Sie uns auf WhatsApp unter <num>{phone}</num>."
       }
+    },
+    "sharing": {
+      "what": "Geteilt oder privat?",
+      "explainer": "Beim geteilten Platz nehmen Sie zusammen mit anderen Gästen an derselben Veranstaltung teil und zahlen weniger pro Person. Privat heißt: dasselbe Erlebnis nur für Ihre Gruppe.",
+      "shared": "Geteilt",
+      "sharedNote": "Mit anderen Gästen",
+      "private": "Privat",
+      "privateNote": "Nur Ihre Gruppe"
     }
   },
   "blogsHero": {
@@ -2375,7 +2383,9 @@
       "addonImageEmpty": "Noch keine Bilder. Lade unten das erste hoch.",
       "addonImageRemove": "Bild aus diesem Extra entfernen",
       "addonImageRename": "Umbenennen",
-      "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)"
+      "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)",
+      "sharedPriceLabel": "Preis geteilt (pro Person)",
+      "sharedPriceHint": "Leer lassen, wenn die Veranstaltung nur privat verkauft wird. Ausgefüllt, kann der Gast zwischen geteiltem Platz und privater Buchung wählen."
     }
   },
   "adminBlogs": {

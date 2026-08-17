@@ -24,6 +24,8 @@ export interface EventDetailsData {
   venue?: string
   eventDate: number
   endDate?: number
+  /** Preço por pessoa em lugar partilhado; sem ele o evento só se vende em privado. */
+  sharedPrice?: number
   bannerImage: string
   additionalBannerImages?: string[]
   images?: string[]
@@ -156,6 +158,8 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
     children: number
     infants: number
     total: number
+    sharingMode?: "private" | "shared"
+    unitPrice?: number
     selectedAddons?: Array<{
       addonId: string
       title: string
@@ -173,7 +177,10 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
         _id: event._id,
         title: event.title,
         slug: event.slug,
-        price: event.basePrice,
+        /* O preço que segue para o checkout é o da opção escolhida — o
+           `openCheckout` multiplica-o pelos passageiros. */
+        price: data.unitPrice ?? event.basePrice,
+        sharingMode: data.sharingMode,
         currency: event.currency ?? "€",
         image: event.bannerImage,
         meetingPoint: event.meetingPoint,
@@ -440,6 +447,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
               <div className="sticky top-[70px]">
                 <TourBookingCard
                   price={event.basePrice}
+                  sharedPrice={event.sharedPrice}
                   rating={event.rating ?? 0}
                   reviewCount={event.reviewCount ?? 0}
                   tourId={event._id}
@@ -460,6 +468,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
       <div className="lg:hidden px-4 pb-8">
         <TourBookingCard
           price={event.basePrice}
+          sharedPrice={event.sharedPrice}
           rating={event.rating ?? 0}
           reviewCount={event.reviewCount ?? 0}
           tourId={event._id}

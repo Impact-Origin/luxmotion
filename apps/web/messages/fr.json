@@ -1339,6 +1339,14 @@
         "exploreServices": "Découvrir nos Services",
         "footerNote": "Besoin d'ajouter des détails à votre demande ? <reply>Répondez à notre e-mail de confirmation</reply> ou contactez-nous sur WhatsApp au <num>{phone}</num>."
       }
+    },
+    "sharing": {
+      "what": "Partagé ou privé ?",
+      "explainer": "En place partagée, vous rejoignez d'autres participants au même événement et payez moins par personne. En privé, l'expérience est réservée à votre groupe.",
+      "shared": "Partagé",
+      "sharedNote": "Avec d'autres participants",
+      "private": "Privé",
+      "privateNote": "Votre groupe seulement"
     }
   },
   "blogsHero": {
@@ -2278,7 +2286,9 @@
       "addonImageEmpty": "Aucune image pour l'instant. Importez la première ci-dessous.",
       "addonImageRemove": "Retirer l'image de cet extra",
       "addonImageRename": "Renommer",
-      "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)"
+      "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)",
+      "sharedPriceLabel": "Prix partagé (par personne)",
+      "sharedPriceHint": "Laissez vide si l'événement n'est vendu qu'en privé. Rempli, la page permet de choisir entre place partagée et expérience privée."
     }
   },
   "adminBlogs": {

@@ -84,6 +84,8 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   const [meetingPoint, setMeetingPoint] = React.useState<any>(null)
 
   const [basePrice, setBasePrice] = React.useState("")
+  /* Vazio = só se vende em privado; é o vazio que esconde a escolha no site. */
+  const [sharedPrice, setSharedPrice] = React.useState("")
   const [originalPrice, setOriginalPrice] = React.useState("")
   const [currency, setCurrency] = React.useState(initialData?.currency || "EUR")
   const [maxCapacity, setMaxCapacity] = React.useState("")
@@ -142,6 +144,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       setExcluded(initialData.excluded?.join("\n") || "")
       setMeetingPoint(initialData.meetingPoint || null)
       setBasePrice(initialData.basePrice?.toString() || "")
+      setSharedPrice(initialData.sharedPrice?.toString() || "")
       setOriginalPrice(initialData.originalPrice?.toString() || "")
       setCurrency(initialData.currency || "EUR")
       setMaxCapacity(initialData.maxCapacity?.toString() || "")
@@ -257,6 +260,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
         minPassengers: minPassengers ? parseInt(minPassengers) : undefined,
         maxPassengers: maxPassengers ? parseInt(maxPassengers) : undefined,
         basePrice: parseFloat(basePrice),
+        sharedPrice: sharedPrice ? parseFloat(sharedPrice) : undefined,
         originalPrice: originalPrice ? parseFloat(originalPrice) : undefined,
         currency,
         bannerImageId: bannerImageId as any,
@@ -585,7 +589,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                     <DollarSign className="h-4 w-4" /> {t("form.pricingLabel")}
                   </Label>
 
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
                     <div className="space-y-1.5">
                       <Label htmlFor="basePrice">{t("form.basePriceLabel")} *</Label>
                       <Input
@@ -600,6 +604,24 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                         disabled={isSubmitting}
                         className="h-9"
                       />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="sharedPrice">{t("form.sharedPriceLabel")}</Label>
+                      <Input
+                        id="sharedPrice"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={sharedPrice}
+                        onChange={(e) => setSharedPrice(e.target.value)}
+                        placeholder="0.00"
+                        disabled={isSubmitting}
+                        className="h-9"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        {t("form.sharedPriceHint")}
+                      </p>
                     </div>
 
                     <div className="space-y-1.5">

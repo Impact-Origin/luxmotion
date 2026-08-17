@@ -1342,6 +1342,14 @@
         "exploreServices": "Explore Services",
         "footerNote": "Need to add details to your request? <reply>Reply to our confirmation email</reply> or message us on WhatsApp at <num>{phone}</num>."
       }
+    },
+    "sharing": {
+      "what": "Shared or private?",
+      "explainer": "On a shared seat you join other guests at the same event and pay less per person. Private means the experience is yours alone — same event, no one else in your group.",
+      "shared": "Shared",
+      "sharedNote": "You go with other guests",
+      "private": "Private",
+      "privateNote": "Only your group"
     }
   },
   "blogsHero": {
@@ -2464,7 +2472,9 @@
       "addonImageEmpty": "No images yet. Upload the first one below.",
       "addonImageRemove": "Remove image from this add-on",
       "addonImageRename": "Rename",
-      "addonImageForget": "Remove from the library (the add-ons using it keep the image)"
+      "addonImageForget": "Remove from the library (the add-ons using it keep the image)",
+      "sharedPriceLabel": "Shared price (per person)",
+      "sharedPriceHint": "Leave empty if this event is only sold privately. When filled, the page lets the guest choose between a shared seat and the private experience."
     }
   },
   "adminBlogs": {

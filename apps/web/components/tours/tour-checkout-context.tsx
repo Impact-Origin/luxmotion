@@ -20,6 +20,8 @@ export interface TourCheckoutTour {
   slug: string
   price: number
   currency?: string
+  /** Só nos eventos com lugar partilhado; segue para a reserva. */
+  sharingMode?: "private" | "shared"
   /** Thumbnail/banner image URL for the modal header and summary */
   image?: string
   pickup?: TourCheckoutPickup

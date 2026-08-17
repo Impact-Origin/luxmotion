@@ -40,6 +40,7 @@ export function EventDetailsWrapper({ slug }: EventDetailsWrapperProps) {
     additionalBannerImages: event.additionalBannerUrls?.filter(Boolean) as string[] || [],
     images: event.galleryImageUrls?.filter(Boolean) as string[] || [],
     basePrice: event.basePrice,
+    sharedPrice: event.sharedPrice,
     originalPrice: event.originalPrice,
     currency: event.currency,
     maxCapacity: event.maxCapacity,

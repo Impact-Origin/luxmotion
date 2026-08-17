@@ -703,6 +703,10 @@ export default defineSchema({
     ),
     maxCapacity: v.optional(v.number()),
     basePrice: v.number(),
+    /* Preço por pessoa em lugar partilhado: vai-se com outros participantes e
+       paga-se menos. Vazio quer dizer que este evento só se vende em privado, e
+       é isso que decide se o cartão de reserva mostra a escolha. */
+    sharedPrice: v.optional(v.number()),
     originalPrice: v.optional(v.number()),
     currency: v.string(),
     bannerImageId: v.optional(v.id("_storage")),
@@ -1377,6 +1381,9 @@ export default defineSchema({
     customerPhone: v.string(),
     customerNif: v.optional(v.string()),
     basePrice: v.number(),
+    /* Comprou lugar partilhado ou o evento em privado? O preço sozinho não
+       chega para o saber, e quem organiza precisa de agrupar os partilhados. */
+    sharingMode: v.optional(v.union(v.literal("private"), v.literal("shared"))),
     selectedAddons: v.optional(
       v.array(
         v.object({

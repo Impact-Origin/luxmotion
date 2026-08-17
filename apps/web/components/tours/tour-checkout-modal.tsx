@@ -320,6 +320,7 @@ export function TourCheckoutModal() {
         selectedDate: dateStr,
         selectedTime: timeStr,
         basePrice: Math.max(0, Number(tour.price) || 0) * guests,
+        sharingMode: tour.sharingMode,
         selectedAddons: selectedAddons?.length ? selectedAddons : undefined,
         addonsTotal: bookingData.addonsTotal ?? undefined,
         referralSlug: readReferralCookie() ?? undefined,

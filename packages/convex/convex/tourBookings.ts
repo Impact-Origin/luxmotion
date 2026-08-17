@@ -24,6 +24,7 @@ export const init = mutation({
     selectedDate: v.string(),
     selectedTime: v.string(),
     basePrice: v.number(),
+    sharingMode: v.optional(v.union(v.literal("private"), v.literal("shared"))),
     selectedAddons: v.optional(v.array(v.object({
       addonId: v.optional(v.id("tourAddons")),
       title: v.string(),
@@ -63,6 +64,7 @@ export const init = mutation({
       selectedDate: args.selectedDate,
       selectedTime: args.selectedTime,
       basePrice: args.basePrice,
+      sharingMode: args.sharingMode ?? undefined,
       selectedAddons: args.selectedAddons ?? undefined,
       addonsTotal: args.addonsTotal ?? undefined,
       partnershipId: ref.partnershipId,
