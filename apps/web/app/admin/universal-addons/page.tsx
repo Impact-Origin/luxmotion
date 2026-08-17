@@ -18,7 +18,11 @@ import {
 } from "@workspace/ui/components/alert-dialog"
 import { Layers, Pencil, Plus, Trash2 } from "lucide-react"
 import { toast } from "sonner"
-import { DataTable, type DataTableColumn } from "@/components/admin/data-table"
+import {
+  DataTable,
+  TABLE_TEXT_CELL,
+  type DataTableColumn,
+} from "@/components/admin/data-table"
 import { MiniaturaImagem } from "@/components/admin/miniatura-imagem"
 import {
   EntityFormDialog,
@@ -100,9 +104,13 @@ export default function AdminUniversalAddonsPage() {
       {
         id: "titulo",
         header: "Título",
+        /* Sem tecto de largura, a descrição — que é uma frase inteira — vira
+           uma linha indivisível e empurra a tabela para fora do ecrã. É o que o
+           `TABLE_TEXT_CELL` existe para resolver. */
+        cellClassName: TABLE_TEXT_CELL,
         cell: (l) => (
           <div className="min-w-0">
-            <p className="font-medium">{l.title}</p>
+            <p className="truncate font-medium">{l.title}</p>
             {l.description && (
               <p className="truncate text-xs text-muted-foreground">{l.description}</p>
             )}
@@ -113,7 +121,7 @@ export default function AdminUniversalAddonsPage() {
       {
         id: "ambitos",
         header: "Onde aparece",
-        headerClassName: "w-[220px]",
+        headerClassName: "w-[200px]",
         cell: (l) => (
           <div className="flex flex-wrap gap-1">
             {l.scopes.map((s) => (
@@ -132,7 +140,7 @@ export default function AdminUniversalAddonsPage() {
         header: "Preço",
         headerClassName: "w-[140px]",
         cell: (l) => (
-          <span className="text-muted-foreground">
+          <span className="whitespace-nowrap text-muted-foreground">
             {l.price.toFixed(2)} € {l.pricingType === "per_person" ? "/ pessoa" : "fixo"}
           </span>
         ),
