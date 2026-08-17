@@ -2288,7 +2288,16 @@
         "privateYacht": "Private Yacht",
         "helicopter": "Helicopter"
       },
-      "itinerarySeparationWarning": "Normal and Ultra-Luxury itineraries are stored separately. The day-by-day itinerary below is only used for Ultra-Luxury tours — switching this tour’s type will not copy stops between the two, and each is kept independently."
+      "itinerarySeparationWarning": "Normal and Ultra-Luxury itineraries are stored separately. The day-by-day itinerary below is only used for Ultra-Luxury tours — switching this tour’s type will not copy stops between the two, and each is kept independently.",
+      "addonImageChoose": "Choose image",
+      "addonImageLibrary": "Add-on image library",
+      "addonImageLibraryHint": "Upload once and reuse across every tour and event. Click an image to attach it to this add-on.",
+      "addonImageUpload": "Upload a new image",
+      "addonImageUploading": "Uploading…",
+      "addonImageEmpty": "No images yet. Upload the first one below.",
+      "addonImageRemove": "Remove image from this add-on",
+      "addonImageRename": "Rename",
+      "addonImageForget": "Remove from the library (the add-ons using it keep the image)"
     },
     "schedule": {
       "activeDays": "Active Days",
@@ -2446,7 +2455,16 @@
       "addonActive": "Active",
       "addonSaved": "Add-on saved",
       "addonRemoved": "Add-on removed",
-      "addonTranslationSaved": "Translation saved"
+      "addonTranslationSaved": "Translation saved",
+      "addonImageChoose": "Choose image",
+      "addonImageLibrary": "Add-on image library",
+      "addonImageLibraryHint": "Upload once and reuse across every tour and event. Click an image to attach it to this add-on.",
+      "addonImageUpload": "Upload a new image",
+      "addonImageUploading": "Uploading…",
+      "addonImageEmpty": "No images yet. Upload the first one below.",
+      "addonImageRemove": "Remove image from this add-on",
+      "addonImageRename": "Rename",
+      "addonImageForget": "Remove from the library (the add-ons using it keep the image)"
     }
   },
   "adminBlogs": {

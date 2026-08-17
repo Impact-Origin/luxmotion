@@ -152,7 +152,9 @@ export const update = mutation({
     id: v.id("tourAddons"),
     title: v.optional(v.string()),
     description: v.optional(v.string()),
-    imageId: v.optional(v.id("_storage")),
+    /* `null` limpa a imagem; ausente deixa como está. Sem o `null` não havia
+       maneira de tirar uma imagem: `undefined` é indistinguível de "não mexas". */
+    imageId: v.optional(v.union(v.id("_storage"), v.null())),
     price: v.optional(v.number()),
     pricingType: v.optional(v.union(v.literal("per_person"), v.literal("flat"))),
     currency: v.optional(v.string()),
@@ -167,7 +169,7 @@ export const update = mutation({
     const updates: Record<string, unknown> = { updatedAt: Date.now() };
     if (data.title !== undefined) updates.title = data.title;
     if (data.description !== undefined) updates.description = data.description;
-    if (data.imageId !== undefined) updates.imageId = data.imageId;
+    if (data.imageId !== undefined) updates.imageId = data.imageId ?? undefined;
     if (data.price !== undefined) updates.price = data.price;
     if (data.pricingType !== undefined) updates.pricingType = data.pricingType;
     if (data.currency !== undefined) updates.currency = data.currency;
@@ -194,8 +196,22 @@ export const remove = mutation({
       await ctx.db.delete(t._id);
     }
 
+    /* Só se apaga o ficheiro se mais ninguém o usar. Desde que as imagens
+       passaram a ser partilhadas entre extras, apagar um extra apagava a imagem
+       debaixo dos pés de todos os outros que apontavam para o mesmo ficheiro. */
     if (addon.imageId) {
-      await ctx.storage.delete(addon.imageId);
+      const outros = await ctx.db.query("tourAddons").collect();
+      const usadaPorOutro = outros.some(
+        (a) => a._id !== args.id && a.imageId === addon.imageId,
+      );
+      const naBiblioteca = await ctx.db
+        .query("addonImages")
+        .withIndex("by_storage", (q) => q.eq("storageId", addon.imageId!))
+        .first();
+
+      if (!usadaPorOutro && !naBiblioteca) {
+        await ctx.storage.delete(addon.imageId);
+      }
     }
 
     await ctx.db.delete(args.id);

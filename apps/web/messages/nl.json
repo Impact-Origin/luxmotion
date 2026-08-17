@@ -2196,7 +2196,16 @@
         "privateYacht": "Privéjacht",
         "helicopter": "Helikopter"
       },
-      "itinerarySeparationWarning": "Normale en Ultra-luxe reisroutes worden apart opgeslagen. De dagindeling hieronder wordt alleen gebruikt voor Ultra-luxe tours — het wisselen van het type kopieert geen stops tussen beide, en elk wordt apart bewaard."
+      "itinerarySeparationWarning": "Normale en Ultra-luxe reisroutes worden apart opgeslagen. De dagindeling hieronder wordt alleen gebruikt voor Ultra-luxe tours — het wisselen van het type kopieert geen stops tussen beide, en elk wordt apart bewaard.",
+      "addonImageChoose": "Afbeelding kiezen",
+      "addonImageLibrary": "Afbeeldingsbibliotheek voor extra's",
+      "addonImageLibraryHint": "Eén keer uploaden en hergebruiken in alle tours en evenementen. Klik op een afbeelding om die aan dit extra te koppelen.",
+      "addonImageUpload": "Nieuwe afbeelding uploaden",
+      "addonImageUploading": "Uploaden…",
+      "addonImageEmpty": "Nog geen afbeeldingen. Upload de eerste hieronder.",
+      "addonImageRemove": "Afbeelding uit dit extra verwijderen",
+      "addonImageRename": "Naam wijzigen",
+      "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)"
     }
   },
   "adminEvents": {
@@ -2260,7 +2269,16 @@
       "addonActive": "Actief",
       "addonSaved": "Extra opgeslagen",
       "addonRemoved": "Extra verwijderd",
-      "addonTranslationSaved": "Vertaling opgeslagen"
+      "addonTranslationSaved": "Vertaling opgeslagen",
+      "addonImageChoose": "Afbeelding kiezen",
+      "addonImageLibrary": "Afbeeldingsbibliotheek voor extra's",
+      "addonImageLibraryHint": "Eén keer uploaden en hergebruiken in alle tours en evenementen. Klik op een afbeelding om die aan dit extra te koppelen.",
+      "addonImageUpload": "Nieuwe afbeelding uploaden",
+      "addonImageUploading": "Uploaden…",
+      "addonImageEmpty": "Nog geen afbeeldingen. Upload de eerste hieronder.",
+      "addonImageRemove": "Afbeelding uit dit extra verwijderen",
+      "addonImageRename": "Naam wijzigen",
+      "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)"
     }
   },
   "adminBlogs": {

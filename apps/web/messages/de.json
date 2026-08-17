@@ -2267,7 +2267,16 @@
         "privateYacht": "Private Yacht",
         "helicopter": "Hubschrauber"
       },
-      "itinerarySeparationWarning": "Normale und Ultra-Luxus-Reiserouten werden getrennt gespeichert. Die tägliche Reiseroute unten wird nur für Ultra-Luxus-Touren verwendet — ein Wechsel des Tour-Typs kopiert keine Stopps zwischen beiden, und jede wird unabhängig gespeichert."
+      "itinerarySeparationWarning": "Normale und Ultra-Luxus-Reiserouten werden getrennt gespeichert. Die tägliche Reiseroute unten wird nur für Ultra-Luxus-Touren verwendet — ein Wechsel des Tour-Typs kopiert keine Stopps zwischen beiden, und jede wird unabhängig gespeichert.",
+      "addonImageChoose": "Bild auswählen",
+      "addonImageLibrary": "Bildbibliothek für Extras",
+      "addonImageLibraryHint": "Einmal hochladen und in allen Touren und Events wiederverwenden. Bild anklicken, um es diesem Extra zuzuweisen.",
+      "addonImageUpload": "Neues Bild hochladen",
+      "addonImageUploading": "Wird hochgeladen…",
+      "addonImageEmpty": "Noch keine Bilder. Lade unten das erste hoch.",
+      "addonImageRemove": "Bild aus diesem Extra entfernen",
+      "addonImageRename": "Umbenennen",
+      "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)"
     },
     "schedule": {
       "activeDays": "Aktive Tage",
@@ -2357,7 +2366,16 @@
       "addonActive": "Aktiv",
       "addonSaved": "Zusatzoption gespeichert",
       "addonRemoved": "Zusatzoption entfernt",
-      "addonTranslationSaved": "Übersetzung gespeichert"
+      "addonTranslationSaved": "Übersetzung gespeichert",
+      "addonImageChoose": "Bild auswählen",
+      "addonImageLibrary": "Bildbibliothek für Extras",
+      "addonImageLibraryHint": "Einmal hochladen und in allen Touren und Events wiederverwenden. Bild anklicken, um es diesem Extra zuzuweisen.",
+      "addonImageUpload": "Neues Bild hochladen",
+      "addonImageUploading": "Wird hochgeladen…",
+      "addonImageEmpty": "Noch keine Bilder. Lade unten das erste hoch.",
+      "addonImageRemove": "Bild aus diesem Extra entfernen",
+      "addonImageRename": "Umbenennen",
+      "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)"
     }
   },
   "adminBlogs": {

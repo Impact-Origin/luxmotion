@@ -1223,6 +1223,25 @@ export default defineSchema({
     .index("by_tour", ["tourId"])
     .index("by_event", ["eventId"]),
 
+  /* Biblioteca de imagens dos extras.
+
+     As imagens dos extras repetem-se — o champanhe, as flores, o fotógrafo são
+     os mesmos em todos os tours e eventos — e até aqui cada linha de
+     `tourAddons` obrigava a carregar o ficheiro outra vez. Esta tabela guarda o
+     ficheiro uma vez, com um nome, e os extras passam a apontar para ele.
+
+     Não é uma relação: `tourAddons.imageId` continua a ser um `_storage` id
+     directo, e uma imagem apagada da biblioteca não desaparece dos extras que a
+     usam. A biblioteca é um catálogo do que já está carregado, não o dono do
+     ficheiro. */
+  addonImages: defineTable({
+    storageId: v.id("_storage"),
+    label: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_created", ["createdAt"])
+    .index("by_storage", ["storageId"]),
+
   /* ------------------------------------------------------------------------
      Checkout upsells.
 

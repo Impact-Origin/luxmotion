@@ -21,7 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@workspace/ui/components/dialog"
-import { ImageUpload } from "./image-upload"
+import { AddonImagePicker } from "./addon-image-picker"
 import { Plus, Trash2, Languages, Loader2, Gem } from "lucide-react"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
@@ -100,12 +100,32 @@ function AddonCard({
       <div className="flex items-start gap-4">
         <div className="w-32 shrink-0">
           <Label className="text-xs mb-1 block">{t("form.addonImageLabel")}</Label>
-          <ImageUpload
+          {/* Biblioteca em vez de upload directo: as imagens dos extras são
+              sempre as mesmas e carregá-las de novo em cada tour e cada evento
+              era trabalho repetido. `null` limpa, e a mutation já o distingue de
+              "não mexas". */}
+          <AddonImagePicker
             value={addon.imageUrl}
+            addonTitle={addon.title}
             onChange={(storageId) =>
-              onUpdate(addon._id, "imageId", storageId as Id<"_storage"> | undefined)
+              onUpdate(
+                addon._id,
+                "imageId",
+                storageId as Id<"_storage"> | null,
+              )
             }
             disabled={isSaving}
+            labels={{
+              choose: t("form.addonImageChoose"),
+              library: t("form.addonImageLibrary"),
+              libraryHint: t("form.addonImageLibraryHint"),
+              upload: t("form.addonImageUpload"),
+              uploading: t("form.addonImageUploading"),
+              empty: t("form.addonImageEmpty"),
+              remove: t("form.addonImageRemove"),
+              rename: t("form.addonImageRename"),
+              forget: t("form.addonImageForget"),
+            }}
           />
         </div>
 

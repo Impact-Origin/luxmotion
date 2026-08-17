@@ -2196,7 +2196,16 @@
         "privateYacht": "Yacht privé",
         "helicopter": "Hélicoptère"
       },
-      "itinerarySeparationWarning": "Les itinéraires normaux et Ultra Luxe sont stockés séparément. L’itinéraire jour par jour ci-dessous n’est utilisé que pour les circuits Ultra Luxe — changer le type de ce circuit ne copie pas les arrêts entre les deux, et chacun est conservé indépendamment."
+      "itinerarySeparationWarning": "Les itinéraires normaux et Ultra Luxe sont stockés séparément. L’itinéraire jour par jour ci-dessous n’est utilisé que pour les circuits Ultra Luxe — changer le type de ce circuit ne copie pas les arrêts entre les deux, et chacun est conservé indépendamment.",
+      "addonImageChoose": "Choisir une image",
+      "addonImageLibrary": "Bibliothèque d'images des extras",
+      "addonImageLibraryHint": "Importez une fois et réutilisez dans tous les circuits et événements. Cliquez sur une image pour l'associer à cet extra.",
+      "addonImageUpload": "Importer une nouvelle image",
+      "addonImageUploading": "Import en cours…",
+      "addonImageEmpty": "Aucune image pour l'instant. Importez la première ci-dessous.",
+      "addonImageRemove": "Retirer l'image de cet extra",
+      "addonImageRename": "Renommer",
+      "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)"
     }
   },
   "adminEvents": {
@@ -2260,7 +2269,16 @@
       "addonActive": "Actif",
       "addonSaved": "Supplément enregistré",
       "addonRemoved": "Supplément supprimé",
-      "addonTranslationSaved": "Traduction enregistrée"
+      "addonTranslationSaved": "Traduction enregistrée",
+      "addonImageChoose": "Choisir une image",
+      "addonImageLibrary": "Bibliothèque d'images des extras",
+      "addonImageLibraryHint": "Importez une fois et réutilisez dans tous les circuits et événements. Cliquez sur une image pour l'associer à cet extra.",
+      "addonImageUpload": "Importer une nouvelle image",
+      "addonImageUploading": "Import en cours…",
+      "addonImageEmpty": "Aucune image pour l'instant. Importez la première ci-dessous.",
+      "addonImageRemove": "Retirer l'image de cet extra",
+      "addonImageRename": "Renommer",
+      "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)"
     }
   },
   "adminBlogs": {

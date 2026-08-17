@@ -2204,7 +2204,16 @@
         "privateYacht": "Yate Privado",
         "helicopter": "Helicóptero"
       },
-      "itinerarySeparationWarning": "Los itinerarios normales y Ultra Lujo se guardan por separado. El itinerario día a día de abajo solo se usa en tours Ultra Lujo — cambiar el tipo de este tour no copia las paradas entre ambos, y cada uno se mantiene de forma independiente."
+      "itinerarySeparationWarning": "Los itinerarios normales y Ultra Lujo se guardan por separado. El itinerario día a día de abajo solo se usa en tours Ultra Lujo — cambiar el tipo de este tour no copia las paradas entre ambos, y cada uno se mantiene de forma independiente.",
+      "addonImageChoose": "Elegir imagen",
+      "addonImageLibrary": "Biblioteca de imágenes de los extras",
+      "addonImageLibraryHint": "Súbela una vez y reutilízala en todos los tours y eventos. Haz clic en una imagen para asociarla a este extra.",
+      "addonImageUpload": "Subir una imagen nueva",
+      "addonImageUploading": "Subiendo…",
+      "addonImageEmpty": "Todavía no hay imágenes. Sube la primera aquí abajo.",
+      "addonImageRemove": "Quitar la imagen de este extra",
+      "addonImageRename": "Cambiar el nombre",
+      "addonImageForget": "Quitar de la biblioteca (los extras conservan la imagen)"
     }
   },
   "adminEvents": {
@@ -2276,7 +2285,16 @@
       "addonActive": "Activo",
       "addonSaved": "Complemento guardado",
       "addonRemoved": "Complemento eliminado",
-      "addonTranslationSaved": "Traducción guardada"
+      "addonTranslationSaved": "Traducción guardada",
+      "addonImageChoose": "Elegir imagen",
+      "addonImageLibrary": "Biblioteca de imágenes de los extras",
+      "addonImageLibraryHint": "Súbela una vez y reutilízala en todos los tours y eventos. Haz clic en una imagen para asociarla a este extra.",
+      "addonImageUpload": "Subir una imagen nueva",
+      "addonImageUploading": "Subiendo…",
+      "addonImageEmpty": "Todavía no hay imágenes. Sube la primera aquí abajo.",
+      "addonImageRemove": "Quitar la imagen de este extra",
+      "addonImageRename": "Cambiar el nombre",
+      "addonImageForget": "Quitar de la biblioteca (los extras conservan la imagen)"
     }
   },
   "adminBlogs": {
