@@ -1,53 +1,35 @@
 "use client"
 
+import Image from "next/image"
 import { useTranslations } from "next-intl"
 
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
-/* O traço segue a cor do texto do <svg>, que é o dourado do tema (ver a classe
-   text-[var(--lm-accent,...)] abaixo). */
-const G = "currentColor"
+/**
+ * Os três ecrãs da parceria, pela ordem dos passos: a página de reserva com a
+ * marca do hotel, o convite que o cliente recebe, e o dashboard.
+ *
+ * Caixa comum e `object-cover`, senão os três cartões ficavam com alturas
+ * diferentes: as origens não têm a mesma proporção, porque o convite é um
+ * telemóvel e é mais alto. 5:4 e não 4:3 — a 4:3 o convite perdia 15,6% em
+ * cima e em baixo, e o telemóvel está centrado com pouca margem. A 5:4 o
+ * pior caso desce para 9,9% e os outros dois pagam 6,7% nos lados, onde só
+ * há fundo escuro.
+ */
+const PASSOS = [
+  "/hotels/how/how-1-booking.webp",
+  "/hotels/how/how-2-invite.webp",
+  "/hotels/how/how-3-dashboard.webp",
+] as const
 
-function StepIllustration({ index }: { index: number }) {
+function StepIllustration({ index, alt }: { index: number; alt: string }) {
+  const src = PASSOS[index]
+  if (!src) return null
   return (
-    <svg
-      viewBox="0 0 220 140"
-      fill="none"
-      className="w-full text-[var(--lm-accent,#C9A96E)]"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect x="20" y="18" width="180" height="104" stroke={G} strokeOpacity="0.5" />
-      {index === 0 && (
-        <>
-          <line x1="38" y1="44" x2="135" y2="44" stroke={G} strokeOpacity="0.7" strokeWidth="2" />
-          <line x1="38" y1="58" x2="110" y2="58" stroke={G} strokeOpacity="0.4" strokeWidth="2" />
-          <line x1="38" y1="72" x2="128" y2="72" stroke={G} strokeOpacity="0.4" strokeWidth="2" />
-          <circle cx="165" cy="50" r="13" stroke={G} />
-          <path d="M159 50l4 4 8-9" stroke={G} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <rect x="38" y="90" width="54" height="18" fill={G} fillOpacity="0.85" />
-        </>
-      )}
-      {index === 1 && (
-        <>
-          <line x1="38" y1="42" x2="150" y2="42" stroke={G} strokeOpacity="0.7" strokeWidth="2" />
-          <line x1="38" y1="56" x2="120" y2="56" stroke={G} strokeOpacity="0.4" strokeWidth="2" />
-          <line x1="38" y1="70" x2="138" y2="70" stroke={G} strokeOpacity="0.4" strokeWidth="2" />
-          <rect x="38" y="86" width="66" height="22" stroke={G} strokeOpacity="0.8" />
-          <path d="M50 97l5 5 9-10" stroke={G} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </>
-      )}
-      {index === 2 && (
-        <>
-          <polyline points="38,100 64,78 86,86 108,58 130,66 152,42 182,52" stroke={G} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          {[[38, 100], [64, 78], [86, 86], [108, 58], [130, 66], [152, 42], [182, 52]].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r="3" fill={G} />
-          ))}
-          <text x="180" y="40" fontSize="14" fill={G} style={serif}>€</text>
-        </>
-      )}
-    </svg>
+    <div className="relative aspect-[5/4] w-full overflow-hidden">
+      <Image src={src} alt={alt} fill sizes="(min-width:768px) 33vw, 100vw" className="object-cover" />
+    </div>
   )
 }
-
 export function HotelsHow() {
   const t = useTranslations("hotels.how")
   const steps = t.raw("steps") as { title: string; body: string }[]
@@ -83,7 +65,7 @@ export function HotelsHow() {
                     0{i + 1}
                   </span>
                   <div className="transition-transform duration-300 ease-out group-hover:scale-[1.03]">
-                    <StepIllustration index={i} />
+                    <StepIllustration index={i} alt={s.title} />
                   </div>
                 </div>
                 <div className="border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] px-7 py-6 md:px-8">
