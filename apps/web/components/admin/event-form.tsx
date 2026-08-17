@@ -619,9 +619,6 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                         disabled={isSubmitting}
                         className="h-9"
                       />
-                      <p className="text-xs text-muted-foreground">
-                        {t("form.sharedPriceHint")}
-                      </p>
                     </div>
 
                     <div className="space-y-1.5">

@@ -2287,8 +2287,7 @@
       "addonImageRemove": "Afbeelding uit dit extra verwijderen",
       "addonImageRename": "Naam wijzigen",
       "addonImageForget": "Uit de bibliotheek halen (extra's houden de afbeelding)",
-      "sharedPriceLabel": "Gedeelde prijs (per persoon)",
-      "sharedPriceHint": "Laat leeg als dit evenement alleen privé wordt verkocht. Ingevuld kan de gast kiezen tussen een gedeelde plek en de privé-ervaring."
+      "sharedPriceLabel": "Gedeelde prijs (per persoon)"
     }
   },
   "adminBlogs": {

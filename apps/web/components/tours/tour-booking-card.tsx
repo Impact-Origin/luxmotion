@@ -245,24 +245,20 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
           <span className="text-[48px] font-semibold text-[var(--lm-accent,#C9A96E)] leading-[48px]" style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}>
             {format(precoPorPessoa)}
           </span>
-          <span className="text-[14px] text-[var(--lm-muted,rgba(255,255,255,0.3))]">{t("perPerson")}</span>
-          {temEscolha && (
-            <span className="flex items-center gap-1.5 text-[var(--lm-accent,#C9A96E)]">
-              {/* Uma pessoa para o privado, um grupo para o partilhado: diz-se
-                  pelo ícone o que se está a comprar, sem ler o rótulo. */}
-              {sharingMode === "shared" ? (
-                <UsersRound className="size-[18px]" strokeWidth={1.6} />
-              ) : (
-                <User className="size-[18px]" strokeWidth={1.6} />
-              )}
-              <Popover>
+          {/* O "i" e o "por pessoa" na mesma caixa: assim o círculo centra-se
+              com o texto ao lado, e não com a linha inteira, que é alta por
+              causa do preço a 48px. */}
+          <span className="flex items-center gap-1.5 text-[14px] text-[var(--lm-muted,rgba(255,255,255,0.3))]">
+            {t("perPerson")}
+            {temEscolha && (
+            <Popover>
                 <PopoverTrigger asChild>
                   <button
                     type="button"
                     aria-label={t("sharing.what")}
-                    className="flex size-[18px] items-center justify-center rounded-full border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] text-[var(--lm-accent,#C9A96E)] transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.15)]"
+                    className="flex size-[16px] shrink-0 items-center justify-center rounded-full border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] text-[var(--lm-accent,#C9A96E)] transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.15)]"
                   >
-                    <Info className="size-[11px]" strokeWidth={2.2} />
+                    <Info className="size-[10px]" strokeWidth={2.4} />
                   </button>
                 </PopoverTrigger>
                 {/* Popover e não tooltip: no telemóvel um tooltip não abre. */}
@@ -277,9 +273,9 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
                     {t("sharing.explainer")}
                   </p>
                 </PopoverContent>
-              </Popover>
-            </span>
-          )}
+            </Popover>
+            )}
+          </span>
         </div>
 
         {temEscolha && (
@@ -311,7 +307,7 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
                     </span>
                   </span>
                   <span className="text-[13px] text-[var(--lm-accent,#C9A96E)]">
-                    {format(preco)} <span className="text-[10px] text-[var(--lm-muted,#8c8680)]">{t("perPerson")}</span>
+                    {format(preco)}
                   </span>
                   <span className="text-[10px] leading-[1.35] text-[var(--lm-muted,#8c8680)]">{nota}</span>
                 </button>

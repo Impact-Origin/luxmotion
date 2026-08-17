@@ -1345,7 +1345,7 @@
     },
     "sharing": {
       "what": "Shared or private?",
-      "explainer": "On a shared seat you join other guests at the same event and pay less per person. Private means the experience is yours alone — same event, no one else in your group.",
+      "explainer": "On a shared seat you join other guests at the same event and pay less per person. Private means the experience is yours alone, with no one else in your group.",
       "shared": "Shared",
       "sharedNote": "You go with other guests",
       "private": "Private",
@@ -2473,8 +2473,7 @@
       "addonImageRemove": "Remove image from this add-on",
       "addonImageRename": "Rename",
       "addonImageForget": "Remove from the library (the add-ons using it keep the image)",
-      "sharedPriceLabel": "Shared price (per person)",
-      "sharedPriceHint": "Leave empty if this event is only sold privately. When filled, the page lets the guest choose between a shared seat and the private experience."
+      "sharedPriceLabel": "Shared price (per person)"
     }
   },
   "adminBlogs": {

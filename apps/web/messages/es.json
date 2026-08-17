@@ -2303,8 +2303,7 @@
       "addonImageRemove": "Quitar la imagen de este extra",
       "addonImageRename": "Cambiar el nombre",
       "addonImageForget": "Quitar de la biblioteca (los extras conservan la imagen)",
-      "sharedPriceLabel": "Precio compartido (por persona)",
-      "sharedPriceHint": "Déjalo vacío si el evento solo se vende en privado. Relleno, la página permite elegir entre plaza compartida y experiencia privada."
+      "sharedPriceLabel": "Precio compartido (por persona)"
     }
   },
   "adminBlogs": {

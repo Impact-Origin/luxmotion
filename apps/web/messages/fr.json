@@ -2287,8 +2287,7 @@
       "addonImageRemove": "Retirer l'image de cet extra",
       "addonImageRename": "Renommer",
       "addonImageForget": "Retirer de la bibliothèque (les extras gardent l'image)",
-      "sharedPriceLabel": "Prix partagé (par personne)",
-      "sharedPriceHint": "Laissez vide si l'événement n'est vendu qu'en privé. Rempli, la page permet de choisir entre place partagée et expérience privée."
+      "sharedPriceLabel": "Prix partagé (par personne)"
     }
   },
   "adminBlogs": {

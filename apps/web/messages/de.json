@@ -2384,8 +2384,7 @@
       "addonImageRemove": "Bild aus diesem Extra entfernen",
       "addonImageRename": "Umbenennen",
       "addonImageForget": "Aus der Bibliothek entfernen (Extras behalten das Bild)",
-      "sharedPriceLabel": "Preis geteilt (pro Person)",
-      "sharedPriceHint": "Leer lassen, wenn die Veranstaltung nur privat verkauft wird. Ausgefüllt, kann der Gast zwischen geteiltem Platz und privater Buchung wählen."
+      "sharedPriceLabel": "Preis geteilt (pro Person)"
     }
   },
   "adminBlogs": {
