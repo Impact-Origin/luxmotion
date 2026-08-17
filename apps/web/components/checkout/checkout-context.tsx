@@ -370,10 +370,16 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 
   const setStep = useCallback((step: number) => {
     setState((prev) => {
+      /* Voltar ao primeiro passo limpa as experiências. Elas escolhem-se no
+         passo 2, e ficarem para trás punha o passo 1 — onde se escolhe a
+         viatura — a mostrar um preço que já incluía coisas de passos
+         seguintes. Quem recua ao início está a refazer a viagem. */
+      const recuaAoInicio = step === 1 && prev.currentStep > 1
       const newState: CheckoutState = {
         ...prev,
         direction: (step > prev.currentStep ? "right" : "left") as "left" | "right",
         currentStep: step,
+        ...(recuaAoInicio ? { experiences: [] } : {}),
       }
       // Immediately save to sessionStorage when moving to step 4 to prevent state loss
       if (step >= 4 && typeof window !== "undefined" && isHydrated) {

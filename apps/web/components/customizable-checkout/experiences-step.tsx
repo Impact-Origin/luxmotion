@@ -82,8 +82,9 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
         specialRequest: data.specialRequest,
         totalPrice: data.totalPrice,
       })
+      /* Fecha e fica, para se poderem escolher várias — ver o passo
+         equivalente em components/checkout/experiences-step.tsx. */
       handleCloseModal()
-      onContinue()
     }
   }
 

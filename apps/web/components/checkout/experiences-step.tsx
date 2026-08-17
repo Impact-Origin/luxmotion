@@ -280,8 +280,10 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
       specialRequest: data.specialRequest,
       totalPrice: data.totalPrice,
     })
+    /* Fecha o modal e fica. Antes avançava logo de passo, o que dava uma
+       experiência por reserva — o passo chama-se "experiências", no plural, e
+       tem quatro secções para percorrer. Avança-se pelo botão de continuar. */
     handleCloseModal()
-    onContinue()
   }
 
   const renderSection = (label: string, items: NearbyTour[], index: number) => {

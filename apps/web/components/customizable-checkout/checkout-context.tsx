@@ -363,10 +363,14 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 
   const setStep = useCallback((step: number) => {
     setState((prev) => {
+      /* Voltar ao início limpa as experiências — ver o contexto do checkout
+         principal para o porquê. */
+      const recuaAoInicio = step === 1 && prev.currentStep > 1
       const newState: CheckoutState = {
         ...prev,
         direction: (step > prev.currentStep ? "right" : "left") as "left" | "right",
         currentStep: step,
+        ...(recuaAoInicio ? { experiences: [] } : {}),
       }
       // Immediately save to sessionStorage when moving to step 4 to prevent state loss
       if (step >= 4 && typeof window !== "undefined" && isHydrated) {

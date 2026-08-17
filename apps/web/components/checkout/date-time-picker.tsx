@@ -456,8 +456,17 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
           ? `w-full h-full px-0 py-0 bg-transparent border-0 flex items-center gap-2 focus:outline-none focus:ring-0 cursor-pointer`
           : isWidget
           ? `w-full h-full px-6 py-4 md:py-3 bg-transparent border-0 flex items-center gap-3 focus:outline-none focus:ring-0 hover:bg-zinc-50/50 transition-colors`
-          : `w-full h-12 px-4 border border-[#e0e0e0] bg-white flex items-center gap-3 transition-all hover:border-[#bfbfbf] focus:outline-none focus:ring-2 focus:ring-[#27c7ff] focus:border-[#27c7ff] ${
-              date ? "text-[#222222]" : "text-[#a2a2a2]"
+          : /* O `dark` só governava o painel do calendário; o campo em si tinha
+               `bg-white` escrito à mão e ficava um rectângulo branco dentro do
+               modal escuro. */
+            `w-full h-12 px-4 border flex items-center gap-3 transition-all focus:outline-none focus:ring-2 ${
+              dark
+                ? "border-[rgba(255,255,255,0.12)] bg-[#1e1d1b] hover:border-[rgba(255,255,255,0.3)] focus:ring-[#C9A96E] focus:border-[#C9A96E]"
+                : "border-[#e0e0e0] bg-white hover:border-[#bfbfbf] focus:ring-[#27c7ff] focus:border-[#27c7ff]"
+            } ${
+              date
+                ? dark ? "text-white" : "text-[#222222]"
+                : dark ? "text-[rgba(255,255,255,0.45)]" : "text-[#a2a2a2]"
             }`
       }
       style={isNewWidget ? {
