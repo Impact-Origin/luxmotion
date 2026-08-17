@@ -1,24 +1,47 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import * as React from "react"
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 
 /**
- * As mesmas imagens do hero da página principal, e o mesmo comportamento:
- * troca de quatro em quatro segundos, com um esbatimento de um segundo.
+ * As mesmas imagens e os mesmos tempos do hero da página principal
+ * (`components/new-landing-page/hero.tsx`): 5,5s por imagem e 1,2s a esbater.
  *
- * São recortes com canal alfa, e é por isso que estas servem e as de
- * `/partner-guide/hero` não serviam — essas vinham com o fundo branco achatado
- * e apareceriam como um rectângulo claro sobre o #0D0D0D deste hero.
+ * São recortes com canal alfa, e é por isso que assentam sobre o #0D0D0D deste
+ * hero — ao contrário das de `/partner-guide/hero`, que vinham com o branco
+ * achatado.
  */
-const IMAGENS = [
-  { src: "/hero-carousel/transfers.webp", alt: "Transfer service" },
-  { src: "/hero-carousel/wedding.webp", alt: "Wedding service" },
-  { src: "/hero-carousel/corporative.webp", alt: "Corporate service" },
-  { src: "/hero-carousel/school.webp", alt: "School service" },
-]
+const SLIDES = [
+  "/hero/1-luxmotion.webp",
+  "/hero/2-corporate.webp",
+  "/hero/3-wedding.webp",
+  "/hero/4-tour.webp",
+  "/hero/5-school.webp",
+] as const
 
-const INTERVALO_MS = 4000
+const INTERVALO_MS = 5500
+
+/**
+ * Timeout e não interval, como na home: o efeito depende do índice, por isso
+ * qualquer mudança reinicia a contagem em vez de saltar logo a seguir.
+ */
+function useSlideshow() {
+  const [indice, setIndice] = React.useState(0)
+
+  React.useEffect(() => {
+    // Quem pediu menos animação ao sistema fica com a primeira imagem fixa.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const id = window.setTimeout(
+      () => setIndice((i) => (i + 1) % SLIDES.length),
+      INTERVALO_MS,
+    )
+    return () => window.clearTimeout(id)
+  }, [indice])
+
+  return indice
+}
 
 export function HeroSlider({
   className,
@@ -28,33 +51,25 @@ export function HeroSlider({
   className?: string
   objectPosition?: string
 }) {
-  const [indice, setIndice] = useState(0)
-
-  useEffect(() => {
-    const id = setInterval(
-      () => setIndice((i) => (i + 1) % IMAGENS.length),
-      INTERVALO_MS,
-    )
-    return () => clearInterval(id)
-  }, [])
+  const indice = useSlideshow()
 
   return (
     <div className={className}>
-      {IMAGENS.map((img, i) => (
-        <div
-          key={img.src}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-          style={{ opacity: i === indice ? 1 : 0, zIndex: i === indice ? 1 : 0 }}
-        >
-          <Image
-            src={img.src}
-            alt={img.alt}
-            fill
-            className={`object-contain ${objectPosition}`}
-            sizes="(min-width:1024px) 46vw, 100vw"
-            priority={i === 0}
-          />
-        </div>
+      {SLIDES.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt=""
+          fill
+          sizes="(min-width:1024px) 46vw, 100vw"
+          // Só a primeira conta para o LCP; as outras entram depois.
+          priority={i === 0}
+          className={cn(
+            "object-contain transition-opacity duration-[1200ms] ease-in-out",
+            objectPosition,
+            i === indice ? "opacity-100" : "opacity-0",
+          )}
+        />
       ))}
     </div>
   )
