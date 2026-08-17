@@ -7537,5 +7537,14 @@
     "total": "Totaal",
     "cta": "Bekijk winkelwagen",
     "dismiss": "Sluiten"
+  },
+  "destinationPage": {
+    "emptyTitle": "Nog geen tours in {destination}",
+    "emptySubtitle": "Kom later terug voor nieuwe tours en ervaringen",
+    "noSearchResults": "Geen resultaten voor “{query}”",
+    "noSearchResultsHint": "Probeer een andere tour of ervaring",
+    "topTours": "Toptours vanuit",
+    "experiences": "Ervaringen in",
+    "luxuryTours": "Luxetours vanuit"
   }
 }

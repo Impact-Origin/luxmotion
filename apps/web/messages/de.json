@@ -7634,5 +7634,14 @@
     "total": "Gesamt",
     "cta": "Warenkorb ansehen",
     "dismiss": "Schließen"
+  },
+  "destinationPage": {
+    "emptyTitle": "Noch keine Touren in {destination}",
+    "emptySubtitle": "Schauen Sie später wieder vorbei für neue Touren und Erlebnisse",
+    "noSearchResults": "Keine Ergebnisse für „{query}“",
+    "noSearchResultsHint": "Versuchen Sie eine andere Tour oder ein anderes Erlebnis",
+    "topTours": "Top-Touren ab",
+    "experiences": "Erlebnisse in",
+    "luxuryTours": "Luxustouren ab"
   }
 }

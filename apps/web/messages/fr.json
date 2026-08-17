@@ -7537,5 +7537,14 @@
     "total": "Total",
     "cta": "Voir le panier",
     "dismiss": "Fermer"
+  },
+  "destinationPage": {
+    "emptyTitle": "Aucun circuit à {destination} pour l'instant",
+    "emptySubtitle": "Revenez bientôt pour de nouveaux circuits et expériences",
+    "noSearchResults": "Aucun résultat pour « {query} »",
+    "noSearchResultsHint": "Essayez un autre circuit ou une autre expérience",
+    "topTours": "Circuits phares au départ de",
+    "experiences": "Expériences à",
+    "luxuryTours": "Circuits de luxe au départ de"
   }
 }

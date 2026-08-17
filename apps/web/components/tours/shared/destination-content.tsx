@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
+import { useTranslations } from "next-intl"
 import { CategorySection } from "./category-section"
 import { TourCard, TourData } from "./tour-card"
 import { useToursByDestination, type TourData as ApiTourData } from "@/hooks/use-tour-data"
@@ -37,6 +38,8 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
   const allTours = useMemo(() => {
     return apiTours.map(mapTourToCardData)
   }, [apiTours])
+
+  const t = useTranslations("destinationPage")
 
   const filteredTours = useMemo(() => {
     if (!searchQuery.trim()) return allTours
@@ -77,10 +80,10 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
       <div className="bg-[var(--lm-surface,#1a1a1a)] px-4 md:px-[82px] py-[60px] md:py-[72px]">
         <div className="max-w-[1280px] mx-auto py-[60px] text-center">
           <p className="text-[18px] text-[var(--lm-muted,#999)]">
-            No tours available in <span className="font-medium text-[var(--lm-text,#fff)]">{destination}</span> yet
+            {t("emptyTitle", { destination })}
           </p>
           <p className="text-[14px] text-[var(--lm-muted,#666)] mt-2">
-            Check back later for new tours and experiences
+            {t("emptySubtitle")}
           </p>
         </div>
       </div>
@@ -94,8 +97,7 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
           <>
             {topTours.length > 0 && (
               <CategorySection
-                title="Top Tours"
-                titleHighlight="from"
+                title={t("topTours")}
                 destination={destination}
                 tours={topTours}
                 searchQuery={searchQuery}
@@ -104,8 +106,7 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
             {experiences.length > 0 && (
               <CategorySection
-                title="Experiences"
-                titleHighlight="in"
+                title={t("experiences")}
                 destination={destination}
                 tours={experiences}
                 searchQuery={searchQuery}
@@ -114,8 +115,7 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
 
             {privateTours.length > 0 && (
               <CategorySection
-                title="Luxury Tours"
-                titleHighlight="from"
+                title={t("luxuryTours")}
                 destination={destination}
                 tours={privateTours}
                 searchQuery={searchQuery}
@@ -125,10 +125,10 @@ export function DestinationContent({ destination, searchQuery }: DestinationCont
         ) : (
           <div className="py-[60px] text-center">
             <p className="text-[18px] text-[var(--lm-muted,#999)]">
-              No results found for &ldquo;<span className="font-medium text-[var(--lm-text,#fff)]">{searchQuery}</span>&rdquo;
+              {t("noSearchResults", { query: searchQuery })}
             </p>
             <p className="text-[14px] text-[var(--lm-muted,#666)] mt-2">
-              Try searching for a different tour or experience
+              {t("noSearchResultsHint")}
             </p>
           </div>
         )}

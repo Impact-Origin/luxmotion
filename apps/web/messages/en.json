@@ -7720,5 +7720,14 @@
     "total": "Total",
     "cta": "View cart",
     "dismiss": "Close"
+  },
+  "destinationPage": {
+    "emptyTitle": "No tours available in {destination} yet",
+    "emptySubtitle": "Check back later for new tours and experiences",
+    "noSearchResults": "No results found for “{query}”",
+    "noSearchResultsHint": "Try searching for a different tour or experience",
+    "topTours": "Top tours from",
+    "experiences": "Experiences in",
+    "luxuryTours": "Luxury tours from"
   }
 }

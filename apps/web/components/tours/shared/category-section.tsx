@@ -5,8 +5,9 @@ import Link from "next/link"
 import { TourCard, TourData } from "./tour-card"
 
 interface CategorySectionProps {
+  /** Frase inteira, já traduzida: "Tours em destaque de". Eram duas metades
+   *  coladas, e uma frase partida ao meio não se traduz para todas as línguas. */
   title: string
-  titleHighlight: string
   destination: string
   tours: TourData[]
   searchQuery: string
@@ -14,7 +15,6 @@ interface CategorySectionProps {
 
 export function CategorySection({
   title,
-  titleHighlight,
   destination,
   tours,
   searchQuery
@@ -41,7 +41,7 @@ export function CategorySection({
         className="text-[32px] md:text-[48px] leading-[1.1] text-[var(--lm-text,#f5f5f5)] mb-6"
         style={{ fontFamily: "var(--font-title), 'Cormorant Garamond', serif" }}
       >
-        <span>{title} {titleHighlight} </span>
+        <span>{title} </span>
         <span className="italic text-[var(--lm-accent,#c9a96e)]">{destination}</span>
       </h2>
 

@@ -7553,5 +7553,14 @@
     "total": "Total",
     "cta": "Ver carrito",
     "dismiss": "Cerrar"
+  },
+  "destinationPage": {
+    "emptyTitle": "Todavía no hay tours en {destination}",
+    "emptySubtitle": "Vuelve pronto para ver nuevos tours y experiencias",
+    "noSearchResults": "Sin resultados para «{query}»",
+    "noSearchResultsHint": "Prueba a buscar otro tour o experiencia",
+    "topTours": "Tours destacados desde",
+    "experiences": "Experiencias en",
+    "luxuryTours": "Tours de lujo desde"
   }
 }

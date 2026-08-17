@@ -7719,5 +7719,14 @@
     "total": "Total",
     "cta": "Ver carrinho",
     "dismiss": "Fechar"
+  },
+  "destinationPage": {
+    "emptyTitle": "Ainda não há tours em {destination}",
+    "emptySubtitle": "Volte em breve para ver novos tours e experiências",
+    "noSearchResults": "Nenhum resultado para “{query}”",
+    "noSearchResultsHint": "Tente procurar outro tour ou experiência",
+    "topTours": "Tours em destaque de",
+    "experiences": "Experiências em",
+    "luxuryTours": "Tours de luxo de"
   }
 }
