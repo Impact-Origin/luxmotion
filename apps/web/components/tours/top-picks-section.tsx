@@ -41,8 +41,14 @@ function ServiceCardItem({
       <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[42%] to-[var(--lm-bg,#000)] to-[82%]" />
       <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-4">
-        <div className="size-[48px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] border-2 border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] flex items-center justify-center">
-          <Icon className="size-6 text-[var(--lm-accent,#C9A96E)]" />
+        {/* Dourado cheio com o ícone escuro. Antes era dourado a 8% de fundo,
+            borda a 25% e ícone dourado — sobre uma fotografia, os três tons
+            perdiam-se uns nos outros e o ícone mal se via.
+
+            O escuro é fixo e não `--lm-bg`: sobre dourado quer-se sempre um
+            ícone escuro, e num tema claro o `--lm-bg` seria creme. */}
+        <div className="size-[48px] bg-[var(--lm-accent,#C9A96E)] flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
+          <Icon className="size-6 text-[#0d0d0d]" strokeWidth={1.75} />
         </div>
         <div className="flex items-end gap-2">
           <div className="flex-1 flex flex-col gap-2">
