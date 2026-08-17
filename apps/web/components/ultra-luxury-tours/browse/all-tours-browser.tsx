@@ -42,6 +42,9 @@ export function AllToursBrowser() {
   const t = useTranslations("ultraLuxuryTours.browse")
   const searchParams = useSearchParams()
   const searchQuery = searchParams.get("q") || ""
+  /* `?region=Porto` — é assim que os cartões de "onde viajamos" chegam aqui
+     com a região já escolhida, em vez de mandarem para a lista inteira. */
+  const regiaoDoUrl = searchParams.get("region")
   const { tours, isLoading } = useUltraLuxuryTours()
 
   const [boundMin, boundMax] = useMemo<[number, number]>(() => {
@@ -64,6 +67,17 @@ export function AllToursBrowser() {
         : { ...prev, price: [boundMin, boundMax] },
     )
   }, [boundMin, boundMax])
+
+  /* Só quando a região do URL muda, e só se ela existir mesmo nos tours: assim
+     um link antigo ou um valor à mão não deixa a lista vazia sem explicação. */
+  useEffect(() => {
+    if (!regiaoDoUrl) return
+    const existe = tours.some((tr) => tr.destination === regiaoDoUrl)
+    if (!existe) return
+    setFilters((prev) =>
+      prev.regions.includes(regiaoDoUrl) ? prev : { ...prev, regions: [regiaoDoUrl] },
+    )
+  }, [regiaoDoUrl, tours])
 
   useEffect(() => {
     setPage(1)

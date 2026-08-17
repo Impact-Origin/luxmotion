@@ -10,10 +10,14 @@ import { useSwipe } from "@/hooks/use-swipe"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 
+/* Levam para a lista dos ultra-luxo com a região já filtrada. Antes mandavam
+   para `/tours/<destino>`, que é o catálogo normal — e como os ultra-luxo estão
+   de fora dele por desenho, clicar no Porto dava uma página a dizer que não há
+   tours nenhuns. O `region` tem de bater certo com o `destination` do tour. */
 const DESTINATIONS = [
-  { id: "lisbon", image: "/ultra-luxury-tours/dest-lisbon-sintra.webp", href: "/tours/lisboa", count: 8 },
-  { id: "porto", image: "/ultra-luxury-tours/dest-porto-douro.webp", href: "/tours/porto", count: 8 },
-  { id: "alentejo", image: "/ultra-luxury-tours/dest-alentejo.webp", href: "/tours/alentejo", count: 8 },
+  { id: "lisbon", image: "/ultra-luxury-tours/dest-lisbon-sintra.webp", region: "Lisboa", count: 8 },
+  { id: "porto", image: "/ultra-luxury-tours/dest-porto-douro.webp", region: "Porto", count: 8 },
+  { id: "alentejo", image: "/ultra-luxury-tours/dest-alentejo.webp", region: "Alentejo", count: 8 },
 ]
 
 const DESKTOP_VISIBLE = 4
@@ -25,17 +29,21 @@ function DestinationCard({
   countLabel,
   subtitle,
   image,
-  href,
+  region,
 }: {
   name: string
   accent: string
   countLabel: string
   subtitle: string
   image: string
-  href: string
+  /** Região do tour; vira `?region=` na lista dos ultra-luxo. */
+  region: string
 }) {
   return (
-    <Link href={href} className="group relative block h-full shrink-0 overflow-hidden">
+    <Link
+      href={`/ultra-luxury-tours/tours?region=${encodeURIComponent(region)}`}
+      className="group relative block h-full shrink-0 overflow-hidden"
+    >
       <Image
         src={image}
         alt={`${name} ${accent}`.trim()}
@@ -133,7 +141,7 @@ export function UltraLuxuryDestinationsSection() {
                     countLabel={t("itineraries", { count: dest.count })}
                     subtitle={t(`cards.${dest.id}.subtitle`)}
                     image={dest.image}
-                    href={dest.href}
+                    region={dest.region}
                   />
                 </div>
               ))}
