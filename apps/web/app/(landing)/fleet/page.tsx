@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("heroTitle"),
     description: t("heroSubtitle"),
     path: "/fleet",
-    image: "/hero_fleet.jpeg",
+    image: "/fleet/hero-fleet.jpeg",
     keywords: ["fleet", "premium vehicles", "van transfer", "executive transport"],
   })
 }
@@ -42,7 +42,7 @@ export default async function FleetPage() {
             name: "Easy Transfer Fleet",
             description: "Premium sedans, vans, minibuses, and buses for private transfers in Portugal.",
             path: "/fleet",
-            image: "/hero_fleet.jpeg",
+            image: "/fleet/hero-fleet.jpeg",
           })
         }
       />

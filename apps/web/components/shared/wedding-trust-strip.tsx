@@ -22,9 +22,9 @@ const MONTSERRAT = {
 } as const
 
 const AVATARS = [
-  { src: "/wedding/avatar-1.png", alt: "" },
-  { src: "/wedding/avatar-2.png", alt: "" },
-  { src: "/wedding/avatar-3.png", alt: "" },
+  { src: "/schools/avatar-1.png", alt: "" },
+  { src: "/schools/avatar-2.png", alt: "" },
+  { src: "/schools/avatar-3.png", alt: "" },
 ] as const
 
 export type WeddingTrustStripTone = "light" | "dark"
@@ -46,7 +46,7 @@ const PALETTES: Record<WeddingTrustStripTone, Palette> = {
     muted: "#6B6862",
     line: "rgba(28,27,24,0.12)",
     pill: "rgba(28,27,24,0.05)",
-    trustpilot: "/trustpilot-logo-dark.svg",
+    trustpilot: "/shared/logos/trustpilot-logo-dark.svg",
   },
   dark: {
     panel: "rgba(255,255,255,0.06)",
@@ -54,7 +54,7 @@ const PALETTES: Record<WeddingTrustStripTone, Palette> = {
     muted: "rgba(255,255,255,0.45)",
     line: "rgba(255,255,255,0.12)",
     pill: "rgba(255,255,255,0.06)",
-    trustpilot: "/wedding-planner/trustpilot.svg",
+    trustpilot: "/schools/trustpilot.svg",
   },
 }
 

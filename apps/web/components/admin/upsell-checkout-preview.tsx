@@ -36,7 +36,7 @@ export function UpsellCheckoutPreview({
           title={title || "Sem título"}
           price={price}
           duration={duration}
-          image={image ?? "/images/placeholder-experience.webp"}
+          image={image ?? "/shared/placeholder-experience.webp"}
           tag={tag}
           tagLabel={tagLabel}
           priceNote={priceNote}

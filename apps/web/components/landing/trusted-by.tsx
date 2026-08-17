@@ -6,17 +6,17 @@ import { useTranslations } from "next-intl"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 
 const logos = [
-  { name: "American Airlines", src: "/trustedby/american-airlines.webp" },
-  { name: "Bentley", src: "/trustedby/bentley.webp" },
-  { name: "BMW", src: "/trustedby/bmw.webp" },
-  { name: "Emirates", src: "/trustedby/emirates.webp" },
-  { name: "Four Seasons", src: "/trustedby/four-seasons.webp" },
-  { name: "Hilton", src: "/trustedby/hilton.webp" },
-  { name: "Mercedes-Benz", src: "/trustedby/mercedes-benz.webp" },
-  { name: "NetJets", src: "/trustedby/netjets.webp" },
-  { name: "Pestana", src: "/trustedby/pestana.webp" },
-  { name: "TAP", src: "/trustedby/tap.webp" },
-  { name: "Vila Galé", src: "/trustedby/vila-gale.webp" },
+  { name: "American Airlines", src: "/shared/logos/american-airlines.webp" },
+  { name: "Bentley", src: "/shared/logos/bentley.webp" },
+  { name: "BMW", src: "/shared/logos/bmw.webp" },
+  { name: "Emirates", src: "/shared/logos/emirates.webp" },
+  { name: "Four Seasons", src: "/shared/logos/four-seasons.webp" },
+  { name: "Hilton", src: "/shared/logos/hilton.webp" },
+  { name: "Mercedes-Benz", src: "/shared/logos/mercedes-benz.webp" },
+  { name: "NetJets", src: "/shared/logos/netjets.webp" },
+  { name: "Pestana", src: "/shared/logos/pestana.webp" },
+  { name: "TAP", src: "/shared/logos/tap.webp" },
+  { name: "Vila Galé", src: "/shared/logos/vila-gale.webp" },
 ]
 
 function LogoStrip() {

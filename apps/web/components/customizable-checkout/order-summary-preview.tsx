@@ -21,7 +21,7 @@ const MOCK_DATA = {
   totalPrice: "€ 45,00",
   vehicle: {
     name: "Standard",
-    image: "/standard-car.png",
+    image: "/fleet/standard-car.png",
     passengers: 3,
     luggage: 3,
   },

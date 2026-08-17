@@ -158,7 +158,7 @@ export function HowItWorks2() {
   )
   const stat3 = (
     <Image
-      src="/drivers-2/rating-49.svg"
+      src="/drivers/rating-49.svg"
       alt="4.9"
       width={72}
       height={31}
@@ -175,7 +175,7 @@ export function HowItWorks2() {
   const cards: CardConfig[] = [
     {
       num: "01",
-      photo: "/drivers-2/adv-1.webp",
+      photo: "/drivers/adv-1.webp",
       photoAlt: t("card1.photoAlt"),
       heading: (
         <>
@@ -201,7 +201,7 @@ export function HowItWorks2() {
     },
     {
       num: "02",
-      photo: "/drivers-2/adv-2.webp",
+      photo: "/drivers/adv-2.webp",
       photoAlt: t("card2.photoAlt"),
       heading: (
         <>
@@ -225,7 +225,7 @@ export function HowItWorks2() {
     },
     {
       num: "03",
-      photo: "/drivers-2/adv-3.webp",
+      photo: "/drivers/adv-3.webp",
       photoAlt: t("card3.photoAlt"),
       heading: (
         <>
@@ -250,7 +250,7 @@ export function HowItWorks2() {
     },
     {
       num: "04",
-      photo: "/drivers-2/adv-4.webp",
+      photo: "/drivers/adv-4.webp",
       photoAlt: t("card4.photoAlt"),
       heading: (
         <>

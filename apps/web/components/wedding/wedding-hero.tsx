@@ -12,9 +12,9 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const REVIEW_AVATARS = [
-  { src: "/wedding/avatar-1.png", alt: "Reviewer 1" },
-  { src: "/wedding/avatar-2.png", alt: "Reviewer 2" },
-  { src: "/wedding/avatar-3.png", alt: "Reviewer 3" },
+  { src: "/schools/avatar-1.png", alt: "Reviewer 1" },
+  { src: "/schools/avatar-2.png", alt: "Reviewer 2" },
+  { src: "/schools/avatar-3.png", alt: "Reviewer 3" },
 ] as const
 
 function HeroPill({ label }: { label: string }) {

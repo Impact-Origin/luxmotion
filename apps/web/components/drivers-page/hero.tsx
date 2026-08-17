@@ -194,7 +194,7 @@ export function DriversHero() {
             aparecem na mesma imagem, que é o que esta página vende. */}
         <div className="relative hidden lg:block flex-1 min-w-0 self-stretch z-[1] overflow-hidden bg-[#EDE8DF]">
           <Image
-            src="/driver_companies/hero-partner.webp"
+            src="/partners/hero-partner.webp"
             alt=""
             fill
             sizes="(min-width: 1024px) 50vw"

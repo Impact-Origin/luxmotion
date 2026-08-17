@@ -15,10 +15,10 @@ type Logo = { src: string; alt: string; w: number; h: number }
 // Mirrors what Stripe Checkout actually offers: card (Visa/Mastercard), MB WAY
 // and Multibanco. PayPal was removed — it isn't a payment method we accept.
 const LOGOS: Logo[] = [
-  { src: "/footer/payments/visa.svg", alt: "Visa", w: 48, h: 16 },
-  { src: "/footer/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
-  { src: "/footer/payments/mbway.svg", alt: "MB Way", w: 42, h: 20 },
-  { src: "/footer/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20 },
+  { src: "/shared/payments/visa.svg", alt: "Visa", w: 48, h: 16 },
+  { src: "/shared/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
+  { src: "/shared/payments/mbway.svg", alt: "MB Way", w: 42, h: 20 },
+  { src: "/shared/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20 },
 ]
 
 function LogoPill({ logo }: { logo: Logo }) {

@@ -45,16 +45,16 @@ interface ExtraDef {
 
 // Preços por extra. O kit de boas-vindas é o único cobrado por convidado.
 const EXTRAS: ExtraDef[] = [
-  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.webp", price: 59, unitKey: "unitMain", priceShape: "flat" },
-  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.webp", price: 119, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
-  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.webp", price: 119, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.webp", price: 39, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.webp", price: 129, unitKey: "unitPerArrival", priceShape: "flat" },
-  { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 89, unitKey: "unitPerMoment", priceShape: "flat" },
-  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 15, unitKey: "unitPerGuest", priceShape: "perGuest" },
+  { id: "matricula", image: "/whitelabel/wedding/extras/matricula.webp", price: 59, unitKey: "unitMain", priceShape: "flat" },
+  { id: "floral", image: "/whitelabel/wedding/extras/decoracao-floral.webp", price: 119, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
+  { id: "champanhe", image: "/whitelabel/wedding/extras/champanhe.webp", price: 119, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "justMarried", image: "/whitelabel/wedding/extras/just-married.webp", price: 39, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "redCarpet", image: "/whitelabel/wedding/extras/tapete-vermelho.webp", price: 129, unitKey: "unitPerArrival", priceShape: "flat" },
+  { id: "petalas", image: "/whitelabel/wedding/extras/petalas.png", price: 89, unitKey: "unitPerMoment", priceShape: "flat" },
+  { id: "welcomeKit", image: "/whitelabel/wedding/extras/kit-boas-vindas.webp", price: 15, unitKey: "unitPerGuest", priceShape: "perGuest" },
   {
     id: "tattoo",
-    image: "/wedding-whitelabel/extras/tattoo.jpeg",
+    image: "/whitelabel/wedding/extras/tattoo.jpeg",
     price: 450,
     unitKey: "unitHourTiers",
     priceShape: "flat",

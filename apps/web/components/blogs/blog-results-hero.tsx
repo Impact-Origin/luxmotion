@@ -39,7 +39,7 @@ export function BlogResultsHero({ onSearch }: BlogResultsHeroProps) {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[#0a0f14]" />
         <Image
-          src="/blogs_results_hero.webp"
+          src="/blogs/blogs-results-hero.webp"
           alt=""
           fill
           className="object-cover object-[center_35%]"

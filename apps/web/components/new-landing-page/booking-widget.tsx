@@ -407,7 +407,7 @@ export function BookingWidget({ className, checkoutBasePath = "" }: BookingWidge
                   onClick={addDestination}
                   className="flex items-center gap-2 text-[14px] font-medium text-[var(--lm-accent,#C9A96E)] hover:text-[var(--lm-accent,#C9A96E)]/80 transition-colors cursor-pointer shrink-0"
                 >
-                  <Image src="/svgs/stop-toggle.svg" alt="" width={16} height={16} />
+                  <Image src="/shared/icons/stop-toggle.svg" alt="" width={16} height={16} />
                   {t("addStop")}
                 </button>
               ) : (

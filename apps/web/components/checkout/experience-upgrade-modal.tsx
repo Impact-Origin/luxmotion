@@ -135,7 +135,7 @@ export function ExperienceUpgradeModal({
               className={`relative w-[128px] h-[76px] shrink-0 overflow-hidden border ${c.imgWrap}`}
             >
               <Image
-                src={vehicleImage || "/images/image-54.png"}
+                src={vehicleImage || "/shared/image-54.png"}
                 alt={vehicleName}
                 fill
                 sizes="128px"

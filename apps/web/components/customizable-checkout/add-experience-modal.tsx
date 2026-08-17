@@ -476,7 +476,7 @@ function ModalContent({
         <div className="flex gap-4 mb-6">
           <div className="relative w-[200px] h-[140px] shrink-0 rounded-lg overflow-hidden">
             <Image
-              src={experience.image || "/placeholder-experience.png"}
+              src={experience.image || "/shared/placeholder-experience.webp"}
               alt={experience.title}
               fill
               className="object-cover"

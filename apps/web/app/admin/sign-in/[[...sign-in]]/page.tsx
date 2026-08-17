@@ -13,12 +13,12 @@ function OfficialLogo() {
     <div className="flex items-center gap-[10px]">
       <div className="relative flex h-[45px] w-[45px] shrink-0 items-center justify-center border-[1.9px] border-[#C9A96E]">
         <div className="relative h-[13px] w-[23px]">
-          <Image src="/svgs/lm-monogram.svg" alt="" fill className="object-contain" priority />
+          <Image src="/shared/icons/lm-monogram.svg" alt="" fill className="object-contain" priority />
         </div>
       </div>
       <div className="flex flex-col justify-center">
         <div className="relative h-[13px] w-[120px]">
-          <Image src="/svgs/luxmotion-text.svg" alt="LuxMotion" fill className="object-contain object-left" priority />
+          <Image src="/shared/icons/luxmotion-text.svg" alt="LuxMotion" fill className="object-contain object-left" priority />
         </div>
         <span className="mt-[4px] whitespace-nowrap text-[10px] tracking-[1.4px] text-[#999]">
           BY EASYTRANSFER
@@ -107,7 +107,7 @@ export default function Page() {
     <div className="flex min-h-screen w-full bg-[#14110c] text-[#f3ecdd]">
       {/* Image panel */}
       <div className="relative hidden w-[46%] max-w-[640px] overflow-hidden lg:block">
-        <Image src="/interior.webp" alt="" fill priority sizes="46vw" className="object-cover" />
+        <Image src="/fleet/interior.webp" alt="" fill priority sizes="46vw" className="object-cover" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#0f0c08] via-[#0f0c08]/55 to-[#0f0c08]/25" />
         <div
           aria-hidden

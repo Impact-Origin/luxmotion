@@ -19,7 +19,7 @@ function FoundersLogo() {
     <div className="relative w-[123px] h-[42px] md:w-[178px] md:h-[61px]">
       <div className="absolute top-0 left-0 size-[42px] md:size-[60.73px]">
         <Image
-          src="/wedding-planner/founders/logo-frame.svg"
+          src="/planners/founders/logo-frame.svg"
           alt=""
           fill
           aria-hidden
@@ -27,7 +27,7 @@ function FoundersLogo() {
       </div>
       <div className="absolute left-[5.2px] top-[12.3px] w-[31.5px] h-[17.3px] overflow-hidden md:left-[7.6px] md:top-[17.9px] md:w-[45.5px] md:h-[25px]">
         <Image
-          src="/wedding-planner/founders/logo-monogram.svg"
+          src="/planners/founders/logo-monogram.svg"
           alt=""
           fill
           aria-hidden
@@ -35,7 +35,7 @@ function FoundersLogo() {
       </div>
       <div className="absolute left-[47.54px] top-1/2 -translate-y-1/2 w-[75.79px] h-[21.91px] md:left-[68.8px] md:w-[109.68px] md:h-[31.71px]">
         <Image
-          src="/wedding-planner/founders/logo-wordmark.svg"
+          src="/planners/founders/logo-wordmark.svg"
           alt="LuxMotion by EasyTransfer"
           fill
         />
@@ -84,7 +84,7 @@ export function WeddingPlannerFounders() {
     <div className={cn("relative w-full max-w-[578px] mx-auto md:mx-0 aspect-[578/562]", revealFromLeft())}>
       <div className="group absolute top-[14%] left-0 right-0 bottom-0 overflow-hidden">
         <Image
-          src="/wedding-planner/founders/team.webp"
+          src="/planners/founders/team.webp"
           alt={t("photoAlt")}
           fill
           sizes="(min-width: 768px) 578px, 400px"

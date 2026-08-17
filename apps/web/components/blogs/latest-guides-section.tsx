@@ -92,7 +92,7 @@ function GuideCard({ guide }: GuideCardProps) {
   const t = useTranslations("latestGuides")
   const router = useRouter()
 
-  const imageUrl = guide.heroImageUrl || guide.image || "/mockup-blogs/latest/1.webp"
+  const imageUrl = guide.heroImageUrl || guide.image || "/mockups/blogs/latest/1.webp"
   const location = guide.category || guide.location || "Portugal"
   const date = guide.publishedAt ? formatDate(guide.publishedAt) : guide.date || ""
   const description = guide.excerpt || guide.description || ""

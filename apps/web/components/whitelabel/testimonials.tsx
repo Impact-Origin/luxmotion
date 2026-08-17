@@ -163,7 +163,7 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
         </p>
         <div className="flex items-center gap-1.5 mt-1">
           <LogoPill
-            src="/svgs/google-icon.svg"
+            src="/shared/icons/google-icon.svg"
             alt="Google"
             width={12}
             height={12}
@@ -171,7 +171,7 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
             href={GOOGLE_REVIEWS_URL}
           />
           <LogoPill
-            src="/svgs/trustpilot-logo.svg"
+            src="/shared/icons/trustpilot-logo.svg"
             alt="Trustpilot"
             width={56}
             height={12}

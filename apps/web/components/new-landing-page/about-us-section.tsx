@@ -16,7 +16,7 @@ export function AboutUsSection() {
             <div className="absolute left-1/2 -translate-x-1/2 top-[20px] lg:top-[52px] z-10 flex items-center gap-[8px] lg:gap-[10px]">
               <div className="relative size-[44px] lg:size-[60.73px] border-[2px] lg:border-[2.556px] border-[var(--lm-accent,#C9A96E)] flex items-center justify-center shrink-0">
                 <Image
-                  src="/svgs/lm-monogram.svg"
+                  src="/shared/icons/lm-monogram.svg"
                   alt=""
                   width={30}
                   height={17}
@@ -26,7 +26,7 @@ export function AboutUsSection() {
               <div className="flex flex-col gap-[3px] lg:gap-[4px]">
                 {/* Wordmark branco: lm-logo-mono passa-o a preto no tema claro. */}
                 <Image
-                  src="/svgs/luxmotion-text.svg"
+                  src="/shared/icons/luxmotion-text.svg"
                   alt="LuxMotion"
                   width={110}
                   height={13}

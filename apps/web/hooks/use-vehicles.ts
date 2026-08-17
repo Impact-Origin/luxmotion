@@ -125,7 +125,7 @@ export function useVehicles({
           nightTaxReturn,
           pricePerKm: pricePerKmValue,
           hasDistance,
-          image: v.imageUrl || "/images/image-54.png",
+          image: v.imageUrl || "/shared/image-54.png",
           passengers: v.passengers,
           luggage: v.luggage,
           isElectric: v.isElectric,

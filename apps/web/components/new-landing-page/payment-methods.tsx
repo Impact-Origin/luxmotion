@@ -22,7 +22,7 @@ export function PaymentMethods() {
           <div className="hidden lg:flex items-start justify-center w-full gap-10 xl:gap-16">
             <div className="relative w-[500px] h-[440px] xl:w-[600px] xl:h-[530px] shrink-0">
               <Image
-                src="/payment_thumbnail.webp"
+                src="/shared/payments/payment-thumbnail.webp"
                 alt="Secure payment methods"
                 fill
                 className="object-contain"
@@ -35,11 +35,11 @@ export function PaymentMethods() {
               </p>
 
               <div className="grid grid-cols-3 gap-[6px] xl:gap-[24px] w-full max-w-[320px]">
-                <Image src="/images/visa.png" alt="Visa" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/mastercard-logo.png" alt="Mastercard" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/multibanco-logo.png" alt="Multibanco" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/mbway-logo.png" alt="MB WAY" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/paypal-logo.png" alt="PayPal" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/visa.png" alt="Visa" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/mastercard-logo.png" alt="Mastercard" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/multibanco-logo.png" alt="Multibanco" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/mbway-logo.png" alt="MB WAY" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/paypal-logo.png" alt="PayPal" width={100} height={60} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@ export function PaymentMethods() {
           <div className="flex lg:hidden flex-col gap-6 md:gap-8 items-center w-full">
             <div className="relative w-[360px] h-[320px]">
               <Image
-                src="/payment_thumbnail.webp"
+                src="/shared/payments/payment-thumbnail.webp"
                 alt="Secure payment methods"
                 fill
                 className="object-contain"
@@ -60,11 +60,11 @@ export function PaymentMethods() {
               </p>
 
               <div className="grid grid-cols-3 gap-[6px] w-full max-w-[240px]">
-                <Image src="/images/visa.png" alt="Visa" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/mastercard-logo.png" alt="Mastercard" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/multibanco-logo.png" alt="Multibanco" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/mbway-logo.png" alt="MB WAY" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
-                <Image src="/paypal-logo.png" alt="PayPal" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/visa.png" alt="Visa" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/mastercard-logo.png" alt="Mastercard" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/multibanco-logo.png" alt="Multibanco" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/mbway-logo.png" alt="MB WAY" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
+                <Image src="/shared/payments/paypal-logo.png" alt="PayPal" width={70} height={42} className="object-contain w-full h-auto [.home-theme:not(.dark)_&]:brightness-0" />
               </div>
             </div>
           </div>

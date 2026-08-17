@@ -116,7 +116,7 @@ export function GuidesSection() {
       slug: blog.slug,
       date: formatBlogDate(blog.publishedAt || blog.createdAt, locale),
       title: blog.title,
-      image: blog.heroImageUrl || "/mockup-guides/1.jpg",
+      image: blog.heroImageUrl || "/mockups/guides/1.jpg",
     }))
   }, [blogs, locale])
 

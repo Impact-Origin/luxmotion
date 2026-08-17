@@ -217,7 +217,7 @@ export function TrustTestimonials2() {
             <div className="flex flex-col gap-2 mt-5 mb-4">
               <PlatformBadge href="https://maps.app.goo.gl/tkYzTBBAHKnf7N467">
                 <Image
-                  src="/google-logo.png"
+                  src="/shared/logos/google-logo.png"
                   alt="Google"
                   width={80}
                   height={27}
@@ -226,7 +226,7 @@ export function TrustTestimonials2() {
               </PlatformBadge>
               <PlatformBadge href="https://www.trustpilot.com/review/easytransferericeira.com">
                 <Image
-                  src="/trustpilot-logo.png"
+                  src="/shared/logos/trustpilot-logo.png"
                   alt="Trustpilot"
                   width={88}
                   height={24}

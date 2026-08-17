@@ -50,7 +50,7 @@ export async function generateMetadata({
     title: `${destinationName} Tours`,
     description: `Explore curated tours and experiences in ${destinationName}.`,
     path: `/tours/${destination}`,
-    image: "/tours_destination_hero.webp",
+    image: "/tours/tours-destination-hero.webp",
     keywords: [destinationName, "Portugal tours", "private experiences"],
   });
 }
@@ -80,7 +80,7 @@ export default async function DestinationPage({
             name: `${destinationName} Tours`,
             description: `Tailored tours and local experiences in ${destinationName}.`,
             path: `/tours/${destination}`,
-            image: "/tours_destination_hero.webp",
+            image: "/tours/tours-destination-hero.webp",
           })}
         />
         <HomeHeader />

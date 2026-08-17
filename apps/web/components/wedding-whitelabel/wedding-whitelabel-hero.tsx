@@ -11,9 +11,9 @@ const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as c
 const PARTNER_NAME_PLACEHOLDER = "{{PARTNER_NAME}}"
 
 const REVIEW_AVATARS = [
-  { src: "/wedding/avatar-1.png", alt: "Reviewer 1" },
-  { src: "/wedding/avatar-2.png", alt: "Reviewer 2" },
-  { src: "/wedding/avatar-3.png", alt: "Reviewer 3" },
+  { src: "/schools/avatar-1.png", alt: "Reviewer 1" },
+  { src: "/schools/avatar-2.png", alt: "Reviewer 2" },
+  { src: "/schools/avatar-3.png", alt: "Reviewer 3" },
 ] as const
 
 function HeroPill({ label }: { label: string }) {
@@ -91,7 +91,7 @@ function TrustStrip({
           <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
              className="shrink-0 transition-opacity hover:opacity-70">
             <Image
-            src="/wedding/trustpilot.svg"
+            src="/schools/trustpilot.svg"
             alt="Trustpilot"
             width={68}
             height={19}
@@ -229,13 +229,13 @@ function LuxMotionAttribution() {
     <div className="flex items-center gap-[10px] shrink-0">
       <div className="relative w-[40px] h-[40px] border-[1.9px] border-[#C9A96E] flex items-center justify-center shrink-0">
         <div className="relative w-[20px] h-[11px]">
-          <Image src="/svgs/lm-monogram.svg" alt="" fill className="object-contain" />
+          <Image src="/shared/icons/lm-monogram.svg" alt="" fill className="object-contain" />
         </div>
       </div>
       <div className="flex flex-col justify-center">
         <div className="relative w-[72px] h-[8px]">
           <Image
-            src="/svgs/luxmotion-text.svg"
+            src="/shared/icons/luxmotion-text.svg"
             alt="LuxMotion"
             fill
             className="object-contain object-left"
@@ -269,7 +269,7 @@ export function WeddingWhitelabelHero({
         <div className="relative h-[358px] w-full">
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src={heroImageUrl || "/wedding-whitelabel/couple.webp"}
+              src={heroImageUrl || "/wedding/couple.webp"}
               alt={t("photoAlt")}
               fill
               priority
@@ -280,7 +280,7 @@ export function WeddingWhitelabelHero({
           </div>
           <div className="absolute right-4 bottom-[6px] w-[178px] h-[62px]">
             <Image
-              src="/wedding-whitelabel/cars.webp"
+              src="/wedding/cars.webp"
               alt={t("carsAlt")}
               fill
               sizes="178px"
@@ -339,7 +339,7 @@ export function WeddingWhitelabelHero({
       <div className="hidden md:block relative h-[800px]">
         <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
-            src={heroImageUrl || "/wedding-whitelabel/couple.webp"}
+            src={heroImageUrl || "/wedding/couple.webp"}
             alt={t("photoAlt")}
             fill
             priority
@@ -352,7 +352,7 @@ export function WeddingWhitelabelHero({
 
         <div className="absolute right-0 bottom-[-2px] w-[403px] h-[139px] pointer-events-none">
           <Image
-            src="/wedding-whitelabel/cars.webp"
+            src="/wedding/cars.webp"
             alt={t("carsAlt")}
             fill
             sizes="403px"

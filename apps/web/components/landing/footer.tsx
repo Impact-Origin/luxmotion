@@ -88,7 +88,7 @@ export function Footer() {
           <div className="flex justify-between gap-10">
             <div className="flex flex-col gap-6 w-[260px]">
               <FooterLogo />
-              <Image src="/footer_badges_desktop.png" alt="Certifications and Badges" width={240} height={220} className="object-contain" />
+              <Image src="/footer/footer-badges-desktop.png" alt="Certifications and Badges" width={240} height={220} className="object-contain" />
             </div>
 
             <div data-theme-color="linkText" className="flex flex-col gap-4">
@@ -148,7 +148,7 @@ export function Footer() {
 
       <div className="lg:hidden flex flex-col items-center gap-4 px-4 pt-4 pb-6">
         <FooterLogo />
-        <Image src="/footer_badges_mobile.png" alt="Certifications and Badges" width={343} height={180} className="object-contain" />
+        <Image src="/footer/footer-badges-mobile.png" alt="Certifications and Badges" width={343} height={180} className="object-contain" />
 
         <div data-theme-color="linkText" className="w-full space-y-4">
           <div className="space-y-2">

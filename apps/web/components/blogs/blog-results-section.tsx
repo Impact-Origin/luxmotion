@@ -123,7 +123,7 @@ export function BlogResultsSection({ searchQuery: initialQuery }: BlogResultsSec
     return rawBlogs.map((blog) => ({
       id: blog._id,
       slug: blog.slug,
-      image: blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg",
+      image: blog.heroImageUrl || "/mockups/blogs/lisbon-city-center.jpg",
       location: blog.category || "Portugal",
       title: blog.title,
       date: blog.publishedAt

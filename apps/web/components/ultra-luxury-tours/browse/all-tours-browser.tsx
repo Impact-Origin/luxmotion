@@ -26,7 +26,7 @@ import {
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 const PER_PAGE = 12
 const NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000
-const FALLBACK_IMAGE = "/mockup_tour_picks/1.webp"
+const FALLBACK_IMAGE = "/mockups/picks/1.webp"
 const TOUR_TYPE_KEYS = ["half-day", "full-day", "multi-day", "river-cruise", "private-yacht", "helicopter"] as const
 
 function inBucket(value: number | undefined, buckets: readonly { value: string; min: number; max: number }[], selected: string[]) {

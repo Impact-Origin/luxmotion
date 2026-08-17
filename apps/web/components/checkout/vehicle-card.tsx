@@ -86,7 +86,7 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
 
       <div className="relative h-[92px] w-full overflow-hidden">
         <Image
-          src={vehicle.image || "/placeholder.svg"}
+          src={vehicle.image || "/shared/placeholder-experience.webp"}
           alt={vehicle.name}
           fill
           sizes="(max-width: 768px) 100vw, 400px"

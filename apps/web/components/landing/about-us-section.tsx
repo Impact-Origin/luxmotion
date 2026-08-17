@@ -90,7 +90,7 @@ export function AboutUsSection() {
 
             <div className="hidden min-[88rem]:block absolute right-[10px] lg:right-[20px] top-[0] bottom-[0] w-[45%] lg:w-[580px]">
               <div className="w-full h-full relative overflow-hidden rounded-r-[20px]">
-                <Image alt={t("imageAlt")} src="/aboutus_team.webp" fill className="object-cover object-center" />
+                <Image alt={t("imageAlt")} src="/about/aboutus-team.webp" fill className="object-cover object-center" />
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export function AboutUsSection() {
                 style={{ background: "radial-gradient(circle at center, color-mix(in srgb, var(--theme-about-us-gradient-end, #27C7FF) 30%, transparent), color-mix(in srgb, var(--theme-about-us-gradient-start, #0E4659) 20%, transparent), transparent)" }}
               />
               <div className="relative mx-auto w-[260px] h-[260px] sm:w-[160px] sm:h-[160px]">
-                <Image alt={t("imageAlt")} src="/aboutus_team.webp" fill className="object-cover object-center rounded-lg" />
+                <Image alt={t("imageAlt")} src="/about/aboutus-team.webp" fill className="object-cover object-center rounded-lg" />
               </div>
             </div>
 

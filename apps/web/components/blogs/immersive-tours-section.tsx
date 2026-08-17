@@ -20,12 +20,12 @@ type Destination = {
 }
 
 const DESTINATIONS: Destination[] = [
-  { id: "lisboa", image: "/regions_lisboa.webp", href: "/tours/lisboa", matchKeys: ["lisboa", "lisbon", "lisbon area"] },
-  { id: "porto", image: "/regions_porto.webp", href: "/tours/porto", matchKeys: ["porto", "oporto"] },
-  { id: "algarve", image: "/regions_algarve.webp", href: "/tours/algarve", matchKeys: ["algarve"] },
-  { id: "alentejo", image: "/regions_alentejo.webp", href: "/tours/alentejo", matchKeys: ["alentejo"] },
-  { id: "acores", image: "/regions_acores.webp", href: "/tours/acores", matchKeys: ["acores", "açores", "azores"] },
-  { id: "madeira", image: "/regions_madeira.webp", href: "/tours/madeira", matchKeys: ["madeira"] },
+  { id: "lisboa", image: "/tours/regions/regions-lisboa.webp", href: "/tours/lisboa", matchKeys: ["lisboa", "lisbon", "lisbon area"] },
+  { id: "porto", image: "/tours/regions/regions-porto.webp", href: "/tours/porto", matchKeys: ["porto", "oporto"] },
+  { id: "algarve", image: "/tours/regions/regions-algarve.webp", href: "/tours/algarve", matchKeys: ["algarve"] },
+  { id: "alentejo", image: "/tours/regions/regions-alentejo.webp", href: "/tours/alentejo", matchKeys: ["alentejo"] },
+  { id: "acores", image: "/tours/regions/regions-acores.webp", href: "/tours/acores", matchKeys: ["acores", "açores", "azores"] },
+  { id: "madeira", image: "/tours/regions/regions-madeira.webp", href: "/tours/madeira", matchKeys: ["madeira"] },
 ]
 
 const FEATURES: { id: string; icon: LucideIcon }[] = [

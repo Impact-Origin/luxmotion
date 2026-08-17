@@ -230,7 +230,7 @@ function ReviewCard({ review }: { review: Review }) {
           <p className="text-[12px] text-[var(--lm-muted,#8c8680)] leading-none mt-1">{review.date}</p>
         </div>
         <Image
-          src="/svgs/google-icon.svg"
+          src="/shared/icons/google-icon.svg"
           alt="Google"
           width={16}
           height={16}
@@ -435,10 +435,10 @@ export function Testimonials({
 
           <div className="flex items-center justify-center gap-6">
             <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google" className="transition-opacity hover:opacity-70">
-              <Image src="/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
+              <Image src="/shared/logos/google-logo.png" alt="Google" width={150} height={51} className="h-[36px] md:h-[51px] w-auto" />
             </a>
             <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot" className="transition-opacity hover:opacity-70">
-              <Image src="/trustpilot-logo-green.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
+              <Image src="/shared/logos/trustpilot-logo-green.svg" alt="Trustpilot" width={188} height={51} className="h-[36px] md:h-[51px] w-auto" unoptimized />
             </a>
           </div>
 

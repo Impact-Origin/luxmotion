@@ -22,7 +22,7 @@ function toExperience(tour: NearbyTour): Experience {
     id: tour._id,
     title: tour.title,
     description: typeof tour.description === "string" ? tour.description : tour.subtitle ?? "",
-    image: tour.bannerImageUrl ?? "/images/placeholder-experience.webp",
+    image: tour.bannerImageUrl ?? "/shared/placeholder-experience.webp",
     basePrice: tour.basePrice,
     extras: (tour.addons ?? []).map((addon) => ({
       id: addon._id,
@@ -94,7 +94,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
       title={item.title}
       price={item.basePrice}
       duration={item.duration}
-      image={item.bannerImageUrl ?? "/images/placeholder-experience.webp"}
+      image={item.bannerImageUrl ?? "/shared/placeholder-experience.webp"}
       distanceKm={item.distanceKm}
       tag={item.tag}
       tagLabel={item.tag && item.tag !== "none" ? t(`tags.${item.tag}`) : undefined}

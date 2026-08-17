@@ -119,7 +119,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
             <span className="relative h-[11px] w-[20px]">
-              <Image src="/svgs/lm-monogram.svg" alt="LuxMotion" fill className="object-contain" priority />
+              <Image src="/shared/icons/lm-monogram.svg" alt="LuxMotion" fill className="object-contain" priority />
             </span>
           </span>
           {!collapsed && (

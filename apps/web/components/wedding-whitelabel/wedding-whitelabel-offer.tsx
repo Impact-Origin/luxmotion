@@ -69,7 +69,7 @@ function MobileImageBracketed({ alt }: { alt: string }) {
       />
       <div className="absolute inset-0 overflow-hidden">
         <Image
-          src="/wedding-whitelabel/offer-couple-chauffeur.webp"
+          src="/whitelabel/wedding/offer-couple-chauffeur.webp"
           alt={alt}
           fill
           sizes="369px"
@@ -194,7 +194,7 @@ export function WeddingWhitelabelOffer() {
             />
             <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
               <Image
-                src="/wedding-whitelabel/offer-couple-chauffeur.webp"
+                src="/whitelabel/wedding/offer-couple-chauffeur.webp"
                 alt={t("imageAlt")}
                 width={369}
                 height={310}

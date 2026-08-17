@@ -103,10 +103,10 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 12000,
     originalPrice: 15000,
     currency: "EUR",
-    bannerImageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+    bannerImageUrl: "/mockups/tours/frame-1171275668.webp",
     galleryImageUrls: [
-      "/mockup-tours-details/Frame 1171275668.webp",
-      "/mockup-tours-details/Frame 1171275668.webp",
+      "/mockups/tours/frame-1171275668.webp",
+      "/mockups/tours/frame-1171275668.webp",
     ],
     included: [
       "Private luxury vehicle & chauffeur",
@@ -151,7 +151,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "09:00",
         title: "Partida de Lisboa",
         description: "We'll pick you up from your hotel in Lisbon",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+        imageUrl: "/mockups/tours/frame-1171275668.webp",
         showImage: true,
       },
       {
@@ -161,7 +161,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "10:30",
         title: "Parque do Palácio da Pena",
         description: "Explore the stunning Pena Palace with its vibrant colors",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+        imageUrl: "/mockups/tours/frame-1171275668.webp",
         showImage: true,
       },
       {
@@ -171,7 +171,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "12:00",
         title: "Visita Guiada no Interior do Palácio da Pena",
         description: "Guided tour inside the palace",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+        imageUrl: "/mockups/tours/frame-1171275668.webp",
         showImage: true,
       },
       {
@@ -181,7 +181,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "14:00",
         title: "Exterior do Palácio da Pena",
         description: "Explore the exterior and gardens",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+        imageUrl: "/mockups/tours/frame-1171275668.webp",
         showImage: true,
       },
       {
@@ -191,7 +191,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "15:30",
         title: "Centro Histórico de Sintra",
         description: "Walk through the historic town center",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+        imageUrl: "/mockups/tours/frame-1171275668.webp",
         showImage: true,
       },
       {
@@ -201,7 +201,7 @@ export const MOCK_TOURS: MockTour[] = [
         time: "17:00",
         title: "Cabo da Roca",
         description: "Visit the westernmost point of continental Europe",
-        imageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+        imageUrl: "/mockups/tours/frame-1171275668.webp",
         showImage: true,
       },
     ],
@@ -249,7 +249,7 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 85,
     originalPrice: 100,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668.png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Professional guide",
@@ -311,7 +311,7 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 120,
     originalPrice: 150,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (1).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Wine tastings",
@@ -374,7 +374,7 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 95,
     originalPrice: 110,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (2).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Boat tour",
@@ -436,7 +436,7 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 350,
     originalPrice: 400,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (3).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Private vehicle",
@@ -499,7 +499,7 @@ export const MOCK_TOURS: MockTour[] = [
     basePrice: 75,
     originalPrice: 90,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (4).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Transport",

@@ -327,7 +327,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
               <div className="text-center py-4">
                 <div className="mb-4 flex justify-center">
                   <Image
-                    src="/mbway_checkout.png"
+                    src="/shared/payments/mbway-checkout.png"
                     alt="MBWay"
                     width={300}
                     height={200}
@@ -459,7 +459,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
                   <div className="flex items-start gap-3">
                     <div className="w-[54px] h-[54px] rounded-[3px] overflow-hidden flex-shrink-0 -mt-1 -ml-1">
                       <Image
-                        src="/images/extras.png"
+                        src="/shared/extras.png"
                         alt={t("comfortConnection")}
                         width={54}
                         height={54}
@@ -512,7 +512,7 @@ export function PaymentStep({ onContinue }: PaymentStepProps) {
                 <div className="flex items-start gap-3">
                   <div className="w-[60px] h-[60px] rounded overflow-hidden flex-shrink-0">
                     <Image
-                      src="/images/extras.png"
+                      src="/shared/extras.png"
                       alt={t("comfortConnection")}
                       width={60}
                       height={60}

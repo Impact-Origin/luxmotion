@@ -221,8 +221,8 @@ export const VAN_VEHICLES: FleetVehicle[] = [
   vanBase("mercedes-vito", "Mercedes Vito", "/fleet/vehicles/mercedes-vito.png", ["available"]),
   vanBase("peugeot-traveller", "Peugeot Traveller", "/fleet/vehicles/peugeot-traveller.webp", ["eco", "electric"]),
   vanBase("toyota-hiace", "Toyota HiAce", "/fleet/vehicles/toyota-hiace.webp", ["available"]),
-  vanBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/Mercedes V Class.webp", ["available"], { paxMax: 7, bags: 7 }),
-  vanBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/van/Van executiva.webp", ["eco", "electric"], { paxMax: 7, bags: 7 }),
+  vanBase("mercedes-v-class", "Mercedes V-Class", "/fleet/van/mercedes-v-class.webp", ["available"], { paxMax: 7, bags: 7 }),
+  vanBase("mercedes-eqv-2025", "Mercedes EQV 2025", "/fleet/executive/van-executiva.webp", ["eco", "electric"], { paxMax: 7, bags: 7 }),
   {
     id: "mercedes-maybach-v-class-2025",
     name: "Van Mercedes Maybach Class V 2025",
@@ -257,7 +257,7 @@ const classic = (
   hasWifi: false,
 })
 
-const p = (...names: string[]) => names.map((n) => `/fleet/v/${n}.webp`)
+const p = (...names: string[]) => names.map((n) => `/fleet/gallery/${n}.webp`)
 
 export const CLASSIC_VEHICLES: FleetVehicle[] = [
   classic("porsche-356-speedster", "Porsche 356 Speedster", p("porsche-356-1"), 2, 1),

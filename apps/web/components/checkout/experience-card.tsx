@@ -72,7 +72,7 @@ export function ExperienceCard({
           altura, mas isso afastava-a do desenho aprovado. */}
       <div className="relative aspect-[16/10] w-full shrink-0">
         <Image
-          src={image || "/placeholder.svg"}
+          src={image || "/shared/placeholder-experience.webp"}
           alt={title}
           fill
           sizes="(max-width: 640px) 80vw, 320px"

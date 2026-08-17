@@ -17,7 +17,7 @@ export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
       {vehicle.isElectric && (
         <div className="absolute right-8 top-[35%] -translate-y-1/2 z-0 w-28 h-28 md:w-24 md:h-24 opacity-80">
           <Image
-            src="/fleet/energia_eletrica_1.webp"
+            src="/fleet/energia-eletrica-1.webp"
             alt=""
             width={112}
             height={112}

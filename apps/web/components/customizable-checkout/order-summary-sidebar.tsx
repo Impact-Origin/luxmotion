@@ -321,7 +321,7 @@ export function OrderSummarySidebar() {
             <div className="flex items-start gap-4 mb-3">
               <div className="w-[180px] flex-shrink-0">
                 <Image
-                  src={selectedVehicle.image || "/images/image-54.png"}
+                  src={selectedVehicle.image || "/shared/image-54.png"}
                   alt={selectedVehicle.name}
                   width={180}
                   height={110}

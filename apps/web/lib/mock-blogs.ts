@@ -30,7 +30,7 @@ export const MOCK_FEATURED_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Lisbon's Humberto Delgado Airport is the main international gateway to Portugal. Located just 7km from the city center, there are several convenient transfer options available." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    heroImageUrl: "/mockups/blogs/lisbon-city-center.jpg",
     category: "Lisbon",
     author: "EasyTransfer Team",
     originalLanguage: "en",
@@ -54,7 +54,7 @@ export const MOCK_FEATURED_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "The Douro Valley is one of the world's most beautiful wine regions, offering spectacular views and world-class Port wine." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    heroImageUrl: "/mockups/blogs/lisbon-city-center.jpg",
     category: "Porto",
     author: "EasyTransfer Team",
     originalLanguage: "en",
@@ -78,7 +78,7 @@ export const MOCK_FEATURED_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Sintra is a fairytale town nestled in the hills west of Lisbon, known for its romantic architecture and lush gardens." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    heroImageUrl: "/mockups/blogs/lisbon-city-center.jpg",
     category: "Sintra",
     author: "EasyTransfer Team",
     originalLanguage: "pt",
@@ -105,7 +105,7 @@ export const MOCK_LATEST_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Fall in Europe is magical, with festivals celebrating harvest, culture, and local traditions." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/latest/1.webp",
+    heroImageUrl: "/mockups/blogs/latest/1.webp",
     category: "Lisbon",
     author: "EasyTransfer Team",
     originalLanguage: "en",
@@ -128,7 +128,7 @@ export const MOCK_LATEST_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Planning a European cruise can be overwhelming, but with these tips you'll have the trip of a lifetime." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/latest/2.webp",
+    heroImageUrl: "/mockups/blogs/latest/2.webp",
     category: "Porto",
     author: "EasyTransfer Team",
     originalLanguage: "en",
@@ -151,7 +151,7 @@ export const MOCK_LATEST_BLOGS: MockBlog[] = [
         { type: "paragraph", content: [{ type: "text", text: "Stay ahead of the curve by attending these must-see travel industry trade shows in 2026." }] },
       ]
     },
-    heroImageUrl: "/mockup-blogs/latest/3.webp",
+    heroImageUrl: "/mockups/blogs/latest/3.webp",
     category: "Sintra",
     author: "EasyTransfer Team",
     originalLanguage: "en",

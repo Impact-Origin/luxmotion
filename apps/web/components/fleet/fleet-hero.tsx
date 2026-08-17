@@ -52,7 +52,7 @@ export function FleetHero() {
     <section className="relative w-full h-[459px] md:h-[520px] lg:h-[600px] xl:h-[690px] overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/hero_fleet.jpeg')" }}
+        style={{ backgroundImage: "url('/fleet/hero-fleet.jpeg')" }}
       />
 
       <div className="absolute inset-0 bg-black/30" />

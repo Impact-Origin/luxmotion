@@ -57,7 +57,7 @@ export function B2BSection() {
         <div className="flex-1 relative">
           <div className="relative w-full aspect-[4/3] overflow-hidden rounded-[2px]">
             <Image
-              src="/b2b/hotel-arrival.webp"
+              src="/hotels/b2b/hotel-arrival.webp"
               alt={t("photoAlt")}
               fill
               className="object-cover"

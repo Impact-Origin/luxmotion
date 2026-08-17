@@ -19,7 +19,7 @@ const FALLBACK_BLOGS: BlogData[] = [
     title: "Airport to Lisbon City Centre: The Complete Transfer Guide 2026",
     excerpt: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget — and why private transfer wins every time.",
     content: null,
-    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    heroImageUrl: "/mockups/blogs/lisbon-city-center.jpg",
     category: "transfer guide",
     author: "Carolina Pinheiro",
     originalLanguage: "en",
@@ -36,7 +36,7 @@ const FALLBACK_BLOGS: BlogData[] = [
     title: "Airport to Lisbon City Centre: The Complete Transfer Guide 2026",
     excerpt: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget.",
     content: null,
-    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    heroImageUrl: "/mockups/blogs/lisbon-city-center.jpg",
     category: "day tours",
     author: "Carolina Pinheiro",
     originalLanguage: "en",
@@ -53,7 +53,7 @@ const FALLBACK_BLOGS: BlogData[] = [
     title: "Airport to Lisbon City Centre: The Complete Transfer Guide 2026",
     excerpt: "Everything you need to know about getting from Lisbon Airport to your hotel, with options for every budget.",
     content: null,
-    heroImageUrl: "/mockup-blogs/lisbon-city-center.jpg",
+    heroImageUrl: "/mockups/blogs/lisbon-city-center.jpg",
     category: "wine & food",
     author: "Carolina Pinheiro",
     originalLanguage: "en",
@@ -120,7 +120,7 @@ function AuthorBadge({ author }: { author: string }) {
 }
 
 function HeroBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleLabel: string }) {
-  const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
+  const imageUrl = blog.heroImageUrl || "/mockups/blogs/lisbon-city-center.jpg"
 
   return (
     <Link href={`/blogs/${blog.slug}`} className="flex-1 relative flex flex-col justify-end overflow-clip group min-h-[300px] md:min-h-0">
@@ -166,7 +166,7 @@ function HeroBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleL
 }
 
 function SideBlogCard({ blog }: { blog: BlogData }) {
-  const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
+  const imageUrl = blog.heroImageUrl || "/mockups/blogs/lisbon-city-center.jpg"
 
   return (
     <Link href={`/blogs/${blog.slug}`} className="bg-[var(--lm-surface,#1e1e1e)] flex-1 flex flex-col overflow-clip group border-[0.5px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.55)] transition-colors duration-200">
@@ -195,7 +195,7 @@ function SideBlogCard({ blog }: { blog: BlogData }) {
 }
 
 function GridBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleLabel: string }) {
-  const imageUrl = blog.heroImageUrl || "/mockup-blogs/lisbon-city-center.jpg"
+  const imageUrl = blog.heroImageUrl || "/mockups/blogs/lisbon-city-center.jpg"
 
   return (
     <Link href={`/blogs/${blog.slug}`} className="bg-[var(--lm-surface,#1e1e1e)] flex flex-col md:h-[420px] overflow-clip group border-[0.5px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.08)] hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.55)] transition-colors duration-200">

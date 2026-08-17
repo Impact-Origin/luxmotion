@@ -62,7 +62,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     privatePrice: 65,
     sharedPrice: 15,
     currency: "EUR",
-    bannerImageUrl: "/mockup-tours-details/Frame 1171275668.webp",
+    bannerImageUrl: "/mockups/tours/frame-1171275668.webp",
     galleryImageUrls: [],
     included: [
       "Fado show",
@@ -112,7 +112,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     privatePrice: 180,
     sharedPrice: 45,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (1).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "All activities",
@@ -161,7 +161,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     privatePrice: 45,
     sharedPrice: 15,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (3).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Entry ticket",
@@ -209,7 +209,7 @@ export const MOCK_EVENTS: MockEvent[] = [
     privatePrice: 35,
     sharedPrice: 15,
     currency: "EUR",
-    bannerImageUrl: "/mockup_tour_picks/Frame 1171275668 (2).png",
+    bannerImageUrl: "/mockups/picks/1.webp",
     galleryImageUrls: [],
     included: [
       "Entry to festival",

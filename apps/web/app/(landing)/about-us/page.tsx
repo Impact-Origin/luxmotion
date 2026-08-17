@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("hero.line1"),
     description: t("description"),
     path: "/about-us",
-    image: "/thumbnail_hero_about_us_v1.webp",
+    image: "/about/thumbnail-hero-about-us-v1.webp",
     keywords: ["about easy transfer", "private transport portugal", "chauffeur team"],
   })
 }
@@ -46,7 +46,7 @@ export default function AboutUsPage() {
             name: "About Easy Transfer",
             description: "Meet the drivers, team, and values behind Easy Transfer.",
             path: "/about-us",
-            image: "/thumbnail_hero_about_us_v1.webp",
+            image: "/about/thumbnail-hero-about-us-v1.webp",
           })
         }
       />

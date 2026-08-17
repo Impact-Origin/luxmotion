@@ -62,7 +62,7 @@ export function CinematicBanner() {
     >
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1535px] h-[960px] pointer-events-none select-none">
         <Image
-          src="/cinematic/lines-grid.svg"
+          src="/home/cinematic/lines-grid.svg"
           alt=""
           fill
           className="object-cover"

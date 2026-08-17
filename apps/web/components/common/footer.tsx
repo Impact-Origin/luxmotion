@@ -18,7 +18,7 @@ export function Footer({ variant = "default" }: { variant?: "default" | "checkou
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-36 xl:gap-60 items-start mb-4">
               <div className="flex-shrink-0">
                 <Image
-                  src="/footer-badges.png"
+                  src="/footer/footer-badges.png"
                   alt="Certifications and Badges"
                   width={360}
                   height={120}

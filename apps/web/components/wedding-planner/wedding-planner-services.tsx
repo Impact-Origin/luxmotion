@@ -11,11 +11,11 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const CARDS = [
-  { id: "noivos", src: "/wedding-planner/services/noivos.webp" },
-  { id: "convidados", src: "/wedding-planner/services/convidados.webp" },
-  { id: "aeroporto", src: "/wedding-planner/services/aeroporto.webp" },
-  { id: "tours", src: "/wedding-planner/services/tours.webp" },
-  { id: "autocarro", src: "/wedding-planner/services/autocarro.webp" },
+  { id: "noivos", src: "/planners/services/noivos.webp" },
+  { id: "convidados", src: "/planners/services/convidados.webp" },
+  { id: "aeroporto", src: "/planners/services/aeroporto.webp" },
+  { id: "tours", src: "/planners/services/tours.webp" },
+  { id: "autocarro", src: "/planners/services/autocarro.webp" },
 ] as const
 
 function ServiceCard({

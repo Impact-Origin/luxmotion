@@ -60,7 +60,7 @@ export function FleetVehicles() {
 
               <div className={`relative w-full h-[180px] md:h-[200px] bg-gradient-to-b from-[#f8fbff] to-[#eef5fa] flex items-center justify-center ${vehicle.isElectric ? "pt-8" : "pt-4"} px-6`}>
                 <Image
-                  src={vehicle.imageUrl || "/images/image-54.png"}
+                  src={vehicle.imageUrl || "/shared/image-54.png"}
                   alt={vehicle.name}
                   width={320}
                   height={180}

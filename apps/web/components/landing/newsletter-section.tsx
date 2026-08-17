@@ -90,14 +90,14 @@ export function NewsletterSection() {
             </div>
 
             <div className="absolute right-[-20px] xl:right-[-6px] bottom-[-60px] xl:bottom-[-70px] w-[500px] xl:w-[600px] h-[400px] xl:h-[480px] hidden xl:block">
-              <Image src="/newsletter_image.webp" alt="Newsletter" fill className="object-contain object-top-right" />
+              <Image src="/home/newsletter-image.webp" alt="Newsletter" fill className="object-contain object-top-right" />
             </div>
           </div>
         </div>
 
         <div className="lg:hidden relative overflow-visible -mt-[40px]">
           <div className="relative w-full h-[425px] mb-[-250px] z-20">
-            <Image src="/newsletter_image.webp" alt="Newsletter" fill className="object-cover rounded-t-[16px]" />
+            <Image src="/home/newsletter-image.webp" alt="Newsletter" fill className="object-cover rounded-t-[16px]" />
           </div>
 
           <div

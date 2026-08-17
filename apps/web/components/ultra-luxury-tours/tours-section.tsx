@@ -12,7 +12,7 @@ import { RegionTabStrip, type RegionTab } from "./region-tab-strip"
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 const PAGE_SIZE = 6
 const NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000
-const FALLBACK_IMAGE = "/mockup_tour_picks/1.webp"
+const FALLBACK_IMAGE = "/mockups/picks/1.webp"
 
 const TAB_KEYWORDS: Record<RegionTab, string[]> = {
   regions: [],

@@ -13,10 +13,10 @@ import { getDailyNumber } from "@/lib/daily-number";
 import { useMarketingStats } from "@/hooks/use-marketing-stats";
 
 const carouselImages = [
-  { src: "/hero-carousel/transfers.webp", alt: "Transfer service" },
-  { src: "/hero-carousel/wedding.webp", alt: "Wedding service" },
-  { src: "/hero-carousel/corporative.webp", alt: "Corporate service" },
-  { src: "/hero-carousel/school.webp", alt: "School service" },
+  { src: "/hero/carousel/transfers.webp", alt: "Transfer service" },
+  { src: "/hero/carousel/wedding.webp", alt: "Wedding service" },
+  { src: "/hero/carousel/corporative.webp", alt: "Corporate service" },
+  { src: "/hero/carousel/school.webp", alt: "School service" },
 ];
 
 interface HeroProps {

@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: tBlogs("title"),
     description: "Travel guides, local insights, and curated inspiration for Portugal journeys.",
     path: "/blogs",
-    image: "/mockup-blogs/lisbon-city-center.jpg",
+    image: "/mockups/blogs/lisbon-city-center.jpg",
     keywords: ["Portugal travel blog", "Lisbon guide", "Portugal itinerary", "travel tips"],
   })
 }

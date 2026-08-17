@@ -9,7 +9,7 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 
 const METHODS = [
   { src: "/schools/payments/visa.svg", alt: "VISA", w: 36.727, h: 11.875 },
-  { src: "/schools/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
+  { src: "/shared/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
   { src: "/schools/payments/mbway.svg", alt: "MB Way", w: 41.956, h: 20.383 },
   { src: "/schools/payments/multibanco.svg", alt: "Multibanco", w: 56.789, h: 20.408 },
   { src: "/schools/payments/paypal.svg", alt: "PayPal", w: 67.492, h: 16.351 },

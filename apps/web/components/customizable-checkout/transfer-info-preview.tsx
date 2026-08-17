@@ -340,7 +340,7 @@ export function TransferInfoPreview() {
               style={{ color: "var(--theme-checkout-form-label-text, #222222)" }}
             >
               <Image
-                src="/svgs/baby-car-seat.svg"
+                src="/shared/icons/baby-car-seat.svg"
                 alt="Baby car seat"
                 width={24}
                 height={24}
@@ -355,19 +355,19 @@ export function TransferInfoPreview() {
               {
                 title: t("babySeat"),
                 ageRange: t("babySeatAge"),
-                image: "/images/c589411c-9d31-4b5a-82af.jpeg",
+                image: "/shared/c589411c-9d31-4b5a-82af.jpeg",
                 isSelected: true
               },
               {
                 title: t("childSeatLabel"),
                 ageRange: t("childSeatAge"),
-                image: "/images/cadeira-crianca.jpeg",
+                image: "/shared/cadeira-crianca.jpeg",
                 isSelected: false
               },
               {
                 title: t("boosterSeat"),
                 ageRange: t("boosterSeatAge"),
-                image: "/images/banco-elevatorio.jpeg",
+                image: "/shared/banco-elevatorio.jpeg",
                 isSelected: false
               },
             ].map((seat) => (
@@ -460,7 +460,7 @@ export function TransferInfoPreview() {
               className="text-[15px] font-semibold flex items-center gap-2"
               style={{ color: "var(--theme-checkout-form-label-text, #222222)" }}
             >
-              <Image src="/svgs/surf.svg" alt="Surfboard" width={24} height={24} className="w-5 h-5" />
+              <Image src="/shared/icons/surf.svg" alt="Surfboard" width={24} height={24} className="w-5 h-5" />
               {t("surfboard")}
             </label>
           </div>
@@ -517,7 +517,7 @@ export function TransferInfoPreview() {
               className="text-[15px] font-semibold flex items-center gap-2"
               style={{ color: "var(--theme-checkout-form-label-text, #222222)" }}
             >
-              <Image src="/svgs/paw.svg" alt="Pet" width={24} height={24} className="w-5 h-5" />
+              <Image src="/shared/icons/paw.svg" alt="Pet" width={24} height={24} className="w-5 h-5" />
               {t("pet")}
             </label>
           </div>

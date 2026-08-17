@@ -36,7 +36,7 @@ const EXTENSOES_ASSET = /\.(webp|png|jpe?g|svg|mp4|mov|gif|ico|avif|woff2?)$/i;
  * onde `p()` cola o prefixo e a extensão dentro da função. Se aparecerem mais,
  * acrescentam-se aqui, senão o `--orfaos` manda apagar coisas em uso.
  */
-const PREFIXOS_DINAMICOS = ["/fleet/v/"];
+const PREFIXOS_DINAMICOS = ["/fleet/gallery/"];
 
 /** Pedidos pelo browser ou por links já partilhados; nunca são órfãos. */
 const INTOCAVEIS = ["/favicon.png", "/og-luxmotion.jpg", "/robots.txt", "/sitemap.xml"];

@@ -317,7 +317,7 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
             <div className="flex flex-col min-w-0 flex-1">
               <div className="relative h-[84px] w-[132px]">
                 <Image
-                  src={selectedVehicle.image || "/placeholder.svg"}
+                  src={selectedVehicle.image || "/shared/placeholder-experience.webp"}
                   alt={selectedVehicle.name}
                   fill
                   sizes="132px"
@@ -723,7 +723,7 @@ function TripLegIconsRow({ icons }: { icons: TripLegIcons }) {
       kind: "svg",
       render: () => (
         <Image
-          src="/checkout/icons/surfboard_checkout.png"
+          src="/checkout/icons/surfboard-checkout.png"
           alt=""
           width={24}
           height={24}

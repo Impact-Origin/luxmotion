@@ -40,7 +40,7 @@ export function ExperienceCard({
       }}
     >
       <div className="relative h-56">
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image src={image || "/shared/placeholder-experience.webp"} alt={title} fill className="object-cover" />
         {distanceKm !== undefined && (
           <div
             data-theme-color="checkoutFormCheckboxBg"

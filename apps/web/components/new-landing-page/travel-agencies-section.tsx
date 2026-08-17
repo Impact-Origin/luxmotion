@@ -17,7 +17,7 @@ export function TravelAgenciesSection() {
         <div className="flex-1 relative order-2 md:order-1">
           <div className="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden">
             <Image
-              src="/b2b/travel-agencies.webp"
+              src="/hotels/b2b/travel-agencies.webp"
               alt={t("photoAlt")}
               fill
               className="object-cover"

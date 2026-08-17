@@ -105,7 +105,7 @@ export function buildArticleSchema(input: ArticleSchemaInput) {
       name: seoDefaults.siteName,
       logo: {
         "@type": "ImageObject",
-        url: absoluteUrl("/favicon.ico"),
+        url: absoluteUrl("/favicon.png"),
       },
     },
     datePublished: input.publishedAt

@@ -15,9 +15,9 @@ const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
    de fora dele por desenho, clicar no Porto dava uma página a dizer que não há
    tours nenhuns. O `region` tem de bater certo com o `destination` do tour. */
 const DESTINATIONS = [
-  { id: "lisbon", image: "/ultra-luxury-tours/dest-lisbon-sintra.webp", region: "Lisboa", count: 8 },
-  { id: "porto", image: "/ultra-luxury-tours/dest-porto-douro.webp", region: "Porto", count: 8 },
-  { id: "alentejo", image: "/ultra-luxury-tours/dest-alentejo.webp", region: "Alentejo", count: 8 },
+  { id: "lisbon", image: "/ultra/dest-lisbon-sintra.webp", region: "Lisboa", count: 8 },
+  { id: "porto", image: "/ultra/dest-porto-douro.webp", region: "Porto", count: 8 },
+  { id: "alentejo", image: "/ultra/dest-alentejo.webp", region: "Alentejo", count: 8 },
 ]
 
 const DESKTOP_VISIBLE = 4

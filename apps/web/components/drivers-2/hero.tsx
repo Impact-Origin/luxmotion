@@ -237,7 +237,7 @@ export function DriversHero2() {
               parar debaixo dela. */}
           <div className="flex justify-center w-full lg:hidden">
             <Image
-              src="/drivers-2/hero-chauffeur.webp"
+              src="/drivers/hero-chauffeur.webp"
               alt={t("photoAlt")}
               width={1200}
               height={896}
@@ -254,7 +254,7 @@ export function DriversHero2() {
           do hero em vez de o tapar. */}
       <div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[46%] max-w-[900px] lg:block xl:w-[50%] 2xl:w-[52%]">
         <Image
-          src="/drivers-2/hero-chauffeur.webp"
+          src="/drivers/hero-chauffeur.webp"
           alt=""
           fill
           priority

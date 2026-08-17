@@ -73,7 +73,7 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false }: VehicleC
         <div className="flex-1 flex flex-col justify-between">
           <div className={`relative mb-2 h-[120px] bg-transparent rounded-lg flex items-start justify-start ${vehicle.isElectric ? "mt-5 md:mt-8" : "md:mt-5"}`}>
             <Image
-              src={vehicle.image || "/placeholder.svg"}
+              src={vehicle.image || "/shared/placeholder-experience.webp"}
               alt={vehicle.name}
               width={240}
               height={120}
@@ -202,7 +202,7 @@ className="flex items-baseline justify-end gap-1 text-2xl font-bold leading-none
         <div className="flex items-center justify-between pt-4">
           <div className="relative w-[150px] h-[95px] bg-transparent rounded-lg flex items-center justify-center shrink-0">
             <Image
-              src={vehicle.image || "/placeholder.svg"}
+              src={vehicle.image || "/shared/placeholder-experience.webp"}
               alt={vehicle.name}
               width={240}
               height={120}

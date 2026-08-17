@@ -49,7 +49,7 @@ export function BlogDetailHero({
   readTime,
   views,
 }: BlogDetailHeroProps) {
-  const bg = imageUrl || "/blogs_details_hero.webp"
+  const bg = imageUrl || "/blogs/blogs-details-hero.webp"
   const { head, accent } = splitTitle(title)
   const cleanAuthor = author?.replace(/^By\s+/i, "").trim()
 

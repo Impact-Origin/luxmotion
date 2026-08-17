@@ -44,7 +44,7 @@ const REVIEW_COUNT = 324
 // Retratos genéricos (os do desenho). Não usar as fotos dos clientes reais das
 // reviews aqui — e as /reviews/review-*.webp são fotos de local, que dentro de
 // um círculo mostravam céu e pedra em vez de caras.
-const SOCIAL_AVATARS = ["/reviewer-1.png", "/reviewer-2.png", "/reviewer-3.png"]
+const SOCIAL_AVATARS = ["/shared/avatars/reviewer-1.png", "/shared/avatars/reviewer-2.png", "/shared/avatars/reviewer-3.png"]
 
 /**
  * Barra de prova social, partilhada pela página principal e pela dos hotéis —
@@ -192,7 +192,7 @@ export function SocialProofBar({ escala = 0.8 }: { escala?: number }) {
   )
   const googleMark = (s: number) => (
     <Image
-      src="/svgs/google-icon.svg"
+      src="/shared/icons/google-icon.svg"
       alt=""
       width={26}
       height={26}

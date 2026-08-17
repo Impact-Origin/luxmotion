@@ -7,12 +7,12 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
 
 const VEHICLES = [
-  { src: "/wedding-planner/fleet-gallery/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-s-class.webp", name: "Mercedes S-Class" },
-  { src: "/wedding-planner/fleet-gallery/mini-classico.webp", name: "Mini Clássico" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-v-class.webp", name: "Mercedes V-Class" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-sprinter.webp", name: "Mercedes Sprinter" },
-  { src: "/wedding-planner/fleet-gallery/man-coach.webp", name: "MAN Coach" },
+  { src: "/planners/fleet/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
+  { src: "/planners/fleet/mercedes-s-class.webp", name: "Mercedes S-Class" },
+  { src: "/planners/fleet/mini-classico.webp", name: "Mini Clássico" },
+  { src: "/planners/fleet/mercedes-v-class.webp", name: "Mercedes V-Class" },
+  { src: "/planners/fleet/mercedes-sprinter.webp", name: "Mercedes Sprinter" },
+  { src: "/planners/fleet/man-coach.webp", name: "MAN Coach" },
 ] as const
 
 function NavArrow({

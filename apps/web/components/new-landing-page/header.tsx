@@ -43,7 +43,7 @@ function LuxMotionLogo({ className, variant = "dark" }: { className?: string; va
       <div className="relative w-[45px] h-[45px] md:w-[46px] md:h-[46px] border-[1.9px] border-[#C9A96E] flex items-center justify-center shrink-0">
         <div className="relative w-[23px] h-[13px]">
           <Image
-            src="/svgs/lm-monogram.svg"
+            src="/shared/icons/lm-monogram.svg"
             alt=""
             fill
             className="object-contain"
@@ -54,7 +54,7 @@ function LuxMotionLogo({ className, variant = "dark" }: { className?: string; va
       <div className="flex flex-col justify-center">
         <div className="relative w-[120px] h-[13px]">
           <Image
-            src="/svgs/luxmotion-text.svg"
+            src="/shared/icons/luxmotion-text.svg"
             alt="LuxMotion"
             fill
             className="object-contain object-left"

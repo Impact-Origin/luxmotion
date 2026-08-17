@@ -2270,8 +2270,8 @@ export function DynamicThemeProvider({
     /* Target the calendar arrow right image if possible */
     [data-theme-provider] .calendar-arrow-icon {
       background-color: var(--theme-hero-booking-icon) !important;
-      -webkit-mask-image: url("/svgs/calendar-arrow-right.svg");
-      mask-image: url("/svgs/calendar-arrow-right.svg");
+      -webkit-mask-image: url("/shared/icons/calendar-arrow-right.svg");
+      mask-image: url("/shared/icons/calendar-arrow-right.svg");
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       -webkit-mask-position: center;

@@ -10,12 +10,12 @@ import { ExclusiveBadge } from "@/components/landing/exclusive-badge"
 import { useSwipe } from "@/hooks/use-swipe"
 
 const tourData = [
-  { id: "lisboa", image: "/regions_lisboa.webp" },
-  { id: "porto", image: "/regions_porto.webp" },
-  { id: "algarve", image: "/regions_algarve.webp" },
-  { id: "alentejo", image: "/regions_alentejo.webp" },
-  { id: "acores", image: "/regions_acores.webp" },
-  { id: "madeira", image: "/regions_madeira.webp" },
+  { id: "lisboa", image: "/tours/regions/regions-lisboa.webp" },
+  { id: "porto", image: "/tours/regions/regions-porto.webp" },
+  { id: "algarve", image: "/tours/regions/regions-algarve.webp" },
+  { id: "alentejo", image: "/tours/regions/regions-alentejo.webp" },
+  { id: "acores", image: "/tours/regions/regions-acores.webp" },
+  { id: "madeira", image: "/tours/regions/regions-madeira.webp" },
 ]
 
 const STEP = 2

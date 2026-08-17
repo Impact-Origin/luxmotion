@@ -14,9 +14,9 @@ const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 
 const REVIEW_AVATARS = [
-  { src: "/wedding-planner/avatar-1.png", alt: "Reviewer 1" },
-  { src: "/wedding-planner/avatar-2.png", alt: "Reviewer 2" },
-  { src: "/wedding-planner/avatar-3.png", alt: "Reviewer 3" },
+  { src: "/schools/avatar-1.png", alt: "Reviewer 1" },
+  { src: "/schools/avatar-2.png", alt: "Reviewer 2" },
+  { src: "/schools/avatar-3.png", alt: "Reviewer 3" },
 ] as const
 
 function HeroPill({ label }: { label: string }) {
@@ -107,7 +107,7 @@ export function WeddingPlannerHero() {
       <div className="md:hidden px-4 pt-6 pb-10 flex flex-col gap-6">
         <div className="relative h-[358px] w-full overflow-hidden">
           <Image
-            src="/wedding-planner/hero-bride.webp"
+            src="/planners/hero-bride.webp"
             alt={t("photoAlt")}
             fill
             priority
@@ -145,7 +145,7 @@ export function WeddingPlannerHero() {
       <div className="hidden md:block relative h-[800px]">
         <div className="absolute top-0 right-0 h-[800px] w-[1058px] overflow-hidden pointer-events-none">
           <Image
-            src="/wedding-planner/hero-bride.webp"
+            src="/planners/hero-bride.webp"
             alt={t("photoAlt")}
             fill
             priority

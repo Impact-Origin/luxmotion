@@ -161,7 +161,7 @@ function HeaderBlock({
         <div className="flex items-center gap-[18.834px]">
           <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google" className="transition-opacity hover:opacity-70">
             <Image
-            src="/google-logo.png"
+            src="/shared/logos/google-logo.png"
             alt="Google"
             width={94}
             height={32}
@@ -170,7 +170,7 @@ function HeaderBlock({
           </a>
           <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot" className="transition-opacity hover:opacity-70">
             <Image
-            src="/trustpilot-logo-dark.svg"
+            src="/shared/logos/trustpilot-logo-dark.svg"
             alt="Trustpilot"
             width={104}
             height={28}

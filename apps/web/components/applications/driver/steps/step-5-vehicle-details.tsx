@@ -463,7 +463,7 @@ export function DriverStepVehicleDetails() {
         {CHILD_SEAT_KEYS.map((key) => (
           <ChildSeatCard
             key={key}
-            imageSrc="/images/cadeira-crianca.jpeg"
+            imageSrc="/shared/cadeira-crianca.jpeg"
             title={t(`childSeats.${key}.title`)}
             ageRange={t(`childSeats.${key}.age`)}
             count={vehicle.childSeats[key]}

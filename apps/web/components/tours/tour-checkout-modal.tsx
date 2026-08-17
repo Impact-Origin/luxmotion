@@ -847,7 +847,7 @@ export function TourCheckoutModal() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {([
                         { method: "cash" as const, icon: <Banknote className="w-7 h-7" strokeWidth={1.5} />, label: t("payment.cash") },
-                        { method: "mbway" as const, icon: <Image src="/mbway_checkout.png" alt="MBWay" width={28} height={28} className="w-7 h-7 object-contain" />, label: t("payment.mbway") },
+                        { method: "mbway" as const, icon: <Image src="/shared/payments/mbway-checkout.png" alt="MBWay" width={28} height={28} className="w-7 h-7 object-contain" />, label: t("payment.mbway") },
                         { method: "cartao" as const, icon: <CreditCard className="w-7 h-7" strokeWidth={1.5} />, label: t("payment.card") },
                       ]).map(({ method, icon, label }) => {
                         const selected = payment.method === method

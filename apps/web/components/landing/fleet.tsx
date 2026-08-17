@@ -35,48 +35,48 @@ export function Fleet() {
     {
       name: t("vehicleNames.standard"),
       capacity: `4 ${t("people")}`,
-      image: "/standard-car.png",
+      image: "/fleet/standard-car.png",
     },
     {
       name: t("vehicleNames.xl"),
       capacity: `5 ${t("people")}`,
-      image: "/xl-car.png",
+      image: "/fleet/xl-car.png",
     },
     {
       name: t("vehicleNames.executivo"),
       capacity: `4 ${t("people")}`,
-      image: "/executivo-car.png",
+      image: "/fleet/executivo-car.png",
     },
     {
       name: t("vehicleNames.van"),
       capacity: `8 ${t("people")}`,
-      image: "/van.png",
+      image: "/fleet/van.png",
       badge: t("electric"),
     },
     {
       name: t("vehicleNames.minibus"),
       capacity: `16 ${t("people")}`,
-      image: "/minibus.png",
+      image: "/fleet/minibus.png",
     },
     {
       name: t("vehicleNames.bus"),
       capacity: `56 ${t("people")}`,
-      image: "/bus.png",
+      image: "/fleet/bus.png",
     },
   ]
 
   const carouselImages = [
-    "/mercedes frota/C.webp",
-    "/mercedes frota/Maybach.webp",
-    "/mercedes frota/Van.webp",
-    "/mercedes frota/c class.webp",
-    "/mercedes frota/class E.webp",
-    "/mercedes frota/eqe.webp",
-    "/mercedes frota/eqs.webp",
-    "/mercedes frota/minbus.webp",
-    "/mercedes frota/mini bus 8.webp",
-    "/mercedes frota/s class.webp",
-    "/mercedes frota/van executiva.webp",
+    "/fleet/mercedes/c.webp",
+    "/fleet/mercedes/maybach.webp",
+    "/fleet/mercedes/van.webp",
+    "/fleet/mercedes/c-class.webp",
+    "/fleet/mercedes/class-e.webp",
+    "/fleet/mercedes/eqe.webp",
+    "/fleet/mercedes/eqs.webp",
+    "/fleet/mercedes/minbus.webp",
+    "/fleet/mercedes/mini-bus-8.webp",
+    "/fleet/mercedes/s-class.webp",
+    "/fleet/mercedes/van-executiva.webp",
   ]
 
   const totalItems = carouselImages.length
@@ -221,7 +221,7 @@ export function Fleet() {
                 )}
                 <div className="w-full h-16 md:h-24 lg:h-28 relative mb-2 md:mb-3">
                   <Image
-                    src={vehicle.image || "/placeholder.svg"}
+                    src={vehicle.image || "/shared/placeholder-experience.webp"}
                     alt={vehicle.name}
                     fill
                     className="object-contain"

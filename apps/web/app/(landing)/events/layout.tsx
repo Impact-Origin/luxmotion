@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("heroTitle"),
     description: t("heroSubtitle"),
     path: "/events",
-    image: "/tours_hero.webp",
+    image: "/tours/tours-hero.webp",
     keywords: ["events Portugal", "festivals Portugal", "private event transport"],
   })
 }

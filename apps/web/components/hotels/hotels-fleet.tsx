@@ -25,7 +25,7 @@ const EXECUTIVE: Veh[] = [
   { name: "Mercedes S400", image: "/fleet/vehicles/mercedes-s400.png", paxMin: 1, paxMax: 3, badges: [] },
   { name: "Porsche Panamera", image: "/fleet/vehicles/porsche-panamera.png", paxMin: 1, paxMax: 4, badges: [] },
   { name: "Mercedes Sprinter", image: "/fleet/vehicles/mercedes-sprinter.webp", paxMin: 1, paxMax: 16, badges: ["premium"] },
-  { name: "Mercedes EQV", image: "/fleet/van/Van executiva.webp", paxMin: 1, paxMax: 8, badges: ["premium", "eco", "electric"] },
+  { name: "Mercedes EQV", image: "/fleet/executive/van-executiva.webp", paxMin: 1, paxMax: 8, badges: ["premium", "eco", "electric"] },
   { name: "Bus Executive", image: "/fleet/vehicles/executive-coach.png", paxMin: 1, paxMax: 3, badges: [] },
 ]
 
@@ -38,12 +38,12 @@ const STANDARD: Veh[] = [
 ]
 
 const GALLERY = [
-  { src: "/wedding-planner/fleet-gallery/mercedes-s-class.webp", name: "Mercedes S-Class" },
-  { src: "/wedding-planner/fleet-gallery/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-v-class.webp", name: "Mercedes V-Class" },
-  { src: "/wedding-planner/fleet-gallery/mercedes-sprinter.webp", name: "Mercedes Sprinter" },
-  { src: "/wedding-planner/fleet-gallery/man-coach.webp", name: "MAN Coach" },
-  { src: "/wedding-planner/fleet-gallery/mini-classico.webp", name: "Mini Clássico" },
+  { src: "/planners/fleet/mercedes-s-class.webp", name: "Mercedes S-Class" },
+  { src: "/planners/fleet/rolls-royce-phantom.webp", name: "Rolls-Royce Phantom" },
+  { src: "/planners/fleet/mercedes-v-class.webp", name: "Mercedes V-Class" },
+  { src: "/planners/fleet/mercedes-sprinter.webp", name: "Mercedes Sprinter" },
+  { src: "/planners/fleet/man-coach.webp", name: "MAN Coach" },
+  { src: "/planners/fleet/mini-classico.webp", name: "Mini Clássico" },
 ]
 
 /**

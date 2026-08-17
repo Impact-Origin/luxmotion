@@ -16,7 +16,7 @@ export function CheckoutFooter() {
         <div className="flex flex-col lg:flex-row gap-32 items-start justify-between mb-8">
           <div className="flex-shrink-0">
             <Image
-              src="/footer-badges.png"
+              src="/footer/footer-badges.png"
               alt="Certifications and Badges"
               width={480}
               height={160}

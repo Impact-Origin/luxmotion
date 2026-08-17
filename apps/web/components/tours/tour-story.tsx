@@ -7,14 +7,14 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
   return (
     <div className="w-[493px] h-[457px] relative origin-top-left scale-[0.676] md:scale-100">
       <img
-        src="/tours-page/ellipse-blur.svg"
+        src="/tours/ellipse-blur.svg"
         alt=""
         className="absolute left-[-61px] top-[271px] w-[577px] h-[110px] pointer-events-none"
       />
 
       <div className="absolute left-[185px] top-[147px] w-[297px] h-[249px]">
         <Image
-          src="/tours-page/van-premium.webp"
+          src="/tours/van-premium.webp"
           alt=""
           width={297}
           height={249}
@@ -32,7 +32,7 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
               boxShadow: "6px 12px 30px rgba(0,0,0,0.1), 27px 47px 55px rgba(0,0,0,0.09), 62px 106px 74px rgba(0,0,0,0.05)",
             }}
           >
-            {["/tours-page/lisbon-streets-1.png", "/tours-page/lisbon-streets-2.png", "/tours-page/lisbon-streets-3.png"].map(
+            {["/tours/lisbon-streets-1.png", "/tours/lisbon-streets-2.png", "/tours/lisbon-streets-3.png"].map(
               (src, i) => (
                 <div key={i} className="w-[136px] h-[107px] relative overflow-hidden shrink-0 shadow-[0px_2px_8px_-2px_rgba(19,35,57,0.1)]">
                   <Image src={src} alt="" fill className="object-cover" />
@@ -56,7 +56,7 @@ function PhotoComposition({ t }: { t: (key: string) => string }) {
             "linear-gradient(90deg, rgba(var(--lm-accent-rgb,154,117,53),0.22) 0%, rgba(var(--lm-accent-rgb,154,117,53),0.22) 100%), var(--lm-surface,#0D0D0D)",
         }}
       >
-        <img src="/tours-page/stars-rating.svg" alt="5 stars" className="w-[102px] h-[16px]" />
+        <img src="/tours/stars-rating.svg" alt="5 stars" className="w-[102px] h-[16px]" />
         <div className="flex flex-col gap-2">
           <span
             className="text-[14px] font-semibold text-[var(--lm-text,#fff)] leading-none whitespace-nowrap"

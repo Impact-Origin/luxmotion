@@ -199,7 +199,7 @@ export function SchoolsReviews() {
               className="transition-opacity duration-200 hover:opacity-70"
             >
               <Image
-                src="/schools/google-logo.png"
+                src="/shared/logos/google-logo.png"
                 alt="Google"
                 width={94}
                 height={32}

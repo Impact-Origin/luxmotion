@@ -108,7 +108,7 @@ export function WeddingPlannerReviews() {
               <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google"
                  className="transition-opacity hover:opacity-70">
                 <Image
-                src="/google-logo.png"
+                src="/shared/logos/google-logo.png"
                 alt="Google"
                 width={94}
                 height={32}
@@ -118,7 +118,7 @@ export function WeddingPlannerReviews() {
               <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
                  className="transition-opacity hover:opacity-70">
                 <Image
-                src="/trustpilot-logo.png"
+                src="/shared/logos/trustpilot-logo.png"
                 alt="Trustpilot"
                 width={104}
                 height={28}

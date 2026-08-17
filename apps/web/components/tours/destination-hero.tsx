@@ -51,11 +51,11 @@ export function DestinationHero({ destination, searchQuery, onSearchChange }: De
     <section className="relative w-full overflow-hidden bg-[var(--lm-bg,#0D0D0D)]">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
-        style={{ backgroundImage: "url('/lisbonbanner_desktop.webp')" }}
+        style={{ backgroundImage: "url('/tours/lisbonbanner-desktop.webp')" }}
       />
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
-        style={{ backgroundImage: "url('/lisbonbanner_mobile.webp')" }}
+        style={{ backgroundImage: "url('/tours/lisbonbanner-mobile.webp')" }}
       />
 
       <div

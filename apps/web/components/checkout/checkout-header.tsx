@@ -27,13 +27,13 @@ function LuxMotionLogo() {
     <Link href="/" className="flex items-center gap-[10px] shrink-0">
       <div className="relative w-[45px] h-[45px] border-[1.9px] border-[var(--ck-accent,#c9a96e)] flex items-center justify-center shrink-0">
         <div className="relative w-[23px] h-[13px]">
-          <Image src="/svgs/lm-monogram.svg" alt="" fill className="object-contain" priority />
+          <Image src="/shared/icons/lm-monogram.svg" alt="" fill className="object-contain" priority />
         </div>
       </div>
       <div className="flex flex-col justify-center">
         <div className="relative w-[82px] h-[9px]">
           <Image
-            src="/svgs/luxmotion-text.svg"
+            src="/shared/icons/luxmotion-text.svg"
             alt="LuxMotion"
             fill
             className="object-contain object-left"

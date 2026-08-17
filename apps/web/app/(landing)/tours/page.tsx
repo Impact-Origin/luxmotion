@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "Discover private and curated tours across Portugal with local expert drivers.",
     path: "/tours",
-    image: "/tours_hero.webp",
+    image: "/tours/tours-hero.webp",
     keywords: [
       "Portugal tours",
       "Sintra tour",
@@ -54,7 +54,7 @@ export default function ToursPage() {
             description:
               "Tailored tour experiences across Lisbon, Porto, Algarve, Madeira, and more.",
             path: "/tours",
-            image: "/tours_hero.webp",
+            image: "/tours/tours-hero.webp",
           })}
         />
         <HomeHeader />

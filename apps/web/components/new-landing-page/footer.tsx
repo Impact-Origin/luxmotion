@@ -21,11 +21,11 @@ const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boo
 // `mono` marca os logos que contêm branco e desaparecem no tema claro. O
 // mastercard é só cor de marca, por isso fica intacto.
 const PAYMENTS = [
-  { src: "/footer/payments/visa.svg", alt: "Visa", w: 48, h: 16, mono: true },
-  { src: "/footer/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24, mono: false },
-  { src: "/footer/payments/mbway.svg", alt: "MB WAY", w: 42, h: 20, mono: true },
-  { src: "/footer/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20, mono: true },
-  { src: "/footer/payments/paypal.svg", alt: "PayPal", w: 67, h: 16, mono: true },
+  { src: "/shared/payments/visa.svg", alt: "Visa", w: 48, h: 16, mono: true },
+  { src: "/shared/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24, mono: false },
+  { src: "/shared/payments/mbway.svg", alt: "MB WAY", w: 42, h: 20, mono: true },
+  { src: "/shared/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20, mono: true },
+  { src: "/shared/payments/paypal.svg", alt: "PayPal", w: 67, h: 16, mono: true },
 ]
 
 const SOCIALS = [

@@ -56,14 +56,14 @@ interface ExtraDef {
 }
 
 const EXTRAS: ExtraDef[] = [
-  { id: "matricula", image: "/wedding-whitelabel/extras/matricula.webp", price: 85, unitKey: "unitMain", priceShape: "flat" },
-  { id: "floral", image: "/wedding-whitelabel/extras/decoracao-floral.webp", price: 85, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
-  { id: "champanhe", image: "/wedding-whitelabel/extras/champanhe.webp", price: 85, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "justMarried", image: "/wedding-whitelabel/extras/just-married.webp", price: 85, unitKey: "unitPerCar", priceShape: "flat" },
-  { id: "redCarpet", image: "/wedding-whitelabel/extras/tapete-vermelho.webp", price: 85, unitKey: "unitPerArrival", priceShape: "flat" },
-  { id: "petalas", image: "/wedding-whitelabel/extras/petalas.png", price: 85, unitKey: "unitPerMoment", priceShape: "flat" },
-  { id: "welcomeKit", image: "/wedding-whitelabel/extras/kit-boas-vindas.webp", price: 85, unitKey: "unitPerGuest", priceShape: "perGuest" },
-  { id: "classicCar", image: "/wedding-whitelabel/extras/veiculo-classico.webp", price: 85, unitKey: "unitOnLocation", priceShape: "flat", mostRequested: true },
+  { id: "matricula", image: "/whitelabel/wedding/extras/matricula.webp", price: 85, unitKey: "unitMain", priceShape: "flat" },
+  { id: "floral", image: "/whitelabel/wedding/extras/decoracao-floral.webp", price: 85, unitKey: "unitPerCar", priceShape: "flat", mostRequested: true },
+  { id: "champanhe", image: "/whitelabel/wedding/extras/champanhe.webp", price: 85, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "justMarried", image: "/whitelabel/wedding/extras/just-married.webp", price: 85, unitKey: "unitPerCar", priceShape: "flat" },
+  { id: "redCarpet", image: "/whitelabel/wedding/extras/tapete-vermelho.webp", price: 85, unitKey: "unitPerArrival", priceShape: "flat" },
+  { id: "petalas", image: "/whitelabel/wedding/extras/petalas.png", price: 85, unitKey: "unitPerMoment", priceShape: "flat" },
+  { id: "welcomeKit", image: "/whitelabel/wedding/extras/kit-boas-vindas.webp", price: 85, unitKey: "unitPerGuest", priceShape: "perGuest" },
+  { id: "classicCar", image: "/whitelabel/wedding/extras/veiculo-classico.webp", price: 85, unitKey: "unitOnLocation", priceShape: "flat", mostRequested: true },
 ]
 
 const BUDGET_MIN = 150

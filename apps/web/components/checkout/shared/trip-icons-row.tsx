@@ -38,19 +38,19 @@ export function TripIconsRow({ data, className, iconSize = "md" }: TripIconsRowP
       )}
       {data.surfboards !== undefined && (
         <div className="flex items-center gap-1.5">
-          <Image src="/checkout/icons/surfboard_checkout.png" alt="Surf" width={24} height={24} className={iconClass} />
+          <Image src="/checkout/icons/surfboard-checkout.png" alt="Surf" width={24} height={24} className={iconClass} />
           <span className={cn(textClass, "font-medium")}>{data.surfboards}</span>
         </div>
       )}
       {data.childSeats !== undefined && (
         <div className="flex items-center gap-1.5">
-          <Image src="/svgs/baby-car-seat.svg" alt="Child seat" width={24} height={24} className={iconClass} />
+          <Image src="/shared/icons/baby-car-seat.svg" alt="Child seat" width={24} height={24} className={iconClass} />
           <span className={cn(textClass, "font-medium")}>{data.childSeats}</span>
         </div>
       )}
       {data.pets !== undefined && (
         <div className="flex items-center gap-1.5">
-          <Image src="/svgs/paw.svg" alt="Pet" width={24} height={24} className={iconClass} />
+          <Image src="/shared/icons/paw.svg" alt="Pet" width={24} height={24} className={iconClass} />
           <span className={cn(textClass, "font-medium")}>{data.pets}</span>
         </div>
       )}

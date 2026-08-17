@@ -46,12 +46,12 @@ export function Testimonials() {
   const featuredReviews = useQuery(api.tourReviews.listFeatured)
 
   const images = [
-    { src: "/testimonials-carousel-1.webp", alt: t("happyCustomers") },
-    { src: "/testimonials-carousel-2.webp", alt: t("groupTour") },
-    { src: "/testimonials-carousel-3.webp", alt: t("familyTransfer") },
-    { src: "/testimonials-carousel-4.jpg", alt: t("luxuryRide") },
-    { src: "/testimonials-carousel-5.webp", alt: t("airportPickup") },
-    { src: "/testimonials-carousel-6.webp", alt: t("scenicTour") },
+    { src: "/home/testimonials-carousel-1.webp", alt: t("happyCustomers") },
+    { src: "/home/testimonials-carousel-2.webp", alt: t("groupTour") },
+    { src: "/home/testimonials-carousel-3.webp", alt: t("familyTransfer") },
+    { src: "/home/testimonials-carousel-4.jpg", alt: t("luxuryRide") },
+    { src: "/home/testimonials-carousel-5.webp", alt: t("airportPickup") },
+    { src: "/home/testimonials-carousel-6.webp", alt: t("scenicTour") },
   ]
 
   const mockTestimonials = [
@@ -198,11 +198,11 @@ export function Testimonials() {
           <div className="mb-8 flex items-center justify-center gap-6">
             <a href={GOOGLE_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Google"
                className="transition-opacity hover:opacity-70">
-              <Image src="/google-logo.png" alt="Google" width={100} height={33} className="h-auto w-24" />
+              <Image src="/shared/logos/google-logo.png" alt="Google" width={100} height={33} className="h-auto w-24" />
             </a>
             <a href={TRUSTPILOT_REVIEWS_URL} {...REVIEW_LINK_PROPS} aria-label="Trustpilot"
                className="transition-opacity hover:opacity-70">
-              <Image src="/trustpilot-logo.png" alt="Trustpilot" width={120} height={33} className="h-auto w-28" />
+              <Image src="/shared/logos/trustpilot-logo.png" alt="Trustpilot" width={120} height={33} className="h-auto w-28" />
             </a>
           </div>
 

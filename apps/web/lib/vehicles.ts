@@ -15,7 +15,7 @@ export const vehiclesData: VehicleType[] = [
   {
     id: "standard",
     title: "Standard",
-    img: "/images/image-54.png",
+    img: "/shared/image-54.png",
     briefcase: 4,
     passengers: 4,
     price: 0.85,
@@ -26,7 +26,7 @@ export const vehiclesData: VehicleType[] = [
   {
     id: "xl",
     title: "XL",
-    img: "/images/image-54.png",
+    img: "/shared/image-54.png",
     briefcase: 4,
     passengers: 4,
     price: 1.15,
@@ -36,7 +36,7 @@ export const vehiclesData: VehicleType[] = [
   {
     id: "executivo",
     title: "Executivo",
-    img: "/images/image-54.png",
+    img: "/shared/image-54.png",
     briefcase: 4,
     passengers: 4,
     price: 1.3,
@@ -46,7 +46,7 @@ export const vehiclesData: VehicleType[] = [
   {
     id: "van",
     title: "Van",
-    img: "/images/image-54.png",
+    img: "/shared/image-54.png",
     briefcase: 8,
     passengers: 8,
     price: 1.75,
@@ -57,7 +57,7 @@ export const vehiclesData: VehicleType[] = [
   {
     id: "minibus",
     title: "Minibus",
-    img: "/images/image-54.png",
+    img: "/shared/image-54.png",
     briefcase: 15,
     passengers: 15,
     price: 3.2,
@@ -67,7 +67,7 @@ export const vehiclesData: VehicleType[] = [
   {
     id: "autocarro",
     title: "Autocarro",
-    img: "/images/image-54.png",
+    img: "/shared/image-54.png",
     briefcase: 56,
     passengers: 56,
     price: 12.5,

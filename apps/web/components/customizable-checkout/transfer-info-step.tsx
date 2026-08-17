@@ -152,7 +152,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "baby",
       title: t("babySeat"),
       ageRange: t("babySeatAge"),
-      image: "/images/c589411c-9d31-4b5a-82af.jpeg",
+      image: "/shared/c589411c-9d31-4b5a-82af.jpeg",
       value: transfer.childSeats.baby,
       onChange: (v: number) => updateTransfer({ childSeats: { ...transfer.childSeats, baby: v } }),
     },
@@ -160,7 +160,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "child",
       title: t("childSeatLabel"),
       ageRange: t("childSeatAge"),
-      image: "/images/cadeira-crianca.jpeg",
+      image: "/shared/cadeira-crianca.jpeg",
       value: transfer.childSeats.child,
       onChange: (v: number) => updateTransfer({ childSeats: { ...transfer.childSeats, child: v } }),
     },
@@ -168,7 +168,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "booster",
       title: t("boosterSeat"),
       ageRange: t("boosterSeatAge"),
-      image: "/images/banco-elevatorio.jpeg",
+      image: "/shared/banco-elevatorio.jpeg",
       value: transfer.childSeats.booster,
       onChange: (v: number) => updateTransfer({ childSeats: { ...transfer.childSeats, booster: v } }),
     },
@@ -179,7 +179,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "standard",
       title: t("standardSurfboard"),
       subtitle: t("standardSurfboardSize"),
-      image: "/checkout/surfboard_standard.webp",
+      image: "/checkout/surfboard-standard.webp",
       value: transfer.surfboard.standard,
       onChange: (v: number) => updateTransfer({ surfboard: { ...transfer.surfboard, standard: v } }),
       imageRotation: "-rotate-[20deg] scale-[1.5]",
@@ -188,7 +188,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "upgraded",
       title: t("biggerSurfboard"),
       subtitle: t("biggerSurfboardSize"),
-      image: "/checkout/surfboard_upgraded.webp",
+      image: "/checkout/surfboard-upgraded.webp",
       value: transfer.surfboard.upgraded,
       onChange: (v: number) => updateTransfer({ surfboard: { ...transfer.surfboard, upgraded: v } }),
       badge: t("autoUpgrade"),
@@ -202,7 +202,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "small",
       title: t("smallPet"),
       subtitle: t("smallPetWeight"),
-      image: "/checkout/pet_small.webp",
+      image: "/checkout/pet-small.webp",
       value: transfer.pet.small,
       onChange: (v: number) => updateTransfer({ pet: { ...transfer.pet, small: v } }),
       imageRotation: "scale-[1.5]",
@@ -211,7 +211,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
       id: "large",
       title: t("largePet"),
       subtitle: t("largePetWeight"),
-      image: "/checkout/pet_large.png",
+      image: "/checkout/pet-large.png",
       value: transfer.pet.large,
       onChange: (v: number) => updateTransfer({ pet: { ...transfer.pet, large: v } }),
       badge: t("autoUpgrade"),
@@ -932,7 +932,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 className="text-base font-semibold text-[#222222] inline-flex items-center gap-2 cursor-pointer"
               >
                 <Image
-                  src="/svgs/baby-car-seat.svg"
+                  src="/shared/icons/baby-car-seat.svg"
                   alt="Baby car seat"
                   width={24}
                   height={24}
@@ -986,7 +986,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 htmlFor="surfboard"
                 className="text-base font-semibold text-[#222222] inline-flex items-center gap-2 cursor-pointer"
               >
-                <Image src="/svgs/surf.svg" alt="Surfboard" width={24} height={24} className="w-6 h-6" />
+                <Image src="/shared/icons/surf.svg" alt="Surfboard" width={24} height={24} className="w-6 h-6" />
                 {t("surfboard")}
               </label>
             </div>
@@ -1052,7 +1052,7 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
                 htmlFor="pet"
                 className="text-base font-semibold text-[#222222] inline-flex items-center gap-2 cursor-pointer"
               >
-                <Image src="/svgs/paw.svg" alt="Pet" width={24} height={24} className="w-6 h-6" />
+                <Image src="/shared/icons/paw.svg" alt="Pet" width={24} height={24} className="w-6 h-6" />
                 {t("pet")}
               </label>
             </div>

@@ -113,7 +113,7 @@ function toExperience(tour: NearbyTour): Experience {
     id: tour._id,
     title: tour.title,
     description: tour.description ?? "",
-    image: tour.bannerImageUrl ?? "/images/placeholder-experience.webp",
+    image: tour.bannerImageUrl ?? "/shared/placeholder-experience.webp",
     basePrice: tour.basePrice,
     duration: tour.duration,
     locationLabel: tour.locationLabel,
@@ -316,7 +316,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
               /* No evento a data vive na linha da localidade, e a linha do
                  relógio diz só o que aquilo é. */
               duration={isEvent ? t("eventLabel") : item.duration}
-              image={item.bannerImageUrl ?? "/images/placeholder-experience.webp"}
+              image={item.bannerImageUrl ?? "/shared/placeholder-experience.webp"}
               distanceKm={item.distanceKm}
               tag={tag}
               tagLabel={tag && tag !== "none" ? t(`tags.${tag}`) : undefined}

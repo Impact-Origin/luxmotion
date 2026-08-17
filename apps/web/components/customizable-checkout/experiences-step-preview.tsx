@@ -38,7 +38,7 @@ export function ExperiencesStepPreview({ nearbyTours }: ExperiencesStepPreviewPr
               title={item.title}
               price={item.basePrice}
               duration={item.duration}
-              image={item.bannerImageUrl ?? "/images/placeholder-experience.webp"}
+              image={item.bannerImageUrl ?? "/shared/placeholder-experience.webp"}
               distanceKm={item.distanceKm}
             />
           ))}

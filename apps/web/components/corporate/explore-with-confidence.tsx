@@ -16,8 +16,8 @@ const DESTINATIONS: readonly { id: DestinationId; image: string }[] = [
   { id: "porto", image: "/corporate/destinations/porto.webp" },
   { id: "algarve", image: "/corporate/destinations/algarve.webp" },
   { id: "ericeira", image: "/corporate/destinations/ericeira.webp" },
-  { id: "alentejo", image: "/regions_alentejo.webp" },
-  { id: "madeira", image: "/regions_madeira.webp" },
+  { id: "alentejo", image: "/tours/regions/regions-alentejo.webp" },
+  { id: "madeira", image: "/tours/regions/regions-madeira.webp" },
 ] as const
 
 const VISIBLE_DESKTOP = 4

@@ -25,13 +25,13 @@ function FoundersWatermark({ size = "desktop" }: { size?: "desktop" | "mobile" }
         style={{ width: square, height: square, borderWidth: border }}
       >
         <div className="relative" style={{ width: monogramW, height: monogramH }}>
-          <Image src="/svgs/lm-monogram.svg" alt="" fill className="object-contain" priority />
+          <Image src="/shared/icons/lm-monogram.svg" alt="" fill className="object-contain" priority />
         </div>
       </div>
       <div className="flex flex-col">
         <div className="relative" style={{ width: wordmarkW, height: wordmarkH }}>
           {/* Wordmark branco: lm-logo-mono passa-o a preto no tema claro. */}
-          <Image src="/svgs/luxmotion-text.svg" alt="LuxMotion" fill className="lm-logo-mono object-contain object-left" priority />
+          <Image src="/shared/icons/luxmotion-text.svg" alt="LuxMotion" fill className="lm-logo-mono object-contain object-left" priority />
         </div>
         <span
           className="text-[var(--lm-muted,#999)] uppercase whitespace-nowrap"
