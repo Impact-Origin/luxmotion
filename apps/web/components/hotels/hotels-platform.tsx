@@ -32,12 +32,11 @@ function TextCell({ row }: { row: Row }) {
    escuro no escuro). */
 function MockupCell({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="flex items-center justify-center bg-[rgba(var(--lm-accent-rgb,201,169,110),0.1)] p-8 md:p-12">
-      {/* 520 e não os 420 dos wireframes: estes são ecrãs reais, com texto e
-          números que a 420px não se liam. */}
-      <div className="relative w-full max-w-[520px] aspect-[4/3]">
-        <Image src={src} alt={alt} fill sizes="(min-width:1024px) 40vw, 90vw" className="object-contain" />
-      </div>
+    /* A imagem preenche a célula toda, sem margem. O `min-h` só conta em
+       coluna única, onde a célula não tem irmã ao lado que lhe dê altura; em
+       duas colunas é a célula de texto que manda. */
+    <div className="relative min-h-[300px] bg-[rgba(var(--lm-accent-rgb,201,169,110),0.1)] sm:min-h-[380px] lg:min-h-0">
+      <Image src={src} alt={alt} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
     </div>
   )
 }
