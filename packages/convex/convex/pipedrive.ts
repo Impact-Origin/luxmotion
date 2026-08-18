@@ -30,6 +30,7 @@ import {
   mapearPartnerApplication,
   mapearDriverApplication,
   mapearReservaPaga,
+  comOrigem,
   type LeadPipedrive,
 } from "./lib/pipedriveMapa";
 
@@ -152,6 +153,35 @@ export const lerEstado = internalQuery({
   },
 });
 
+/**
+ * O que aconteceu a cada envio, para se ler sem entrar no painel:
+ *
+ *   npx convex run internal.pipedrive.diagnostico '{}'
+ *
+ * Quando uma lead não aparece no Pipedrive, é aqui que está o porquê — o
+ * `erro` traz o corpo da resposta que eles devolveram, que é o único sítio
+ * onde vem escrito o motivo.
+ */
+export const diagnostico = internalQuery({
+  args: { limite: v.optional(v.number()) },
+  handler: async (ctx, args) => {
+    const linhas = await ctx.db.query("pipedriveSync").order("desc").take(args.limite ?? 20);
+    return linhas.map((l) => ({
+      origem: l.origem,
+      origemId: l.origemId,
+      estado: l.estado,
+      tentativas: l.tentativas,
+      personId: l.personId,
+      organizationId: l.organizationId,
+      leadId: l.leadId,
+      dealId: l.dealId,
+      noteId: l.noteId,
+      erro: l.ultimoErro,
+      quando: new Date(l.criadoEm).toISOString(),
+    }));
+  },
+});
+
 export const marcar = internalMutation({
   args: {
     origem: v.string(),
@@ -253,52 +283,52 @@ export const mapearLead = internalQuery({
       case "contactSubmissions": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearContactSubmission(doc) : null;
+        return doc ? comOrigem(mapearContactSubmission(doc), args.tabela) : null;
       }
       case "contactQuotes": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearContactQuote(doc) : null;
+        return doc ? comOrigem(mapearContactQuote(doc), args.tabela) : null;
       }
       case "tourInquiries": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearTourInquiry(doc) : null;
+        return doc ? comOrigem(mapearTourInquiry(doc), args.tabela) : null;
       }
       case "weddingQuoteSubmissions": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearWeddingQuote(doc) : null;
+        return doc ? comOrigem(mapearWeddingQuote(doc), args.tabela) : null;
       }
       case "schoolQuoteSubmissions": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearSchoolQuote(doc) : null;
+        return doc ? comOrigem(mapearSchoolQuote(doc), args.tabela) : null;
       }
       case "corporateRequests": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearCorporateRequest(doc) : null;
+        return doc ? comOrigem(mapearCorporateRequest(doc), args.tabela) : null;
       }
       case "partnerLeads": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearPartnerLead(doc) : null;
+        return doc ? comOrigem(mapearPartnerLead(doc), args.tabela) : null;
       }
       case "newsletterSubscriptions": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearNewsletter(doc) : null;
+        return doc ? comOrigem(mapearNewsletter(doc), args.tabela) : null;
       }
       case "partnerApplications": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearPartnerApplication(doc) : null;
+        return doc ? comOrigem(mapearPartnerApplication(doc), args.tabela) : null;
       }
       case "driverApplications": {
         const id = ctx.db.normalizeId(args.tabela, args.id);
         const doc = id && (await ctx.db.get(id));
-        return doc ? mapearDriverApplication(doc) : null;
+        return doc ? comOrigem(mapearDriverApplication(doc), args.tabela) : null;
       }
     }
   },
@@ -530,9 +560,27 @@ export const enviarLead = internalAction({
       if (lead.valor !== undefined) corpo.value = { amount: lead.valor, currency: "EUR" };
 
       const r = await pedir(token, "POST", "/api/v1/leads", corpo);
-      if (!r.ok) return await falhar(r, "criar-lead");
-      leadId = typeof r.dados?.data?.id === "string" ? r.dados.data.id : null;
-      if (leadId) await ctx.runMutation(internal.pipedrive.marcar, { origem, origemId, leadId });
+      if (!r.ok) {
+        /* Uma falha que se pode repetir espera pela próxima tentativa. Uma
+           definitiva não pode levar a nota atrás: era assim que o `city`, o
+           `partnerType`, o volume e o "como nos conheceu" desapareciam sem
+           deixar rasto, com a Pessoa criada e nada agarrado a ela. Regista-se o
+           erro e segue-se para a nota, que fica na Pessoa. */
+        if (r.repetir) return await falhar(r, "criar-lead");
+        console.error(`[Pipedrive] lead recusada em ${origem}/${origemId}: ${r.erro} — o detalhe vai na nota da pessoa.`);
+        await ctx.runMutation(internal.pipedrive.marcar, {
+          origem,
+          origemId,
+          ultimoErro: `criar-lead: ${r.erro}`,
+        });
+      } else {
+        leadId = typeof r.dados?.data?.id === "string" ? r.dados.data.id : null;
+        if (leadId) {
+          await ctx.runMutation(internal.pipedrive.marcar, { origem, origemId, leadId });
+        } else {
+          console.error(`[Pipedrive] resposta 2xx sem id de lead em ${origem}/${origemId}: ${JSON.stringify(r.dados).slice(0, 300)}`);
+        }
+      }
     }
 
     // --- Nota com o detalhe (a Lead não tem campo de texto livre)

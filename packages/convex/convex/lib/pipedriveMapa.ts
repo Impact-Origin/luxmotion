@@ -169,6 +169,32 @@ const VIATURAS_CASAMENTO: Record<string, string> = {
   coach: "Autocarro",
 };
 
+/**
+ * De onde veio, escrito na própria nota.
+ *
+ * O Pipedrive marca a origem sozinho só nas Leads (fica "API"); a Pessoa não
+ * tem campo de origem que se possa escrever, e aparece como criada à mão. Uma
+ * linha no topo da nota resolve isso em qualquer dos casos, e sobrevive a uma
+ * lead que não chegue a ser criada.
+ */
+export const ORIGENS: Record<TabelaLead, string> = {
+  contactSubmissions: "Formulário de contacto",
+  contactQuotes: "Pedido de orçamento — corporate",
+  tourInquiries: "Pedido de tour — ultra-luxo",
+  weddingQuoteSubmissions: "Orçamento de casamento",
+  schoolQuoteSubmissions: "Orçamento de transporte escolar",
+  corporateRequests: "Pedido de proposta — corporate",
+  partnerLeads: "Candidatura de parceria — hotéis",
+  newsletterSubscriptions: "Subscrição da newsletter",
+  partnerApplications: "Candidatura de empresa de motoristas",
+  driverApplications: "Candidatura de motorista",
+};
+
+export function comOrigem(lead: LeadPipedrive, tabela: TabelaLead): LeadPipedrive {
+  const cabecalho = `<p><b>Origem:</b> ${escapar(ORIGENS[tabela])} — easytransferportugal.com</p>`;
+  return { ...lead, nota: `${cabecalho}${lead.nota ?? ""}` };
+}
+
 // ---------------------------------------------------------------------------
 // Um mapeador por tabela
 
