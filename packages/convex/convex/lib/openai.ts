@@ -54,6 +54,23 @@ async function post(path: string, body: unknown): Promise<any> {
   return res.json();
 }
 
+/** Igual ao `post`, mas multipart: o `/images/edits` só aceita form-data. */
+async function postForm(path: string, form: FormData): Promise<any> {
+  const res = await fetch(`${API}${path}`, {
+    method: "POST",
+    // Sem Content-Type à mão: o boundary é gerado pelo runtime.
+    headers: { Authorization: `Bearer ${apiKey()}` },
+    body: form,
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`OpenAI ${path} failed: ${res.status} ${detail.slice(0, 500)}`);
+  }
+  return res.json();
+}
+
 export type TextResult = {
   text: string;
   /** "length" significa resposta truncada: o conteúdo não é de confiança. */
@@ -87,34 +104,105 @@ export async function generateText(params: {
 }
 
 /**
- * Gera uma imagem e devolve-a como Blob pronto para o storage.
+ * Aspecto das duas imagens do artigo.
  *
- * Os modelos GPT Image devolvem sempre base64 (`b64_json`); o `response_format:
- * "url"` é do DALL·E 3 e não se aplica aqui. Pedimos webp em vez de png porque
- * um png destas dimensões em base64 anda pelos vários MB de texto.
- *
- * Nota de enquadramento: estes modelos não têm um tamanho 16:9. O mais próximo
- * é a paisagem 1536x1024 (3:2). O site desenha a hero com `object-cover` em
- * todos os sítios, portanto o corte é feito pelo CSS, e o prompt de arte pede
- * folga em cima e em baixo para o corte não decapitar o motivo.
+ * Os modelos GPT Image não têm um tamanho 16:9. O mais próximo da paisagem é
+ * 1536x1024 (3:2), que é o que ambas usam: a hero é cortada para banner pelo
+ * `object-cover` do site e o briefing pede folga em cima e em baixo, a
+ * editorial aparece no corpo do artigo já na proporção nativa.
  */
-export async function generateImage(prompt: string): Promise<Blob> {
-  const json = await post("/images/generations", {
-    model: imageModel(),
-    prompt,
-    n: 1,
-    size: "1536x1024",
-    quality: "high",
-    output_format: "webp",
-  });
+export const IMAGE_SIZE_LANDSCAPE = "1536x1024";
 
+/**
+ * O logo oficial, buscado uma vez por isolate e reutilizado.
+ *
+ * Vai como imagem de referência para o `/images/edits`, que é o único endpoint
+ * de imagem da OpenAI que aceita anexos. Sem isto o modelo inventa um monograma
+ * LM parecido mas errado, que é exactamente o que a direcção de arte proíbe.
+ */
+const DEFAULT_LOGO_PATH = "/shared/logos/luxmotion-logo-square.jpg";
+let logoCache: { url: string; blob: Blob } | null = null;
+
+export function logoUrl(siteUrl: string): string {
+  return process.env.LUXMOTION_LOGO_URL ?? `${siteUrl}${DEFAULT_LOGO_PATH}`;
+}
+
+export async function fetchLogoReference(siteUrl: string): Promise<Blob> {
+  const url = logoUrl(siteUrl);
+  if (logoCache?.url === url) return logoCache.blob;
+
+  const res = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+  if (!res.ok) {
+    throw new Error(`logo reference fetch failed: ${res.status} ${url}`);
+  }
+  const type = res.headers.get("content-type") ?? "";
+  if (!/^image\/(png|jpeg|webp)$/.test(type)) {
+    // A API rejeita qualquer outra coisa (SVG incluído) com um 400 críptico.
+    throw new Error(`logo reference is not a png/jpeg/webp image: ${type} ${url}`);
+  }
+  const blob = new Blob([await res.arrayBuffer()], { type });
+  logoCache = { url, blob };
+  return blob;
+}
+
+function decodeB64(b64: string, mime: string): Blob {
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}
+
+function firstImage(json: any): Blob {
   const b64 = json?.data?.[0]?.b64_json;
   if (typeof b64 !== "string" || b64.length === 0) {
     throw new Error("OpenAI image response had no b64_json payload");
   }
+  return decodeB64(b64, "image/jpeg");
+}
 
-  const binary = atob(b64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return new Blob([bytes], { type: "image/webp" });
+/**
+ * Gera uma imagem e devolve-a como Blob pronto para o storage.
+ *
+ * Os modelos GPT Image devolvem sempre base64 (`b64_json`); o `response_format:
+ * "url"` é do DALL·E 3 e não se aplica aqui. O formato pedido é JPEG porque é o
+ * que o pipeline de publicação assume, e a extensão do ficheiro tem de
+ * corresponder aos bytes que a API devolveu.
+ *
+ * Com `reference` a chamada passa a ser multipart para `/images/edits`, a única
+ * forma de o modelo ver o logo oficial em vez de o imaginar.
+ */
+export async function generateImage(params: {
+  prompt: string;
+  reference?: Blob;
+  size?: string;
+}): Promise<Blob> {
+  const size = params.size ?? IMAGE_SIZE_LANDSCAPE;
+
+  if (!params.reference) {
+    const json = await post("/images/generations", {
+      model: imageModel(),
+      prompt: params.prompt,
+      n: 1,
+      size,
+      quality: "high",
+      output_format: "jpeg",
+    });
+    return firstImage(json);
+  }
+
+  const form = new FormData();
+  form.append("model", imageModel());
+  form.append("prompt", params.prompt);
+  form.append("n", "1");
+  form.append("size", size);
+  form.append("quality", "high");
+  form.append("output_format", "jpeg");
+  form.append("input_fidelity", "high");
+  // O nome do anexo segue os bytes: a API valida o formato, não a extensão.
+  const ext = params.reference.type === "image/webp" ? "webp"
+    : params.reference.type === "image/png" ? "png"
+    : "jpg";
+  form.append("image[]", params.reference, `luxmotion-logo.${ext}`);
+
+  return firstImage(await postForm("/images/edits", form));
 }

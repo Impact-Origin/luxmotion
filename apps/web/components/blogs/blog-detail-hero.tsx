@@ -15,6 +15,7 @@ export interface BlogHeroBreadcrumb {
 
 interface BlogDetailHeroProps {
   imageUrl?: string | null
+  imageAlt?: string | null
   breadcrumbs: BlogHeroBreadcrumb[]
   category?: string
   title: string
@@ -41,6 +42,7 @@ function getInitial(name?: string): string {
 
 export function BlogDetailHero({
   imageUrl,
+  imageAlt,
   breadcrumbs,
   category,
   title,
@@ -57,7 +59,9 @@ export function BlogDetailHero({
     <section className="relative w-full overflow-hidden bg-[#0D0D0D] min-h-[520px] lg:min-h-[600px]">
       <Image
         src={bg}
-        alt=""
+        /* A capa é a imagem do artigo, não decoração: quando a automação
+           escreveu um alt, ele vai para o leitor de ecrã. */
+        alt={imageAlt ?? ""}
         fill
         priority
         sizes="100vw"

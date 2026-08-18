@@ -102,6 +102,7 @@ type CreatePageMetadataInput = {
   description?: string;
   path: string;
   image?: string | null;
+  imageAlt?: string | null;
   type?: "website" | "article";
   keywords?: string[];
   noIndex?: boolean;
@@ -129,7 +130,11 @@ export function createPageMetadata(input: CreatePageMetadataInput): Metadata {
       type: input.type || "website",
       url: canonical,
       siteName: DEFAULT_SITE_NAME,
-      images: [{ url: absoluteUrl(image) }],
+      images: [
+        input.imageAlt
+          ? { url: absoluteUrl(image), alt: input.imageAlt }
+          : { url: absoluteUrl(image) },
+      ],
       locale: "pt_PT",
     },
     twitter: {

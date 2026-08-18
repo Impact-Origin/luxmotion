@@ -182,6 +182,10 @@ export const getBySlug = query({
       ? await ctx.storage.getUrl(blog.heroImageId)
       : null;
 
+    const editorialImageUrl = blog.editorialImageId
+      ? await ctx.storage.getUrl(blog.editorialImageId)
+      : null;
+
     const authorAvatarUrl = blog.authorAvatarId
       ? await ctx.storage.getUrl(blog.authorAvatarId)
       : null;
@@ -194,6 +198,7 @@ export const getBySlug = query({
     return {
       ...blog,
       heroImageUrl,
+      editorialImageUrl,
       authorAvatarUrl,
       translations,
       availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
@@ -211,6 +216,10 @@ export const getById = query({
       ? await ctx.storage.getUrl(blog.heroImageId)
       : null;
 
+    const editorialImageUrl = blog.editorialImageId
+      ? await ctx.storage.getUrl(blog.editorialImageId)
+      : null;
+
     const authorAvatarUrl = blog.authorAvatarId
       ? await ctx.storage.getUrl(blog.authorAvatarId)
       : null;
@@ -223,6 +232,7 @@ export const getById = query({
     return {
       ...blog,
       heroImageUrl,
+      editorialImageUrl,
       authorAvatarUrl,
       translations,
       availableLanguages: [blog.originalLanguage, ...translations.map((t) => t.locale)],
@@ -277,6 +287,12 @@ export const create = mutation({
     excerpt: v.string(),
     content: v.any(),
     heroImageId: v.optional(v.id("_storage")),
+    heroImageAlt: v.optional(v.string()),
+    heroImageFilename: v.optional(v.string()),
+    editorialImageId: v.optional(v.id("_storage")),
+    editorialImageAlt: v.optional(v.string()),
+    editorialImageCaption: v.optional(v.string()),
+    editorialImageFilename: v.optional(v.string()),
     category: v.string(),
     author: v.string(),
     authorRole: v.optional(v.string()),
@@ -350,6 +366,12 @@ export const update = mutation({
     excerpt: v.optional(v.string()),
     content: v.optional(v.any()),
     heroImageId: v.optional(v.id("_storage")),
+    heroImageAlt: v.optional(v.string()),
+    heroImageFilename: v.optional(v.string()),
+    editorialImageId: v.optional(v.id("_storage")),
+    editorialImageAlt: v.optional(v.string()),
+    editorialImageCaption: v.optional(v.string()),
+    editorialImageFilename: v.optional(v.string()),
     category: v.optional(v.string()),
     author: v.optional(v.string()),
     authorRole: v.optional(v.string()),
@@ -432,6 +454,10 @@ export const remove = mutation({
 
     if (blog.heroImageId) {
       await safeStorageDelete(ctx, blog.heroImageId);
+    }
+
+    if (blog.editorialImageId) {
+      await safeStorageDelete(ctx, blog.editorialImageId);
     }
 
     if (blog.authorAvatarId) {

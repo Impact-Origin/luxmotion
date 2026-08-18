@@ -13,6 +13,12 @@ export interface BlogData {
   excerpt: string
   content: any
   heroImageUrl: string | null
+  heroImageAlt?: string
+  /* Segunda imagem gerada pela automação, inserida no corpo do artigo. Só as
+     queries de detalhe a resolvem: os cards da listagem usam só a capa. */
+  editorialImageUrl?: string | null
+  editorialImageAlt?: string
+  editorialImageCaption?: string
   category: string
   author: string
   authorRole?: string

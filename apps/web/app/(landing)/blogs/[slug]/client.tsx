@@ -14,7 +14,10 @@ import { BlogPrevNext, PrevNextItem } from "@/components/blogs/blog-prev-next"
 import { Footer } from "@/components/new-landing-page/footer"
 import { BlogDetailSkeleton } from "@/components/blogs/blog-skeletons"
 import { useBlogBySlug, usePublishedBlogs } from "@/hooks/use-blog-data"
-import { tiptapToContentBlocks } from "@/lib/blog-content-transformer"
+import {
+  tiptapToContentBlocks,
+  withEditorialImage,
+} from "@/lib/blog-content-transformer"
 
 const LOCALE_DATE_MAP: Record<string, string> = {
   en: "en-US",
@@ -64,7 +67,21 @@ function BlogDetailContent({ slug }: { slug: string }) {
     )
   }
 
-  const contentBlocks: ContentBlock[] = content ? tiptapToContentBlocks(content) : []
+  // A imagem editorial é a segunda imagem gerada pela automação e vive dentro
+  // do artigo. A tradução não a traz, por isso entra aqui, depois do conteúdo
+  // já estar escolhido para o locale.
+  const contentWithImage = content
+    ? blog.editorialImageUrl
+      ? withEditorialImage(content, {
+          src: blog.editorialImageUrl,
+          alt: blog.editorialImageAlt,
+          caption: blog.editorialImageCaption,
+        })
+      : content
+    : null
+  const contentBlocks: ContentBlock[] = contentWithImage
+    ? tiptapToContentBlocks(contentWithImage)
+    : []
   const resolvedTitle = title || blog.title
 
   const breadcrumbs: BlogHeroBreadcrumb[] = [
@@ -109,6 +126,7 @@ function BlogDetailContent({ slug }: { slug: string }) {
     <>
       <BlogDetailHero
         imageUrl={blog.heroImageUrl}
+        imageAlt={blog.heroImageAlt}
         breadcrumbs={breadcrumbs}
         category={blog.category}
         title={resolvedTitle}

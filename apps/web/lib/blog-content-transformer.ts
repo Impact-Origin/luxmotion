@@ -32,6 +32,54 @@ export function tiptapToContentBlocks(tiptapContent: any): ContentBlock[] {
   ];
 }
 
+/**
+ * Insere a imagem editorial no corpo do artigo.
+ *
+ * Entra como nó `image` do próprio documento, e não como bloco à parte, para o
+ * índice lateral e os ids dos títulos continuarem a ser calculados sobre um só
+ * documento. O sítio é antes do segundo título de nível 2, que é onde já há
+ * texto suficiente para a imagem ilustrar alguma coisa e ainda falta artigo
+ * para ela não ficar colada ao fim.
+ */
+export function withEditorialImage(
+  tiptapContent: any,
+  image: { src: string; alt?: string; caption?: string },
+): any {
+  const doc = tiptapContent as TipTapDocument | null;
+  if (!doc || doc.type !== "doc" || !Array.isArray(doc.content)) {
+    return tiptapContent;
+  }
+  // Um artigo que já traga imagens não precisa de mais uma a meio.
+  if (doc.content.some((node) => node?.type === "image")) return tiptapContent;
+
+  const headings = doc.content
+    .map((node, index) => ({ node, index }))
+    .filter(({ node }) => node?.type === "heading" && (node.attrs?.level ?? 2) === 2);
+
+  const at =
+    headings.length >= 2
+      ? headings[1]!.index
+      : Math.min(
+          Math.max(2, Math.round(doc.content.length * 0.4)),
+          doc.content.length,
+        );
+
+  const node: TipTapNode = {
+    type: "image",
+    attrs: {
+      src: image.src,
+      alt: image.alt ?? "",
+      // O ImageNode desenha o attrs.title como legenda por baixo da figura.
+      title: image.caption ?? null,
+    },
+  };
+
+  return {
+    ...doc,
+    content: [...doc.content.slice(0, at), node, ...doc.content.slice(at)],
+  };
+}
+
 export function contentBlocksToTiptap(blocks: ContentBlock[]): TipTapDocument {
   const content: TipTapNode[] = [];
 

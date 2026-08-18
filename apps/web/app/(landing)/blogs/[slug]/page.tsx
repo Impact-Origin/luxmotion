@@ -27,6 +27,7 @@ type BlogSeoSource = {
   seoTitle?: string
   seoDescription?: string
   heroImageUrl?: string | null
+  heroImageAlt?: string
   author?: string
   publishedAt?: number
   updatedAt?: number
@@ -76,6 +77,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       description: seo.description,
       path: `/blogs/${slug}`,
       image: blog.heroImageUrl,
+      imageAlt: blog.heroImageAlt,
       type: "article",
       keywords: blog.tags,
       noIndex: blog.status !== "published",

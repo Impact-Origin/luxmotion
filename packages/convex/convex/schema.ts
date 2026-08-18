@@ -402,6 +402,17 @@ export default defineSchema({
     excerpt: v.string(),
     content: v.any(),
     heroImageId: v.optional(v.id("_storage")),
+    /* Metadata das duas imagens geradas pela automação. O alt é o que vai para
+       o atributo do <img>; o filename não é usado pelo storage do Convex (que
+       serve por id), fica registado para quando as imagens saírem para um CDN
+       com nomes reais. */
+    heroImageAlt: v.optional(v.string()),
+    heroImageFilename: v.optional(v.string()),
+    /** Segunda imagem, inserida no corpo do artigo. */
+    editorialImageId: v.optional(v.id("_storage")),
+    editorialImageAlt: v.optional(v.string()),
+    editorialImageCaption: v.optional(v.string()),
+    editorialImageFilename: v.optional(v.string()),
     category: v.string(),
     author: v.string(),
     authorRole: v.optional(v.string()),

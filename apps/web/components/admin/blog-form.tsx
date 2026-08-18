@@ -39,6 +39,10 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
   const [excerpt, setExcerpt] = React.useState(initialData?.excerpt || "");
   const [content, setContent] = React.useState<any>(initialData?.content || null);
   const [heroImageId, setHeroImageId] = React.useState<string | undefined>(initialData?.heroImageId);
+  const [heroImageAlt, setHeroImageAlt] = React.useState(initialData?.heroImageAlt || "");
+  const [editorialImageId, setEditorialImageId] = React.useState<string | undefined>(initialData?.editorialImageId);
+  const [editorialImageAlt, setEditorialImageAlt] = React.useState(initialData?.editorialImageAlt || "");
+  const [editorialImageCaption, setEditorialImageCaption] = React.useState(initialData?.editorialImageCaption || "");
   const [category, setCategory] = React.useState(initialData?.category || "Lisbon");
   const [author, setAuthor] = React.useState(initialData?.author || "EasyTransfer Team");
   const [authorRole, setAuthorRole] = React.useState(initialData?.authorRole || "");
@@ -54,6 +58,7 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
   const [tags, setTags] = React.useState<string>(initialData?.tags?.join(", ") || "");
 
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(initialData?.heroImageUrl || null);
+  const [editorialPreviewUrl, setEditorialPreviewUrl] = React.useState<string | null>(initialData?.editorialImageUrl || null);
 
   const createBlog = useMutation(api.blogs.create);
   const updateBlog = useMutation(api.blogs.update);
@@ -68,6 +73,11 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
       setExcerpt(initialData.excerpt || "");
       setContent(initialData.content || null);
       setHeroImageId(initialData.heroImageId);
+      setHeroImageAlt(initialData.heroImageAlt || "");
+      setEditorialImageId(initialData.editorialImageId);
+      setEditorialImageAlt(initialData.editorialImageAlt || "");
+      setEditorialImageCaption(initialData.editorialImageCaption || "");
+      setEditorialPreviewUrl(initialData.editorialImageUrl || null);
       setCategory(initialData.category || "Lisbon");
       setAuthor(initialData.author || "EasyTransfer Team");
       setAuthorRole(initialData.authorRole || "");
@@ -88,6 +98,11 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
       setExcerpt("");
       setContent(null);
       setHeroImageId(undefined);
+      setHeroImageAlt("");
+      setEditorialImageId(undefined);
+      setEditorialImageAlt("");
+      setEditorialImageCaption("");
+      setEditorialPreviewUrl(null);
       setCategory("Lisbon");
       setAuthor("EasyTransfer Team");
       setAuthorRole("");
@@ -147,6 +162,10 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
         excerpt,
         content,
         heroImageId: heroImageId as any,
+        heroImageAlt: heroImageAlt.trim() || undefined,
+        editorialImageId: editorialImageId as any,
+        editorialImageAlt: editorialImageAlt.trim() || undefined,
+        editorialImageCaption: editorialImageCaption.trim() || undefined,
         category,
         author,
         authorRole: authorRole || undefined,
@@ -285,6 +304,53 @@ export function BlogForm({ onClose, initialData }: BlogFormProps) {
                     }}
                     disabled={isSubmitting}
                   />
+                  <div className="space-y-2">
+                    <Label htmlFor="heroImageAlt">Hero image alt text</Label>
+                    <Input
+                      id="heroImageAlt"
+                      value={heroImageAlt}
+                      onChange={(e) => setHeroImageAlt(e.target.value)}
+                      placeholder="What the image shows, for screen readers and Google"
+                      maxLength={160}
+                    />
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Segunda imagem: entra no meio do artigo, antes do segundo H2. */}
+                <div className="space-y-4">
+                  <Label className="text-base font-bold flex items-center gap-2">
+                    <Info className="h-4 w-4" /> Editorial Image
+                  </Label>
+                  <ImageUpload
+                    value={editorialPreviewUrl}
+                    onChange={(id) => {
+                      setEditorialImageId(id);
+                      if (!id) setEditorialPreviewUrl(null);
+                    }}
+                    disabled={isSubmitting}
+                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="editorialImageAlt">Editorial image alt text</Label>
+                    <Input
+                      id="editorialImageAlt"
+                      value={editorialImageAlt}
+                      onChange={(e) => setEditorialImageAlt(e.target.value)}
+                      placeholder="What the second image shows"
+                      maxLength={160}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="editorialImageCaption">Editorial image caption</Label>
+                    <Input
+                      id="editorialImageCaption"
+                      value={editorialImageCaption}
+                      onChange={(e) => setEditorialImageCaption(e.target.value)}
+                      placeholder="Printed under the image in the article"
+                      maxLength={220}
+                    />
+                  </div>
                 </div>
 
                 <Separator />

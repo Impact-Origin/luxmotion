@@ -21,7 +21,12 @@ import {
   translationSystemPrompt,
   translationUserPrompt,
 } from "./lib/blogPrompts";
-import { generateImage, generateText, textModel } from "./lib/openai";
+import {
+  fetchLogoReference,
+  generateImage,
+  generateText,
+  textModel,
+} from "./lib/openai";
 import {
   findUnrenderableNodes,
   markdownToTiptap,
@@ -463,6 +468,15 @@ export const generateArticle = internalAction({
   },
 });
 
+/**
+ * As duas imagens do artigo: a capa e a editorial que vai no corpo do texto.
+ *
+ * Uma chamada ao modelo de texto escreve os dois prompts e a metadata, e cada
+ * imagem é uma chamada ao GPT Image com o logo oficial em anexo. A capa é
+ * obrigatória — sem ela o artigo não publica e a action volta a tentar. A
+ * editorial é o melhor esforço: falhar a segunda imagem não justifica pagar a
+ * primeira outra vez.
+ */
 export const generateHeroImage = internalAction({
   args: {
     runId: v.id("blogGenerationRuns"),
@@ -486,7 +500,7 @@ export const generateHeroImage = internalAction({
           primaryKeyword: args.keyword,
           keyPoints: args.keyPoints,
         }),
-        maxOutputTokens: 6000,
+        maxOutputTokens: 8000,
       });
       if (brief.finishReason === "length") {
         throw new Error(
@@ -497,30 +511,86 @@ export const generateHeroImage = internalAction({
       // Se as tags não vierem mas houver texto, o próprio texto costuma ser um
       // prompt utilizável. Falhar por causa do formato seria deitar fora uma
       // resposta boa.
-      const prompt = blocks.IMAGE_PROMPT ?? brief.text.trim();
-      if (!prompt) {
+      const heroPrompt = blocks.HERO_PROMPT ?? brief.text.trim();
+      if (!heroPrompt) {
         throw new Error(
           `briefing de imagem vazio (finishReason=${brief.finishReason})`,
         );
       }
-      if (!blocks.IMAGE_PROMPT) {
+      if (!blocks.HERO_PROMPT) {
         console.warn(
-          `${LOG} briefing sem ::LUX_IMAGE_PROMPT::, a usar a resposta inteira: ${brief.text.slice(0, 200)}`,
+          `${LOG} briefing sem ::LUX_HERO_PROMPT::, a usar a resposta inteira: ${brief.text.slice(0, 200)}`,
         );
       }
 
-      const blob = await generateImage(prompt);
-      const storageId = await ctx.storage.store(blob);
+      // O logo é a referência de identidade. Sem ele o modelo inventa um
+      // monograma parecido, portanto mais vale pedir os carros sem marca
+      // nenhuma do que uma marca errada.
+      let logo: Blob | undefined;
+      try {
+        logo = await fetchLogoReference(hostUrl());
+      } catch (error) {
+        console.warn(
+          `${LOG} sem logo de referência (${error instanceof Error ? error.message : error}): imagens sem branding`,
+        );
+      }
+      // O `/images/edits` tende a tratar o anexo como tela de partida, por isso
+      // a primeira frase diz explicitamente que o logo é só referência de marca.
+      const withBranding = (prompt: string) =>
+        logo
+          ? `The attached image is the official LuxMotion logo, supplied only as a brand identity reference. It is not the scene, the background, the composition or the subject. Produce a completely new photograph as described below, and reproduce the logo exactly as supplied wherever the description places it. ${prompt}`
+          : `${prompt} Leave every vehicle surface unbranded: no LuxMotion logo, monogram, badge, lettering or emblem anywhere in the frame.`;
+
+      const heroBlob = await generateImage({
+        prompt: withBranding(heroPrompt),
+        reference: logo,
+      });
+      const heroId = await ctx.storage.store(heroBlob);
+
+      // A editorial não pode derrubar a capa que já está paga e guardada.
+      let editorialId: Id<"_storage"> | undefined;
+      const editorialPrompt = blocks.EDITORIAL_PROMPT?.trim();
+      if (editorialPrompt) {
+        try {
+          const editorialBlob = await generateImage({
+            prompt: withBranding(editorialPrompt),
+            reference: logo,
+          });
+          editorialId = await ctx.storage.store(editorialBlob);
+        } catch (error) {
+          console.warn(
+            `${LOG} imagem editorial falhou: ${error instanceof Error ? error.message : error}`,
+          );
+        }
+      } else {
+        console.warn(`${LOG} briefing sem ::LUX_EDITORIAL_PROMPT::`);
+      }
+
+      const blog = await ctx.runQuery(api.blogs.getById, { id: args.blogId });
+      const tags = mergeTags(blog?.tags, blocks.IMAGE_TAGS);
 
       await ctx.runMutation(api.blogs.update, {
         id: args.blogId,
-        heroImageId: storageId,
+        heroImageId: heroId,
+        heroImageAlt: clean(blocks.HERO_ALT),
+        heroImageFilename: filename(blocks.HERO_FILENAME),
+        editorialImageId: editorialId,
+        editorialImageAlt: editorialId ? clean(blocks.EDITORIAL_ALT) : undefined,
+        editorialImageCaption: editorialId
+          ? clean(blocks.EDITORIAL_CAPTION)
+          : undefined,
+        editorialImageFilename: editorialId
+          ? filename(blocks.EDITORIAL_FILENAME)
+          : undefined,
+        tags: tags.length > 0 ? tags : undefined,
       });
       await ctx.runMutation(internal.blogAutomation._markStep, {
         runId: args.runId,
         image: true,
       });
-      console.log(`${LOG} imagem guardada para ${args.title}`);
+      console.log(
+        `${LOG} imagens guardadas para ${args.title} (editorial: ${editorialId ? "sim" : "não"})`,
+      );
       return { ok: true };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -689,6 +759,51 @@ export const retryHeroImage = action({
 });
 
 /* ---------------------------------------------------------------- helpers */
+
+/** Um bloco do briefing que veio vazio não deve gravar uma string vazia. */
+function clean(value: string | undefined): string | undefined {
+  const t = value?.trim().replace(/^["']|["']$/g, "");
+  return t ? t : undefined;
+}
+
+/**
+ * O nome de ficheiro proposto pelo modelo, normalizado.
+ *
+ * O storage do Convex serve por id, portanto isto é registo: fica guardado para
+ * o dia em que as imagens saírem para um CDN com nomes reais. A extensão é
+ * forçada a .jpg porque é o formato que a API devolve.
+ */
+function filename(value: string | undefined): string | undefined {
+  const raw = clean(value);
+  if (!raw) return undefined;
+  const slug = raw
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\.jpe?g$/, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60)
+    .replace(/-+$/, "");
+  return slug ? `${slug}.jpg` : undefined;
+}
+
+/** As tags do briefing juntam-se às do artigo, sem repetir e sem passar de 5. */
+function mergeTags(
+  existing: string[] | undefined,
+  fromImages: string | undefined,
+): string[] {
+  const extra = (fromImages ?? "")
+    .split(",")
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
+  const out: string[] = [];
+  for (const tag of [...(existing ?? []), ...extra]) {
+    if (!out.includes(tag)) out.push(tag);
+    if (out.length === 5) break;
+  }
+  return out;
+}
 
 /** Espelha o generateSlug de lib/utils.ts, para pré-verificar colisões. */
 function slugify(title: string): string {
