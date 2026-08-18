@@ -29,20 +29,20 @@ export type TabelaLead =
   | "driverApplications";
 
 export type LeadPipedrive = {
-  /** O que se lê na Caixa de Leads. Começa sempre pela origem. */
+  /** O que se lê no cartão do funil. Começa sempre pela origem. */
   titulo: string;
   pessoa: { nome: string; email: string; telefone?: string };
   organizacao?: string;
-  /** Em euros. Ausente quando não há orçamento — uma lead de €0 lê-se mal. */
+  /** Em euros. Ausente quando não há orçamento — um negócio de €0 lê-se mal. */
   valor?: number;
   /** HTML para a Nota. Ausente quando não há detalhe que valha a pena. */
   nota?: string;
   /**
    * Newsletter: cria-se a Pessoa e fica por aí. Quem subscreve o rodapé não
    * pediu para ser contactado, e são três sítios do site a alimentar a mesma
-   * tabela — em duas semanas a caixa era só isto e ninguém a lia.
+   * tabela — em duas semanas o funil era só isto e ninguém lhe pegava.
    */
-  semLead?: boolean;
+  semNegocio?: boolean;
 };
 
 // ---------------------------------------------------------------------------
@@ -172,10 +172,10 @@ const VIATURAS_CASAMENTO: Record<string, string> = {
 /**
  * De onde veio, escrito na própria nota.
  *
- * O Pipedrive marca a origem sozinho só nas Leads (fica "API"); a Pessoa não
- * tem campo de origem que se possa escrever, e aparece como criada à mão. Uma
- * linha no topo da nota resolve isso em qualquer dos casos, e sobrevive a uma
- * lead que não chegue a ser criada.
+ * O Pipedrive marca a origem sozinho no Negócio (fica "API"); a Pessoa não tem
+ * campo de origem que se possa escrever, e aparece como criada à mão. Uma linha
+ * no topo da nota resolve isso em qualquer dos casos, e sobrevive a um negócio
+ * que não chegue a ser criado.
  */
 export const ORIGENS: Record<TabelaLead, string> = {
   contactSubmissions: "Formulário de contacto",
@@ -350,7 +350,7 @@ export function mapearPartnerLead(d: Doc<"partnerLeads">): LeadPipedrive {
 
 export function mapearNewsletter(d: Doc<"newsletterSubscriptions">): LeadPipedrive {
   return {
-    semLead: true,
+    semNegocio: true,
     titulo: titulo("Newsletter", d.name ?? d.email),
     pessoa: { nome: nomeSeguro(d.name, d.email), email: d.email },
     nota: undefined,

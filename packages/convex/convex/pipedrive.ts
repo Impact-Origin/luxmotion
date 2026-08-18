@@ -1,9 +1,9 @@
 /**
  * As leads do site no Pipedrive.
  *
- * Cada formulário cria (ou reaproveita) uma Pessoa pelo email e abre uma Lead
- * na Caixa de Leads, com uma Nota a levar o detalhe do pedido. Uma reserva paga
- * entra como negócio ganho.
+ * Cada formulário cria (ou reaproveita) uma Pessoa pelo email e abre um Negócio
+ * na primeira etapa do funil, com uma Nota a levar o detalhe do pedido. Uma
+ * reserva paga entra como negócio já ganho.
  *
  * A chave vive **só** na variável de ambiente `PIPEDRIVE_API_TOKEN`, posta com
  * `npx convex env set` — nunca em ficheiro, nunca em commit. E vai no cabeçalho
@@ -53,6 +53,11 @@ const MAX_TENTATIVAS = 5;
 const MAX_LIMITES = 8;
 
 const BASE = process.env.PIPEDRIVE_BASE_URL ?? "https://api.pipedrive.com";
+
+/* Opcionais: sem eles, o Pipedrive usa o funil por omissão e a sua primeira
+   etapa. Definem-se com `npx convex env set PIPEDRIVE_PIPELINE_ID <n>`. */
+const PIPELINE_ID = process.env.PIPEDRIVE_PIPELINE_ID ? Number(process.env.PIPEDRIVE_PIPELINE_ID) : null;
+const STAGE_ID = process.env.PIPEDRIVE_STAGE_ID ? Number(process.env.PIPEDRIVE_STAGE_ID) : null;
 
 // ---------------------------------------------------------------------------
 // A camada HTTP
@@ -551,42 +556,52 @@ export const enviarLead = internalAction({
       await ctx.runMutation(internal.pipedrive.marcar, { origem, origemId, personId });
     }
 
-    // --- Lead (a newsletter fica-se pela pessoa)
-    let leadId = estado?.leadId ?? null;
-    if (!lead.semLead && !leadId) {
-      const corpo: Record<string, unknown> = { title: lead.titulo, person_id: personId };
-      if (organizationId) corpo.organization_id = organizationId;
-      // Sem orçamento não se manda `{amount: 0}`: aparece como uma lead de €0.
-      if (lead.valor !== undefined) corpo.value = { amount: lead.valor, currency: "EUR" };
+    // --- Negócio no funil (a newsletter fica-se pela pessoa)
+    let dealId = estado?.dealId ?? null;
+    if (!lead.semNegocio && !dealId) {
+      /* Negócio e não Lead: a Caixa de Leads do Pipedrive não tem funil nem
+         etapa, e é isso que se quer ver aqui. Sem `pipeline_id`/`stage_id` o
+         Pipedrive põe-no na primeira etapa do funil por omissão, que é o
+         comportamento certo para um pedido acabado de chegar. */
+      const corpo: Record<string, unknown> = {
+        title: lead.titulo,
+        person_id: personId,
+        currency: "EUR",
+      };
+      if (organizationId) corpo.org_id = organizationId;
+      // Sem orçamento não se manda 0: aparecia um negócio de €0 no funil.
+      if (lead.valor !== undefined) corpo.value = lead.valor;
+      if (PIPELINE_ID) corpo.pipeline_id = PIPELINE_ID;
+      if (STAGE_ID) corpo.stage_id = STAGE_ID;
 
-      const r = await pedir(token, "POST", "/api/v1/leads", corpo);
+      const r = await pedir(token, "POST", "/api/v2/deals", corpo);
       if (!r.ok) {
         /* Uma falha que se pode repetir espera pela próxima tentativa. Uma
            definitiva não pode levar a nota atrás: era assim que o `city`, o
            `partnerType`, o volume e o "como nos conheceu" desapareciam sem
            deixar rasto, com a Pessoa criada e nada agarrado a ela. Regista-se o
            erro e segue-se para a nota, que fica na Pessoa. */
-        if (r.repetir) return await falhar(r, "criar-lead");
-        console.error(`[Pipedrive] lead recusada em ${origem}/${origemId}: ${r.erro} — o detalhe vai na nota da pessoa.`);
+        if (r.repetir) return await falhar(r, "criar-negocio");
+        console.error(`[Pipedrive] negócio recusado em ${origem}/${origemId}: ${r.erro} — o detalhe vai na nota da pessoa.`);
         await ctx.runMutation(internal.pipedrive.marcar, {
           origem,
           origemId,
-          ultimoErro: `criar-lead: ${r.erro}`,
+          ultimoErro: `criar-negocio: ${r.erro}`,
         });
       } else {
-        leadId = typeof r.dados?.data?.id === "string" ? r.dados.data.id : null;
-        if (leadId) {
-          await ctx.runMutation(internal.pipedrive.marcar, { origem, origemId, leadId });
+        dealId = typeof r.dados?.data?.id === "number" ? r.dados.data.id : null;
+        if (dealId) {
+          await ctx.runMutation(internal.pipedrive.marcar, { origem, origemId, dealId });
         } else {
-          console.error(`[Pipedrive] resposta 2xx sem id de lead em ${origem}/${origemId}: ${JSON.stringify(r.dados).slice(0, 300)}`);
+          console.error(`[Pipedrive] resposta 2xx sem id de negócio em ${origem}/${origemId}: ${JSON.stringify(r.dados).slice(0, 300)}`);
         }
       }
     }
 
-    // --- Nota com o detalhe (a Lead não tem campo de texto livre)
+    // --- Nota com o detalhe (o Negócio não tem campo de texto livre)
     if (lead.nota && !estado?.noteId) {
       const corpo: Record<string, unknown> = { content: lead.nota, person_id: personId };
-      if (leadId) corpo.lead_id = leadId;
+      if (dealId) corpo.deal_id = dealId;
 
       const r = await pedir(token, "POST", "/api/v1/notes", corpo);
       if (!r.ok) return await falhar(r, "criar-nota");
@@ -601,7 +616,7 @@ export const enviarLead = internalAction({
       tentativas: tentativa,
     });
     console.log(
-      `[Pipedrive] ${origem}/${origemId} → pessoa ${personId}${leadId ? `, lead ${leadId}` : " (só pessoa)"}`,
+      `[Pipedrive] ${origem}/${origemId} → pessoa ${personId}${dealId ? `, negócio ${dealId}` : " (só pessoa)"}`,
     );
   },
 });
@@ -690,8 +705,7 @@ export const enviarReservaPaga = internalAction({
         status: "won",
         won_time: new Date().toISOString(),
       };
-      const pipeline = process.env.PIPEDRIVE_PIPELINE_ID;
-      if (pipeline) corpo.pipeline_id = Number(pipeline);
+      if (PIPELINE_ID) corpo.pipeline_id = PIPELINE_ID;
 
       const r = await pedir(token, "POST", "/api/v2/deals", corpo);
       if (!r.ok) return await falhar(r, "criar-negocio");
