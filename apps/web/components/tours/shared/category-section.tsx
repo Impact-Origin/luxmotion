@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { TourCard, TourData } from "./tour-card"
 
 interface CategorySectionProps {

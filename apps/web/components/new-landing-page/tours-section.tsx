@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { ArrowRight, ArrowUpRight } from "lucide-react"

@@ -1,7 +1,29 @@
 import type { MetadataRoute } from "next";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
-import { canonicalUrl } from "@/lib/seo";
+import { canonicalUrl, localePath } from "@/lib/seo";
+import { defaultLocale, locales } from "@/i18n/config";
+
+/**
+ * Uma entrada por caminho, no idioma por omissão, com as outras cinco versões
+ * declaradas em `alternates`. É a forma que o Google recomenda para sites
+ * multilingues: seis entradas soltas por página diziam a mesma coisa em 834
+ * linhas em vez de 139.
+ */
+function entry(
+  path: string,
+  rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">,
+): MetadataRoute.Sitemap[number] {
+  return {
+    url: canonicalUrl(localePath(defaultLocale, path)),
+    alternates: {
+      languages: Object.fromEntries(
+        locales.map((l) => [l, canonicalUrl(localePath(l, path))]),
+      ),
+    },
+    ...rest,
+  };
+}
 
 // Rendered on demand: the dynamic entries come from Convex via a no-store
 // fetch, so this route can't be statically prerendered at build time. Making
@@ -68,6 +90,9 @@ const staticRoutes: Array<{
 // Partnership white-labels live at the top level (/<slug>). Guard against a slug
 // that would shadow a real first-level route above or a reserved system path.
 const reservedPartnershipSlugs = new Set([
+  /* Os códigos de idioma: /pt é a homepage portuguesa, e uma parceria com esse
+     slug ficaria inalcançável. */
+  ...locales,
   "about-us",
   "fleet",
   "tours",
@@ -97,12 +122,13 @@ const reservedPartnershipSlugs = new Set([
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
-    url: canonicalUrl(route.path),
-    lastModified: now,
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  }));
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) =>
+    entry(route.path, {
+      lastModified: now,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    }),
+  );
 
   // Dynamic routes are pulled from Convex. If Convex isn't reachable at build
   // time (e.g. NEXT_PUBLIC_CONVEX_URL not set in the build environment), emit
@@ -115,32 +141,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       fetchQuery(api.partnerships.list, {}),
     ]);
 
-    const tourEntries: MetadataRoute.Sitemap = tours.map((tour) => ({
-      url: canonicalUrl(`/tours/tour/${tour.slug}`),
-      lastModified: new Date(
-        tour.updatedAt || tour.publishedAt || tour.createdAt || Date.now(),
-      ),
-      changeFrequency: "weekly",
-      priority: tour.isFeatured ? 0.9 : 0.8,
-    }));
+    const tourEntries: MetadataRoute.Sitemap = tours.map((tour) =>
+      entry(`/tours/tour/${tour.slug}`, {
+        lastModified: new Date(
+          tour.updatedAt || tour.publishedAt || tour.createdAt || Date.now(),
+        ),
+        changeFrequency: "weekly",
+        priority: tour.isFeatured ? 0.9 : 0.8,
+      }),
+    );
 
-    const eventEntries: MetadataRoute.Sitemap = events.map((event) => ({
-      url: canonicalUrl(`/events/${event.slug}`),
-      lastModified: new Date(
-        event.updatedAt || event.publishedAt || event.createdAt || Date.now(),
-      ),
-      changeFrequency: "weekly",
-      priority: event.isFeatured ? 0.8 : 0.7,
-    }));
+    const eventEntries: MetadataRoute.Sitemap = events.map((event) =>
+      entry(`/events/${event.slug}`, {
+        lastModified: new Date(
+          event.updatedAt || event.publishedAt || event.createdAt || Date.now(),
+        ),
+        changeFrequency: "weekly",
+        priority: event.isFeatured ? 0.8 : 0.7,
+      }),
+    );
 
-    const blogEntries: MetadataRoute.Sitemap = blogs.map((blog) => ({
-      url: canonicalUrl(`/blogs/${blog.slug}`),
-      lastModified: new Date(
-        blog.updatedAt || blog.publishedAt || blog.createdAt || Date.now(),
-      ),
-      changeFrequency: "monthly",
-      priority: blog.isFeatured ? 0.8 : 0.7,
-    }));
+    const blogEntries: MetadataRoute.Sitemap = blogs.map((blog) =>
+      entry(`/blogs/${blog.slug}`, {
+        lastModified: new Date(
+          blog.updatedAt || blog.publishedAt || blog.createdAt || Date.now(),
+        ),
+        changeFrequency: "monthly",
+        priority: blog.isFeatured ? 0.8 : 0.7,
+      }),
+    );
 
     /* Estado explícito, não "tudo o que não está inactivo". O campo é opcional
        no schema, por isso qualquer registo criado sem estado entrava aqui como
@@ -148,12 +177,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const partnershipEntries: MetadataRoute.Sitemap = partnerships
       .filter((partnership) => partnership.status === "active")
       .filter((partnership) => !reservedPartnershipSlugs.has(partnership.slug))
-      .map((partnership) => ({
-        url: canonicalUrl(`/${partnership.slug}`),
-        lastModified: now,
-        changeFrequency: "weekly" as const,
-        priority: 0.6,
-      }));
+      .map((partnership) =>
+        entry(`/${partnership.slug}`, {
+          lastModified: now,
+          changeFrequency: "weekly" as const,
+          priority: 0.6,
+        }),
+      );
 
     return [
       ...staticEntries,

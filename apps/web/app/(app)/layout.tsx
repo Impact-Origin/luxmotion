@@ -1,0 +1,77 @@
+import "@workspace/ui/globals.css";
+import { Providers } from "@/components/providers";
+import { getLocale, getMessages, getTimeZone } from "next-intl/server";
+import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Poppins, Geist_Mono, Cormorant_Garamond, Montserrat } from "next/font/google";
+import type { Metadata } from "next";
+
+const fontSans = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
+});
+
+const fontMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
+const fontMontserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
+});
+
+const fontTitle = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-title",
+});
+
+/* Nada disto é para indexar: o admin, o checkout e o pagamento não são páginas
+   de pesquisa, e as de pré-visualização muito menos. */
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
+/**
+ * A segunda raiz da aplicação.
+ *
+ * As páginas públicas vivem em (site)/[locale] e tiram o idioma do endereço.
+ * Estas ficaram de fora de propósito: o /checkout e o /payment são o destino de
+ * retorno dos gateways de pagamento e o /admin é interno, portanto os endereços
+ * não podem mudar. Aqui o idioma continua a vir do cookie.
+ */
+export default async function AppLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const timeZone = await getTimeZone();
+
+  return (
+    <ClerkProvider signInUrl="/admin/sign-in">
+      <ConvexClientProvider>
+        <html
+          lang={locale}
+          suppressHydrationWarning
+          className={`${fontSans.variable} ${fontMono.variable} ${fontTitle.variable} ${fontMontserrat.variable}`}
+        >
+          <body className="antialiased font-sans">
+            <Providers
+              locale={locale}
+              messages={messages as Record<string, unknown>}
+              timeZone={timeZone}
+            >
+              {children}
+            </Providers>
+          </body>
+        </html>
+      </ConvexClientProvider>
+    </ClerkProvider>
+  );
+}

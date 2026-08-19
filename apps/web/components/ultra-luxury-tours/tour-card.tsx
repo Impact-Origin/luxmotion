@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { MapPin, Clock, Users, Star, ArrowRight } from "lucide-react"
 import { useMoney } from "@/components/currency-provider"
 

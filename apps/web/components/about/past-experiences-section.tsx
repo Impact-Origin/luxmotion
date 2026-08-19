@@ -7,7 +7,7 @@ import { api } from "@workspace/convex/api"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 
 type Category = "all" | "weddings" | "corporate" | "events" | "tours"
 

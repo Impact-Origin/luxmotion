@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { precoDeMontra } from "@/hooks/use-event-data"
 import { Calendar, MapPin, Search, Loader2 } from "lucide-react"

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { Calendar, Clock, User, ArrowRight, ChevronDown, Loader2 } from "lucide-react"
 import { useFeaturedBlogs, useFilteredBlogs, type BlogData } from "@/hooks/use-blog-data"

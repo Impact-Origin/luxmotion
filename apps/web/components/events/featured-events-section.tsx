@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { precoDeMontra } from "@/hooks/use-event-data"
 import { Calendar, MapPin, ArrowRight, Star, Loader2 } from "lucide-react"

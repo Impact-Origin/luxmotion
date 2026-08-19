@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { ArrowRight } from "lucide-react"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"

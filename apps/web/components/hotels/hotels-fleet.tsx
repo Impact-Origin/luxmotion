@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { User, ArrowLeft, ArrowRight } from "lucide-react"
 import { Reveal } from "@/components/common/reveal"

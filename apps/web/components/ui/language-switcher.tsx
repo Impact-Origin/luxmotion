@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "@/i18n/navigation"
 import { ChevronDown, Check } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import { locales, localeNames, localeCountryIso, type Locale } from "@/i18n/config"
@@ -23,6 +23,7 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const locale = useLocale() as Locale
   const router = useRouter()
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -42,9 +43,12 @@ export function LanguageSwitcher({
       setIsOpen(false)
       return
     }
+    /* Cada idioma tem endereço próprio: mudar de idioma é navegar para o mesmo
+       caminho no outro prefixo, não recarregar o mesmo endereço. O cookie fica
+       na mesma, para quem chegar depois a um endereço sem prefixo. */
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`
     setIsOpen(false)
-    router.refresh()
+    router.replace(pathname, { locale: newLocale })
   }
 
   const isNavbar = variant === "navbar"

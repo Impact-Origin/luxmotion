@@ -1,4 +1,22 @@
 import type { Metadata } from "next";
+import { getLocale } from "next-intl/server";
+import { defaultLocale, locales, type Locale } from "@/i18n/config";
+
+/** Códigos de idioma como o Open Graph os quer (og:locale). */
+const OG_LOCALES: Record<Locale, string> = {
+  pt: "pt_PT",
+  en: "en_GB",
+  de: "de_DE",
+  nl: "nl_NL",
+  fr: "fr_FR",
+  es: "es_ES",
+};
+
+/** O caminho de uma página num dado idioma. Todos levam prefixo, o inglês incluído. */
+export function localePath(locale: string, path: string): string {
+  const clean = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+  return `/${locale}${clean}`;
+}
 
 const DEFAULT_SITE_NAME = "LuxMotion";
 const DEFAULT_DESCRIPTION =
@@ -112,20 +130,37 @@ type CreatePageMetadataInput = {
   noIndex?: boolean;
 };
 
-export function createPageMetadata(input: CreatePageMetadataInput): Metadata {
+/**
+ * O idioma vem do próprio pedido, não de um parâmetro: são 27 sítios a chamar
+ * isto e nenhum tinha de saber de idiomas até agora.
+ *
+ * Daqui saem duas coisas que o site não tinha: um canonical que aponta para a
+ * versão no idioma da página, e o hreflang que diz ao Google que as outras
+ * cinco existem. Sem eles, cinco dos seis idiomas eram invisíveis.
+ */
+export async function createPageMetadata(
+  input: CreatePageMetadataInput,
+): Promise<Metadata> {
+  const locale = await getLocale();
   const description = input.description?.trim()
     ? trimToDescription(input.description)
     : DEFAULT_DESCRIPTION;
   const image = input.image || DEFAULT_OG_IMAGE;
-  const canonical = canonicalUrl(input.path);
+  const canonical = canonicalUrl(localePath(locale, input.path));
   const robots = input.noIndex
     ? { index: false, follow: false }
     : { index: true, follow: true };
 
+  const languages = Object.fromEntries([
+    ...locales.map((l) => [l, canonicalUrl(localePath(l, input.path))]),
+    // Quem chega sem idioma definido vai para o inglês.
+    ["x-default", canonicalUrl(localePath(defaultLocale, input.path))],
+  ]);
+
   return {
     title: input.title,
     description,
-    alternates: { canonical },
+    alternates: { canonical, languages },
     keywords: input.keywords,
     robots,
     openGraph: {
@@ -139,7 +174,7 @@ export function createPageMetadata(input: CreatePageMetadataInput): Metadata {
           ? { url: absoluteUrl(image), alt: input.imageAlt }
           : { url: absoluteUrl(image) },
       ],
-      locale: "pt_PT",
+      locale: OG_LOCALES[locale as Locale] ?? OG_LOCALES[defaultLocale],
     },
     twitter: {
       card: "summary_large_image",

@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { ArrowRight, Check, MessageSquare } from "lucide-react"
 import { WHATSAPP_URL } from "@/components/new-landing-page/whatsapp-float"

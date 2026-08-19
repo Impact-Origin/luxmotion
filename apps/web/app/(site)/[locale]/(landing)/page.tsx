@@ -28,12 +28,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteTitle = "LuxMotion | Private Transfers & Luxury Tours Portugal"
 
   return {
-    ...createPageMetadata({
+    ...(await createPageMetadata({
       title: siteTitle,
       description: t("subtitle"),
       path: "/",
       keywords: ["private transfer", "airport transfer", "Portugal tours", "chauffeur"],
-    }),
+    })),
     // Absolute so the homepage tab shows exactly this, without the "%s | …" template suffix
     title: { absolute: siteTitle },
   }

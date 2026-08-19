@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, MapPin, Users, X } from "lucide-react"
 import { Sheet, SheetClose, SheetContent, SheetTitle } from "@workspace/ui/components/sheet"
 import { useTranslations } from "next-intl"

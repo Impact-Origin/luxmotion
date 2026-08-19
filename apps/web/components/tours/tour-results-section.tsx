@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo, useEffect } from "react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { MapPin, ArrowDownUp, ChevronDown, Plus, X } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useRouter, useSearchParams } from "next/navigation"

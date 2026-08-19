@@ -1,10 +1,14 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import Image from "next/image"
 import { useState, useEffect, useRef, type ReactNode } from "react"
 import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
+import {
+  usePathname as useIntlPathname,
+  useRouter as useIntlRouter,
+} from "@/i18n/navigation"
 import { ChevronDown, Menu, X, Check } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import { useLocale } from "next-intl"
@@ -75,6 +79,8 @@ function LangSwitcher({ variant = "dark" }: { variant?: HeaderVariant }) {
   const [isOpen, setIsOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const isLight = variant === "light"
+  const router = useIntlRouter()
+  const localePathname = useIntlPathname()
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -87,7 +93,8 @@ function LangSwitcher({ variant = "dark" }: { variant?: HeaderVariant }) {
   const handleChange = (newLocale: Locale) => {
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`
     setIsOpen(false)
-    window.location.reload()
+    // O mesmo caminho, no prefixo do novo idioma.
+    router.replace(localePathname, { locale: newLocale })
   }
 
   return (

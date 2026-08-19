@@ -1,6 +1,9 @@
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
-import { getLocale, getMessages, getTimeZone } from "next-intl/server";
+import { getMessages, getTimeZone, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { hasLocale } from "next-intl";
+import { routing } from "@/i18n/routing";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins, Geist_Mono, Cormorant_Garamond, Montserrat } from "next/font/google";
@@ -85,12 +88,28 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Uma variante estática por idioma. Sem isto, o Next só as geraria a pedido.
+ */
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
-  const locale = await getLocale();
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  // Diz ao next-intl qual é o idioma desta rota. Sem esta chamada, cada página
+  // volta a lê-lo dos cabeçalhos e passa a ser renderizada a pedido — sem erro
+  // nenhum a avisar, só sem cache.
+  setRequestLocale(locale);
+
   const messages = await getMessages();
   const timeZone = await getTimeZone();
 
