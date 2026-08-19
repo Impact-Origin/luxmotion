@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   HomeThemeProvider,
   HomeHeader,
@@ -66,7 +67,12 @@ export default async function ToursPage({
         />
         <HomeHeader />
         <div className="pt-[46px] md:pt-[46px]">
+          {/* A hero lê os parâmetros do endereço para pré-preencher a pesquisa.
+            Com a página estática, isso obriga a uma fronteira de Suspense: sem
+            ela o Next recusa-se a pré-gerar a página. */}
+        <Suspense fallback={<div className="min-h-[520px]" />}>
           <ToursHero />
+        </Suspense>
           <TourStory />
           <DestinationsSection />
           <ToursTestimonials />

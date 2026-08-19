@@ -1,6 +1,5 @@
 "use client"
 
-import { setRequestLocale } from "next-intl/server"
 import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { Footer } from "@/components/new-landing-page/footer"
 import { CorporateHero } from "@/components/corporate/corporate-hero"
@@ -14,13 +13,9 @@ import { ExploreWithConfidence } from "@/components/corporate/explore-with-confi
 import { CorporateFAQ } from "@/components/corporate/corporate-faq"
 import { RequestProposal } from "@/components/corporate/request-proposal"
 
-export default async function CorporatePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  setRequestLocale(locale)
+/* Página cliente: o setRequestLocale não se aplica aqui, e por usar
+   searchParams nunca poderia ser estática de qualquer forma. */
+export default function CorporatePage() {
 
   return (
     <HomeThemeProvider>
