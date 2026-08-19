@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { CheckoutPage } from "@/components/customizable-checkout/checkout-page"
 import { DynamicThemeProvider } from "@/components/dynamic-theme-provider"
 import { fetchQuery } from "convex/nextjs";
@@ -8,9 +9,10 @@ import { CaptureReferral } from "@/components/referral/capture-referral";
 export default async function Page({
   params
 }: {
-  params: Promise<{ referral: string }>
+  params: Promise<{ locale: string; referral: string }>
 }) {
-  const { referral } = await params;
+  const { locale, referral } = await params;
+  setRequestLocale(locale);
 
   const partnership = await fetchQuery(api.partnerships.getBySlug, { slug: referral });
 

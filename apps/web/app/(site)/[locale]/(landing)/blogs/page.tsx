@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs"
 import { api } from "@workspace/convex/api"
 import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
@@ -12,7 +13,14 @@ import { Footer } from "@/components/new-landing-page/footer"
  * menu, o rodapé e mais nada. Os artigos passam a ser resolvidos aqui, e o
  * cliente continua a filtrar e a ordenar por cima deles.
  */
-export default async function BlogsPage() {
+export default async function BlogsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const [initialFeatured, initialPublished] = await Promise.all([
     fetchQuery(api.blogs.listFeatured, {}).catch(() => null),
     fetchQuery(api.blogs.listPublished, {}).catch(() => null),

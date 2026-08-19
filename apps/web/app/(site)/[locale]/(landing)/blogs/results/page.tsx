@@ -1,5 +1,6 @@
 "use client"
 
+import { setRequestLocale } from "next-intl/server"
 import { Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
@@ -19,7 +20,14 @@ function BlogResultsContent() {
   )
 }
 
-export default function BlogResultsPage() {
+export default async function BlogResultsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <HomeThemeProvider>
       <HomeHeader />

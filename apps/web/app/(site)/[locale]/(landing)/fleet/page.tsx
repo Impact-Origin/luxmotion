@@ -4,7 +4,7 @@ import { FleetTitleBlock } from "@/components/fleet/fleet-title-block"
 import { FleetCategoryFilter } from "@/components/fleet/fleet-category-filter"
 import { FleetCategorySection } from "@/components/fleet/fleet-category-section"
 import { STANDARD_VEHICLES, XL_VEHICLES, EXECUTIVE_VEHICLES, VAN_VEHICLES, MINIBUS_VEHICLES, COACH_VEHICLES, CLASSIC_VEHICLES } from "@/lib/fleet-vehicles-data"
-import { getTranslations as getT } from "next-intl/server"
+import { getTranslations as getT, setRequestLocale } from "next-intl/server"
 import { Footer } from "@/components/new-landing-page/footer"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
@@ -24,7 +24,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default async function FleetPage() {
+export default async function FleetPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const t = await getT("fleetPage")
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white">

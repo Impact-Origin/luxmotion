@@ -9,7 +9,7 @@ import { EventDetailsWrapper } from "@/components/events/event-details-wrapper";
 import type { Metadata } from "next";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
-import { getLocale } from "next-intl/server";
+import { getLocale, setRequestLocale } from "next-intl/server";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   createNoIndexMetadata,
@@ -19,7 +19,7 @@ import {
 import { buildBreadcrumbSchema, buildEventSchema } from "@/lib/structured-data";
 
 interface EventDetailsPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 type EventTranslation = {
@@ -71,8 +71,8 @@ function resolveEventSeo(event: EventSeoSource, locale: string) {
 export async function generateMetadata({
   params,
 }: EventDetailsPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const event = await fetchQuery(api.events.getBySlug, { slug });
 
   if (!event) {
@@ -94,8 +94,8 @@ export async function generateMetadata({
 export default async function EventDetailsPage({
   params,
 }: EventDetailsPageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
 
   // "Não respondeu" e "não existe" não são a mesma coisa: só a segunda é 404.
   // Sem isto, um slug inexistente respondia 200 com um spinner, e o Google

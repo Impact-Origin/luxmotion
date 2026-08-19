@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
 import { PartnerGuide } from "@/components/partner-guide/guide"
@@ -24,10 +24,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PartnerGuidePage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>
+  /* Esta é a única página pública com searchParams, o que a obriga a ser
+     renderizada a pedido: não entra na cache, com ou sem idioma no endereço. */
   searchParams: Promise<{ tab?: string }>
 }) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const { tab } = await searchParams
   const initialTab = tab === "partners" ? "partners" : "clients"
   return (

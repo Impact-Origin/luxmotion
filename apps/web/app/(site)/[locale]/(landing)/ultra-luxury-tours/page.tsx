@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs"
 import { api } from "@workspace/convex/api"
 import { Header } from "@/components/new-landing-page/header"
@@ -12,7 +13,14 @@ import { UltraLuxuryScarcitySection } from "@/components/ultra-luxury-tours/scar
 import { ContactSection } from "@/components/new-landing-page/contact-section"
 import { CUSTOM_INQUIRY_ID } from "@/components/ultra-luxury-tours/region-tab-strip"
 
-export default async function UltraLuxuryToursPage() {
+export default async function UltraLuxuryToursPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   // O catálogo vinha todo do cliente: o HTML desta página não tinha um único
   // tour. O catch mantém o build a funcionar sem Convex.
   const initialTours = await fetchQuery(api.tours.listUltraLuxury, {}).catch(() => null)

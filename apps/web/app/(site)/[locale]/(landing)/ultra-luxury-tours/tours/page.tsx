@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs"
 import { api } from "@workspace/convex/api"
 import { Suspense } from "react"
@@ -5,7 +6,14 @@ import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
 import { AllToursBrowser } from "@/components/ultra-luxury-tours/browse/all-tours-browser"
 
-export default async function UltraLuxuryAllToursPage() {
+export default async function UltraLuxuryAllToursPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const initialTours = await fetchQuery(api.tours.listUltraLuxury, {}).catch(() => null)
 
   return (

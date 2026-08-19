@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation";
 import {
   HomeThemeProvider,
@@ -31,7 +32,7 @@ const destinations: Record<string, string> = {
 };
 
 interface DestinationPageProps {
-  params: Promise<{ destination: string }>;
+  params: Promise<{ locale: string; destination: string }>;
 }
 
 export function generateStaticParams() {
@@ -43,7 +44,8 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: DestinationPageProps): Promise<Metadata> {
-  const { destination } = await params;
+  const { locale, destination } = await params;
+  setRequestLocale(locale);
   const destinationName = destinations[destination];
 
   if (!destinationName) {
@@ -66,7 +68,8 @@ export async function generateMetadata({
 export default async function DestinationPage({
   params,
 }: DestinationPageProps) {
-  const { destination } = await params;
+  const { locale, destination } = await params;
+  setRequestLocale(locale);
   const destinationName = destinations[destination];
 
   if (!destinationName) {

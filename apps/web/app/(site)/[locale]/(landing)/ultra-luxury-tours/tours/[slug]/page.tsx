@@ -6,13 +6,13 @@ import { fetchQuery } from "convex/nextjs"
 import { notFound } from "next/navigation"
 import { resolveTourView } from "@/lib/tour-view-model"
 import { api } from "@workspace/convex/api"
-import { getLocale } from "next-intl/server"
+import { getLocale, setRequestLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createNoIndexMetadata, createPageMetadata, extractTextContent } from "@/lib/seo"
 import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/structured-data"
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: string; slug: string }>
 }
 
 type TourTranslation = {
@@ -47,8 +47,8 @@ function resolveTourSeo(tour: TourSeoSource, locale: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { locale, slug } = await params
+  setRequestLocale(locale)
   const tour = await fetchQuery(api.tours.getBySlug, { slug })
 
   if (!tour) return createNoIndexMetadata("Tour not found")
@@ -65,8 +65,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function UltraLuxuryTourDetailPage({ params }: PageProps) {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { locale, slug } = await params
+  setRequestLocale(locale)
   // "Não respondeu" e "não existe" não são a mesma coisa: só a segunda é 404.
   // O notFound() estava no componente cliente, onde no servidor ainda estava a
   // carregar, e um slug inexistente respondia 200.

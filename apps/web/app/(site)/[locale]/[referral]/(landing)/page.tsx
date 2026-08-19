@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { PartnershipLanding } from "@/components/partnerships/partnership-landing";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
@@ -12,9 +13,10 @@ import { resolvePartnershipLandingTemplate } from "@/lib/partnership-landing-tem
 export default async function ReferralLandingPage({
   params,
 }: {
-  params: Promise<{ referral: string }>;
+  params: Promise<{ locale: string; referral: string }>;
 }) {
-  const { referral } = await params;
+  const { locale, referral } = await params;
+  setRequestLocale(locale);
 
   const partnership = await fetchQuery(api.partnerships.getBySlug, {
     slug: referral,
@@ -72,9 +74,10 @@ export default async function ReferralLandingPage({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ referral: string }>;
+  params: Promise<{ locale: string; referral: string }>;
 }): Promise<Metadata> {
-  const { referral } = await params;
+  const { locale, referral } = await params;
+  setRequestLocale(locale);
   const partnership = await fetchQuery(api.partnerships.getBySlug, {
     slug: referral,
   });

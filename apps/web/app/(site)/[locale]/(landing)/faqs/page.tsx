@@ -3,7 +3,7 @@ import { Footer } from "@/components/new-landing-page/footer"
 import { FaqsClient } from "./faqs-client"
 import { FaqsCtaBand } from "@/components/faqs/faqs-cta-band"
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createPageMetadata } from "@/lib/seo"
 import { buildBreadcrumbSchema, buildFaqSchema } from "@/lib/structured-data"
@@ -39,7 +39,14 @@ async function getFaqSchemaData() {
   ])
 }
 
-export default async function FaqsPage() {
+export default async function FaqsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const faqSchema = await getFaqSchemaData()
 
   return (

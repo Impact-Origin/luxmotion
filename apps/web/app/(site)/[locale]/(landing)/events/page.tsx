@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
 import {
@@ -14,7 +15,14 @@ import { AllEventsSection } from "@/components/events/all-events-section";
  * com o menu, o rodapé e mais nada. Os eventos passam a ser resolvidos aqui, e
  * o cliente continua a filtrar e a ordenar por cima deles.
  */
-export default async function EventsPage() {
+export default async function EventsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const [initialUpcoming, initialPublished, initialFeatured] = await Promise.all([
     fetchQuery(api.events.listUpcoming, { limit: 5 }).catch(() => null),
     fetchQuery(api.events.listPublished, {}).catch(() => null),

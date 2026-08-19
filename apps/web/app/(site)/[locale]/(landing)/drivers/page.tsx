@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
 import { DriversHero2 } from "@/components/drivers-2/hero"
@@ -29,7 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function DriversTwoPage() {
+export default async function DriversTwoPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd data={buildOrganizationSchema()} />

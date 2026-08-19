@@ -18,7 +18,7 @@ import { FAQ } from "@/components/new-landing-page/faq"
 import { SocialSection } from "@/components/new-landing-page/social-section"
 import { Footer } from "@/components/new-landing-page/footer"
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createPageMetadata } from "@/lib/seo"
 import { buildOrganizationSchema, buildServiceSchema, buildWebsiteSchema } from "@/lib/structured-data"
@@ -39,7 +39,14 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function SitePrincipal() {
+export default async function SitePrincipal({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <HomeThemeProvider>
       <JsonLd data={buildOrganizationSchema()} />

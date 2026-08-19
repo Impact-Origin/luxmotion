@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
 import { DriversHero } from "@/components/drivers-page/hero"
@@ -30,7 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function PartnersPage() {
+export default async function PartnersPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <div className="min-h-screen bg-white text-[#1C1B18]">
       <JsonLd data={buildOrganizationSchema()} />

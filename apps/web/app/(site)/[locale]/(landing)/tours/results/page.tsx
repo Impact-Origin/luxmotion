@@ -1,5 +1,6 @@
 "use client";
 
+import { setRequestLocale } from "next-intl/server"
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -24,7 +25,14 @@ function TourResultsContent() {
   );
 }
 
-export default function TourResultsPage() {
+export default async function TourResultsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <HomeThemeProvider>
       <>

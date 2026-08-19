@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
 import { WeddingPlannerHero } from "@/components/wedding-planner/wedding-planner-hero"
@@ -34,7 +34,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function WeddingPlannerPage() {
+export default async function WeddingPlannerPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <div className="min-h-screen bg-[#111110]">
       <Header />

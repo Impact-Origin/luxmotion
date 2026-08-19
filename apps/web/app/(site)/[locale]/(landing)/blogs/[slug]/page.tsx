@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { fetchQuery } from "convex/nextjs"
 import { api } from "@workspace/convex/api"
 import { BlogDetailClient } from "./client"
-import { getLocale } from "next-intl/server"
+import { getLocale, setRequestLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createNoIndexMetadata, createPageMetadata, extractTextContent } from "@/lib/seo"
 import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/structured-data"
@@ -10,7 +10,7 @@ import { resolveBlogView } from "@/lib/blog-view-model"
 import { notFound } from "next/navigation"
 
 interface BlogDetailPageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: string; slug: string }>
 }
 
 type BlogTranslation = {
@@ -62,8 +62,8 @@ function resolveBlogSeo(blog: BlogSeoSource, locale: string) {
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { locale, slug } = await params
+  setRequestLocale(locale)
 
   try {
     const blog = await fetchQuery(api.blogs.getBySlug, { slug })
@@ -90,8 +90,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { locale, slug } = await params
+  setRequestLocale(locale)
   // Um Convex fora do ar não deve deitar a página abaixo: nesse caso o cliente
   // ainda vai buscar o artigo, como fazia antes. Só que "não respondeu" e "não
   // existe" não são a mesma coisa, e só a segunda é um 404.

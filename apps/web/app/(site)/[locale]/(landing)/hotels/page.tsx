@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { HomeThemeProvider, HomeHeader } from "@/components/new-landing-page/home-theme"
 import { Footer } from "@/components/new-landing-page/footer"
 import { HotelsHero } from "@/components/hotels/hotels-hero"
@@ -39,7 +39,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function HotelsPage() {
+export default async function HotelsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <HomeThemeProvider>
       <JsonLd data={buildOrganizationSchema()} />

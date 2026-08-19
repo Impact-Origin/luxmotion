@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { WhitelabelLanding } from "@/components/partnerships/whitelabel-landing"
 import { createPageMetadata } from "@/lib/seo"
 
@@ -13,6 +13,13 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function WhitelabelPage() {
+export default async function WhitelabelPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return <WhitelabelLanding />
 }

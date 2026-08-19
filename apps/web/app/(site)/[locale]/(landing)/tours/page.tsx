@@ -11,7 +11,7 @@ import { ToursTestimonials } from "@/components/tours/tours-testimonials";
 import { SocialSection } from "@/components/new-landing-page/social-section";
 import { Footer } from "@/components/new-landing-page/footer";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { JsonLd } from "@/components/seo/json-ld";
 import { createPageMetadata } from "@/lib/seo";
 import {
@@ -37,7 +37,14 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default function ToursPage() {
+export default async function ToursPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     // O fundo e a cor do texto vêm do HomeThemeProvider.
     <HomeThemeProvider>

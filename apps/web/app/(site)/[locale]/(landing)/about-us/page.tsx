@@ -11,7 +11,7 @@ import { TeamSection } from "@/components/about/team-section"
 import { ToursTestimonials } from "@/components/tours/tours-testimonials"
 import { JoinUsSection } from "@/components/about/join-us-section"
 import type { Metadata } from "next"
-import { getTranslations } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createPageMetadata } from "@/lib/seo"
 import { buildBreadcrumbSchema, buildOrganizationSchema, buildServiceSchema } from "@/lib/structured-data"
@@ -28,7 +28,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export default function AboutUsPage() {
+export default async function AboutUsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">
       <JsonLd data={buildOrganizationSchema()} />
