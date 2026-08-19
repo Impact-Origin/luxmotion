@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { routing } from "@/i18n/routing";
 import {
   HomeThemeProvider,
@@ -82,7 +83,7 @@ function resolveTourSeo(tour: TourSeoSource, locale: string) {
  * que `dynamicParams` permite.
  */
 export async function generateStaticParams() {
-  const rows = await fetchQuery(api.tours.listPublished, {}).catch(() => []);
+  const rows = await cachedQuery(["tours", "list"], () => fetchQuery(api.tours.listPublished, {})).catch(() => []);
   return routing.locales.flatMap((locale) =>
     rows.map((row) => ({ locale, slug: row.slug })),
   );
@@ -96,7 +97,7 @@ export async function generateMetadata({
 }: TourDetailsPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const tour = await fetchQuery(api.tours.getBySlug, { slug });
+  const tour = await cachedQuery(["tours", "slug", slug], () => fetchQuery(api.tours.getBySlug, { slug }));
 
   if (!tour) {
     return createNoIndexMetadata("Tour not found");
@@ -125,7 +126,7 @@ export default async function TourDetailsPage({
   let tour: Awaited<ReturnType<typeof fetchQuery<typeof api.tours.getBySlug>>> = null;
   let reachable = true;
   try {
-    tour = await fetchQuery(api.tours.getBySlug, { slug });
+    tour = await cachedQuery(["tours", "slug", slug], () => fetchQuery(api.tours.getBySlug, { slug }));
   } catch {
     reachable = false;
   }

@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { useCallback, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { type TourData } from "@/lib/tour-view-model"
@@ -20,7 +21,7 @@ interface TourDetailsContentProps {
   tour: TourData
 }
 
-export function TourDetailsContent({ tour }: TourDetailsContentProps) {
+function TourCheckoutAutoOpen({ tour }: { tour: any }) {
   const { openCheckout } = useTourCheckout()
   const searchParams = useSearchParams()
   const hasOpenedCheckout = useRef(false)
@@ -63,6 +64,15 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
       }, 100)
     }
   }, [searchParams, tour, openCheckout])
+  return null
+}
+
+export function TourDetailsContent({ tour }: TourDetailsContentProps) {
+  const { openCheckout } = useTourCheckout()
+  /* O auto-abrir do checkout lê os parâmetros do endereço, e isso impede a
+     página de ser pré-gerada. Isolado aqui dentro, só esta parte espera pelo
+     cliente — o tour continua a sair no HTML. */
+
 
   // O produto vive aqui, não no cartão de reserva: quando a selecção fica
   // completa, guardamos o carrinho para a barra de baixo o poder mostrar
@@ -120,6 +130,10 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
   }
 
   return (
+    <>
+      <Suspense fallback={null}>
+        <TourCheckoutAutoOpen tour={tour} />
+      </Suspense>
     <div className="w-full">
       <TourDetailsHero
         image={tour.bannerImage}
@@ -220,5 +234,6 @@ export function TourDetailsContent({ tour }: TourDetailsContentProps) {
       </div>
 
     </div>
+    </>
   )
 }

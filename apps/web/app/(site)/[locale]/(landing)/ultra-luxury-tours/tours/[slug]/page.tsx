@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { routing } from "@/i18n/routing";
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
@@ -57,7 +58,7 @@ function resolveTourSeo(tour: TourSeoSource, locale: string) {
  * que `dynamicParams` permite.
  */
 export async function generateStaticParams() {
-  const rows = await fetchQuery(api.tours.listUltraLuxury, {}).catch(() => []);
+  const rows = await cachedQuery(["tours-ultra", "list"], () => fetchQuery(api.tours.listUltraLuxury, {})).catch(() => []);
   return routing.locales.flatMap((locale) =>
     rows.map((row) => ({ locale, slug: row.slug })),
   );
@@ -69,7 +70,7 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params
   setRequestLocale(locale)
-  const tour = await fetchQuery(api.tours.getBySlug, { slug })
+  const tour = await cachedQuery(["tours-ultra", "slug", slug], () => fetchQuery(api.tours.getBySlug, { slug }))
 
   if (!tour) return createNoIndexMetadata("Tour not found")
 
@@ -93,7 +94,7 @@ export default async function UltraLuxuryTourDetailPage({ params }: PageProps) {
   let tour: Awaited<ReturnType<typeof fetchQuery<typeof api.tours.getBySlug>>> = null
   let reachable = true
   try {
-    tour = await fetchQuery(api.tours.getBySlug, { slug })
+    tour = await cachedQuery(["tours-ultra", "slug", slug], () => fetchQuery(api.tours.getBySlug, { slug }))
   } catch {
     reachable = false
   }

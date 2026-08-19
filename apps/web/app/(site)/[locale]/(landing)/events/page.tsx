@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
@@ -24,9 +25,9 @@ export default async function EventsPage({
   setRequestLocale(locale)
 
   const [initialUpcoming, initialPublished, initialFeatured] = await Promise.all([
-    fetchQuery(api.events.listUpcoming, { limit: 5 }).catch(() => null),
-    fetchQuery(api.events.listPublished, {}).catch(() => null),
-    fetchQuery(api.events.listFeatured, { limit: 3 }).catch(() => null),
+    cachedQuery(["events", "upcoming", "5"], () => fetchQuery(api.events.listUpcoming, { limit: 5 })).catch(() => null),
+    cachedQuery(["events", "published"], () => fetchQuery(api.events.listPublished, {})).catch(() => null),
+    cachedQuery(["events", "featured", "3"], () => fetchQuery(api.events.listFeatured, { limit: 3 })).catch(() => null),
   ]);
 
   return (

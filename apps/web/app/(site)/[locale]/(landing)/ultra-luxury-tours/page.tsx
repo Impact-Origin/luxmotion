@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs"
 import { api } from "@workspace/convex/api"
@@ -23,7 +24,7 @@ export default async function UltraLuxuryToursPage({
 
   // O catálogo vinha todo do cliente: o HTML desta página não tinha um único
   // tour. O catch mantém o build a funcionar sem Convex.
-  const initialTours = await fetchQuery(api.tours.listUltraLuxury, {}).catch(() => null)
+  const initialTours = await cachedQuery(["tours", "ultra"], () => fetchQuery(api.tours.listUltraLuxury, {})).catch(() => null)
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-white">

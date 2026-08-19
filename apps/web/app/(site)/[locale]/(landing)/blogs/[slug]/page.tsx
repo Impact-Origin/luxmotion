@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { routing } from "@/i18n/routing";
 import { Metadata } from "next"
 import { fetchQuery } from "convex/nextjs"
@@ -72,7 +73,7 @@ function resolveBlogSeo(blog: BlogSeoSource, locale: string) {
  * que `dynamicParams` permite.
  */
 export async function generateStaticParams() {
-  const rows = await fetchQuery(api.blogs.listPublished, {}).catch(() => []);
+  const rows = await cachedQuery(["blogs", "list"], () => fetchQuery(api.blogs.listPublished, {})).catch(() => []);
   return routing.locales.flatMap((locale) =>
     rows.map((row) => ({ locale, slug: row.slug })),
   );
@@ -86,7 +87,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   setRequestLocale(locale)
 
   try {
-    const blog = await fetchQuery(api.blogs.getBySlug, { slug })
+    const blog = await cachedQuery(["blogs", "slug", slug], () => fetchQuery(api.blogs.getBySlug, { slug }))
 
     if (!blog) {
       return createNoIndexMetadata("Blog not found")
@@ -118,7 +119,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   let blog: Awaited<ReturnType<typeof fetchQuery<typeof api.blogs.getBySlug>>> = null
   let reachable = true
   try {
-    blog = await fetchQuery(api.blogs.getBySlug, { slug })
+    blog = await cachedQuery(["blogs", "slug", slug], () => fetchQuery(api.blogs.getBySlug, { slug }))
   } catch {
     reachable = false
   }

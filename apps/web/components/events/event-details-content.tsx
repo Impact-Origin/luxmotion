@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { Calendar, Clock, MapPin, Users } from "lucide-react"
@@ -113,8 +113,7 @@ function InfoBox({
   )
 }
 
-export function EventDetailsContent({ event }: EventDetailsContentProps) {
-  const t = useTranslations("eventDetails")
+function EventCheckoutAutoOpen({ event }: { event: any }) {
   const { openCheckout } = useTourCheckout()
   const searchParams = useSearchParams()
   const hasOpenedCheckout = useRef(false)
@@ -157,6 +156,16 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
       }, 100)
     }
   }, [searchParams, event, openCheckout])
+  return null
+}
+
+export function EventDetailsContent({ event }: EventDetailsContentProps) {
+  const t = useTranslations("eventDetails")
+  const { openCheckout } = useTourCheckout()
+  /* O auto-abrir do checkout lê os parâmetros do endereço, e isso impede a
+     página de ser pré-gerada. Isolado aqui dentro, só esta parte espera pelo
+     cliente — o conteúdo do event continua a sair no HTML. */
+
 
   const handleBook = (data: {
     date: Date | null
@@ -265,6 +274,10 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
   ]
 
   return (
+    <>
+      <Suspense fallback={null}>
+        <EventCheckoutAutoOpen event={event} />
+      </Suspense>
     <div className="w-full">
       <TourDetailsHero
         image={event.bannerImage}
@@ -512,5 +525,6 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
         />
       </div>
     </div>
+    </>
   )
 }

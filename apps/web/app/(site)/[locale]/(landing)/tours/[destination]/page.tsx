@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation";
@@ -82,9 +83,9 @@ export default async function DestinationPage({
   // A grelha de tours vinha toda do cliente: o HTML deste hub eram rectângulos
   // cinzentos. O catch mantém o build a funcionar sem Convex, como o sitemap já
   // faz — nesse caso o cliente volta a buscar os tours, como fazia antes.
-  const initialTours = await fetchQuery(api.tours.listByDestination, {
-    destination: destinationName,
-  }).catch(() => null);
+  const initialTours = await cachedQuery(["tours", "destination", destinationName], () =>
+    fetchQuery(api.tours.listByDestination, { destination: destinationName }),
+  ).catch(() => null);
 
   return (
     <HomeThemeProvider>

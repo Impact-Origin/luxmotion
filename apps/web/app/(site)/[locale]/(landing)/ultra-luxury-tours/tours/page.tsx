@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { setRequestLocale } from "next-intl/server"
 import { fetchQuery } from "convex/nextjs"
 import { api } from "@workspace/convex/api"
@@ -14,7 +15,7 @@ export default async function UltraLuxuryAllToursPage({
   const { locale } = await params
   setRequestLocale(locale)
 
-  const initialTours = await fetchQuery(api.tours.listUltraLuxury, {}).catch(() => null)
+  const initialTours = await cachedQuery(["tours", "ultra"], () => fetchQuery(api.tours.listUltraLuxury, {})).catch(() => null)
 
   return (
     <div className="min-h-screen bg-white text-[#0d0d0d]">

@@ -1,3 +1,4 @@
+import { cachedQuery } from "@/lib/convex-cache";
 import { routing } from "@/i18n/routing";
 import { HomeThemeProvider } from "@/components/new-landing-page/home-theme";
 import { resolveEventView } from "@/lib/event-view-model";
@@ -79,7 +80,7 @@ function resolveEventSeo(event: EventSeoSource, locale: string) {
  * que `dynamicParams` permite.
  */
 export async function generateStaticParams() {
-  const rows = await fetchQuery(api.events.listPublished, {}).catch(() => []);
+  const rows = await cachedQuery(["events", "list"], () => fetchQuery(api.events.listPublished, {})).catch(() => []);
   return routing.locales.flatMap((locale) =>
     rows.map((row) => ({ locale, slug: row.slug })),
   );
@@ -93,7 +94,7 @@ export async function generateMetadata({
 }: EventDetailsPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const event = await fetchQuery(api.events.getBySlug, { slug });
+  const event = await cachedQuery(["events", "slug", slug], () => fetchQuery(api.events.getBySlug, { slug }));
 
   if (!event) {
     return createNoIndexMetadata("Event not found");
@@ -123,7 +124,7 @@ export default async function EventDetailsPage({
   let event: Awaited<ReturnType<typeof fetchQuery<typeof api.events.getBySlug>>> = null;
   let reachable = true;
   try {
-    event = await fetchQuery(api.events.getBySlug, { slug });
+    event = await cachedQuery(["events", "slug", slug], () => fetchQuery(api.events.getBySlug, { slug }));
   } catch {
     reachable = false;
   }
