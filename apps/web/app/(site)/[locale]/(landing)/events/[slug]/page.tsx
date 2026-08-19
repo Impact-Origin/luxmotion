@@ -1,3 +1,4 @@
+import { routing } from "@/i18n/routing";
 import { HomeThemeProvider } from "@/components/new-landing-page/home-theme";
 import { resolveEventView } from "@/lib/event-view-model";
 import { notFound } from "next/navigation";
@@ -67,6 +68,25 @@ function resolveEventSeo(event: EventSeoSource, locale: string) {
     description,
   };
 }
+
+/**
+ * Pré-gera cada events publicado nos seis idiomas, e revalida de cinco em cinco
+ * minutos. Sem isto, cada visita a uma página de detalhe ia à base de dados —
+ * são as páginas que mais tráfego valem do site.
+ *
+ * Se o Convex não responder durante o build, devolve lista vazia em vez de
+ * partir o build: as páginas passam a ser geradas ao primeiro pedido, que é o
+ * que `dynamicParams` permite.
+ */
+export async function generateStaticParams() {
+  const rows = await fetchQuery(api.events.listPublished, {}).catch(() => []);
+  return routing.locales.flatMap((locale) =>
+    rows.map((row) => ({ locale, slug: row.slug })),
+  );
+}
+
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,

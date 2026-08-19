@@ -1,3 +1,4 @@
+import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation";
 import {
@@ -36,10 +37,12 @@ interface DestinationPageProps {
 }
 
 export function generateStaticParams() {
-  return Object.keys(destinations).map((destination) => ({
-    destination,
-  }));
+  return routing.locales.flatMap((locale) =>
+    Object.keys(destinations).map((destination) => ({ locale, destination })),
+  );
 }
+
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,

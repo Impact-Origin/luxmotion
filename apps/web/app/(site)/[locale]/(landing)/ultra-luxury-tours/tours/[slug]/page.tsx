@@ -1,3 +1,4 @@
+import { routing } from "@/i18n/routing";
 import { Header } from "@/components/new-landing-page/header"
 import { Footer } from "@/components/new-landing-page/footer"
 import { UltraTourDetailWrapper } from "@/components/ultra-luxury-tours/detail/ultra-tour-detail-wrapper"
@@ -45,6 +46,25 @@ function resolveTourSeo(tour: TourSeoSource, locale: string) {
     extractTextContent(tour.description)
   return { title, description }
 }
+
+/**
+ * Pré-gera cada tours publicado nos seis idiomas, e revalida de cinco em cinco
+ * minutos. Sem isto, cada visita a uma página de detalhe ia à base de dados —
+ * são as páginas que mais tráfego valem do site.
+ *
+ * Se o Convex não responder durante o build, devolve lista vazia em vez de
+ * partir o build: as páginas passam a ser geradas ao primeiro pedido, que é o
+ * que `dynamicParams` permite.
+ */
+export async function generateStaticParams() {
+  const rows = await fetchQuery(api.tours.listUltraLuxury, {}).catch(() => []);
+  return routing.locales.flatMap((locale) =>
+    rows.map((row) => ({ locale, slug: row.slug })),
+  );
+}
+
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params
