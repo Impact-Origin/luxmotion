@@ -1,4 +1,4 @@
-import { Inter, Cormorant_Garamond } from "next/font/google"
+import { Inter } from "next/font/google"
 
 import { Suspense } from "react"
 import "@workspace/ui/globals.css"
@@ -15,20 +15,16 @@ const fontSans = Inter({
   variable: "--font-sans",
 })
 
-const fontTitle = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-title",
-})
-
 export default function RootLayout({
     children,
   }: Readonly<{
     children: React.ReactNode
   }>) {
     return (
-        <div className={`${fontSans.variable} ${fontTitle.variable} font-sans`}>
+        /* O Cormorant estava a ser carregado outra vez aqui, com a mesma
+           configuração da raiz: eram duas instâncias da mesma família de letra
+           em todas as páginas públicas. Fica só a da raiz. */
+        <div className={`${fontSans.variable} font-sans`}>
             <PromoBar />
             <GoogleMapsProvider>
                 <TourCheckoutProvider>

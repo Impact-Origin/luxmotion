@@ -1,16 +1,52 @@
 "use client"
 
+import { useEffect, useRef } from "react"
+
+/**
+ * Este vídeo tem 43 MB e está a meio da página: com autoPlay e sem preload
+ * definido, o browser começava a descarregá-lo no carregamento, competindo com
+ * o conteúdo que o visitante está mesmo a ver. Passa a arrancar quando entra no
+ * ecrã, como o cinematic-banner já fazia.
+ */
+function useLazyVideo() {
+  const ref = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        if (!entry) return
+        if (entry.isIntersecting) {
+          void el.play().catch(() => {})
+        } else {
+          el.pause()
+        }
+      },
+      { threshold: 0.25 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  return ref
+}
+
 export function LisbonBanner() {
+  const videoRef = useLazyVideo()
   return (
     <section className="relative w-full py-[40px] md:py-[64px] px-0 overflow-hidden">
       {/* Video container: full width, fixed height, stretched horizontally */}
       <div className="relative w-full h-[280px] md:h-[400px] lg:h-[480px]">
         <video
+          ref={videoRef}
           src="/video/ad.mp4"
           loop
           playsInline
           muted
-          autoPlay
+          preload="none"
           className="absolute inset-0 w-full h-full object-cover"
         >
           Your browser does not support the video tag.

@@ -1,18 +1,21 @@
 "use client"
 
-import { createContext, useContext, useMemo, ReactNode, useState, useEffect, useRef } from "react"
+import { createContext, useContext, useMemo, ReactNode, useState, useEffect, useRef, useCallback } from "react"
 import { NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, getGoogleMapsApiKey } from "@/lib/env"
 
 interface GoogleMapsContextValue {
   isLoaded: boolean
   loadError: Error | undefined
   hasKey: boolean
+  /** Chamado pelo useGoogleMaps: só quando alguém precisa é que o script entra. */
+  requestLoad: () => void
 }
 
 const GoogleMapsContext = createContext<GoogleMapsContextValue>({
   isLoaded: false,
   loadError: undefined,
   hasKey: false,
+  requestLoad: () => {},
 })
 
 interface GoogleMapsProviderProps {
@@ -21,14 +24,26 @@ interface GoogleMapsProviderProps {
 
 const CALLBACK_NAME = "__googleMapsCallback__"
 
+/**
+ * O script do Google Maps só entra quando há quem o use.
+ *
+ * O provider está montado em todas as páginas públicas, e injectava a API na
+ * montagem: eram uns 300 KB de terceiros carregados no /privacy-policy, no
+ * /faqs e em tudo o resto, onde não há mapa nenhum. Agora quem precisa dele
+ * pede-o — o pedido é o próprio useGoogleMaps.
+ */
 export function GoogleMapsProvider({ children }: GoogleMapsProviderProps) {
   const hasKey = Boolean(NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
   const [isLoaded, setIsLoaded] = useState(false)
   const [loadError, setLoadError] = useState<Error | undefined>(undefined)
+  const [wanted, setWanted] = useState(false)
   const loadingRef = useRef(false)
+
+  const requestLoad = useCallback(() => setWanted(true), [])
 
   useEffect(() => {
     if (typeof window === "undefined") return
+    if (!wanted) return
 
     if (window.google?.maps?.DirectionsService) {
       setIsLoaded(true)
@@ -80,11 +95,11 @@ export function GoogleMapsProvider({ children }: GoogleMapsProviderProps) {
     return () => {
       delete (window as unknown as Record<string, () => void>)[CALLBACK_NAME]
     }
-  }, [hasKey])
+  }, [hasKey, wanted])
 
   const value = useMemo(
-    () => ({ isLoaded, loadError, hasKey }),
-    [isLoaded, loadError, hasKey]
+    () => ({ isLoaded, loadError, hasKey, requestLoad }),
+    [isLoaded, loadError, hasKey, requestLoad]
   )
 
   return (
@@ -94,6 +109,17 @@ export function GoogleMapsProvider({ children }: GoogleMapsProviderProps) {
   )
 }
 
+/**
+ * Usar este hook é declarar que o componente precisa do Google Maps. É isso que
+ * dispara o carregamento do script — quem não o chama, não o paga.
+ */
 export function useGoogleMaps() {
-  return useContext(GoogleMapsContext)
+  const context = useContext(GoogleMapsContext)
+  const { requestLoad } = context
+
+  useEffect(() => {
+    requestLoad()
+  }, [requestLoad])
+
+  return context
 }

@@ -4,8 +4,7 @@ import { getMessages, getTimeZone, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
-import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ConvexPublicProvider } from "@/components/providers/convex-public-provider";
 import { Poppins, Geist_Mono, Cormorant_Garamond, Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import { absoluteUrl, getSiteUrl } from "@/lib/seo";
@@ -124,8 +123,7 @@ export default async function RootLayout({
   const timeZone = await getTimeZone();
 
   return (
-    <ClerkProvider signInUrl="/admin/sign-in">
-      <ConvexClientProvider>
+    <ConvexPublicProvider>
         <html
           lang={locale}
           suppressHydrationWarning
@@ -141,7 +139,6 @@ export default async function RootLayout({
             </Providers>
           </body>
         </html>
-      </ConvexClientProvider>
-    </ClerkProvider>
+    </ConvexPublicProvider>
   );
 }
