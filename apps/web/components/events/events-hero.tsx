@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { useUpcomingEvents, usePublishedEvents } from "@/hooks/use-event-data"
+import { useUpcomingEvents, usePublishedEvents, type EventData } from "@/hooks/use-event-data"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -13,10 +13,16 @@ function formatEventDate(timestamp: number): string {
   return `${d.getDate()} ${months[d.getMonth()]}`
 }
 
-export function EventsHero() {
+export function EventsHero({
+  initialUpcoming,
+  initialPublished,
+}: {
+  initialUpcoming?: EventData[] | null
+  initialPublished?: EventData[] | null
+} = {}) {
   const t = useTranslations("eventsPage.hero")
-  const { events: dbEvents } = useUpcomingEvents(5)
-  const { events: allEvents } = usePublishedEvents()
+  const { events: dbEvents } = useUpcomingEvents(5, initialUpcoming)
+  const { events: allEvents } = usePublishedEvents(initialPublished)
 
   // Números e ticker vêm do que está mesmo publicado. Antes caíam para valores
   // fixos (12 eventos, 5 cidades, festivais inventados) quando a base de dados

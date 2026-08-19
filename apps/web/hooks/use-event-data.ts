@@ -62,7 +62,8 @@ export interface EventData {
   publishedAt?: number
   createdAt: number
   updatedAt: number
-  availableLanguages: string[]
+  /* Nem todas as queries de eventos o devolvem — o listPublished não traz. */
+  availableLanguages?: string[]
 }
 
 /** O preço da viatura, venha ele do campo novo ou do antigo. */
@@ -123,7 +124,7 @@ export interface EventWithDetails extends EventData {
   }>
 }
 
-export function useFeaturedEvents(limit?: number) {
+export function useFeaturedEvents(limit?: number, initial?: EventData[] | null) {
   const data = useQuery(
     api.events.listFeatured,
     USE_MOCK ? "skip" : { limit }
@@ -138,12 +139,12 @@ export function useFeaturedEvents(limit?: number) {
   }
 
   return {
-    events: (data as EventData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    events: (data as EventData[] | undefined) ?? initial ?? [],
+    isLoading: data === undefined && !initial,
   }
 }
 
-export function useUpcomingEvents(limit?: number) {
+export function useUpcomingEvents(limit?: number, initial?: EventData[] | null) {
   const data = useQuery(
     api.events.listUpcoming,
     USE_MOCK ? "skip" : { limit }
@@ -158,12 +159,12 @@ export function useUpcomingEvents(limit?: number) {
   }
 
   return {
-    events: (data as EventData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    events: (data as EventData[] | undefined) ?? initial ?? [],
+    isLoading: data === undefined && !initial,
   }
 }
 
-export function usePublishedEvents() {
+export function usePublishedEvents(initial?: EventData[] | null) {
   const data = useQuery(api.events.listPublished, USE_MOCK ? "skip" : {})
 
   if (USE_MOCK) {
@@ -175,12 +176,12 @@ export function usePublishedEvents() {
   }
 
   return {
-    events: (data as EventData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    events: (data as EventData[] | undefined) ?? initial ?? [],
+    isLoading: data === undefined && !initial,
   }
 }
 
-export function useAllEvents() {
+export function useAllEvents(initial?: EventData[] | null) {
   const data = useQuery(api.events.list, USE_MOCK ? "skip" : {})
 
   if (USE_MOCK) {
@@ -191,8 +192,8 @@ export function useAllEvents() {
   }
 
   return {
-    events: (data as EventData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    events: (data as EventData[] | undefined) ?? initial ?? [],
+    isLoading: data === undefined && !initial,
   }
 }
 
@@ -324,14 +325,17 @@ export function useEventLocations() {
   }
 }
 
-export function useFilteredEvents(filters: {
-  search?: string
-  location?: string
-  status?: string
-  dateRange?: { start: number; end: number }
-  sortBy?: "newest" | "oldest" | "date_asc" | "date_desc" | "price_low" | "price_high"
-}) {
-  const { events, isLoading } = useAllEvents()
+export function useFilteredEvents(
+  filters: {
+    search?: string
+    location?: string
+    status?: string
+    dateRange?: { start: number; end: number }
+    sortBy?: "newest" | "oldest" | "date_asc" | "date_desc" | "price_low" | "price_high"
+  },
+  initial?: EventData[] | null,
+) {
+  const { events, isLoading } = useAllEvents(initial)
 
   if (isLoading) {
     return { events: [], isLoading: true }

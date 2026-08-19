@@ -1,5 +1,5 @@
-"use client";
-
+import { fetchQuery } from "convex/nextjs";
+import { api } from "@workspace/convex/api";
 import {
   HomeThemeProvider,
   HomeHeader,
@@ -9,16 +9,30 @@ import { EventsHero } from "@/components/events/events-hero";
 import { FeaturedEventsSection } from "@/components/events/featured-events-section";
 import { AllEventsSection } from "@/components/events/all-events-section";
 
-export default function EventsPage() {
+/**
+ * O índice de eventos era um componente cliente de cima a baixo: o HTML saía
+ * com o menu, o rodapé e mais nada. Os eventos passam a ser resolvidos aqui, e
+ * o cliente continua a filtrar e a ordenar por cima deles.
+ */
+export default async function EventsPage() {
+  const [initialUpcoming, initialPublished, initialFeatured] = await Promise.all([
+    fetchQuery(api.events.listUpcoming, { limit: 5 }).catch(() => null),
+    fetchQuery(api.events.listPublished, {}).catch(() => null),
+    fetchQuery(api.events.listFeatured, { limit: 3 }).catch(() => null),
+  ]);
+
   return (
     // O fundo e a cor do texto vêm do HomeThemeProvider.
     <HomeThemeProvider>
       <>
         <HomeHeader />
         <div className="pt-[46px] md:pt-[46px]">
-          <EventsHero />
-          <FeaturedEventsSection />
-          <AllEventsSection />
+          <EventsHero
+            initialUpcoming={initialUpcoming}
+            initialPublished={initialPublished}
+          />
+          <FeaturedEventsSection initialFeatured={initialFeatured} />
+          <AllEventsSection initialEvents={initialPublished} />
         </div>
         <Footer />
       </>

@@ -4,6 +4,8 @@ import {
   HomeHeader,
 } from "@/components/new-landing-page/home-theme";
 import { DestinationPageContent } from "@/components/tours/destination-page-content";
+import { fetchQuery } from "convex/nextjs";
+import { api } from "@workspace/convex/api";
 import { Footer } from "@/components/new-landing-page/footer";
 import type { Metadata } from "next";
 import { createPageMetadata } from "@/lib/seo";
@@ -71,6 +73,13 @@ export default async function DestinationPage({
     notFound();
   }
 
+  // A grelha de tours vinha toda do cliente: o HTML deste hub eram rectângulos
+  // cinzentos. O catch mantém o build a funcionar sem Convex, como o sitemap já
+  // faz — nesse caso o cliente volta a buscar os tours, como fazia antes.
+  const initialTours = await fetchQuery(api.tours.listByDestination, {
+    destination: destinationName,
+  }).catch(() => null);
+
   return (
     <HomeThemeProvider>
       <>
@@ -94,6 +103,7 @@ export default async function DestinationPage({
           <DestinationPageContent
             destination={destinationName}
             slug={destination}
+            initialTours={initialTours}
           />
         </div>
         <Footer />

@@ -11,6 +11,11 @@ import {
 } from "@/lib/mock-tours"
 import { textMatchesSearch } from "@/lib/search"
 import { resolveTourView, type TourView } from "@/lib/tour-view-model"
+import type { FunctionReturnType } from "convex/server"
+
+/* O que a query devolve mesmo, que não é igual ao TourData declarado aqui: o
+   listByDestination não traz availableLanguages. */
+export type ToursByDestinationResult = FunctionReturnType<typeof api.tours.listByDestination>
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_TOURS === "true"
 
@@ -80,7 +85,8 @@ export interface TourData {
   publishedAt?: number
   createdAt: number
   updatedAt: number
-  availableLanguages: string[]
+  /* Nem todas as queries de tours o devolvem — o listByDestination não traz. */
+  availableLanguages?: string[]
 }
 
 export interface ItineraryDay {
@@ -248,7 +254,14 @@ export function useAllTours() {
   }
 }
 
-export function useToursByDestination(destination: string) {
+/**
+ * @param initial Os tours do destino já buscados pelo servidor. Sem eles, o hub
+ * do destino servia uma grelha de rectângulos cinzentos ao Google.
+ */
+export function useToursByDestination(
+  destination: string,
+  initial?: ToursByDestinationResult | null,
+) {
   const data = useQuery(
     api.tours.listByDestination,
     USE_MOCK ? "skip" : { destination }
@@ -264,9 +277,10 @@ export function useToursByDestination(destination: string) {
     }
   }
 
+  const tours = (data ?? initial ?? []) as TourData[]
   return {
-    tours: (data as TourData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    tours,
+    isLoading: data === undefined && !initial,
   }
 }
 

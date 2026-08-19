@@ -106,16 +106,23 @@ function EventGridCard({ event, featuredLabel }: { event: EventData; featuredLab
   )
 }
 
-export function AllEventsSection() {
+export function AllEventsSection({
+  initialEvents,
+}: {
+  initialEvents?: EventData[] | null
+} = {}) {
   const t = useTranslations("eventsPage")
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState<string>("all")
 
-  const { events, isLoading } = useFilteredEvents({
+  const { events, isLoading } = useFilteredEvents(
+    {
     search,
     status: "published",
     sortBy: "date_asc",
-  })
+    },
+    initialEvents,
+  )
 
   const filteredEvents = useMemo(() => {
     if (activeCategory === "all") return events

@@ -176,9 +176,14 @@ function SideCard({ event }: { event: Partial<EventData> }) {
   )
 }
 
-export function FeaturedEventsSection() {
+export function FeaturedEventsSection({
+  initialFeatured,
+}: {
+  /** Resolvidos no servidor: é o que põe os eventos no HTML do índice. */
+  initialFeatured?: EventData[] | null
+} = {}) {
   const t = useTranslations("eventsPage")
-  const { events: dbEvents, isLoading } = useFeaturedEvents(3)
+  const { events: dbEvents, isLoading } = useFeaturedEvents(3, initialFeatured)
 
   // Só os eventos reais. Havia aqui um conjunto fixo (Rock in Rio, NOS Alive,
   // Estoril Classics) que entrava sempre que a base de dados devolvia vazio —

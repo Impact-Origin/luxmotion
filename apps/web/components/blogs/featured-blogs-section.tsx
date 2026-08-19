@@ -238,17 +238,27 @@ function GridBlogCard({ blog, readArticleLabel }: { blog: BlogData; readArticleL
   )
 }
 
-export function FeaturedBlogsSection() {
+export function FeaturedBlogsSection({
+  initialFeatured,
+  initialPublished,
+}: {
+  /** Resolvidos no servidor: é o que põe os artigos no HTML do índice. */
+  initialFeatured?: BlogData[] | null
+  initialPublished?: BlogData[] | null
+} = {}) {
   const t = useTranslations("featuredBlogs")
   const [activeCategory, setActiveCategory] = useState<string>("all")
   const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest")
 
-  const { blogs: featuredBlogs, isLoading: featuredLoading } = useFeaturedBlogs()
-  const { blogs: allBlogs, isLoading: allLoading } = useFilteredBlogs({
-    category: activeCategory === "all" ? undefined : activeCategory,
-    status: "published",
-    sortBy,
-  })
+  const { blogs: featuredBlogs, isLoading: featuredLoading } = useFeaturedBlogs(initialFeatured)
+  const { blogs: allBlogs, isLoading: allLoading } = useFilteredBlogs(
+    {
+      category: activeCategory === "all" ? undefined : activeCategory,
+      status: "published",
+      sortBy,
+    },
+    initialPublished,
+  )
 
   const featured = featuredBlogs.length >= 3 ? featuredBlogs : FALLBACK_BLOGS
   const heroCard = featured[0]!

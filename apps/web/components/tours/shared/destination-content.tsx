@@ -4,7 +4,11 @@ import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { CategorySection } from "./category-section"
 import { TourCard, TourData } from "./tour-card"
-import { useToursByDestination, type TourData as ApiTourData } from "@/hooks/use-tour-data"
+import {
+  useToursByDestination,
+  type TourData as ApiTourData,
+  type ToursByDestinationResult,
+} from "@/hooks/use-tour-data"
 
 function mapTourToCardData(tour: ApiTourData): TourData {
   const originalPrice = tour.originalPrice ?? tour.basePrice
@@ -30,10 +34,12 @@ function mapTourToCardData(tour: ApiTourData): TourData {
 interface DestinationContentProps {
   destination: string
   searchQuery: string
+  /** Os tours do destino, resolvidos no servidor. */
+  initialTours?: ToursByDestinationResult | null
 }
 
-export function DestinationContent({ destination, searchQuery }: DestinationContentProps) {
-  const { tours: apiTours, isLoading } = useToursByDestination(destination)
+export function DestinationContent({ destination, searchQuery, initialTours }: DestinationContentProps) {
+  const { tours: apiTours, isLoading } = useToursByDestination(destination, initialTours)
 
   const allTours = useMemo(() => {
     return apiTours.map(mapTourToCardData)

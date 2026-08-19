@@ -53,7 +53,7 @@ export interface BlogWithTranslations extends BlogData {
   }>
 }
 
-export function useFeaturedBlogs() {
+export function useFeaturedBlogs(initial?: BlogData[] | null) {
   const data = useQuery(api.blogs.listFeatured, USE_MOCK ? "skip" : {})
 
   if (USE_MOCK) {
@@ -64,8 +64,8 @@ export function useFeaturedBlogs() {
   }
 
   return {
-    blogs: (data as BlogData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    blogs: (data as BlogData[] | undefined) ?? initial ?? [],
+    isLoading: data === undefined && !initial,
   }
 }
 
@@ -85,7 +85,12 @@ export function usePublishedBlogs() {
   }
 }
 
-export function useAllBlogs() {
+/**
+ * @param initial A lista publicada, resolvida no servidor. O useQuery daqui
+ * traz a tabela toda e filtra a seguir; o initial traz só os publicados, que é
+ * o que o índice mostra na primeira pintura.
+ */
+export function useAllBlogs(initial?: BlogData[] | null) {
   const data = useQuery(api.blogs.list, USE_MOCK ? "skip" : {})
 
   if (USE_MOCK) {
@@ -96,8 +101,8 @@ export function useAllBlogs() {
   }
 
   return {
-    blogs: (data as BlogData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    blogs: (data as BlogData[] | undefined) ?? initial ?? [],
+    isLoading: data === undefined && !initial,
   }
 }
 
@@ -193,13 +198,16 @@ export function useBlogCategories() {
   }
 }
 
-export function useFilteredBlogs(filters: {
-  search?: string
-  category?: string
-  status?: string
-  sortBy?: "newest" | "oldest"
-}) {
-  const { blogs, isLoading } = useAllBlogs()
+export function useFilteredBlogs(
+  filters: {
+    search?: string
+    category?: string
+    status?: string
+    sortBy?: "newest" | "oldest"
+  },
+  initial?: BlogData[] | null,
+) {
+  const { blogs, isLoading } = useAllBlogs(initial)
 
   if (isLoading) {
     return { blogs: [], isLoading: true }
