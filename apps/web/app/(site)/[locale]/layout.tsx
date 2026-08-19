@@ -111,6 +111,16 @@ export default async function RootLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
+
+  /* O dicionário inteiro é serializado dentro do HTML de todas as páginas: são
+     266 KB, dos quais 38 KB são textos do admin que nenhuma página pública usa.
+     Cortá-los aqui é seguro — o admin tem a sua própria raiz e recebe o
+     dicionário completo. */
+  const publicMessages = Object.fromEntries(
+    Object.entries(messages as Record<string, unknown>).filter(
+      ([key]) => !key.toLowerCase().startsWith("admin"),
+    ),
+  );
   const timeZone = await getTimeZone();
 
   return (
@@ -124,7 +134,7 @@ export default async function RootLayout({
           <body className="antialiased font-sans">
             <Providers
               locale={locale}
-              messages={messages as Record<string, unknown>}
+              messages={publicMessages}
               timeZone={timeZone}
             >
               {children}
