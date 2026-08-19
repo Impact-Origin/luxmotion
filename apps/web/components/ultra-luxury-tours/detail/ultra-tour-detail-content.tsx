@@ -1,6 +1,6 @@
 "use client"
 
-import { type TourData } from "@/app/(landing)/tours/tour/[slug]/page"
+import { type TourData } from "@/lib/tour-view-model"
 import type { ItineraryDay } from "@/hooks/use-tour-data"
 import type { Id } from "@workspace/convex/dataModel"
 import { UltraTourGallery } from "./ultra-tour-gallery"

@@ -3,6 +3,8 @@ import { Footer } from "@/components/new-landing-page/footer"
 import { UltraTourDetailWrapper } from "@/components/ultra-luxury-tours/detail/ultra-tour-detail-wrapper"
 import type { Metadata } from "next"
 import { fetchQuery } from "convex/nextjs"
+import { notFound } from "next/navigation"
+import { resolveTourView } from "@/lib/tour-view-model"
 import { api } from "@workspace/convex/api"
 import { getLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
@@ -65,8 +67,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UltraLuxuryTourDetailPage({ params }: PageProps) {
   const { slug } = await params
   const locale = await getLocale()
-  const tour = await fetchQuery(api.tours.getBySlug, { slug })
+  // "Não respondeu" e "não existe" não são a mesma coisa: só a segunda é 404.
+  // O notFound() estava no componente cliente, onde no servidor ainda estava a
+  // carregar, e um slug inexistente respondia 200.
+  let tour: Awaited<ReturnType<typeof fetchQuery<typeof api.tours.getBySlug>>> = null
+  let reachable = true
+  try {
+    tour = await fetchQuery(api.tours.getBySlug, { slug })
+  } catch {
+    reachable = false
+  }
+  if (reachable && !tour) notFound()
+
   const seo = tour ? resolveTourSeo(tour, locale) : null
+  const initial = tour ? resolveTourView(tour, locale) : null
 
   return (
     <div className="min-h-screen bg-white text-[#0d0d0d]">
@@ -92,7 +106,7 @@ export default async function UltraLuxuryTourDetailPage({ params }: PageProps) {
       )}
       <Header />
       <div className="pt-[46px] md:pt-[46px]">
-        <UltraTourDetailWrapper slug={slug} />
+        <UltraTourDetailWrapper slug={slug} initial={initial} />
       </div>
       <Footer />
     </div>

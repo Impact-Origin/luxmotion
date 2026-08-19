@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import { MapPin } from "lucide-react"
-import { type MeetingPoint } from "@/app/(landing)/tours/tour/[slug]/page"
+import { type MeetingPoint } from "@/lib/tour-view-model"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 

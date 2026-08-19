@@ -1,4 +1,6 @@
 import { HomeThemeProvider } from "@/components/new-landing-page/home-theme";
+import { resolveEventView } from "@/lib/event-view-model";
+import { notFound } from "next/navigation";
 import { ToursTopBar } from "@/components/tours/tours-top-bar";
 import { ToursCartBar } from "@/components/tours/tours-cart-bar";
 import { Footer } from "@/components/new-landing-page/footer";
@@ -94,8 +96,21 @@ export default async function EventDetailsPage({
 }: EventDetailsPageProps) {
   const { slug } = await params;
   const locale = await getLocale();
-  const event = await fetchQuery(api.events.getBySlug, { slug });
+
+  // "Não respondeu" e "não existe" não são a mesma coisa: só a segunda é 404.
+  // Sem isto, um slug inexistente respondia 200 com um spinner, e o Google
+  // indexava-o como página válida.
+  let event: Awaited<ReturnType<typeof fetchQuery<typeof api.events.getBySlug>>> = null;
+  let reachable = true;
+  try {
+    event = await fetchQuery(api.events.getBySlug, { slug });
+  } catch {
+    reachable = false;
+  }
+  if (reachable && !event) notFound();
+
   const seo = event ? resolveEventSeo(event, locale) : null;
+  const initial = event ? resolveEventView(event, locale) : null;
 
   return (
     // O fundo e a cor do texto vêm do HomeThemeProvider.
@@ -126,7 +141,7 @@ export default async function EventDetailsPage({
         <ToursTopBar />
         <EventDetailsHeader />
         <div className="pt-[30px] md:pt-[86px]">
-          <EventDetailsWrapper slug={slug} />
+          <EventDetailsWrapper slug={slug} initial={initial} />
         </div>
         <Footer />
         <ToursCartBar />

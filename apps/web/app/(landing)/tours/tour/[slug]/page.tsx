@@ -8,6 +8,8 @@ import { Footer } from "@/components/new-landing-page/footer";
 import { TourDetailsWrapper } from "@/components/tours/tour-details-wrapper";
 import type { Metadata } from "next";
 import { fetchQuery } from "convex/nextjs";
+import { notFound } from "next/navigation";
+import { resolveTourView } from "@/lib/tour-view-model";
 import { api } from "@workspace/convex/api";
 import { getLocale } from "next-intl/server";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -21,74 +23,9 @@ import {
   buildServiceSchema,
 } from "@/lib/structured-data";
 
-export interface Review {
-  author: string;
-  avatar?: string;
-  rating: number;
-  text: string;
-  source?: string;
-  nationality?: string;
-  createdAt?: number;
-}
+export type { Review, MeetingPoint } from "@/lib/tour-view-model";
 
-export interface MeetingPoint {
-  title: string;
-  address: string;
-  description?: string;
-  lat?: number;
-  lng?: number;
-}
-
-export interface TourData {
-  _id?: string;
-  slug: string;
-  title: string;
-  subtitle: string;
-  description: string | Record<string, any>;
-  tourType: string;
-  category?: "tours" | "experiences" | "private";
-  duration: string;
-  groupSize: string;
-  languages: string[];
-  price: number;
-  currency: string;
-  rating: number;
-  reviewCount: number;
-  tags: string[];
-  bannerImage: string;
-  additionalBanners: { url: string; type: "image" | "video" }[];
-  images: string[];
-
-  included: string[];
-  excluded: string[];
-  itinerary: {
-    time: string;
-    title: string;
-    description: string;
-    image?: string;
-    lat?: number;
-    lng?: number;
-  }[];
-  pickup: MeetingPoint;
-  dropoff: MeetingPoint;
-  mapCenter: {
-    lat: number;
-    lng: number;
-  };
-  reviews: Review[];
-  cancellationPolicy: string;
-  minPassengers?: number;
-  maxPassengers?: number;
-  addons?: {
-    _id: string;
-    title: string;
-    description?: string;
-    imageUrl?: string | null;
-    price: number;
-    pricingType: "per_person" | "flat";
-    currency: string;
-  }[];
-}
+export type { TourData } from "@/lib/tour-view-model";
 
 interface TourDetailsPageProps {
   params: Promise<{ slug: string }>;
@@ -162,8 +99,20 @@ export default async function TourDetailsPage({
 }: TourDetailsPageProps) {
   const { slug } = await params;
   const locale = await getLocale();
-  const tour = await fetchQuery(api.tours.getBySlug, { slug });
+  // "Não respondeu" e "não existe" não são a mesma coisa: só a segunda é 404.
+  // O notFound() estava no componente cliente, onde no servidor ainda estava a
+  // carregar, e um slug inexistente respondia 200.
+  let tour: Awaited<ReturnType<typeof fetchQuery<typeof api.tours.getBySlug>>> = null;
+  let reachable = true;
+  try {
+    tour = await fetchQuery(api.tours.getBySlug, { slug });
+  } catch {
+    reachable = false;
+  }
+  if (reachable && !tour) notFound();
+
   const seo = tour ? resolveTourSeo(tour, locale) : null;
+  const initial = tour ? resolveTourView(tour, locale) : null;
 
   return (
     <HomeThemeProvider>
@@ -197,7 +146,7 @@ export default async function TourDetailsPage({
         {/* A faixa de topo é fixa; sem este espaço tapava o cimo da
             galeria, porque aqui o header flutua por cima da hero. */}
         <div className="pt-[30px] md:pt-[36px]">
-          <TourDetailsWrapper slug={slug} />
+          <TourDetailsWrapper slug={slug} initial={initial} />
         </div>
         <Footer />
         <ToursCartBar />

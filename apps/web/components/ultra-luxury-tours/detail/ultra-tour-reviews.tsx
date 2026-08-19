@@ -8,7 +8,7 @@ import { Star } from "lucide-react"
 import { toast } from "sonner"
 import { cn } from "@workspace/ui/lib/utils"
 import type { Id } from "@workspace/convex/dataModel"
-import { type Review } from "@/app/(landing)/tours/tour/[slug]/page"
+import { type Review } from "@/lib/tour-view-model"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
 const AVATAR_COLORS = ["#7b1fa2", "#1976d2", "#c62828", "#546e7a", "#e91e63", "#ff5722", "#00897b", "#6d4c41"]

@@ -10,6 +10,7 @@ import {
   type MockTour,
 } from "@/lib/mock-tours"
 import { textMatchesSearch } from "@/lib/search"
+import { resolveTourView, type TourView } from "@/lib/tour-view-model"
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_TOURS === "true"
 
@@ -319,7 +320,15 @@ export function useToursByDestinationAndCategory(
   }
 }
 
-export function useTourBySlug(slug: string, locale?: string) {
+/**
+ * @param initial O tour já resolvido pelo servidor: é o que faz o HTML sair com
+ * o tour lá dentro em vez de um spinner.
+ */
+export function useTourBySlug(
+  slug: string,
+  locale?: string,
+  initial?: TourView<TourWithDetails> | null,
+) {
   const tourData = useQuery(
     api.tours.getBySlug,
     USE_MOCK ? "skip" : { slug }
@@ -352,6 +361,7 @@ export function useTourBySlug(slug: string, locale?: string) {
   const tour = tourData as TourWithDetails | null | undefined
 
   if (tour === undefined) {
+    if (initial) return { ...initial, isLoading: false }
     return {
       tour: undefined,
       isLoading: true,
@@ -376,22 +386,7 @@ export function useTourBySlug(slug: string, locale?: string) {
     }
   }
 
-  const translation =
-    locale && locale !== tour.originalLanguage
-      ? tour.translations?.find(t => t.locale === locale)
-      : null
-
-  return {
-    tour,
-    isLoading: false,
-    title: translation?.title ?? tour.title,
-    subtitle: translation?.subtitle ?? tour.subtitle,
-    description: translation?.description ?? tour.description,
-    included: translation?.included ?? tour.included,
-    excluded: translation?.excluded ?? tour.excluded,
-    seoTitle: translation?.seoTitle ?? tour.seoTitle,
-    seoDescription: translation?.seoDescription ?? tour.seoDescription,
-  }
+  return { ...resolveTourView(tour, locale ?? ""), isLoading: false }
 }
 
 export function useTourById(id: string | null) {

@@ -3,6 +3,7 @@
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { MOCK_FEATURED_BLOGS, MOCK_LATEST_BLOGS, MockBlog } from "@/lib/mock-blogs"
+import { resolveBlogView, type BlogView } from "@/lib/blog-view-model"
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_BLOGS === "true"
 
@@ -100,7 +101,17 @@ export function useAllBlogs() {
   }
 }
 
-export function useBlogBySlug(slug: string, locale?: string) {
+/**
+ * @param initial O artigo já resolvido pelo servidor. Sem ele, a primeira
+ * pintura é um esqueleto — que era o que o Google via em todos os artigos. Com
+ * ele, o `useQuery` deixa de mandar na primeira pintura e passa a servir só
+ * para receber alterações em directo.
+ */
+export function useBlogBySlug(
+  slug: string,
+  locale?: string,
+  initial?: BlogView<BlogWithTranslations> | null,
+) {
   const blogData = useQuery(
     api.blogs.getBySlug,
     USE_MOCK ? "skip" : { slug }
@@ -119,7 +130,10 @@ export function useBlogBySlug(slug: string, locale?: string) {
 
   const blog = blogData as BlogWithTranslations | null | undefined
 
+  // No servidor e na primeira pintura o useQuery ainda não respondeu. Se a
+  // página já trouxe o artigo, não há nada por que esperar.
   if (blog === undefined) {
+    if (initial) return { ...initial, isLoading: false }
     return {
       blog: undefined,
       isLoading: true,
@@ -139,19 +153,7 @@ export function useBlogBySlug(slug: string, locale?: string) {
     }
   }
 
-  const translation = locale && locale !== blog.originalLanguage
-    ? blog.translations?.find((t) => t.locale === locale)
-    : null
-
-  return {
-    blog,
-    isLoading: false,
-    content: translation?.content ?? blog.content,
-    title: translation?.title ?? blog.title,
-    excerpt: translation?.excerpt ?? blog.excerpt,
-    seoTitle: translation?.seoTitle ?? blog.seoTitle,
-    seoDescription: translation?.seoDescription ?? blog.seoDescription,
-  }
+  return { ...resolveBlogView(blog, locale ?? ""), isLoading: false }
 }
 
 export function useBlogById(id: string | null) {

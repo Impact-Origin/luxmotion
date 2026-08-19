@@ -10,6 +10,7 @@ import {
   type MockEvent,
 } from "@/lib/mock-events"
 import { textMatchesSearch } from "@/lib/search"
+import { resolveEventView, type EventView } from "@/lib/event-view-model"
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_EVENTS === "true"
 
@@ -217,7 +218,15 @@ export function useEventsByLocation(location: string) {
   }
 }
 
-export function useEventBySlug(slug: string, locale?: string) {
+/**
+ * @param initial O evento já resolvido pelo servidor. Sem ele, a primeira
+ * pintura era um spinner, e era isso que o Google via em todos os eventos.
+ */
+export function useEventBySlug(
+  slug: string,
+  locale?: string,
+  initial?: EventView<EventWithDetails> | null,
+) {
   const eventData = useQuery(
     api.events.getBySlug,
     USE_MOCK ? "skip" : { slug }
@@ -250,6 +259,7 @@ export function useEventBySlug(slug: string, locale?: string) {
   const event = eventData as EventWithDetails | null | undefined
 
   if (event === undefined) {
+    if (initial) return { ...initial, isLoading: false }
     return {
       event: undefined,
       isLoading: true,
@@ -273,22 +283,7 @@ export function useEventBySlug(slug: string, locale?: string) {
     }
   }
 
-  const translation =
-    locale && locale !== event.originalLanguage
-      ? event.translations?.find(t => t.locale === locale)
-      : null
-
-  return {
-    event,
-    isLoading: false,
-    title: translation?.title ?? event.title,
-    subtitle: translation?.subtitle ?? event.subtitle,
-    description: translation?.description ?? event.description,
-    included: translation?.included ?? event.included,
-    excluded: translation?.excluded ?? event.excluded,
-    seoTitle: translation?.seoTitle ?? event.seoTitle,
-    seoDescription: translation?.seoDescription ?? event.seoDescription,
-  }
+  return { ...resolveEventView(event, locale ?? ""), isLoading: false }
 }
 
 export function useEventById(id: string | null) {

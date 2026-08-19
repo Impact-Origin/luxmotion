@@ -4,12 +4,19 @@ import { notFound } from "next/navigation"
 import { useLocale } from "next-intl"
 import { Loader2 } from "lucide-react"
 import { useTourBySlug } from "@/hooks/use-tour-data"
-import { type TourData } from "@/app/(landing)/tours/tour/[slug]/page"
+import { type TourData, type TourView } from "@/lib/tour-view-model"
 import { UltraTourDetailContent } from "./ultra-tour-detail-content"
 
-export function UltraTourDetailWrapper({ slug }: { slug: string }) {
+export function UltraTourDetailWrapper({
+  slug,
+  initial,
+}: {
+  slug: string
+  /** O tour resolvido no servidor: é o que faz o HTML sair preenchido. */
+  initial?: TourView<any> | null
+}) {
   const locale = useLocale()
-  const { tour, isLoading, title, description, included, excluded } = useTourBySlug(slug, locale)
+  const { tour, isLoading, title, description, included, excluded } = useTourBySlug(slug, locale, initial)
 
   if (isLoading) {
     return (

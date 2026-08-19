@@ -6,6 +6,8 @@ import { getLocale } from "next-intl/server"
 import { JsonLd } from "@/components/seo/json-ld"
 import { createNoIndexMetadata, createPageMetadata, extractTextContent } from "@/lib/seo"
 import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/structured-data"
+import { resolveBlogView } from "@/lib/blog-view-model"
+import { notFound } from "next/navigation"
 
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>
@@ -90,8 +92,25 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params
   const locale = await getLocale()
-  const blog = await fetchQuery(api.blogs.getBySlug, { slug })
+  // Um Convex fora do ar não deve deitar a página abaixo: nesse caso o cliente
+  // ainda vai buscar o artigo, como fazia antes. Só que "não respondeu" e "não
+  // existe" não são a mesma coisa, e só a segunda é um 404.
+  let blog: Awaited<ReturnType<typeof fetchQuery<typeof api.blogs.getBySlug>>> = null
+  let reachable = true
+  try {
+    blog = await fetchQuery(api.blogs.getBySlug, { slug })
+  } catch {
+    reachable = false
+  }
+
+  // O notFound() vivia no componente cliente, onde no servidor ainda estava a
+  // carregar: um slug inexistente respondia 200 e o Google indexava-o como
+  // página válida. Rascunhos continuam a ser servidos, com noindex, para não
+  // partir a revisão antes de publicar.
+  if (reachable && !blog) notFound()
+
   const seo = blog ? resolveBlogSeo(blog, locale) : null
+  const initial = blog ? resolveBlogView(blog, locale) : null
 
   return (
     <>
@@ -121,7 +140,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           />
         </>
       )}
-      <BlogDetailClient slug={slug} />
+      <BlogDetailClient slug={slug} initial={initial} />
     </>
   )
 }

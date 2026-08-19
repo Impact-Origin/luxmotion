@@ -3,16 +3,23 @@
 import { notFound } from "next/navigation"
 import { useLocale } from "next-intl"
 import { precoPrivado, useEventBySlug } from "@/hooks/use-event-data"
+import type { EventView } from "@/lib/event-view-model"
 import { EventDetailsContent, type EventDetailsData } from "./event-details-content"
 import { Loader2 } from "lucide-react"
 
 interface EventDetailsWrapperProps {
   slug: string
+  /** O evento resolvido no servidor: é o que faz o HTML sair preenchido. */
+  initial?: EventView<any> | null
 }
 
-export function EventDetailsWrapper({ slug }: EventDetailsWrapperProps) {
+export function EventDetailsWrapper({ slug, initial }: EventDetailsWrapperProps) {
   const locale = useLocale()
-  const { event, isLoading, title, description, included, excluded } = useEventBySlug(slug, locale)
+  const { event, isLoading, title, description, included, excluded } = useEventBySlug(
+    slug,
+    locale,
+    initial,
+  )
 
   if (isLoading) {
     return (

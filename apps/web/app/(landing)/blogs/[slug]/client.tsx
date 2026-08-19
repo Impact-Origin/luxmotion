@@ -14,6 +14,7 @@ import { BlogPrevNext, PrevNextItem } from "@/components/blogs/blog-prev-next"
 import { Footer } from "@/components/new-landing-page/footer"
 import { BlogDetailSkeleton } from "@/components/blogs/blog-skeletons"
 import { useBlogBySlug, usePublishedBlogs } from "@/hooks/use-blog-data"
+import type { BlogView } from "@/lib/blog-view-model"
 import {
   tiptapToContentBlocks,
   withEditorialImage,
@@ -48,10 +49,16 @@ function formatShortDate(timestamp: number | undefined, locale: string): string 
   return formatted.charAt(0).toUpperCase() + formatted.slice(1)
 }
 
-function BlogDetailContent({ slug }: { slug: string }) {
+function BlogDetailContent({
+  slug,
+  initial,
+}: {
+  slug: string
+  initial?: BlogView<any> | null
+}) {
   const locale = useLocale()
   const tArticle = useTranslations("blogArticle")
-  const { blog, isLoading, content, title } = useBlogBySlug(slug, locale)
+  const { blog, isLoading, content, title } = useBlogBySlug(slug, locale, initial)
   const { blogs: allBlogs } = usePublishedBlogs()
 
   if (isLoading) {
@@ -159,11 +166,17 @@ function BlogDetailContent({ slug }: { slug: string }) {
   )
 }
 
-export function BlogDetailClient({ slug }: { slug: string }) {
+export function BlogDetailClient({
+  slug,
+  initial,
+}: {
+  slug: string
+  initial?: BlogView<any> | null
+}) {
   return (
     <HomeThemeProvider>
       <HomeHeader />
-      <BlogDetailContent slug={slug} />
+      <BlogDetailContent slug={slug} initial={initial} />
       <Footer />
     </HomeThemeProvider>
   )

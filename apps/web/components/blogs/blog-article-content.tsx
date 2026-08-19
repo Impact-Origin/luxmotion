@@ -371,7 +371,50 @@ function TableNode({ node }: { node: TipTapNode }) {
   )
 }
 
-type AssignId = (text: string) => string
+/**
+ * Id de cada título, decidido antes de renderizar.
+ *
+ * Era um contador que ia sendo incrementado durante o render dos filhos. Como o
+ * React renderiza o mesmo componente mais do que uma vez, a segunda passagem já
+ * encontrava os ids tomados e acrescentava "-2": no servidor saía
+ * `toc-quem-somos` e no cliente `toc-quem-somos-2`, o que partia a hidratação e
+ * os links do índice. A tabela é construída de uma vez e indexada pelo próprio
+ * nó, por isso dá sempre o mesmo resultado, seja qual for o número de renders.
+ */
+type AssignId = (key: object) => string | undefined
+
+/** Mesma ordem e mesma regra do extractTocItems, para os âncoras baterem certo. */
+function collectHeadingIds(blocks: ContentBlock[]): AssignId {
+  const ids = new Map<object, string>()
+  const seen = new Set<string>()
+
+  const take = (raw: string, key: object) => {
+    const trimmed = (raw || "").replace(/\s+/g, " ").trim()
+    if (!trimmed) return
+    const base = slugifyHeading(trimmed)
+    let id = base
+    let counter = 2
+    while (seen.has(id)) id = `${base}-${counter++}`
+    seen.add(id)
+    ids.set(key, id)
+  }
+
+  for (const block of blocks) {
+    if (block.type === "richText") {
+      // Só o primeiro nível do documento: é o único que o renderer transforma
+      // em HeadingNode com id.
+      for (const child of block.node.content ?? []) {
+        if (child.type === "heading" && (child.attrs?.level || 2) <= 3) {
+          take(inlineNodesText(child.content), child)
+        }
+      }
+    } else if (block.type === "heading" || block.type === "subheading") {
+      take(block.content, block)
+    }
+  }
+
+  return (key: object) => ids.get(key)
+}
 
 function renderTipTapNode(
   node: TipTapNode,
@@ -381,12 +424,8 @@ function renderTipTapNode(
   switch (node.type) {
     case "paragraph":
       return <ParagraphNode key={index} node={node} />
-    case "heading": {
-      const level = node.attrs?.level || 2
-      const text = inlineNodesText(node.content)
-      const id = level <= 3 ? assignId(text) : undefined
-      return <HeadingNode key={index} node={node} headingId={id} />
-    }
+    case "heading":
+      return <HeadingNode key={index} node={node} headingId={assignId(node)} />
     case "bulletList":
       return <BulletListNode key={index} node={node} />
     case "orderedList":
@@ -439,7 +478,7 @@ function renderBlock(
         </p>
       )
     case "heading": {
-      const id = assignId(block.content)
+      const id = assignId(block)
       return (
         <React.Fragment key={index}>
           {id && <HeadingAnchor id={id} />}
@@ -454,7 +493,7 @@ function renderBlock(
       )
     }
     case "subheading": {
-      const id = assignId(block.content)
+      const id = assignId(block)
       return (
         <React.Fragment key={index}>
           {id && <HeadingAnchor id={id} />}
@@ -525,17 +564,7 @@ export function BlogArticleContent({ blocks }: BlogArticleContentProps) {
     return null
   }
 
-  const seen = new Set<string>()
-  const assignId: AssignId = (raw: string) => {
-    const trimmed = (raw || "").replace(/\s+/g, " ").trim()
-    if (!trimmed) return ""
-    const base = slugifyHeading(trimmed)
-    let id = base
-    let counter = 2
-    while (seen.has(id)) id = `${base}-${counter++}`
-    seen.add(id)
-    return id
-  }
+  const assignId = collectHeadingIds(blocks)
 
   return (
     <article className="flex flex-col gap-[14px] items-stretch w-full break-words overflow-hidden">

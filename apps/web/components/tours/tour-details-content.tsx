@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
-import { type TourData } from "@/app/(landing)/tours/tour/[slug]/page"
+import { type TourData } from "@/lib/tour-view-model"
 import type { Id } from "@workspace/convex/dataModel"
 import { TourDetailsHero } from "./tour-details-hero"
 import { TourDetailsHeader } from "./tour-details-header"

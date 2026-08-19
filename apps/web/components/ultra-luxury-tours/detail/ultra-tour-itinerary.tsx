@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl"
 import { ChevronDown, Clock, MapPin, Moon } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import { TourRouteMap } from "@/components/tours/tour-route-map"
-import { type TourData } from "@/app/(landing)/tours/tour/[slug]/page"
+import { type TourData } from "@/lib/tour-view-model"
 import type { ItineraryDay } from "@/hooks/use-tour-data"
 
 const SERIF_FONT = "var(--font-title), 'Cormorant Garamond', serif"
