@@ -8,7 +8,7 @@ import {
   EntityFormDialog,
   useEntityFormParams,
 } from "@/components/admin/entity-form-dialog";
-import { Plus, MoreVertical, Trash2, ExternalLink, Settings, Building2, BarChart3 } from "lucide-react";
+import { Plus, MoreVertical, Trash2, ExternalLink, Settings, Building2, BarChart3, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -30,6 +30,7 @@ export default function PartnershipsPage() {
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} });
   const res = useQuery(api.partnerships.listPaged, tableQuery);
   const removePartnership = useMutation(api.partnerships.remove);
+  const updatePartnership = useMutation(api.partnerships.update);
   const t = useTranslations("admin");
 
   type Row = NonNullable<typeof res>["rows"][number];
@@ -42,6 +43,19 @@ export default function PartnershipsPage() {
       } catch {
         toast.error("Failed to remove partnership");
       }
+    }
+  };
+
+  /* Despublicar era, até aqui, apagar: a parceria ou estava pública ou deixava
+     de existir. Era assim que quatro páginas de teste ficaram públicas e no
+     sitemap — ninguém as ia apagar só para as tirar do Google. */
+  const handleToggleStatus = async (p: Row) => {
+    const next = (p.status ?? "active") === "active" ? "inactive" : "active";
+    try {
+      await updatePartnership({ id: p._id, status: next });
+      toast.success(next === "active" ? "Partnership published" : "Partnership unpublished");
+    } catch {
+      toast.error("Failed to change status");
     }
   };
 
@@ -102,6 +116,19 @@ export default function PartnershipsPage() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => handleToggleStatus(p)}>
+          {(p.status ?? "active") === "active" ? (
+            <>
+              <EyeOff className="mr-2 size-4 text-muted-foreground" />
+              Unpublish
+            </>
+          ) : (
+            <>
+              <Eye className="mr-2 size-4 text-muted-foreground" />
+              Publish
+            </>
+          )}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDelete(p._id)} className="text-destructive focus:text-destructive">
           <Trash2 className="mr-2 size-4" />
           {t("remove")}

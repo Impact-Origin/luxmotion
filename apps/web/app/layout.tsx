@@ -36,24 +36,25 @@ const fontTitle = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "Easy Transfer | Private Transfers and Tours in Portugal",
-    template: "%s | Easy Transfer",
+    default: "LuxMotion | Private Transfers and Tours in Portugal",
+    template: "%s | LuxMotion",
   },
   description:
     "Private transfers, tours, events, and premium mobility services across Portugal.",
-  applicationName: "Easy Transfer",
+  applicationName: "LuxMotion",
   keywords: [
     "Portugal transfers",
     "Lisbon airport transfer",
     "private tours Portugal",
     "chauffeur service Portugal",
-    "Easy Transfer",
+    "LuxMotion",
+    "LuxMotion by EasyTransfer",
   ],
   openGraph: {
     type: "website",
-    siteName: "Easy Transfer",
+    siteName: "LuxMotion",
     url: "/",
-    title: "Easy Transfer | Private Transfers and Tours in Portugal",
+    title: "LuxMotion | Private Transfers and Tours in Portugal",
     description:
       "Private transfers, tours, events, and premium mobility services across Portugal.",
     images: [{ url: absoluteUrl("/og-luxmotion.jpg") }],
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Easy Transfer | Private Transfers and Tours in Portugal",
+    title: "LuxMotion | Private Transfers and Tours in Portugal",
     description:
       "Private transfers, tours, events, and premium mobility services across Portugal.",
     images: [absoluteUrl("/og-luxmotion.jpg")],

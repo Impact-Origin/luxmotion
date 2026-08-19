@@ -1,4 +1,5 @@
 import { absoluteUrl, seoDefaults } from "@/lib/seo";
+import { GOOGLE_REVIEWS_URL, TRUSTPILOT_REVIEWS_URL } from "@/lib/review-links";
 
 type BreadcrumbItem = {
   name: string;
@@ -38,15 +39,44 @@ type ServiceSchemaInput = {
   areaServed?: string;
 };
 
+/**
+ * A entidade LuxMotion, tal como o Google a deve reconhecer.
+ *
+ * O `sameAs` é a única forma de ligar este domínio às fichas onde a reputação
+ * está construída — sem ele, as redes e o Trustpilot são páginas sem dono. A
+ * ficha do Trustpilot ainda está registada noutro domínio; declará-la aqui é o
+ * que permite ao Google perceber que é a mesma empresa.
+ *
+ * Sem `aggregateRating` de propósito: as 324 avaliações que o site mostra vivem
+ * nessa ficha noutro domínio, e reclamá-las aqui era declarar uma nota que este
+ * domínio não pode provar.
+ */
 export function buildOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: seoDefaults.siteName,
+    legalName: "LuxMotion by EasyTransfer",
     url: absoluteUrl("/"),
-    email: "geral@easytransferericeira.com",
+    logo: absoluteUrl("/shared/logos/luxmotion-logo-square.jpg"),
+    image: absoluteUrl(seoDefaults.ogImage),
+    email: "geral@easytransferportugal.com",
     telephone: "+351963650278",
     areaServed: "Portugal",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Ericeira Business Factory, Rua Prudêncio Franco da Trindade 4",
+      postalCode: "2655-344",
+      addressLocality: "Ericeira",
+      addressCountry: "PT",
+    },
+    sameAs: [
+      "https://www.facebook.com/luxmotioneasytransferportugal/",
+      "https://www.instagram.com/luxmotion.tours/",
+      "https://www.linkedin.com/company/luxmotion-easytransferportugal/",
+      TRUSTPILOT_REVIEWS_URL,
+      GOOGLE_REVIEWS_URL,
+    ],
   };
 }
 

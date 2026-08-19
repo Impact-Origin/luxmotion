@@ -51,7 +51,7 @@ function AvatarStack() {
 function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
     <a
-      href="https://www.easytransferportugal.com/hotels/candidatura"
+      href="/hotels/candidatura"
       target="_blank"
       rel="noopener noreferrer"
       className={

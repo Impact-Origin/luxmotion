@@ -142,8 +142,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: blog.isFeatured ? 0.8 : 0.7,
     }));
 
+    /* Estado explícito, não "tudo o que não está inactivo". O campo é opcional
+       no schema, por isso qualquer registo criado sem estado entrava aqui como
+       público: foi assim que quatro páginas de teste foram parar ao sitemap. */
     const partnershipEntries: MetadataRoute.Sitemap = partnerships
-      .filter((partnership) => partnership.status !== "inactive")
+      .filter((partnership) => partnership.status === "active")
       .filter((partnership) => !reservedPartnershipSlugs.has(partnership.slug))
       .map((partnership) => ({
         url: canonicalUrl(`/${partnership.slug}`),

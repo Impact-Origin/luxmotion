@@ -32,7 +32,7 @@ export default async function ReferralLandingPage({
   const seoDescription =
     partnership.content?.seoDescription ||
     partnership.welcomeMessage ||
-    `Custom landing page for ${partnership.name} powered by Easy Transfer.`;
+    `Custom landing page for ${partnership.name} powered by LuxMotion.`;
 
   const landingTemplate = resolvePartnershipLandingTemplate(
     partnership.landingTemplate,
@@ -79,8 +79,11 @@ export async function generateMetadata({
     slug: referral,
   });
 
-  if (!partnership || partnership.status === "inactive") {
-    return createNoIndexMetadata("Partner page");
+  // Continua a servir para não partir links de parceiros antigos sem estado,
+  // mas só entra no índice quem está explicitamente activo — a mesma regra do
+  // sitemap.
+  if (!partnership || partnership.status !== "active") {
+    return createNoIndexMetadata(partnership?.name ?? "Partner page");
   }
 
   const seoTitle =
@@ -91,13 +94,12 @@ export async function generateMetadata({
   const seoDescription =
     partnership.content?.seoDescription ||
     partnership.welcomeMessage ||
-    `Custom landing page for ${partnership.name} powered by Easy Transfer.`;
+    `Custom landing page for ${partnership.name} powered by LuxMotion.`;
 
   return createPageMetadata({
     title: seoTitle,
     description: seoDescription,
     path: `/${referral}`,
     image: partnership.logoUrl,
-    noIndex: partnership.status === "inactive",
   });
 }

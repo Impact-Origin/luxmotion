@@ -5,6 +5,19 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@workspace/ui"],
+  // O apex e o www servem o mesmo site, e o Google trata-os como dois. O
+  // redirect existe hoje ao nível do domínio no Vercel; aqui fica no código,
+  // para sobreviver a uma reconfiguração do painel.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "easytransferportugal.com" }],
+        destination: "https://www.easytransferportugal.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // Servimos as imagens tal como estão, sem passar pelo optimizador do Vercel:
     // a quota esgotou e /_next/image devolvia 402 em todo o site. Os ficheiros

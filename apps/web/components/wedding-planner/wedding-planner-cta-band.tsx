@@ -39,7 +39,7 @@ export function WeddingPlannerCtaBand() {
           {t("subtitle")}
         </p>
         <Link
-          href="https://www.easytransferportugal.com/hotels/candidatura"
+          href="/hotels/candidatura"
           target="_blank"
           rel="noopener noreferrer"
           className={cn("group bg-[#a08248] hover:bg-[#8e7240] transition-colors h-12 inline-flex items-center px-6 py-[9px]", reveal())}

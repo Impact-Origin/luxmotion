@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const DEFAULT_SITE_NAME = "Easy Transfer";
+const DEFAULT_SITE_NAME = "LuxMotion";
 const DEFAULT_DESCRIPTION =
   "Private transfers, tours, events, and premium mobility services across Portugal.";
 const DEFAULT_OG_IMAGE = "/og-luxmotion.jpg";
@@ -24,7 +24,11 @@ export function getSiteUrl(): string {
     // Sem NEXT_PUBLIC_SITE_URL, o og:image saía como localhost e as
     // pré-visualizações partilhadas ficavam sem imagem. O domínio de produção é
     // o default seguro; em dev a env var continua a mandar.
-    return "https://easytransferportugal.com";
+    //
+    // Com www, que é para onde o servidor redirecciona: um canonical a apontar
+    // para o apex mandava cada página para um endereço que responde 308, e
+    // dividia a autoridade entre os dois.
+    return "https://www.easytransferportugal.com";
   }
 
   return trimTrailingSlash(withProtocol(envUrl));
