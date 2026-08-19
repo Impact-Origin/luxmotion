@@ -5,7 +5,10 @@ import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { X } from "lucide-react"
-import { useUltraLuxuryTours } from "@/hooks/use-tour-data"
+import {
+  useUltraLuxuryTours,
+  type UltraLuxuryToursResult,
+} from "@/hooks/use-tour-data"
 import { cn } from "@workspace/ui/lib/utils"
 import { textMatchesSearch } from "@/lib/search"
 import { BrowseTourCard, type BrowseTourCardData } from "./browse-tour-card"
@@ -38,14 +41,19 @@ function inBucket(value: number | undefined, buckets: readonly { value: string; 
   })
 }
 
-export function AllToursBrowser() {
+export function AllToursBrowser({
+  initialTours,
+}: {
+  /** Resolvidos no servidor: é o que põe o catálogo no HTML. */
+  initialTours?: UltraLuxuryToursResult | null
+} = {}) {
   const t = useTranslations("ultraLuxuryTours.browse")
   const searchParams = useSearchParams()
   const searchQuery = searchParams.get("q") || ""
   /* `?region=Porto` — é assim que os cartões de "onde viajamos" chegam aqui
      com a região já escolhida, em vez de mandarem para a lista inteira. */
   const regiaoDoUrl = searchParams.get("region")
-  const { tours, isLoading } = useUltraLuxuryTours()
+  const { tours, isLoading } = useUltraLuxuryTours(initialTours)
 
   const [boundMin, boundMax] = useMemo<[number, number]>(() => {
     if (tours.length === 0) return [0, 1000]

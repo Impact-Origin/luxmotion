@@ -4,7 +4,11 @@ import { useMemo, useState } from "react"
 import { useTranslations } from "next-intl"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { useUltraLuxuryTours, type TourData } from "@/hooks/use-tour-data"
+import {
+  useUltraLuxuryTours,
+  type TourData,
+  type UltraLuxuryToursResult,
+} from "@/hooks/use-tour-data"
 import { UltraTourCard, type UltraTourCardData, type TourBadge } from "./tour-card"
 import { DarkSelect } from "./dark-select"
 import { RegionTabStrip, type RegionTab } from "./region-tab-strip"
@@ -36,9 +40,14 @@ function resolveBadge(tour: TourData): TourBadge | null {
   return null
 }
 
-export function UltraLuxuryToursSection() {
+export function UltraLuxuryToursSection({
+  initialTours,
+}: {
+  /** Resolvidos no servidor: é o que põe o catálogo no HTML. */
+  initialTours?: UltraLuxuryToursResult | null
+} = {}) {
   const t = useTranslations("ultraLuxuryTours.tours")
-  const { tours: apiTours, isLoading } = useUltraLuxuryTours()
+  const { tours: apiTours, isLoading } = useUltraLuxuryTours(initialTours)
 
   const [activeTab, setActiveTab] = useState<RegionTab>("tours")
   const [location, setLocation] = useState("")

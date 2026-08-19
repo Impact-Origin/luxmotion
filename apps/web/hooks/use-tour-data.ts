@@ -16,6 +16,7 @@ import type { FunctionReturnType } from "convex/server"
 /* O que a query devolve mesmo, que não é igual ao TourData declarado aqui: o
    listByDestination não traz availableLanguages. */
 export type ToursByDestinationResult = FunctionReturnType<typeof api.tours.listByDestination>
+export type UltraLuxuryToursResult = FunctionReturnType<typeof api.tours.listUltraLuxury>
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_TOURS === "true"
 
@@ -219,7 +220,8 @@ export function usePublishedTours() {
   }
 }
 
-export function useUltraLuxuryTours() {
+/** @param initial Os tours resolvidos no servidor, para o catálogo sair no HTML. */
+export function useUltraLuxuryTours(initial?: UltraLuxuryToursResult | null) {
   const data = useQuery(api.tours.listUltraLuxury, USE_MOCK ? "skip" : {})
 
   if (USE_MOCK) {
@@ -233,8 +235,8 @@ export function useUltraLuxuryTours() {
   }
 
   return {
-    tours: (data as TourData[] | undefined) ?? [],
-    isLoading: data === undefined,
+    tours: (data ?? initial ?? []) as TourData[],
+    isLoading: data === undefined && !initial,
   }
 }
 
