@@ -106,12 +106,25 @@ export function Footer({
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between pt-5 pb-8 gap-2">
-          <span
-            className="text-[11px] text-[var(--lm-muted,#999)] tracking-[0.44px]"
+          <div
+            className="flex flex-col gap-1 text-[11px] text-[var(--lm-muted,#999)] tracking-[0.44px]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
-            {r("copyright")}
-          </span>
+            <span>{r("copyright")}</span>
+            {/* Ligação externa: <a> em vez do Link do next-intl, que serve para
+                caminhos internos e não deve levar prefixo de idioma. */}
+            <span>
+              {r("platformBy")}{" "}
+              <a
+                href="https://impact-origin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--lm-text,#fff)] underline underline-offset-2 decoration-[rgba(var(--lm-text-rgb,255,255,255),0.3)] transition-colors hover:text-[#C9A96E]"
+              >
+                Impact
+              </a>
+            </span>
+          </div>
           <div className="flex items-center gap-1.5">
             <Lock className="w-[10px] h-[11px] text-[var(--lm-muted,#999)]" />
             <span
