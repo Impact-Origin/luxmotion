@@ -107,10 +107,15 @@ export function Footer({
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between pt-5 pb-8 gap-2">
           <div
-            className="flex flex-col gap-1 text-[11px] text-[var(--lm-muted,#999)] tracking-[0.44px]"
+            /* Lado a lado com o copyright; em ecrãs estreitos passa para baixo
+               em vez de espremer as duas linhas. */
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-[var(--lm-muted,#999)] tracking-[0.44px]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             <span>{r("copyright")}</span>
+            <span aria-hidden="true" className="hidden sm:inline opacity-60">
+              ·
+            </span>
             {/* Ligação externa: <a> em vez do Link do next-intl, que serve para
                 caminhos internos e não deve levar prefixo de idioma. */}
             <span>
