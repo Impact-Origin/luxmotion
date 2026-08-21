@@ -32,7 +32,7 @@ export function MediaGalleryModal({
         content: "bg-[#f7f4ef]",
         topText: "text-[#1c1b18]",
         close: "text-[#696969] hover:text-[#1c1b18]",
-        nav: "bg-[rgba(28,27,24,0.06)] hover:bg-[rgba(28,27,24,0.12)]",
+        nav: "bg-[rgba(247,244,239,0.85)] md:bg-[rgba(28,27,24,0.06)] backdrop-blur-sm md:backdrop-blur-none shadow-sm md:shadow-none hover:bg-[rgba(28,27,24,0.12)]",
         navIcon: "text-[#a08248]",
         thumbActive: "ring-2 ring-[#a08248] opacity-100",
       }
@@ -40,7 +40,7 @@ export function MediaGalleryModal({
         content: "bg-black/95",
         topText: "text-white/80",
         close: "text-white/70 hover:text-white",
-        nav: "bg-white/10 hover:bg-white/20",
+        nav: "bg-black/50 md:bg-white/10 backdrop-blur-sm md:backdrop-blur-none hover:bg-black/70 md:hover:bg-white/20",
         navIcon: "text-white",
         thumbActive: "ring-2 ring-white opacity-100",
       }
@@ -170,7 +170,11 @@ export function MediaGalleryModal({
           </button>
         </div>
 
-        <div className="flex-1 relative flex items-center justify-center min-h-0 px-14">
+        {/* O px-14 reservava 112px para as setas ficarem fora da foto. Num
+            telemóvel de 375px isso é um terço do ecrã gasto em margem: aí as
+            setas passam a ficar por cima da imagem e a foto ocupa a largura
+            toda. A partir de md volta a haver espaço para elas ao lado. */}
+        <div className="flex-1 relative flex items-center justify-center min-h-0 px-2 md:px-14">
           <div className="relative w-full h-full">
             {current.type === "video" ? (
               <video
