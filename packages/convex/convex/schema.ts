@@ -1556,6 +1556,39 @@ export default defineSchema({
   // Cached snapshot of the business's Google reviews (refreshed daily by a cron
   // in crons.ts). A single document holds the aggregate rating/total plus up to
   // 5 review texts — the most the official Google Places API returns.
+  /* O último feed do Instagram que a API devolveu com sucesso.
+     
+     O site lia a API a cada visita da homepage, e quando a chamada falhava
+     caía para três fotos guardadas no repositório — sem ninguém dar por isso.
+     Agora quem lê é o cron: uma falha deixa o último feed bom no lugar e fica
+     registada em lastError. */
+  instagramCache: defineTable({
+    posts: v.array(
+      v.object({
+        id: v.string(),
+        mediaType: v.string(),
+        mediaUrl: v.string(),
+        permalink: v.string(),
+        timestamp: v.string(),
+        caption: v.optional(v.string()),
+        thumbnailUrl: v.optional(v.string()),
+      }),
+    ),
+    profile: v.optional(
+      v.object({
+        username: v.string(),
+        mediaCount: v.optional(v.number()),
+        followersCount: v.optional(v.number()),
+        followsCount: v.optional(v.number()),
+        profilePictureUrl: v.optional(v.string()),
+      }),
+    ),
+    fetchedAt: v.number(),
+    /** Última falha da sincronização, para não morrer em silêncio. */
+    lastError: v.optional(v.string()),
+    lastErrorAt: v.optional(v.number()),
+  }),
+
   googleReviewsCache: defineTable({
     rating: v.number(),
     total: v.number(),

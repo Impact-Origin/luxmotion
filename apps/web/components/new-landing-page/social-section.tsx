@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useRef } from "react"
 import Image from "next/image"
 import { Instagram } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useAction } from "convex/react"
+import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { useAutoScrollMarquee } from "@/hooks/use-auto-scroll-marquee"
 
@@ -17,46 +17,37 @@ const fallbackPosts = [
   { id: "6", media_url: "/instagram/post-1.webp", permalink: "https://www.instagram.com/luxmotion.tours/" },
 ]
 
+const FALLBACK_PROFILE = {
+  username: "luxmotion.tours",
+  media_count: 626,
+  followers_count: 2000,
+}
+
 export function SocialSection() {
   const t = useTranslations("social")
-  const getInstagramData = useAction(api.instagram.getInstagramData)
+  /* Lê a cache que o cron enche uma vez por dia, em vez de chamar a API do
+     Instagram a cada carregamento da homepage. */
+  const feed = useQuery(api.instagram.getInstagramFeed, {})
 
   const scrollerRef = useRef<HTMLDivElement>(null)
   useAutoScrollMarquee(scrollerRef)
 
-  const [posts, setPosts] = useState(fallbackPosts)
-  const [profile, setProfile] = useState({
-    username: "luxmotion.tours",
-    media_count: 626,
-    followers_count: 2000,
-  })
+  const posts = feed?.posts?.length
+    ? feed.posts.map((p) => ({
+        id: p.id,
+        media_url: p.thumbnailUrl || p.mediaUrl,
+        permalink: p.permalink,
+      }))
+    : fallbackPosts
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getInstagramData({ postsLimit: 6 })
-        if (!data.error && data.posts?.length) {
-          setPosts(
-            data.posts.map((p: { id: string; media_url: string; permalink: string; thumbnail_url?: string }) => ({
-              id: p.id,
-              media_url: p.thumbnail_url || p.media_url,
-              permalink: p.permalink,
-            }))
-          )
-        }
-        if (data.profile) {
-          setProfile({
-            username: data.profile.username,
-            media_count: data.profile.media_count,
-            followers_count: data.profile.followers_count,
-          })
-        }
-      } catch {
-        // fallback already set
+  const profile = feed?.profile
+    ? {
+        username: feed.profile.username,
+        media_count: feed.profile.mediaCount ?? FALLBACK_PROFILE.media_count,
+        followers_count:
+          feed.profile.followersCount ?? FALLBACK_PROFILE.followers_count,
       }
-    }
-    fetchData()
-  }, [getInstagramData])
+    : FALLBACK_PROFILE
 
   const formatCount = (n: number) =>
     n >= 1000 ? `${(n / 1000).toFixed(1)}K` : String(n)

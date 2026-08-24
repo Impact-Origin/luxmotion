@@ -27,4 +27,13 @@ crons.weekly(
   { trigger: "cron" as const },
 );
 
+// O feed do Instagram, uma vez por dia (05:00 UTC). O site lê a cache: se a
+// sincronização falhar, fica o último feed bom no lugar e o erro registado.
+crons.daily(
+  "sync instagram feed",
+  { hourUTC: 5, minuteUTC: 0 },
+  internal.instagram.syncInstagram,
+  {},
+);
+
 export default crons;

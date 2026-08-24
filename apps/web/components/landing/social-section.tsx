@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useAction } from "convex/react"
+import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 
 const instagramGradient =
@@ -19,37 +19,33 @@ const fallbackPosts = [
 export function SocialSection() {
   const t = useTranslations("social")
   const [currentIndex, setCurrentIndex] = useState(0)
-  const getInstagramData = useAction(api.instagram.getInstagramData)
+  /* Lê a cache que o cron enche, em vez de chamar a API a cada carregamento. */
+  const feed = useQuery(api.instagram.getInstagramFeed, {})
 
-  const [instagramData, setInstagramData] = useState<{
-    posts: Array<{ id: string; media_url: string; permalink: string; timestamp: string; thumbnail_url?: string }>
-    profile: { username: string; media_count: number; followers_count: number; follows_count: number; profile_picture_url?: string } | null
-  } | null>(null)
+  const posts = feed?.posts?.length
+    ? feed.posts.map((p) => ({
+        id: p.id,
+        media_url: p.thumbnailUrl || p.mediaUrl,
+        permalink: p.permalink,
+        timestamp: p.timestamp,
+      }))
+    : fallbackPosts
 
-  useEffect(() => {
-    async function fetchInstagramData() {
-      try {
-        const data = await getInstagramData({ postsLimit: 6 })
-        if (data.error || !data.posts || data.posts.length === 0) {
-          setInstagramData({
-            posts: fallbackPosts,
-            profile: { username: "luxmotion.tours", media_count: 626, followers_count: 2000, follows_count: 883 },
-          })
-        } else {
-          setInstagramData(data)
-        }
-      } catch {
-        setInstagramData({
-          posts: fallbackPosts,
-          profile: { username: "luxmotion.tours", media_count: 626, followers_count: 2000, follows_count: 883 },
-        })
+  const profile = feed?.profile
+    ? {
+        username: feed.profile.username,
+        media_count: feed.profile.mediaCount ?? 626,
+        followers_count: feed.profile.followersCount ?? 2000,
+        follows_count: feed.profile.followsCount ?? 883,
+        profile_picture_url: feed.profile.profilePictureUrl,
       }
-    }
-    fetchInstagramData()
-  }, [getInstagramData])
-
-  const posts = instagramData?.posts || fallbackPosts
-  const profile = instagramData?.profile
+    : {
+        username: "luxmotion.tours",
+        media_count: 626,
+        followers_count: 2000,
+        follows_count: 883,
+        profile_picture_url: undefined as string | undefined,
+      }
 
   const handlePrev = () => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : posts.length - 1))
   const handleNext = () => setCurrentIndex((prev) => (prev < posts.length - 1 ? prev + 1 : 0))

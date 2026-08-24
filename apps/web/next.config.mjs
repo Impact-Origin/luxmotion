@@ -47,6 +47,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.googleusercontent.com",
       },
+      // Imagens do feed do Instagram (o CDN da Meta serve por vários domínios)
+      {
+        protocol: "https",
+        hostname: "**.cdninstagram.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.fbcdn.net",
+      },
     ],
   },
 }
