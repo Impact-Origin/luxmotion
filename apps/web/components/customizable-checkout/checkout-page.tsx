@@ -139,7 +139,15 @@ function CheckoutPageContent() {
   useEffect(() => {
     if (selectedVehicle && vehicles.length > 0) {
       const updatedVehicle = vehicles.find(v => v.id === selectedVehicle.id)
-      if (updatedVehicle && updatedVehicle.price !== selectedVehicle.price) {
+      /* Comparava só o total. O que segue para o pagamento é esta fotografia,
+         incluindo a taxa noturna que vai na linha do detalhe: se ela mudar sem
+         o total mudar, a encomenda ficava a dizer zero. */
+      const changed =
+        updatedVehicle &&
+        (updatedVehicle.price !== selectedVehicle.price ||
+          updatedVehicle.nightTaxOutbound !== selectedVehicle.nightTaxOutbound ||
+          updatedVehicle.nightTaxReturn !== selectedVehicle.nightTaxReturn)
+      if (updatedVehicle && changed) {
         setSelectedVehicle(updatedVehicle)
       }
     }

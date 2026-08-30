@@ -109,6 +109,10 @@ export default defineSchema({
     additionalFeesReturn: v.optional(v.number()),
     nightTax: v.optional(v.number()),
     nightTaxReturn: v.optional(v.number()),
+    /* Divergência detectada no servidor entre o que o cliente cobrou e o que as
+       regras dizem. Não altera o valor cobrado — o cliente pagou o que viu —
+       serve para a discrepância deixar de ser invisível. */
+    pricingWarning: v.optional(v.string()),
     airportServiceFee: v.optional(v.number()),
     cancellationFee: v.optional(v.number()),
     refundFee: v.optional(v.number()),

@@ -5,7 +5,7 @@ import { api } from "@workspace/convex/api";
 import { useMemo } from "react";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
-/** Percentagem de imposto de noite sobre o preço base (tarifa dia) das pernas em horário noturno (22h–08h). */
+/** Percentagem de imposto de noite sobre o preço base (tarifa dia) das pernas em horário noturno (20h–08h). */
 const NIGHT_TAX_PERCENT = 20;
 /** Valor mínimo do imposto de noite por perna (quando 20% for inferior a este valor). */
 const NIGHT_TAX_MIN_EUR = 9;
@@ -21,7 +21,7 @@ interface UseVehiclesProps {
   luggage?: LuggageRequirement;
   distance?: number;
   isNight?: boolean;
-  /** For round trip: whether the return leg is at night (22h–08h). Ida uses isNight. */
+  /** For round trip: whether the return leg is at night (20h–08h). Ida uses isNight. */
   isNightReturn?: boolean;
   /** When true, price is computed for both outbound and return legs (each with its own night/day rate). */
   bookReturn?: boolean;

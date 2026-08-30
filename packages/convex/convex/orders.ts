@@ -515,6 +515,20 @@ export const registContactInformation = mutation({
   },
 });
 
+/**
+ * A janela nocturna: das 20h às 08h. Está escrita aqui e no checkout
+ * (checkout-page.tsx), e as duas têm de dizer o mesmo.
+ */
+export function isNightDeparture(departureDate: string | undefined): boolean {
+  if (!departureDate) return false;
+  // O formato gravado é "YYYY-MM-DD HH:mm[:ss]", hora local, sem fuso.
+  const match = /^\d{4}-\d{2}-\d{2}[ T](\d{2}):/.exec(departureDate);
+  if (!match) return false;
+  const hour = Number(match[1]);
+  if (!Number.isFinite(hour)) return false;
+  return hour >= 20 || hour < 8;
+}
+
 export const startPayment = mutation({
   args: {
     orderId: v.id("orders"),
@@ -550,7 +564,23 @@ export const startPayment = mutation({
   handler: async (ctx, args) => {
     // Cash payments are automatically marked as paid
     const isCash = args.method === "cash";
-    
+
+    /* O preço é decidido no browser e este mutation grava o que vier. Já
+       aconteceu chegar aqui zero de taxa noturna numa partida à meia-noite: o
+       cliente viu e pagou o valor sem ela, e ninguém deu por isso.
+
+       Não se corrige o valor aqui — cobrar mais do que o cliente viu seria pior
+       do que perder a taxa. Regista-se a divergência, para deixar de ser
+       invisível e para se saber se volta a acontecer. */
+    const existingOrder: any = await ctx.db.get(args.orderId);
+    let pricingWarning: string | undefined;
+    if (existingOrder && isNightDeparture(existingOrder.departureDate) && args.nightTax === 0) {
+      pricingWarning = `Taxa noturna em falta: partida às ${String(existingOrder.departureDate).slice(11, 16)} e o checkout enviou 0.`;
+      console.error(
+        `[Pricing] ${pricingWarning} (encomenda ${existingOrder.orderNumber ?? args.orderId})`,
+      );
+    }
+
     const updates: any = {
       paymentMethod: args.method,
       paymentStatus: isCash ? "completed" : "pending",
@@ -559,6 +589,7 @@ export const startPayment = mutation({
       discountAmount: args.discountAmount,
       additionalFees: args.additionalFees,
       nightTax: args.nightTax,
+      ...(pricingWarning ? { pricingWarning } : {}),
       airportServiceFee: args.airportServiceFee,
       cancellationFee: args.cancellationFee,
       refundFee: args.refundFee,

@@ -219,6 +219,13 @@ function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () =
                 {order.nightTax ? (
                   <DetailRow label="Night tax" value={money(order.nightTax)} />
                 ) : null}
+                {/* Divergência apanhada no servidor. Não altera o que foi
+                    cobrado; existe para não voltar a passar despercebida. */}
+                {order.pricingWarning ? (
+                  <div className="col-span-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-600 dark:text-amber-400">
+                    {order.pricingWarning}
+                  </div>
+                ) : null}
                 {order.airportServiceFee ? (
                   <DetailRow label="Airport fee" value={money(order.airportServiceFee)} />
                 ) : null}
