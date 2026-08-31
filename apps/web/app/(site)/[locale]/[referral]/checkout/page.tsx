@@ -1,5 +1,7 @@
 import { setRequestLocale } from "next-intl/server"
-import { CheckoutPage } from "@/components/customizable-checkout/checkout-page"
+import { CheckoutPage as TransferThemedCheckout } from "@/components/customizable-checkout/checkout-page"
+import { CheckoutPage as LuxMotionCheckout } from "@/components/checkout/checkout-page"
+import { resolvePartnershipLandingTemplate } from "@/lib/partnership-landing-templates"
 import { DynamicThemeProvider } from "@/components/dynamic-theme-provider"
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
@@ -20,12 +22,29 @@ export default async function Page({
     notFound();
   }
 
+  /* O checkout segue o template da landing.
+  
+     A personalização de cores só existe para o template Transfer — é o próprio
+     admin que o diz. Um parceiro em whitelabel tem uma landing com o visual
+     LuxMotion, e mandá-lo depois para um checkout com o azul por omissão era a
+     marca a mudar a meio da reserva. */
+  const template = resolvePartnershipLandingTemplate(partnership.landingTemplate)
+
+  /* Valid, active partnership: drop a first-party referral cookie so a later
+     order (even one placed on the main-site checkout) still attributes here. */
+  if (template !== "transfer") {
+    return (
+      <>
+        <CaptureReferral slug={referral} />
+        <LuxMotionCheckout logoUrl={partnership.logoUrl} />
+      </>
+    )
+  }
+
   return (
     <DynamicThemeProvider theme={partnership.theme}>
-      {/* Valid, active partnership: drop a first-party referral cookie so a later
-          order (even one placed on the main-site checkout) still attributes here. */}
       <CaptureReferral slug={referral} />
-      <CheckoutPage partnershipSlug={referral} />
+      <TransferThemedCheckout partnershipSlug={referral} />
     </DynamicThemeProvider>
   )
 }

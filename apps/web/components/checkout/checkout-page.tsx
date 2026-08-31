@@ -26,17 +26,17 @@ import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 
-export function CheckoutPage() {
+export function CheckoutPage({ logoUrl }: { logoUrl?: string | null } = {}) {
   return (
     <CheckoutThemeProvider>
       <CheckoutProvider>
-        <CheckoutPageContent />
+        <CheckoutPageContent logoUrl={logoUrl} />
       </CheckoutProvider>
     </CheckoutThemeProvider>
   )
 }
 
-function CheckoutPageContent() {
+function CheckoutPageContent({ logoUrl }: { logoUrl?: string | null }) {
   const convex = useConvex()
   const searchParams = useSearchParams()
   const { state, setStep, setSelectedVehicle, setShowTransferForm, setOrder, updateDistance, setUpgradeMode, submitCheckout, setNearbyTours } = useCheckout()
@@ -270,6 +270,7 @@ function CheckoutPageContent() {
   return (
     <div className="min-h-screen flex flex-col">
       <CheckoutHeader
+        logoUrl={logoUrl}
         currentStep={currentStep}
         onStepClick={handleStepChange}
         allowStepSkip={DEV_ALLOW_STEP_SKIP}

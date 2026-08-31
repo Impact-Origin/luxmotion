@@ -18,11 +18,31 @@ interface CheckoutHeaderProps {
   allowStepSkip?: boolean
   hasNearbyTours?: boolean
   reservationsToday?: number
+  /** Logótipo do parceiro, quando o checkout é servido a partir da landing dele. */
+  logoUrl?: string | null
 }
 
-function LuxMotionLogo() {
+/**
+ * O logótipo do topo do checkout.
+ *
+ * Com `logoUrl` mostra o do parceiro: um hotel que vende transfers na sua
+ * própria página não deve ver a marca desaparecer no momento de pagar. Sem ele,
+ * o de sempre.
+ */
+function CheckoutLogo({ logoUrl }: { logoUrl?: string | null }) {
   const { theme } = useCheckoutTheme()
   const isLight = theme === "light"
+
+  if (logoUrl) {
+    return (
+      <Link href="/" className="flex items-center shrink-0">
+        <span className="relative block h-[40px] w-[150px]">
+          <Image src={logoUrl} alt="" fill className="object-contain object-left" priority />
+        </span>
+      </Link>
+    )
+  }
+
   return (
     <Link href="/" className="flex items-center gap-[10px] shrink-0">
       <div className="relative w-[45px] h-[45px] border-[1.9px] border-[var(--ck-accent,#c9a96e)] flex items-center justify-center shrink-0">
@@ -146,6 +166,7 @@ export function CheckoutHeader({
   allowStepSkip = false,
   hasNearbyTours = false,
   reservationsToday = 13,
+  logoUrl,
 }: CheckoutHeaderProps) {
   const t = useTranslations("checkout.steps")
   const tNav = useTranslations("checkout.nav")
@@ -180,7 +201,7 @@ export function CheckoutHeader({
       {/* Mesmo container do conteúdo (checkout-page: max-w-[1200px] px-6) para o
           logo cair sobre a margem esquerda e o idioma sobre a direita. */}
       <div className="max-w-[1200px] mx-auto px-6 h-[60px] md:h-[72px] flex items-center justify-between">
-        <LuxMotionLogo />
+        <CheckoutLogo logoUrl={logoUrl} />
 
         <div className="flex items-center gap-[12px]">
           <LiveCount text={tNav("reservationsToday", { count: reservationsToday })} />
