@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { isNightDeparture } from "./lib/pricing";
 import { mutation, query, action, internalMutation } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
@@ -514,20 +515,6 @@ export const registContactInformation = mutation({
     return { order };
   },
 });
-
-/**
- * A janela nocturna: das 20h às 08h. Está escrita aqui e no checkout
- * (checkout-page.tsx), e as duas têm de dizer o mesmo.
- */
-export function isNightDeparture(departureDate: string | undefined): boolean {
-  if (!departureDate) return false;
-  // O formato gravado é "YYYY-MM-DD HH:mm[:ss]", hora local, sem fuso.
-  const match = /^\d{4}-\d{2}-\d{2}[ T](\d{2}):/.exec(departureDate);
-  if (!match) return false;
-  const hour = Number(match[1]);
-  if (!Number.isFinite(hour)) return false;
-  return hour >= 20 || hour < 8;
-}
 
 export const startPayment = mutation({
   args: {

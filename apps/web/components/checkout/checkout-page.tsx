@@ -18,7 +18,7 @@ import { CheckoutThemeProvider, useCheckoutTheme } from "@/components/checkout/c
 import { isAirportLocation } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { ArrowRight } from "lucide-react"
 import { initOrder, toBackendLocation, formatLocalDateTime } from "@/lib/orders"
 import { readReferralCookie } from "@/lib/referral"
@@ -101,27 +101,23 @@ function CheckoutPageContent() {
     }
   }, [nearbyToursLoaded, hasNearbyTours, currentStep, experiencesStep, passengerStep, setStep])
 
-  const isNight = useMemo(() => {
-    if (!transfer.departureDate) return false
-    const date = new Date(transfer.departureDate)
-    const hour = date.getHours()
-    return hour >= 20 || hour < 8
-  }, [transfer.departureDate])
-
-  const isNightReturn = useMemo(() => {
-    if (!transfer.bookReturn || !transfer.returnDate) return false
-    const date = new Date(transfer.returnDate)
-    const hour = date.getHours()
-    return hour >= 20 || hour < 8
-  }, [transfer.bookReturn, transfer.returnDate])
+  /* A decisão de noite/dia passou para o servidor: manda-se a data como texto
+     e o preço vem calculado de lá, com a mesma regra que grava a encomenda. */
+  const departureDateArg = transfer.departureDate
+    ? formatLocalDateTime(transfer.departureDate, false)
+    : undefined
+  const returnDateArg =
+    transfer.bookReturn && transfer.returnDate
+      ? formatLocalDateTime(transfer.returnDate, false)
+      : undefined
   const isRoundTrip = transfer.bookReturn
 
   const { vehicles, isLoading: vehiclesLoading } = useVehicles({
     passengers: transfer.passengers,
     luggage: transfer.luggage,
     distance: distance ?? undefined,
-    isNight,
-    isNightReturn: transfer.bookReturn ? isNightReturn : undefined,
+    departureDate: departureDateArg,
+    returnDate: returnDateArg,
     bookReturn: transfer.bookReturn,
     isAirportPickup: isAirportLocation(transfer.fromLocation),
     upgradeMode: upgradeMode,
