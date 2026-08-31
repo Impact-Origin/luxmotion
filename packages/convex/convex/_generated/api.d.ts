@@ -32,6 +32,7 @@ import type * as lib_openai from "../lib/openai.js";
 import type * as lib_pagination from "../lib/pagination.js";
 import type * as lib_pipedriveFila from "../lib/pipedriveFila.js";
 import type * as lib_pipedriveMapa from "../lib/pipedriveMapa.js";
+import type * as lib_pricing from "../lib/pricing.js";
 import type * as lib_referral from "../lib/referral.js";
 import type * as lib_storage from "../lib/storage.js";
 import type * as lib_utils from "../lib/utils.js";
@@ -94,6 +95,7 @@ declare const fullApi: ApiFromModules<{
   "lib/pagination": typeof lib_pagination;
   "lib/pipedriveFila": typeof lib_pipedriveFila;
   "lib/pipedriveMapa": typeof lib_pipedriveMapa;
+  "lib/pricing": typeof lib_pricing;
   "lib/referral": typeof lib_referral;
   "lib/storage": typeof lib_storage;
   "lib/utils": typeof lib_utils;
