@@ -1,4 +1,6 @@
 import { v } from "convex/values";
+import { isNightDeparture, priceVehicle } from "./lib/pricing";
+import { siteSettingsDefaults } from "./siteSettings";
 import { mutation, query } from "./_generated/server";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 
@@ -99,6 +101,84 @@ export const listActive = query({
           ? await ctx.storage.getUrl(vehicle.imageId) 
           : null,
       }))
+    );
+  },
+});
+
+/**
+ * Os veículos disponíveis para uma viagem, já com preço.
+ *
+ * O checkout mostrava preços calculados no browser e mandava-os para o
+ * servidor, que os aceitava. Agora quem calcula é isto: o preço depende dos
+ * parâmetros da viagem, e muda com eles — não há fotografia para ficar velha.
+ */
+export const listQuoted = query({
+  args: {
+    partnershipSlug: v.optional(v.string()),
+    passengers: v.optional(v.number()),
+    checkedBaggage: v.optional(v.number()),
+    handLuggage: v.optional(v.number()),
+    backpack: v.optional(v.number()),
+    distance: v.optional(v.number()),
+    /** "YYYY-MM-DD HH:mm[:ss]", hora local — é o servidor que decide se é noite. */
+    departureDate: v.optional(v.string()),
+    returnDate: v.optional(v.string()),
+    bookReturn: v.optional(v.boolean()),
+    isAirportPickup: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    let partnershipId = null;
+    if (args.partnershipSlug) {
+      const partnership = await ctx.db
+        .query("partnerships")
+        .withIndex("by_slug", (q) => q.eq("slug", args.partnershipSlug!))
+        .unique();
+      partnershipId = partnership?._id;
+    }
+
+    const all = await ctx.db
+      .query("vehicles")
+      .withIndex("by_status", (q) => q.eq("status", "active"))
+      .collect();
+
+    const settings = await ctx.db
+      .query("siteSettings")
+      .withIndex("by_key", (q) => q.eq("key", "global"))
+      .first();
+    const airportSurchargePercent =
+      settings?.airportSurchargePercent ?? siteSettingsDefaults.airportSurchargePercent;
+
+    const requiredBags =
+      (args.checkedBaggage ?? 0) + (args.handLuggage ?? 0) + (args.backpack ?? 0);
+    const passengers = args.passengers ?? 1;
+
+    const isNight = isNightDeparture(args.departureDate);
+    const isNightReturn = args.bookReturn ? isNightDeparture(args.returnDate) : false;
+
+    const rows = all
+      .filter((v) => (partnershipId ? v.partnershipId === partnershipId : !v.partnershipId))
+      .filter((v) => v.passengers >= passengers && v.luggage >= requiredBags)
+      .sort((a, b) => a.order - b.order);
+
+    return Promise.all(
+      rows.map(async (vehicle) => {
+        const pricing = priceVehicle({
+          pricePerKm: vehicle.pricePerKm,
+          minimumPrice: vehicle.minimumPrice,
+          distance: args.distance,
+          isNight,
+          isNightReturn,
+          bookReturn: args.bookReturn,
+          isAirportPickup: args.isAirportPickup,
+          airportSurchargePercent,
+        });
+
+        return {
+          ...vehicle,
+          imageUrl: vehicle.imageId ? await ctx.storage.getUrl(vehicle.imageId) : null,
+          ...pricing,
+        };
+      }),
     );
   },
 });
