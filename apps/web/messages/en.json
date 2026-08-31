@@ -2011,7 +2011,9 @@
     "maxFeaturedReached": "Maximum of 6 featured {type} reached",
     "maxFeaturedBlogs": "Maximum of 6 featured posts reached",
     "maxFeaturedTours": "Maximum of 6 featured tours reached",
-    "maxFeaturedEvents": "Maximum of 6 featured events reached"
+    "maxFeaturedEvents": "Maximum of 6 featured events reached",
+    "checkoutFollowsTemplateTitle": "The checkout follows the template",
+    "checkoutFollowsTemplateHint": "This partner is not on the Transfer template: on the live site the checkout uses the LuxMotion look with the partner logo. Colours only apply to the Transfer template."
   },
   "legal": {
     "termsAndConditions": {

@@ -1997,7 +1997,9 @@
     "maxFeaturedReached": "Máximo de 6 {type} destacados alcanzado",
     "maxFeaturedBlogs": "Máximo de 6 publicaciones destacadas alcanzado",
     "maxFeaturedTours": "Máximo de 6 tours destacados alcanzado",
-    "maxFeaturedEvents": "Máximo de 6 eventos destacados alcanzado"
+    "maxFeaturedEvents": "Máximo de 6 eventos destacados alcanzado",
+    "checkoutFollowsTemplateTitle": "El checkout sigue la plantilla",
+    "checkoutFollowsTemplateHint": "Este socio no usa la plantilla Transfer: en el sitio, el checkout tiene el aspecto LuxMotion con el logotipo del socio. Los colores solo se aplican a la plantilla Transfer."
   },
   "legal": {
     "termsAndConditions": {

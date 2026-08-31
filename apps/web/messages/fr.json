@@ -1997,7 +1997,9 @@
     "maxFeaturedReached": "Maximum de 6 {type} en vedette atteint",
     "maxFeaturedBlogs": "Maximum de 6 articles en vedette atteint",
     "maxFeaturedTours": "Maximum de 6 tours en vedette atteint",
-    "maxFeaturedEvents": "Maximum de 6 événements en vedette atteint"
+    "maxFeaturedEvents": "Maximum de 6 événements en vedette atteint",
+    "checkoutFollowsTemplateTitle": "Le checkout suit le modèle",
+    "checkoutFollowsTemplateHint": "Ce partenaire n'utilise pas le modèle Transfer : sur le site, le checkout adopte l'apparence LuxMotion avec le logo du partenaire. Les couleurs ne s'appliquent qu'au modèle Transfer."
   },
   "legal": {
     "termsAndConditions": {

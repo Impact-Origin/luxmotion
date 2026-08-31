@@ -2010,7 +2010,9 @@
     "maxFeaturedReached": "Máximo de 6 {type} em destaque atingido",
     "maxFeaturedBlogs": "Máximo de 6 posts em destaque atingido",
     "maxFeaturedTours": "Máximo de 6 tours em destaque atingido",
-    "maxFeaturedEvents": "Máximo de 6 eventos em destaque atingido"
+    "maxFeaturedEvents": "Máximo de 6 eventos em destaque atingido",
+    "checkoutFollowsTemplateTitle": "O checkout segue o template",
+    "checkoutFollowsTemplateHint": "Este parceiro não usa o template Transfer: no site, o checkout tem o visual LuxMotion e o logótipo do parceiro. As cores só se aplicam ao template Transfer."
   },
   "legal": {
     "termsAndConditions": {

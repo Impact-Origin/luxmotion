@@ -808,8 +808,11 @@ export default function PartnershipEditorPage({
   const colorSections =
     pageType === "landing" ? LANDING_COLOR_SECTIONS : CHECKOUT_COLOR_SECTIONS;
 
-  const isTransferLanding =
-    pageType === "landing" && landingTemplate === "transfer";
+  /* As cores só se aplicam ao template Transfer — nos outros, a landing usa o
+     visual LuxMotion e o checkout segue-a. Editar cores aí seria mexer em
+     botões que não ligam a nada. */
+  const isTransferTemplate = landingTemplate === "transfer";
+  const isTransferLanding = pageType === "landing" && isTransferTemplate;
 
   // The dark whitelabel templates render a configurable right-side hero photo.
   const hasHeroImage =
@@ -1275,6 +1278,7 @@ export default function PartnershipEditorPage({
               ))}
 
             {pageType === "checkout" &&
+              isTransferTemplate &&
               colorSections.map((section) => (
                 <CollapsibleSection
                   key={section.id}
@@ -1422,19 +1426,44 @@ export default function PartnershipEditorPage({
                   : "w-[375px] h-[812px] rounded-[3rem] border-[12px] border-foreground",
               )}
             >
-              <DynamicThemeProvider
-                theme={theme}
-                logoUrl={logoUrl}
-                isPreviewMode={false}
-              >
-                <iframe
-                  ref={iframeRef}
-                  key={`${previewUrl}-${landingTemplate}`}
-                  src={previewUrl}
-                  className="w-full h-full border-none"
-                  title="Site Preview"
-                />
-              </DynamicThemeProvider>
+              {pageType === "checkout" && !isTransferTemplate ? (
+                /* Mostrar aqui o checkout com tema seria mentir: no site, um
+                   parceiro fora do template Transfer usa o checkout com o
+                   visual LuxMotion e o seu logótipo. */
+                <div className="flex h-full flex-col items-center justify-center gap-3 p-10 text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    {t("checkoutFollowsTemplateTitle")}
+                  </p>
+                  <p className="max-w-md text-xs text-muted-foreground">
+                    {t("checkoutFollowsTemplateHint")}
+                  </p>
+                  {partnership?.slug && (
+                    <a
+                      href={`/${partnership.slug}/checkout`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-medium hover:bg-muted"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      {t("viewLiveSite")}
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <DynamicThemeProvider
+                  theme={theme}
+                  logoUrl={logoUrl}
+                  isPreviewMode={false}
+                >
+                  <iframe
+                    ref={iframeRef}
+                    key={`${previewUrl}-${landingTemplate}`}
+                    src={previewUrl}
+                    className="w-full h-full border-none"
+                    title="Site Preview"
+                  />
+                </DynamicThemeProvider>
+              )}
             </div>
           </div>
         </div>

@@ -1997,7 +1997,9 @@
     "maxFeaturedReached": "Maximum van 6 uitgelichte {type} bereikt",
     "maxFeaturedBlogs": "Maximum van 6 uitgelichte berichten bereikt",
     "maxFeaturedTours": "Maximum van 6 uitgelichte tours bereikt",
-    "maxFeaturedEvents": "Maximum van 6 uitgelichte evenementen bereikt"
+    "maxFeaturedEvents": "Maximum van 6 uitgelichte evenementen bereikt",
+    "checkoutFollowsTemplateTitle": "De checkout volgt de template",
+    "checkoutFollowsTemplateHint": "Deze partner gebruikt niet de Transfer-template: op de site heeft de checkout de LuxMotion-vormgeving met het logo van de partner. Kleuren gelden alleen voor de Transfer-template."
   },
   "legal": {
     "termsAndConditions": {

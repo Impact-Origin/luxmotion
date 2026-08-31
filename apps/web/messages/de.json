@@ -1997,7 +1997,9 @@
     "maxFeaturedReached": "Maximum von 6 hervorgehobenen {type} erreicht",
     "maxFeaturedBlogs": "Maximum von 6 hervorgehobenen Beiträgen erreicht",
     "maxFeaturedTours": "Maximum von 6 hervorgehobenen Touren erreicht",
-    "maxFeaturedEvents": "Maximum von 6 hervorgehobenen Events erreicht"
+    "maxFeaturedEvents": "Maximum von 6 hervorgehobenen Events erreicht",
+    "checkoutFollowsTemplateTitle": "Der Checkout folgt der Vorlage",
+    "checkoutFollowsTemplateHint": "Dieser Partner nutzt nicht die Transfer-Vorlage: Auf der Website erscheint der Checkout im LuxMotion-Design mit dem Partnerlogo. Farben gelten nur für die Transfer-Vorlage."
   },
   "legal": {
     "termsAndConditions": {
