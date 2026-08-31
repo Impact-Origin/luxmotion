@@ -150,7 +150,9 @@
     "labelDeparture": "Departure",
     "travelersCount": "{count} travelers",
     "bookedToday": "Booked this today.",
-    "minAdvanceNotice": "Bookings require at least {hours}h notice. Please choose a later time."
+    "minAdvanceNotice": "Bookings require at least {hours}h notice. Please choose a later time.",
+    "whitelabelDescription": "{partner} is delighted to offer you private transfers and tailor-made experiences — book in under 60 seconds, fixed price guaranteed.",
+    "whitelabelDescriptionGeneric": "We are delighted to offer you private transfers and tailor-made experiences — book in under 60 seconds, fixed price guaranteed."
   },
   "features": {
     "title": "Why book with us?",

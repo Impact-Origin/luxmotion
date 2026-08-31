@@ -150,7 +150,9 @@
     "labelDeparture": "Partida",
     "travelersCount": "{count} viajantes",
     "bookedToday": "Reservei isso hoje.",
-    "minAdvanceNotice": "As reservas exigem no mínimo {hours}h de antecedência. Escolha uma hora mais tarde."
+    "minAdvanceNotice": "As reservas exigem no mínimo {hours}h de antecedência. Escolha uma hora mais tarde.",
+    "whitelabelDescription": "{partner} tem o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido.",
+    "whitelabelDescriptionGeneric": "Temos o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido."
   },
   "features": {
     "title": "Porque agendar connosco?",

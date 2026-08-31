@@ -150,7 +150,9 @@
     "labelDeparture": "Vertrek",
     "travelersCount": "{count} reizigers",
     "bookedToday": "Vandaag geboekt.",
-    "minAdvanceNotice": "Boekingen vereisen minstens {hours} uur vooraf. Kies een later tijdstip."
+    "minAdvanceNotice": "Boekingen vereisen minstens {hours} uur vooraf. Kies een later tijdstip.",
+    "whitelabelDescription": "{partner} biedt u graag privétransfers en ervaringen op maat — boek in minder dan 60 seconden, vaste prijs gegarandeerd.",
+    "whitelabelDescriptionGeneric": "Wij bieden u graag privétransfers en ervaringen op maat — boek in minder dan 60 seconden, vaste prijs gegarandeerd."
   },
   "features": {
     "title": "Waarom bij ons boeken?",

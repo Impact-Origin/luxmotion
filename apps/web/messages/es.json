@@ -150,7 +150,9 @@
     "labelDeparture": "Salida",
     "travelersCount": "{count} viajeros",
     "bookedToday": "Reservaron hoy.",
-    "minAdvanceNotice": "Las reservas requieren al menos {hours}h de antelación. Elige una hora más tarde."
+    "minAdvanceNotice": "Las reservas requieren al menos {hours}h de antelación. Elige una hora más tarde.",
+    "whitelabelDescription": "{partner} se complace en ofrecerle traslados privados y experiencias a medida — reserva en menos de 60 segundos, precio fijo garantizado.",
+    "whitelabelDescriptionGeneric": "Nos complace ofrecerle traslados privados y experiencias a medida — reserva en menos de 60 segundos, precio fijo garantizado."
   },
   "features": {
     "title": "¿Por qué reservar con nosotros?",

@@ -150,7 +150,9 @@
     "labelDeparture": "Abfahrt",
     "travelersCount": "{count} Reisende",
     "bookedToday": "Heute gebucht.",
-    "minAdvanceNotice": "Buchungen erfordern mindestens {hours} Std. Vorlaufzeit. Bitte wählen Sie eine spätere Uhrzeit."
+    "minAdvanceNotice": "Buchungen erfordern mindestens {hours} Std. Vorlaufzeit. Bitte wählen Sie eine spätere Uhrzeit.",
+    "whitelabelDescription": "{partner} freut sich, Ihnen private Transfers und maßgeschneiderte Erlebnisse anzubieten — Buchung in unter 60 Sekunden, Festpreis garantiert.",
+    "whitelabelDescriptionGeneric": "Wir freuen uns, Ihnen private Transfers und maßgeschneiderte Erlebnisse anzubieten — Buchung in unter 60 Sekunden, Festpreis garantiert."
   },
   "features": {
     "title": "Warum bei uns buchen?",
