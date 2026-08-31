@@ -33,6 +33,7 @@ export function PartnershipLanding({
           logoUrl={logoUrl}
           heroImageUrl={heroImageUrl}
           partnershipSlug={partnershipSlug}
+          partnerName={partnerName}
           themeMode={theme?.themeMode}
         />
       );

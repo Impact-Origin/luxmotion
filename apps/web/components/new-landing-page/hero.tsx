@@ -308,16 +308,35 @@ function HeroSlides({
 
 const WHITELABEL_BG = "linear-gradient(180deg, rgba(var(--lm-bg-rgb,13,13,13),0.20) 0%, rgba(var(--lm-bg-rgb,13,13,13),0.55) 50%, rgba(var(--lm-bg-rgb,13,13,13),0.96) 82%, var(--lm-bg,#0D0D0D) 100%)"
 
-const WHITELABEL_DESCRIPTION =
-  "O {{HOTEL_NAME}} tem o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido."
+/**
+ * A frase da landing de parceria, com o nome do parceiro lá dentro.
+ *
+ * Estava escrita com um marcador "{{HOTEL_NAME}}" que nada substituía: todos os
+ * parceiros mostravam esse texto cru aos hóspedes deles.
+ *
+ * O nome entra sem artigo à frente de propósito. "O {nome}" só funciona para
+ * nomes masculinos — daria "O Quinta da Pacheca" — e o género do nome de um
+ * parceiro não é coisa que se possa adivinhar em código.
+ */
+function whitelabelDescription(partnerName?: string): string {
+  const cauda =
+    "tem o prazer de oferecer-lhe transfers privados e experiências à medida — reserva em menos de 60 segundos, preço fixo garantido."
+  const nome = partnerName?.trim()
+  return nome
+    ? `${nome} ${cauda}`
+    : `Temos ${cauda.replace("tem o prazer", "o prazer")}`
+}
 
 export function Hero({
   whitelabel = false,
   heroImageUrl,
+  partnerName,
   checkoutBasePath = "",
 }: {
   whitelabel?: boolean
   heroImageUrl?: string | null
+  /** Nome do parceiro, para a frase de boas-vindas da landing dele. */
+  partnerName?: string
   checkoutBasePath?: string
 } = {}) {
   const t = useTranslations("hero")
@@ -401,7 +420,7 @@ export function Hero({
           </h1>
 
           <p className={cn("text-[18px] font-light leading-[1.3] text-[var(--lm-muted,#999)] max-w-[591px]", enter("delay-200"))}>
-            {whitelabel ? WHITELABEL_DESCRIPTION : t("description")}
+            {whitelabel ? whitelabelDescription(partnerName) : t("description")}
           </p>
 
           {!whitelabel && (

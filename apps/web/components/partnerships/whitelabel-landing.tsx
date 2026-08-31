@@ -28,11 +28,13 @@ export function WhitelabelLanding({
   logoUrl,
   heroImageUrl,
   partnershipSlug,
+  partnerName,
   themeMode = "switch",
 }: {
   logoUrl?: string | null;
   heroImageUrl?: string | null;
   partnershipSlug?: string;
+  partnerName?: string;
   themeMode?: ThemeMode;
 }) {
   return (
@@ -41,6 +43,7 @@ export function WhitelabelLanding({
         logoUrl={logoUrl}
         heroImageUrl={heroImageUrl}
         partnershipSlug={partnershipSlug}
+        partnerName={partnerName}
         showToggle={themeMode === "switch"}
       />
     </HomeThemeProvider>
@@ -51,11 +54,13 @@ function WhitelabelLandingInner({
   logoUrl,
   heroImageUrl,
   partnershipSlug,
+  partnerName,
   showToggle,
 }: {
   logoUrl?: string | null;
   heroImageUrl?: string | null;
   partnershipSlug?: string;
+  partnerName?: string;
   showToggle: boolean;
 }) {
   const { theme } = useHomeTheme();
@@ -70,6 +75,7 @@ function WhitelabelLandingInner({
       <Hero
         whitelabel
         heroImageUrl={heroImageUrl}
+        partnerName={partnerName}
         checkoutBasePath={partnershipSlug ? `/${partnershipSlug}` : ""}
       />
       <QualityProcess />
