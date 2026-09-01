@@ -1,5 +1,7 @@
 "use client"
 
+import { cn } from "@workspace/ui/lib/utils"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import {
   Clock,
   MapPin,
@@ -56,10 +58,12 @@ function BenefitCard({ benefit }: { benefit: Benefit }) {
 
 export function Benefits() {
   const t = useTranslations("whitelabel.benefits")
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
+
   return (
     <section className="bg-[var(--lm-bg,#0d0d0d)] px-4 lg:px-[82px] pt-14 lg:pt-[72px] pb-14 lg:pb-[72px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-4">
-        <div className="flex flex-col gap-2 items-center text-center">
+      <div ref={ref} className="max-w-[1280px] mx-auto flex flex-col gap-4">
+        <div className={cn("flex flex-col gap-2 items-center text-center", reveal())}>
           <div className="flex items-center gap-2">
             <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
             <span
@@ -80,8 +84,14 @@ export function Benefits() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[2px]">
-          {BENEFITS.map((benefit) => (
-            <BenefitCard key={benefit.id} benefit={benefit} />
+          {BENEFITS.map((benefit, i) => (
+            <div
+              key={benefit.id}
+              className={cn("flex", reveal())}
+              style={{ transitionDelay: `${120 + i * 80}ms` }}
+            >
+              <BenefitCard benefit={benefit} />
+            </div>
           ))}
         </div>
       </div>

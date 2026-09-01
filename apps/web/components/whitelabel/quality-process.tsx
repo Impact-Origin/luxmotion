@@ -1,5 +1,7 @@
 "use client"
 
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 import { useEffect, useRef, useState } from "react"
 import {
   ArrowRight,
@@ -68,6 +70,8 @@ function ArrowConnector({ leftPercent }: { leftPercent: number }) {
 }
 
 export function QualityProcess() {
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
+
   const t = useTranslations("whitelabel.qualityProcess")
   const marqueeRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
@@ -117,7 +121,7 @@ export function QualityProcess() {
 
   return (
     <section className="bg-[var(--lm-bg,#0d0d0d)] px-4 lg:px-[82px] pt-8 lg:pt-10 pb-8 lg:pb-20">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-[52px]">
+      <div ref={ref} className={cn("max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-[52px]", reveal())}>
         <div
           ref={headerRef}
           className={`flex flex-col gap-4 items-center text-center transition-opacity duration-700 ease-out ${

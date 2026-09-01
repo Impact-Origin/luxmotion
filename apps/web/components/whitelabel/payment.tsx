@@ -1,3 +1,7 @@
+"use client"
+
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 import { Lock, ShieldCheck } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -37,10 +41,12 @@ function LogoPill({ logo }: { logo: Logo }) {
 }
 
 export function Payment() {
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
+
   const t = useTranslations("whitelabel.payment")
   return (
     <section className="bg-[var(--lm-bg,#0d0d0d)] px-4 lg:px-[82px] pt-12 lg:pt-16 pb-12 lg:pb-16">
-      <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+      <div ref={ref} className={cn("max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12", reveal())}>
         <div className="flex-1 flex flex-col gap-4 items-start w-full">
           <div className="flex items-center gap-2">
             <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />

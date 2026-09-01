@@ -1,3 +1,7 @@
+"use client"
+
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -11,6 +15,8 @@ const SANS_FONT = {
 } as const
 
 export function CtaFinal() {
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
+
   const t = useTranslations("whitelabel.ctaFinal")
 
   return (
@@ -34,7 +40,13 @@ export function CtaFinal() {
         className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent pointer-events-none"
       />
 
-      <div className="relative max-w-[640px] mx-auto flex flex-col gap-6 items-center text-center">
+      <div
+        ref={ref}
+        className={cn(
+          "relative max-w-[640px] mx-auto flex flex-col gap-6 items-center text-center",
+          reveal(),
+        )}
+      >
         <div className="flex flex-col gap-2 items-center">
           <div className="flex items-center gap-2">
             <div className="h-px w-8 bg-[#C9A96E]" />
@@ -65,8 +77,11 @@ export function CtaFinal() {
         </p>
 
         <div className="flex flex-col items-center gap-2 w-full">
+          {/* Âncora sem barra à frente: "/#booking" saía da página do parceiro
+              para a homepage principal, que é o oposto do que este botão quer.
+              O widget de reserva está nesta mesma página, no topo. */}
           <Link
-            href="/#booking"
+            href="#booking"
             className="bg-[#C9A96E] border border-[#C9A96E] hover:bg-[#d4b87c] hover:border-[#d4b87c] transition-colors h-12 px-[22px] flex items-center justify-center gap-2"
           >
             <span

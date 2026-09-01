@@ -1,5 +1,7 @@
 "use client"
 
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 import { useState } from "react"
 import { Plus } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -71,12 +73,14 @@ function FaqItem({
 }
 
 export function FAQ() {
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
+
   const t = useTranslations("whitelabel.faq")
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
     <section className="bg-[var(--lm-surface,#141414)] border-t border-[rgba(var(--lm-text-rgb,255,255,255),0.07)] px-4 lg:px-[82px] pt-14 lg:pt-[72px] pb-14 lg:pb-[72px]">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-6 items-center">
+      <div ref={ref} className={cn("max-w-[1280px] mx-auto flex flex-col gap-6 items-center", reveal())}>
         <div className="flex flex-col gap-2 items-center text-center">
           <div className="flex items-center gap-2">
             <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />

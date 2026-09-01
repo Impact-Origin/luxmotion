@@ -1,5 +1,7 @@
 "use client"
 
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@workspace/ui/lib/utils"
 import { useMemo } from "react"
 import Image from "next/image"
 import { Star } from "lucide-react"
@@ -184,6 +186,8 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
 }
 
 export function Testimonials() {
+  const { ref, reveal } = useScrollReveal<HTMLDivElement>()
+
   const t = useTranslations("whitelabel.testimonials")
   const featuredReviews = useQuery(api.tourReviews.listFeatured)
 
@@ -198,7 +202,7 @@ export function Testimonials() {
 
   return (
     <section className="bg-[var(--lm-surface,#141414)] px-4 lg:px-[82px] pt-14 lg:pt-20 pb-14 lg:pb-20">
-      <div className="max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-12">
+      <div ref={ref} className={cn("max-w-[1280px] mx-auto flex flex-col gap-10 lg:gap-12", reveal())}>
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <div className="h-px w-8 bg-[var(--lm-accent,#c9a96e)]" />
