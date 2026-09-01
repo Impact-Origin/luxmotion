@@ -14,15 +14,18 @@ const SANS_FONT = {
   fontFamily: "var(--font-sans), system-ui, sans-serif",
 } as const
 
-type Logo = { src: string; alt: string; w: number; h: number }
+/* `mono`: o ficheiro é branco e só se vê sobre fundo escuro. Em tema claro é
+   invertido para preto — mesma regra do rodapé. O Mastercard traz as suas
+   próprias cores e fica de fora. */
+type Logo = { src: string; alt: string; w: number; h: number; mono: boolean }
 
 // Mirrors what Stripe Checkout actually offers: card (Visa/Mastercard), MB WAY
 // and Multibanco. PayPal was removed — it isn't a payment method we accept.
 const LOGOS: Logo[] = [
-  { src: "/shared/payments/visa.svg", alt: "Visa", w: 48, h: 16 },
-  { src: "/shared/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24 },
-  { src: "/shared/payments/mbway.svg", alt: "MB Way", w: 42, h: 20 },
-  { src: "/shared/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20 },
+  { src: "/shared/payments/visa.svg", alt: "Visa", w: 48, h: 16, mono: true },
+  { src: "/shared/payments/mastercard.svg", alt: "Mastercard", w: 40, h: 24, mono: false },
+  { src: "/shared/payments/mbway.svg", alt: "MB Way", w: 42, h: 20, mono: true },
+  { src: "/shared/payments/multibanco.svg", alt: "Multibanco", w: 57, h: 20, mono: true },
 ]
 
 function LogoPill({ logo }: { logo: Logo }) {
@@ -33,7 +36,10 @@ function LogoPill({ logo }: { logo: Logo }) {
         alt={logo.alt}
         width={logo.w}
         height={logo.h}
-        className="object-contain"
+        className={cn(
+          "object-contain",
+          logo.mono && "[.home-theme:not(.dark)_&]:brightness-0",
+        )}
         style={{ width: `${logo.w}px`, height: `${logo.h}px` }}
       />
     </div>
@@ -101,7 +107,7 @@ export function Payment() {
 
         <div className="flex-1 relative w-full aspect-[562/432]">
           <Image
-            src="/whitelabel/payment.webp"
+            src="/whitelabel/payment-partner.webp"
             alt={t("imageAlt")}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
