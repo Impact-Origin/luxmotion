@@ -98,6 +98,7 @@ function ReviewCard({ review, color }: { review: Review; color: string }) {
 
 function LogoPill({
   src,
+  srcLight,
   alt,
   width,
   height,
@@ -105,6 +106,8 @@ function LogoPill({
   href,
 }: {
   src: string
+  /** Variante para tema claro, quando o ficheiro principal é branco. */
+  srcLight?: string
   alt: string
   width: number
   height: number
@@ -123,9 +126,19 @@ function LogoPill({
         alt={alt}
         width={width}
         height={height}
-        className="h-3 w-auto"
+        className={cn("h-3 w-auto", srcLight && "[.home-theme:not(.dark)_&]:hidden")}
         unoptimized
       />
+      {srcLight ? (
+        <Image
+          src={srcLight}
+          alt=""
+          width={width}
+          height={height}
+          className="h-3 w-auto hidden [.home-theme:not(.dark)_&]:block"
+          unoptimized
+        />
+      ) : null}
       {label ? (
         <span
           className="text-[11px] font-medium text-[rgba(var(--lm-text-rgb,255,255,255),0.75)] leading-none"
@@ -172,8 +185,12 @@ function RatingBlock({ reviewsCount }: { reviewsCount: string }) {
             label="Google"
             href={GOOGLE_REVIEWS_URL}
           />
+          {/* O ficheiro tem a palavra "Trustpilot" a branco: em tema claro
+              desaparecia e sobrava a estrela verde. A variante escura já existia
+              e é a que as páginas de casamentos usam. */}
           <LogoPill
             src="/shared/icons/trustpilot-logo.svg"
+            srcLight="/shared/logos/trustpilot-logo-dark.svg"
             alt="Trustpilot"
             width={56}
             height={12}

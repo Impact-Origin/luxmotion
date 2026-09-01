@@ -1,18 +1,22 @@
 "use client"
 
+import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { Facebook, Instagram, Linkedin, Lock } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
 
-const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean; cover?: boolean }> = [
+/* `plate`: o selo traz cores próprias e partes brancas E pretas — não se vê
+   inteiro em fundo nenhum. Recebe uma chapa branca fixa por baixo, igual nos
+   dois temas, que é como estes selos são mostrados em qualquer sítio. */
+const BADGES: Array<{ src: string; alt: string; w: number; h: number; mask?: boolean; cover?: boolean; plate?: boolean }> = [
   // Selo circular: object-contain (sem cover) para não cortar o texto do aro.
   { src: "/footer/badges/clean-safe.webp", alt: "Clean & Safe", w: 44, h: 44 },
   { src: "/footer/badges/scoring-top5.webp", alt: "Scoring Top 5%", w: 44, h: 44 },
   { src: "/footer/badges/pme.png", alt: "PME Líder", w: 38, h: 44 },
   { src: "/footer/badges/tripadvisor-choice.svg", alt: "Tripadvisor Travelers' Choice", w: 43, h: 44, mask: true },
-  { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 40, h: 44 },
+  { src: "/footer/badges/tripadvisor-top3.svg", alt: "Tripadvisor Top 3", w: 40, h: 44, plate: true },
   { src: "/footer/badges/turismo-portugal.png", alt: "Turismo de Portugal", w: 84, h: 38, mask: true },
   { src: "/footer/badges/rnvat.svg", alt: "RNVAT 8510", w: 61, h: 38, mask: true },
   { src: "/footer/badges/livro-reclamacoes.png", alt: "Livro de Reclamações", w: 84, h: 39, mask: true },
@@ -195,7 +199,12 @@ function BrandColumn({
         {BADGES.map((badge) => (
           <div
             key={badge.alt}
-            className="group bg-[rgba(var(--lm-text-rgb,255,255,255),0.02)] border border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] h-[72px] flex items-center justify-center px-[11px] transition-colors duration-300 hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.3)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.04)]"
+            className={cn(
+              "group border border-[rgba(var(--lm-text-rgb,255,255,255),0.05)] h-[72px] flex items-center justify-center px-[11px] transition-colors duration-300 hover:border-[rgba(var(--lm-accent-rgb,201,169,110),0.3)]",
+              badge.plate
+                ? "bg-white"
+                : "bg-[rgba(var(--lm-text-rgb,255,255,255),0.02)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.04)]",
+            )}
           >
             {badge.mask ? (
               <span
