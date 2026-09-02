@@ -114,8 +114,6 @@ const HERO_IMAGES = [
   "/fleet/gallery/vw-carocha-preto-interior-back.webp",
 ]
 
-const MOBILE_HERO = "/fleet/hero/main-mobile.webp"
-
 const CONTROL_BTN =
   "size-[48px] flex items-center justify-center bg-[#0d0d0d] border-[1.714px] border-[rgba(154,117,53,0.22)] hover:border-[rgba(201,169,110,0.5)] hover:bg-[rgba(201,169,110,0.08)] transition-colors"
 
@@ -213,8 +211,12 @@ export function FleetCarousel() {
           onClick={() => openLightbox(startIdx)}
           className="relative block w-full h-full overflow-hidden bg-[#1a1a1a]"
         >
+          {/* Era uma fotografia fixa, fora da galeria: as setas mudavam o
+              índice e a imagem ficava na mesma, portanto pareciam avariadas.
+              Passa a mostrar a foto do carrossel, como no ecrã grande. */}
           <Image
-            src={MOBILE_HERO}
+            key={at(0)}
+            src={at(0)}
             alt={t("title")}
             fill
             className="object-cover"
