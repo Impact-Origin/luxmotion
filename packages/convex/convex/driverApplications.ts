@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { enfileirarLead } from "./lib/pipedriveFila"
+import { avisarPedido } from "./lib/avisoPedido"
 
 const languageEntry = v.object({
   code: v.string(),
@@ -90,6 +91,7 @@ export const submit = mutation({
     /* Para o CRM vai só o contacto e a viatura — IBAN, NIF, documentos e
        matrícula ficam aqui. Ver `lib/pipedriveMapa`. */
     await enfileirarLead(ctx, "driverApplications", id)
+    await avisarPedido(ctx, "driverApplications", id)
 
     return { id, queuePosition }
   },

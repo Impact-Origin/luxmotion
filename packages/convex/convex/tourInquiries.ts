@@ -3,6 +3,7 @@ import { query, mutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { resolveReferral } from "./lib/referral";
 import { enfileirarLead } from "./lib/pipedriveFila";
+import { avisarPedido } from "./lib/avisoPedido";
 
 export const submit = mutation({
   args: {
@@ -46,9 +47,10 @@ export const submit = mutation({
       },
     });
 
-    // Depois da confirmação: as duas são `runAfter(0)` e correm por ordem de
+    // Depois da confirmação: são todas `runAfter(0)` e correm por ordem de
     // agendamento, portanto o email ao cliente sai primeiro.
     await enfileirarLead(ctx, "tourInquiries", id);
+    await avisarPedido(ctx, "tourInquiries", id);
 
     return id;
   },

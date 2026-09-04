@@ -9,6 +9,7 @@
  */
 
 import type * as addonImages from "../addonImages.js";
+import type * as avisoPedidos from "../avisoPedidos.js";
 import type * as blogAutomation from "../blogAutomation.js";
 import type * as blogs from "../blogs.js";
 import type * as contactQuotes from "../contactQuotes.js";
@@ -25,6 +26,7 @@ import type * as googleReviews from "../googleReviews.js";
 import type * as http from "../http.js";
 import type * as instagram from "../instagram.js";
 import type * as lib_addons from "../lib/addons.js";
+import type * as lib_avisoPedido from "../lib/avisoPedido.js";
 import type * as lib_blogPrompts from "../lib/blogPrompts.js";
 import type * as lib_geo from "../lib/geo.js";
 import type * as lib_markdownToTiptap from "../lib/markdownToTiptap.js";
@@ -72,6 +74,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   addonImages: typeof addonImages;
+  avisoPedidos: typeof avisoPedidos;
   blogAutomation: typeof blogAutomation;
   blogs: typeof blogs;
   contactQuotes: typeof contactQuotes;
@@ -88,6 +91,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   instagram: typeof instagram;
   "lib/addons": typeof lib_addons;
+  "lib/avisoPedido": typeof lib_avisoPedido;
   "lib/blogPrompts": typeof lib_blogPrompts;
   "lib/geo": typeof lib_geo;
   "lib/markdownToTiptap": typeof lib_markdownToTiptap;

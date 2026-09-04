@@ -2,6 +2,7 @@ import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { resolveReferral } from "./lib/referral"
 import { enfileirarLead } from "./lib/pipedriveFila"
+import { avisarPedido } from "./lib/avisoPedido"
 
 const statusValidator = v.union(
   v.literal("new"),
@@ -32,6 +33,7 @@ export const submit = mutation({
     })
 
     await enfileirarLead(ctx, "contactQuotes", id)
+    await avisarPedido(ctx, "contactQuotes", id)
 
     return { id }
   },

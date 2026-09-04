@@ -3,6 +3,7 @@ import { mutation, query } from "./_generated/server"
 import { internal } from "./_generated/api"
 import { resolveReferral } from "./lib/referral"
 import { enfileirarLead } from "./lib/pipedriveFila"
+import { avisarPedido } from "./lib/avisoPedido"
 
 const statusValidator = v.union(
   v.literal("submitted"),
@@ -47,9 +48,10 @@ export const submit = mutation({
       dados: {},
     })
 
-    // Depois da confirmação: as duas são `runAfter(0)` e correm por ordem de
+    // Depois da confirmação: são todas `runAfter(0)` e correm por ordem de
     // agendamento, portanto o email ao cliente sai primeiro.
     await enfileirarLead(ctx, "corporateRequests", id)
+    await avisarPedido(ctx, "corporateRequests", id)
 
     return { id, queuePosition }
   },

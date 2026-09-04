@@ -2,6 +2,7 @@ import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination"
 import { enfileirarLead } from "./lib/pipedriveFila"
+import { avisarPedido } from "./lib/avisoPedido"
 
 const statusValidator = v.union(
   v.literal("new"),
@@ -29,6 +30,7 @@ export const submit = mutation({
     })
 
     await enfileirarLead(ctx, "partnerLeads", id)
+    await avisarPedido(ctx, "partnerLeads", id)
 
     return { id }
   },

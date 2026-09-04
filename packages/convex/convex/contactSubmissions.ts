@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { resolveReferral } from "./lib/referral";
 import { enfileirarLead } from "./lib/pipedriveFila";
+import { avisarPedido } from "./lib/avisoPedido";
 
 export const submit = mutation({
   args: {
@@ -23,6 +24,7 @@ export const submit = mutation({
     });
 
     await enfileirarLead(ctx, "contactSubmissions", id);
+    await avisarPedido(ctx, "contactSubmissions", id);
   },
 });
 
