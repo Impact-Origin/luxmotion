@@ -69,6 +69,7 @@ export const listPaged = query({
       contact: (r) => r.fullName.toLowerCase(),
       company: (r) => r.companyName.toLowerCase(),
       city: (r) => r.city.toLowerCase(),
+      recebido: (r) => r.createdAt,
     })
 
     return paginate(rows, a.page, a.pageSize)

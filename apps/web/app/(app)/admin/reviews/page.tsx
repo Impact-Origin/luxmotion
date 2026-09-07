@@ -34,6 +34,7 @@ import {
 import { toast } from "sonner"
 import { cn } from "@workspace/ui/lib/utils"
 import { AdminEmptyState } from "@/components/admin/empty-state"
+import { formatAdminDate, formatAdminRelative } from "@/lib/admin-date"
 
 type TabType = "pending" | "approved"
 type SortOption = "newest" | "oldest" | "highestRating" | "lowestRating"
@@ -155,14 +156,6 @@ export default function AdminReviewsPage() {
     } catch (error) {
       toast.error(activeTab === "pending" ? t("rejectError") : t("deleteError"))
     }
-  }
-
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
   }
 
   const renderStars = (rating: number) => {
@@ -334,7 +327,9 @@ export default function AdminReviewsPage() {
                   <div>
                     <p className="text-sm font-medium text-foreground">{review.author}</p>
                     <p className="text-xs text-muted-foreground">{review.nationality || t("unknownNationality")}</p>
-                    <p className="text-xs text-muted-foreground">{formatDate(review.createdAt)}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatAdminDate(review.createdAt)} · {formatAdminRelative(review.createdAt)}
+                    </p>
                   </div>
                 </div>
 

@@ -26,6 +26,8 @@ import {
   SheetTitle,
 } from "@workspace/ui/components/sheet"
 import { cn } from "@workspace/ui/lib/utils"
+import { ReceivedAt } from "@/components/admin/received-at"
+import { formatAdminDate, formatAdminRelative } from "@/lib/admin-date"
 
 type ApplicationStatus = "submitted" | "reviewing" | "approved" | "rejected"
 
@@ -49,16 +51,6 @@ const STATUS_LABEL: Record<ApplicationStatus, string> = {
   reviewing: "Reviewing",
   approved: "Approved",
   rejected: "Rejected",
-}
-
-function formatDate(ts: number) {
-  return new Date(ts).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  })
 }
 
 export function DriverApplicationsPanel() {
@@ -169,7 +161,7 @@ export function DriverApplicationsPanel() {
                 <th className="text-left font-medium px-4 py-3">Phone</th>
                 <th className="text-left font-medium px-4 py-3">Zone</th>
                 <th className="text-left font-medium px-4 py-3">Vehicle</th>
-                <th className="text-left font-medium px-4 py-3">Submitted</th>
+                <th className="text-left font-medium px-4 py-3">Recebido</th>
                 <th className="text-left font-medium px-4 py-3">#</th>
                 <th className="text-left font-medium px-4 py-3">Status</th>
                 <th className="text-right font-medium px-4 py-3">Actions</th>
@@ -192,8 +184,8 @@ export function DriverApplicationsPanel() {
                       {[a.vehicleBrand, a.vehicleModel].filter(Boolean).join(" ") ||
                         "—"}
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {formatDate(a.createdAt)}
+                    <td className="px-4 py-3">
+                      <ReceivedAt ts={a.createdAt} />
                     </td>
                     <td className="px-4 py-3 text-foreground font-medium">
                       #{a.queuePosition}
@@ -299,7 +291,10 @@ function ApplicationDetailSheet({
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span>#{application.queuePosition}</span>
                 <span>·</span>
-                <span>{formatDate(application.createdAt)}</span>
+                <span>
+                  {formatAdminDate(application.createdAt)} ·{" "}
+                  {formatAdminRelative(application.createdAt)}
+                </span>
               </div>
               <StatusActions
                 current={application.status as ApplicationStatus}

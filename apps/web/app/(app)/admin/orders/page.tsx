@@ -29,6 +29,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@workspace/ui/components/sheet";
+import { formatAdminDate, formatAdminRelative } from "@/lib/admin-date";
 
 type OrderStatus = "draft" | "pending" | "confirmed" | "paid" | "completed" | "cancelled";
 
@@ -56,18 +57,6 @@ const METHOD_LABEL: Record<string, string> = {
   ccard: "Card",
   cash: "Cash",
 };
-
-function formatDateTime(ms: number) {
-  try {
-    return new Date(ms).toLocaleDateString("pt-PT", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return "—";
-  }
-}
 
 function formatTravel(value: string | undefined) {
   if (!value) return "—";
@@ -128,7 +117,7 @@ function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () =
                 <StatusBadge status={order.status} />
                 <StatusBadge status={order.paymentStatus ?? "pending"} />
                 <span className="text-xs text-muted-foreground">
-                  {formatDateTime(order.createdAt)}
+                  {formatAdminDate(order.createdAt)} · {formatAdminRelative(order.createdAt)}
                 </span>
               </div>
             </SheetHeader>
@@ -253,8 +242,8 @@ function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () =
               )}
 
               <DetailSection title="Meta">
-                <DetailRow label="Created" value={formatDateTime(order.createdAt)} />
-                <DetailRow label="Updated" value={formatDateTime(order.updatedAt)} />
+                <DetailRow label="Created" value={formatAdminDate(order.createdAt)} />
+                <DetailRow label="Updated" value={formatAdminDate(order.updatedAt)} />
                 <DetailRow
                   label="Order ID"
                   value={<span className="font-mono text-xs">{order._id}</span>}
@@ -360,7 +349,7 @@ export default function OrdersPage() {
             {o.orderNumber ?? "—"}
           </span>
           <p className="text-xs text-muted-foreground">
-            {formatDateTime(o.createdAt)}
+            {formatAdminDate(o.createdAt)}
             {o.partnershipName && o.partnershipName !== "Easy Transfer"
               ? ` · ${o.partnershipName}`
               : ""}
@@ -473,7 +462,7 @@ export default function OrdersPage() {
           <span className="font-mono text-xs font-medium text-foreground">
             {o.orderNumber ?? "—"}
           </span>
-          <p className="text-xs text-muted-foreground">{formatDateTime(o.createdAt)}</p>
+          <p className="text-xs text-muted-foreground">{formatAdminDate(o.createdAt)}</p>
         </div>
         {rowActions(o)}
       </div>

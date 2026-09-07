@@ -17,6 +17,7 @@ import {
   GraduationCap,
   HeartHandshake,
 } from "lucide-react";
+import { ReceivedAt } from "@/components/admin/received-at"
 
 type StatKey =
   | "orders"
@@ -293,7 +294,7 @@ export default function PartnershipLeadsPage() {
                   <th className="px-5 py-2.5 font-medium">Categoria</th>
                   <th className="px-5 py-2.5 font-medium">Email</th>
                   <th className="px-5 py-2.5 font-medium">Estado</th>
-                  <th className="px-5 py-2.5 text-right font-medium">Data</th>
+                  <th className="px-5 py-2.5 text-right font-medium">Recebido</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -316,7 +317,7 @@ export default function PartnershipLeadsPage() {
                       )}
                     </td>
                     <td className="whitespace-nowrap px-5 py-2.5 text-right text-muted-foreground">
-                      {new Date(a.createdAt).toLocaleDateString("pt-PT")}
+                      <ReceivedAt ts={a.createdAt} className="text-right" />
                     </td>
                   </tr>
                 ))}

@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select"
+import { ReceivedAt } from "@/components/admin/received-at"
 
 type SortOption = "newest" | "oldest"
 
@@ -40,15 +41,6 @@ export function NewsletterInbox() {
   const rangeStart = total === 0 ? 0 : safePage * pageSize + 1
   const rangeEnd = Math.min((safePage + 1) * pageSize, total)
   const pageRows = sorted.slice(safePage * pageSize, safePage * pageSize + pageSize)
-
-  const formatDate = (timestamp: number) =>
-    new Date(timestamp).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
 
   function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text)
@@ -122,7 +114,9 @@ export function NewsletterInbox() {
                       <Copy className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{formatDate(s.createdAt)}</td>
+                  <td className="px-4 py-3">
+                    <ReceivedAt ts={s.createdAt} />
+                  </td>
                 </tr>
               ))}
             </tbody>

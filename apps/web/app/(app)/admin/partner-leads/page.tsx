@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { StatusBadge } from "@/components/admin/status-badge"
+import { ReceivedAt } from "@/components/admin/received-at"
 import { TABLE_TEXT_CELL, DataTable, type DataTableColumn, type DataTableFilter, type DataTableQuery } from "@/components/admin/data-table"
 
 const STATUS_CONFIG = {
@@ -116,6 +117,12 @@ export default function PartnerLeadsPage() {
       cell: (r) => <span className="text-xs text-muted-foreground">{r.howDidYouHear}</span>,
     },
     {
+      id: "recebido",
+      header: "Recebido",
+      sortAccessor: (r) => r.createdAt,
+      cell: (r) => <ReceivedAt ts={r.createdAt} />,
+    },
+    {
       id: "status",
       header: "Status",
       cell: (r) => (
@@ -180,6 +187,9 @@ export default function PartnerLeadsPage() {
       <div className="mt-auto flex items-center justify-between gap-2 border-t border-border pt-3">
         <div className="min-w-0 text-xs text-muted-foreground">
           <span className="text-foreground">{lead.partnerType}</span> · {lead.estimatedMonthlyVolume}
+          <div className="mt-0.5">
+            <ReceivedAt ts={lead.createdAt} compact />
+          </div>
         </div>
         {rowActions(lead)}
       </div>
@@ -193,6 +203,7 @@ export default function PartnerLeadsPage() {
       total={res?.total ?? 0}
       pageSize={10}
       onQueryChange={setTableQuery}
+      initialSort={{ columnId: "recebido", dir: "desc" }}
       columns={columns}
       searchKeys={["fullName", "email", "companyName", "city"]}
       searchPlaceholder="Pesquisar por nome, empresa, email, cidade…"

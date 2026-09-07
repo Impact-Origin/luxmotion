@@ -26,6 +26,8 @@ import {
   SheetTitle,
 } from "@workspace/ui/components/sheet"
 import { cn } from "@workspace/ui/lib/utils"
+import { ReceivedAt } from "@/components/admin/received-at"
+import { formatAdminDate, formatAdminDay, formatAdminRelative } from "@/lib/admin-date"
 
 type RequestStatus = "submitted" | "reviewing" | "approved" | "rejected"
 
@@ -49,24 +51,6 @@ const STATUS_LABEL: Record<RequestStatus, string> = {
   reviewing: "Reviewing",
   approved: "Approved",
   rejected: "Rejected",
-}
-
-function formatDateTime(ts: number) {
-  return new Date(ts).toLocaleString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  })
-}
-
-function formatDate(ts: number) {
-  return new Date(ts).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
 }
 
 function formatBudget(b?: number) {
@@ -185,7 +169,7 @@ export function CorporateRequestsInbox() {
                 <th className="text-left font-medium px-4 py-3">Guests</th>
                 <th className="text-left font-medium px-4 py-3">Budget</th>
                 <th className="text-left font-medium px-4 py-3">Parceiro</th>
-                <th className="text-left font-medium px-4 py-3">Submitted</th>
+                <th className="text-left font-medium px-4 py-3">Recebido</th>
                 <th className="text-left font-medium px-4 py-3">#</th>
                 <th className="text-left font-medium px-4 py-3">Status</th>
                 <th className="text-right font-medium px-4 py-3">Actions</th>
@@ -203,13 +187,13 @@ export function CorporateRequestsInbox() {
                     <td className="px-4 py-3 text-foreground">{r.email}</td>
                     <td className="px-4 py-3 text-foreground">{r.phone}</td>
                     <td className="px-4 py-3 text-muted-foreground">
-                      {r.eventDate ? formatDate(r.eventDate) : "—"}
+                      {r.eventDate ? formatAdminDay(r.eventDate) : "—"}
                     </td>
                     <td className="px-4 py-3 text-foreground">{r.guests ?? "—"}</td>
                     <td className="px-4 py-3 text-foreground">{formatBudget(r.budget)}</td>
                     <td className="px-4 py-3 text-foreground">{r.partnershipName ?? "Easy Transfer"}</td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {formatDateTime(r.createdAt)}
+                    <td className="px-4 py-3">
+                      <ReceivedAt ts={r.createdAt} />
                     </td>
                     <td className="px-4 py-3 text-foreground font-medium">
                       #{r.queuePosition}
@@ -308,7 +292,9 @@ function RequestDetailSheet({
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span>#{request.queuePosition}</span>
                 <span>·</span>
-                <span>{formatDateTime(request.createdAt)}</span>
+                <span>
+                  {formatAdminDate(request.createdAt)} · {formatAdminRelative(request.createdAt)}
+                </span>
               </div>
               <StatusActions
                 current={request.status as RequestStatus}
@@ -329,7 +315,7 @@ function RequestDetailSheet({
 
             <Section title="Event">
               <Field label="Event date">
-                {request.eventDate ? formatDate(request.eventDate) : "—"}
+                {request.eventDate ? formatAdminDay(request.eventDate) : "—"}
               </Field>
               <Field label="Guests">
                 {request.guests !== undefined ? String(request.guests) : "—"}

@@ -16,6 +16,8 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
+import { ReceivedAt } from "@/components/admin/received-at"
+import { formatAdminDate, formatAdminRelative } from "@/lib/admin-date"
 
 const STATUS_CONFIG = {
   new: { label: "New", color: "bg-muted text-muted-foreground" },
@@ -110,7 +112,7 @@ export function QuoteRequestsInbox() {
                   Status
                 </th>
                 <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 py-3">
-                  Date
+                  Recebido
                 </th>
                 <th className="w-10 px-4 py-3"></th>
               </tr>
@@ -160,9 +162,9 @@ export function QuoteRequestsInbox() {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="text-sm text-muted-foreground flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                        {new Date(r.createdAt).toLocaleDateString()}
+                      <div className="flex items-center gap-1.5 text-sm">
+                        <Calendar className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                        <ReceivedAt ts={r.createdAt} />
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -265,7 +267,7 @@ export function QuoteRequestsInbox() {
               </div>
 
               <div className="pt-2 text-xs text-muted-foreground">
-                Submitted {new Date(selected.createdAt).toLocaleString()}
+                Recebido a {formatAdminDate(selected.createdAt)} · {formatAdminRelative(selected.createdAt)}
               </div>
             </div>
           </div>

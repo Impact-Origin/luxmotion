@@ -22,6 +22,8 @@ import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { AdminEmptyState } from "@/components/admin/empty-state"
+import { ReceivedAt } from "@/components/admin/received-at"
+import { formatAdminDate, formatAdminRelative } from "@/lib/admin-date"
 
 /**
  * Antes isto era o literal `"new" | "read" | "archived"`, e era exactamente o
@@ -84,16 +86,6 @@ interface Props<T extends BaseSubmission> {
    * nas que não têm.
    */
   showPartner?: boolean
-}
-
-function formatDate(ts: number) {
-  return new Date(ts).toLocaleString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  })
 }
 
 export function SubmissionsTable<T extends BaseSubmission>({
@@ -250,7 +242,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                 {showPartner && (
                   <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[130px]">Parceiro</th>
                 )}
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[160px]">Data</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[160px]">Recebido</th>
                 <th className="px-4 py-3 w-[120px]" />
               </tr>
             </thead>
@@ -296,7 +288,9 @@ export function SubmissionsTable<T extends BaseSubmission>({
                         {((row as Record<string, unknown>).partnershipName as string) ?? "Easy Transfer"}
                       </td>
                     )}
-                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{formatDate(row.createdAt)}</td>
+                    <td className="px-4 py-3">
+                      <ReceivedAt ts={row.createdAt} />
+                    </td>
                     <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-end gap-1">
                         <button
@@ -369,7 +363,11 @@ export function SubmissionsTable<T extends BaseSubmission>({
                 <StatusBadge status={selected.status} label={statusLabel(selected.status)} />
               )}
             </SheetTitle>
-            <SheetDescription>Recebido a {selected ? formatDate(selected.createdAt) : ""}</SheetDescription>
+            <SheetDescription>
+              {selected
+                ? `Recebido a ${formatAdminDate(selected.createdAt)} · ${formatAdminRelative(selected.createdAt)}`
+                : ""}
+            </SheetDescription>
           </SheetHeader>
 
           {selected && (
