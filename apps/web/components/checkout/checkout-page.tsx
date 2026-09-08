@@ -122,6 +122,8 @@ function CheckoutPageContent({ logoUrl }: { logoUrl?: string | null }) {
     isAirportPickup: isAirportPickup({
       text: transfer.fromLocation,
       placeId: transfer.fromPlaceId,
+      lat: transfer.fromLat,
+      lng: transfer.fromLng,
     }),
     upgradeMode: upgradeMode,
     currentVehiclePassengers: selectedVehicle?.passengers ?? 0,

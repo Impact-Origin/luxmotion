@@ -128,6 +128,8 @@ function CheckoutPageContent() {
     isAirportPickup: isAirportPickup({
       text: transfer.fromLocation,
       placeId: transfer.fromPlaceId,
+      lat: transfer.fromLat,
+      lng: transfer.fromLng,
     }),
     partnershipSlug,
     upgradeMode: upgradeMode,
