@@ -15,7 +15,7 @@ import { useVehicles } from "@/hooks/use-vehicles"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { ExperienceUpgradeModal } from "@/components/checkout/experience-upgrade-modal"
 import { CheckoutThemeProvider, useCheckoutTheme } from "@/components/checkout/checkout-theme"
-import { isAirportLocation } from "@/lib/airport"
+import { isAirportPickup } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
 import { useEffect, useState } from "react"
@@ -119,7 +119,10 @@ function CheckoutPageContent({ logoUrl }: { logoUrl?: string | null }) {
     departureDate: departureDateArg,
     returnDate: returnDateArg,
     bookReturn: transfer.bookReturn,
-    isAirportPickup: isAirportLocation(transfer.fromLocation),
+    isAirportPickup: isAirportPickup({
+      text: transfer.fromLocation,
+      placeId: transfer.fromPlaceId,
+    }),
     upgradeMode: upgradeMode,
     currentVehiclePassengers: selectedVehicle?.passengers ?? 0,
     currentVehicleLuggage: selectedVehicle?.luggage ?? 0,

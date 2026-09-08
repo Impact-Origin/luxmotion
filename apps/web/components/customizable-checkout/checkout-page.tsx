@@ -16,7 +16,7 @@ import { CheckoutProvider, useCheckout, DEV_ALLOW_STEP_SKIP, type Vehicle } from
 import { useVehicles } from "@/hooks/use-vehicles"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { ExperienceUpgradeModal } from "@/components/checkout/experience-upgrade-modal"
-import { isAirportLocation } from "@/lib/airport"
+import { isAirportPickup } from "@/lib/airport"
 import { useRouteDistance } from "@/hooks/use-route-distance"
 import { useNearbyTours } from "@/hooks/use-nearby-tours"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
@@ -125,7 +125,10 @@ function CheckoutPageContent() {
     departureDate: departureDateArg,
     returnDate: returnDateArg,
     bookReturn: transfer.bookReturn,
-    isAirportPickup: isAirportLocation(transfer.fromLocation),
+    isAirportPickup: isAirportPickup({
+      text: transfer.fromLocation,
+      placeId: transfer.fromPlaceId,
+    }),
     partnershipSlug,
     upgradeMode: upgradeMode,
     currentVehiclePassengers: selectedVehicle?.passengers ?? 0,
