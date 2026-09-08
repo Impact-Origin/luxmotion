@@ -34,7 +34,7 @@ import {
 import { toast } from "sonner"
 import { cn } from "@workspace/ui/lib/utils"
 import { AdminEmptyState } from "@/components/admin/empty-state"
-import { formatAdminDate, formatAdminRelative } from "@/lib/admin-date"
+import { EditableDate } from "@/components/admin/editable-date"
 
 type TabType = "pending" | "approved"
 type SortOption = "newest" | "oldest" | "highestRating" | "lowestRating"
@@ -55,6 +55,7 @@ export default function AdminReviewsPage() {
   const approveReview = useMutation(api.tourReviews.approve)
   const rejectReview = useMutation(api.tourReviews.reject)
   const toggleFeatured = useMutation(api.tourReviews.toggleFeatured)
+  const updateReview = useMutation(api.tourReviews.update)
 
   const tourOptions = React.useMemo(() => {
     if (!tours) return []
@@ -327,9 +328,11 @@ export default function AdminReviewsPage() {
                   <div>
                     <p className="text-sm font-medium text-foreground">{review.author}</p>
                     <p className="text-xs text-muted-foreground">{review.nationality || t("unknownNationality")}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatAdminDate(review.createdAt)} · {formatAdminRelative(review.createdAt)}
-                    </p>
+                    <EditableDate
+                      ts={review.createdAt}
+                      label={t("editDate")}
+                      onSave={(ms) => updateReview({ id: review._id, createdAt: ms })}
+                    />
                   </div>
                 </div>
 

@@ -2408,7 +2408,8 @@
     "testimonial": "Testimonio",
     "featuredSuccess": "Reseña añadida a testimonios",
     "unfeaturedSuccess": "Reseña eliminada de testimonios",
-    "featuredError": "Error al actualizar el estado del testimonio"
+    "featuredError": "Error al actualizar el estado del testimonio",
+    "editDate": "Cambiar la fecha"
   },
   "eventsPage": {
     "heroTitle": "Próximos Eventos",

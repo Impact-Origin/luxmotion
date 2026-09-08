@@ -2392,7 +2392,8 @@
     "testimonial": "Getuigenis",
     "featuredSuccess": "Beoordeling toegevoegd aan getuigenissen",
     "unfeaturedSuccess": "Beoordeling verwijderd uit getuigenissen",
-    "featuredError": "Fout bij het bijwerken van de getuigenisstatus"
+    "featuredError": "Fout bij het bijwerken van de getuigenisstatus",
+    "editDate": "Datum wijzigen"
   },
   "eventsPage": {
     "heroTitle": "Aankomende Evenementen",

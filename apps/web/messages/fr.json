@@ -2392,7 +2392,8 @@
     "testimonial": "Témoignage",
     "featuredSuccess": "Avis ajouté aux témoignages",
     "unfeaturedSuccess": "Avis retiré des témoignages",
-    "featuredError": "Échec de la mise à jour du statut du témoignage"
+    "featuredError": "Échec de la mise à jour du statut du témoignage",
+    "editDate": "Modifier la date"
   },
   "eventsPage": {
     "heroTitle": "Événements à venir",

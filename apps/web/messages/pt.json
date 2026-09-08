@@ -2574,7 +2574,8 @@
     "testimonial": "Testemunho",
     "featuredSuccess": "Avaliação adicionada aos testemunhos",
     "unfeaturedSuccess": "Avaliação removida dos testemunhos",
-    "featuredError": "Falha ao atualizar estado do testemunho"
+    "featuredError": "Falha ao atualizar estado do testemunho",
+    "editDate": "Alterar a data"
   },
   "eventsPage": {
     "heroTitle": "Próximos Eventos",

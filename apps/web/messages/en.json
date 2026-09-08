@@ -2575,7 +2575,8 @@
     "testimonial": "Testimonial",
     "featuredSuccess": "Review added to testimonials",
     "unfeaturedSuccess": "Review removed from testimonials",
-    "featuredError": "Failed to update testimonial status"
+    "featuredError": "Failed to update testimonial status",
+    "editDate": "Change the date"
   },
   "eventsPage": {
     "heroTitle": "Upcoming Events",

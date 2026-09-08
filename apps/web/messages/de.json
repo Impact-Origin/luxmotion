@@ -2489,7 +2489,8 @@
     "testimonial": "Erfahrungsbericht",
     "featuredSuccess": "Bewertung zu Erfahrungsberichten hinzugefügt",
     "unfeaturedSuccess": "Bewertung aus Erfahrungsberichten entfernt",
-    "featuredError": "Fehler beim Aktualisieren des Erfahrungsberichts"
+    "featuredError": "Fehler beim Aktualisieren des Erfahrungsberichts",
+    "editDate": "Datum ändern"
   },
   "eventsPage": {
     "heroTitle": "Kommende Veranstaltungen",

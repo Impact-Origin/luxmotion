@@ -342,11 +342,30 @@ export const update = mutation({
     text: v.optional(v.string()),
     source: v.optional(v.string()),
     nationality: v.optional(v.string()),
+    /**
+     * A data em que a review foi escrita.
+     *
+     * Uma review só entra pelo formulário do site, que grava o instante da
+     * submissão. Quando é uma avaliação antiga a ser passada para cá, essa data
+     * não é a verdadeira — e é o que fica a ler-se no site. Daí poder ser
+     * corrigida no back-office.
+     */
+    createdAt: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;
     const review = await ctx.db.get(id);
     if (!review) throw new Error("Review not found");
+
+    if (data.createdAt !== undefined) {
+      if (!Number.isFinite(data.createdAt) || data.createdAt <= 0) {
+        throw new Error("Data inválida");
+      }
+      // Uma review com data futura ordena-se à frente de tudo e lê-se mal.
+      if (data.createdAt > Date.now() + 60_000) {
+        throw new Error("A data não pode estar no futuro");
+      }
+    }
 
     await ctx.db.patch(id, data);
 
