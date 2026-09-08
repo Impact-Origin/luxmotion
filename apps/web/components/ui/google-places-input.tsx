@@ -37,6 +37,26 @@ interface GooglePlacesInputProps {
   dropdownLuxmotion?: boolean
 }
 
+/**
+ * O texto que fica guardado como morada de recolha ou de destino.
+ *
+ * Guardava-se só o `formatted_address`, que é a morada postal e mais nada: o
+ * aeroporto de Lisboa ficava "Alameda das Comunidades Portuguesas, 1700-111
+ * Lisboa, Portugal". O nome do sítio — que é o que a pessoa escolheu na lista e
+ * o que o motorista precisa de ler — desaparecia, e com ele a única pista de
+ * que a recolha era num aeroporto.
+ *
+ * Numa morada de rua o `name` do Google é o princípio da própria morada ("Rua
+ * das Flores 12"), por isso só se junta quando acrescenta alguma coisa.
+ */
+function rotularSitio(nome: string | undefined, morada: string): string {
+  const n = nome?.trim()
+  if (!n) return morada
+  if (!morada) return n
+  if (morada.toLowerCase().startsWith(n.toLowerCase())) return morada
+  return `${n}, ${morada}`
+}
+
 export function GooglePlacesInput({
   value,
   onChange,
@@ -104,7 +124,7 @@ export function GooglePlacesInput({
       const details = await getPlaceDetails(suggestion.placeId)
       if (details) {
         onChange({
-          location: details.address || suggestion.name,
+          location: rotularSitio(details.name, details.address) || suggestion.name,
           placeId: suggestion.placeId,
           lat: details.lat,
           lng: details.lng,

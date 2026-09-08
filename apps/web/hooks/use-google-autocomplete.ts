@@ -5,6 +5,15 @@ import { useGoogleMaps } from "@/components/providers/google-maps-provider"
 import { MapPin, Plane, Hotel, TrainFront, Ship } from "lucide-react"
 import type { LocationSuggestion } from "@/components/landing/booking/types"
 
+export interface PlaceDetails {
+  lat: number
+  lng: number
+  /** `formatted_address`: só a morada postal, sem o nome do sítio. */
+  address: string
+  /** `name`: "Aeroporto Humberto Delgado", "Pestana Palace". Vazio numa morada de rua. */
+  name: string
+}
+
 export function useGoogleAutocomplete() {
   const { isLoaded } = useGoogleMaps()
   const [predictions, setPredictions] = useState<LocationSuggestion[]>([])
@@ -91,24 +100,32 @@ export function useGoogleAutocomplete() {
     }
   }, [])
 
-  const getPlaceDetails = useCallback(async (placeId: string): Promise<{ lat: number; lng: number; address: string } | null> => {
+  const getPlaceDetails = useCallback(async (placeId: string): Promise<PlaceDetails | null> => {
     if (!placesService.current) return null
 
     return new Promise((resolve) => {
       placesService.current?.getDetails(
         {
+          /* O `name` não estava aqui, e era esse o problema.
+             `formatted_address` de um sítio com nome é só a morada postal: o
+             aeroporto de Lisboa dá "Alameda das Comunidades Portuguesas,
+             1700-111 Lisboa, Portugal", sem a palavra "Aeroporto" em lado
+             nenhum. Como o nome era deitado fora, quem escolhia o aeroporto na
+             lista ficava com uma morada de rua — e a sobretaxa de recolha no
+             aeroporto, que é reconhecida pelo texto, nunca somava. */
           placeId,
-          fields: ["geometry", "formatted_address"],
+          fields: ["geometry", "formatted_address", "name"],
           sessionToken: sessionToken.current || undefined,
         },
         (place, status) => {
           if (status === google.maps.places.PlacesServiceStatus.OK && place?.geometry?.location) {
             sessionToken.current = new google.maps.places.AutocompleteSessionToken()
-            
+
             resolve({
               lat: place.geometry.location.lat(),
               lng: place.geometry.location.lng(),
               address: place.formatted_address || "",
+              name: place.name || "",
             })
           } else {
             resolve(null)
