@@ -23,14 +23,7 @@ import { RouteMap, AnimatedCollapse } from "./shared";
 import { useCheckout } from "./checkout-context";
 import { VehicleInfoTooltip } from "./vehicle-info-tooltip";
 import { useDateFormatter } from "@/hooks/use-date-formatter";
-import {
-  formatPrice,
-  formatTime,
-  truncateAddress,
-  extractCity,
-  calculateTotalLuggage,
-  calculatePriceBreakdown,
-} from "@/lib/format";
+import { formatPrice, formatTime, truncateAddress, extractCity, calculateTotalLuggage, calculatePriceBreakdown, splitInvoiceWithNightTax } from "@/lib/format";
 import { insurancePrice, calcExtras } from "@/components/checkout/pricing";
 import { cn } from "@workspace/ui/lib/utils";
 import { useMoney } from "@/components/currency-provider";
@@ -72,7 +65,6 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
   }, [checkoutBookedTodayMin, checkoutBookedTodayMax]);
 
   const basePrice = selectedVehicle?.price ?? 0;
-  const dayPrice = selectedVehicle?.dayPrice ?? basePrice;
   const isRoundTrip = transfer.bookReturn;
   const { format, isEur } = useMoney();
   const baseTotalPrice = basePrice;
@@ -116,15 +108,11 @@ export function OrderSummarySidebar({ collapsible = false }: OrderSummarySidebar
     pets: pets > 0 ? pets : undefined,
   };
 
-  const taxRate = 0.06;
-  const transferDisplay =
-    nightTaxAmount > 0
-      ? Math.round((dayPrice / (1 + taxRate)) * 100) / 100
-      : priceBreakdownWithExtras.transferPrice;
-  const nightTaxDisplay =
-    nightTaxAmount > 0
-      ? Math.round((nightTaxAmount / (1 + taxRate)) * 100) / 100
-      : 0;
+  const { transfer: transferDisplay, nightTax: nightTaxDisplay } =
+    splitInvoiceWithNightTax({
+      netTransferPrice: priceBreakdownWithExtras.transferPrice,
+      nightTaxAmount,
+    });
 
   const invoiceItems: Array<{ key: string; value: string; isBold?: boolean }> = [
     {

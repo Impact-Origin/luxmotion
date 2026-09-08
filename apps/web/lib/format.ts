@@ -65,6 +65,33 @@ export function calculateTotalChildSeats(childSeats: { baby: number; child: numb
   return childSeats.baby + childSeats.child + childSeats.booster
 }
 
+/**
+ * As duas linhas da factura quando a viagem leva taxa noturna.
+ *
+ * Estavam as duas a ser calculadas a partir do preço do veículo **antes** do
+ * arredondamento, enquanto a linha do IVA vinha do total **já arredondado para
+ * cima**. As colunas não fechavam: 35,59 + 2,66 + 8,49 = 46,74 numa factura que
+ * dizia 47 em baixo. Os cêntimos do arredondamento não estavam em linha nenhuma.
+ *
+ * Agora ambas saem do mesmo total. A taxa noturna é o valor cobrado sem IVA — é
+ * um número acordado (20% da tarifa de dia, mínimo 9€) e tem de se ler tal e
+ * qual. O arredondamento fica na linha do transfer, que é onde não incomoda.
+ */
+export function splitInvoiceWithNightTax(options: {
+  /** `transferPrice` do `calculatePriceBreakdown`: a parte do veículo já sem IVA. */
+  netTransferPrice: number
+  /** A taxa noturna cobrada, com IVA incluído. Zero quando não há. */
+  nightTaxAmount: number
+  taxRate?: number
+}): { transfer: number; nightTax: number } {
+  const { netTransferPrice, nightTaxAmount, taxRate = 0.06 } = options
+  if (nightTaxAmount <= 0) return { transfer: netTransferPrice, nightTax: 0 }
+
+  const cents = (n: number) => Math.round(n * 100) / 100
+  const nightTax = cents(nightTaxAmount / (1 + taxRate))
+  return { transfer: cents(netTransferPrice - nightTax), nightTax }
+}
+
 export interface PriceBreakdown {
   transferPrice: number
   tax: number
