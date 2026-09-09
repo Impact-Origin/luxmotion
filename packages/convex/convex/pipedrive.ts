@@ -48,6 +48,18 @@ export const tabelaLead = v.union(
   v.literal("driverApplications"),
 );
 
+/**
+ * O instante como o Pipedrive o quer: RFC 3339 sem milissegundos.
+ *
+ * `toISOString()` devolve "2026-09-01T21:03:34.461Z", e a v2 recusa-o com
+ * "won_time: This value is not a valid datetime" — um 400 que deitou fora
+ * quinze reservas pagas antes de alguém reparar. A única diferença para o
+ * exemplo da documentação são os três dígitos dos milissegundos.
+ */
+function instantePipedrive(ms: number): string {
+  return new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
 const MAX_TENTATIVAS = 5;
 /** Um 429 não é uma avaria; tem orçamento próprio para não gastar as de cima. */
 const MAX_LIMITES = 8;
@@ -703,7 +715,7 @@ export const enviarReservaPaga = internalAction({
         value: negocio.valor,
         currency: "EUR",
         status: "won",
-        won_time: new Date().toISOString(),
+        won_time: instantePipedrive(negocio.ganhoEm),
       };
       if (PIPELINE_ID) corpo.pipeline_id = PIPELINE_ID;
 

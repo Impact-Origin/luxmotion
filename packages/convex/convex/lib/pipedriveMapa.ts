@@ -446,6 +446,14 @@ export type NegocioPipedrive = {
   pessoa: { nome: string; email: string; telefone?: string };
   valor: number;
   nota?: string;
+  /**
+   * Quando o negócio foi ganho, em milissegundos.
+   *
+   * Ia `new Date()` — a hora de quando a função corre. Numa reserva que entra
+   * ao segundo dá no mesmo, mas numa que ficou pendente e é reenviada mais
+   * tarde marcava o funil com a data de hoje em vez da do pagamento.
+   */
+  ganhoEm: number;
 };
 
 /**
@@ -488,6 +496,7 @@ export function mapearReservaPaga(encomendas: Doc<"orders">[]): NegocioPipedrive
       telefone: telefoneSeguro(principal.customerPhone),
     },
     valor: total,
+    ganhoEm: principal.updatedAt ?? principal.createdAt,
     nota: nota([
       ["Encomendas", encomendas.map((o) => o.orderNumber ?? o._id).join(", ")],
       ["Data", formatarData(principal.departureDate)],
