@@ -181,6 +181,17 @@ export const updatePaymentStatus = internalMutation({
 
       if (pending && pending.length > 0) {
         const now = Date.now();
+
+        /* Uma paragem paga no checkout não tem data nem passageiros próprios:
+           acontece a meio do transfer, com quem já lá vai. O formulário mandava
+           `selectedDate: ""` e `passengers: 0`, e a encomenda que sai daqui
+           seguia assim para a operação — sem data não há entrada na agenda do
+           motorista, e a paragem que o cliente pagou desaparecia da folha.
+           A viagem-mãe tem as duas coisas; é de lá que vêm quando faltam. */
+        const dataDoTransfer = (order as { departureDate?: string }).departureDate ?? "";
+        const passageirosDoTransfer = (order as { passengers?: number }).passengers ?? 0;
+        const diaDoTransfer = dataDoTransfer.slice(0, 10);
+        const horaDoTransfer = dataDoTransfer.slice(11, 16);
         for (let i = 0; i < pending.length; i++) {
           const exp = pending[i];
           if (!exp) continue;
@@ -192,9 +203,9 @@ export const updatePaymentStatus = internalMutation({
             eventId: exp.eventId as Id<"events"> | undefined,
             tourTitle: exp.tourTitle,
             tourSlug: exp.tourSlug,
-            passengers: exp.passengers,
-            selectedDate: exp.selectedDate,
-            selectedTime: exp.selectedTime,
+            passengers: exp.passengers || passageirosDoTransfer,
+            selectedDate: exp.selectedDate || diaDoTransfer,
+            selectedTime: exp.selectedTime || horaDoTransfer,
             // Os upsells não têm paragens em `tourStops`; sem isto a order
             // ficava sem partida e sem chegada.
             pickup: exp.pickup,
@@ -230,6 +241,11 @@ export const updatePaymentStatus = internalMutation({
             await ctx.db.insert("orders", {
               ...orderDoc,
               transferOrderId: order._id as Id<"orders">,
+              /* `buildOrderFromTourBooking` põe aqui a data sem hora, que serve
+                 a um tour com hora própria mas não a uma paragem: esta tem de
+                 cair no mesmo instante da viagem para aparecer ao lado dela. */
+              ...(exp.selectedDate ? {} : { departureDate: dataDoTransfer }),
+              ...(exp.passengers ? {} : { passengers: passageirosDoTransfer }),
             });
           }
         }
