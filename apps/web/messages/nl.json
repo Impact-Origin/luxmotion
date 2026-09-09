@@ -1348,6 +1348,7 @@
     },
     "sharing": {
       "what": "Gedeeld of privé?",
+      "vehicleWhat": "Prijs per voertuig",
       "explainer": "Bij een gedeelde plek sluit u aan bij andere gasten op hetzelfde evenement en betaalt u minder per persoon. Privé betekent dat de ervaring alleen voor uw groep is.",
       "shared": "Gedeeld",
       "sharedNote": "U gaat met andere gasten",

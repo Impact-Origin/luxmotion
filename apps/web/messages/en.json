@@ -1351,6 +1351,7 @@
     },
     "sharing": {
       "what": "Shared or private?",
+      "vehicleWhat": "Price per vehicle",
       "explainer": "On a shared seat you join other guests at the same event and pay less per person. Private means the experience is yours alone, with no one else in your group.",
       "shared": "Shared",
       "sharedNote": "You go with other guests",

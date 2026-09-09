@@ -222,6 +222,15 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
 
   /** Lugares: os da viatura quando há uma, senão o máximo do evento. */
   const lugares = service?.vehicleSeats ?? maxPassengers
+
+  /* Preço por viatura: o que é preciso explicar é que não sobe ao juntar
+     passageiros. Preço por pessoa: aí sim, o que interessa é o partilhado. */
+  const infoTitulo = porViatura ? t("sharing.vehicleWhat") : t("sharing.what")
+  const infoTexto = porViatura
+    ? lugares
+      ? t("sharing.vehicleIncludes", { count: lugares })
+      : t("sharing.vehicleFlat")
+    : t("sharing.explainer")
   const incluido = [
     lugares ? t("sharing.upToPassengers", { count: lugares }) : null,
     service?.vehicleName,
@@ -329,12 +338,17 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
               causa do preço a 48px. */}
           <span className="flex items-center gap-1.5 text-[14px] text-[var(--lm-muted,rgba(255,255,255,0.3))]">
             {porViatura ? t("sharing.perVehicle") : t("perPerson")}
+            {/* O "i" está encostado à unidade do preço, e é a unidade que tem
+                de explicar. Explicava o partilhado/privado, que é o que os dois
+                cartões aqui em baixo já dizem: quem carregava por causa dos
+                "€175 por viatura" ficava sem saber se o preço subia ao juntar
+                passageiros. As frases já existiam traduzidas e não eram usadas. */}
             {temEscolha && (
             <Popover>
                 <PopoverTrigger asChild>
                   <button
                     type="button"
-                    aria-label={t("sharing.what")}
+                    aria-label={infoTitulo}
                     className="flex size-[16px] shrink-0 items-center justify-center rounded-full border border-[rgba(var(--lm-accent-rgb,201,169,110),0.5)] text-[var(--lm-accent,#C9A96E)] transition-colors hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.15)]"
                   >
                     <Info className="size-[10px]" strokeWidth={2.4} />
@@ -346,10 +360,10 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
                   className="w-[260px] border-[rgba(var(--lm-accent-rgb,201,169,110),0.25)] bg-[var(--lm-surface,#1A1A1A)] text-[var(--lm-text,#fff)]"
                 >
                   <p className="text-[12px] font-semibold uppercase tracking-[1px] text-[var(--lm-accent,#C9A96E)]">
-                    {t("sharing.what")}
+                    {infoTitulo}
                   </p>
                   <p className="mt-2 text-[12px] leading-[1.5] text-[var(--lm-muted,#999)]">
-                    {t("sharing.explainer")}
+                    {infoTexto}
                   </p>
                 </PopoverContent>
             </Popover>

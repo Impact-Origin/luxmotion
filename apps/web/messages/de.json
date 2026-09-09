@@ -1348,6 +1348,7 @@
     },
     "sharing": {
       "what": "Geteilt oder privat?",
+      "vehicleWhat": "Preis pro Fahrzeug",
       "explainer": "Beim geteilten Platz nehmen Sie zusammen mit anderen Gästen an derselben Veranstaltung teil und zahlen weniger pro Person. Privat heißt: dasselbe Erlebnis nur für Ihre Gruppe.",
       "shared": "Geteilt",
       "sharedNote": "Mit anderen Gästen",

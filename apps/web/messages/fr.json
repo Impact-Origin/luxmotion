@@ -1348,6 +1348,7 @@
     },
     "sharing": {
       "what": "Partagé ou privé ?",
+      "vehicleWhat": "Prix par véhicule",
       "explainer": "En place partagée, vous rejoignez d'autres participants au même événement et payez moins par personne. En privé, l'expérience est réservée à votre groupe.",
       "shared": "Partagé",
       "sharedNote": "Avec d'autres participants",

@@ -1350,6 +1350,7 @@
     },
     "sharing": {
       "what": "Partilhado ou privado?",
+      "vehicleWhat": "Preço por viatura",
       "explainer": "No lugar partilhado juntas-te a outros participantes no mesmo evento e pagas menos por pessoa. No privado a experiência é só tua, sem mais ninguém no teu grupo.",
       "shared": "Partilhado",
       "sharedNote": "Vais com outros participantes",
