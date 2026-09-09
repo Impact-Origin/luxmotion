@@ -8,6 +8,7 @@ import { ConvexPublicProvider } from "@/components/providers/convex-public-provi
 import { Poppins, Geist_Mono, Cormorant_Garamond, Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import { absoluteUrl, getSiteUrl } from "@/lib/seo";
+import { OpenAIPixel } from "@/components/analytics/openai-pixel";
 
 const fontSans = Poppins({
   subsets: ["latin"],
@@ -137,6 +138,7 @@ export default async function RootLayout({
             >
               {children}
             </Providers>
+            <OpenAIPixel />
           </body>
         </html>
     </ConvexPublicProvider>

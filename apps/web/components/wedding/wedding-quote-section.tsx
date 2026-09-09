@@ -21,6 +21,7 @@ import {
 import { PhoneInput } from "@/components/ui/phone-input"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
+import { medirPedidoDeOrcamento } from "@/lib/oaiq"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -493,6 +494,10 @@ export function WeddingQuoteSection() {
             .filter(Boolean)
             .join("\n\n") || undefined,
       })
+      /* Só aqui: a mutation já resolveu, ou seja o pedido está guardado. Antes
+         disto — ao abrir o formulário, ao carregar em enviar — contaria leads
+         que não existem. O `catch` abaixo não mede nada, de propósito. */
+      medirPedidoDeOrcamento()
       toast.success(t("successToast"))
       formEl.reset()
       setPhone("")

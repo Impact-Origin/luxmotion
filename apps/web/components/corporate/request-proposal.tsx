@@ -9,6 +9,7 @@ import { api } from "@workspace/convex/api"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { DateTimePicker } from "@/components/checkout/date-time-picker"
 import { readReferralCookie } from "@/lib/referral"
+import { medirPedidoDeOrcamento } from "@/lib/oaiq"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -108,6 +109,10 @@ export function RequestProposal() {
         notes: notes.trim() || undefined,
         referralSlug: readReferralCookie() ?? undefined,
       })
+      /* Só aqui: a mutation já resolveu, ou seja o pedido está guardado. Antes
+         disto — ao abrir o formulário, ao carregar em enviar — contaria leads
+         que não existem. O `catch` abaixo não mede nada, de propósito. */
+      medirPedidoDeOrcamento()
       setSubmitted(true)
     } catch (err) {
       console.error(err)

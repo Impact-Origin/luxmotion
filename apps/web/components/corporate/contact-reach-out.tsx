@@ -8,6 +8,7 @@ import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { readReferralCookie } from "@/lib/referral"
+import { medirPedidoDeOrcamento } from "@/lib/oaiq"
 
 const sans = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
 const serif = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
@@ -241,6 +242,10 @@ function QuoteForm() {
         message: message.trim(),
         referralSlug: readReferralCookie() ?? undefined,
       })
+      /* Só aqui: a mutation já resolveu, ou seja o pedido está guardado. Antes
+         disto — ao abrir o formulário, ao carregar em enviar — contaria leads
+         que não existem. O `catch` abaixo não mede nada, de propósito. */
+      medirPedidoDeOrcamento()
       setReference(buildReference(res?.id))
       setSubmitted(true)
     } catch {

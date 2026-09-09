@@ -1,4 +1,5 @@
 import { createNoIndexMetadata } from "@/lib/seo";
+import { OpenAIPixel } from "@/components/analytics/openai-pixel";
 
 export const metadata = createNoIndexMetadata("Payment");
 
@@ -7,5 +8,10 @@ export default function PaymentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      {children}
+      <OpenAIPixel />
+    </>
+  );
 }
