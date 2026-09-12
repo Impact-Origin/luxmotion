@@ -422,6 +422,17 @@ function SectionHeading({ eyebrow, headingStart, headingAccent }: {
   )
 }
 
+/**
+ * O intervalo do cursor do orçamento.
+ *
+ * O mínimo esteve em 150 € e não é um orçamento de casamento: convidava a
+ * pedidos que nunca dariam negócio e punha a primeira impressão do preço num
+ * número que não corresponde ao serviço. O corporate já estava em 500.
+ *
+ * Se mexeres aqui, mexe também na outra cópia deste formulário — o do site e o
+ * das parcerias são ficheiros separados, e o mesmo pedido não pode valer coisas
+ * diferentes conforme a porta por onde o cliente entra.
+ */
 const BUDGET_MIN = 500
 const BUDGET_MAX = 50000
 const BUDGET_STEP = 50
