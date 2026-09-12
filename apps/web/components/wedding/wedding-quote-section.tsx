@@ -422,7 +422,7 @@ function SectionHeading({ eyebrow, headingStart, headingAccent }: {
   )
 }
 
-const BUDGET_MIN = 150
+const BUDGET_MIN = 500
 const BUDGET_MAX = 50000
 const BUDGET_STEP = 50
 
