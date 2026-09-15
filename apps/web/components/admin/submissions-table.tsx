@@ -229,7 +229,13 @@ export function SubmissionsTable<T extends BaseSubmission>({
         <AdminEmptyState icon={Mail} title={emptyTitle} description={emptyDescription} />
       ) : (
         <div className="flex flex-col gap-3">
+        {/* Duas caixas e não uma. A de fora arredonda os cantos; a de dentro é
+            que desliza. Estava tudo numa só, com `overflow-hidden`: as dez
+            colunas do separador dos casamentos não cabiam e o que sobrava era
+            cortado sem barra nenhuma — incluindo a coluna das acções, que é a
+            última, o que deixava apagar e mudar o estado fora de alcance. */}
         <div className="border border-border rounded-lg overflow-hidden bg-card">
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-muted border-b border-border">
               <tr>
@@ -243,7 +249,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                   <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[130px]">Parceiro</th>
                 )}
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground w-[160px]">Recebido</th>
-                <th className="px-4 py-3 w-[120px]" />
+                <th className="sticky right-0 z-10 bg-muted px-4 py-3 w-[120px]" />
               </tr>
             </thead>
             <tbody>
@@ -253,7 +259,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
                   <tr
                     key={row._id}
                     onClick={() => openDetail(row)}
-                    className="cursor-pointer border-b border-border last:border-b-0 hover:bg-accent transition-colors"
+                    className="group cursor-pointer border-b border-border last:border-b-0 hover:bg-accent transition-colors"
                   >
                     <td className="px-4 py-3">
                       <StatusBadge status={status} label={statusLabel(status)} />
@@ -291,7 +297,10 @@ export function SubmissionsTable<T extends BaseSubmission>({
                     <td className="px-4 py-3">
                       <ReceivedAt ts={row.createdAt} />
                     </td>
-                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                    <td
+                      className="sticky right-0 z-10 border-l border-border bg-card px-4 py-3 transition-colors group-hover:bg-accent"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <div className="flex items-center justify-end gap-1">
                         <button
                           type="button"
@@ -336,6 +345,7 @@ export function SubmissionsTable<T extends BaseSubmission>({
               })}
             </tbody>
           </table>
+          </div>
         </div>
           <div className="flex shrink-0 items-center justify-between gap-2 px-1 text-sm text-muted-foreground">
             <span className="tabular-nums">{rangeStart}–{rangeEnd} of {total}</span>

@@ -158,6 +158,7 @@ export function CorporateRequestsInbox() {
         </div>
       ) : (
         <div className="bg-card border border-border rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-muted text-muted-foreground">
               <tr>
@@ -236,6 +237,7 @@ export function CorporateRequestsInbox() {
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 

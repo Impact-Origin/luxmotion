@@ -93,6 +93,7 @@ export function QuoteRequestsInbox() {
         </div>
 
         <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border bg-muted">
@@ -183,6 +184,7 @@ export function QuoteRequestsInbox() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
 
         {total > 0 && (
