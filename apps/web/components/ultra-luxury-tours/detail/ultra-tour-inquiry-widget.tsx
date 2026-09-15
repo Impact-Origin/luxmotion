@@ -180,7 +180,7 @@ export function UltraTourInquiryWidget({ price, currency = "€", rating, review
 
           <div className="flex flex-col gap-2">
             <FieldLabel required>{ti("phone")}</FieldLabel>
-            <PhoneInput partner value={phone} onChange={setPhone} />
+            <PhoneInput partner value={phone} onChange={setPhone} required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">

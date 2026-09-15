@@ -527,6 +527,7 @@ export function WeddingWhitelabelQuoteSection({
                 onChange={setPhone}
                 placeholder={t("placeholders.phone")}
                 defaultCountry="pt"
+                required
               />
             </Field>
           </div>

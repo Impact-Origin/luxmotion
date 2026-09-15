@@ -271,6 +271,7 @@ export function ContactSection() {
                   value={form.phone}
                   onChange={(v) => set("phone", v)}
                   placeholder={t("redesign.form.phonePlaceholder")}
+                  required
                 />
               </div>
             </div>

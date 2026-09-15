@@ -220,6 +220,7 @@ export function RequestProposal() {
                   onChange={setPhone}
                   defaultCountry="pt"
                   placeholder="000 000 000"
+                  required
                 />
               </div>
             </div>

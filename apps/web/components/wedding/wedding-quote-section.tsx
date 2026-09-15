@@ -22,6 +22,7 @@ import { PhoneInput } from "@/components/ui/phone-input"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { cn } from "@workspace/ui/lib/utils"
 import { medirPedidoDeOrcamento } from "@/lib/oaiq"
+import { readReferralCookie } from "@/lib/referral"
 
 const SERIF_FONT = { fontFamily: "var(--font-title), 'Cormorant Garamond', serif" } as const
 const SANS_FONT = { fontFamily: "var(--font-sans), system-ui, sans-serif" } as const
@@ -504,6 +505,12 @@ export function WeddingQuoteSection() {
           ]
             .filter(Boolean)
             .join("\n\n") || undefined,
+        /* Este era o único dos sete formulários de pedido que não mandava o
+           parceiro. Quem chegasse por uma página de parceria e pedisse
+           orçamento para o casamento aparecia no admin como pedido directo, e
+           a atribuição perdia-se — logo na página com mais probabilidade de
+           vir por aí. O `submit` já aceitava o campo; ninguém lho passava. */
+        referralSlug: readReferralCookie() ?? undefined,
       })
       /* Só aqui: a mutation já resolveu, ou seja o pedido está guardado. Antes
          disto — ao abrir o formulário, ao carregar em enviar — contaria leads
@@ -564,6 +571,7 @@ export function WeddingQuoteSection() {
                 onChange={setPhone}
                 placeholder={t("placeholders.phone")}
                 defaultCountry="pt"
+                required
               />
             </Field>
           </div>

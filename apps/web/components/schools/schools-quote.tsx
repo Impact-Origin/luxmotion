@@ -337,6 +337,7 @@ export function SchoolsQuote() {
                 defaultCountry="pt"
                 placeholder="000 000 000"
                 wedding
+                required
               />
             </FieldWrapper>
           </div>
