@@ -82,6 +82,42 @@ export const getById = query({
   },
 });
 
+/**
+ * O slug de uma parceria é um segmento de endereço: `/pt/<slug>`.
+ *
+ * Não tinha validação nenhuma — era `v.string()` e verificava-se só se já
+ * existia. Entrou um `kiss&tell`, e o `&` fez duas estragas de uma vez:
+ *
+ *   A página respondia 404. A rota até encontrava o ficheiro certo, mas o que
+ *   chegava ao `getBySlug` já não era igual ao que estava gravado, e sem
+ *   correspondência a página chama `notFound()`.
+ *
+ *   Pior: o sitemap deixava de ser XML válido. Um `&` solto não é permitido em
+ *   XML, e o Google não lê um sitemap mal formado **até ao fim** — rejeita-o
+ *   inteiro. Um slug mau tirava do sitemap os outros cento e cinquenta e três
+ *   endereços.
+ *
+ * Daí a regra ser estreita de propósito: minúsculas, dígitos e hífens. Tudo o
+ * que precise de ser codificado num endereço fica de fora.
+ */
+const SLUG_VALIDO = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function validarSlug(slug: string): void {
+  if (!slug) {
+    throw new Error("O endereço da parceria não pode ficar vazio.");
+  }
+  if (slug.length > 60) {
+    throw new Error("O endereço da parceria não pode ter mais de 60 caracteres.");
+  }
+  if (!SLUG_VALIDO.test(slug)) {
+    throw new Error(
+      `"${slug}" não serve como endereço: usa só minúsculas, números e hífens ` +
+        `(por exemplo "kiss-tell"). Acentos, espaços e sinais como & partem o ` +
+        `endereço e o sitemap.`,
+    );
+  }
+}
+
 export const create = mutation({
   args: {
     name: v.string(),
@@ -93,6 +129,7 @@ export const create = mutation({
     landingTemplate: landingTemplateValidator,
   },
   handler: async (ctx, args) => {
+    validarSlug(args.slug);
     const existing = await ctx.db
       .query("partnerships")
       .withIndex("by_slug", (q) => q.eq("slug", args.slug))
@@ -118,6 +155,8 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const { id, ...data } = args;
+    /* Também na edição: uma parceria criada bem podia ser estragada depois. */
+    if (data.slug !== undefined) validarSlug(data.slug);
     await ctx.db.patch(id, data);
   },
 });

@@ -87,6 +87,20 @@ const staticRoutes: Array<{
   { path: "/refund", priority: 0.3, changeFrequency: "yearly" },
 ];
 
+/**
+ * Um slug que possa ir para dentro de <loc> sem partir o XML.
+ *
+ * O `kiss&tell` mostrou o custo: um `&` solto não é XML válido, e o Google não
+ * lê um sitemap mal formado até onde consegue — rejeita o ficheiro inteiro.
+ * Uma linha má tirava do sitemap os outros cento e cinquenta e três endereços.
+ *
+ * A criação de parcerias passou a recusar estes slugs (ver
+ * `convex/partnerships.ts`), mas os que já existem continuam gravados, e o
+ * sitemap não pode ficar à mercê deles. Prefere-se perder uma parceria a
+ * perder o site todo.
+ */
+const slugSeguroNoEndereco = (slug: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)
+
 // Partnership white-labels live at the top level (/<slug>). Guard against a slug
 // that would shadow a real first-level route above or a reserved system path.
 const reservedPartnershipSlugs = new Set([
@@ -177,6 +191,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const partnershipEntries: MetadataRoute.Sitemap = partnerships
       .filter((partnership) => partnership.status === "active")
       .filter((partnership) => !reservedPartnershipSlugs.has(partnership.slug))
+      .filter((partnership) => slugSeguroNoEndereco(partnership.slug))
       .map((partnership) =>
         entry(`/${partnership.slug}`, {
           lastModified: now,
