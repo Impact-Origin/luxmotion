@@ -7,13 +7,15 @@ import { fetchQuery } from "convex/nextjs";
 import { api } from "@workspace/convex/api";
 import { notFound } from "next/navigation";
 import { CaptureReferral } from "@/components/referral/capture-referral";
+import { decodeReferralSlug } from "@/lib/partnership-slug";
 
 export default async function Page({
   params
 }: {
   params: Promise<{ locale: string; referral: string }>
 }) {
-  const { locale, referral } = await params;
+  const { locale, referral: referralCodificado } = await params;
+  const referral = decodeReferralSlug(referralCodificado);
   setRequestLocale(locale);
 
   const partnership = await fetchQuery(api.partnerships.getBySlug, { slug: referral });

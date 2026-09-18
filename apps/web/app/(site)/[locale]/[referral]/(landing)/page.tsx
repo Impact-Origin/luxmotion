@@ -9,13 +9,15 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { createNoIndexMetadata, createPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/structured-data";
 import { resolvePartnershipLandingTemplate } from "@/lib/partnership-landing-templates";
+import { decodeReferralSlug } from "@/lib/partnership-slug";
 
 export default async function ReferralLandingPage({
   params,
 }: {
   params: Promise<{ locale: string; referral: string }>;
 }) {
-  const { locale, referral } = await params;
+  const { locale, referral: referralCodificado } = await params;
+  const referral = decodeReferralSlug(referralCodificado);
   setRequestLocale(locale);
 
   const partnership = await fetchQuery(api.partnerships.getBySlug, {
