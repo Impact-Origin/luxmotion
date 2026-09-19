@@ -567,6 +567,7 @@
   "vehicle": {
     "electric": "Electric",
     "vatIncluded": "VAT incl.",
+    "vatIncludedRoundTrip": "VAT incl. · round trip",
     "selectRouteForPrice": "Select route for price",
     "fixedPriceGuaranteed": "FIXED PRICE GUARANTEED",
     "wifi": "Wi-Fi",

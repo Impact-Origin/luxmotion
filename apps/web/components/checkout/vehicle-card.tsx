@@ -33,11 +33,16 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
   const tCommon = useTranslations("common")
   const [showInfo, setShowInfo] = useState(false)
 
-  const effectivePrice = useMemo(
-    () => (isRoundTrip ? vehicle.price / 2 : vehicle.price),
-    [isRoundTrip, vehicle.price]
+  /* O cartão mostrava metade do preço da ida e volta, e metade de uma ida e
+     volta não é uma ida: a taxa noturna e a sobretaxa de aeroporto cobram-se
+     uma vez, não por perna. Numa partida à noite, Ericeira–Lisboa, o cartão
+     dizia 46 €, a factura fechava em 92 € e tirar a volta dava 51 € — três
+     números diferentes para o cliente, e nenhum deles errado por si só.
+     Passa a mostrar o que se vai pagar, dito com todas as letras. */
+  const priceBreakdown = useMemo(
+    () => calculatePriceBreakdown(vehicle.price),
+    [vehicle.price]
   )
-  const priceBreakdown = useMemo(() => calculatePriceBreakdown(effectivePrice), [effectivePrice])
   const hasDistance = vehicle.hasDistance ?? vehicle.price > 0
   const displayPrice = priceBreakdown.total.toFixed(2).replace(".", ",")
   const pricePerKm = vehicle.pricePerKm?.toFixed(2).replace(".", ",") ?? "0,00"
@@ -105,7 +110,7 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false, selected =
                 €{displayPrice}
               </p>
               <p className="text-[8px] text-[rgba(var(--ck-text-rgb,247,244,239),0.38)] leading-[14.85px] text-right">
-                {t("vatIncluded")}
+                {isRoundTrip ? t("vatIncludedRoundTrip") : t("vatIncluded")}
               </p>
             </>
           ) : (

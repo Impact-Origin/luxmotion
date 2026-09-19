@@ -567,6 +567,7 @@
   "vehicle": {
     "electric": "Elektrisch",
     "vatIncluded": "MwSt. inkl.",
+    "vatIncludedRoundTrip": "inkl. MwSt. · Hin- und Rückfahrt",
     "selectRouteForPrice": "Route wählen für Preis",
     "fixedPriceGuaranteed": "FESTPREIS GARANTIERT",
     "wifi": "WLAN",

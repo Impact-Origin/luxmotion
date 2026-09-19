@@ -567,6 +567,7 @@
   "vehicle": {
     "electric": "Elektrisch",
     "vatIncluded": "BTW incl.",
+    "vatIncludedRoundTrip": "incl. btw · retour",
     "selectRouteForPrice": "Selecteer route voor prijs",
     "fixedPriceGuaranteed": "VASTE PRIJS GEGARANDEERD",
     "wifi": "Wi-Fi",

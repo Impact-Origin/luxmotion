@@ -36,12 +36,17 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false }: VehicleC
   // For round trips, vehicle.price is the total for both legs.
   // In the checkout UI we always display the one-way price (outbound only),
   // so divide by 2 for round trips.
-  const effectivePrice = useMemo(
-    () => (isRoundTrip ? vehicle.price / 2 : vehicle.price),
-    [isRoundTrip, vehicle.price]
+  /* O cartão mostrava metade do preço da ida e volta, e metade de uma ida e
+     volta não é uma ida: a taxa noturna e a sobretaxa de aeroporto cobram-se
+     uma vez, não por perna. Numa partida à noite, Ericeira–Lisboa, o cartão
+     dizia 46 €, a factura fechava em 92 € e tirar a volta dava 51 € — três
+     números diferentes para o cliente, e nenhum deles errado por si só.
+     Passa a mostrar o que se vai pagar, dito com todas as letras. */
+  const priceBreakdown = useMemo(
+    () => calculatePriceBreakdown(vehicle.price),
+    [vehicle.price]
   )
 
-  const priceBreakdown = useMemo(() => calculatePriceBreakdown(effectivePrice), [effectivePrice])
   const hasDistance = vehicle.hasDistance ?? vehicle.price > 0
   const displayPrice = priceBreakdown.total.toFixed(2).replace(".", ",")
   const pricePerKm = vehicle.pricePerKm?.toFixed(2).replace(".", ",") ?? "0,00"
@@ -158,7 +163,7 @@ export function VehicleCard({ vehicle, onSelect, isRoundTrip = false }: VehicleC
                   className="text-sm mt-0.5 mb-1.5"
                   style={{ color: "var(--theme-checkout-vehicle-card-price-subtext, #A0A0A0)" }}
                 >
-                  {t("vatIncluded")}
+                  {isRoundTrip ? t("vatIncludedRoundTrip") : t("vatIncluded")}
                 </div>
               </>
             ) : (
@@ -224,7 +229,7 @@ className="flex items-baseline justify-end gap-1 text-2xl font-bold leading-none
                     className="text-xs mt-1"
                     style={{ color: "var(--theme-checkout-vehicle-card-price-subtext, #A0A0A0)" }}
                   >
-                    {t("vatIncluded")}
+                    {isRoundTrip ? t("vatIncludedRoundTrip") : t("vatIncluded")}
                   </div>
                 </>
               ) : (
