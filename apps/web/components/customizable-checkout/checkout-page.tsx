@@ -26,6 +26,7 @@ import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { readAdSourceCookie, readOppref } from "@/lib/ad-source"
+import { MeasureOrderCreated } from "@/components/analytics/measure-order-created"
 
 const PartnershipContext = createContext<string | undefined>(undefined)
 
@@ -261,6 +262,8 @@ function CheckoutPageContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
+
+    <MeasureOrderCreated orderNumber={orderId ? String(orderId) : null} />
       <CheckoutHeader
         currentStep={currentStep}
         onStepClick={handleStepChange}

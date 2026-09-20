@@ -38,3 +38,54 @@ export function medirPedidoDeOrcamento(): void {
     /* Uma medição perdida não é motivo para partir um formulário. */
   }
 }
+
+/**
+ * Uma compra confirmada.
+ *
+ * A forma não é adivinhada: foi lida do próprio SDK (`bzrcdn.openai.com/sdk/
+ * oaiq.min.js`), depois de a primeira tentativa ter sido recusada com
+ * "validation failed; event dropped". O que ele exige:
+ *
+ *   `order_created` é do tipo **`contents`** e não `customer_action` — esse é
+ *   o do `lead_created`. Os campos aceites para este tipo são exactamente
+ *   `type`, `amount`, `currency` e `contents`; qualquer outro derruba o evento.
+ *
+ *   `amount` tem de ser **inteiro**, o que confirma que são cêntimos: 52,40 €
+ *   não se escreve em euros sem casas decimais.
+ *
+ *   `currency` tem de ser um código ISO 4217 de três letras.
+ *
+ *   O identificador de deduplicação vai num **quarto argumento**, à parte das
+ *   propriedades. É por aí que a OpenAI despreza o repetido quando a mesma
+ *   compra chegar também pelo servidor — o mecanismo não é enviar menos, é
+ *   dizer que é a mesma.
+ */
+export function medirCompra(compra: {
+  orderNumber: string
+  amountCents: number
+}): void {
+  try {
+    window.oaiq?.(
+      "measure",
+      "order_created",
+      {
+        type: "contents",
+        amount: Math.round(compra.amountCents),
+        currency: "EUR",
+        contents: [
+          {
+            id: compra.orderNumber,
+            name: "Transfer",
+            content_type: "product",
+            quantity: 1,
+            amount: Math.round(compra.amountCents),
+            currency: "EUR",
+          },
+        ],
+      },
+      { event_id: compra.orderNumber },
+    )
+  } catch {
+    /* Uma medição perdida não estraga uma reserva que já está paga. */
+  }
+}

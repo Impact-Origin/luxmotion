@@ -26,6 +26,7 @@ import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { readAdSourceCookie, readOppref } from "@/lib/ad-source"
+import { MeasureOrderCreated } from "@/components/analytics/measure-order-created"
 
 export function CheckoutPage({ logoUrl }: { logoUrl?: string | null } = {}) {
   return (
@@ -279,6 +280,9 @@ function CheckoutPageContent({ logoUrl }: { logoUrl?: string | null }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* A conversão sai daqui e não da página de sucesso: quem decide é o
+          estado da encomenda, não o facto de um ecrã ter aberto. */}
+      <MeasureOrderCreated orderNumber={orderId ? String(orderId) : null} />
       <CheckoutHeader
         logoUrl={logoUrl}
         currentStep={currentStep}
