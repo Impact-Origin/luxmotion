@@ -25,6 +25,7 @@ import { readReferralCookie } from "@/lib/referral"
 import { useConvex } from "convex/react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
+import { readAdSourceCookie, readOppref } from "@/lib/ad-source"
 
 const PartnershipContext = createContext<string | undefined>(undefined)
 
@@ -187,6 +188,10 @@ function CheckoutPageContent() {
           isRoundTrip: false,
           returnDate: undefined,
           partnershipSlug: partnershipSlug || readReferralCookie() || undefined,
+          /* A origem vai junto mas fica gravada à parte do parceiro: uma é
+             campanha de anúncios, o outro é uma relação comercial nossa. */
+          adSource: readAdSourceCookie() ?? undefined,
+          opprefId: readOppref(),
         })
 
         setOrder(resp.order.id, resp.order)

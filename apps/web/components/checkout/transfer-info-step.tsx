@@ -17,6 +17,7 @@ import { useConvex } from "convex/react"
 import { calculatePriceBreakdown } from "@/lib/format"
 import { api } from "@workspace/convex/api"
 import { cn } from "@workspace/ui/lib/utils"
+import { readAdSourceCookie, readOppref } from "@/lib/ad-source"
 
 interface TransferInfoStepProps {
   onContinue: () => void
@@ -689,6 +690,10 @@ export function TransferInfoStep({ onContinue }: TransferInfoStepProps) {
           returnDate: undefined,
           // Main-site checkout: attribute to the referring partner via cookie.
           partnershipSlug: readReferralCookie() || undefined,
+          /* A origem vai junto mas fica gravada à parte do parceiro: uma é
+             campanha de anúncios, o outro é uma relação comercial nossa. */
+          adSource: readAdSourceCookie() ?? undefined,
+          opprefId: readOppref(),
         }
         const initResp = await initOrder(convex, initOrderPayload)
         currentOrderId = initResp.order.id

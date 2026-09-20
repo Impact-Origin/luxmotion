@@ -3,7 +3,9 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "@workspace/ui/globals.css";
 import { GoogleMapsProvider } from "@/components/providers/google-maps-provider";
 import { createNoIndexMetadata } from "@/lib/seo";
+import { Suspense } from "react";
 import { OpenAIPixel } from "@/components/analytics/openai-pixel";
+import { CaptureAdSource } from "@/components/analytics/capture-ad-source";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -28,6 +30,9 @@ export default function RootLayout({
   return (
     <div className={`${fontSans.variable} ${fontTitle.variable} font-sans checkout-dark`}>
       <GoogleMapsProvider>{children}</GoogleMapsProvider>
+      <Suspense fallback={null}>
+        <CaptureAdSource />
+      </Suspense>
       <OpenAIPixel />
     </div>
   );

@@ -58,6 +58,39 @@ const METHOD_LABEL: Record<string, string> = {
   cash: "Cash",
 };
 
+/**
+ * De onde veio a visita, em linguagem de gente.
+ *
+ * Sem dados suficientes diz "Origem desconhecida" e não "orgânico" nem
+ * "ChatGPT": não sabemos, e inventar uma origem é pior do que admitir que
+ * falta. Isto é o que observámos no endereço de entrada — a atribuição de uma
+ * compra a um anúncio é calculada pela plataforma, não por nós.
+ */
+function OrigemDaVisita({ order }: { order: any }) {
+  const s = order.adSource;
+  const tem = s && (s.utmSource || s.utmCampaign || s.utmContent || s.campaignId);
+  if (!tem) {
+    return <span className="text-muted-foreground">Origem desconhecida</span>;
+  }
+  const linhas: [string, string | undefined][] = [
+    ["Origem", [s.utmSource, s.utmMedium].filter(Boolean).join(" · ") || undefined],
+    ["Campanha", s.utmCampaign || s.campaignId],
+    ["Anúncio", s.utmContent || s.adGroupId],
+  ];
+  return (
+    <div className="flex flex-col gap-0.5">
+      {linhas.map(([rotulo, valor]) =>
+        valor ? (
+          <span key={rotulo} className="text-xs">
+            <span className="text-muted-foreground">{rotulo}: </span>
+            <span className="text-foreground">{valor}</span>
+          </span>
+        ) : null,
+      )}
+    </div>
+  );
+}
+
 function formatTravel(value: string | undefined) {
   if (!value) return "—";
   // departureDate may be a plain "YYYY-MM-DD" or a full ISO string.
@@ -240,6 +273,17 @@ function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () =
                   <div className="px-3 py-2 text-sm text-foreground">{order.driverNotes}</div>
                 </DetailSection>
               )}
+
+              <DetailSection title="Origem">
+                <DetailRow label="Visita" value={<OrigemDaVisita order={order} />} />
+                <DetailRow label="Parceiro" value={order.partnershipName ?? "Directo"} />
+                {order.opprefId && (
+                  <DetailRow
+                    label="Ref. OpenAI"
+                    value={<span className="font-mono text-xs">{order.opprefId}</span>}
+                  />
+                )}
+              </DetailSection>
 
               <DetailSection title="Meta">
                 <DetailRow label="Created" value={formatAdminDate(order.createdAt)} />

@@ -8,7 +8,9 @@ import { ConvexPublicProvider } from "@/components/providers/convex-public-provi
 import { Poppins, Geist_Mono, Cormorant_Garamond, Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import { absoluteUrl, getSiteUrl } from "@/lib/seo";
+import { Suspense } from "react";
 import { OpenAIPixel } from "@/components/analytics/openai-pixel";
+import { CaptureAdSource } from "@/components/analytics/capture-ad-source";
 
 const fontSans = Poppins({
   subsets: ["latin"],
@@ -138,6 +140,11 @@ export default async function RootLayout({
             >
               {children}
             </Providers>
+            {/* Em Suspense porque lê os parâmetros do endereço: sem isto o
+                Next obriga a página inteira a ser dinâmica. */}
+            <Suspense fallback={null}>
+              <CaptureAdSource />
+            </Suspense>
             <OpenAIPixel />
           </body>
         </html>

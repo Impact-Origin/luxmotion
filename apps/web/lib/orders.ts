@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useAction } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
+import type { AdSource } from "@/lib/ad-source"
 
 // ===================== Types =====================
 
@@ -264,11 +265,17 @@ export async function initOrder(
     returnDate?: string
     /** Slug da parceria no URL (ex: "vila-gale"). Omitir = site principal "Easy Transfer". */
     partnershipSlug?: string
+    /** De onde veio a visita. Separado do parceiro — ver `lib/ad-source.ts`. */
+    adSource?: AdSource
+    /** O `__oppref` do Pixel, tal e qual. */
+    opprefId?: string
   }
 ): Promise<InitOrderResponse> {
   const passengers = payload.passengers ?? (payload.adults ?? 0) + (payload.children ?? 0)
   const result = await convex.mutation(api.orders.init, {
     partnershipSlug: payload.partnershipSlug,
+    adSource: payload.adSource,
+    opprefId: payload.opprefId,
     departure: {
       location: payload.departure.location,
       placeId: payload.departure.placeId ?? undefined,

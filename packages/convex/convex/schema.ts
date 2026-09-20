@@ -68,6 +68,37 @@ export default defineSchema({
       ),
     ),
 
+    /**
+     * De onde veio a visita, como foi observada no endereço de entrada.
+     *
+     * Fica separado de `partnershipName`/`partnershipId` de propósito: um
+     * parceiro é uma relação comercial nossa, isto é uma campanha de anúncios.
+     * Misturá-los tornaria impossível responder a qualquer das duas perguntas.
+     *
+     * Isto é o que **nós** observámos, e não uma declaração de que a compra foi
+     * causada pelo anúncio — quem decide a atribuição é a plataforma, com o
+     * `opprefId` abaixo.
+     */
+    adSource: v.optional(
+      v.object({
+        utmSource: v.optional(v.string()),
+        utmMedium: v.optional(v.string()),
+        utmCampaign: v.optional(v.string()),
+        /** Identifica o anúncio. */
+        utmContent: v.optional(v.string()),
+        campaignId: v.optional(v.string()),
+        adGroupId: v.optional(v.string()),
+        capturedAt: v.optional(v.number()),
+      }),
+    ),
+    /**
+     * O identificador de atribuição da OpenAI, lido do cookie `__oppref` que o
+     * Pixel escreve. Viaja aqui porque o webhook da Stripe não vê cookies, e
+     * sem ele não há como enviar a conversão pelo servidor. Vai tal e qual:
+     * nunca inventado nem substituído por UTMs.
+     */
+    opprefId: v.optional(v.string()),
+
     // Trip details
     departureDate: v.string(),
     arrivalDate: v.optional(v.string()),

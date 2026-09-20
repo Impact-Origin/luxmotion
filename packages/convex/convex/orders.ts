@@ -56,6 +56,20 @@ export const init = mutation({
     returnDate: v.optional(v.string()),
     /** Slug da parceria no URL (ex: "vila-gale"). Se omitido = site principal "Easy Transfer". */
     partnershipSlug: v.optional(v.string()),
+    /* A origem publicitária e o identificador da OpenAI andam juntos no
+       pedido mas separados na gravação — ver o comentário no schema. */
+    adSource: v.optional(
+      v.object({
+        utmSource: v.optional(v.string()),
+        utmMedium: v.optional(v.string()),
+        utmCampaign: v.optional(v.string()),
+        utmContent: v.optional(v.string()),
+        campaignId: v.optional(v.string()),
+        adGroupId: v.optional(v.string()),
+        capturedAt: v.optional(v.number()),
+      }),
+    ),
+    opprefId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -102,6 +116,11 @@ export const init = mutation({
       adults: args.adults ?? undefined,
       children: args.children ?? undefined,
       isRoundTrip: isRoundTrip,
+      /* Desde o rascunho: se só se gravasse no pagamento, uma reserva
+         abandonada não dizia de onde tinha vindo — e são essas que mais
+         interessam para perceber o que uma campanha está a trazer. */
+      adSource: args.adSource,
+      opprefId: args.opprefId,
       status: "draft",
       createdAt: now,
       updatedAt: now,
@@ -136,6 +155,10 @@ export const init = mutation({
         departureDate: args.returnDate,
         passengers: args.passengers,
         isRoundTrip: true,
+        /* A perna de volta é outra linha na base mas a mesma visita: sem isto,
+           metade das reservas de ida e volta aparecia sem origem. */
+        adSource: args.adSource,
+        opprefId: args.opprefId,
         status: "draft",
         createdAt: now,
         updatedAt: now,
