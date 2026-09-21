@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { medirCompra } from "@/lib/oaiq"
+import { isOpprefDeCliqueReal } from "@/lib/ad-source"
 
 /**
  * Dispara a conversão quando a reserva está mesmo paga.
@@ -44,8 +45,10 @@ export function MeasureOrderCreated({ orderNumber }: { orderNumber: string | nul
     const pago = order.paymentStatus === "completed" || order.status === "paid"
     if (!pago) return
 
+    /* Uma pré-visualização de anúncio não é uma venda vinda de um anúncio.
+       Ver `isOpprefDeCliqueReal`. */
     const doChatGpt =
-      Boolean(order.opprefId) ||
+      isOpprefDeCliqueReal(order.opprefId) ||
       String(order.adSource?.utmSource ?? "").toLowerCase() === "chatgpt"
     if (!doChatGpt) return
 

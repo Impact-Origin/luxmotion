@@ -280,7 +280,19 @@ function OrderDetailSheet({ order, onClose }: { order: any | null; onClose: () =
                 {order.opprefId && (
                   <DetailRow
                     label="Ref. OpenAI"
-                    value={<span className="font-mono text-xs">{order.opprefId}</span>}
+                    value={
+                      <span className="font-mono text-xs">
+                        {order.opprefId}
+                        {/* `preview_mock` é o que a pré-visualização de um
+                            anúncio deixa no browser. Fica à vista para não se
+                            confundir com um clique a sério. */}
+                        {String(order.opprefId).toLowerCase().startsWith("preview") && (
+                          <span className="ml-2 font-sans text-[11px] text-muted-foreground">
+                            pré-visualização, não conta como conversão
+                          </span>
+                        )}
+                      </span>
+                    }
                   />
                 )}
               </DetailSection>

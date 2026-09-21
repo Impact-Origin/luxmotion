@@ -98,3 +98,25 @@ export function readOppref(): string | undefined {
     return m[1] || undefined
   }
 }
+
+/**
+ * O `oppref` é de um clique a sério, ou de uma pré-visualização?
+ *
+ * A pré-visualização de um anúncio no painel da OpenAI abre o site com
+ * `?oppref=preview_mock`. O Pixel guarda-o como guardaria qualquer outro — e
+ * bem, porque não lhe compete julgar —, mas esse valor fica no browser de quem
+ * previu o anúncio durante semanas. A partir daí, qualquer compra feita nesse
+ * computador era comunicada como conversão vinda do ChatGPT.
+ *
+ * É a mesma armadilha do cookie de parceiro que nos deu um pedido atribuído à
+ * "Boutique Weddings" por causa de um teste: quem experimenta fica marcado.
+ *
+ * O valor continua a ser **guardado tal e qual** — vê-se no admin que a visita
+ * veio de uma pré-visualização, o que é informação útil. O que não se faz é
+ * declarar uma venda à conta dele.
+ */
+export function isOpprefDeCliqueReal(oppref: string | null | undefined): boolean {
+  const v = (oppref ?? "").trim().toLowerCase()
+  if (!v) return false
+  return v !== "preview_mock" && !v.startsWith("preview")
+}
