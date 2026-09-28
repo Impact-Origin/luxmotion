@@ -427,6 +427,16 @@ export default function OrdersPage() {
       ),
     },
     {
+      id: "adSource",
+      header: "Ad source",
+      sortAccessor: (o) => o.adSourceName,
+      cell: (o) => (
+        <span className="block max-w-[180px] truncate text-sm" title={o.adSourceName || "Origem desconhecida"}>
+          {o.adSourceName || <span className="text-muted-foreground">Origem desconhecida</span>}
+        </span>
+      ),
+    },
+    {
       id: "route",
       header: "Route",
       cell: (o) => (
@@ -482,6 +492,12 @@ export default function OrdersPage() {
 
   const filters: DataTableFilter<Order>[] = [
     {
+      id: "adSource",
+      label: "All ad sources",
+      width: "w-[200px]",
+      options: res?.adSourceOptions ?? [],
+    },
+    {
       id: "status",
       label: "All status",
       width: "w-[150px]",
@@ -525,6 +541,9 @@ export default function OrdersPage() {
       <div className={TABLE_TEXT_CELL}>
         <p className="truncate font-medium text-foreground">{o.customerName || "—"}</p>
         <p className="truncate text-xs text-muted-foreground">{o.routeLabel}</p>
+        <p className="truncate text-xs text-muted-foreground" title={o.adSourceName || "Origem desconhecida"}>
+          Ad source: {o.adSourceName || "Origem desconhecida"}
+        </p>
       </div>
       <div className="flex items-center justify-between border-t border-border pt-3">
         <div className="flex items-center gap-2">

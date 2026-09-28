@@ -1268,8 +1268,16 @@ export const listPaged = query({
 
     let rows = all.map((o) => ({
       ...o,
+      adSourceName: o.adSource?.utmSource?.trim().toLowerCase() || "",
       routeLabel: `${o.departure?.location ?? "—"} → ${o.arrival?.location ?? "—"}`,
     }));
+
+    // Keep every source available, regardless of the current page or filters.
+    const adSourceOptions = [...new Set(rows.map((r) => r.adSourceName))]
+      .filter(Boolean)
+      .sort()
+      .map((source) => ({ value: `source:${source}`, label: source }));
+    adSourceOptions.push({ value: "unknown", label: "Origem desconhecida" });
 
     rows = applySearch(rows, a.search, [
       (r) => r.orderNumber,
@@ -1285,16 +1293,25 @@ export const listPaged = query({
     if (paymentStatus) rows = rows.filter((r) => r.paymentStatus === paymentStatus);
     const method = a.filters?.method;
     if (method) rows = rows.filter((r) => r.paymentMethod === method);
+    const adSource = a.filters?.adSource;
+    if (adSource) {
+      rows = rows.filter((r) =>
+        adSource === "unknown"
+          ? !r.adSourceName
+          : `source:${r.adSourceName}` === adSource,
+      );
+    }
 
     rows = applySort(rows, a.sortBy, a.sortDir, {
       order: (r) => r.orderNumber ?? "",
       customer: (r) => (r.customerName ?? "").toLowerCase(),
+      adSource: (r) => r.adSourceName,
       date: (r) => r.departureDate ?? "",
       total: (r) => r.totalAmount ?? 0,
       created: (r) => r.createdAt,
     });
 
-    return paginate(rows, a.page, a.pageSize);
+    return { ...paginate(rows, a.page, a.pageSize), adSourceOptions };
   },
 });
 
