@@ -58,6 +58,10 @@ const METHOD_LABEL: Record<string, string> = {
   cash: "Cash",
 };
 
+function getAdSourceName(order: { adSource?: { utmSource?: string } }) {
+  return order.adSource?.utmSource?.trim().toLowerCase() || "";
+}
+
 /**
  * De onde veio a visita, em linguagem de gente.
  *
@@ -429,10 +433,10 @@ export default function OrdersPage() {
     {
       id: "adSource",
       header: "Ad source",
-      sortAccessor: (o) => o.adSourceName,
+      sortAccessor: getAdSourceName,
       cell: (o) => (
-        <span className="block max-w-[180px] truncate text-sm" title={o.adSourceName || "Origem desconhecida"}>
-          {o.adSourceName || <span className="text-muted-foreground">Origem desconhecida</span>}
+        <span className="block max-w-[180px] truncate text-sm" title={getAdSourceName(o) || "Origem desconhecida"}>
+          {getAdSourceName(o) || <span className="text-muted-foreground">Origem desconhecida</span>}
         </span>
       ),
     },
@@ -541,8 +545,8 @@ export default function OrdersPage() {
       <div className={TABLE_TEXT_CELL}>
         <p className="truncate font-medium text-foreground">{o.customerName || "—"}</p>
         <p className="truncate text-xs text-muted-foreground">{o.routeLabel}</p>
-        <p className="truncate text-xs text-muted-foreground" title={o.adSourceName || "Origem desconhecida"}>
-          Ad source: {o.adSourceName || "Origem desconhecida"}
+        <p className="truncate text-xs text-muted-foreground" title={getAdSourceName(o) || "Origem desconhecida"}>
+          Ad source: {getAdSourceName(o) || "Origem desconhecida"}
         </p>
       </div>
       <div className="flex items-center justify-between border-t border-border pt-3">
