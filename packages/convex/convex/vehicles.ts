@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { catalogTranslationsValidator } from "./lib/catalogTranslations";
 import { isNightDeparture, priceVehicle } from "./lib/pricing";
 import { siteSettingsDefaults } from "./siteSettings";
 import { mutation, query } from "./_generated/server";
@@ -226,6 +227,7 @@ export const getUpgradeFor = query({
 export const create = mutation({
   args: {
     name: v.string(),
+    translations: v.optional(catalogTranslationsValidator),
     examples: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     partnershipId: v.optional(v.id("partnerships")),
@@ -259,6 +261,7 @@ export const update = mutation({
   args: {
     id: v.id("vehicles"),
     name: v.optional(v.string()),
+    translations: v.optional(catalogTranslationsValidator),
     examples: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     partnershipId: v.optional(v.id("partnerships")),

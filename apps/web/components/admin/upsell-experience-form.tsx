@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { CatalogTranslationsEditor } from "./catalog-translations-editor"
+import type { CatalogTranslation } from "@/lib/catalog-translations"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
@@ -29,6 +31,7 @@ import {
 } from "@/components/admin/upsell-shared"
 
 type AddonDraft = {
+  translations?: CatalogTranslation[]
   name: string
   price: string
   pricingType: "per_person" | "flat"
@@ -37,6 +40,7 @@ type AddonDraft = {
 export interface UpsellExperienceInitialData {
   _id: Id<"upsellExperiences">
   title: string
+  translations?: CatalogTranslation[]
   description?: string
   imageId?: Id<"_storage">
   imageUrl?: string | null
@@ -50,7 +54,7 @@ export interface UpsellExperienceInitialData {
   basePrice: number
   pricingModel: UpsellPricingModel
   duration?: string
-  addons?: { name: string; price: number; pricingType?: "per_person" | "flat" }[]
+  addons?: { translations?: CatalogTranslation[]; name: string; price: number; pricingType?: "per_person" | "flat" }[]
   hasDateField: boolean
   hasSpecialRequest: boolean
   tag: UpsellTag
@@ -69,6 +73,7 @@ export function UpsellExperienceForm({
   const create = useMutation(api.upsells.createExperience)
   const update = useMutation(api.upsells.updateExperience)
 
+  const [translations, setTranslations] = React.useState<CatalogTranslation[]>(initialData?.translations ?? [])
   const [title, setTitle] = React.useState(initialData?.title ?? "")
   const [description, setDescription] = React.useState(initialData?.description ?? "")
   const [imageId, setImageId] = React.useState<Id<"_storage"> | undefined>(initialData?.imageId)
@@ -82,6 +87,7 @@ export function UpsellExperienceForm({
   const [addons, setAddons] = React.useState<AddonDraft[]>(
     (initialData?.addons ?? []).map((a) => ({
       name: a.name,
+      translations: a.translations,
       price: String(a.price),
       pricingType: a.pricingType ?? "flat",
     })),
@@ -122,6 +128,7 @@ export function UpsellExperienceForm({
     const cleanedAddons = addons
       .map((a) => ({
         name: a.name.trim(),
+        translations: a.translations,
         price: Number.parseFloat(a.price),
         pricingType: a.pricingType,
       }))
@@ -133,6 +140,7 @@ export function UpsellExperienceForm({
 
     const payload = {
       title: title.trim(),
+      translations,
       description: description.trim() || undefined,
       imageId,
       location: location
@@ -287,8 +295,8 @@ export function UpsellExperienceForm({
           ) : (
             <div className="space-y-3">
               {addons.map((addon, index) => (
+                <div key={index} className="space-y-3">
                 <div
-                  key={index}
                   className="grid items-end gap-3 rounded-lg border border-border p-3 sm:grid-cols-[minmax(0,1fr)_120px_150px_auto]"
                 >
                   <div className="space-y-1.5">
@@ -337,6 +345,12 @@ export function UpsellExperienceForm({
                   >
                     <Trash2 className="size-4" />
                   </Button>
+                </div>
+                <CatalogTranslationsEditor
+                  value={addon.translations ?? []}
+                  onChange={(next) => updateAddon(index, { translations: next })}
+                  fields={[{ key: "name", label: "Nome do extra" }]}
+                />
                 </div>
               ))}
             </div>
@@ -445,6 +459,12 @@ export function UpsellExperienceForm({
             </div>
           </div>
         </section>
+
+        <CatalogTranslationsEditor
+          value={translations}
+          onChange={setTranslations}
+          fields={[{ key: "title", label: "Nome" }, { key: "description", label: "Descrição", multiline: true }, { key: "duration", label: "Duração" }]}
+        />
 
         <div className="flex items-center justify-end gap-3">
           <Button type="button" variant="outline" onClick={onClose}>

@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { CatalogTranslationsEditor } from "./catalog-translations-editor"
+import type { CatalogTranslation } from "@/lib/catalog-translations"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
@@ -26,6 +28,7 @@ import { TAG_LABELS, type UpsellTag } from "@/components/admin/upsell-shared"
 export interface UpsellStopInitialData {
   _id: Id<"upsellStops">
   title: string
+  translations?: CatalogTranslation[]
   description?: string
   imageId?: Id<"_storage">
   imageUrl?: string | null
@@ -54,6 +57,7 @@ export function UpsellStopForm({
   const create = useMutation(api.upsells.createStop)
   const update = useMutation(api.upsells.updateStop)
 
+  const [translations, setTranslations] = React.useState<CatalogTranslation[]>(initialData?.translations ?? [])
   const [title, setTitle] = React.useState(initialData?.title ?? "")
   const [description, setDescription] = React.useState(initialData?.description ?? "")
   const [imageId, setImageId] = React.useState<Id<"_storage"> | undefined>(initialData?.imageId)
@@ -98,6 +102,7 @@ export function UpsellStopForm({
 
     const payload = {
       title: title.trim(),
+      translations,
       description: description.trim() || undefined,
       imageId,
       location: location
@@ -283,6 +288,12 @@ export function UpsellStopForm({
             </div>
           </div>
         </section>
+
+        <CatalogTranslationsEditor
+          value={translations}
+          onChange={setTranslations}
+          fields={[{ key: "title", label: "Nome" }, { key: "description", label: "Descrição", multiline: true }]}
+        />
 
         <div className="flex items-center justify-end gap-3">
           <Button type="button" variant="outline" onClick={onClose}>

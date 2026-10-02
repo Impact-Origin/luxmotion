@@ -34,6 +34,8 @@ export interface NearbyTour {
   _id: string
   slug: string
   title: string
+  originalTitle?: string
+  translations?: import("@/lib/catalog-translations").CatalogTranslation[]
   subtitle?: string
   /** Já reduzida a texto no hook: o TipTap não chega aqui. */
   description: string
@@ -274,6 +276,8 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
       slug: tour?.slug ?? "",
       category: tour?.category ?? "tours",
       title: selectedExperience.title,
+      originalTitle: tour?.originalTitle ?? tour?.title,
+      translations: tour?.translations,
       passengers: data.passengers,
       date: data.date,
       time: data.time,
@@ -406,7 +410,7 @@ export function ExperiencesStep({ onContinue, onBack, nearbyTours }: Experiences
           <AddExperienceModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
-            experience={selectedExperience}
+            experience={selectedItem ? toExperience(selectedItem) : selectedExperience}
             tourId={selectedTourId}
             flatPrice={selectedItem?.flatPrice ?? false}
             requireDateTime={selectedItem?.hasDateField ?? true}

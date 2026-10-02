@@ -3,6 +3,8 @@
 import { useQuery } from "convex/react";
 import { api } from "@workspace/convex/api";
 import { useMemo } from "react";
+import { useLocale } from "next-intl";
+import { localizeVehicle } from "@/lib/catalog-translations";
 
 /**
  * Os veículos e os seus preços.
@@ -52,6 +54,7 @@ export function useVehicles({
   currentVehiclePassengers = 0,
   currentVehicleLuggage = 0,
 }: UseVehiclesProps) {
+  const locale = useLocale();
   const quoted = useQuery(api.vehicles.listQuoted, {
     partnershipSlug,
     passengers,
@@ -76,9 +79,10 @@ export function useVehicles({
           v.passengers > currentVehiclePassengers || v.luggage > currentVehicleLuggage
         );
       })
-      .map((v) => ({
+      .map((v) => localizeVehicle({
         id: v._id,
         name: v.name,
+        translations: v.translations,
         examples: v.examples,
         price: v.price,
         dayPrice: v.dayPrice,
@@ -95,8 +99,8 @@ export function useVehicles({
         order: v.order,
         // Premium upsell: the standard vehicle this one is an upgrade of (if any).
         upgradeFromVehicleId: v.upgradeFromVehicleId as string | undefined,
-      }));
-  }, [quoted, upgradeMode, currentVehiclePassengers, currentVehicleLuggage]);
+      }, locale));
+  }, [locale, quoted, upgradeMode, currentVehiclePassengers, currentVehicleLuggage]);
 
   return {
     vehicles: formattedVehicles,

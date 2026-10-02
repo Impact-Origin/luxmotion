@@ -36,7 +36,7 @@ function CheckoutLogo({ logoUrl }: { logoUrl?: string | null }) {
   if (logoUrl) {
     return (
       <Link href="/" className="flex items-center shrink-0">
-        <span className="relative block h-[40px] w-[150px]">
+        <span className="relative block h-[36px] w-[108px] max-[359px]:w-[64px] md:h-[40px] md:w-[150px]">
           <Image src={logoUrl} alt="" fill className="object-contain object-left" priority />
         </span>
       </Link>
@@ -44,14 +44,14 @@ function CheckoutLogo({ logoUrl }: { logoUrl?: string | null }) {
   }
 
   return (
-    <Link href="/" className="flex items-center gap-[10px] shrink-0">
-      <div className="relative w-[45px] h-[45px] border-[1.9px] border-[var(--ck-accent,#c9a96e)] flex items-center justify-center shrink-0">
+    <Link href="/" aria-label="LuxMotion" className="flex items-center gap-[6px] md:gap-[10px] shrink-0">
+      <div className="relative size-[36px] md:size-[45px] border-[1.9px] border-[var(--ck-accent,#c9a96e)] flex items-center justify-center shrink-0">
         <div className="relative w-[23px] h-[13px]">
           <Image src="/shared/icons/lm-monogram.svg" alt="" fill className="object-contain" priority />
         </div>
       </div>
-      <div className="flex flex-col justify-center">
-        <div className="relative w-[82px] h-[9px]">
+      <div className="flex flex-col justify-center max-[359px]:hidden">
+        <div className="relative w-[66px] h-[8px] md:w-[82px] md:h-[9px]">
           <Image
             src="/shared/icons/luxmotion-text.svg"
             alt="LuxMotion"
@@ -61,7 +61,7 @@ function CheckoutLogo({ logoUrl }: { logoUrl?: string | null }) {
             priority
           />
         </div>
-        <span className="text-[7.2px] tracking-[1px] text-[rgba(var(--ck-text-rgb,255,255,255),0.55)] mt-[4px] whitespace-nowrap">
+        <span className="text-[6px] tracking-[0.6px] md:text-[7.2px] md:tracking-[1px] text-[rgba(var(--ck-text-rgb,255,255,255),0.55)] mt-[4px] whitespace-nowrap">
           BY EASYTRANSFER
         </span>
       </div>
@@ -93,14 +93,14 @@ function LangPill() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-[4px] h-[40px] px-[9px] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] transition-colors cursor-pointer"
+        className="flex items-center gap-[4px] h-[36px] px-[6px] md:h-[40px] md:px-[9px] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] transition-colors cursor-pointer"
       >
         <FlagImage iso2={localeCountryIso[locale]} size={20} className="rounded-[2px]" />
-        <span className="text-[14px] font-medium text-[var(--ck-accent,#c9a96e)] tracking-[0.15px]">
+        <span className="text-[12px] md:text-[14px] font-medium text-[var(--ck-accent,#c9a96e)] tracking-[0.15px]">
           {locale.toUpperCase()}
         </span>
         <ChevronDown
-          className={cn("w-[13px] h-[13px] text-[var(--ck-accent,#c9a96e)] transition-transform", open && "rotate-180")}
+          className={cn("hidden md:block w-[13px] h-[13px] text-[var(--ck-accent,#c9a96e)] transition-transform", open && "rotate-180")}
         />
       </button>
       {open && (
@@ -136,7 +136,7 @@ function ThemeToggle({ label }: { label: string }) {
       aria-label={label}
       title={label}
       className={cn(
-        "flex items-center justify-center size-[40px] border transition-colors cursor-pointer",
+        "flex shrink-0 items-center justify-center size-[32px] md:size-[40px] border transition-colors cursor-pointer",
         isDark
           ? "border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] text-[var(--ck-accent,#c9a96e)] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)]"
           : "border-[rgba(160,130,72,0.28)] text-[#A08248] hover:border-[rgba(160,130,72,0.5)]",
@@ -198,21 +198,21 @@ export function CheckoutHeader({
 
   return (
     <header className="bg-[var(--ck-bg,#0d0d0d)] border-b border-[var(--ck-divider,rgba(var(--ck-text-rgb,247,244,239),0.08))]">
-      {/* Mesmo container do conteúdo (checkout-page: max-w-[1200px] px-6) para o
-          logo cair sobre a margem esquerda e o idioma sobre a direita. */}
-      <div className="max-w-[1200px] mx-auto px-6 h-[60px] md:h-[72px] flex items-center justify-between">
+      {/* No mobile, a folga entre a marca e os controlos evita que o botão
+          do tema encoste ao texto do logótipo. */}
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 gap-3 h-[60px] md:h-[72px] flex items-center justify-between">
         <CheckoutLogo logoUrl={logoUrl} />
 
-        <div className="flex items-center gap-[12px]">
+        <div className="flex shrink-0 items-center gap-[6px] md:gap-[12px]">
           <LiveCount text={tNav("reservationsToday", { count: reservationsToday })} />
           {/* Mesma ordem do header da landing: tema → moeda → idioma. */}
           <ThemeToggle label={tNav("themeToggle")} />
-          <CurrencySwitcher variant={headerIsLight ? "light" : "dark"} />
+          <CurrencySwitcher variant={headerIsLight ? "light" : "dark"} compactMobile />
           <LangPill />
           <Link
             href="/"
             aria-label={tNav("menu")}
-            className="md:hidden flex items-center justify-center size-[40px] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] text-[var(--ck-accent,#c9a96e)] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] transition-colors"
+            className="md:hidden flex shrink-0 items-center justify-center size-[36px] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] text-[var(--ck-accent,#c9a96e)] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] transition-colors"
           >
             <Menu className="w-4 h-4" strokeWidth={1.5} />
           </Link>

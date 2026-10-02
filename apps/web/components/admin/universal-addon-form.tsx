@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { CatalogTranslationsEditor } from "./catalog-translations-editor"
+import type { CatalogTranslation } from "@/lib/catalog-translations"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
@@ -31,6 +33,7 @@ const AMBITOS: { valor: AmbitoExtra; rotulo: string; nota: string }[] = [
 export type UniversalAddonInicial = {
   _id: Id<"universalAddons">
   title: string
+  translations?: CatalogTranslation[]
   description?: string
   imageUrl?: string | null
   price: number
@@ -50,6 +53,7 @@ export function UniversalAddonForm({
   const criar = useMutation(api.universalAddons.create)
   const actualizar = useMutation(api.universalAddons.update)
 
+  const [translations, setTranslations] = React.useState<CatalogTranslation[]>(initialData?.translations ?? [])
   const [title, setTitle] = React.useState(initialData?.title ?? "")
   const [description, setDescription] = React.useState(initialData?.description ?? "")
   const [price, setPrice] = React.useState(String(initialData?.price ?? ""))
@@ -85,6 +89,7 @@ export function UniversalAddonForm({
         await actualizar({
           id: initialData._id,
           title: title.trim(),
+          translations,
           description: description.trim() || undefined,
           price: valor,
           pricingType,
@@ -100,6 +105,7 @@ export function UniversalAddonForm({
       } else {
         await criar({
           title: title.trim(),
+          translations,
           description: description.trim() || undefined,
           price: valor,
           pricingType,
@@ -257,6 +263,12 @@ export function UniversalAddonForm({
           </div>
         </div>
       </div>
+
+      <CatalogTranslationsEditor
+        value={translations}
+        onChange={setTranslations}
+        fields={[{ key: "title", label: "Nome" }, { key: "description", label: "Descrição", multiline: true }]}
+      />
 
       <div className="flex justify-end gap-2 border-t border-border pt-4">
         <Button type="button" variant="outline" onClick={onClose} disabled={aGuardar}>

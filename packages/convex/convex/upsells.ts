@@ -1,4 +1,6 @@
+import { legacyUpsellTranslations } from "./lib/upsellTranslations";
 import { v } from "convex/values";
+import { catalogTranslationsValidator } from "./lib/catalogTranslations";
 import { query, mutation, internalMutation } from "./_generated/server";
 import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
@@ -27,6 +29,7 @@ const statusValidator = v.union(v.literal("draft"), v.literal("published"));
 
 const addonValidator = v.object({
   name: v.string(),
+  translations: v.optional(catalogTranslationsValidator),
   price: v.number(),
   pricingType: v.optional(v.union(v.literal("per_person"), v.literal("flat"))),
 });
@@ -104,6 +107,7 @@ export const listForDestination = query({
       keep(stopRows).map(async ({ row, distanceKm }) => ({
         _id: row._id,
         title: row.title,
+        translations: row.translations ?? await legacyUpsellTranslations(ctx, row.title, "stops"),
         description: row.description ?? "",
         imageUrl: row.imageId ? await ctx.storage.getUrl(row.imageId) : null,
         price15: row.price15 ?? null,
@@ -120,6 +124,7 @@ export const listForDestination = query({
       keep(experienceRows).map(async ({ row, distanceKm }) => ({
         _id: row._id,
         title: row.title,
+        translations: row.translations ?? await legacyUpsellTranslations(ctx, row.title, "experiences"),
         description: row.description ?? "",
         imageUrl: row.imageId ? await ctx.storage.getUrl(row.imageId) : null,
         basePrice: row.basePrice,
@@ -129,6 +134,7 @@ export const listForDestination = query({
         addons: (row.addons ?? []).map((addon, index) => ({
           id: `${row._id}:${index}`,
           name: addon.name,
+          translations: addon.translations,
           price: addon.price,
           pricingType: addon.pricingType ?? "flat",
         })),
@@ -179,6 +185,7 @@ export const listStopsPaged = query({
     const withUrls = await Promise.all(
       result.rows.map(async (row) => ({
         ...row,
+        translations: row.translations ?? await legacyUpsellTranslations(ctx, row.title, "stops"),
         imageUrl: row.imageId ? await ctx.storage.getUrl(row.imageId) : null,
       })),
     );
@@ -193,6 +200,7 @@ export const getStop = query({
     if (!row) return null;
     return {
       ...row,
+      translations: row.translations ?? await legacyUpsellTranslations(ctx, row.title, "stops"),
       imageUrl: row.imageId ? await ctx.storage.getUrl(row.imageId) : null,
     };
   },
@@ -200,6 +208,7 @@ export const getStop = query({
 
 const stopFields = {
   title: v.string(),
+  translations: v.optional(catalogTranslationsValidator),
   description: v.optional(v.string()),
   imageId: v.optional(v.id("_storage")),
   location: v.optional(locationValidator),
@@ -234,6 +243,7 @@ export const updateStop = mutation({
   args: {
     id: v.id("upsellStops"),
     title: v.optional(v.string()),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     location: v.optional(locationValidator),
@@ -306,6 +316,7 @@ export const listExperiencesPaged = query({
     const withUrls = await Promise.all(
       result.rows.map(async (row) => ({
         ...row,
+        translations: row.translations ?? await legacyUpsellTranslations(ctx, row.title, "experiences"),
         imageUrl: row.imageId ? await ctx.storage.getUrl(row.imageId) : null,
       })),
     );
@@ -320,6 +331,7 @@ export const getExperience = query({
     if (!row) return null;
     return {
       ...row,
+      translations: row.translations ?? await legacyUpsellTranslations(ctx, row.title, "experiences"),
       imageUrl: row.imageId ? await ctx.storage.getUrl(row.imageId) : null,
     };
   },
@@ -327,6 +339,7 @@ export const getExperience = query({
 
 const experienceFields = {
   title: v.string(),
+  translations: v.optional(catalogTranslationsValidator),
   description: v.optional(v.string()),
   imageId: v.optional(v.id("_storage")),
   location: v.optional(locationValidator),
@@ -364,6 +377,7 @@ export const updateExperience = mutation({
   args: {
     id: v.id("upsellExperiences"),
     title: v.optional(v.string()),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     location: v.optional(locationValidator),
@@ -463,10 +477,12 @@ export const migrateFromTours = internalMutation({
         needsAttention.push(`${tour.title}: sem coordenadas`);
       }
 
+      const translations = await legacyUpsellTranslations(ctx, tour.title, isStop ? "stops" : "experiences");
       if (!dryRun) {
         if (isStop) {
           await ctx.db.insert("upsellStops", {
             title: tour.title,
+            translations,
             description: tour.subtitle,
             imageId: tour.bannerImageId,
             location,
@@ -487,6 +503,7 @@ export const migrateFromTours = internalMutation({
             .collect();
           await ctx.db.insert("upsellExperiences", {
             title: tour.title,
+            translations,
             description: tour.subtitle,
             imageId: tour.bannerImageId,
             location,

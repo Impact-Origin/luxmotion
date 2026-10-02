@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { CatalogTranslationsEditor } from "./catalog-translations-editor";
+import type { CatalogTranslation } from "@/lib/catalog-translations";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@workspace/convex/api";
 import { Id } from "@workspace/convex/dataModel";
@@ -30,6 +32,7 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
   const partnerships = useQuery(api.partnerships.list);
   const allVehicles = useQuery(api.vehicles.list);
 
+  const [translations, setTranslations] = React.useState<CatalogTranslation[]>(initialData?.translations ?? []);
   const [name, setName] = React.useState(initialData?.name || "");
   const [examples, setExamples] = React.useState(initialData?.examples || "");
   const [imageId, setImageId] = React.useState<string | undefined>(initialData?.imageId);
@@ -76,6 +79,7 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
       
       const data = {
         name,
+        translations,
         examples,
         imageId: imageId as any,
         partnershipId: partnershipId === "global" ? undefined : partnershipId as any,
@@ -179,6 +183,12 @@ export function VehicleForm({ onClose, initialData }: VehicleFormProps) {
               />
             </div>
           </div>
+
+          <CatalogTranslationsEditor
+            value={translations}
+            onChange={setTranslations}
+            fields={[{ key: "name", label: "Nome da classe" }, { key: "examples", label: "Modelos / exemplos" }]}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">

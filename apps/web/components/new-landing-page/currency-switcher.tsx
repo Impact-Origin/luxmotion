@@ -15,8 +15,10 @@ type HeaderVariant = "dark" | "light"
 
 export function CurrencySwitcher({
   variant = "dark",
+  compactMobile = false,
 }: {
   variant?: HeaderVariant
+  compactMobile?: boolean
 }) {
   const { currency, setCurrency } = useMoney()
   const [isOpen, setIsOpen] = useState(false)
@@ -41,11 +43,15 @@ export function CurrencySwitcher({
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Currency"
-        className="flex items-center gap-[4px] h-[40px] px-[9px] border border-[rgba(201,169,110,0.22)] transition-colors hover:border-[rgba(201,169,110,0.4)] cursor-pointer"
+        className={cn(
+          "flex items-center gap-[4px] border border-[rgba(201,169,110,0.22)] transition-colors hover:border-[rgba(201,169,110,0.4)] cursor-pointer",
+          compactMobile ? "h-[36px] px-[6px] md:h-[40px] md:px-[9px]" : "h-[40px] px-[9px]",
+        )}
       >
         <span
           className={cn(
-            "text-[14px] font-medium tracking-[0.15px] whitespace-nowrap",
+            "font-medium tracking-[0.15px] whitespace-nowrap",
+            compactMobile ? "text-[12px] md:text-[14px]" : "text-[14px]",
             isLight ? "text-[#A08248]" : "text-[#C9A96E]",
           )}
         >

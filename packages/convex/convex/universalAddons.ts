@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { catalogTranslationsValidator } from "./lib/catalogTranslations";
 import { query, mutation } from "./_generated/server";
 import type { Id } from "./_generated/dataModel";
 
@@ -76,6 +77,7 @@ export const listForOwner = query({
 export const create = mutation({
   args: {
     title: v.string(),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     price: v.number(),
@@ -101,6 +103,7 @@ export const update = mutation({
   args: {
     id: v.id("universalAddons"),
     title: v.optional(v.string()),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     /* `null` limpa a imagem; ausente deixa como está — o mesmo contrato de
        `tourAddons.update`, e pela mesma razão: `undefined` não distingue os

@@ -1,5 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import { catalogTranslationsValidator } from "./lib/catalogTranslations";
 
 const amadeusFlightInfoValidator = v.object({
   carrier: v.optional(v.string()),
@@ -340,6 +341,7 @@ export default defineSchema({
 
   vehicles: defineTable({
     name: v.string(),
+    translations: v.optional(catalogTranslationsValidator),
     // Modelos concretos desta classe, ex. "Renault Clio, Fiat Tipo". Mostrado
     // a seguir ao nome para o cliente saber que carro esperar.
     examples: v.optional(v.string()),
@@ -1350,6 +1352,7 @@ export default defineSchema({
      curta e filtra-se em memória, como o `universal` dos upsells. */
   universalAddons: defineTable({
     title: v.string(),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     price: v.number(),
@@ -1405,6 +1408,7 @@ export default defineSchema({
   /** Paragem curta no próprio trajecto — preço fixo por 15 ou 30 minutos. */
   upsellStops: defineTable({
     title: v.string(),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     location: v.optional(
@@ -1436,6 +1440,7 @@ export default defineSchema({
   /** Experiência vendida como extra do transfer, com add-ons próprios. */
   upsellExperiences: defineTable({
     title: v.string(),
+    translations: v.optional(catalogTranslationsValidator),
     description: v.optional(v.string()),
     imageId: v.optional(v.id("_storage")),
     location: v.optional(
@@ -1459,6 +1464,7 @@ export default defineSchema({
       v.array(
         v.object({
           name: v.string(),
+          translations: v.optional(catalogTranslationsValidator),
           price: v.number(),
           pricingType: v.optional(
             v.union(v.literal("per_person"), v.literal("flat")),

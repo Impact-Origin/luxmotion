@@ -1,5 +1,8 @@
 "use client"
 
+import { useLocale } from "next-intl"
+import { localizeVehicle, localizeSelection, type CatalogTranslation } from "@/lib/catalog-translations"
+
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react"
 import type { AmadeusFlightInfo } from "@/lib/orders"
 import type { NearbyCategory } from "@/components/checkout/experiences-step"
@@ -10,6 +13,9 @@ export const DEV_ALLOW_STEP_SKIP = true
 export interface Vehicle {
   id: string
   name: string
+  originalName?: string
+  originalExamples?: string
+  translations?: CatalogTranslation[]
   /** Modelos concretos desta classe, ex. "Renault Clio, Fiat Tipo". */
   examples?: string
   price: number
@@ -71,6 +77,8 @@ export interface ExperienceSelection {
   slug: string
   category: NearbyCategory
   title: string
+  originalTitle?: string
+  translations?: CatalogTranslation[]
   passengers: number
   date: Date | undefined
   time: string | null
@@ -298,6 +306,7 @@ function deserializeState(json: string): CheckoutState {
 }
 
 export function CheckoutProvider({ children }: { children: ReactNode }) {
+  const locale = useLocale()
   const [state, setState] = useState<CheckoutState>(initialState)
   const [isHydrated, setIsHydrated] = useState(false)
 
@@ -484,7 +493,11 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const value: CheckoutContextValue = {
-    state,
+    state: {
+      ...state,
+      selectedVehicle: state.selectedVehicle ? localizeVehicle(state.selectedVehicle, locale) : null,
+      experiences: state.experiences.map((item) => localizeSelection(item, locale)),
+    },
     setStep,
     setSelectedVehicle,
     setShowTransferForm,

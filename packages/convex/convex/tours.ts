@@ -616,14 +616,20 @@ export const listNearCoordinates = query({
           tourId: tour._id,
           isUltraLuxury: tour.isUltraLuxury,
           disabled: tour.disabledUniversalAddons,
-          trimmed: true,
+          trimmed: false,
         });
+
+        const translations = await ctx.db
+          .query("tourTranslations")
+          .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+          .collect();
 
         return withDisplayedReviewCount({
           ...tour,
           bannerImageUrl,
           distanceKm: distance,
           addons,
+          translations,
         });
       }),
     );

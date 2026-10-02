@@ -14,7 +14,9 @@ export type AddonScope = "tours" | "events" | "ultraLuxury";
 
 /** O estado dos extras teve duas gerações; ambas contam como publicado. */
 function estaPublicado(a: { status?: string; isActive?: boolean }) {
-  return a.status === "published" || (a.status === undefined && a.isActive === true);
+  return (
+    a.status === "published" || (a.status === undefined && a.isActive === true)
+  );
 }
 
 type Alvo =
@@ -25,8 +27,8 @@ type Opcoes = Alvo & {
   /** Universais que este tour ou evento dispensa. */
   disabled?: Id<"universalAddons">[];
   /**
-   * Forma curta, sem traduções: é a que o checkout usa, e as listagens de
-   * proximidade devolvem dezenas de tours de uma vez.
+   * Forma curta, sem traduções, para consumidores que não mostram conteúdo
+   * localizado. O checkout pede a forma completa.
    */
   trimmed?: boolean;
 };
@@ -88,13 +90,20 @@ export async function resolveAddons(
     | { doc: Doc<"tourAddons">; universal: false }
     | { doc: Doc<"universalAddons">; universal: true }
   > = [
-    ...proprios.filter(estaPublicado).map((doc) => ({ doc, universal: false as const })),
+    ...proprios
+      .filter(estaPublicado)
+      .map((doc) => ({ doc, universal: false as const })),
     ...universais.map((doc) => ({ doc, universal: true as const })),
-  ].sort((a, b) => a.doc.order - b.doc.order || Number(a.universal) - Number(b.universal));
+  ].sort(
+    (a, b) =>
+      a.doc.order - b.doc.order || Number(a.universal) - Number(b.universal),
+  );
 
   return await Promise.all(
     juntos.map(async ({ doc, universal }): Promise<AddonResolvido> => {
-      const imageUrl = doc.imageId ? await ctx.storage.getUrl(doc.imageId) : null;
+      const imageUrl = doc.imageId
+        ? await ctx.storage.getUrl(doc.imageId)
+        : null;
 
       const base: AddonResolvido = {
         _id: doc._id,
@@ -111,10 +120,17 @@ export async function resolveAddons(
 
       if (opcoes.trimmed) return base;
 
-      /* Os universais não têm traduções — as dos extras nunca chegaram a ser
-         usadas no site, e copiar isso para uma tabela nova era espalhar uma
-         coisa que não funciona. */
-      if (universal) return { ...base, translations: [] };
+      /* Os universais guardam as traduções junto do extra. */
+      if (universal)
+        return {
+          ...base,
+          translations:
+            doc.translations?.map((entry) => ({
+              locale: entry.locale,
+              title: entry.title?.trim() || doc.title,
+              description: entry.description,
+            })) ?? [],
+        };
 
       const translations = await ctx.db
         .query("tourAddonTranslations")

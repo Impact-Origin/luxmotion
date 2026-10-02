@@ -73,6 +73,8 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
         slug: tour?.slug ?? "",
         category: tour?.category ?? "tours",
         title: selectedExperience.title,
+        originalTitle: tour?.originalTitle ?? tour?.title,
+        translations: tour?.translations,
         passengers: data.passengers,
         date: data.date,
         time: data.time,
@@ -135,7 +137,7 @@ export function ExperiencesStep({ onContinue, nearbyTours, variant = "modern" }:
     <AddExperienceModal
       isOpen={isModalOpen}
       onClose={handleCloseModal}
-      experience={selectedExperience}
+      experience={selectedItem ? toExperience(selectedItem) : selectedExperience}
       tourId={selectedTourId}
       flatPrice={selectedItem?.flatPrice ?? false}
       requireDateTime={selectedItem?.hasDateField ?? true}

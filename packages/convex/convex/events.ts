@@ -416,14 +416,20 @@ export const listNearCoordinates = query({
         const addons = await resolveAddons(ctx, {
           eventId: event._id,
           disabled: event.disabledUniversalAddons,
-          trimmed: true,
+          trimmed: false,
         });
+
+        const translations = await ctx.db
+          .query("eventTranslations")
+          .withIndex("by_event", (q) => q.eq("eventId", event._id))
+          .collect();
 
         return withDisplayedReviewCount({
           ...event,
           bannerImageUrl,
           distanceKm: distance,
           addons,
+          translations,
         });
       }),
     );

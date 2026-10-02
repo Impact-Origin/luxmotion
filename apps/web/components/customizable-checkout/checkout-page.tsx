@@ -147,7 +147,11 @@ function CheckoutPageContent() {
          o total mudar, a encomenda ficava a dizer zero. */
       const changed =
         updatedVehicle &&
-        (updatedVehicle.price !== selectedVehicle.price ||
+        (updatedVehicle.name !== selectedVehicle.name ||
+          updatedVehicle.originalName !== selectedVehicle.originalName ||
+          updatedVehicle.examples !== selectedVehicle.examples ||
+          JSON.stringify(updatedVehicle.translations) !== JSON.stringify(selectedVehicle.translations) ||
+          updatedVehicle.price !== selectedVehicle.price ||
           updatedVehicle.nightTaxOutbound !== selectedVehicle.nightTaxOutbound ||
           updatedVehicle.nightTaxReturn !== selectedVehicle.nightTaxReturn)
       if (updatedVehicle && changed) {
