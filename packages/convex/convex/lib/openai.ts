@@ -32,7 +32,7 @@ export function textModel(): string {
   return process.env.OPENAI_TEXT_MODEL ?? "gpt-5";
 }
 export function imageModel(): string {
-  return process.env.OPENAI_IMAGE_MODEL ?? "gpt-image-1";
+  return process.env.OPENAI_IMAGE_MODEL ?? "gpt-image-2.5-sunburst";
 }
 
 async function post(path: string, body: unknown): Promise<any> {
@@ -106,8 +106,7 @@ export async function generateText(params: {
 /**
  * Aspecto das duas imagens do artigo.
  *
- * Os modelos GPT Image não têm um tamanho 16:9. O mais próximo da paisagem é
- * 1536x1024 (3:2), que é o que ambas usam: a hero é cortada para banner pelo
+ * Mantemos 1536x1024 (3:2) para as duas imagens: a hero é cortada para banner pelo
  * `object-cover` do site e o briefing pede folga em cima e em baixo, a
  * editorial aparece no corpo do artigo já na proporção nativa.
  */
@@ -177,10 +176,11 @@ export async function generateImage(params: {
   size?: string;
 }): Promise<Blob> {
   const size = params.size ?? IMAGE_SIZE_LANDSCAPE;
+  const model = imageModel();
 
   if (!params.reference) {
     const json = await post("/images/generations", {
-      model: imageModel(),
+      model,
       prompt: params.prompt,
       n: 1,
       size,
@@ -191,13 +191,17 @@ export async function generateImage(params: {
   }
 
   const form = new FormData();
-  form.append("model", imageModel());
+  form.append("model", model);
   form.append("prompt", params.prompt);
   form.append("n", "1");
   form.append("size", size);
   form.append("quality", "high");
   form.append("output_format", "jpeg");
-  form.append("input_fidelity", "high");
+  // Só os modelos 1 e 1.5 aceitam este parâmetro. O GPT Image 2.5 usa
+  // referências sem ele; mantemos compatibilidade com um override antigo.
+  if (/^gpt-image-1(?:\.5)?(?:-\d{4}-\d{2}-\d{2})?$/.test(model)) {
+    form.append("input_fidelity", "high");
+  }
   // O nome do anexo segue os bytes: a API valida o formato, não a extensão.
   const ext = params.reference.type === "image/webp" ? "webp"
     : params.reference.type === "image/png" ? "png"
