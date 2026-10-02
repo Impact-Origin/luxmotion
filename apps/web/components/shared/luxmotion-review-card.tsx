@@ -49,7 +49,7 @@ export function LuxmotionReviewCard({
     : ""
 
   return (
-    <div className="bg-[#1a1a1a] border-l-[1.6px] border-transparent hover:border-[#c9a96e] hover:bg-[#1f1f1f] transition-colors p-[24px] flex flex-col gap-[8px] w-full">
+    <div className="bg-[var(--lm-surface,#1a1a1a)] border-l-[1.6px] border-transparent hover:border-[var(--lm-accent,#c9a96e)] hover:bg-[rgba(var(--lm-accent-rgb,201,169,110),0.06)] transition-colors p-[24px] flex flex-col gap-[8px] w-full">
       <div className="flex gap-[12px] items-center">
         <div
           className="size-[36px] rounded-[18px] flex items-center justify-center shrink-0"
@@ -64,13 +64,13 @@ export function LuxmotionReviewCard({
         </div>
         <div className="flex flex-col min-w-0">
           <span
-            className="text-[12px] font-semibold text-white leading-[1.3] truncate"
+            className="text-[12px] font-semibold text-[var(--lm-text,#fff)] leading-[1.3] truncate"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {name}
           </span>
           <span
-            className="text-[10px] text-[#8c8680] leading-[1.3]"
+            className="text-[10px] text-[var(--lm-muted,#8c8680)] leading-[1.3]"
             style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
           >
             {dateLabel}
@@ -80,13 +80,13 @@ export function LuxmotionReviewCard({
         </div>
       </div>
       <div
-        className="text-[12px] text-[#c9a96e] tracking-[1px] leading-none pt-[0.8px]"
+        className="text-[12px] text-[var(--lm-accent,#c9a96e)] tracking-[1px] leading-none pt-[0.8px]"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {"★★★★★".slice(0, review.rating).padEnd(5, "☆")}
       </div>
       <p
-        className="text-[12px] text-[rgba(255,255,255,0.45)] leading-[19.8px]"
+        className="text-[12px] text-[var(--lm-muted,rgba(255,255,255,0.45))] leading-[19.8px]"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {review.text}
