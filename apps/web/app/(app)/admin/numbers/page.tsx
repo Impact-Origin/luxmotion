@@ -462,29 +462,9 @@ export default function AdminNumbersPage() {
   const tours = useQuery(api.tours.list);
   const events = useQuery(api.events.list);
   const upsertSettings = useMutation(api.marketingStats.upsert);
-  const setTourManualReviewCount = useMutation(api.tours.setManualReviewCount);
-  const clearTourManualReviewCount = useMutation(
-    api.tours.clearManualReviewCount,
-  );
-  const setEventManualReviewCount = useMutation(
-    api.events.setManualReviewCount,
-  );
-  const clearEventManualReviewCount = useMutation(
-    api.events.clearManualReviewCount,
-  );
   const [isSaving, setIsSaving] = React.useState(false);
-  const [savingTourIds, setSavingTourIds] = React.useState<string[]>([]);
-  const [clearingTourIds, setClearingTourIds] = React.useState<string[]>([]);
-  const [savingEventIds, setSavingEventIds] = React.useState<string[]>([]);
-  const [clearingEventIds, setClearingEventIds] = React.useState<string[]>([]);
   const [tourSearch, setTourSearch] = React.useState("");
   const [eventSearch, setEventSearch] = React.useState("");
-  const [tourReviewDrafts, setTourReviewDrafts] = React.useState<
-    Record<string, string>
-  >({});
-  const [eventReviewDrafts, setEventReviewDrafts] = React.useState<
-    Record<string, string>
-  >({});
   const [form, setForm] = React.useState<FormState>(marketingStatsDefaults);
 
   React.useEffect(() => {
@@ -525,111 +505,6 @@ export default function AdminNumbersPage() {
       toast.error(t("saveError"));
     } finally {
       setIsSaving(false);
-    }
-  };
-
-  const getDraftValue = (
-    drafts: Record<string, string>,
-    id: string,
-    manualReviewCount: number | undefined,
-  ) => {
-    const draft = drafts[id];
-    if (draft !== undefined) return draft;
-    return String(manualReviewCount ?? 0);
-  };
-
-  const parseManualReviewCount = (value: string) => {
-    const trimmed = value.trim();
-    if (!trimmed) return 0;
-    const parsed = Number.parseInt(trimmed, 10);
-    if (!Number.isFinite(parsed) || Number.isNaN(parsed)) return null;
-    if (!Number.isInteger(parsed) || parsed < 0) return null;
-    return parsed;
-  };
-
-  const saveTourReviewCount = async (tour: any) => {
-    const id = String(tour._id);
-    const parsed = parseManualReviewCount(
-      getDraftValue(tourReviewDrafts, id, tour.manualReviewCount),
-    );
-
-    if (parsed === null) {
-      toast.error(t("errors.manualReviewCountInvalid"));
-      return;
-    }
-
-    try {
-      setSavingTourIds((prev) => [...prev, id]);
-      await setTourManualReviewCount({
-        id: tour._id,
-        manualReviewCount: parsed,
-      });
-      toast.success(t("toasts.tourSaved"));
-    } catch {
-      toast.error(t("toasts.tourSaveError"));
-    } finally {
-      setSavingTourIds((prev) => prev.filter((value) => value !== id));
-    }
-  };
-
-  const clearTourReviewCount = async (tour: any) => {
-    const id = String(tour._id);
-
-    try {
-      setClearingTourIds((prev) => [...prev, id]);
-      await clearTourManualReviewCount({ id: tour._id });
-      setTourReviewDrafts((prev) => ({
-        ...prev,
-        [id]: "0",
-      }));
-      toast.success(t("toasts.tourCleared"));
-    } catch {
-      toast.error(t("toasts.tourClearError"));
-    } finally {
-      setClearingTourIds((prev) => prev.filter((value) => value !== id));
-    }
-  };
-
-  const saveEventReviewCount = async (event: any) => {
-    const id = String(event._id);
-    const parsed = parseManualReviewCount(
-      getDraftValue(eventReviewDrafts, id, event.manualReviewCount),
-    );
-
-    if (parsed === null) {
-      toast.error(t("errors.manualReviewCountInvalid"));
-      return;
-    }
-
-    try {
-      setSavingEventIds((prev) => [...prev, id]);
-      await setEventManualReviewCount({
-        id: event._id,
-        manualReviewCount: parsed,
-      });
-      toast.success(t("toasts.eventSaved"));
-    } catch {
-      toast.error(t("toasts.eventSaveError"));
-    } finally {
-      setSavingEventIds((prev) => prev.filter((value) => value !== id));
-    }
-  };
-
-  const clearEventReviewCount = async (event: any) => {
-    const id = String(event._id);
-
-    try {
-      setClearingEventIds((prev) => [...prev, id]);
-      await clearEventManualReviewCount({ id: event._id });
-      setEventReviewDrafts((prev) => ({
-        ...prev,
-        [id]: "0",
-      }));
-      toast.success(t("toasts.eventCleared"));
-    } catch {
-      toast.error(t("toasts.eventClearError"));
-    } finally {
-      setClearingEventIds((prev) => prev.filter((value) => value !== id));
     }
   };
 
@@ -696,6 +571,7 @@ export default function AdminNumbersPage() {
         <h2 className="text-lg font-semibold text-foreground">
           {t("sections.perItemReviews")}
         </h2>
+        <p className="text-sm text-muted-foreground">{t("lists.automaticReviewsNote")}</p>
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           <div className="space-y-3">
@@ -716,13 +592,6 @@ export default function AdminNumbersPage() {
                 ) : (
                   filteredTours.map((tour) => {
                     const id = String(tour._id);
-                    const isSavingTour = savingTourIds.includes(id);
-                    const isClearingTour = clearingTourIds.includes(id);
-                    const inputValue = getDraftValue(
-                      tourReviewDrafts,
-                      id,
-                      tour.manualReviewCount,
-                    );
 
                     return (
                       <div key={id} className="p-4 space-y-3">
@@ -737,64 +606,16 @@ export default function AdminNumbersPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                           <div className="text-xs text-muted-foreground">
                             <p>{t("lists.baseReviewCount")}</p>
-                            <p className="font-semibold text-foreground">
-                              {tour.baseReviewCount ??
-                                Math.max(
-                                  0,
-                                  (tour.reviewCount ?? 0) -
-                                    (tour.manualReviewCount ?? 0),
-                                )}
-                            </p>
+                            <p className="font-semibold text-foreground">{tour.baseReviewCount}</p>
                           </div>
                           <div className="text-xs text-muted-foreground">
                             <p>{t("lists.displayedReviewCount")}</p>
-                            <p className="font-semibold text-foreground">
-                              {tour.reviewCount ?? 0}
-                            </p>
+                            <p className="font-semibold text-foreground">{tour.reviewCount}</p>
                           </div>
-                          <div>
-                            <Label
-                              className="text-xs"
-                              htmlFor={`tour-review-${id}`}
-                            >
-                              {t("lists.overrideValue")}
-                            </Label>
-                            <Input
-                              id={`tour-review-${id}`}
-                              min={0}
-                              type="number"
-                              value={inputValue ?? ""}
-                              onChange={(event) =>
-                                setTourReviewDrafts((prev) => ({
-                                  ...prev,
-                                  [id]: event.target.value,
-                                }))
-                              }
-                            />
+                          <div className="text-xs text-muted-foreground">
+                            <p>{t("lists.displayedRating")}</p>
+                            <p className="font-semibold text-foreground">{tour.rating.toFixed(1)}</p>
                           </div>
-                        </div>
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="outline"
-                            onClick={() => clearTourReviewCount(tour)}
-                            disabled={isSavingTour || isClearingTour}
-                          >
-                            {isClearingTour && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            {isClearingTour
-                              ? t("lists.clearing")
-                              : t("lists.clear")}
-                          </Button>
-                          <Button
-                            onClick={() => saveTourReviewCount(tour)}
-                            disabled={isSavingTour || isClearingTour}
-                          >
-                            {isSavingTour && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            {isSavingTour ? t("lists.saving") : t("lists.save")}
-                          </Button>
                         </div>
                       </div>
                     );
@@ -822,13 +643,6 @@ export default function AdminNumbersPage() {
                 ) : (
                   filteredEvents.map((event) => {
                     const id = String(event._id);
-                    const isSavingEvent = savingEventIds.includes(id);
-                    const isClearingEvent = clearingEventIds.includes(id);
-                    const inputValue = getDraftValue(
-                      eventReviewDrafts,
-                      id,
-                      event.manualReviewCount,
-                    );
 
                     return (
                       <div key={id} className="p-4 space-y-3">
@@ -843,66 +657,16 @@ export default function AdminNumbersPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                           <div className="text-xs text-muted-foreground">
                             <p>{t("lists.baseReviewCount")}</p>
-                            <p className="font-semibold text-foreground">
-                              {event.baseReviewCount ??
-                                Math.max(
-                                  0,
-                                  (event.reviewCount ?? 0) -
-                                    (event.manualReviewCount ?? 0),
-                                )}
-                            </p>
+                            <p className="font-semibold text-foreground">{event.baseReviewCount}</p>
                           </div>
                           <div className="text-xs text-muted-foreground">
                             <p>{t("lists.displayedReviewCount")}</p>
-                            <p className="font-semibold text-foreground">
-                              {event.reviewCount ?? 0}
-                            </p>
+                            <p className="font-semibold text-foreground">{event.reviewCount}</p>
                           </div>
-                          <div>
-                            <Label
-                              className="text-xs"
-                              htmlFor={`event-review-${id}`}
-                            >
-                              {t("lists.overrideValue")}
-                            </Label>
-                            <Input
-                              id={`event-review-${id}`}
-                              min={0}
-                              type="number"
-                              value={inputValue ?? ""}
-                              onChange={(eventInput) =>
-                                setEventReviewDrafts((prev) => ({
-                                  ...prev,
-                                  [id]: eventInput.target.value,
-                                }))
-                              }
-                            />
+                          <div className="text-xs text-muted-foreground">
+                            <p>{t("lists.displayedRating")}</p>
+                            <p className="font-semibold text-foreground">{event.rating.toFixed(1)}</p>
                           </div>
-                        </div>
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="outline"
-                            onClick={() => clearEventReviewCount(event)}
-                            disabled={isSavingEvent || isClearingEvent}
-                          >
-                            {isClearingEvent && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            {isClearingEvent
-                              ? t("lists.clearing")
-                              : t("lists.clear")}
-                          </Button>
-                          <Button
-                            onClick={() => saveEventReviewCount(event)}
-                            disabled={isSavingEvent || isClearingEvent}
-                          >
-                            {isSavingEvent && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            {isSavingEvent
-                              ? t("lists.saving")
-                              : t("lists.save")}
-                          </Button>
                         </div>
                       </div>
                     );

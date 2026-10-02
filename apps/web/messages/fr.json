@@ -2534,6 +2534,8 @@
       "location": "Lieu",
       "baseReviewCount": "Nombre d'avis de base",
       "displayedReviewCount": "Nombre d'avis affiché",
+      "displayedRating": "Note affichée",
+      "automaticReviewsNote": "Valeurs automatiques par circuit ou événement : 101–749 avis et une note de 4,6–4,9. Aucune saisie ni modification manuelle nécessaire ou possible.",
       "overrideValue": "Avis supplémentaires à ajouter",
       "save": "Enregistrer",
       "clear": "Effacer",

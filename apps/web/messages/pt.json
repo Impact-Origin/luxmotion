@@ -2716,6 +2716,8 @@
       "location": "Localização",
       "baseReviewCount": "Contagem base de avaliações",
       "displayedReviewCount": "Contagem exibida de avaliações",
+      "displayedRating": "Média apresentada",
+      "automaticReviewsNote": "Valores automáticos por tour ou evento: 101–749 avaliações e média de 4,6–4,9. Não requerem preenchimento nem permitem edição manual.",
       "overrideValue": "Avaliações extras para adicionar",
       "save": "Guardar",
       "clear": "Limpar",

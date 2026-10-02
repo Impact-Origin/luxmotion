@@ -2631,6 +2631,8 @@
       "location": "Ort",
       "baseReviewCount": "Basis-Bewertungsanzahl",
       "displayedReviewCount": "Angezeigte Bewertungsanzahl",
+      "displayedRating": "Angezeigte Bewertung",
+      "automaticReviewsNote": "Automatische Werte pro Tour oder Event: 101–749 Bewertungen und eine Bewertung von 4,6–4,9. Keine manuelle Eingabe oder Bearbeitung möglich.",
       "overrideValue": "Zusätzliche Bewertungen",
       "save": "Speichern",
       "clear": "Zurücksetzen",

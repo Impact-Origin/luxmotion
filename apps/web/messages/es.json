@@ -2550,6 +2550,8 @@
       "location": "Ubicación",
       "baseReviewCount": "Cantidad base de reseñas",
       "displayedReviewCount": "Cantidad mostrada de reseñas",
+      "displayedRating": "Valoración mostrada",
+      "automaticReviewsNote": "Valores automáticos por tour o evento: 101–749 reseñas y una valoración de 4,6–4,9. No requieren ni permiten introducción o edición manual.",
       "overrideValue": "Reseñas extra para sumar",
       "save": "Guardar",
       "clear": "Limpiar",

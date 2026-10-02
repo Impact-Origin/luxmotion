@@ -1,22 +1,11 @@
 import { v } from "convex/values";
+import { withDisplayedReviewStats } from "./lib/displayedReviewStats";
 import { resolveAddons } from "./lib/addons";
 import { query, mutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
 import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 import { haversineKm, roundKm } from "./lib/geo";
-
-function withDisplayedReviewCount<
-  T extends { reviewCount?: number; manualReviewCount?: number },
->(item: T): T & { baseReviewCount: number } {
-  const baseReviewCount = item.reviewCount ?? 0;
-  const manualReviewCount = item.manualReviewCount ?? 0;
-  return {
-    ...item,
-    baseReviewCount,
-    reviewCount: Math.max(0, baseReviewCount + manualReviewCount),
-  };
-}
 
 export const list = query({
   args: {},
@@ -40,7 +29,7 @@ export const list = query({
           .withIndex("by_event", (q) => q.eq("eventId", event._id))
           .collect();
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...event,
           bannerImageUrl,
           additionalBannerUrls: additionalBannerUrls.filter(Boolean),
@@ -63,7 +52,7 @@ export const listPaged = query({
 
     // Default ordering mirrors `list`: newest first.
     let rows = events
-      .map((event) => withDisplayedReviewCount(event))
+      .map((event) => withDisplayedReviewStats(event))
       .sort((x, y) => y.createdAt - x.createdAt);
 
     rows = applySearch(rows, a.search, [
@@ -135,7 +124,7 @@ export const listPublished = query({
           .withIndex("by_event", (q) => q.eq("eventId", event._id))
           .collect();
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...event,
           bannerImageUrl,
           availableLanguages: [
@@ -171,7 +160,7 @@ export const listUpcoming = query({
           ? await ctx.storage.getUrl(event.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...event,
           bannerImageUrl,
         });
@@ -197,7 +186,7 @@ export const listByLocation = query({
           ? await ctx.storage.getUrl(event.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...event,
           bannerImageUrl,
         });
@@ -225,7 +214,7 @@ export const listFeatured = query({
           ? await ctx.storage.getUrl(event.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...event,
           bannerImageUrl,
         });
@@ -282,7 +271,7 @@ export const getBySlug = query({
 
     const veiculo = event.vehicleId ? await ctx.db.get(event.vehicleId) : null;
 
-    return withDisplayedReviewCount({
+    return withDisplayedReviewStats({
       ...event,
       bannerImageUrl,
       additionalBannerUrls: additionalBannerUrls.filter(Boolean),
@@ -335,7 +324,7 @@ export const getById = query({
       .withIndex("by_event", (q) => q.eq("eventId", event._id))
       .collect();
 
-    return withDisplayedReviewCount({
+    return withDisplayedReviewStats({
       ...event,
       bannerImageUrl,
       additionalBannerUrls: additionalBannerUrls.filter(Boolean),
@@ -424,7 +413,7 @@ export const listNearCoordinates = query({
           .withIndex("by_event", (q) => q.eq("eventId", event._id))
           .collect();
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...event,
           bannerImageUrl,
           distanceKm: distance,
@@ -765,45 +754,6 @@ export const toggleFeatured = mutation({
     });
 
     return !event.isFeatured;
-  },
-});
-
-export const setManualReviewCount = mutation({
-  args: {
-    id: v.id("events"),
-    manualReviewCount: v.number(),
-  },
-  handler: async (ctx, args) => {
-    const event = await ctx.db.get(args.id);
-    if (!event) throw new Error("Event not found");
-    if (
-      args.manualReviewCount < 0 ||
-      !Number.isInteger(args.manualReviewCount)
-    ) {
-      throw new Error("Manual review count must be a non-negative integer");
-    }
-
-    await ctx.db.patch(args.id, {
-      manualReviewCount: args.manualReviewCount,
-      updatedAt: Date.now(),
-    });
-
-    return args.id;
-  },
-});
-
-export const clearManualReviewCount = mutation({
-  args: { id: v.id("events") },
-  handler: async (ctx, args) => {
-    const event = await ctx.db.get(args.id);
-    if (!event) throw new Error("Event not found");
-
-    await ctx.db.patch(args.id, {
-      manualReviewCount: undefined,
-      updatedAt: Date.now(),
-    });
-
-    return args.id;
   },
 });
 

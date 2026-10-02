@@ -2534,6 +2534,8 @@
       "location": "Locatie",
       "baseReviewCount": "Basis aantal reviews",
       "displayedReviewCount": "Getoond aantal reviews",
+      "displayedRating": "Getoonde beoordeling",
+      "automaticReviewsNote": "Automatische waarden per tour of evenement: 101–749 reviews en een beoordeling van 4,6–4,9. Handmatige invoer of bewerking is niet nodig of mogelijk.",
       "overrideValue": "Extra reviews toevoegen",
       "save": "Opslaan",
       "clear": "Wissen",

@@ -1,22 +1,11 @@
 import { v } from "convex/values";
+import { withDisplayedReviewStats } from "./lib/displayedReviewStats";
 import { resolveAddons } from "./lib/addons";
 import { query, mutation, internalMutation } from "./_generated/server";
 import { generateSlug } from "./lib/utils";
 import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 import { haversineKm, roundKm } from "./lib/geo";
-
-function withDisplayedReviewCount<
-  T extends { reviewCount?: number; manualReviewCount?: number },
->(item: T): T & { baseReviewCount: number } {
-  const baseReviewCount = item.reviewCount ?? 0;
-  const manualReviewCount = item.manualReviewCount ?? 0;
-  return {
-    ...item,
-    baseReviewCount,
-    reviewCount: Math.max(0, baseReviewCount + manualReviewCount),
-  };
-}
 
 export const list = query({
   args: {},
@@ -46,7 +35,7 @@ export const list = query({
           .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
           .collect();
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
           additionalBannerUrls: additionalBannerUrls.filter(Boolean),
@@ -70,7 +59,7 @@ export const listPaged = query({
 
     // Default ordering mirrors `list`: newest first.
     let rows = tours
-      .map((tour) => withDisplayedReviewCount(tour))
+      .map((tour) => withDisplayedReviewStats(tour))
       .sort((x, y) => y.createdAt - x.createdAt);
 
     rows = applySearch(rows, a.search, [(r) => r.title, (r) => r.destination]);
@@ -150,7 +139,7 @@ export const listPublished = query({
           .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
           .collect();
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
           availableLanguages: [
@@ -187,7 +176,7 @@ export const listByDestination = query({
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
         });
@@ -223,7 +212,7 @@ export const listByCategory = query({
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
         });
@@ -262,7 +251,7 @@ export const listByDestinationAndCategory = query({
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
         });
@@ -290,7 +279,7 @@ export const listFeatured = query({
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
         });
@@ -318,7 +307,7 @@ export const listBestsellers = query({
           ? await ctx.storage.getUrl(tour.bannerImageId)
           : null;
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
         });
@@ -349,7 +338,7 @@ export const listUltraLuxury = query({
             .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
             .collect();
 
-          return withDisplayedReviewCount({
+          return withDisplayedReviewStats({
             ...tour,
             bannerImageUrl,
             availableLanguages: [
@@ -455,7 +444,7 @@ export const getBySlug = query({
         )
       : undefined
 
-    return withDisplayedReviewCount({
+    return withDisplayedReviewStats({
       ...tour,
       bannerImageUrl,
       additionalBannerUrls: additionalBannerUrls.filter(Boolean),
@@ -560,7 +549,7 @@ export const getById = query({
         )
       : undefined
 
-    return withDisplayedReviewCount({
+    return withDisplayedReviewStats({
       ...tour,
       bannerImageUrl,
       additionalBannerUrls: additionalBannerUrls.filter(Boolean),
@@ -624,7 +613,7 @@ export const listNearCoordinates = query({
           .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
           .collect();
 
-        return withDisplayedReviewCount({
+        return withDisplayedReviewStats({
           ...tour,
           bannerImageUrl,
           distanceKm: distance,
@@ -1178,45 +1167,6 @@ export const toggleBestseller = mutation({
     });
 
     return !tour.isBestSeller;
-  },
-});
-
-export const setManualReviewCount = mutation({
-  args: {
-    id: v.id("tours"),
-    manualReviewCount: v.number(),
-  },
-  handler: async (ctx, args) => {
-    const tour = await ctx.db.get(args.id);
-    if (!tour) throw new Error("Tour not found");
-    if (
-      args.manualReviewCount < 0 ||
-      !Number.isInteger(args.manualReviewCount)
-    ) {
-      throw new Error("Manual review count must be a non-negative integer");
-    }
-
-    await ctx.db.patch(args.id, {
-      manualReviewCount: args.manualReviewCount,
-      updatedAt: Date.now(),
-    });
-
-    return args.id;
-  },
-});
-
-export const clearManualReviewCount = mutation({
-  args: { id: v.id("tours") },
-  handler: async (ctx, args) => {
-    const tour = await ctx.db.get(args.id);
-    if (!tour) throw new Error("Tour not found");
-
-    await ctx.db.patch(args.id, {
-      manualReviewCount: undefined,
-      updatedAt: Date.now(),
-    });
-
-    return args.id;
   },
 });
 
