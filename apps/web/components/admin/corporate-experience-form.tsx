@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/convex/api"
 import type { Id } from "@workspace/convex/dataModel"
+import { CORPORATE_LANGUAGES } from "@workspace/convex/convex/lib/corporateExperienceTranslations"
 import {
   Info,
   FileText,
@@ -104,6 +105,7 @@ export function CorporateExperienceForm({
   const [activeTab, setActiveTab] = useState("basics")
 
   const [titlePrefix, setTitlePrefix] = useState("")
+  const [originalLanguage, setOriginalLanguage] = useState("pt")
   const [titleAccent, setTitleAccent] = useState("")
   const [shortDescription, setShortDescription] = useState("")
   const [duration, setDuration] = useState<Duration>("halfDay")
@@ -126,6 +128,7 @@ export function CorporateExperienceForm({
 
   useEffect(() => {
     setActiveTab("basics")
+    setOriginalLanguage(initialData?.originalLanguage ?? "pt")
     if (initialData) {
       setTitlePrefix(initialData.titlePrefix || "")
       setTitleAccent(initialData.titleAccent || "")
@@ -239,6 +242,7 @@ export function CorporateExperienceForm({
 
     setSubmitting(true)
     const payload = {
+      originalLanguage,
       titlePrefix: titlePrefix.trim(),
       titleAccent: titleAccent.trim(),
       shortDescription: shortDescription.trim(),
@@ -361,6 +365,17 @@ export function CorporateExperienceForm({
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="rounded-lg border border-border bg-card">
           <TabsContent value="basics" className="p-6 mt-0 space-y-4 data-[state=inactive]:hidden">
+            <div className="flex max-w-xs flex-col gap-1.5">
+              <Label>Original language *</Label>
+              <Select value={originalLanguage} onValueChange={setOriginalLanguage} disabled={submitting}>
+                <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {CORPORATE_LANGUAGES.map((language) => (
+                    <SelectItem key={language.value} value={language.value}>{language.flag} {language.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <Label>Title prefix *</Label>

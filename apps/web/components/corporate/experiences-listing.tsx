@@ -3,7 +3,7 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { ArrowRight, ChevronDown } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
 import { ExperienceDetailDrawer, type ExperienceDetail } from "@/components/corporate/experience-detail-drawer"
@@ -201,17 +201,18 @@ const FALLBACK_IMAGES = [
 ]
 
 export function ExperiencesListing() {
+  const locale = useLocale()
   const t = useTranslations("corporatePage.experiences")
   const tPillars = useTranslations("corporatePage.pillars")
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all")
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false)
-  const [selected, setSelected] = useState<ExperienceDetail | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const published = useQuery(api.corporateExperiences.listPublished)
+  const published = useQuery(api.corporateExperiences.listPublished, { locale })
 
   const experiences = useMemo<ExperienceDetail[]>(() => {
     if (!published) return []
-    return published.map((e: any) => ({
+    return published.map((e) => ({
       _id: e._id,
       titlePrefix: e.titlePrefix,
       titleAccent: e.titleAccent,
@@ -228,9 +229,10 @@ export function ExperiencesListing() {
       routeHighlights: e.routeHighlights,
       whatsIncluded: e.whatsIncluded,
       coverImageUrl: e.coverImageUrl,
-      galleryImageUrls: (e.galleryImageUrls ?? []).filter((u: any): u is string => Boolean(u)),
+      galleryImageUrls: (e.galleryImageUrls ?? []).filter((u): u is string => Boolean(u)),
     }))
   }, [published])
+  const selected = experiences.find((experience) => experience._id === selectedId) ?? null
 
   const filtered = useMemo(() => {
     if (activeFilter === "all") return experiences
@@ -346,7 +348,7 @@ export function ExperiencesListing() {
                     titleAccent={exp.titleAccent}
                     description={exp.shortDescription}
                     duration={exp.duration}
-                    onOpen={() => setSelected(exp)}
+                    onOpen={() => setSelectedId(exp._id)}
                   />
                 ))}
               </div>
@@ -370,7 +372,7 @@ export function ExperiencesListing() {
       <ExperienceDetailDrawer
         open={selected !== null}
         onOpenChange={(open) => {
-          if (!open) setSelected(null)
+          if (!open) setSelectedId(null)
         }}
         experience={selected}
       />

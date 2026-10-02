@@ -1024,6 +1024,7 @@ export default defineSchema({
     .index("by_status", ["status"]),
 
   corporateExperiences: defineTable({
+    originalLanguage: v.optional(v.string()),
     titlePrefix: v.string(),
     titleAccent: v.string(),
     shortDescription: v.string(),
@@ -1058,6 +1059,25 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_pillar", ["pillar"])
     .index("by_sort", ["sortOrder"]),
+
+  corporateExperienceTranslations: defineTable({
+    experienceId: v.id("corporateExperiences"),
+    locale: v.string(),
+    titlePrefix: v.string(),
+    titleAccent: v.optional(v.string()),
+    shortDescription: v.optional(v.string()),
+    groupSize: v.optional(v.string()),
+    durationLabel: v.optional(v.string()),
+    location: v.optional(v.string()),
+    description: v.optional(v.string()),
+    experienceBody: v.optional(v.string()),
+    experienceItems: v.optional(v.array(v.object({ strong: v.string(), body: v.string() }))),
+    routeHighlights: v.optional(v.array(v.string())),
+    whatsIncluded: v.optional(v.array(v.string())),
+    updatedAt: v.number(),
+  })
+    .index("by_experience", ["experienceId"])
+    .index("by_experience_locale", ["experienceId", "locale"]),
 
   corporateRequests: defineTable({
     fullName: v.string(),

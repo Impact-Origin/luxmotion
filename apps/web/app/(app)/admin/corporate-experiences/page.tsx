@@ -4,6 +4,8 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/convex/api"
+import type { Id } from "@workspace/convex/dataModel"
+import { CorporateExperienceTranslationForm } from "@/components/admin/corporate-experience-translation-form"
 import { ViewSectionOnSite, SECTION_URLS } from "@/components/admin/view-on-site"
 import {
   CheckCircle2,
@@ -13,6 +15,7 @@ import {
   Plus,
   Trash2,
   Inbox,
+  Globe,
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -44,6 +47,7 @@ function formatDate(ts: number) {
 
 export default function AdminCorporateExperiencesPage() {
   const router = useRouter()
+  const [translatingId, setTranslatingId] = React.useState<Id<"corporateExperiences"> | null>(null)
   const [tableQuery, setTableQuery] = React.useState<DataTableQuery>({ page: 0, pageSize: 10, filters: {} })
   const res = useQuery(api.corporateExperiences.listPaged, tableQuery)
   const setStatus = useMutation(api.corporateExperiences.setStatus)
@@ -72,6 +76,10 @@ export default function AdminCorporateExperiencesPage() {
           <DropdownMenuItem onClick={() => openEdit(e)}>
             <Pencil className="mr-2 size-4" />
             Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTranslatingId(e._id)}>
+            <Globe className="mr-2 size-4" />
+            Translations
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
@@ -172,6 +180,15 @@ export default function AdminCorporateExperiencesPage() {
       header: "Status",
       cell: (e) => <StatusBadge status={e.status} />,
     },
+    {
+      id: "languages",
+      header: "Languages",
+      cell: (e) => (
+        <button type="button" onClick={() => setTranslatingId(e._id)} className="flex items-center gap-1.5 text-xs uppercase text-muted-foreground hover:text-foreground">
+          <Globe className="size-3.5" /> {e.availableLanguages.join(" · ")}
+        </button>
+      ),
+    },
   ]
 
   const filters: DataTableFilter<ExperienceRow>[] = [
@@ -224,6 +241,7 @@ export default function AdminCorporateExperiencesPage() {
   )
 
   return (
+    <>
     <DataTable<ExperienceRow>
       mode="server"
       data={res?.rows}
@@ -254,5 +272,7 @@ export default function AdminCorporateExperiencesPage() {
       emptyDescription="No experiences match these filters."
       emptyIcon={Inbox}
     />
+    {translatingId && <CorporateExperienceTranslationForm experienceId={translatingId} onClose={() => setTranslatingId(null)} />}
+    </>
   )
 }

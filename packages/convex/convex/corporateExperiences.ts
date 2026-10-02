@@ -1,6 +1,9 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import type { QueryCtx } from "./_generated/server"
+import type { Doc } from "./_generated/dataModel"
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination"
+import { CORPORATE_LANGUAGES, corporateOriginalLanguage, localizeCorporateExperience } from "./lib/corporateExperienceTranslations"
 
 const durationValidator = v.union(
   v.literal("halfDay"),
@@ -22,16 +25,32 @@ const experienceItemValidator = v.object({
 })
 
 async function resolveUrls(
-  ctx: { storage: { getUrl: (id: any) => Promise<string | null> } },
-  exp: any,
+  ctx: QueryCtx,
+  exp: Doc<"corporateExperiences">,
+  locale?: string,
 ) {
   const coverImageUrl = exp.coverImageId
     ? await ctx.storage.getUrl(exp.coverImageId)
     : null
   const galleryImageUrls = await Promise.all(
-    (exp.galleryImageIds ?? []).map((id: any) => ctx.storage.getUrl(id)),
+    (exp.galleryImageIds ?? []).map((id) => ctx.storage.getUrl(id)),
   )
-  return { ...exp, coverImageUrl, galleryImageUrls }
+  const translations = await ctx.db.query("corporateExperienceTranslations")
+    .withIndex("by_experience", (q) => q.eq("experienceId", exp._id)).collect()
+  const originalLanguage = corporateOriginalLanguage(exp)
+  const localized = locale
+    ? localizeCorporateExperience(exp, translations.find((t) => t.locale === locale), locale)
+    : exp
+  return {
+    ...localized, originalLanguage, coverImageUrl, galleryImageUrls,
+    availableLanguages: [originalLanguage, ...translations.map((t) => t.locale).filter((l) => l !== originalLanguage)],
+  }
+}
+
+function validateLanguage(locale: string) {
+  if (!CORPORATE_LANGUAGES.some((language) => language.value === locale)) {
+    throw new Error("Unsupported language")
+  }
 }
 
 export const list = query({
@@ -76,13 +95,13 @@ export const listPaged = query({
 })
 
 export const listPublished = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { locale: v.optional(v.string()) },
+  handler: async (ctx, { locale }) => {
     const all = await ctx.db
       .query("corporateExperiences")
       .withIndex("by_status", (q) => q.eq("status", "published"))
       .collect()
-    const withUrls = await Promise.all(all.map((e) => resolveUrls(ctx, e)))
+    const withUrls = await Promise.all(all.map((e) => resolveUrls(ctx, e, locale)))
     return withUrls.sort((a, b) => a.sortOrder - b.sortOrder || b.createdAt - a.createdAt)
   },
 })
@@ -98,6 +117,7 @@ export const get = query({
 
 export const create = mutation({
   args: {
+    originalLanguage: v.optional(v.string()),
     titlePrefix: v.string(),
     titleAccent: v.string(),
     shortDescription: v.string(),
@@ -118,9 +138,12 @@ export const create = mutation({
     sortOrder: v.number(),
   },
   handler: async (ctx, args) => {
+    const originalLanguage = corporateOriginalLanguage(args)
+    validateLanguage(originalLanguage)
     const now = Date.now()
     return await ctx.db.insert("corporateExperiences", {
       ...args,
+      originalLanguage,
       createdAt: now,
       updatedAt: now,
     })
@@ -130,6 +153,7 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("corporateExperiences"),
+    originalLanguage: v.optional(v.string()),
     titlePrefix: v.optional(v.string()),
     titleAccent: v.optional(v.string()),
     shortDescription: v.optional(v.string()),
@@ -153,6 +177,13 @@ export const update = mutation({
     const { id, ...data } = args
     const existing = await ctx.db.get(id)
     if (!existing) throw new Error("Experience not found")
+    if (data.originalLanguage !== undefined) {
+      const originalLanguage = data.originalLanguage
+      validateLanguage(originalLanguage)
+      const translation = await ctx.db.query("corporateExperienceTranslations")
+        .withIndex("by_experience_locale", (q) => q.eq("experienceId", id).eq("locale", originalLanguage)).first()
+      if (translation) throw new Error("Remove the translation in this language before making it the original language")
+    }
     await ctx.db.patch(id, { ...data, updatedAt: Date.now() })
     return id
   },
@@ -183,8 +214,65 @@ export const remove = mutation({
         await ctx.storage.delete(gid)
       } catch {}
     }
+    const translations = await ctx.db.query("corporateExperienceTranslations")
+      .withIndex("by_experience", (q) => q.eq("experienceId", id)).collect()
+    for (const translation of translations) await ctx.db.delete(translation._id)
     await ctx.db.delete(id)
     return id
+  },
+})
+
+export const getTranslation = query({
+  args: { experienceId: v.id("corporateExperiences"), locale: v.string() },
+  handler: async (ctx, { experienceId, locale }) => ctx.db
+    .query("corporateExperienceTranslations")
+    .withIndex("by_experience_locale", (q) => q.eq("experienceId", experienceId).eq("locale", locale))
+    .first(),
+})
+
+export const upsertTranslation = mutation({
+  args: {
+    experienceId: v.id("corporateExperiences"),
+    locale: v.string(),
+    titlePrefix: v.string(),
+    titleAccent: v.optional(v.string()),
+    shortDescription: v.optional(v.string()),
+    groupSize: v.optional(v.string()),
+    durationLabel: v.optional(v.string()),
+    location: v.optional(v.string()),
+    description: v.optional(v.string()),
+    experienceBody: v.optional(v.string()),
+    experienceItems: v.optional(v.array(experienceItemValidator)),
+    routeHighlights: v.optional(v.array(v.string())),
+    whatsIncluded: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    const experience = await ctx.db.get(args.experienceId)
+    if (!experience) throw new Error("Experience not found")
+    validateLanguage(args.locale)
+    if (args.locale === corporateOriginalLanguage(experience)) {
+      throw new Error("Cannot create translation in the original language")
+    }
+    if (!args.titlePrefix.trim()) throw new Error("Title is required")
+    const existing = await ctx.db.query("corporateExperienceTranslations")
+      .withIndex("by_experience_locale", (q) => q.eq("experienceId", args.experienceId).eq("locale", args.locale)).first()
+    const data = { ...args, titlePrefix: args.titlePrefix.trim(), updatedAt: Date.now() }
+    if (existing) {
+      await ctx.db.replace(existing._id, data)
+      return existing._id
+    }
+    return ctx.db.insert("corporateExperienceTranslations", data)
+  },
+})
+
+export const removeTranslation = mutation({
+  args: { experienceId: v.id("corporateExperiences"), locale: v.string() },
+  handler: async (ctx, { experienceId, locale }) => {
+    const translation = await ctx.db.query("corporateExperienceTranslations")
+      .withIndex("by_experience_locale", (q) => q.eq("experienceId", experienceId).eq("locale", locale)).first()
+    if (!translation) throw new Error("Translation not found")
+    await ctx.db.delete(translation._id)
+    return translation._id
   },
 })
 
