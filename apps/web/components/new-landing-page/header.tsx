@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { LogoPlaceholder } from "@/components/whitelabel/logo-placeholder"
+import { getHeaderLinks } from "./header-links"
 
 const HERO_SCROLL_THRESHOLD = 320
 const MOBILE_MAX_WIDTH = 767
@@ -242,42 +243,7 @@ export function Header({
     return pathname === href || pathname.startsWith(href + "/")
   }
 
-  const navLinks = [
-    { href: "/", label: t("home"), hasDropdown: false, items: [] },
-    { href: "/about-us", label: t("aboutUs"), hasDropdown: false, items: [] },
-    { href: "/fleet", label: t("fleet"), hasDropdown: false, items: [] },
-    {
-      label: t("services"),
-      hasDropdown: true,
-      items: [
-        { href: "/tours", label: t("tours") },
-        { href: "/events", label: t("events") },
-        { href: "/ultra-luxury-tours", label: t("luxuryTours") },
-        { href: "/corporate", label: t("corporate") },
-        // /corporate/contact fica fora do menu — chega-se lá pelas experiências.
-        { href: "/wedding", label: t("weddings") },
-        { href: "/schools", label: t("school") },
-      ]
-    },
-    {
-      label: t("forPartners"),
-      hasDropdown: true,
-      items: [
-        { href: "/hotels", label: t("hotels") },
-        { href: "/partner-guide", label: t("partnerGuide") },
-        { href: "/wedding-planner", label: t("weddingPlanners") },
-      ]
-    },
-    {
-      label: t("forDrivers"),
-      hasDropdown: true,
-      items: [
-        { href: "/drivers", label: t("individualDrivers") },
-        { href: "/partners", label: t("driverCompanies") },
-      ]
-    },
-    { href: "/blogs", label: t("blog"), hasDropdown: false, items: [] },
-  ]
+  const navLinks = getHeaderLinks(t)
 
   const linkClasses = (href: string, hasDropdown?: boolean, items?: { href: string }[]) =>
     cn(

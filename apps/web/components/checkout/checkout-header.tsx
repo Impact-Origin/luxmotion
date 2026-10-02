@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronLeft, ChevronDown, Menu, Moon, Sun, Check } from "lucide-react"
+import { ChevronLeft, ChevronDown, Moon, Sun, Check } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useTranslations, useLocale } from "next-intl"
 import Image from "next/image"
@@ -11,6 +11,7 @@ import { locales, localeNames, localeCountryIso, type Locale } from "@/i18n/conf
 import { TrustBanner } from "@/components/checkout/trust-banner"
 import { useCheckoutTheme } from "@/components/checkout/checkout-theme"
 import { CurrencySwitcher } from "@/components/new-landing-page/currency-switcher"
+import { CheckoutMobileMenu } from "./checkout-mobile-menu"
 
 interface CheckoutHeaderProps {
   currentStep?: number
@@ -209,13 +210,7 @@ export function CheckoutHeader({
           <ThemeToggle label={tNav("themeToggle")} />
           <CurrencySwitcher variant={headerIsLight ? "light" : "dark"} compactMobile />
           <LangPill />
-          <Link
-            href="/"
-            aria-label={tNav("menu")}
-            className="md:hidden flex shrink-0 items-center justify-center size-[36px] border border-[rgba(var(--ck-accent-rgb,201,169,110),0.22)] text-[var(--ck-accent,#c9a96e)] hover:border-[rgba(var(--ck-accent-rgb,201,169,110),0.4)] transition-colors"
-          >
-            <Menu className="w-4 h-4" strokeWidth={1.5} />
-          </Link>
+          <CheckoutMobileMenu />
         </div>
       </div>
 
