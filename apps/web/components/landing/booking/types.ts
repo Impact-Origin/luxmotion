@@ -48,6 +48,7 @@ export interface WidgetProductItem {
   image?: string
   subtitle?: string
   eventDate?: number
+  endDate?: number
   pickup?: { title: string; address: string; description?: string; lat?: number; lng?: number; placeId?: string }
   meetingPoint?: { title: string; address: string; description?: string; lat?: number; lng?: number; placeId?: string }
   minPassengers?: number

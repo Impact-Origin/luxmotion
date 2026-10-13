@@ -43,6 +43,7 @@ import {
 import { Tabs, TabsContent } from "@workspace/ui/components/tabs"
 import { LANGUAGES, PORTUGAL_LOCATIONS } from "./constants"
 import { useTranslations } from "next-intl"
+import { combineLocalDateTime, localDateTimeFields } from "@/lib/event-date-time"
 
 const STEP_ORDER = [
   "basic",
@@ -130,15 +131,15 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       setVenue(initialData.venue || "")
 
       if (initialData.eventDate) {
-        const date = new Date(initialData.eventDate)
-        setEventDate(date.toISOString().split("T")[0] ?? "")
-        setEventTime(date.toTimeString().slice(0, 5))
+        const fields = localDateTimeFields(initialData.eventDate)
+        setEventDate(fields.date)
+        setEventTime(fields.time)
       }
 
       if (initialData.endDate) {
-        const date = new Date(initialData.endDate)
-        setEndDate(date.toISOString().split("T")[0] ?? "")
-        setEndTime(date.toTimeString().slice(0, 5))
+        const fields = localDateTimeFields(initialData.endDate)
+        setEndDate(fields.date)
+        setEndTime(fields.time)
       }
 
       setBannerImageId(initialData.bannerImageId)
@@ -220,12 +221,6 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       .filter(Boolean)
   }
 
-  const combineDateTime = (date: string, time: string): number | undefined => {
-    if (!date) return undefined
-    const dateStr = time ? `${date}T${time}` : `${date}T00:00`
-    return new Date(dateStr).getTime()
-  }
-
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -262,8 +257,8 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
         .map((t) => t.trim())
         .filter(Boolean)
 
-      const eventDateTimestamp = combineDateTime(eventDate, eventTime)
-      const endDateTimestamp = combineDateTime(endDate, endTime)
+      const eventDateTimestamp = combineLocalDateTime(eventDate, eventTime)
+      const endDateTimestamp = combineLocalDateTime(endDate, endTime)
 
       const data = {
         title,
@@ -282,7 +277,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
         maxPassengers: maxPassengers ? parseInt(maxPassengers) : undefined,
         /* A hora de regresso guarda-se no dia do evento: é a hora que
            interessa, e a data sai daí. */
-        returnAt: returnTime ? combineDateTime(eventDate, returnTime) : undefined,
+        returnAt: returnTime ? combineLocalDateTime(eventDate, returnTime) : undefined,
         vehicleId: (vehicleId || undefined) as Id<"vehicles"> | undefined,
         confirmationHours: confirmationHours
           ? parseInt(confirmationHours)

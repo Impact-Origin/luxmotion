@@ -4,6 +4,8 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react"
 import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight, User, UsersRound, Info } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
+import { EventDateTimePicker } from "@/components/events/event-date-time-picker"
+import { localDateTimeFields, validEventSelection } from "@/lib/event-date-time"
 import { useHomeTheme } from "@/components/new-landing-page/home-theme"
 import { useTourAvailability } from "@/hooks/use-tour-data"
 import { BookingAddonsSelector, type BookingAddon } from "@/components/shared/booking-addons-selector"
@@ -31,6 +33,7 @@ interface TourBookingCardProps {
   tourId?: string
   skipAvailability?: boolean
   fixedDateTime?: number
+  eventEndDate?: number
   hideReviews?: boolean
   minPassengers?: number
   maxPassengers?: number
@@ -141,13 +144,13 @@ function LinhaDeInfo({ rotulo, valor }: { rotulo: string; valor: string }) {
   )
 }
 
-export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, hideReviews, minPassengers, maxPassengers, service, addons, onBook, onSelectionReady }: TourBookingCardProps) {
+export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, eventEndDate, hideReviews, minPassengers, maxPassengers, service, addons, onBook, onSelectionReady }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
   // O picker escolhe a paleta por prop (não por var CSS). Só clareia dentro do
   // tema da homepage em modo claro; fora dele continua escuro como hoje.
   const { theme, isHome } = useHomeTheme()
-  const [dateTime, setDateTime] = useState<{ date: Date | null; time: string | null }>({ date: null, time: null })
+  const [selectedDateTime, setDateTime] = useState<{ date: Date | null; time: string | null }>({ date: null, time: null })
   const [adults, setAdults] = useState(1)
   const [children, setChildren] = useState(0)
   const [infants, setInfants] = useState(0)
@@ -164,13 +167,16 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   const porViatura = temEscolha && sharingMode === "private"
   const precoUnitario = temEscolha && sharingMode === "shared" ? sharedPrice! : price
 
-  useEffect(() => {
-    if (fixedDateTime) {
-      const fixedDate = new Date(fixedDateTime)
-      const timeStr = fixedDate.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })
-      setDateTime({ date: fixedDate, time: timeStr })
+  const isPrivateEvent = fixedDateTime !== undefined && (!temEscolha || sharingMode === "private")
+  const dateTime = useMemo(() => {
+    if (fixedDateTime !== undefined && !isPrivateEvent) {
+      return { date: new Date(fixedDateTime), time: localDateTimeFields(fixedDateTime).time }
     }
-  }, [fixedDateTime])
+    return selectedDateTime
+  }, [fixedDateTime, isPrivateEvent, selectedDateTime])
+  const selectionIsValid = isPrivateEvent
+    ? validEventSelection(dateTime, fixedDateTime!, eventEndDate)
+    : Boolean(dateTime.date && dateTime.time)
 
   const [dateRange, setDateRange] = useState(() => {
     const now = new Date()
@@ -211,14 +217,12 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   }, [service?.origin, service?.destination, service?.returnTime])
 
   const horarios = useMemo(() => {
-    const partida = fixedDateTime
-      ? new Date(fixedDateTime).toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })
-      : null
+    const partida = dateTime.time
     if (!partida) return null
     return service?.returnTime
       ? `${partida} · ${t("service.returnAt", { time: service.returnTime })}`
       : partida
-  }, [fixedDateTime, service?.returnTime, t])
+  }, [dateTime.time, service?.returnTime, t])
 
   /** Lugares: os da viatura quando há uma, senão o máximo do evento. */
   const lugares = service?.vehicleSeats ?? maxPassengers
@@ -266,7 +270,7 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   useEffect(() => {
     // Basta a data. Há tours sem escolha de hora nenhuma — exigir as duas
     // fazia com que nesses o carrinho nunca chegasse a ser guardado.
-    if (!dateTime.date) return
+    if (!dateTime.date || (isPrivateEvent && !selectionIsValid)) return
     // Só avisa quando a escolha muda mesmo. Sem esta guarda o efeito voltava a
     // gravar a cada render e a contagem decrescente reiniciava-se sempre,
     // porque a gravação renova o prazo.
@@ -289,9 +293,10 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
       infants,
       total,
     })
-  }, [dateTime.date, dateTime.time, adults, children, infants, total, sharingMode, onSelectionReady])
+  }, [dateTime.date, dateTime.time, isPrivateEvent, selectionIsValid, adults, children, infants, total, sharingMode, onSelectionReady])
 
   const handleBook = () => {
+    if (!selectionIsValid || isBelowMin) return
     const selectedAddonsData = addons
       ?.filter((a) => selectedAddonIds.includes(a._id))
       .map((a) => ({
@@ -443,7 +448,15 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
             <CalendarClock className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
             <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("dateAndTime")}</span>
           </div>
-          {fixedDateTime ? (
+          {isPrivateEvent ? (
+            <EventDateTimePicker
+              start={fixedDateTime!}
+              end={eventEndDate}
+              value={dateTime}
+              onChange={setDateTime}
+              dark={!(isHome && theme === "light")}
+            />
+          ) : fixedDateTime ? (
             <div className="w-full h-[44px] px-[13px] border border-[rgba(var(--lm-text-rgb,255,255,255),0.12)] bg-[var(--lm-surface,#1E1D1B)] flex items-center gap-3">
               {/* Branco como os valores das linhas abaixo: é informação, não
                   um campo por preencher. */}
@@ -535,7 +548,7 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
 
         <button
           onClick={handleBook}
-          disabled={(!fixedDateTime && !dateTime.time) || isBelowMin}
+          disabled={!selectionIsValid || isBelowMin}
           className="w-full h-[48px] bg-[var(--lm-accent,#C9A96E)] border border-[var(--lm-accent,#C9A96E)] flex items-center justify-center gap-2 hover:bg-[#b8954f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span className="text-[14px] font-medium text-[#0D0D0D] uppercase tracking-[1.1px]">

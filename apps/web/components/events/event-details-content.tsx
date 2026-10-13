@@ -13,6 +13,7 @@ import { TourIncludedExcluded } from "@/components/tours/tour-included-excluded"
 import { EventLocationMap } from "./event-location-map"
 import { EventReviews } from "./event-reviews"
 import { AddonCarouselSection } from "@/components/shared/addon-carousel-section"
+import { validEventSelection } from "@/lib/event-date-time"
 
 export interface EventDetailsData {
   _id?: string
@@ -120,12 +121,12 @@ function EventCheckoutAutoOpen({ event }: { event: any }) {
 
   useEffect(() => {
     if (searchParams.get("openCheckout") === "true" && event._id && !hasOpenedCheckout.current) {
-      hasOpenedCheckout.current = true
       const dateStr = searchParams.get("date")
-      const date = dateStr ? new Date(dateStr) : new Date(event.eventDate)
-      const time =
-        searchParams.get("time") ||
-        new Date(event.eventDate).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })
+      const date = dateStr ? new Date(dateStr) : null
+      const time = searchParams.get("time")
+      // The widget must supply a chosen pickup; never silently reserve midnight.
+      if (!validEventSelection({ date, time }, event.eventDate, event.endDate)) return
+      hasOpenedCheckout.current = true
       const adults = parseInt(searchParams.get("adults") || "1", 10)
       const children = parseInt(searchParams.get("children") || "0", 10)
       const infants = parseInt(searchParams.get("infants") || "0", 10)
@@ -495,6 +496,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                   tourId={event._id}
                   skipAvailability
                   fixedDateTime={event.eventDate}
+                  eventEndDate={event.endDate}
                   hideReviews
                   minPassengers={event.minPassengers}
                   maxPassengers={event.maxPassengers}
@@ -517,6 +519,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
           tourId={event._id}
           skipAvailability
           fixedDateTime={event.eventDate}
+          eventEndDate={event.endDate}
           hideReviews
           minPassengers={event.minPassengers}
           maxPassengers={event.maxPassengers}

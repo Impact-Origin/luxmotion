@@ -11,6 +11,7 @@ import { cn } from "@workspace/ui/lib/utils"
 import { ClockTimePicker } from "@/components/ui/clock-time-picker"
 import { ClockTimePicker as ClockTimePickerDark } from "@/components/new-landing-page/booking/clock-time-picker"
 import { useMinAdvanceBookingHours } from "@/hooks/use-min-advance-hours"
+import { clampDateTime } from "@/lib/event-date-time"
 
 interface DateTimePickerProps {
   value?: Date | string | number | null
@@ -21,6 +22,9 @@ interface DateTimePickerProps {
   hideLeftIcon?: boolean
   /** Force light/dark. Overrides the variant default (new-widget = dark). */
   dark?: boolean
+  /** Optional product bounds, combined with the site's booking lead time. */
+  minDateTime?: number
+  maxDateTime?: number
 }
 
 const MONTHS = [
@@ -30,7 +34,7 @@ const MONTHS = [
 
 const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
 
-export function DateTimePicker({ value, onChange, placeholder = "Partida", label = "Partida", variant = "default", hideLeftIcon = false, dark: darkProp }: DateTimePickerProps) {
+export function DateTimePicker({ value, onChange, placeholder = "Partida", label = "Partida", variant = "default", hideLeftIcon = false, dark: darkProp, minDateTime: earliest, maxDateTime: latest }: DateTimePickerProps) {
   const normalizedValue = React.useMemo(() => {
     if (!value) return undefined
     if (value instanceof Date) return value
@@ -42,8 +46,9 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
   const [date, setDate] = React.useState<Date | undefined>(normalizedValue)
   const [hours, setHours] = React.useState(() => normalizedValue?.getHours() ?? 0)
   const [minutes, setMinutes] = React.useState(() => normalizedValue?.getMinutes() ?? 0)
-  const [viewMonth, setViewMonth] = React.useState(normalizedValue ? normalizedValue.getMonth() : new Date().getMonth())
-  const [viewYear, setViewYear] = React.useState(normalizedValue ? normalizedValue.getFullYear() : new Date().getFullYear())
+  const initialView = normalizedValue ?? (earliest === undefined ? new Date() : new Date(Math.max(Date.now(), earliest)))
+  const [viewMonth, setViewMonth] = React.useState(initialView.getMonth())
+  const [viewYear, setViewYear] = React.useState(initialView.getFullYear())
 
   const [hoursInput, setHoursInput] = React.useState("")
   const [minutesInput, setMinutesInput] = React.useState("")
@@ -74,11 +79,17 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
   // Earliest bookable moment = now + lead time. Days before its calendar day are
   // disabled; on that day the time is clamped up to it.
   const minLeadMs = minAdvanceHours * 60 * 60 * 1000
-  const minDateTime = new Date(now.getTime() + minLeadMs)
+  const minDateTime = new Date(Math.max(now.getTime() + minLeadMs, earliest ?? -Infinity))
+  const maxDateTime = latest === undefined ? undefined : new Date(latest)
+  const maxDate = maxDateTime && new Date(maxDateTime.getFullYear(), maxDateTime.getMonth(), maxDateTime.getDate())
   const minDate = new Date(minDateTime.getFullYear(), minDateTime.getMonth(), minDateTime.getDate())
 
   React.useEffect(() => {
-    if (normalizedValue) {
+    if (!normalizedValue) {
+      setDate(undefined)
+      setHours(0)
+      setMinutes(0)
+    } else {
       setDate(normalizedValue)
       setHours(normalizedValue.getHours())
       setMinutes(normalizedValue.getMinutes())
@@ -203,8 +214,11 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       setMinutes(validMinutes)
     }
     
-    newDate.setHours(validHours, validMinutes)
-    onChange?.(newDate)
+    newDate.setHours(validHours, validMinutes, 0, 0)
+    const boundedDate = clampDateTime(newDate, minDateTime, maxDateTime)
+    setHours(boundedDate.getHours())
+    setMinutes(boundedDate.getMinutes())
+    onChange?.(boundedDate)
   }
 
   const handleTimeChange = (newHours: number, newMinutes: number) => {
@@ -228,8 +242,11 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
     const baseDate = normalizedValue ?? date
     if (baseDate) {
       const newDate = new Date(baseDate)
-      newDate.setHours(validHours, validMinutes)
-      onChange?.(newDate)
+      newDate.setHours(validHours, validMinutes, 0, 0)
+      const boundedDate = clampDateTime(newDate, minDateTime, maxDateTime)
+      setHours(boundedDate.getHours())
+      setMinutes(boundedDate.getMinutes())
+      onChange?.(boundedDate)
     }
   }
 
@@ -267,7 +284,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
 
   const isDateInPast = (d: Date) => {
     const dateOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-    return dateOnly < minDate
+    return dateOnly < minDate || (maxDate !== undefined && dateOnly > maxDate) || (maxDateTime !== undefined && minDateTime > maxDateTime)
   }
 
   const isSelectedDateMinDay = () => {
@@ -509,8 +526,10 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
   )
 
   if (isMobile) {
+    // Keep focus from scrolling the drawer chrome; its inner content still scrolls.
     return (
       <MobileDrawer
+        className="overflow-clip"
         dark={dark}
         open={open}
         onOpenChange={(newOpen) => {
@@ -520,27 +539,8 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         trigger={trigger}
         title={showClockPicker ? "Select time" : placeholder}
       >
-        <div className="relative overflow-hidden">
-          <div
-            className={cn(
-              "transition-all duration-300 ease-out",
-              showClockPicker
-                ? "opacity-0 -translate-x-full absolute inset-0 pointer-events-none"
-                : "opacity-100 translate-x-0"
-            )}
-          >
-            {pickerContent}
-          </div>
-          <div
-            className={cn(
-              "transition-all duration-300 ease-out",
-              showClockPicker
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-full absolute inset-0 pointer-events-none"
-            )}
-          >
-            {clockPickerContent}
-          </div>
+        <div className="relative">
+          {showClockPicker ? clockPickerContent : pickerContent}
         </div>
       </MobileDrawer>
     )
@@ -557,7 +557,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
       {hasCellAnchor && <PopoverAnchor virtualRef={cellAnchorRef as unknown as React.RefObject<Element>} />}
       <PopoverContent
         className={cn(
-          "p-0 shadow-lg overflow-hidden transition-all duration-300 ease-out",
+          "p-0 shadow-lg max-h-[var(--radix-popover-content-available-height)] overflow-y-auto transition-all duration-300 ease-out",
           showClockPicker
             ? cn("w-[328px] border-0", dark ? "bg-transparent rounded-none" : gold ? "bg-[#faf7f2] rounded-none" : "bg-[#e9f9ff] rounded-[28px]")
             : cn(
@@ -574,26 +574,7 @@ export function DateTimePicker({ value, onChange, placeholder = "Partida", label
         collisionPadding={{ top: 88, bottom: 16, left: 16, right: 16 }}
       >
         <div className="relative">
-          <div
-            className={cn(
-              "transition-all duration-300 ease-out",
-              showClockPicker
-                ? "opacity-0 scale-95 absolute inset-0 pointer-events-none"
-                : "opacity-100 scale-100"
-            )}
-          >
-            {pickerContent}
-          </div>
-          <div
-            className={cn(
-              "transition-all duration-300 ease-out",
-              showClockPicker
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-95 absolute inset-0 pointer-events-none"
-            )}
-          >
-            {clockPickerContent}
-          </div>
+          {showClockPicker ? clockPickerContent : pickerContent}
         </div>
       </PopoverContent>
     </Popover>

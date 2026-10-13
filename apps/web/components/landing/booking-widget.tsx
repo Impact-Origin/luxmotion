@@ -78,6 +78,7 @@ export function BookingWidget({ className }: BookingWidgetProps) {
       image: event.bannerImageUrl ?? undefined,
       subtitle: event.subtitle ?? undefined,
       eventDate: event.eventDate,
+      endDate: event.endDate,
       meetingPoint: event.meetingPoint,
       minPassengers: event.minPassengers,
       maxPassengers: event.maxPassengers,

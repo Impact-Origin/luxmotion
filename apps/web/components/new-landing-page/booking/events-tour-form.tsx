@@ -3,6 +3,8 @@
 import { useState, useCallback, type RefObject, type Dispatch, type SetStateAction } from "react"
 import { ChevronDown, Users, CircleCheckBig, MapPinned, X, Calendar, ExternalLink } from "lucide-react"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
+import { EventDateTimePicker } from "@/components/events/event-date-time-picker"
+import { validEventSelection } from "@/lib/event-date-time"
 import { TourGuestsDropdownContent } from "./tour-guests-dropdown"
 import type { TripType, TourPassengerState, WidgetProductItem } from "./types"
 import { useIsMobile } from "@/hooks/use-is-mobile"
@@ -69,7 +71,7 @@ export function EventsTourForm({
   const isEvents = tripType === "events"
   const hasRequiredDateTime =
     selectedItem?.productType === "event"
-      ? Boolean(selectedItem?.eventDate)
+      ? selectedItem.eventDate !== undefined && validEventSelection(departureDateTime, selectedItem.eventDate, selectedItem.endDate)
       : Boolean(departureDateTime.date && departureDateTime.time)
   const isContinueDisabled =
     !selectedItem ||
@@ -115,26 +117,10 @@ export function EventsTourForm({
     setDateRange({ startDate, endDate: extendedEnd.getTime() })
   }, [])
 
-  const formatEventDate = (timestamp: number) => {
-    const date = new Date(timestamp)
-    const day = String(date.getDate()).padStart(2, "0")
-    const month = String(date.getMonth() + 1).padStart(2, "0")
-    const year = date.getFullYear()
-    const hours = String(date.getHours()).padStart(2, "0")
-    const minutes = String(date.getMinutes()).padStart(2, "0")
-    return `${day}/${month}/${year} • ${hours}:${minutes}`
-  }
-
   const handleSelectItem = (item: WidgetProductItem) => {
     setSelectedItem(item)
     setShowEventDropdown(false)
-    if (item.productType === "event" && item.eventDate) {
-      const eventDate = new Date(item.eventDate)
-      const timeStr = eventDate.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })
-      setDepartureDateTime({ date: eventDate, time: timeStr })
-    } else {
-      setDepartureDateTime({ date: null, time: null })
-    }
+    setDepartureDateTime({ date: null, time: null })
   }
 
   const basePath = isEvents ? "/events" : "/tours/tour"
@@ -259,10 +245,15 @@ export function EventsTourForm({
         </div>
 
         <div className="flex-1 min-h-[56px] lg:min-h-[64px] border-b lg:border-b-0 lg:border-r border-[rgba(var(--lm-text-rgb,255,255,255),0.08)] flex items-center booking-section" style={{ backgroundColor: "transparent", borderColor: "rgba(var(--lm-text-rgb,255,255,255),0.08)" }}>
-          {selectedItem?.productType === "event" && selectedItem.eventDate ? (
-            <div className="w-full h-full pl-2 pr-4 py-[10px] lg:px-6 lg:py-3 flex items-center gap-3">
-              <Calendar className="w-5 h-5 shrink-0" strokeWidth={1.2} style={{ color: "var(--lm-accent,#C9A96E)" }} />
-              <span className="text-[15px] font-medium text-[var(--lm-text,#fff)]">{formatEventDate(selectedItem.eventDate)}</span>
+          {selectedItem?.productType === "event" && selectedItem.eventDate !== undefined ? (
+            <div className="w-full px-2">
+              <EventDateTimePicker
+                start={selectedItem.eventDate}
+                end={selectedItem.endDate}
+                value={departureDateTime}
+                onChange={setDepartureDateTime}
+                dark={dark}
+              />
             </div>
           ) : selectedItem ? (
             <div className="w-full px-2">
@@ -363,6 +354,7 @@ export function EventsTourForm({
           <button
             type="button"
             onClick={handleContinue}
+            disabled={isEvents && isContinueDisabled}
             className="bg-[var(--lm-accent,#C9A96E)] flex items-center justify-center gap-3 px-6 py-[22px] h-full w-full lg:w-[283px] transition-all hover:brightness-95 active:scale-95 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
           >
             <span className="text-[14px] font-semibold uppercase tracking-[1.1px] text-[rgba(var(--lm-bg-rgb,13,13,13),0.96)]">

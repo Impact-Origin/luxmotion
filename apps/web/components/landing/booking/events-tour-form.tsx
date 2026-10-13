@@ -3,6 +3,8 @@
 import { useState, useCallback, type RefObject, type Dispatch, type SetStateAction } from "react"
 import { ChevronDown, Users, BadgeCheck, MapPinned, X, Calendar, ExternalLink } from "lucide-react"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
+import { EventDateTimePicker } from "@/components/events/event-date-time-picker"
+import { validEventSelection } from "@/lib/event-date-time"
 import { TourGuestsDropdownContent } from "./tour-guests-dropdown"
 import type { TripType, TourPassengerState, WidgetProductItem } from "./types"
 import { cn } from "@workspace/ui/lib/utils"
@@ -71,7 +73,7 @@ export function EventsTourForm({
   const isEvents = tripType === "events"
   const hasRequiredDateTime =
     selectedItem?.productType === "event"
-      ? Boolean(selectedItem?.eventDate)
+      ? selectedItem.eventDate !== undefined && validEventSelection(departureDateTime, selectedItem.eventDate, selectedItem.endDate)
       : Boolean(departureDateTime.date && departureDateTime.time)
   const isContinueDisabled =
     !selectedItem ||
@@ -117,26 +119,10 @@ export function EventsTourForm({
     setDateRange({ startDate, endDate: extendedEnd.getTime() })
   }, [])
 
-  const formatEventDate = (timestamp: number) => {
-    const date = new Date(timestamp)
-    const day = String(date.getDate()).padStart(2, "0")
-    const month = String(date.getMonth() + 1).padStart(2, "0")
-    const year = date.getFullYear()
-    const hours = String(date.getHours()).padStart(2, "0")
-    const minutes = String(date.getMinutes()).padStart(2, "0")
-    return `${day}/${month}/${year} - ${hours}:${minutes}`
-  }
-
   const handleSelectItem = (item: WidgetProductItem) => {
     setSelectedItem(item)
     setShowEventDropdown(false)
-    if (item.productType === "event" && item.eventDate) {
-      const eventDate = new Date(item.eventDate)
-      const timeStr = eventDate.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })
-      setDepartureDateTime({ date: eventDate, time: timeStr })
-    } else {
-      setDepartureDateTime({ date: null, time: null })
-    }
+    setDepartureDateTime({ date: null, time: null })
   }
 
   const basePath = isEvents ? "/events" : "/tours/tour"
@@ -284,10 +270,15 @@ export function EventsTourForm({
         </div>
 
         <div className="flex-1 border-b lg:border-b-0 lg:border-r border-gray-100 flex items-center booking-section" style={{ backgroundColor: "var(--theme-hero-booking-input-bg, transparent)", borderColor: "var(--theme-hero-booking-border, #f0f0f0)" }}>
-          {selectedItem?.productType === "event" && selectedItem.eventDate ? (
-            <div className="w-full h-full px-6 py-3 flex items-center gap-3">
-              <Calendar data-theme-color="heroBookingIcon" className="w-5 h-5 shrink-0" style={{ color: "var(--theme-hero-booking-icon, #27C7FF)" }} />
-              <span className="text-[15px] font-medium" style={{ color: "var(--theme-hero-booking-input-text, #222)" }}>{formatEventDate(selectedItem.eventDate)}</span>
+          {selectedItem?.productType === "event" && selectedItem.eventDate !== undefined ? (
+            <div className="w-full px-2">
+              <EventDateTimePicker
+                start={selectedItem.eventDate}
+                end={selectedItem.endDate}
+                value={departureDateTime}
+                onChange={setDepartureDateTime}
+                dark={false}
+              />
             </div>
           ) : selectedItem ? (
             <div className="w-full px-2">
@@ -354,6 +345,7 @@ export function EventsTourForm({
             className="text-white px-8 py-3 font-bold flex items-center justify-center gap-3 transition-all w-full lg:w-auto lg:min-w-[160px] rounded-xl hover:brightness-95 hover:scale-[1.02] active:scale-95 shadow-lg shadow-black/5 disabled:opacity-50 disabled:pointer-events-none"
             style={{ backgroundColor: "var(--theme-hero-booking-accent, #29C5F6)" }}
             onClick={handleContinue}
+            disabled={isEvents && isContinueDisabled}
           >
             <BadgeCheck
               data-theme-color="heroBookingIcon"
