@@ -257,8 +257,6 @@ const classic = (
   hasWifi: false,
 })
 
-const p = (...names: string[]) => names.map((n) => `/fleet/gallery/${n}.webp`)
-
 export const CLASSIC_VEHICLES: FleetVehicle[] = [
-  classic("porsche-356-speedster", "Porsche 356 Speedster", p("porsche-356-1"), 2, 1),
+  classic("ford-mustang", "Ford Mustang", ["/fleet/vehicles/ford-mustang.png"], 2, 1),
 ]
