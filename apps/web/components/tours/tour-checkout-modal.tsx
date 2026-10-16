@@ -12,6 +12,9 @@ import {
 import { User, Users, Mail, FileText, MapPin, CheckCircle2, CreditCard, Banknote, ChevronLeft, X, MessageSquare, ArrowRight } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useTranslations } from "next-intl"
+import { SharedTripsSummary } from "@/components/events/shared-trips-summary"
+import type { SharedTrip } from "@workspace/convex/convex/lib/sharedDepartures"
+import { localDateTimeFields } from "@/lib/event-date-time"
 import { useTourCheckout } from "@/components/tours/tour-checkout-context"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { cn } from "@workspace/ui/lib/utils"
@@ -89,7 +92,7 @@ function OrderSummarySidebar({
   t,
 }: {
   tour: TourCheckoutTour | null
-  bookingData: { date: Date | null; time: string | null; adults: number; children: number } | null
+  bookingData: { date: Date | null; time: string | null; adults: number; children: number; sharedTrips?: SharedTrip[] } | null
   basePrice: number
   totalAmount: number
   currentStep: number
@@ -136,7 +139,8 @@ function OrderSummarySidebar({
             <p className="font-semibold text-[#F7F4EF] text-[13px] sm:text-[14px] leading-tight line-clamp-2">
               {tour.title}
             </p>
-            <p className="text-[11px] sm:text-[12px] text-[#999] mt-1 leading-[1.2]">{dateTime}</p>
+            {!bookingData?.sharedTrips?.length && <p className="text-[11px] sm:text-[12px] text-[#999] mt-1 leading-[1.2]">{dateTime}</p>}
+            <SharedTripsSummary trips={bookingData?.sharedTrips} />
             {/* Por viatura não há "N × preço": vende-se o carro, e o que
                 interessa é quantos lugares tem. */}
             {tour.perVehicle ? (
@@ -314,7 +318,7 @@ export function TourCheckoutModal() {
     setSubmitError("")
     setIsSubmitting(true)
     try {
-      const dateStr = bookingData.date ? bookingData.date.toISOString().slice(0, 10) : ""
+      const dateStr = bookingData.date ? localDateTimeFields(bookingData.date.getTime()).date : ""
       const timeStr = bookingData.time || ""
       const guests = bookingData.adults + bookingData.children + bookingData.infants || 1
       const isEvent = productType === "event"
@@ -343,6 +347,8 @@ export function TourCheckoutModal() {
         basePrice:
           Math.max(0, Number(tour.price) || 0) * (tour.perVehicle ? 1 : guests),
         sharingMode: tour.sharingMode,
+        sharedDepartureId: bookingData.sharedTrips?.[0]?.id,
+        sharedReturnDepartureId: bookingData.sharedTrips?.[1]?.id,
         selectedAddons: selectedAddons?.length ? selectedAddons : undefined,
         addonsTotal: bookingData.addonsTotal ?? undefined,
         referralSlug: readReferralCookie() ?? undefined,
@@ -672,7 +678,8 @@ export function TourCheckoutModal() {
                       <p className="text-[13px] text-[#999] mt-2">
                         {t("tourCheckout.passengers")}: {bookingData.adults + bookingData.children} ({bookingData.adults} {t("tourDetails.adult").toLowerCase()}, {bookingData.children} {t("tourDetails.children").toLowerCase()})
                       </p>
-                      {bookingData.date && (
+                      <SharedTripsSummary trips={bookingData.sharedTrips} />
+                      {bookingData.date && !bookingData.sharedTrips?.length && (
                         <p className="text-[13px] text-[#999] mt-0.5">
                           {t("tourCheckout.date")}: {bookingData.date.toLocaleDateString()}
                           {bookingData.time && ` · ${bookingData.time}`}

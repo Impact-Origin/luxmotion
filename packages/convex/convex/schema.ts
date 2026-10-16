@@ -1,6 +1,7 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { catalogTranslationsValidator } from "./lib/catalogTranslations";
+import { sharedDepartureValidator, sharedTripValidator } from "./lib/sharedDepartures";
 
 const amadeusFlightInfoValidator = v.object({
   carrier: v.optional(v.string()),
@@ -102,6 +103,7 @@ export default defineSchema({
 
     // Trip details
     departureDate: v.string(),
+    sharedTrips: v.optional(v.array(sharedTripValidator)),
     arrivalDate: v.optional(v.string()),
     passengers: v.number(),
     adults: v.optional(v.number()),
@@ -752,6 +754,7 @@ export default defineSchema({
     venue: v.optional(v.string()),
     eventDate: v.number(),
     endDate: v.optional(v.number()),
+    sharedDepartures: v.optional(v.array(sharedDepartureValidator)),
     isFeatured: v.boolean(),
     isActive: v.boolean(),
     status: v.union(
@@ -761,7 +764,7 @@ export default defineSchema({
       v.literal("completed"),
     ),
     maxCapacity: v.optional(v.number()),
-    /* Um evento tem dois preços, e só dois:
+    /* Preços base do evento (cada saída partilhada pode substituir o preço por pessoa):
 
        - `privatePrice` é a viatura inteira, para o grupo de quem reserva;
        - `sharedPrice` é o lugar por pessoa, com outros participantes. Vazio quer
@@ -1534,6 +1537,7 @@ export default defineSchema({
     passengers: v.number(),
     selectedDate: v.string(),
     selectedTime: v.string(),
+    sharedTrips: v.optional(v.array(sharedTripValidator)),
     pickup: v.optional(
       v.object({
         title: v.string(),

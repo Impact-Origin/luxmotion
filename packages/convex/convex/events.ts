@@ -6,6 +6,7 @@ import { generateSlug } from "./lib/utils";
 import { safeStorageDelete } from "./lib/storage";
 import { pagedArgs, paginate, applySearch, applySort } from "./lib/pagination";
 import { haversineKm, roundKm } from "./lib/geo";
+import { normalizeSharedDepartures, sharedDepartureValidator } from "./lib/sharedDepartures";
 
 export const list = query({
   args: {},
@@ -451,6 +452,7 @@ export const create = mutation({
     venue: v.optional(v.string()),
     eventDate: v.number(),
     endDate: v.optional(v.number()),
+    sharedDepartures: v.optional(v.array(sharedDepartureValidator)),
     isFeatured: v.boolean(),
     isActive: v.boolean(),
     status: v.union(
@@ -488,6 +490,11 @@ export const create = mutation({
     confirmationHours: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    const sharedDepartures = args.sharedDepartures === undefined ? undefined
+      : normalizeSharedDepartures(args.sharedDepartures, args.eventDate, args.endDate);
+    if (sharedDepartures?.length && !(args.sharedPrice && args.sharedPrice > 0)) {
+      throw new Error("Set the default shared price before adding departures.");
+    }
     if (args.isFeatured) {
       const featuredCount = await ctx.db
         .query("events")
@@ -512,6 +519,7 @@ export const create = mutation({
 
     const eventId = await ctx.db.insert("events", {
       ...args,
+      sharedDepartures,
       slug,
       rating: 0,
       reviewCount: 0,
@@ -535,6 +543,7 @@ export const update = mutation({
     venue: v.optional(v.string()),
     eventDate: v.optional(v.number()),
     endDate: v.optional(v.number()),
+    sharedDepartures: v.optional(v.array(sharedDepartureValidator)),
     isFeatured: v.optional(v.boolean()),
     isActive: v.optional(v.boolean()),
     status: v.optional(
@@ -577,6 +586,13 @@ export const update = mutation({
     const { id, ...data } = args;
     const existing = await ctx.db.get(id);
     if (!existing) throw new Error("Event not found");
+    const schedule = data.sharedDepartures ?? existing.sharedDepartures;
+    const sharedDepartures = schedule === undefined ? undefined
+      : normalizeSharedDepartures(schedule, data.eventDate ?? existing.eventDate, data.endDate ?? existing.endDate);
+    const sharedPrice = data.sharedPrice ?? existing.sharedPrice;
+    if (sharedDepartures?.length && !(sharedPrice && sharedPrice > 0)) {
+      throw new Error("Set the default shared price before adding departures.");
+    }
 
     if (data.isFeatured && !existing.isFeatured) {
       const featuredCount = await ctx.db
@@ -602,6 +618,7 @@ export const update = mutation({
 
     await ctx.db.patch(id, {
       ...data,
+      ...(sharedDepartures !== undefined && { sharedDepartures }),
       publishedAt,
       updatedAt: now,
     });

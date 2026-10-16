@@ -2,8 +2,9 @@ import { v } from "convex/values";
 import { mutation, query, action, internalMutation, internalAction } from "./_generated/server";
 import type { MutationCtx } from "./_generated/server";
 import { api, internal } from "./_generated/api";
-import type { Id } from "./_generated/dataModel";
+import type { Doc, Id } from "./_generated/dataModel";
 import { resolveReferral } from "./lib/referral";
+import { lisbonDateTime, resolveSharedTrips, type SharedTrip } from "./lib/sharedDepartures";
 
 function generateBookingNumber(): string {
   const t = Date.now().toString().slice(-10);
@@ -25,6 +26,8 @@ export const init = mutation({
     selectedTime: v.string(),
     basePrice: v.number(),
     sharingMode: v.optional(v.union(v.literal("private"), v.literal("shared"))),
+    sharedDepartureId: v.optional(v.string()),
+    sharedReturnDepartureId: v.optional(v.string()),
     selectedAddons: v.optional(v.array(v.object({
       addonId: v.optional(v.id("tourAddons")),
       universalAddonId: v.optional(v.id("universalAddons")),
@@ -39,6 +42,21 @@ export const init = mutation({
   },
   handler: async (ctx, args) => {
     const now = Date.now();
+    let sharedTrips: SharedTrip[] | undefined;
+    if (args.eventId && args.sharingMode === "shared") {
+      const event = await ctx.db.get(args.eventId);
+      if (!event) throw new Error("Event not found.");
+      if (event.sharedDepartures?.length) {
+        if (event.status !== "published" || !event.isActive) throw new Error("This event is not available for booking.");
+        sharedTrips = resolveSharedTrips(event, args.sharedDepartureId, args.sharedReturnDepartureId, now);
+        if (!Number.isInteger(args.passengers) || args.passengers < 1 || (event.maxPassengers && args.passengers > event.maxPassengers)) {
+          throw new Error("Invalid number of passengers for this departure.");
+        }
+        const expected = Math.round(sharedTrips.reduce((sum, trip) => sum + trip.price, 0) * args.passengers * 100);
+        if (Math.round(args.basePrice * 100) !== expected) throw new Error("The departure price has changed. Refresh the event and choose again.");
+      }
+    }
+    const chosen = sharedTrips?.[0] ? lisbonDateTime(sharedTrips[0].departureAt) : undefined;
     const ref = await resolveReferral(ctx, args.referralSlug);
     let bookingNumber = generateBookingNumber();
     let existing = await ctx.db
@@ -62,8 +80,9 @@ export const init = mutation({
       tourTitle: args.tourTitle,
       tourSlug: args.tourSlug,
       passengers: args.passengers,
-      selectedDate: args.selectedDate,
-      selectedTime: args.selectedTime,
+      selectedDate: chosen?.date ?? args.selectedDate,
+      selectedTime: chosen?.time ?? args.selectedTime,
+      sharedTrips,
       basePrice: args.basePrice,
       sharingMode: args.sharingMode ?? undefined,
       selectedAddons: args.selectedAddons ?? undefined,
@@ -215,8 +234,11 @@ function toOrderLocation(
 /** Resolve first and last stop of the tour (or event meeting point) for departure/arrival. Format: { location, placeId?, lat?, lng?, name? }. */
 export async function getDepartureArrivalFromBooking(
   ctx: MutationCtx,
-  booking: { tourId?: Id<"tours">; eventId?: Id<"events">; pickup?: { address?: string; title?: string; placeId?: string; lat?: number; lng?: number } | null; tourTitle: string }
+  booking: { tourId?: Id<"tours">; eventId?: Id<"events">; sharedTrips?: SharedTrip[]; pickup?: { address?: string; title?: string; placeId?: string; lat?: number; lng?: number } | null; tourTitle: string }
 ): Promise<{ departure: OrderLocation; arrival: OrderLocation }> {
+  if (booking.sharedTrips?.[0]) {
+    return { departure: toOrderLocation(booking.sharedTrips[0].origin), arrival: toOrderLocation(booking.sharedTrips[0].destination) };
+  }
   const fallbackDeparture: OrderLocation = toOrderLocation(
     booking.pickup?.address ?? "Ponto de encontro",
     { name: booking.pickup?.title, placeId: booking.pickup?.placeId, lat: booking.pickup?.lat, lng: booking.pickup?.lng }
@@ -292,6 +314,7 @@ export function buildOrderFromTourBooking(
     customerNif?: string | null;
     paymentMethod?: string | null;
     sharingMode?: "private" | "shared";
+    sharedTrips?: SharedTrip[];
     selectedAddons?: Array<{
       // Opcional: os add-ons dos upsells do checkout são embutidos na própria
       // experiência e não têm linha em `tourAddons`.
@@ -328,9 +351,10 @@ export function buildOrderFromTourBooking(
       ...(arrival.lat != null && { lat: arrival.lat }),
       ...(arrival.lng != null && { lng: arrival.lng }),
     },
-    departureDate: booking.selectedDate,
+    departureDate: booking.sharedTrips?.[0] ? new Date(booking.sharedTrips[0].departureAt).toISOString() : booking.selectedDate,
+    ...(booking.sharedTrips?.length && { sharedTrips: booking.sharedTrips }),
     passengers: booking.passengers,
-    isRoundTrip: false,
+    isRoundTrip: (booking.sharedTrips?.length ?? 0) > 1,
     totalAmount: booking.totalAmount,
     paymentAmount: booking.totalAmount,
     customerName: booking.customerName,
@@ -347,6 +371,32 @@ export function buildOrderFromTourBooking(
   };
 }
 
+/** Persist both legs atomically, using the existing linked-order convention. */
+export async function insertOrdersForTourBooking(
+  ctx: MutationCtx, booking: Doc<"tourBookings">, now: number,
+  paymentMethod: "cash" | "mbway" | "mb" | "ccard",
+) {
+  const { departure, arrival } = await getDepartureArrivalFromBooking(ctx, booking);
+  const order = buildOrderFromTourBooking(booking, now, paymentMethod, departure, arrival);
+  const back = booking.sharedTrips?.[1];
+  if (!back) return await ctx.db.insert("orders", order);
+  const returnAmount = Math.round(back.price * booking.passengers * 100) / 100;
+  const outboundAmount = Math.round((booking.totalAmount - returnAmount) * 100) / 100;
+  const outboundId = await ctx.db.insert("orders", {
+    ...order, sharedTrips: [booking.sharedTrips![0]!],
+    totalAmount: outboundAmount, paymentAmount: outboundAmount,
+  });
+  const returnId = await ctx.db.insert("orders", {
+    ...order, tourBookingId: undefined, orderNumber: `${booking.bookingNumber}-R`,
+    selectedAddons: undefined, addonsTotal: undefined,
+    sharedTrips: [back], departure: toOrderLocation(back.origin), arrival: toOrderLocation(back.destination),
+    departureDate: new Date(back.departureAt).toISOString(), relatedOrderId: outboundId,
+    totalAmount: returnAmount, paymentAmount: returnAmount,
+  });
+  await ctx.db.patch(outboundId, { relatedOrderId: returnId });
+  return outboundId;
+}
+
 /** Cria sempre uma order em `orders` quando um tour booking está pago (callback MBWay/cartão). Webhook é chamado diretamente pelo caller (action). */
 export const ensureOrderForPaidTourBooking = internalMutation({
   args: { bookingId: v.id("tourBookings") },
@@ -361,10 +411,8 @@ export const ensureOrderForPaidTourBooking = internalMutation({
     if (existing) return { orderId: existing._id };
 
     const now = Date.now();
-    const { departure, arrival } = await getDepartureArrivalFromBooking(ctx, booking);
     const paymentMethod = (booking.paymentMethod as "cash" | "mbway" | "mb" | "ccard") ?? "cash";
-    const orderDoc = buildOrderFromTourBooking(booking, now, paymentMethod, departure, arrival);
-    const newOrderId = await ctx.db.insert("orders", orderDoc);
+    const newOrderId = await insertOrdersForTourBooking(ctx, booking, now, paymentMethod);
     return { orderId: newOrderId };
   },
 });
@@ -406,14 +454,7 @@ export const startPayment = mutation({
           .withIndex("by_tour_booking", (q) => q.eq("tourBookingId", booking._id))
           .unique();
         if (!existing) {
-          const { departure, arrival } = await getDepartureArrivalFromBooking(ctx, booking);
-          const bookingForOrder = {
-            ...booking,
-            totalAmount: booking.totalAmount ?? args.totalAmount,
-            customerNif: booking.customerNif ?? undefined,
-          };
-          const orderDoc = buildOrderFromTourBooking(bookingForOrder, now, "cash", departure, arrival);
-          orderId = await ctx.db.insert("orders", orderDoc);
+          orderId = await insertOrdersForTourBooking(ctx, booking, now, "cash");
         }
       }
     }

@@ -1375,6 +1375,16 @@
       "ctaPrivate": "Reservar transfer privado",
       "fineShared": "Viatura executiva adaptada ao número de lugares vendidos. Reembolso integral se a partida mínima não for atingida.",
       "finePrivate": "Preço-base por viatura. Outras categorias e origens são calculadas antes da confirmação."
+    },
+    "sharedDepartures": {
+      "departure": "Saída",
+      "choose": "Escolher data, hora e percurso",
+      "unavailable": "Sem saídas disponíveis",
+      "outbound": "Ida",
+      "return": "Regresso",
+      "optionalReturn": "Regresso opcional",
+      "noReturn": "Só esta viagem",
+      "priceHint": "Preços por pessoa e por percurso. Ida e regresso somam os dois preços. Horários locais de Portugal."
     }
   },
   "blogsHero": {
@@ -2510,6 +2520,25 @@
       "vehiclePlaceholder": "Escolher viatura",
       "vehicleNone": "Sem viatura definida",
       "confirmationHoursLabel": "Confirmação até (horas antes)"
+    },
+    "sharedDepartures": {
+      "title": "Saídas partilhadas",
+      "description": "Adicione saídas em vários dias e horários, nos dois sentidos. Sem opções, mantém-se a partida única do evento.",
+      "departure": "Saída",
+      "direction": "Sentido",
+      "outbound": "Ida",
+      "return": "Regresso",
+      "date": "Data",
+      "time": "Hora",
+      "origin": "Origem",
+      "destination": "Destino",
+      "price": "Preço por pessoa",
+      "duplicate": "Duplicar",
+      "remove": "Remover",
+      "addOutbound": "Adicionar ida",
+      "addReturn": "Adicionar regresso",
+      "priceHint": "Preço vazio: usa o preço partilhado base. Cada saída é um percurso; ida e regresso somam os preços por pessoa. Os nomes da origem e destino devem coincidir nos percursos inversos.",
+      "invalid": "Preencha a data, hora e percurso de cada saída e defina um preço partilhado base válido."
     }
   },
   "adminBlogs": {

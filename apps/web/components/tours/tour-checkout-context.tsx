@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 import { clearTourCart, saveTourCart } from "@/lib/tour-cart"
+import type { SharedTrip } from "@workspace/convex/convex/lib/sharedDepartures"
 
 export interface TourCheckoutPickup {
   title: string
@@ -36,6 +37,7 @@ export interface TourCheckoutTour {
 }
 
 export interface TourCheckoutBookingData {
+  sharedTrips?: SharedTrip[]
   date: Date | null
   time: string | null
   adults: number

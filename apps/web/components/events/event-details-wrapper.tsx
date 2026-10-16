@@ -43,6 +43,7 @@ export function EventDetailsWrapper({ slug, initial }: EventDetailsWrapperProps)
     venue: event.venue,
     eventDate: event.eventDate,
     endDate: event.endDate,
+    sharedDepartures: event.sharedDepartures,
     bannerImage: event.bannerImageUrl || "/mockups/tours/frame-1171275668.webp",
     additionalBannerImages: event.additionalBannerUrls?.filter(Boolean) as string[] || [],
     images: event.galleryImageUrls?.filter(Boolean) as string[] || [],

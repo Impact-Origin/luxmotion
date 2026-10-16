@@ -39,6 +39,7 @@ import type * as lib_pipedriveFila from "../lib/pipedriveFila.js";
 import type * as lib_pipedriveMapa from "../lib/pipedriveMapa.js";
 import type * as lib_pricing from "../lib/pricing.js";
 import type * as lib_referral from "../lib/referral.js";
+import type * as lib_sharedDepartures from "../lib/sharedDepartures.js";
 import type * as lib_storage from "../lib/storage.js";
 import type * as lib_upsellTranslations from "../lib/upsellTranslations.js";
 import type * as lib_utils from "../lib/utils.js";
@@ -108,6 +109,7 @@ declare const fullApi: ApiFromModules<{
   "lib/pipedriveMapa": typeof lib_pipedriveMapa;
   "lib/pricing": typeof lib_pricing;
   "lib/referral": typeof lib_referral;
+  "lib/sharedDepartures": typeof lib_sharedDepartures;
   "lib/storage": typeof lib_storage;
   "lib/upsellTranslations": typeof lib_upsellTranslations;
   "lib/utils": typeof lib_utils;

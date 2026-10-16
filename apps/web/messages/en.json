@@ -1376,6 +1376,16 @@
       "ctaPrivate": "Book private transfer",
       "fineShared": "Executive vehicle matched to the seats sold. Full refund if the minimum departure is not reached.",
       "finePrivate": "Base price per vehicle. Other categories and pickup points are quoted before confirmation."
+    },
+    "sharedDepartures": {
+      "departure": "Departure",
+      "choose": "Choose date, time and route",
+      "unavailable": "No departures available",
+      "outbound": "Outbound",
+      "return": "Return",
+      "optionalReturn": "Optional return",
+      "noReturn": "This journey only",
+      "priceHint": "Prices per person, per leg. A round trip adds both prices. Times are local to Portugal."
     }
   },
   "blogsHero": {
@@ -2511,6 +2521,25 @@
       "vehiclePlaceholder": "Choose a vehicle",
       "vehicleNone": "No vehicle set",
       "confirmationHoursLabel": "Confirm up to (hours before)"
+    },
+    "sharedDepartures": {
+      "title": "Shared departures",
+      "description": "Add departures on different days and at different times, in both directions. Without options, the event keeps its single fixed departure.",
+      "departure": "Departure",
+      "direction": "Direction",
+      "outbound": "Outbound",
+      "return": "Return",
+      "date": "Date",
+      "time": "Time",
+      "origin": "Origin",
+      "destination": "Destination",
+      "price": "Price per person",
+      "duplicate": "Duplicate",
+      "remove": "Remove",
+      "addOutbound": "Add outbound",
+      "addReturn": "Add return",
+      "priceHint": "Empty price: use the default shared price. Each departure is one leg; a round trip adds both prices per person. Reverse routes must use matching origin and destination names.",
+      "invalid": "Complete the date, time and route for every departure and set a valid default shared price."
     }
   },
   "adminBlogs": {
