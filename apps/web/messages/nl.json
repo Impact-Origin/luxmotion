@@ -1373,6 +1373,16 @@
       "ctaPrivate": "Privétransfer boeken",
       "fineShared": "Executive voertuig afgestemd op het aantal verkochte plaatsen. Volledige terugbetaling als het minimum niet wordt gehaald.",
       "finePrivate": "Basisprijs per voertuig. Andere categorieën en ophaalpunten worden vóór de bevestiging berekend."
+    },
+    "sharedDepartures": {
+      "departure": "Vertrek",
+      "choose": "Kies datum, tijd en route",
+      "unavailable": "Geen vertrekken beschikbaar",
+      "outbound": "Heenreis",
+      "return": "Terugreis",
+      "optionalReturn": "Optionele terugreis",
+      "noReturn": "Alleen deze rit",
+      "priceHint": "Prijzen per persoon en traject. Heen en terug tellen beide prijzen op. Lokale tijd in Portugal."
     }
   },
   "blogsHero": {
@@ -2328,6 +2338,25 @@
       "vehiclePlaceholder": "Voertuig kiezen",
       "vehicleNone": "Geen voertuig",
       "confirmationHoursLabel": "Bevestiging tot (uren vooraf)"
+    },
+    "sharedDepartures": {
+      "title": "Gedeelde vertrekken",
+      "description": "Voeg vertrekken toe op verschillende dagen en tijden, in beide richtingen. Zonder opties blijft het vaste vertrek van het evenement behouden.",
+      "departure": "Vertrek",
+      "direction": "Richting",
+      "outbound": "Heenreis",
+      "return": "Terugreis",
+      "date": "Datum",
+      "time": "Tijd",
+      "origin": "Vertrekpunt",
+      "destination": "Bestemming",
+      "price": "Prijs per persoon",
+      "duplicate": "Dupliceren",
+      "remove": "Verwijderen",
+      "addOutbound": "Heenreis toevoegen",
+      "addReturn": "Terugreis toevoegen",
+      "priceHint": "Lege prijs: de standaardprijs voor gedeeld vervoer geldt. Elk vertrek is één traject; heen en terug tellen beide prijzen per persoon op. Omgekeerde routes moeten dezelfde plaatsnamen gebruiken.",
+      "invalid": "Vul datum, tijd en route voor elk vertrek in en stel een geldige standaardprijs voor gedeeld vervoer in."
     }
   },
   "adminBlogs": {

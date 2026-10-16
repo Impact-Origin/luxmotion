@@ -1,6 +1,7 @@
 "use client"
 
 import { useQuery } from "convex/react"
+import type { SharedDeparture } from "@workspace/convex/convex/lib/sharedDepartures"
 import { api } from "@workspace/convex/api"
 import {
   MOCK_EVENTS,
@@ -25,6 +26,7 @@ export interface EventData {
   venue?: string
   eventDate: number
   endDate?: number
+  sharedDepartures?: SharedDeparture[]
   isFeatured: boolean
   isActive: boolean
   status: "draft" | "published" | "cancelled" | "completed"
@@ -80,9 +82,11 @@ export function precoDeMontra(e: {
   privatePrice?: number
   basePrice?: number
   sharedPrice?: number
+  sharedDepartures?: SharedDeparture[]
 }): { valor: number; unidade: "person" | "vehicle" } {
   if (typeof e.sharedPrice === "number" && e.sharedPrice > 0) {
-    return { valor: e.sharedPrice, unidade: "person" }
+    const prices = e.sharedDepartures?.filter(row => row.departureAt > Date.now()).map(row => row.price ?? e.sharedPrice!) ?? []
+    return { valor: prices.length ? Math.min(...prices) : e.sharedPrice, unidade: "person" }
   }
   return { valor: precoPrivado(e), unidade: "vehicle" }
 }

@@ -5,6 +5,8 @@ import { Minus, Plus, CalendarClock, Users, Layers, ArrowRight, User, UsersRound
 import { useTranslations } from "next-intl"
 import { TourDateTimePicker } from "@/components/tours/tour-date-time-picker"
 import { EventDateTimePicker } from "@/components/events/event-date-time-picker"
+import { SharedDeparturesSelector } from "@/components/events/shared-departures-selector"
+import { isReturnFor, lisbonDateTime, resolveSharedTrips, type SharedDeparture, type SharedTrip } from "@workspace/convex/convex/lib/sharedDepartures"
 import { localDateTimeFields, validEventSelection } from "@/lib/event-date-time"
 import { useHomeTheme } from "@/components/new-landing-page/home-theme"
 import { useTourAvailability } from "@/hooks/use-tour-data"
@@ -34,6 +36,7 @@ interface TourBookingCardProps {
   skipAvailability?: boolean
   fixedDateTime?: number
   eventEndDate?: number
+  sharedDepartures?: SharedDeparture[]
   hideReviews?: boolean
   minPassengers?: number
   maxPassengers?: number
@@ -82,6 +85,7 @@ interface BookingData {
   unitPrice?: number
   /** Quando verdadeiro, `unitPrice` NÃO se multiplica pelos passageiros. */
   perVehicle?: boolean
+  sharedTrips?: SharedTrip[]
   selectedAddons?: Array<{
     /** Um dos dois, nunca os dois: um extra próprio do tour ou um universal. */
     addonId?: string
@@ -144,7 +148,7 @@ function LinhaDeInfo({ rotulo, valor }: { rotulo: string; valor: string }) {
   )
 }
 
-export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, eventEndDate, hideReviews, minPassengers, maxPassengers, service, addons, onBook, onSelectionReady }: TourBookingCardProps) {
+export function TourBookingCard({ price, sharedPrice, currency = "€", rating, reviewCount, tourId, skipAvailability, fixedDateTime, eventEndDate, sharedDepartures, hideReviews, minPassengers, maxPassengers, service, addons, onBook, onSelectionReady }: TourBookingCardProps) {
   const t = useTranslations("tourDetails")
   const { format } = useMoney()
   // O picker escolhe a paleta por prop (não por var CSS). Só clareia dentro do
@@ -155,6 +159,8 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   const [children, setChildren] = useState(0)
   const [infants, setInfants] = useState(0)
   const [selectedAddonIds, setSelectedAddonIds] = useState<string[]>([])
+  const [sharedDepartureId, setSharedDepartureId] = useState("")
+  const [sharedReturnId, setSharedReturnId] = useState("")
   /* Começa no partilhado quando existe: é o mais barato, e é o que a etiqueta
      "desde" em cima do preço promete. */
   const temEscolha = typeof sharedPrice === "number" && sharedPrice > 0
@@ -165,15 +171,28 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
      diferentes, e tratar as duas como "por pessoa" multiplicava o preço da
      viatura pelo número de passageiros. */
   const porViatura = temEscolha && sharingMode === "private"
-  const precoUnitario = temEscolha && sharingMode === "shared" ? sharedPrice! : price
+  const hasSharedSchedule = temEscolha && sharingMode === "shared" && !!sharedDepartures?.length
+  const sharedTrips = useMemo(() => {
+    if (!hasSharedSchedule) return []
+    const first = sharedDepartures?.find(row => row.id === sharedDepartureId)
+    const returnId = first && sharedDepartures?.some(row => row.id === sharedReturnId && isReturnFor(first, row)) ? sharedReturnId : undefined
+    try { return resolveSharedTrips({ sharedDepartures, sharedPrice }, sharedDepartureId, returnId) }
+    catch { return [] }
+  }, [hasSharedSchedule, sharedDepartures, sharedPrice, sharedDepartureId, sharedReturnId])
+  const scheduledPrice = sharedTrips.length ? sharedTrips.reduce((sum, trip) => sum + trip.price, 0)
+    : ((sharedDepartures ?? []).some(row => row.departureAt > Date.now()) ? Math.min(...(sharedDepartures ?? []).filter(row => row.departureAt > Date.now()).map(row => row.price ?? sharedPrice!)) : sharedPrice!)
+  const precoUnitario = temEscolha && sharingMode === "shared" ? (hasSharedSchedule ? scheduledPrice : sharedPrice!) : price
 
   const isPrivateEvent = fixedDateTime !== undefined && (!temEscolha || sharingMode === "private")
   const dateTime = useMemo(() => {
+    if (hasSharedSchedule) return sharedTrips[0]
+      ? { date: new Date(sharedTrips[0].departureAt), time: lisbonDateTime(sharedTrips[0].departureAt).time }
+      : { date: null, time: null }
     if (fixedDateTime !== undefined && !isPrivateEvent) {
       return { date: new Date(fixedDateTime), time: localDateTimeFields(fixedDateTime).time }
     }
     return selectedDateTime
-  }, [fixedDateTime, isPrivateEvent, selectedDateTime])
+  }, [fixedDateTime, isPrivateEvent, selectedDateTime, hasSharedSchedule, sharedTrips])
   const selectionIsValid = isPrivateEvent
     ? validEventSelection(dateTime, fixedDateTime!, eventEndDate)
     : Boolean(dateTime.date && dateTime.time)
@@ -210,19 +229,20 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
   /* A rota sai do que o evento já tem: ponto de encontro e local. Com hora de
      regresso é ida e volta; sem ela, só ida. */
   const rota = useMemo(() => {
-    const origem = service?.origin?.trim()
-    const destino = service?.destination?.trim()
+    const origem = sharedTrips[0]?.origin ?? service?.origin?.trim()
+    const destino = sharedTrips[0]?.destination ?? service?.destination?.trim()
     if (!origem || !destino) return null
-    return service?.returnTime ? `${origem} → ${destino} → ${origem}` : `${origem} → ${destino}`
-  }, [service?.origin, service?.destination, service?.returnTime])
+    return (hasSharedSchedule ? sharedTrips.length > 1 : service?.returnTime) ? `${origem} → ${destino} → ${origem}` : `${origem} → ${destino}`
+  }, [service?.origin, service?.destination, service?.returnTime, hasSharedSchedule, sharedTrips])
 
   const horarios = useMemo(() => {
     const partida = dateTime.time
     if (!partida) return null
-    return service?.returnTime
-      ? `${partida} · ${t("service.returnAt", { time: service.returnTime })}`
+    const returnTime = hasSharedSchedule ? (sharedTrips[1] ? lisbonDateTime(sharedTrips[1].departureAt).time : undefined) : service?.returnTime
+    return returnTime
+      ? `${partida} · ${t("service.returnAt", { time: returnTime })}`
       : partida
-  }, [dateTime.time, service?.returnTime, t])
+  }, [dateTime.time, service?.returnTime, t, hasSharedSchedule, sharedTrips])
 
   /** Lugares: os da viatura quando há uma, senão o máximo do evento. */
   const lugares = service?.vehicleSeats ?? maxPassengers
@@ -316,6 +336,7 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
       infants,
       total,
       sharingMode: temEscolha ? sharingMode : undefined,
+      sharedTrips: hasSharedSchedule ? sharedTrips : undefined,
       unitPrice: precoUnitario,
       perVehicle: porViatura,
       selectedAddons: selectedAddonsData?.length ? selectedAddonsData : undefined,
@@ -448,7 +469,11 @@ export function TourBookingCard({ price, sharedPrice, currency = "€", rating, 
             <CalendarClock className="size-4 text-[var(--lm-muted,#999)]" strokeWidth={1.2} />
             <span className="text-[12px] font-semibold text-[var(--lm-muted,#999)] tracking-[1.35px] uppercase">{t("dateAndTime")}</span>
           </div>
-          {isPrivateEvent ? (
+          {hasSharedSchedule ? (
+            <SharedDeparturesSelector departures={sharedDepartures!} defaultPrice={sharedPrice!}
+              departureId={sharedDepartureId} returnId={sharedReturnId}
+              onChange={(departureId, returnId) => { setSharedDepartureId(departureId); setSharedReturnId(returnId) }} />
+          ) : isPrivateEvent ? (
             <EventDateTimePicker
               start={fixedDateTime!}
               end={eventEndDate}

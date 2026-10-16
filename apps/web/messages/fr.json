@@ -1373,6 +1373,16 @@
       "ctaPrivate": "Réserver le transfert privé",
       "fineShared": "Véhicule exécutif adapté au nombre de places vendues. Remboursement intégral si le départ minimum n'est pas atteint.",
       "finePrivate": "Prix de base par véhicule. Les autres catégories et points de départ sont calculés avant la confirmation."
+    },
+    "sharedDepartures": {
+      "departure": "Départ",
+      "choose": "Choisir la date, l’heure et le trajet",
+      "unavailable": "Aucun départ disponible",
+      "outbound": "Aller",
+      "return": "Retour",
+      "optionalReturn": "Retour facultatif",
+      "noReturn": "Ce trajet uniquement",
+      "priceHint": "Prix par personne et par trajet. Un aller-retour additionne les deux prix. Heures locales du Portugal."
     }
   },
   "blogsHero": {
@@ -2328,6 +2338,25 @@
       "vehiclePlaceholder": "Choisir un véhicule",
       "vehicleNone": "Aucun véhicule",
       "confirmationHoursLabel": "Confirmation jusqu'à (heures avant)"
+    },
+    "sharedDepartures": {
+      "title": "Départs partagés",
+      "description": "Ajoutez des départs à différentes dates et heures, dans les deux sens. Sans options, le départ unique de l’événement est conservé.",
+      "departure": "Départ",
+      "direction": "Sens",
+      "outbound": "Aller",
+      "return": "Retour",
+      "date": "Date",
+      "time": "Heure",
+      "origin": "Origine",
+      "destination": "Destination",
+      "price": "Prix par personne",
+      "duplicate": "Dupliquer",
+      "remove": "Supprimer",
+      "addOutbound": "Ajouter un aller",
+      "addReturn": "Ajouter un retour",
+      "priceHint": "Prix vide : le tarif partagé de base est utilisé. Chaque départ correspond à un trajet ; un aller-retour additionne les deux prix par personne. Les trajets inverses doivent utiliser les mêmes noms de lieux.",
+      "invalid": "Renseignez la date, l’heure et le trajet de chaque départ, ainsi qu’un tarif partagé de base valide."
     }
   },
   "adminBlogs": {

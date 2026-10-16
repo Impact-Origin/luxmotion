@@ -9,6 +9,7 @@ import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
 import { TimeSelect } from "./time-select"
+import { SharedDeparturesEditor, sharedDepartureDrafts, serializeSharedDepartures, type SharedDepartureDraft } from "./shared-departures-editor"
 import { Textarea } from "@workspace/ui/components/textarea"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import {
@@ -76,6 +77,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   const [eventTime, setEventTime] = React.useState("")
   const [endDate, setEndDate] = React.useState("")
   const [endTime, setEndTime] = React.useState("")
+  const [sharedDepartures, setSharedDepartures] = React.useState<SharedDepartureDraft[]>([])
 
   const [bannerImageId, setBannerImageId] = React.useState<string | undefined>()
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
@@ -123,6 +125,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (initialData) {
+      setSharedDepartures(sharedDepartureDrafts(initialData.sharedDepartures || []))
       setTitle(initialData.title || "")
       setSubtitle(initialData.subtitle || "")
       setDescription(initialData.description || null)
@@ -186,6 +189,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
   }, [initialData?._id])
 
   const resetForm = () => {
+    setSharedDepartures([])
     setTitle("")
     setSubtitle("")
     setDescription(null)
@@ -260,7 +264,14 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
       const eventDateTimestamp = combineLocalDateTime(eventDate, eventTime)
       const endDateTimestamp = combineLocalDateTime(endDate, endTime)
 
+      const schedule = serializeSharedDepartures(sharedDepartures)
+      if (schedule.some(row => !Number.isFinite(row.departureAt) || !row.origin.trim() || !row.destination.trim() || (row.price !== undefined && (!Number.isFinite(row.price) || row.price <= 0))) || (schedule.length > 0 && !(Number(sharedPrice) > 0))) {
+        toast.error(t("sharedDepartures.invalid"))
+        setActiveTab("pricing")
+        return
+      }
       const data = {
+        sharedDepartures: schedule,
         title,
         subtitle: subtitle || undefined,
         description,
@@ -653,6 +664,12 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                       </Select>
                     </div>
                   </div>
+
+                  <SharedDeparturesEditor
+                    value={sharedDepartures} onChange={setSharedDepartures}
+                    origin={meetingPoint?.title || location} destination={venue || location}
+                    startDate={eventDate} defaultPrice={sharedPrice} disabled={isSubmitting}
+                  />
 
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-1.5">

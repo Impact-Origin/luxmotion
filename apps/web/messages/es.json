@@ -1373,6 +1373,16 @@
       "ctaPrivate": "Reservar traslado privado",
       "fineShared": "Vehículo ejecutivo adaptado al número de plazas vendidas. Reembolso íntegro si no se alcanza la salida mínima.",
       "finePrivate": "Precio base por vehículo. Otras categorías y orígenes se calculan antes de la confirmación."
+    },
+    "sharedDepartures": {
+      "departure": "Salida",
+      "choose": "Elegir fecha, hora y ruta",
+      "unavailable": "No hay salidas disponibles",
+      "outbound": "Ida",
+      "return": "Vuelta",
+      "optionalReturn": "Vuelta opcional",
+      "noReturn": "Solo este trayecto",
+      "priceHint": "Precios por persona y trayecto. La ida y vuelta suman ambos precios. Horarios locales de Portugal."
     }
   },
   "blogsHero": {
@@ -2344,6 +2354,25 @@
       "vehiclePlaceholder": "Elegir vehículo",
       "vehicleNone": "Sin vehículo",
       "confirmationHoursLabel": "Confirmación hasta (horas antes)"
+    },
+    "sharedDepartures": {
+      "title": "Salidas compartidas",
+      "description": "Añade salidas en varios días y horarios, en ambos sentidos. Sin opciones, se mantiene la salida única del evento.",
+      "departure": "Salida",
+      "direction": "Sentido",
+      "outbound": "Ida",
+      "return": "Vuelta",
+      "date": "Fecha",
+      "time": "Hora",
+      "origin": "Origen",
+      "destination": "Destino",
+      "price": "Precio por persona",
+      "duplicate": "Duplicar",
+      "remove": "Eliminar",
+      "addOutbound": "Añadir ida",
+      "addReturn": "Añadir vuelta",
+      "priceHint": "Precio vacío: se utiliza el precio compartido base. Cada salida es un trayecto; la ida y vuelta suman ambos precios por persona. Los trayectos inversos deben usar los mismos nombres de origen y destino.",
+      "invalid": "Completa la fecha, hora y ruta de cada salida y establece un precio compartido base válido."
     }
   },
   "adminBlogs": {

@@ -1373,6 +1373,16 @@
       "ctaPrivate": "Privattransfer buchen",
       "fineShared": "Executive-Fahrzeug passend zur Zahl der verkauften Plätze. Volle Erstattung, wenn die Mindestabfahrt nicht erreicht wird.",
       "finePrivate": "Grundpreis pro Fahrzeug. Andere Kategorien und Abholorte werden vor der Bestätigung berechnet."
+    },
+    "sharedDepartures": {
+      "departure": "Abfahrt",
+      "choose": "Datum, Uhrzeit und Strecke wählen",
+      "unavailable": "Keine Abfahrten verfügbar",
+      "outbound": "Hinfahrt",
+      "return": "Rückfahrt",
+      "optionalReturn": "Optionale Rückfahrt",
+      "noReturn": "Nur diese Fahrt",
+      "priceHint": "Preise pro Person und Strecke. Bei Hin- und Rückfahrt werden beide Preise addiert. Ortszeit in Portugal."
     }
   },
   "blogsHero": {
@@ -2425,6 +2435,25 @@
       "vehiclePlaceholder": "Fahrzeug wählen",
       "vehicleNone": "Kein Fahrzeug",
       "confirmationHoursLabel": "Bestätigung bis (Stunden vorher)"
+    },
+    "sharedDepartures": {
+      "title": "Geteilte Abfahrten",
+      "description": "Abfahrten an verschiedenen Tagen und zu verschiedenen Uhrzeiten in beiden Richtungen hinzufügen. Ohne Optionen bleibt die einzelne feste Abfahrt bestehen.",
+      "departure": "Abfahrt",
+      "direction": "Richtung",
+      "outbound": "Hinfahrt",
+      "return": "Rückfahrt",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "origin": "Start",
+      "destination": "Ziel",
+      "price": "Preis pro Person",
+      "duplicate": "Duplizieren",
+      "remove": "Entfernen",
+      "addOutbound": "Hinfahrt hinzufügen",
+      "addReturn": "Rückfahrt hinzufügen",
+      "priceHint": "Leeres Preisfeld: Der Standardpreis für geteilte Fahrten gilt. Jede Abfahrt ist eine Teilstrecke; Hin- und Rückfahrt addieren beide Preise pro Person. Umgekehrte Strecken müssen übereinstimmende Start- und Zielnamen verwenden.",
+      "invalid": "Datum, Uhrzeit und Strecke für jede Abfahrt sowie einen gültigen Standardpreis angeben."
     }
   },
   "adminBlogs": {

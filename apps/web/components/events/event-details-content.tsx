@@ -14,6 +14,7 @@ import { EventLocationMap } from "./event-location-map"
 import { EventReviews } from "./event-reviews"
 import { AddonCarouselSection } from "@/components/shared/addon-carousel-section"
 import { validEventSelection } from "@/lib/event-date-time"
+import type { SharedDeparture, SharedTrip } from "@workspace/convex/convex/lib/sharedDepartures"
 
 export interface EventDetailsData {
   _id?: string
@@ -25,6 +26,7 @@ export interface EventDetailsData {
   venue?: string
   eventDate: number
   endDate?: number
+  sharedDepartures?: SharedDeparture[]
   /** Preço por pessoa em lugar partilhado; sem ele o evento só se vende em privado. */
   sharedPrice?: number
   /** Hora de regresso ao ponto de encontro. */
@@ -178,6 +180,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
     sharingMode?: "private" | "shared"
     unitPrice?: number
     perVehicle?: boolean
+    sharedTrips?: SharedTrip[]
     selectedAddons?: Array<{
       addonId?: string
       universalAddonId?: string
@@ -205,11 +208,12 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
         maxPassengers: event.maxPassengers,
         currency: event.currency ?? "€",
         image: event.bannerImage,
-        meetingPoint: event.meetingPoint,
+        meetingPoint: data.sharedTrips?.[0] ? { title: data.sharedTrips[0].origin, address: data.sharedTrips[0].origin } : event.meetingPoint,
       },
       {
         date: data.date,
         time: data.time,
+        sharedTrips: data.sharedTrips,
         adults: data.adults,
         children: data.children,
         infants: data.infants,
@@ -497,6 +501,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
                   skipAvailability
                   fixedDateTime={event.eventDate}
                   eventEndDate={event.endDate}
+                  sharedDepartures={event.sharedDepartures}
                   hideReviews
                   minPassengers={event.minPassengers}
                   maxPassengers={event.maxPassengers}
@@ -520,6 +525,7 @@ export function EventDetailsContent({ event }: EventDetailsContentProps) {
           skipAvailability
           fixedDateTime={event.eventDate}
           eventEndDate={event.endDate}
+          sharedDepartures={event.sharedDepartures}
           hideReviews
           minPassengers={event.minPassengers}
           maxPassengers={event.maxPassengers}
